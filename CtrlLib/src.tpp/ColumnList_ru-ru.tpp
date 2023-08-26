@@ -1,4 +1,4 @@
-topic "Класс ColumnList";
+topic "Класс ColumnList (СписокКолонок)";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "Класс ColumnList";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс ColumnList]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс ColumnList (СписокКолонок)]]}}&]
 [s0; &]
 [s1;:Upp`:`:ColumnList`:`:class: [@(0.0.255)3 class][3 _][*3 ColumnList][3 _:_][@(0.0.255)3 publ
 ic][3 _][*@3;3 Ctrl][3 , ][@(0.0.255)3 private][3 _][*@3;3 CtrlFrame]&]
@@ -63,26 +63,26 @@ t]>_[* WhenLeftClickPos]&]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetColumnItems`(`)const: [@(0.0.255) int]_[* GetColumnItems]()_
 [@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  число элементов, помещающихс
+[s2;%RU-RU Возвращает число элементов, помещающихс
 я в одну колонку при текущем размере 
 обзора.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetColumnCx`(int`)const: [@(0.0.255) int]_[* GetColumnCx]([@(0.0.255) i
 nt]_[*@3 i]_`=_[@3 0])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  текущую ширину колонки 
+[s2;%RU-RU Возвращает текущую ширину колонки 
 [%-*@3 i].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetPageItems`(`)const: [@(0.0.255) int]_[* GetPageItems]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает  число элементов, помещающихс
+[s2;%RU-RU Возвращает число элементов, помещающихс
 я в текущий размер обзора (view size).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetItem`(Upp`:`:Point`): [@(0.0.255) int]_[* GetItem]([_^Upp`:`:Point^ P
 oint]_[*@3 p])&]
-[s2;%RU-RU Возвращает  индекс элемента, расположенн
+[s2;%RU-RU Возвращает индекс элемента, расположенн
 ого в указанной точке зоны обзора 
 (отчитывается также и за позицию полосы 
 прокрутки).&]
@@ -90,13 +90,13 @@ oint]_[*@3 p])&]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetItemRect`(int`)const: [_^Upp`:`:Rect^ Rect]_[* GetItemRect](
 [@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  прямоугольник обзора 
+[s2;%RU-RU Возвращает прямоугольник обзора 
 для элемента, находящегося по [%-*@3 i].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetCursor`(`)const: [@(0.0.255) int]_[* GetCursor]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает  текущую позицию курсора. 
+[s2;%RU-RU Возвращает текущую позицию курсора. 
 Если курсор отсутствует, возвращается 
 отрицательное значение.&]
 [s3; &]
@@ -123,7 +123,7 @@ onst]&]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetSbPos`(`)const: [@(0.0.255) int]_[* GetSbPos]()_[@(0.0.255) co
 nst]&]
-[s2;%RU-RU Возвращает  позицию полосы прокрутки 
+[s2;%RU-RU Возвращает позицию полосы прокрутки 
 (scrollbar position).&]
 [s3; &]
 [s4; &]
@@ -135,7 +135,7 @@ nst]&]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetScroll`(`)const: [@(0.0.255) int]_[* GetScroll]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает  позицию промотки (scroll 
+[s2;%RU-RU Возвращает позицию промотки (scroll 
 position).&]
 [s3; &]
 [s4; &]
@@ -188,7 +188,7 @@ oid]_[* Add]([@(0.0.255) const]_[_^Upp`:`:Value^ Value][@(0.0.255) `&]_[*@3 key]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) co
 nst]&]
-[s2;%RU-RU Возвращает  текущее число элементов 
+[s2;%RU-RU Возвращает текущее число элементов 
 в списке.&]
 [s3; &]
 [s4; &]
@@ -196,7 +196,7 @@ nst]&]
 ]_[* Get]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
 [s5;:Upp`:`:ColumnList`:`:operator`[`]`(int`)const: [@(0.0.255) const]_[_^Upp`:`:Value^ V
 alue][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; [%RU-RU Возвращает  элемент с индексом 
+[s2; [%RU-RU Возвращает элемент с индексом 
 ][*@3 i]. Если элементу был присвоен ключ, 
 тогда этот метод возвращает ссылку 
 на сам ключ. В ином случае это работает 
@@ -205,7 +205,7 @@ alue][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) cons
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetValue`(int`)const: [@(0.0.255) const]_[_^Upp`:`:Value^ Value
 ][@(0.0.255) `&]_[* GetValue]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  значение элемента 
+[s2;%RU-RU Возвращает значение элемента 
 с индексом [%-*@3 i].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
@@ -295,7 +295,7 @@ onst]_[_^Upp`:`:Value^ Value]_`&_[*@3 key])&]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetSelectCount`(`)const: [@(0.0.255) int]_[* GetSelectCount]()_
 [@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  число выделенных элементов.&]
+[s2;%RU-RU Возвращает число выделенных элементов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:IsSelection`(`)const: [@(0.0.255) bool]_[* IsSelection]()_[@(0.0.255) c
@@ -316,7 +316,7 @@ nt]_[*@3 i], [@(0.0.255) bool]_[*@3 sel])&]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:IsSelected`(int`)const: [@(0.0.255) bool]_[* IsSelected]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  статус выделения в 
+[s2;%RU-RU Возвращает статус выделения в 
 позиции [%-*@3 i].&]
 [s3;%RU-RU &]
 [s4; &]
@@ -343,31 +343,31 @@ onst]_[_^Upp`:`:ValueOrder^ ValueOrder][@(0.0.255) `&]_[*@3 order])&]
 [s5;:Upp`:`:ColumnList`:`:Mode`(int`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&]_[* M
 ode]([@(0.0.255) int]_[*@3 m])&]
 [s2;%RU-RU Устанавливает режим обзора ColumnList`'а 
-в [%-*@3 m]. Возвращает  `*this для сцепки методов. 
-На данный момент существует три возможных 
-режима обзора: [C MODE`_LIST], [C MODE`_COLUMN], [C MODE`_ROWS]. 
-&]
+в [%-*@3 m]. Возвращает  `*this для сцепки 
+методов. На данный момент существует 
+три возможных режима обзора: [C MODE`_LIST], 
+[C MODE`_COLUMN], [C MODE`_ROWS]. &]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:ListMode`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&]_
 [* ListMode]()&]
 [s2;%RU-RU Помещает этот ColumnList в режим списка. 
-То же, что и Mode([C MODE`_LIST]). Возвращает  
-`*this для сцепки методов.&]
+То же, что и Mode([C MODE`_LIST]). Возвращает 
+ `*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:RowMode`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&]_[* R
 owMode]()&]
 [s2;%RU-RU Помещает этот ColumnList в режим ряда. 
-То же, что и Mode([C MODE`_ROWS]).  Возвращает  
-`*this для сцепки методов.&]
+То же, что и Mode([C MODE`_ROWS]).  Возвращает 
+ `*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:ColumnMode`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
 ]_[* ColumnMode]()&]
 [s2;%RU-RU Помещает этот ColumnList в режим колонки. 
-То же, что и Mode([C MODE`_COLUMN]).  Возвращает  
-`*this для сцепки методов.&]
+То же, что и Mode([C MODE`_COLUMN]).  Возвращает 
+ `*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:Columns`(int`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
@@ -380,7 +380,7 @@ owMode]()&]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetColumns`(`)const: [@(0.0.255) int]_[* GetColumns]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает  число колонок.&]
+[s2;%RU-RU Возвращает число колонок.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:ItemHeight`(int`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
@@ -392,7 +392,7 @@ onst]&]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:GetItemHeight`(`)const: [@(0.0.255) int]_[* GetItemHeight]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает  значение, установленное 
+[s2;%RU-RU Возвращает значение, установленное 
 методом ItemHeight.&]
 [s3; &]
 [s4; &]
@@ -414,14 +414,14 @@ onst]&]
 [s2;%RU-RU Этот режим визуально изменяет 
 декоративный фрейм ColumnList`'а так, чтобы 
 не было пустых зон внизу обзора (GetSize().cy 
-% GetItemHeight()).Дефолт равен выкл. Возвращает  
-`*this для сцепки методов.&]
+% GetItemHeight()).Дефолт равен выкл. Возвращает 
+ `*this для сцепки методов.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:NoRoundSize`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
 ]_[* NoRoundSize]()&]
-[s2;%RU-RU То же, что и RoundSize(false). Возвращает  
-`*this для сцепки методов.&]
+[s2;%RU-RU То же, что и RoundSize(false). Возвращает 
+ `*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:ClickKill`(bool`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
@@ -434,8 +434,8 @@ onst]&]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:NoClickKill`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
 ]_[* NoClickKill]()&]
-[s2;%RU-RU То же, что и ClickKill(false). Возвращает  
-`*this для сцепки методов.&]
+[s2;%RU-RU То же, что и ClickKill(false). Возвращает 
+ `*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:SetDisplay`(const Upp`:`:Display`&`): [_^Upp`:`:ColumnList^ C
@@ -444,8 +444,8 @@ olumnList][@(0.0.255) `&]_[* SetDisplay]([@(0.0.255) const]_[_^Upp`:`:Display^ D
 [s2;%RU-RU Устанавливает дисплей, который 
 будет использован, в [%-*@3 d], если в методах 
 Add или Insert не был задан специфичный 
-дисплей для элемента. Возвращает  
-`*this для сцепки методов.&]
+дисплей для элемента. Возвращает 
+ `*this для сцепки методов.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:NoBackground`(bool`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
@@ -464,15 +464,15 @@ Transparent. В итоге видно то, что находится
 [s5;:Upp`:`:ColumnList`:`:MultiSelect`(bool`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
 ]_[* MultiSelect]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s2;%RU-RU Активирует или дезактивирует 
-мультивыбор элементов. Возвращает  
-`*this для сцепки методов.&]
+мультивыбор элементов. Возвращает 
+ `*this для сцепки методов.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:IsMulti`(`)const: [@(0.0.255) bool]_[* IsMulti]()_[@(0.0.255) con
 st]&]
 [s5;:Upp`:`:ColumnList`:`:IsMultiSelect`(`)const: [@(0.0.255) bool]_[* IsMultiSelect]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает  статус режима мультивыбора.&]
+[s2;%RU-RU Возвращает статус режима мультивыбора.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:PopUpEx`(bool`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
@@ -494,24 +494,24 @@ onst]&]
 ]_[* AutoHideSb]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s2;%RU-RU Автоматически скрывает полосу 
 прокрутки, если все элементы могут 
-поместиться в обзор виджета. Возвращает  
+поместиться в обзор виджета. Возвращает 
 `*this для сцепки методов.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:NoAutoHideSb`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
 ]_[* NoAutoHideSb]()&]
-[s2;%RU-RU То же, что и AutoHideSb(false). Возвращает  
-`*this для сцепки методов.&]
+[s2;%RU-RU То же, что и AutoHideSb(false). Возвращает 
+ `*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:SetScrollBarStyle`(const Upp`:`:ScrollBar`:`:Style`&`): [_^Upp`:`:ColumnList^ C
 olumnList][@(0.0.255) `&]_[* SetScrollBarStyle]([@(0.0.255) const]_[_^Upp`:`:ScrollBar`:`:Style^ S
 crollBar`::Style][@(0.0.255) `&]_[*@3 s])&]
 [s2;%RU-RU Устанавливает визуальный стиль 
-полосы прокрутки в [%-*@3 s]. Возвращает  
-`*this для сцепки методов.&]
+полосы прокрутки в [%-*@3 s]. Возвращает 
+ `*this для сцепки методов.&]
 [s3;%RU-RU &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Конструктор  detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:Upp`:`:ColumnList`:`:ColumnList`(`): [* ColumnList]()&]
 [s2;%RU-RU Дефолтный конструктор.&]

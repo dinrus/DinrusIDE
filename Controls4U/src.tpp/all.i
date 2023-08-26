@@ -1,96 +1,88 @@
-TOPIC("AboutUpp_en-us")
-#include "AboutUpp_en-us.tppi"
+TOPIC("AboutUpp_ru-ru")
+#include "AboutUpp_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("About_en-us")
-#include "About_en-us.tppi"
+TOPIC("About_ru-ru")
+#include "About_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Box_en-us")
-#include "Box_en-us.tppi"
+TOPIC("Box_ru-ru")
+#include "Box_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Controls4U_en-us")
-#include "Controls4U_en-us.tppi"
+TOPIC("Controls4U_ru-ru")
+#include "Controls4U_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("EditFileFolder_en-us")
-#include "EditFileFolder_en-us.tppi"
+TOPIC("EditFileFolder_ru-ru")
+#include "EditFileFolder_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("EditFile_en-us")
-#include "EditFile_en-us.tppi"
+TOPIC("EditFile_ru-ru")
+#include "EditFile_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("EditFolder_en-us")
-#include "EditFolder_en-us.tppi"
+TOPIC("EditFolder_ru-ru")
+#include "EditFolder_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("FirefoxBrowser_en-us")
-#include "FirefoxBrowser_en-us.tppi"
+TOPIC("FirefoxBrowser_ru-ru")
+#include "FirefoxBrowser_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("InternetExplorerBrowser_en-us")
-#include "InternetExplorerBrowser_en-us.tppi"
+TOPIC("InternetExplorerBrowser_ru-ru")
+#include "InternetExplorerBrowser_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Knob_en-us")
-#include "Knob_en-us.tppi"
+TOPIC("Knob_ru-ru")
+#include "Knob_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Meter_en-us")
-#include "Meter_en-us.tppi"
+TOPIC("Meter_ru-ru")
+#include "Meter_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("SliderCtrlX_en-us")
-#include "SliderCtrlX_en-us.tppi"
+TOPIC("SliderCtrlX_ru-ru")
+#include "SliderCtrlX_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("SliderCtrlX_fr-fr")
-#include "SliderCtrlX_fr-fr.tppi"
+TOPIC("SplitterButton_ru-ru")
+#include "SplitterButton_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("SplitterButton_en-us")
-#include "SplitterButton_en-us.tppi"
+TOPIC("StarIndicator_ru-ru")
+#include "StarIndicator_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("StarIndicator_en-us")
-#include "StarIndicator_en-us.tppi"
+TOPIC("StaticArrow_ru-ru")
+#include "StaticArrow_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("StarIndicator_fr-fr")
-#include "StarIndicator_fr-fr.tppi"
+TOPIC("StaticClock_ru-ru")
+#include "StaticClock_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("StaticArrow_en-us")
-#include "StaticArrow_en-us.tppi"
+TOPIC("StaticEllipse_ru-ru")
+#include "StaticEllipse_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("StaticClock_en-us")
-#include "StaticClock_en-us.tppi"
+TOPIC("StaticFrame_ru-ru")
+#include "StaticFrame_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("StaticEllipse_en-us")
-#include "StaticEllipse_en-us.tppi"
+TOPIC("StaticImage_ru-ru")
+#include "StaticImage_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("StaticFrame_en-us")
-#include "StaticFrame_en-us.tppi"
+TOPIC("StaticLine_ru-ru")
+#include "StaticLine_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("StaticImage_en-us")
-#include "StaticImage_en-us.tppi"
+TOPIC("StaticRectangle_ru-ru")
+#include "StaticRectangle_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("StaticLine_en-us")
-#include "StaticLine_en-us.tppi"
-END_TOPIC
-
-TOPIC("StaticRectangle_en-us")
-#include "StaticRectangle_en-us.tppi"
-END_TOPIC
-
-TOPIC("VLCPlayer_en-us")
-#include "VLCPlayer_en-us.tppi"
+TOPIC("VLCPlayer_ru-ru")
+#include "VLCPlayer_ru-ru.tppi"
 END_TOPIC
 

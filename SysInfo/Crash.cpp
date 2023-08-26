@@ -78,7 +78,7 @@ void __cdecl CrashHandler::UnexpectedHandler() {
 }
 
 void __cdecl CrashHandler::PureCallHandler() {
-    Panic("Pure virtual function call");
+    Panic("Вызов чисто виртуальной функции");
 }
 
 void __cdecl CrashHandler::InvalidParameterHandler(const wchar_t* expression, const wchar_t *function,

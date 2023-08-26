@@ -1,4 +1,4 @@
-topic "Класс ButtonOption";
+topic "Класс ButtonOption  (ОпцияКнопка)";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "Класс ButtonOption";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@3 [s0; [*@(229)4 Класс ButtonOption]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Класс ButtonOption (ОпцияКнопка)]]}}&]
 [s3; &]
 [s1;:ButtonOption`:`:class:%- [@(0.0.255)3 class][3 _][*3 ButtonOption][3 _:_][@(0.0.255)3 publi
 c][3 _][*@3;3 Ctrl]&]
@@ -31,13 +31,13 @@ Option, но с внешним видом кнопки Button.
 trl]&]
 [s3; &]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:ButtonOption`:`:SetImage`(const Image`&`):%- [_^ButtonOption^ ButtonOption][@(0.0.255) `&
 ]_[* SetImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]
 [s2; Устанавливает изображение [%-*C@3 img], 
-отображаемое в ButtonOption. Возвращает  
-`*this.&]
+отображаемое в ButtonOption. Возвращает 
+ `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ButtonOption`:`:SetImage`(const Image`&`,const Image`&`):%- [_^ButtonOption^ Butto
@@ -58,7 +58,7 @@ onst]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]
 [s3; &]
 [s4;%- &]
 [s5;:ButtonOption`:`:Get`(`)const:%- [@(0.0.255) bool]_[* Get]()_[@(0.0.255) const]&]
-[s2; Возвращает  состояние ButtonOption.&]
+[s2; Возвращает состояние ButtonOption.&]
 [s3; &]
 [s4;%- &]
 [s5;:ButtonOption`:`:operator`=`(bool`):%- [@(0.0.255) void]_[* operator`=]([@(0.0.255) boo
@@ -82,13 +82,13 @@ st]&]
 [s4;%- &]
 [s5;:ButtonOption`:`:StyleDefault`(`):%- [@(0.0.255) static] [@(0.0.255) const]_[_^ButtonOption`:`:Style^ S
 tyle][@(0.0.255) `&]_[* StyleDefault]()&]
-[s2; Возвращает  дефолтный стиль, используемый 
+[s2; Возвращает дефолтный стиль, используемый 
 для черчения `"нормальной`" ButtonOption.&]
 [s0; &]
 [s4;%- &]
 [s5;:ButtonOption`:`:StyleFlat`(`):%- [@(0.0.255) static] [@(0.0.255) const]_[_^ButtonOption`:`:Style^ S
 tyle][@(0.0.255) `&]_[* StyleFlat]()&]
-[s2; Возвращает  дефолтный стиль, используемый 
+[s2; Возвращает дефолтный стиль, используемый 
 для черчения `"плоской`" ButtonOption.&]
 [s3;%- &]
 [s4;%- &]
@@ -102,17 +102,17 @@ onOption][@(0.0.255) `&]_[* SetStyle]([@(0.0.255) const]_[_^ButtonOption`:`:Styl
 [s5;:ButtonOption`:`:AutoStyle`(`):%- [_^ButtonOption^ ButtonOption][@(0.0.255) `&]_[* Auto
 Style]()&]
 [s2; Очищает всю информацию о стиле, возвращая 
-к виду по умолчанию. Возвращает  `*this 
+к виду по умолчанию. Возвращает `*this 
 для сцепления.&]
 [s3;%- &]
 [s0; &]
 [s0;%- &]
 [s0;%- &]
-[ {{10000@3 [s0; [*@(229)4 ButtonOption`::Style]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Структура ButtonOption`::Style]]}}&]
 [s3; &]
 [s1;:ButtonOption`:`:Style`:`:struct:%- [@(0.0.255)3 struct][3 _][*3 Style][3 _:_][@(0.0.255)3 p
 ublic][3 _][*@3;3 ChStyle][@(0.0.255)3 <][*3 Style][@(0.0.255)3 >][3 _]&]
-[s9; Эта структура определяет вид (look) 
-ButtonOption.&]
+[s9; Эта структура определяет внешний 
+вид (look) ButtonOption.&]
 [s3;%- &]
 [s0; ]]

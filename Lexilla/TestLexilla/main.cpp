@@ -74,7 +74,7 @@ static Function FindSymbol(Module m, const char *symbol) {
 int main(int argc, char *argv[]) {
 
             int nLexers = GetLexerCount();
-            printf("There are %d lexers.\n", nLexers);
+            printf("Всего %d лексеров.\n", nLexers);
             for (int i = 0; i < nLexers; i++) {
                 char name[100] = "";
                 GetLexerName(i, name, sizeof(name));
@@ -83,24 +83,24 @@ int main(int argc, char *argv[]) {
             printf("\n");
 
             LexerFactoryFunction lexerFactory4 = GetLexerFactory(4);    // 4th entry is "as" which is an object lexer so works
-            printf("Lexer factory 4 -> %p.\n", lexerFactory4);
+            printf("Фабрика лексеров 4 -> %p.\n", lexerFactory4);
 
             ILexer5 *lexerCpp = CreateLexer("cpp");
-            printf("Created cpp lexer -> %p.\n", lexerCpp);
+            printf("Создан лексер cpp -> %p.\n", lexerCpp);
 
 
                 const char *lexerNameCpp = LexerNameFromID(3);  // SCLEX_CPP=3
                 if (lexerNameCpp)
-                    printf("Lexer name 3 -> %s.\n", lexerNameCpp);
+                    printf("Имя лексера 3 -> %s.\n", lexerNameCpp);
 
 
                 const char *names = GetLibraryPropertyNames();
-                printf("Property names '%s'.\n", names);
+                printf("Имена свойств '%s'.\n", names);
 
                 SetLibraryProperty("key", "value");
 
                 const char *nameSpace = GetNameSpace();
-                printf("Name space '%s'.\n", nameSpace);
+                printf("Пространство имён '%s'.\n", nameSpace);
         
     
 }

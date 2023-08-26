@@ -6,7 +6,8 @@ acceptflags
 uses
 	Sql;
 
-library(WIN32) libpq.lib;
+link
+	-lpq;
 
 pkg_config(LINUX | FREEBSD | OPENBSD) libpq;
 

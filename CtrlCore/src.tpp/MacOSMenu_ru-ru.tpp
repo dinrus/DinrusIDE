@@ -1,4 +1,4 @@
-topic "MacOS menu support";
+topic "Поддержка меню MacOS";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,15 +10,19 @@ topic "MacOS menu support";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 MacOS menu support]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Поддержка меню MacOS]]}}&]
 [s0; &]
-[s0; U`+`+ applications without changes to support MacOS application 
-menu will run with menu inside the window.&]
+[s0; Приложения U`+`+ без изменения при 
+поддержки меню приложения MacOS выполняются 
+с меню, расположенным внутри окна.&]
 [s0; &]
-[s0; To properly support MacOS menu, application needs to provide 
-different code for MacOS (conditional compilation depending on 
-PLATFORM`_COCOA macro). Usually, the changes are minimal, e.g. 
-in Uword application the only change is&]
+[s0; Чтобы правильно поддерживать меню 
+MacOS, приложение должно предоставлять 
+иной код для MacOS (условная компиляция, 
+зависящая от макроса PLATFORM`_COCOA). Как 
+правило, это небольшие изменения,например, 
+в приложении Uword единственное изменение 
+такое&]
 [s0; &]
 [s0; [*C #ifdef PLATFORM`_COCOA]&]
 [s0; [*C -|SetMainMenu(THISBACK(MainMenu));]&]
@@ -26,12 +30,14 @@ in Uword application the only change is&]
 [s0; [*C -|AddFrame(menubar);]&]
 [s0; [*C #endif]&]
 [s0; &]
-[s0; replacing the call to AddFrame to add the main menu bar with 
-the call to TopWindow`::SetMainMenu.&]
+[s0; заменяющее вызов AddFrame для добавления 
+бруса главного меню на вызов TopWindow`::SetMainMenu.&]
 [s0; &]
-[s0; Other possibility is to omit AddFrame when PLATFORM`_COCOA is 
-defined and change menu setting code (which is called on any 
-main menu changes) to something like&]
+[s0; Другой вариант `- не использовать 
+AddFrame, когда определено PLATFORM`_COCOA, и 
+изменить код настройки меню (вызываемый 
+при любом изменении главного меню) 
+на что`-то типа&]
 [s0; &]
 [s0; [*C #ifdef PLATFORM`_COCOA]&]
 [s0; [*C -|SetMainMenu(THISBACK(MainMenu));]&]
@@ -39,21 +45,24 @@ main menu changes) to something like&]
 [s0; [*C -|menubar.Set(THISBACK(MainMenu));]&]
 [s0; [*C #endif]&]
 [s0; &]
-[s0; Another MacOS feature is the dock menu. This can be set using 
-TopWindow`::WhenDockMenu.&]
+[s0; Другая фича MacOS `- dock menu. Его можно 
+установить с помощью TopWindow`::WhenDockMenu.&]
 [s0; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* TopWindow members for MacOS style menu support]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:TopWindow`:`:WhenDockMenu:%- [_^Upp`:`:Event^ Event]<Bar[@(0.0.255) `&]>_[* Whe
 nDockMenu]&]
-[s2; Represents application dock menu. Gets called if TopWindow is 
-on top and user invokes the dock menu for application (e.g. by 
-right`-click on application icon).&]
+[s2; Представляет док`-меню приложения. 
+Вызывается, если TopWindow на самом верху 
+и пользователь выводит док`-меню приложения 
+(например, правым кликом на иконке 
+приложения).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:TopWindow`:`:SetMainMenu`(Upp`:`:Event`<Upp`:`:Bar`&`>`):%- [@(0.0.255) voi
 d]_[* SetMainMenu]([_^Upp`:`:Event^ Event]<Bar[@(0.0.255) `&]>_[*@3 menu])&]
-[s2; Устанавливаетthe main application menu. This menu will be active if 
-given toplevel TopWindow is on the top.&]
+[s2; Устанавливает главное меню приложения. 
+Это меню будет активно, если данное 
+высокоуровневое TopWindow на самом верху.&]
 [s0; ]]

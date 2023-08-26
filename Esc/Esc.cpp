@@ -12,7 +12,7 @@ namespace Upp {
 
 void Esc::OutOfMemory()
 {
-	ThrowError("Out of memory");
+	ThrowError("Нехватка памяти");
 }
 
 void Esc::TestLimit()

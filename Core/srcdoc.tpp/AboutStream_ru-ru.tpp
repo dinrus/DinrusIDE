@@ -98,58 +98,73 @@ FileStream)&]
 интерфейс, и внутренне и косвенно 
 обрабатывает разницу, относящуюся 
 к сериализации/десериализации, с 
-помощью IsLoading() / IsStoring()..the user benefits from 
-this only having to specify `*one`* functionional place, that 
-determines the order of serialization and that is maintained 
-the same on both directions, hurray. (drawback, one cant deserialize 
-from a `'const Stream `&`', because the function needs a `'Stream 
-`&`', but the case where this happens is to be neglacted). since 
-this is somehow unusual, one needs to get familiar with the Stream.&]
+помощью IsLoading() / IsStoring().Выгода пользователю 
+от этого,`-  ему достаточно указать 
+`*одно`* функциональное место, определяющее 
+порядок сериализации и она одинаково 
+будет поддерживаться в обоих направлениях, 
+hurray. (drawback, нельзя десериализовать 
+из `'const Stream `&`', так как функции требуется 
+`'Stream `&`'). Поскольку это как`-то необычно, 
+надо же знать, что такое Stream!&]
 [s0; &]
-[s0;i150;O0; A global template operator%(Stream `&, T `&) enables 
-your class to be serialized as well by the user, simply calling 
-stream % yourclass. to make this happen, provide a `'void Serialize(Stream`& 
-s)`' function in your class, where you define the the behaviour 
-and order of de/serialization of your content (other data types 
-also beeing serializable). after deserializing your class, finishing 
-init of your class should be done. this makes handling of data 
-transport using Socket quite easy, but is not yet implemented 
-Smile&]
+[s0;i150;O0; Глобальный шаблонный оператор 
+operator%(Stream `&, T `&) позволяет сериализовать 
+ваш класс, как и пользователю, простым 
+вызовом `"поток % ваш`_класс`". Предоставьте 
+в своём классе функцию `'void Serialize(Stream`& 
+s)`', где определены поведение и порядок 
+де/сериализации контента (сериализуются 
+и иные данные). После десериализации 
+вашего класса следует выполнить завершающий
+ init вашего класса. Это делает обработку 
+транспорта данных с помощью Socket довольно 
+простой, но пока не реализована Smile&]
 [s0; &]
-[s0;i150;O0; You can easily implement own buffered Streams, it provides 
-a mainly protected interface. Stream provides a rich default 
-serialization interface to serialize all kind of stuff, including 
-NTL containers...(recursively calling serialize on them then 
-as well..)&]
+[s0;i150;O0; Можно легко реализовать свои 
+собственные буфферированные потоки, 
+предоставлятся довольно защищённый 
+интерфес. Stream предоставляет богатый 
+интерфейс дефолтной сериализации 
+всякого рода стаффа, включая контейнеры 
+NTL...(затем, к тому же, рекурсивно вызывая 
+над ними serialize..)&]
 [s0; &]
-[s0;i150;O0; One should know pretty well what kind of Stream to use 
-what for.. i.e. a MemStream cant be used as a self growing Buffer, 
-it handles only a previously provided chunk of memory which cant 
-grow just like that (because the memory chunk cant grow). for 
-this purpose, use StringStream.&]
+[s0;i150;O0; Нужно хорошо знать, какой вид 
+потока Stream использовать и для чего.. 
+т.е. MemStream нельзя использовать как 
+`"самонарастающий`" Buffer, он обрабатывает 
+только ранее предоставленный кусок 
+памяти, который не умеет расти (так 
+как куски памяти не растут!). Для этого 
+юзайте StringStream.&]
 [s0; &]
-[s0;i150;O0; The basic [/ implementation] of a Stream is this: a Stream 
-refers to a chunk of memory, represented by `'buffer`' pointer. 
-it implicitly stores its size with the rdlim and wrlim pointers, 
-representing the extension of the buffer for reading and writing 
-operations. every API function asumes that it can store or read 
-its data directly in this chunk of data, at ptr location, normally 
-whitout invoking any kind of flush or the like, advancing the 
-ptr though. But sooner or later it will have consumed it`'s space 
-(reacing respective rdlim, means having read all, or wrlim, meaning 
-having written all). then it will claim some `'upper level`' 
-action to either provide more data, done by advanceing the snapshot 
-position in the read case, or writing out stored data and mark 
-it as free again. this is done invoking `_Get(..) or `_Put(..). 
-in other words... `_Put normally should take care of processing 
-the full buffer by flushing it somehow, process the data provided, 
-that didnt fit in the full buffer, and rewinding the ptr and 
-adjusting wrlim, declaring buffer empty. `_Get typically claims 
-some more data to be made available inside the Stream, maybe 
-by copying some data in provided empty buffer first, then remainder 
-in buffer and again rewinding the ptr and adjusting rdlim. this 
-behaviour is to be defined somehow, and is special for any kind 
-of stream.&]
+[s0;i150;O0; Базовая [/ имплементация потока] 
+Stream такая: Stream ссылается на кусок памяти, 
+представленный указателем на `'buffer`'. 
+Он неявно сохраняет его размер указателями 
+rdlim и wrlim, представляющими протяженность 
+буфера для операций чтения и записи. 
+Каждая функция API полагает, что может 
+сохранять или читать свои данные 
+прямо в этом куске памяти, по местонахождени
+ю ptr, как правило, не вызывая никакого 
+flush или типа того, продвигая далее 
+и далее ptr. Но рано или поздно они потребят 
+всё пространство (reacing respective rdlim, means 
+having read all, or wrlim, meaning having written all). then 
+it will claim some `'upper level`' action to either provide more 
+data, done by advanceing the snapshot position in the read case, 
+or writing out stored data and mark it as free again. this is 
+done invoking `_Get(..) or `_Put(..). in other words... `_Put 
+normally should take care of processing the full buffer by flushing 
+it somehow, process the data provided, that didnt fit in the 
+full buffer, and rewinding the ptr and adjusting wrlim, declaring 
+buffer empty. `_Get typically claims some more data to be made 
+available inside the Stream, maybe by copying some data in provided 
+empty buffer first, then remainder in buffer and again rewinding 
+the ptr and adjusting rdlim. this behaviour is to be defined 
+somehow, and is special for any kind of stream.&]
 [s0; &]
 [s0;i150;O0; Flushing behavior is only used for write side, or out 
 buffers. it is not invoked by generic Stream implementation by 

@@ -242,7 +242,7 @@ typedef int SOCKET;
 #ifdef PLATFORM_WIN32
 #include <plugin/z/lib/zlib.h>
 #else
-#include <zlib.h>
+#include <plugin/z/lib/zlib.h>//<zlib.h>
 #endif
 
 #include <functional>

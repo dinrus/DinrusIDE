@@ -1,4 +1,4 @@
-topic "ClipData";
+topic "Структура ClipData";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,155 +10,189 @@ topic "ClipData";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0; [*@7;4 ClipData]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Структура ClipData]]}}&]
 [s3; &]
 [s1;:ClipData`:`:struct: [@(0.0.255)3 struct][3 _][*3 ClipData][3 _:_][@(0.0.255)3 public][3 _][*@3;3 M
 oveable][3 <][*3 ClipData][3 >_]&]
 [s0; &]
-[s0;%% This structure represents single datatype assigned to clip 
-operation (clipboard or drag`&drop). The final data transfered 
-via clip has always to be binary string, but as usually application 
-provides multiple formats (e.g. it can provide .png, .jpg and 
-.gif form Image) and conversion of source to final format can 
-be expensive, ClipData allows to store the source data in original 
-format accompanied with `'rendering`' function used to convert 
-it to final format.&]
+[s0;%RU-RU Представляет единичный тип данных, 
+присвоенный операции с клипом (буфер 
+обмена или drag`&drop). Окончательными 
+данными, передаваемыми через клип, 
+всегда является двоичная строка, 
+но, как правило, приложение предоставляет 
+несколько форматов (напр., .png, .jpg и 
+.gif форматы для рисунка Image), а преобразование
+ источника в конечный формат может 
+оказаться времезатратным. ClipData  позволяет 
+сохранить исходные данные в оригинальном 
+формате, в сопровождении функции 
+`'рендеринга`', применяемой для его 
+преобразования в конечный формат.&]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Members]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Публичные Члены]]}}&]
 [s3; &]
 [s5;:ClipData`:`:data: [_^Value^ Value]_[* data]&]
-[s2;%% Source data.&]
-[s3;%% &]
+[s2;%RU-RU Исходные данные.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:ClipData`:`:render: [_^String^ String]_(`*[* render])([@(0.0.255) const]_Value[@(0.0.255) `&
 ]_data)&]
-[s2;%% Function to convert source [* data] to binary string.&]
+[s2;%RU-RU Функция для преобразования исходых 
+данных [* data] в двоичную строку.&]
 [s3; &]
 [s4; &]
 [s5;:ClipData`:`:Render`(`)const: [_^String^ String]_[* Render]()_[@(0.0.255) const]&]
-[s2;%% Эквивалентно (`*render)(data).&]
+[s2;%RU-RU Эквивалентно (`*render)(data).&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Конструктор  detail]]}}&]
 [s4; &]
 [s5;:ClipData`:`:ClipData`(const Value`&`,String`(`*`)`(const Value`&`)`): [* ClipData](
 [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 data], [_^String^ String]_(`*[*@3 ren
 der])([@(0.0.255) const]_Value[@(0.0.255) `&]_[*@3 data]))&]
-[s2;%% Assigns [%-*@3 data] and [%-*@3 render] to respective member variables.&]
-[s3;%% &]
+[s2;%RU-RU Присваиваеи [%-*@3 data] и [%-*@3 render] соответствую
+щим переменным`-членам.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:ClipData`:`:ClipData`(const String`&`): [* ClipData]([@(0.0.255) const]_[_^String^ Str
 ing][@(0.0.255) `&]_[*@3 data])&]
-[s2;%% Assigns [%-*@3 data].to [* data ]and trivial `"string to string`" 
-(no conversion) rendering function to [* render.]&]
-[s3;%% &]
+[s2;%RU-RU Присваивает [%-*@3 data].к [* data ]и тривиальную 
+функцию `"string в string`" (без преобразования) 
+к [* render.]&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:ClipData`:`:ClipData`(`): [* ClipData]()&]
-[s2;%% Assigns trivial `"string to string`" (no conversion) rendering 
-function to [* render.]&]
+[s2;%RU-RU Присваивает тривиальную функцию 
+`"string в string`" (без преобразования) к 
+[* render.]&]
 [s3; &]
 [s1;@(0.0.255)3 &]
 [s0; &]
-[ {{10000@(113.42.0) [s0; [*@7;4 ClipData]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс ClipData]]}}&]
 [s0; &]
 [s1;:PasteClip`:`:class: [@(0.0.255)3 class][3 _][*3 PasteClip]&]
-[s2;%% This class represents data source and operation status in 
-clipboard or drag and drop operations (and also in X11 selection 
-operations).&]
+[s2;%RU-RU Этот класс представляет источник 
+данных и статус операции в буфере 
+обмена или операций тяга`-броса (а 
+также в X11 операций выделения).&]
 [s3; &]
-[s0;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
+[s0;%RU-RU &]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
 [s0; &]
 [s5;:PasteClip`:`:IsAvailable`(const char`*`)const: [@(0.0.255) bool]_[* IsAvailable]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 fmt])_[@(0.0.255) const]&]
-[s2;%% Возвращает true when data source offers data in format [%-*@3 fmt].&]
-[s3;%% &]
+[s2;%RU-RU Возвращает true, когда источник 
+данных предоставляет данные в формате 
+[%-*@3 fmt].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:PasteClip`:`:Get`(const char`*`)const: [_^String^ String]_[* Get]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 fmt])_[@(0.0.255) const]&]
-[s2;%% Возвращает binary data rendered in [%-*@3 fmt].&]
-[s3;%% &]
+[s2;%RU-RU Возвращает двоичные данные, преобразова
+нные в [%-*@3 fmt].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:PasteClip`:`:Accept`(`): [@(0.0.255) bool]_[* Accept]()&]
-[s2;%% Устанавливаетthe status of operation to accepted (target accepts data) 
-and returns true when source should [/ paste ]the source data into 
-target `- during drag`&drop operation, it returns false during 
-`'drag`' phase to alter appearance of mouse cursor (it should 
-show `'stop`' sign when drop is not possible) and `'true`' to 
-indicate drop operation.&]
+[s2;%RU-RU Устанавливает статус операции 
+в принятый (цель принимает данные) 
+и возвращает true, когда источник должен 
+[/ вставить ]исходные данные в цель 
+`- при операции drag`&drop возвращается 
+false в фазе `'drag`', что меняет внешний 
+вид курсора мыши (должен показываться 
+знак `'stop`', когда брос невозможен) 
+и `'true`', чтобы указать на операцию 
+броса.&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:Accept`(const char`*`): [@(0.0.255) bool]_[* Accept]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 fmt])&]
-[s2;%% Parameter [%-*@3 fmt] contains a list of format identifiers 
-separated by semicolon. If any of them is available in the PasteClip, 
-it is set to accepted status and accepted format is stored in 
-PasteClip (to be retrieved by GetFormat method later). If PasteClip 
-is in paste mode, method stores source data rendered in accepted 
-format and returns true. Note that Accept can return false even 
-if format is accepted `- this happens in `'drag`' stage of drag`&drop 
-operation to indicate that target is willing to accept the data.&]
-[s3;%% &]
+[s2;%RU-RU Параметр [%-*@3 fmt] содержит список 
+идентификаторов формата, разделённый 
+точками с запятой. Если любой из них 
+доступен в этом PasteClip, устанавливается 
+статус accepted (`"принято`"), формат сохраняется 
+в PasteClip (позже его извлекает метод 
+GetFormat). Если PasteClip находится в режиме 
+вставки, метод сохраняет исходные 
+данные, транслированные в принятый 
+формат, и возвращает true. Заметьте, 
+что Accept может вернуть false, даже если 
+формат принят, `- это случается на 
+стадии `'drag`' операции drag`&drop и указывает, 
+что цель `"желает`" принять данные.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:PasteClip`:`:GetFormat`(`): [_^String^ String]_[* GetFormat]()&]
-[s2;%% Возвращает a format accepted by the last Accept(fmt) method returning 
-true.&]
+[s2;%RU-RU Возвращает формат, принятый последним 
+методом Accept(fmt), вернувшим true.&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:Get`(`)const: [_^String^ String]_[* Get]()_[@(0.0.255) const]&]
-[s2;%% Возвращает data rendered by the last Accept(fmt) method returning 
+[s2;%RU-RU Возвращает данные, транслированные 
+последним методом Accept(fmt), вернувшим 
 true.&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:operator String`(`)const: [* operator_String]()_[@(0.0.255) const]&]
-[s2;%% То же, что и Get().&]
+[s2;%RU-RU То же, что и Get().&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:operator`~`(`)const: [_^String^ String]_[@(0.0.255) operator]_`~()_[@(0.0.255) c
 onst]&]
-[s2;%% То же, что и Get().&]
+[s2;%RU-RU То же, что и Get().&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:Reject`(`): [@(0.0.255) void]_[* Reject]()&]
-[s2;%% УстанавливаетPasteClip to rejected status. This can be called after 
-setting it to accepted status to revert the decision. Usually 
-this is used when decision has to take into account the content 
-of actual data to be pasted `- in that case data is Accepted 
-first, then after examination of data content, it can be rejected.&]
+[s2;%RU-RU Устанавливает PasteClip в статус `"отвергнут`"
+. Его можно вызвать после установки 
+статуса `"принят`", чтобы изменить 
+решение. Обычно используется, когда 
+для принятия решения нужно принять 
+во внимание контент действительных 
+вставляемых данных `- в этом случае 
+вначале принимаются данные, затем, 
+после изучения их контента, они могут 
+быть отвергнуты.&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:GetAction`(`)const: [@(0.0.255) int]_[* GetAction]()_[@(0.0.255) const]&]
-[s2;%% Gets the proposed action of drag`&drop operation (one of DND`_COPY, 
-DND`_MOVE).&]
+[s2;%RU-RU Получает предлагаемое действие 
+операции drag`&drop (одно из DND`_COPY, DND`_MOVE).&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:GetAllowedActions`(`)const: [@(0.0.255) int]_[* GetAllowedActions]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает the bitmask of allowed operations of drag`&drop operation 
-(DND`_COPY, DND`_MOVE).&]
+[s2;%RU-RU Возвращает битмаску позволенных 
+операций drag`&drop (DND`_COPY, DND`_MOVE).&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:SetAction`(int`): [@(0.0.255) void]_[* SetAction]([@(0.0.255) int]_[*@3 x])
 &]
-[s2;%% Changes drop operation to [%-*@3 x]. This is used when proposed 
-operation is no suitable for particular drop target.&]
-[s3;%% &]
+[s2;%RU-RU Изменяет операцию броса на [%-*@3 x]. 
+Используется, когда предлагаемая 
+операция для определённой цели броса 
+неприемлема.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:PasteClip`:`:IsAccepted`(`)const: [@(0.0.255) bool]_[* IsAccepted]()_[@(0.0.255) const
 ]&]
-[s2;%% Возвращает  true, если status is accepted.&]
+[s2;%RU-RU Возвращает true, если статус `"принято`".&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:IsQuery`(`)const: [@(0.0.255) bool]_[* IsQuery]()_[@(0.0.255) const]&]
-[s2;%% Возвращает  true, если PasteClip represents drag phase (no pasting, 
-Accept returns false).&]
+[s2;%RU-RU Возвращает true, если PasteClip представляет 
+фазу тяга (без вставки, Accept возвращает 
+false).&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:IsPaste`(`)const: [@(0.0.255) bool]_[* IsPaste]()_[@(0.0.255) const]&]
-[s2;%% Возвращает  true, если PasteClip represents drop/paste phase (Accept 
-returns true).&]
+[s2;%RU-RU Возвращает true, если PasteClip представляет 
+фазу брос/вставка (Accept возвращает 
+true).&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:PasteClip`(`): [* PasteClip]()&]
-[s2;%% Дефолтный конструктор.&]
+[s2;%RU-RU Дефолтный конструктор.&]
 [s3; &]
-[s0;%% ]]
+[s0;%RU-RU ]]

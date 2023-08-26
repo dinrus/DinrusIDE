@@ -35,7 +35,7 @@ to Null puts the SFtp object into blocking mode&]
 [s5;:Upp`:`:SFtp`:`:ChunkSize`(int`):%- [_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[* ChunkSize](
 [@(0.0.255) int]_[*@3 sz])&]
 [s2; Устанавливаетthe chunk size to [%-*@3 sz] for data reads and writes. The 
-default chunk size is 64K Возвращает `*this for method chaining.&]
+default chunk size is 64K Возвращает `*this для сцепки методов.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:GetHandle`(`)const:%- [_^LIBSSH2`_SFTP`_HANDLE^ LIBSSH2`_SFTP`_HAND
@@ -126,7 +126,7 @@ storage device. Возвращает true on success.&]
 ]_[* Seek]([_^Upp`:`:SFtpHandle^ SFtpHandle]_[*@3 handle], [_^Upp`:`:int64^ int64]_[*@3 pos
 ition])&]
 [s2; Seeks to [%-*@3 position] in a remote file pointed by [%-*@3 handle]. 
-Возвращает `*this for method chaining.&]
+Возвращает `*this для сцепки методов.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:GetPos`(Upp`:`:SFtpHandle`):%- [_^Upp`:`:int64^ int64]_[* GetPos]([_^Upp`:`:SFtpHandle^ S
@@ -553,7 +553,7 @@ agnostic (`"transparent`") way.&]
 FtpFileSystemInfo][@(0.0.255) `&]_[* Mount]([_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp])
 &]
 [s2; Mounts a valid [%-*@3 sftp] file system to be enumerated. Возвращает 
-`*this for method chaining.&]
+`*this для сцепки методов.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtpFileSystemInfo`:`:Find`(Upp`:`:String`,int`,bool`)const override:%- [_^Upp`:`:Array^ A

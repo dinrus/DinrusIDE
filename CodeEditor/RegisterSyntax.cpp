@@ -36,7 +36,7 @@ void CreateLogSyntax(One<EditorSyntax>& e)
 void RegisterSyntaxModules()
 {
 	RegisterCSyntax("cpp", CSyntax::HIGHLIGHT_CPP,
-	                "*.c *.cpp *.cc *.cxx *.h *.hpp *.hh *.hxx *.m *.mm *.icpp *.conf *.inc *.def",
+	                "*.c *.cpp *.cc *.cxx *.h *.hpp *.hh *.hxx *.m *.mm *.icpp *.conf *.inc *.inl *.def",
 	                "C/C++");
 	RegisterCSyntax("dlang", CSyntax::HIGHLIGHT_CPP, "*.d *.di", "Dlang");
 	RegisterCSyntax("java", CSyntax::HIGHLIGHT_JAVA, "*.java", "Java");
@@ -47,7 +47,7 @@ void RegisterSyntaxModules()
 	RegisterCSyntax("sql", CSyntax::HIGHLIGHT_SQL, "*.sql *.ddl", "Сценарий SQL");
 	RegisterCSyntax("lay", CSyntax::HIGHLIGHT_LAY, "*.lay", "Выкладка U++");
 	RegisterCSyntax("sch", CSyntax::HIGHLIGHT_SCH, "*.sch", "Схема U++ SQL");
-	RegisterCSyntax("t", CSyntax::HIGHLIGHT_T, "*.t *.jt", "Первод U++");
+	RegisterCSyntax("t", CSyntax::HIGHLIGHT_T, "*.t *.jt", "Перевод U++");
 	RegisterCSyntax("usc", CSyntax::HIGHLIGHT_USC, "*.usc", "Определения виджетов U++");
 	RegisterCSyntax("calc", CSyntax::HIGHLIGHT_CALC, "", "");
 	RegisterCSyntax("php", CSyntax::HIGHLIGHT_PHP, "*.php", "PHP");
@@ -60,7 +60,7 @@ void RegisterSyntaxModules()
 	EditorSyntax::Register("html", callback2(CreateTagSyntax, true, false), "*.html *.htm", "HTML");
 	EditorSyntax::Register("witz", callback2(CreateTagSyntax, true, true), "*.witz", "Шаблоны Skylark");
 	
-	EditorSyntax::Register("log", callback(CreateLogSyntax), "*.log *.info", "Log");
+	EditorSyntax::Register("log", callback(CreateLogSyntax), "*.log *.info", "Лог");
 }
 
 }

@@ -10,13 +10,16 @@ topic "Утилиты FileSel";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 FileSel based utility functions]]}}&]
-[s9; These functions simplify opening files using single global file`-selector. 
-The configuration of file`-selector is stored into [^topic`:`/`/Core`/src`/SerializationUtils`_ru`-ru^ g
-lobal configuration].&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Вспомогательные Функции на Основе 
+FileSel]]}}&]
+[s9; Эти функции упрощают открытие файлов, 
+используя единый глобальный селектор 
+файлов (файлвыборку). Конфигурация 
+файлвыборки сохраняется в [^topic`:`/`/Core`/src`/SerializationUtils`_ru`-ru^ г
+лобальной конфигурации].&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Function List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Функций]]}}&]
 [s3;%- &]
 [s5;:SelectFileOpen`(const char`*`):%- [_^String^ String]_[* SelectFileOpen]([@(0.0.255) co
 nst]_[@(0.0.255) char]_`*[*@3 types])&]
@@ -53,7 +56,7 @@ ypes] method of FileSel. Возвращает true on success.&]
 [s0;%- &]
 [s0;%- &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@2 SelectFileIn class]]}}&]
+[ {{10000@(113.42.0) [s0; [*@2 Класс SelectFileIn]]}}&]
 [s9;%- This class inherits FileIn. Its constructor invokes global 
 FileSel and opens selected file for reading:&]
 [s0;%- &]
@@ -67,7 +70,7 @@ state (can be tested using operator bool).&]
 [s0;%- &]
 [s0;%- &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@2 SelectFileOut class]]}}&]
+[ {{10000@(113.42.0) [s0; [*@2 Класс SelectFileOut]]}}&]
 [s9;%- This class inherits FileOut. Its constructor invokes global 
 FileSel and opens selected file for writing:&]
 [s0;%- &]

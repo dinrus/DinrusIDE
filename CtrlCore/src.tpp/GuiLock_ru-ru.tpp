@@ -13,44 +13,55 @@ topic "Операции с Мютексом ГИП";
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Операции с Мютексом ГИП]]}}&]
 [s3; &]
 [s5;:Upp`:`:EnterGuiMutex`(`): [@(0.0.255) void]_[* EnterGuiMutex]()&]
-[s2;%RU-RU Locks global GUI mutex. Reentrant.&]
+[s2;%RU-RU Замыкает глобальный мютекс ГИП. 
+Повторного входа (Reentrant).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TryEnterGuiMutex`(`): [@(0.0.255) bool]_[* TryEnterGuiMutex]()&]
-[s2;%RU-RU Attempts to lock global GUI mutex. Возвращает true on success.&]
+[s2;%RU-RU Делает попытку замкнуть глобальный 
+мютекс ГИП. Возвращает true при успехе.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:LeaveGuiMutex`(`): [@(0.0.255) void]_[* LeaveGuiMutex]()&]
-[s2;%RU-RU Unlocks single level of global GUI mutex.&]
+[s2;%RU-RU Отмыкает один уровень глобального 
+мютекса ГИП.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:LeaveGuiMutexAll`(`): [@(0.0.255) int]_[* LeaveGuiMutexAll]()&]
-[s2;%RU-RU Completely unlocks GUI mutex `- if it was locked multiple 
-times in reentrant fashion, unlocks all levels as to leave mutex 
-unlocked. Возвращает the number of levels unlocked.&]
+[s2;%RU-RU Полностью отмыкает мютекс ГИП 
+`- если он был несколько раз замкнут 
+с повторным входом, то отмыкаются 
+все уровни, оставляя мютекс отомкнутым. 
+Возвращает число отомкнутых уровней.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:EnterGuiMutex`(int`): [@(0.0.255) void]_[* EnterGuiMutex]([@(0.0.255) int]_[*@3 n
 ])&]
-[s2;%RU-RU Locks GUI mutex [%-*@3 n] times.&]
+[s2;%RU-RU Замыкает мютекс ГИП [%-*@3 n] раз.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ThreadHasGuiLock`(`): [@(0.0.255) bool]_[* ThreadHasGuiLock]()&]
-[s2;%RU-RU Current thread has locked GUI mutex.&]
+[s2;%RU-RU Текущая нить замкнула мютекс 
+ГИП.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:GetGuiLockLevel`(`): [@(0.0.255) int]_[* GetGuiLockLevel]()&]
-[s2;%RU-RU Возвращает reentrancy level of GUI mutex.&]
+[s2;%RU-RU Возвращает уровень повторного 
+вхождения (реэнтрантности) мютекса 
+ГИП.&]
 [s3; &]
 [s3; &]
 [s4; &]
 [s5; struct_[* GuiLock]&]
-[s2;%RU-RU Конструктор  locks GUI mutex, destructor unlocks it.&]
+[s2;%RU-RU Конструктор замыкает мютекс ГИП, 
+деструктор отмыкает его.&]
 [s3; &]
 [s4; &]
 [s5; class_[* GuiUnlock]&]
-[s2;%RU-RU Конструктор  completely unlocks GUI mutex using LeaveGuiMutexAll 
-and stores the locking leve, destructor locks GUI mutex again 
-to the same level.&]
+[s2;%RU-RU Конструктор полностью отмыкает 
+мютекс ГИП, используя LeaveGuiMutexAll, и 
+сохраняет уровень отмыкания, деструктор 
+замыкает снова мютекс ГИП до того 
+же уровня.&]
 [s3; &]
 [s0;%RU-RU ]]

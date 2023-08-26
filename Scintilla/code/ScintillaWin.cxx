@@ -6,6 +6,9 @@
 // The License.txt file describes the conditions under which this software may be distributed.
 
 #ifndef GTK
+#include <Core/Core.h>
+
+#ifdef PLATFORM_WIN32
 
 #include <cstddef>
 #include <cstdlib>
@@ -1335,7 +1338,7 @@ UINT CodePageFromCharSet(CharacterSet characterSet, UINT documentCodePage) noexc
 	}
 	switch (characterSet) {
 	case CharacterSet::Ansi: return 1252;
-	
+
 	// Cyrillic / Turkish or other languages cannot be shown in ANSI mode.
 	// This fixes such problem. For more information about this fix, check:
 	// https://github.com/notepad-plus-plus/notepad-plus-plus/issues/5671
@@ -3780,4 +3783,5 @@ extern "C" int Scintilla_ReleaseResources() {
 	return Scintilla::Internal::ResourcesRelease(false);
 }
 
+#endif
 #endif

@@ -10,7 +10,7 @@
 #define SCI_POSITION_H
 
 #include <stddef.h>
-
+#include <stdint.h>
 // Базовый тип со знаком, используемый по всему интерфейсу
 typedef ptrdiff_t Sci_Position;
 

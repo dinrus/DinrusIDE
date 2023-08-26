@@ -3,7 +3,7 @@
 #endif
 // GridCtrl.cpp
 
-T_("Close")
+T_("\320\227\320\260\320\272\321\200\321\213\321\202\321\214")
 caES("Tancar")
 deDE("Schlie\303\237en")
 esES("Cerrar")
@@ -13,11 +13,11 @@ huHU("Bez\303\241r")
 nlNL("Sluit")
 plPL("Zamknij")
 ptBR("Fechar")
-ruRU("\320\227\320\260\320\272\321\200\321\213\321\202\321\214")
+enUS("Close")
 skSK("Zavrie\305\245")
 zhTW("\351\227\234\351\226\211")
 
-T_("Search")
+T_("\320\237\320\276\320\270\321\201\320\272")
 caES("Cercar")
 deDE("Suchen")
 esES("Buscar")
@@ -27,7 +27,7 @@ huHU("Keres\303\251s")
 nlNL("Zoeken")
 plPL("")
 ptBR("Search")
-ruRU("\320\237\320\276\320\270\321\201\320\272")
+enUS("Search")
 skSK("N\303\241js\305\245")
 zhTW("\346\220\234\345\260\213")
 

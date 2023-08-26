@@ -37,7 +37,7 @@ how the value is incremented or decremented.&]
 [s3;%- &]
 [s5;:WithSpin`:`:SetInc`(IncType`):%- [_^WithSpin^ WithSpin][@(0.0.255) `&]_[* SetInc]([*@4 I
 ncType]_[*@3 `_inc]_`=_[@3 1])&]
-[s2; Устанавливаетthe increment value.&]
+[s2; Устанавливает the increment value.&]
 [s3; &]
 [s4; &]
 [s5;:WithSpin`:`:GetInc`(`)const:%- [*@4 DataType]_[* GetInc]()_[@(0.0.255) const]&]
@@ -75,9 +75,9 @@ value is 3, going up from the minimum goes through values 3,
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:MouseWheelSpin`(bool`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&
 ]_[* MouseWheelSpin]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Если активен, the value can be altered by mouse wheel `- rolling 
-the wheel is equivalent to pushing up/down arrows. Default is 
-active.&]
+[s2; Если активен, the value can be altered by mouse wheel 
+`- rolling the wheel is equivalent to pushing up/down arrows. 
+Default is active.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:NoMouseWheelSpin`(`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&
@@ -87,8 +87,8 @@ active.&]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:KeySpin`(bool`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&]_[* K
 eySpin]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Если активен, the value can be altered with Up and Down keys. Default 
-is active.&]
+[s2; Если активен, the value can be altered with Up and 
+Down keys. Default is active.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:NoKeySpin`(`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&]_[* No

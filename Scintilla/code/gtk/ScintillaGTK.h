@@ -8,6 +8,8 @@
 
 #include <Scintilla/ScintillaWidget.h>
 
+struct _ScintillaObject;
+
 namespace Scintilla::Internal {
 
 class ScintillaGTKAccessible;

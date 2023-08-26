@@ -154,7 +154,7 @@ void CReadChangesRequest::ProcessNotification()
 			wstrFilename = m_wstrDirectory + wstrFilename;
 
 		// If it could be a short filename, expand it.
-		LPCWSTR wszFilename = ::PathFindFileNameW(wstrFilename.c_str());
+		LPCWSTR wszFilename = ::PathFindFileName(wstrFilename.c_str());
 		int len = lstrlenW(wszFilename);
 		// The maximum length of an 8.3 filename is twelve, including the dot.
 		if (len <= 12 && wcschr(wszFilename, L'~'))

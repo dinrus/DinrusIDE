@@ -6,6 +6,10 @@
 // The License.txt file describes the conditions under which this software may be distributed.
 #ifndef GTK
 
+#include <Core/Core.h>
+
+#ifdef PLATFORM_WIN32
+
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
@@ -3875,4 +3879,5 @@ void Platform_Finalise(bool fromDllMain) noexcept {
 
 }
 
+#endif
 #endif

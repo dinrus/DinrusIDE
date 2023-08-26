@@ -141,7 +141,7 @@ required to be repainted.&]
 [s5;:Draw`:`:GetPaintRect`(`)const: [@(0.0.255) virtual] [_^Rect^ Rect]_[* GetPaintRect]()_
 [@(0.0.255) const]&]
 [s2;%% Provides bounding rectangle for painted areas (areas where 
-IsPaintingOp returns true). Default implementation returns very 
+IsPaintingOp returns true). Дефолтная реализация возвращает very 
 rectangle.&]
 [s3;%% &]
 [s4;%% &]

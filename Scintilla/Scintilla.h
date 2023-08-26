@@ -21,6 +21,10 @@ int Scintilla_RegisterClasses(void *hInstance);
 int Scintilla_ReleaseResources(void);
 #endif
 
+#if defined(PLATFORM_POSIX)
+#define GTK
+#endif
+
 #ifdef __cplusplus
 }
 #endif

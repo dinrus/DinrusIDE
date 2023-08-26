@@ -37,7 +37,7 @@ will be redirected to the object`'s session`'s WhenWait callback.&]
 nt]_[*@3 ms])&]
 [s2;%% Устанавливаетthe periodicity of calling [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_Base`_en`-us`#Upp`:`:Ssh`:`:WhenWait^ W
 henWait] in millisecond between calls. Default value is 10ms 
-(100hz). Возвращает `*this for method chaining. Note that ssh subsystems 
+(100hz). Возвращает `*this для сцепки методов. Note that ssh subsystems 
 and channels inherit their default waitstep values from their 
 session.&]
 [s3;%% &]

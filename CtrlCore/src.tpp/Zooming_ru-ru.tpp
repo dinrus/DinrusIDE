@@ -1,4 +1,4 @@
-topic "Function to support actual resolution";
+topic "Функции для поддержки действительного разрешения";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,11 +10,14 @@ topic "Function to support actual resolution";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 Function to support actual resolution]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Функции для поддержки действительного 
+разрешения]]}}&]
 [s0; &]
-[s0; This set of function is designed to simplify writing code where 
-screen coordinates are correctly computed based on current dialog 
-scale factor.&]
+[s0; Этот набор функций составлен для 
+упрощения написания кода, в котором 
+экранные координаты точно вычисляются 
+на основе текущего фактора масштабирования 
+диалогового окна.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Zx`(int`):%- [@(0.0.255) int]_[* Zx]([@(0.0.255) int]_[*@3 cx])&]
@@ -41,14 +44,17 @@ scale factor.&]
 [s4;%- &]
 [s5;:Upp`:`:FontZ`(int`,int`):%- [_^Upp`:`:Font^ Font]_[* FontZ]([@(0.0.255) int]_[*@3 face],
  [@(0.0.255) int]_[*@3 height])&]
-[s2; Возвращает font with height rescaled by vertical zoom factor. Same 
-as Font([%-*@3 face],_Ctrl`::VertLayoutZoom([%-*@3 height]).&]
+[s2; Возвращает шрифт, ремасштабированный 
+по фактору вертикального зума. То 
+же, что и Font([%-*@3 face],_Ctrl`::VertLayoutZoom([%-*@3 height]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:StdFontZ`(int`):%- [_^Upp`:`:Font^ Font]_[* StdFontZ]([@(0.0.255) int]_[*@3 heigh
 t])&]
-[s2; Возвращает standard GUI font with height rescaled by vertical zoom 
-factor. То же, что и FontZ(Font`::STDFONT, [%-*@3 height]).&]
+[s2; Возвращает стандартный шрифт ГИП 
+с высотой, ремасштабированной по 
+фактору вертикального зума. То же, 
+что и FontZ(Font`::STDFONT, [%-*@3 height]).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SansSerifZ`(int`):%- [_^Upp`:`:Font^ Font]_[* SansSerifZ]([@(0.0.255) int]_[*@3 h

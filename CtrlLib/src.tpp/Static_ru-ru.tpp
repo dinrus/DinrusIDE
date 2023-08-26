@@ -1,4 +1,4 @@
-topic "Static widgets";
+topic "Статические виджеты";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,38 +10,40 @@ topic "Static widgets";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s0; [*+150 Static widgets]&]
+[s0; [*+150 Статические виджеты]&]
 [s3; &]
-[ {{10000@3 [s0; [*@(229)4 StaticText]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Класс StaticText]]}}&]
 [s3; &]
 [s1;:StaticText`:`:class:%- [@(0.0.255)3 class][3 _][*3 StaticText][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Ctrl][3 , ][@(0.0.255)3 public][3 _][*@3;3 LabelBase]&]
-[s9; Static text.&]
+[s9; Статический текст.&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:StaticText`:`:SetFont`(Font`):%- [@(0.0.255) virtual] [_^StaticText^ StaticText][@(0.0.255) `&
 ]_[* SetFont]([_^Font^ Font]_[*@3 font])&]
-[s2; Устанавливаетthe [%-*@3 font] of text.&]
+[s2; Устанавливает шрифт [%-*@3 font] текста.&]
 [s3; &]
 [s4;%- &]
 [s5;:StaticText`:`:SetInk`(Color`):%- [@(0.0.255) virtual] [_^StaticText^ StaticText][@(0.0.255) `&
 ]_[* SetInk]([_^Color^ Color]_[*@3 color])&]
-[s2; Устанавливаетthe [%-*@3 color] of text.&]
+[s2; Устанавливает цвет [%-*@3 color] текста.&]
 [s3; &]
 [s4;%- &]
 [s5;:StaticText`:`:SetAlign`(int`):%- [@(0.0.255) virtual] [_^StaticText^ StaticText][@(0.0.255) `&
 ]_[* SetAlign]([@(0.0.255) int]_[*@3 align])&]
-[s2; Устанавливаетalignment [%-*@3 align]. Allowed values are ALIGN`_LEFT, 
-ALIGN`_CENTER, ALIGN`_RIGHT.&]
+[s2; Устанавливает разлиновку [%-*@3 align]. 
+Допустимые значения `- ALIGN`_LEFT, ALIGN`_CENTER, 
+ALIGN`_RIGHT.&]
 [s3; &]
 [s4;%- &]
 [s5;:StaticText`:`:SetImage`(const Image`&`,int`):%- [@(0.0.255) virtual] 
 [_^StaticText^ StaticText][@(0.0.255) `&]_[* SetImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&
 ]_[*@3 img], [@(0.0.255) int]_[*@3 spc]_`=_[@3 0])&]
-[s2; Устанавливаетthe Image to be displayed before the text. [%-*@3 spc] is 
-space between the text and Image.&]
+[s2; Устанавливает рисунок, отображаемый 
+перед текстом. [%-*@3 spc] `- пространство 
+между текстом и рисунком.&]
 [s3; &]
 [s4;%- &]
 [s5;:StaticText`:`:SetText`(const char`*`):%- [@(0.0.255) virtual] 
@@ -49,20 +51,23 @@ space between the text and Image.&]
 `*[*@3 text])&]
 [s5;:StaticText`:`:operator`=`(const char`*`):%- [_^StaticText^ StaticText][@(0.0.255) `&
 ]_[* operator`=]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s])&]
-[s2; Устанавливает[%-*@3 text]. `"`\1`" at the beginning of text activates 
-QTF.&]
+[s2; Устанавливает текст [%-*@3 text]. `"`\1`" в 
+начале текста активирует QTF.&]
 [s3; &]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0; [*@(229)4 Label]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Класс Label (Ярлык)]]}}&]
 [s3; &]
 [s1;:Label`:`:class:%- [@(0.0.255)3 class][3 _][*3 Label][3 _:_][@(0.0.255)3 public][3 _][*@3;3 Stat
 icText]&]
-[s9; Generally used to label other widgets. Differs from StaticText 
-by implementing hotkey processing. Hotkeys are assigned automatically 
-by U`+`+ library, however they can also by preassigned using 
-`'`&`' character.&]
+[s9; В основном используется для создания 
+надписей на других виджетах. Отличается 
+от StaticText реализацией обработки горячих 
+клавиш.  Горячие клавиши присваиваются 
+автоматически библиотекой U`+`+, однако 
+их можно предварительно назначать 
+с помощью символа `'`&`'.&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
@@ -71,21 +76,26 @@ by U`+`+ library, however they can also by preassigned using
 ]_[* SetText]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text])&]
 [s5;:Label`:`:operator`=`(const char`*`):%- [@(0.0.255) virtual] [_^Label^ Label][@(0.0.255) `&
 ]_[* operator`=]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s])&]
-[s2; Устанавливаетthe text. Ignores `'`&`' used to mark hotkeys.&]
+[s2; Устанавливает текст. Игнорирует 
+`'`&`', используемый для отметки горячих 
+клавиш.&]
 [s3; &]
 [s4;%- &]
 [s5;:Label`:`:SetLabel`(const char`*`):%- [_^Label^ Label][@(0.0.255) `&]_[* SetLabel]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 lbl])&]
-[s2; Устанавливаетthe text, `'`&`' marks hotkeys.&]
+[s2; Устанавливает текст, `'`&`' отмечает 
+горячие клавиши.&]
 [s3; &]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0; [*@(229)4 LabelBox]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Класс LabelBox]]}}&]
 [s3; &]
 [s1;:LabelBox`:`:class:%- [@(0.0.255)3 class][3 _][*3 LabelBox][3 _:_][@(0.0.255)3 public][3 _][*@3;3 L
 abel]&]
-[s9; Rectangular static widget used to visually group other widgets.&]
+[s9; Прямоугольный статический виджет, 
+используемый для зрительного группирования
+ других виджетов.&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
@@ -93,134 +103,149 @@ abel]&]
 [s5;:LabelBox`:`:operator`=`(const char`*`):%- [@(0.0.255) virtual] 
 [_^LabelBox^ LabelBox][@(0.0.255) `&]_[* operator`=]([@(0.0.255) const]_[@(0.0.255) char]_`*
 [*@3 s])&]
-[s2; Assigns the text of LabelBox.&]
+[s2; Присваивает текст LabelBox.&]
 [s3; &]
 [s4; &]
 [s5;:LabelBox`:`:SetColor`(Color`):%- [_^LabelBox^ LabelBox][@(0.0.255) `&]_[* SetColor]([_^Color^ C
 olor]_[*@3 c])&]
-[s2; Устанавливаетthe color of LabelBox.&]
+[s2; Устанавливает цвет для LabelBox.&]
 [s3; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0; [*@(229)4 ParentCtrl]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Класс ParentCtrl]]}}&]
 [s3; &]
 [s1;:ParentCtrl`:`:class:%- [@(0.0.255)3 class][3 _][*3 ParentCtrl][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Ctrl]&]
-[s9; This class is supposed to be used as logical parent in situation 
-when more widgets are to be grouped together. The only difference 
-from Ctrl is that ParentCtrl activates Transparent in constructor.&]
+[s9; Этот класс предназначен для использования 
+в качестве логического родителя в 
+ситуациях, когда несколько виджетов 
+должны быть сгруппированы вместе. 
+Единственное отличие от Ctrl в том, 
+что ParentCtrl активирует Transparent в конструкторе.&]
 [s3; &]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0; [*@(229)4 StaticRect]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Класс StaticRect]]}}&]
 [s3; &]
 [s1;:StaticRect`:`:class:%- [@(0.0.255)3 class][3 _][*3 StaticRect][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Ctrl]&]
-[s9; Widget completely filled with single color.&]
+[s9; Виджет, полностью залитый единственным 
+цветом.&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:StaticRect`:`:Color`(class Color`):%- [_^StaticRect^ StaticRect][@(0.0.255) `&]_[* Col
 or]([@(0.0.255) class]_[* Color]_[*@3 c])&]
-[s2; The color. Default is SColorFace.&]
+[s2; Цвет. Дефолтно равен SColorFace.&]
 [s3; &]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0; [*@(229)4 ImageCtrl]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Класс ImageCtrl]]}}&]
 [s3; &]
 [s1;:ImageCtrl`:`:class:%- [@(0.0.255)3 class][3 _][*3 ImageCtrl][3 _:_][@(0.0.255)3 public][3 _][*@3;3 C
 trl]&]
-[s9; Display raster Image. Image is centered in the widget rectangle.&]
+[s9; Показывает растровый рисунок. Рисунок 
+центрирован по прямоугольнику виджета.&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:ImageCtrl`:`:SetImage`(const Image`&`):%- [_^ImageCtrl^ ImageCtrl][@(0.0.255) `&]_[* S
 etImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 `_img])&]
-[s2; Устанавливаетthe image.&]
+[s2; Устанавливает рисунок.&]
 [s3; &]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0; [*@(229)4 DrawingCtrl]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Класс DrawingCtrl]]}}&]
 [s3; &]
 [s1;:DrawingCtrl`:`:class:%- [@(0.0.255)3 class][3 _][*3 DrawingCtrl][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Ctrl]&]
-[s9; Displays Drawing.&]
+[s9; Отображает чертёж.&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:DrawingCtrl`:`:Background`(Color`):%- [_^Picture^ DrawingCtrl][@(0.0.255) `&]_[* Backg
 round]([_^Color^ Color]_[*@3 color])&]
-[s2; Устанавливаетbackground [%-*@3 color]. Default is white.&]
+[s2; Устанавливает фоновый цвет [%-*@3 color]. 
+Дефолтно белый.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawingCtrl`:`:Get`(`)const:%- [_^Drawing^ Drawing]_[* Get]()_[@(0.0.255) const]&]
-[s2; Возвращает Drawing assigned to Picture.&]
+[s2; Возвращает Drawing, присвоенный Picture.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:DrawingCtrl`:`:KeepRatio`(bool`):%- [_^Picture^ DrawingCtrl][@(0.0.255) `&]_[* KeepRat
 io]([@(0.0.255) bool]_[*@3 keep]_`=_[@(0.0.255) true])&]
-[s2; Если активен, Picture keeps the aspect ratio of Drawing. Default 
-is on.&]
+[s2; Если активен, Picture сохраняет пропорции 
+Drawing. Дефолтно включен.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawingCtrl`:`:NoKeepRatio`(`):%- [_^Picture^ DrawingCtrl][@(0.0.255) `&]_[* NoKeepRat
 io]()&]
-[s2; Do not keep aspect ratio.&]
+[s2; Не сохранять пропорции.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawingCtrl`:`:Set`(const Drawing`&`):%- [_^Picture^ DrawingCtrl][@(0.0.255) `&]_[* Se
 t]([@(0.0.255) const]_[_^Drawing^ Drawing][@(0.0.255) `&]_[*@3 `_picture])&]
 [s5;:DrawingCtrl`:`:operator`=`(const Drawing`&`):%- [_^Picture^ DrawingCtrl][@(0.0.255) `&
 ]_[* operator`=]([@(0.0.255) const]_[_^Drawing^ Drawing][@(0.0.255) `&]_[*@3 `_picture])&]
-[s2; Assigns the Drawing.&]
+[s2; Присваивает Drawing.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawingCtrl`:`:operator`=`(const Painting`&`):%- [_^Picture^ DrawingCtrl][@(0.0.255) `&
 ]_[* operator`=]([@(0.0.255) const]_[_^Painting^ Painting][@(0.0.255) `&]_[*@3 `_picture])&]
-[s2; Assigns [%-*@3 `_picture], converted to Drawing.&]
+[s2; Присваивает [%-*@3 `_picture], преобразованную 
+в Drawing.&]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0; [*@(229)4 SeparatorCtrl]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Класс SeparatorCtrl]]}}&]
 [s3; &]
 [s1;:SeparatorCtrl`:`:class:%- [@(0.0.255)3 class][3 _][*3 SeparatorCtrl][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 Ctrl]&]
-[s9; Horizontal or vertical separator line. Direction depends on 
-aspect ratio.&]
+[s9; Горизонтальная или вертикальная 
+линия`-разделитель. Направление зависит 
+от aspect ratio (соотношения пропорций).&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:SeparatorCtrl`:`:Margin`(int`):%- [_^SeparatorCtrl^ SeparatorCtrl][@(0.0.255) `&]_[* M
 argin]([@(0.0.255) int]_[*@3 w])&]
-[s2; Устанавливаетthe left`-right (for horizontal separator) or top`-bottom 
-margin. Default value is 2.&]
+[s2; Устанавливает левый`-правый (для 
+горизонтального разделителя) или 
+верхний`-нижний край. Дефолтное значение 
+равно 2.&]
 [s3; &]
 [s4;%- &]
 [s5;:SeparatorCtrl`:`:Margin`(int`,int`):%- [_^SeparatorCtrl^ SeparatorCtrl][@(0.0.255) `&
 ]_[* Margin]([@(0.0.255) int]_[*@3 l], [@(0.0.255) int]_[*@3 r])&]
-[s2; Устанавливаетthe top`-right (for horizontal separator) or top`-bottom 
-to [%-*@3 l] and [%-*@3 r], in that order. Default value is 2.&]
+[s2; Устанавливает верх`-право (для горизонтальн
+ого сепаратора) или верх`-низ в [%-*@3 l] 
+и [%-*@3 r], в соответствующем порядке.Дефолтное 
+значение равно 2.&]
 [s3; &]
 [s4;%- &]
 [s5;:SeparatorCtrl`:`:SetSize`(int`):%- [_^SeparatorCtrl^ SeparatorCtrl][@(0.0.255) `&]_[* S
 etSize]([@(0.0.255) int]_[*@3 w])&]
-[s2; Устанавливаетthe size returned by GetMinSize `- included to affect the 
-way how widget is treated in BarCtrl. Default value is 7.&]
+[s2; Устанавливает размер, возвращаемый 
+GetMinSize, `- влияет на то, как виджет расценивает
+ся в BarCtrl. Дефолтное значение равно 
+7.&]
 [s3; &]
 [s4;%- &]
 [s5;:SeparatorCtrl`:`:SetStyle`(const SeparatorCtrl`:`:Style`&`):%- [_^SeparatorCtrl^ S
 eparatorCtrl][@(0.0.255) `&]_[* SetStyle]([@(0.0.255) const]_[_^SeparatorCtrl`:`:Style^ S
 tyle][@(0.0.255) `&]_[*@3 s])&]
-[s2; Устанавливаетthe visual style to SeparatorCtrl`::Style [%-*@3 s]. The style 
-is a simple structure with two fields:&]
-[s7; [*@5 l1]-|the first margin&]
-[s7;%- [*@5 l2]-|the second margin&]
+[s2; Устанавливает визуальный стиль в 
+SeparatorCtrl`::Style [%-*@3 s]. Этот стиль является 
+простой структурой с двумя полями:&]
+[s7; [*@5 l1]-|первая кромка&]
+[s7;%- [*@5 l2]-|вторая кромка&]
 [s3; &]
 [s0; ]]

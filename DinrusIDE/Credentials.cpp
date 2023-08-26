@@ -188,10 +188,10 @@ struct CredentialsDlg : WithCredentialsLayout<TopWindow> {
 CredentialsDlg::CredentialsDlg(const Vector<String>& url_hints)
 :	url_hints(url_hints)
 {
-	CtrlLayoutOKCancel(*this, "Credentials");
-	list.AddColumn("Url (or directory)");
-	list.AddColumn("Username");
-	list.AddColumn("Password");
+	CtrlLayoutOKCancel(*this, "Личные данные");
+	list.AddColumn("Улр (или директория)");
+	list.AddColumn("Имя пользователя");
+	list.AddColumn("Пароль");
 	list.ColumnWidths("500 200 200");
 	list.EvenRowColor();
 	list.SetLineCy(max(Draw::GetStdFontCy() + Zy(4), Zy(20)));

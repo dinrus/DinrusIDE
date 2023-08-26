@@ -1,8 +1,8 @@
 #include "FT_fontsys.h"
 
-#include <plugin/FT_fontsys/ft2build.h>
+#include <plugin/freetype/ft2build.h>
 
-#include <plugin/FT_fontsys/ftoutln.h>
+#include <plugin/freetype/ftoutln.h>
 
 #define LLOG(x)     //  DLOG(x)
 #define LTIMING(x)  //  TIMING(x)
@@ -13,9 +13,9 @@ struct FtFontStyle {
 	String      path;
 	const byte *data;
 	int         size;
-	
+
 	operator bool() const { return path.GetCount() || data; }
-	
+
 	FtFontStyle()         { data = NULL; size = 0; }
 };
 
@@ -77,7 +77,7 @@ extern String GetFontDataSysSys(Stream& in, int fonti, const char *table, int of
 String GetFontDataSys(Font font, const char *table, int offset, int size)
 {
 	FtFontStyle f = GetFontStyle(font);
-	
+
 	if(IsNull(f.path)) {
 		if(table) {
 			MemReadStream in(f.data, f.size);
@@ -114,17 +114,17 @@ void FT_ITALIC(FT_GlyphSlot slot)
 	/* only oblique outline glyphs */
 	if ( slot->format != FT_GLYPH_FORMAT_OUTLINE )
 	  return;
-	
+
 	/* we don't touch the advance width */
 	/* For italic, simply apply a shear transform, with an angle */
 	/* of about 12 degrees.                                      */
-	
+
 	transform.xx = 0x10000L;
 	transform.yx = 0x00000L;
-	
+
 	transform.xy = 0x03000L;
 	transform.yy = 0x10000L;
-	
+
 	FT_Outline_Transform( outline, &transform );
 }
 
@@ -161,7 +161,7 @@ FT_Face CreateFTFace(Font fnt)
 	sInitFt();
 
 	FtFontStyle f = GetFontStyle(fnt);
-	
+
 	if(!f)
 		return NULL;
 
@@ -277,7 +277,7 @@ GlyphInfo  GetGlyphInfoSys(Font font, int chr)
 		if(sLoadGlyph(font, face, chr)) {
 			FT_Glyph_Metrics& m = face->glyph->metrics;
 			int left  = FLOOR(m.horiBearingX);
-			int width = TRUNC(CEIL(m.horiBearingX + m.width) - left);				
+			int width = TRUNC(CEIL(m.horiBearingX + m.width) - left);
 			gi.width = TRUNC(ROUND(face->glyph->advance.x));
 			gi.lspc = TRUNC(left);
 			gi.rspc = gi.width - width - gi.lspc;
@@ -294,7 +294,7 @@ Vector<FaceInfo> GetAllFacesSys()
 		"sans-serif",
 		"monospace",
 	};
-	
+
 	Vector<FaceInfo> list;
 	for(int i = 0; i < __countof(basic_fonts); i++) {
 		FaceInfo& fi = list.Add();
@@ -396,9 +396,9 @@ bool RenderOutline(const FT_Outline& outline, FontGlyphConsumer& path, double xx
 				FT_Vector vec1, vec2;
 				if(point + 1 > limit || FT_CURVE_TAG(tags[1]) != FT_CURVE_TAG_CUBIC)
 				    return false;
-				vec1.x = point[0].x; 
+				vec1.x = point[0].x;
 				vec1.y = point[0].y;
-				vec2.x = point[1].x; 
+				vec2.x = point[1].x;
 				vec2.y = point[1].y;
 				point += 2;
 				tags  += 2;

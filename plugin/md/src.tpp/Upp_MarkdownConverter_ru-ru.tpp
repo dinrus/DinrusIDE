@@ -21,40 +21,40 @@ topic "MarkdownConverter";
 arkdownConverter][@(0.0.255) `&]_[* CollapseWhitespaces]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
 [s2;%% Collapses non`-trivial whitespaces in main text into single 
-space (`' `') character. Возвращает `*this for method chaining.&]
+space (`' `') character. Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:NoIndentedCodeblocks`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* NoIndentedCodeblocks]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
 [s2;%% Disable indented code blocks. (Only fenced code works.) Возвращает 
-`*this for method chaining.&]
+`*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:Tables`(bool`): [_^Upp`:`:MarkdownConverter^ MarkdownC
 onverter][@(0.0.255) `&]_[* Tables]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables tables. Возвращает `*this for method chaining.&]
+[s2;%% Enables tables. Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:WikiLinks`(bool`): [_^Upp`:`:MarkdownConverter^ Markdo
 wnConverter][@(0.0.255) `&]_[* WikiLinks]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables wikilinks. Возвращает `*this for method chaining.&]
+[s2;%% Enables wikilinks. Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:Strikeout`(bool`): [_^Upp`:`:MarkdownConverter^ Markdo
 wnConverter][@(0.0.255) `&]_[* Strikeout]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables strikedout text. Возвращает `*this for method chaining.&]
+[s2;%% Enables strikedout text. Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:Underline`(bool`): [_^Upp`:`:MarkdownConverter^ Markdo
 wnConverter][@(0.0.255) `&]_[* Underline]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables underlined text. Возвращает `*this for method chaining.&]
+[s2;%% Enables underlined text. Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:NoHtmlBlocks`(bool`): [_^Upp`:`:MarkdownConverter^ Mar
 kdownConverter][@(0.0.255) `&]_[* NoHtmlBlocks]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) tr
 ue])&]
-[s2;%% Disables raw html blocks. Возвращает `*this for method chaining.&]
+[s2;%% Disables raw html blocks. Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:NoHtmlSpans`(bool`): [_^Upp`:`:MarkdownConverter^ Mark
@@ -67,28 +67,28 @@ chaining.&]
 [s5;:Upp`:`:MarkdownConverter`:`:NoHtml`(bool`): [_^Upp`:`:MarkdownConverter^ MarkdownC
 onverter][@(0.0.255) `&]_[* NoHtml]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s2;%% Disables both raw html blocks and inline raw html text. Возвращает 
-`*this for method chaining.&]
+`*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:PermissiveAtxHeaders`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* PermissiveAtxHeaders]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
 [s2;%% Do not require space in ATX headers (e.g [C ###header]). Возвращает 
-`*this for method chaining.&]
+`*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:PermissiveUrlAutolinks`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* PermissiveUrlAutolinks]([@(0.0.255) bool]_[*@3 b]_`=_
 [@(0.0.255) true])&]
 [s2;%% Allows URLs as autolinks even without `'[C <]`', `'[C >]`'. Возвращает 
-`*this for method chaining.&]
+`*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:PermissiveWWWAutolinks`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* PermissiveWWWAutolinks]([@(0.0.255) bool]_[*@3 b]_`=_
 [@(0.0.255) true])&]
 [s2;%% Enables www autolinks (even without any scheme prefix, if 
-they begin with `'[C www]`'.) Возвращает `*this for method chaining.&]
+they begin with `'[C www]`'.) Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:PermissiveEmailAutolinks`(bool`): [_^Upp`:`:MarkdownConverter^ M
@@ -102,13 +102,13 @@ and `'[C mailto:]`'&]
 arkdownConverter][@(0.0.255) `&]_[* PermissiveAutolinks]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
 [s2;%% Enables or disables permissive autolink parsing as a whole. 
-Возвращает `*this for method chaining.&]
+Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:CommonMarkDialect`(`): [_^Upp`:`:MarkdownConverter^ Ma
 rkdownConverter][@(0.0.255) `&]_[* CommonMarkDialect]()&]
 [s2;%% This is the default dialect of MarkdownConverter. Возвращает 
-`*this for method chaining.&]
+`*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:GitHubDialect`(`): [_^Upp`:`:MarkdownConverter^ Markdo

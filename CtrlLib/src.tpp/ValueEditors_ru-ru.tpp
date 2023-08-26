@@ -1,5 +1,4 @@
-topic "EditField derived classes";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Классы, производные от EditField";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,15 +8,16 @@ topic "EditField derived classes";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s0; [*@3+150 EditField derived classes]&]
+[s0; [*@3+150 Классы, производные от EditField]&]
 [s9; Widgets editing values in text representation are based on EditField 
 and appropriate [^`:`:Convert^ Convert] class. Majority of them 
 are defined using simple EditValue, EditMinMax and EditMinMaxNotNull 
 template classes:&]
 [s3; &]
 [s0;%- &]
-[ {{10000@3 [s0;%- [*@(229)4 EditValue]]}}&]
+[ {{10000@3 [s0;%- [*@(229)4 Класс EditValue]]}}&]
 [s3; &]
 [s1;:noref:%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 DataType][3 , 
 ][@(0.0.255)3 class][3 _][*@3;3 Cv][@(0.0.255)3 >]&]
@@ -32,12 +32,12 @@ available without using further glue code.&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:EditValue`:`:EditValue`(`):%- [* EditValue]()&]
-[s2; Конструктор  assigns [^`:`:Convert^ Convert] class (in fact, `*this) 
-as the EditField converter.&]
+[s2; Конструктор  assigns [^`:`:Convert^ Convert] class 
+(in fact, `*this) as the EditField converter.&]
 [s3; &]
 [s3; &]
 [s0;%- &]
-[ {{10000@3 [s0;%- [*@(229)4 EditMinMax]]}}&]
+[ {{10000@3 [s0;%- [*@(229)4 Класс EditMinMax]]}}&]
 [s3; &]
 [s1;:noref:%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 DataType][3 , 
 ][@(0.0.255)3 class][3 _][*@4;3 Cv][@(0.0.255)3 >]&]
@@ -66,14 +66,14 @@ ataType]_[*@3 min])&]
 ataType]_[*@3 max])&]
 [s5;:EditMinMax`:`:NotNull`(bool`):%- [_^EditMinMax^ EditMinMax][@(0.0.255) `&]_[* NotNull](
 [@(0.0.255) bool]_[*@3 nn]_`=_[@(0.0.255) true])&]
-[s2; Устанавливает[* Min], [* Max] and [* NotNull] properties. In fact, the only 
-purpose of these methods is to change the returns value to the 
-correctly typed `*this.&]
+[s2; Устанавливает [* Min], [* Max] and [* NotNull] properties. 
+In fact, the only purpose of these methods is to change the returns 
+value to the correctly typed `*this.&]
 [s3; &]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0;%- [*@(229)4 EditMinMaxNotNull]]}}&]
+[ {{10000@3 [s0;%- [*@(229)4 Класс EditMinMaxNotNull]]}}&]
 [s3; &]
 [s1;:noref:%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 DataType][3 , 
 ][@(0.0.255)3 class][3 _][*@4;3 Cv][@(0.0.255)3 >]&]
@@ -102,9 +102,9 @@ ll]([*@4 DataType]_[*@3 min], [*@4 DataType]_[*@3 max])&]
 ]_[* Max]([*@4 DataType]_[*@3 max])&]
 [s5;:EditMinMaxNotNull`:`:NotNull`(bool`):%- [_^EditMinMaxNotNull^ EditMinMaxNotNull][@(0.0.255) `&
 ]_[* NotNull]([@(0.0.255) bool]_[*@3 nn]_`=_[@(0.0.255) true])&]
-[s2; Устанавливает[* Min], [* Max] and [* NotNull] properties. In fact, the only 
-purpose of these methods is to change the returns value to the 
-correctly typed `*this.&]
+[s2; Устанавливает [* Min], [* Max] and [* NotNull] properties. 
+In fact, the only purpose of these methods is to change the returns 
+value to the correctly typed `*this.&]
 [s3; &]
 [s0; &]
 [s0; &]
@@ -165,7 +165,7 @@ NotNull]&]
 [s0; Some value editors are not based on EditMinMax and EditMinMaxNotNull:&]
 [s3; &]
 [s0;%- &]
-[ {{10000@3 [s0;%- [*@(229)4 EditString]]}}&]
+[ {{10000@3 [s0;%- [*@(229)4 Класс EditString]]}}&]
 [s3; &]
 [s1;:EditString`:`:class:%- [@(0.0.255)3 class][3 _][*3 EditString][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 EditValue][@(0.0.255)3 <][_^WString^3 WString][3 , ][_^ConvertString^3 ConvertStrin
@@ -190,13 +190,13 @@ text.&]
 [s3;%- &]
 [s5;:EditString`:`:MaxLen`(int`):%- [_^EditString^ EditString][@(0.0.255) `&]_[* MaxLen]([@(0.0.255) i
 nt]_[*@3 maxlen])&]
-[s2; Устанавливает[%-*@3 maxlen] as maximum length of contained text.[%-*@3 maxlen] 
-Возвращает `*this.&]
+[s2; Устанавливает [%-*@3 maxlen] as maximum length of 
+contained text.[%-*@3 maxlen] Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:EditString`:`:NotNull`(bool`):%- [_^EditString^ EditString][@(0.0.255) `&]_[* NotNull](
 [@(0.0.255) bool]_[*@3 nn]_`=_[@(0.0.255) true])&]
-[s2;%- [%% Устанавливает][* NotNull] property.&]
+[s2;%- [%RU-RU Устанавливает ][* NotNull] property.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:EditString`:`:TrimLeft`(bool`):%- [_^Upp`:`:EditString^ EditString][@(0.0.255) `&
@@ -209,7 +209,7 @@ nt]_[*@3 maxlen])&]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0;%- [*@(229)4 EditStringNotNull]]}}&]
+[ {{10000@3 [s0;%- [*@(229)4 Класс EditStringNotNull]]}}&]
 [s3; &]
 [s1;:EditStringNotNull`:`:class:%- [@(0.0.255)3 class][3 _][*3 EditStringNotNull][3 _:_][@(0.0.255)3 p
 ublic][3 _][*@3;3 EditString]&]
@@ -230,7 +230,7 @@ text.&]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0;%- [*@(229)4 EditIntSpin]]}}&]
+[ {{10000@3 [s0;%- [*@(229)4 Класс EditIntSpin]]}}&]
 [s3; &]
 [s1;:EditIntSpin`:`:class:%- [@(0.0.255)3 class][3 _][*3 EditIntSpin][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 EditInt]&]
@@ -240,7 +240,8 @@ text.&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:EditIntSpin`:`:EditIntSpin`(`):%- [* EditIntSpin]()&]
-[s2; Дефолтный конструктор. Spin buttons are on.&]
+[s2; Дефолтный конструктор. Spin buttons are 
+on.&]
 [s3; &]
 [s4;%- &]
 [s5;:EditIntSpin`:`:EditIntSpin`(int`,int`):%- [* EditIntSpin]([@(0.0.255) int]_[*@3 min], 
@@ -271,7 +272,7 @@ Spin]([@(0.0.255) bool]_[*@3 s]_`=_[@(0.0.255) true])&]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0;%- [*@(229)4 EditDoubleSpin]]}}&]
+[ {{10000@3 [s0;%- [*@(229)4 Класс EditDoubleSpin]]}}&]
 [s3; &]
 [s1;:EditDoubleSpin`:`:class:%- [@(0.0.255)3 class][3 _][*3 EditDoubleSpin][3 _:_][@(0.0.255)3 p
 ublic][3 _][*@3;3 EditDouble]&]
@@ -282,7 +283,8 @@ ublic][3 _][*@3;3 EditDouble]&]
 [s3;%- &]
 [s5;:EditDoubleSpin`:`:EditDoubleSpin`(double`):%- [* EditDoubleSpin]([@(0.0.255) double]_
 [*@3 inc]_`=_[@3 0][@(0.0.255) .][@3 1])&]
-[s2; Устанавливаетthe spin increment to [%-*@3 inc]. Spin buttons are on.&]
+[s2; Устанавливает the spin increment to [%-*@3 inc]. 
+Spin buttons are on.&]
 [s3; &]
 [s4;%- &]
 [s5;:EditDoubleSpin`:`:EditDoubleSpin`(double`,double`,double`):%- [* EditDoubleSpin]([@(0.0.255) d
@@ -315,7 +317,7 @@ t]&]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0;%- [*@(229)4 EditDoubleNotNullSpin]]}}&]
+[ {{10000@3 [s0;%- [*@(229)4 Класс EditDoubleNotNullSpin]]}}&]
 [s3; &]
 [s1;:EditDoubleNotNullSpin`:`:class:%- [@(0.0.255)3 class][3 _][*3 EditDoubleNotNullSpin][3 _
 :_][@(0.0.255)3 public][3 _][*@3;3 EditDoubleSpin]&]
@@ -326,7 +328,8 @@ t]&]
 [s3; &]
 [s5;:EditDoubleNotNullSpin`:`:EditDoubleNotNullSpin`(double`):%- [* EditDoubleNotNullSp
 in]([@(0.0.255) double]_[*@3 inc]_`=_[@3 0][@(0.0.255) .][@3 1])&]
-[s2; Устанавливаетthe spin increment to [%-*@3 inc]. Spin buttons are on.&]
+[s2; Устанавливает the spin increment to [%-*@3 inc]. 
+Spin buttons are on.&]
 [s3; &]
 [s4;%- &]
 [s5;:EditDoubleNotNullSpin`:`:EditDoubleNotNullSpin`(double`,double`,double`):%- [* Edi

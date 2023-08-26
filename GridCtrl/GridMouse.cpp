@@ -316,14 +316,14 @@ void GridCtrl::MouseMove(Point p, dword keyflags)
 				int count = max(1, selected_rows);
 
 				if(vitems[curpos.y].IsSelect())
-					popup.val = Format(t_("Moving selection (%d %s) before row %d"), count, count == 1 ? t_("row") : t_("rows"), row);
+					popup.val = Format(t_("Перемещается выделение (%d %s) перед рядом %d"), count, count == 1 ? t_("ряд") : t_("рядов"), row);
 				else
-					popup.val = Format(t_("Moving row %d before row %d"), curpos.y - fixed_rows + 1, row);
+					popup.val = Format(t_("Перемещается ряд %d перед рядом %d"), curpos.y - fixed_rows + 1, row);
 			}
 			else
 			{
 				int count = max(1, selected_items);
-				popup.val = Format(t_("Moving %d %s before row %d"), count, count == 1 ? t_("cell") : t_("cells"), row);
+				popup.val = Format(t_("Перемещается %d %s перед рядом %d"), count, count == 1 ? t_("ячейка") : t_("ячеек"), row);
 			}
 
 			int px = pt.x + 15;

@@ -1,7 +1,6 @@
 #ifndef IDEEDITOR_H
 #define IDEEDITOR_H
 
-//#include <DinrusIDE/Common/Common.h>
 #include <CtrlLib/CtrlLib.h>
 #include <plugin/pcre/Pcre.h>
 

@@ -478,7 +478,7 @@ void Ide::IdePaste(String& data)
 			if(FileExists(s[i]) && IsTextFile(s[i], 10000)) {
 				int64 len = GetFileLength(s[i]);
 				if(data.GetLength() + len > 104857600) {
-					Exclamation("Размер вставки превышает лимит 100MB.");
+					Exclamation("Размер вставки превышает лимит 100 Мб.");
 					return;
 				}
 				data.Cat(LoadFile(s[i]));

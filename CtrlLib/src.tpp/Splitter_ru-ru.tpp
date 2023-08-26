@@ -1,5 +1,4 @@
-topic "Splitter";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс Splitter (Разделитель)";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,144 +8,168 @@ topic "Splitter";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@3 [s0;%% [*@(229)4 Splitter]]}}&]
-[s3;%% &]
+[ {{10000@3 [s0;%RU-RU [*@(229)4 Класс Splitter (Разделитель)]]}}&]
+[s3;%RU-RU &]
 [s1;:Splitter`:`:class: [@(0.0.255)3 class][3 _][*3 Splitter][3 _:_][@(0.0.255)3 public][3 _][*@3;3 C
 trl]&]
-[s9;%% Splitter is a widget that contains two or more child widgets 
-arranged either horizontally or vertically. User can then alter 
-the distribution of area between individual widgets by dragging 
-separator bars.&]
-[s3;%% &]
+[s9;%RU-RU Разделитель `- это виджет, который 
+содержит два или более виджета`-отпрыска, 
+организованных либо горизонтально, 
+либо вертикально. Пользователь может 
+менять распределение пространства 
+между индивидуальными виджетами, 
+путём перетягивания брусьев разделителей.&]
+[s3;%RU-RU &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Splitter`:`:WhenSplitFinish: [_^Callback^ Callback]_[* WhenSplitFinish]&]
-[s2;%% Invoked after use has finished moving the split.&]
+[s2;%RU-RU Вызывается после окончания передвижения
+ разделителя.&]
 [s3; &]
 [s4; &]
 [s5;:Splitter`:`:Set`(Ctrl`&`,Ctrl`&`): [@(0.0.255) void]_[* Set]([_^Ctrl^ Ctrl][@(0.0.255) `&
 ]_[*@3 l], [_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 r])&]
-[s2;%% Устанавливаетt splitter to contain two child widgets.&]
+[s2;%RU-RU Устанавливает разделитель, содержащий 
+два виджета`-отпрыска.&]
 [s3; &]
 [s4; &]
 [s5;:Splitter`:`:SetPos`(int`,int`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* SetPos]([@(0.0.255) i
 nt]_[*@3 newpos], [@(0.0.255) int]_[*@3 index]_`=_[@3 0])&]
-[s2; [%% Устанавливаетthe position of separator between widgets at ][*@3 index][%%  
-and ][*@3 index][%%  `+ 1. Units of ][*@3 newpos] express ratio, 10000 
-is the full width or height.&]
-[s3;%% &]
+[s2; [%RU-RU Устанавливает позицию разделителя 
+между виджетами по ][*@3 index][%RU-RU  и ][*@3 index][%RU-RU  
+`+ 1. Единицы ][*@3 newpos] выражают пропорции, 
+10000 `= это полная ширина или высота.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:GetPos`(int`)const: [@(0.0.255) int]_[* GetPos]([@(0.0.255) int]_[*@3 index]_
 `=_[@3 0])_[@(0.0.255) const]&]
-[s2;%% Возвращает the position of separator between widgets at [%-*@3 index] 
-and [%-*@3 index] `+ 1.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает позицию разделителя 
+между виджетами по [%-*@3 index] и [%-*@3 index] 
+`+ 1.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%% Возвращает the number of child widgets.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает число виджетов`-отпрысков.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:PosToClient`(int`)const: [@(0.0.255) int]_[* PosToClient]([@(0.0.255) int]_
 [*@3 pos])_[@(0.0.255) const]&]
-[s2;%% Converts position (where full width or height is 10000) into 
-view coordinate.&]
-[s3;%% &]
+[s2;%RU-RU Преобразует позицию (где полная 
+ширина или высота равна 10000) в координату 
+видимой области.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:ClientToPos`(Point`)const: [@(0.0.255) int]_[* ClientToPos]([_^Point^ Poin
 t]_[*@3 client])_[@(0.0.255) const]&]
-[s2;%% Converts view coordinate (either x or y, based on orientaion) 
-into position  (where full width or height is 10000).&]
-[s3;%% &]
+[s2;%RU-RU Преобразует координату видимой 
+области (либо x, либо y, на основе ориентации) 
+в позицию  (где полная ширина или высота 
+равна 10000).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:Zoom`(int`): [@(0.0.255) void]_[* Zoom]([@(0.0.255) int]_[*@3 i])&]
-[s2;%% Makes widget [%-*@3 i] to cover whole splitter area (other widgets 
-are hidden).&]
-[s3;%% &]
+[s2;%RU-RU Заставляет виджет [%-*@3 i] покрывать 
+всю площадь разделителя (другие виджеты 
+скрываются).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:NoZoom`(`): [@(0.0.255) void]_[* NoZoom]()&]
-[s2;%% Reverts to normal operation after Zoom.&]
-[s3;%% &]
+[s2;%RU-RU Переходит в нормальную работу 
+после масштабирования Zoom.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:GetZoom`(`)const: [@(0.0.255) int]_[* GetZoom]()_[@(0.0.255) const]&]
-[s2;%% Возвращает the index of zoomed widget or negative value if none. 
- &]
-[s3;%% &]
+[s2;%RU-RU Возвращает индекс зумированного 
+(масшабированного) виджета или отрицательно
+е значение, если таковой отсутствует.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:SetMin`(int`,int`): [@(0.0.255) void]_[* SetMin]([@(0.0.255) int]_[*@3 i], 
 [@(0.0.255) int]_[*@3 w])&]
-[s2;%% Устанавливаетthe minimal width of widget  [%-*@3 i] to [%-*@3 w] `* total 
-width / 10000.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает минимальную ширину 
+виджета  [%-*@3 i] в [%-*@3 w] `* общая ширина 
+/ 10000.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:SetMinPixels`(int`,int`): [@(0.0.255) void]_[* SetMinPixels]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) int]_[*@3 w])&]
-[s2;%% Устанавливаетthe minimal width of widget  [%-*@3 i] to [%-*@3 w] pixels.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает минимальную ширину 
+виджета  [%-*@3 i] в [%-*@3 w] пикселей.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:GetSplitWidth`(`)const: [@(0.0.255) int]_[* GetSplitWidth]()_[@(0.0.255) c
 onst]&]
-[s2;%% Width of spllitter handle in pixels.&]
+[s2;%RU-RU Ширина плеча разделителя в пикселях.&]
 [s3; &]
 [s4; &]
 [s5;:Splitter`:`:Vert`(`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* Vert]()&]
-[s2;%% Устанавливаетsplitter to vertical mode `- separator bars in this mode 
-are horizontal. Возвращает `*this.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает разделитель в вертикальны
+й режим `- брусья разделителя в этом 
+режиме горизонтальны. Возвращает 
+`*this.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:Horz`(`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* Horz]()&]
-[s2;%% Устанавливаетsplitter to horizontal mode `- separator bars in this 
-mode are vertical. Возвращает `*this.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает разделитель в горизонталь
+ный режим `- брусья разделителя в этом 
+режиме вертикальны. Возвращает `*this.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:Add`(Ctrl`&`): [@(0.0.255) virtual] [@(0.0.255) void]_[* Add]([_^Ctrl^ Ctrl][@(0.0.255) `&
 ]_[*@3 pane])&]
 [s5;:Splitter`:`:operator`<`<`(Ctrl`&`): [@(0.0.255) virtual] [_^Splitter^ Splitter][@(0.0.255) `&
 ]_[* operator<<]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 pane])&]
-[s2;%% Adds the new [%-*@3 pane].&]
-[s3;%% &]
+[s2;%RU-RU Добавляет новое пано [%-*@3 pane].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:Insert`(int`,Ctrl`&`): [@(0.0.255) void]_[* Insert]([@(0.0.255) int]_[*@3 po
 s], [_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 pane])&]
-[s2;%% Inserts a new [%-*@3 pane] at [%-*@3 pos].&]
-[s3;%% &]
+[s2;%RU-RU Вставляет новое пано [%-*@3 pane] в [%-*@3 pos].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:Remove`(Ctrl`&`): [@(0.0.255) void]_[* Remove]([_^Ctrl^ Ctrl][@(0.0.255) `&]_
 [*@3 pane])&]
-[s2;%% Removes [%-*@3 pane] from splitter.&]
-[s3;%% &]
+[s2;%RU-RU Удаляет пано [%-*@3 pane] из разделителя.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:Swap`(Ctrl`&`,Ctrl`&`): [@(0.0.255) void]_[* Swap]([_^Ctrl^ Ctrl][@(0.0.255) `&
 ]_[*@3 pane], [_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 newpane])&]
-[s2;%% Replaces [%-*@3 pane] with [%-*@3 newpane] .&]
-[s3;%% &]
+[s2;%RU-RU Заменяет пано [%-*@3 pane] на [%-*@3 newpane] 
+.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:Horz`(Ctrl`&`,Ctrl`&`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* Horz]([_^Ctrl^ C
 trl][@(0.0.255) `&]_[*@3 left], [_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 right])&]
-[s2;%% То же, что и Set([%-*@3 left], [%-*@3 right]); return Vert();&]
-[s3;%% &]
+[s2;%RU-RU То же, что и Set([%-*@3 left], [%-*@3 right]); return 
+Vert();&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:Vert`(Ctrl`&`,Ctrl`&`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* Vert]([_^Ctrl^ C
 trl][@(0.0.255) `&]_[*@3 top], [_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 bottom])&]
-[s2;%% То же, что и Set([%-*@3 top] [%-*@3 bottom]); return Horz();&]
-[s3;%% &]
+[s2;%RU-RU То же, что и Set([%-*@3 top] [%-*@3 bottom]); return 
+Horz();&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:BarWidth`(int`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* BarWidth]([@(0.0.255) i
 nt]_[*@3 w])&]
-[s2;%% Устанавливаетthe width of separator bar to [%-*@3 w].&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает ширину бруса разделителя 
+в [%-*@3 w].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:IsHorz`(`)const: [@(0.0.255) bool]_[* IsHorz]()_[@(0.0.255) const]&]
 [s5;:Splitter`:`:IsVert`(`)const: [@(0.0.255) bool]_[* IsVert]()_[@(0.0.255) const]&]
-[s2;%% Tests whether Splitter is horizontal or vertical.&]
-[s3;%% &]
+[s2;%RU-RU Проверяет, горизонтален или вертикален 
+Splitter.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Splitter`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%% Removes panes from Splitter.&]
+[s2;%RU-RU Удаляет все пано из Splitter.&]
 [s3; &]
 [s4; &]
 [s5;:Splitter`:`:Reset`(`): [@(0.0.255) void]_[* Reset]()&]
-[s2;%% Resets Splitter to default state.&]
-[s3;%% &]
-[s0;%% ]]
+[s2;%RU-RU Сбрасывает Splitter в дефолтное состояние.&]
+[s3;%RU-RU &]
+[s0;%RU-RU ]]

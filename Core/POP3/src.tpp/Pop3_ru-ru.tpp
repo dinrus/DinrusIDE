@@ -28,23 +28,23 @@ i`+`+).&]
 [s0; &]
 [s5;:Pop3`:`:Host`(const String`&`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* Host]([@(0.0.255) const
 ]_[_^String^ String][@(0.0.255) `&]_[*@3 h])&]
-[s2;%% Устанавливаетhostname. Возвращает `*this for method chaining.&]
+[s2;%% Устанавливаетhostname. Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:Port`(int`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* Port]([@(0.0.255) int]_[*@3 p])&]
-[s2;%% Устанавливаетport number. Возвращает `*this for method chaining.&]
+[s2;%% Устанавливаетport number. Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:User`(const String`&`,const String`&`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* User](
 [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 u], [@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 p])&]
-[s2;%% Устанавливаетusername and password. Возвращает `*this for method chaining.&]
+[s2;%% Устанавливаетusername and password. Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:SSL`(bool`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* SSL]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
 [s2;%% Activates POP3S mode (using SSL). Requires Core/SSL package. 
-Возвращает `*this for method chaining.&]
+Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:Proxy`(const String`&`,int`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* Proxy]([@(0.0.255) c

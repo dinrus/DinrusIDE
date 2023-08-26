@@ -1,6 +1,10 @@
 uses
-	Lexilla;
+	Lexilla,
+	Core;
 
 file
-	main.cpp;
+	TestDocument.cxx,
+	TestDocument.h,
+	access\LexillaAccess.cxx,
+	TestLexers.cxx;
 

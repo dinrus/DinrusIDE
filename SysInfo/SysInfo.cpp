@@ -1117,12 +1117,12 @@ void GetWindowsList(Array<int64> &hWnd, Array<int64> &processId, Array<String> &
             sstr = WString(str, count).ToString();
             fileName << sstr;
         } else
-            fileName << t_("Unknown process");
+            fileName << t_("Неизвестный процесс");
         if ((count = GetModuleBaseNameW(hProcess, hInstance, str, sizeof(str)/sizeof(WCHAR)))) {
             sstr = WString(str, count).ToString();
             name << sstr;
          } else
-            name << t_("Unknown process");
+            name << t_("Неизвестный процесс");
         CloseHandle(hProcess);
 
         if (sstr == "TPClnt.dll")       // VMWare Thinprint crashes SendMessageW()
@@ -1572,21 +1572,21 @@ bool GetDriveInformation(String drive, String &type, String &volume, /*uint64 &s
     StringBuffer sb(drive);
 
     switch (::GetDriveType(sb)) {
-    case DRIVE_UNKNOWN:     type = "Drive unknown";     break;
-    case DRIVE_NO_ROOT_DIR: type = "The root directory does not exist"; break;
+    case DRIVE_UNKNOWN:     type = "Диск неизвестен";     break;
+    case DRIVE_NO_ROOT_DIR: type = "Корневой папки не существует"; break;
     case DRIVE_REMOVABLE:
           switch (drive[0]) {
           case 'A':
-          case 'B':         type = "Floppy";
+          case 'B':         type = "Дискета";
                             volume = fileSystem = "";
                             /*serial = */maxName = 0;
                             return false;
-          default:          type = "Removable"; break;
+          default:          type = "Съёмый"; break;
           }
           break;
-    case DRIVE_FIXED:       type = "Hard";      break;
-    case DRIVE_REMOTE:      type = "Network";   break;
-    case DRIVE_CDROM:       type = "Optical";   break;
+    case DRIVE_FIXED:       type = "Жёсткий";      break;
+    case DRIVE_REMOTE:      type = "Сеть";   break;
+    case DRIVE_CDROM:       type = "Оптический";   break;
     case DRIVE_RAMDISK:     type = "RAM";       break;
     }
     char vol[MAX_PATH], fs[MAX_PATH];
@@ -1594,7 +1594,7 @@ bool GetDriveInformation(String drive, String &type, String &volume, /*uint64 &s
     DWORD serial;
     DWORD _maxName;
     if(!::GetVolumeInformation(sb, vol, MAX_PATH, &serial, &_maxName, &flags, fs, MAX_PATH)) {
-        if (type == "Optical") {
+        if (type == "Оптический") {
             volume = "";
             fileSystem = "";
             maxName = 0;
@@ -1655,11 +1655,11 @@ bool GetDriveInformation(String drive, String &type, String &volume, /*uint64 &s
     volume = info.GetText("]");
     //serial = 0;           // Unknown
     if ((fileSystem == "udf" || fileSystem == "iso9660") && details.Find("ro") >=0)
-        type = "Optical";
+        type = "Оптический";
     else if (details.Find("flush") >=0)
-        type = "Removable";
+        type = "Съёмный";
     else
-        type = "Hard";
+        type = "Жёсткий";
 
     struct statfs buf;
     if (0 == statfs(drive, &buf))
@@ -2000,7 +2000,7 @@ void SetDesktopWallPaper(const char *path)
             mode = 6;
         Sys("dcop kdesktop KBackgroundIface setWallpaper \"" + String(path) + "\" " + AsString(mode));
     } else
-        throw Exc(t_("Impossible to change Desktop bitmap"));
+        throw Exc(t_("Невозможно изменить обои рабочего стола"));
 }
 
 #endif
@@ -2010,7 +2010,7 @@ void SetDesktopWallPaper(const char *path)
 void SetDesktopWallPaper(char *path)
 {
     if (0 == SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, static_cast<LPVOID>(path), SPIF_UPDATEINIFILE|SPIF_SENDWININICHANGE))
-        throw Exc(String(t_("Impossible to change Desktop bitmap")) + ": " + AsString(GetLastError()));
+        throw Exc(String(t_("Невозможно изменить обои рабочего стола")) + ": " + AsString(GetLastError()));
 }
 #endif
 
@@ -2109,7 +2109,7 @@ Vector<String> SystemSignature::GetDiff(const SystemSignature &other) const {
         }
     }
     if (!sameNetworkAdapters)
-        list << "Network adapters do not match";
+        list << "Сетевые адаптеры не совпадают";
     return list;
 }
 

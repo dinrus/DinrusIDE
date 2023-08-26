@@ -299,8 +299,11 @@ bool GetOsInfo(String &kernel, String &kerVersion, String &kerArchitecture, Stri
     kerVersion = Format("%d.%d", static_cast<int>(osvi.dwMajorVersion), static_cast<int>(osvi.dwMinorVersion));
     kernel = "Windows";
 
+    
+    
     if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId && osvi.dwMajorVersion > 4) {
-        if (osvi.dwMajorVersion == 10 && osvi.dwMinorVersion == 0) {
+        if (osvi.dwMajorVersion >= 10 && osvi.dwMinorVersion >22000){  kernel.Cat(" 11"); }
+        else if (osvi.dwMajorVersion == 10 && osvi.dwMinorVersion == 0) {
             if (osvi.wProductType == VER_NT_WORKSTATION)
                 kernel.Cat(" 10");
             else
@@ -327,6 +330,7 @@ bool GetOsInfo(String &kernel, String &kerVersion, String &kerArchitecture, Stri
                 else
                     kernel.Cat(" Server 2008");
             }
+            
             PGPI pGPI = Get_GetProductInfo();
             DWORD dwType;
             if (pGPI(osvi.dwMajorVersion, osvi.dwMinorVersion, 0, 0, &dwType)) {

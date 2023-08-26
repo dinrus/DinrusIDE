@@ -1,4 +1,4 @@
-topic "Message Boxes";
+topic "Боксы Сообщений (Сооббоксы)";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -11,27 +11,28 @@ topic "Message Boxes";
 [b42;a42;ph2 $$10,10#E71D914572A169C91BE52E3FB27F810F:text]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 Message Boxes]]}}&]
-[s10;%% Message boxes in U`+`+ provide up to 3 buttons. The message 
-is using [*^topic`:`/`/RichText`/srcdoc`/QTF`_en`-us^ QTF] rich 
-text format `- it means that you can for example embed hyper`-link 
-or even table or image. This however can cause issues if some 
-non`-literal text is presented which can accidentally contain 
-QTF formatting characters. To solve this, you can use [*^topic`:`/`/RichText`/src`/Utilities`$en`-us`#Upp`:`:DeQtf`(const char`*`)^ D
-eQtf][*  ]function `'`\1`' switch (supresses QTF parsing till the 
-next `'`\1`'), e.g.:&]
-[s10;l160;%% [/@(28.42.150) PromptOK(DeQtf(`"C:`\`\Program Files`\`\Upp`\`\DinrusIDE`"));]&]
-[s10;l160;%% [/@(28.42.150) PromptOK(`"`\1C:`\`\Program Files`\`\Upp`\`\DinrusIDE`");]&]
-[s10; &]
-[s5;:Upp`:`:PromptOK`(const char`*`): [@(0.0.255) void]_[* PromptOK]([@(0.0.255) const]_[@(0.0.255) c
-har]_`*[*@3 qtf])&]
-[s2;%%  [%-*@3 qtf] .&]
-[s3;%% &]
-[s10; &]
-[s10; &]
-[s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Functions]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Боксы Сообщений (Сооббоксы)]]}}&]
+[s10;%RU-RU Сооббоксы в U`+`+ предоставляют 
+до трёх кнопок. Для сообщения используется 
+насыщенный текстовый формат [*^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru^ Q
+TF], это означает, что можно, например, 
+внедрить гиперссылку, или даже таблицу 
+или рисунок. Однако, это может порой 
+причинять неудобства, если присутствует 
+какой`-то `"нелитеральный`" текст, в 
+котором случайно попадаются символы 
+форматирования QTF. Чтобы решить эту 
+проблему, можно воспользоваться функцией 
+[*^topic`:`/`/RichText`/src`/Utilities`_ru`-ru`#Upp`:`:DeQtf`(const char`*`)^ DeQtf
+][*  ]с[*  ]`'`\1`' переключателем (подавляет 
+разбор QTF до следующей `'`\1`'), например:&]
+[s10;l160;%RU-RU [/@(28.42.150) PromptOK(DeQtf(`"C:`\`\Program Files`\`\Upp`\`\DinrusIDE`"
+));]&]
+[s10;l160;%RU-RU [/@(28.42.150) PromptOK(`"`\1C:`\`\Program Files`\`\Upp`\`\DinrusIDE`");
+]&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Функции]]}}&]
 [s3; &]
+[s0; [@(0.0.255) void]_[* PromptOK]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 qtf])&]
 [s5;:Upp`:`:PromptOKCancel`(const char`*`): [@(0.0.255) int]_[* PromptOKCancel]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 qtf])&]
 [s5;:Upp`:`:PromptOKCancelAll`(const char`*`): [@(0.0.255) int]_[* PromptOKCancelAll]([@(0.0.255) c
@@ -214,25 +215,25 @@ it returns without displaying the dialog with 0). As this behaviour
 can be confusing in certain context, [* Opt1] variant only grants 
 `"Do not show again`" request if the user chooses button that 
 returns 1 (e.g. OK or Yes).&]
-[s3;%% &]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ClearPromptOptHistory`(`): [@(0.0.255) void]_[* ClearPromptOptHistory]()&]
-[s2;%% Clears the list of `"Do not show again`" message boxes.&]
+[s2;%RU-RU Clears the list of `"Do not show again`" message boxes.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ClearPromptOptHistory`(Upp`:`:Gate`<Upp`:`:String`>`): [@(0.0.255) void]_[* C
 learPromptOptHistory]([_^Upp`:`:Gate^ Gate]<[_^Upp`:`:String^ String]>_[*@3 filter])&]
-[s2;%% Clears the list of `"Do not show again`" message boxes `- 
-only removes those where [%-*@3 filter] returns true for [%-*@3 opt`_id].&]
-[s3;%% &]
+[s2;%RU-RU Clears the list of `"Do not show again`" message boxes 
+`- only removes those where [%-*@3 filter] returns true for [%-*@3 opt`_id].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:SerializePromptOptHistory`(Upp`:`:Stream`&`): [@(0.0.255) void]_[* SerializeP
 romptOptHistory]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 s])&]
-[s2;%% Serializes the list of `"Do not show again`" message boxes.&]
-[s3;%% &]
+[s2;%RU-RU Serializes the list of `"Do not show again`" message boxes.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:RedirectPrompts`(Upp`:`:RedirectPromptFn`): [@(0.0.255) void]_[* RedirectProm
 pts]([_^Upp`:`:RedirectPromptFn^ RedirectPromptFn]_[*@3 r])&]
-[s2;%% Completely redirects all message boxes to another function.&]
-[s3;%% &]
+[s2;%RU-RU Completely redirects all message boxes to another function.&]
+[s3;%RU-RU &]
 [s0; ]]

@@ -1,4 +1,4 @@
-topic "Класс DropList";
+topic "Класс DropList (ВыпадающийСписок)";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "Класс DropList";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@3 [s0;%RU-RU [*@7;4 Класс ][*@(229)4 DropList]]}}&]
+[ {{10000@3 [s0;%RU-RU [*@7;4 Класс ][*@(229)4 DropList  (ВыпадающийСписок)]]}}&]
 [s3; &]
 [s1;:DropList`:`:class: [@(0.0.255)3 class][3 _][*3 DropList][3 _:_][@(0.0.255)3 public][3 _][*@3;3 M
 ultiButton][3 , ][@(0.0.255)3 public][3 _][*@3;3 Convert]&]
@@ -54,34 +54,39 @@ Value().&]
 от Ctrl`'а.&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* DropList Public Members]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Публичные члены DropList]]}}&]
 [s3; &]
 [s5;:DropList`:`:Style`:`:typedef: [@(0.0.255) typedef]_[_^MultiButton`:`:Style^ MultiBut
 ton`::Style]_[* Style]&]
-[s2;%RU-RU The chameleon style of DropList is in fact the Style of 
-MultiButton base class.&]
+[s2;%RU-RU Стиль `"Хамелеон`" у DropList фактически 
+является стилем класса`-основы MultiButton.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:WhenDrop: [_^Callback^ Callback]_[* WhenDrop]&]
-[s2;%RU-RU This callback is called [* before] the list is displayed. 
-Client code can (re)create the list in the callback.&]
+[s2;%RU-RU Этот обрвыз вызывается [* перед] 
+выводом на дисплей этого списка. Клиентский 
+код может (вос)создать этот список 
+при этом обратном вызове.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:DropList`:`:Add`(const Upp`:`:Value`&`,const Upp`:`:Value`&`,bool`): [_^Upp`:`:DropList^ D
 ropList][@(0.0.255) `&]_[* Add]([@(0.0.255) const]_[_^Upp`:`:Value^ Value][@(0.0.255) `&]_[*@3 k
 ey], [@(0.0.255) const]_[_^Upp`:`:Value^ Value][@(0.0.255) `&]_[*@3 value], 
 [@(0.0.255) bool]_[*@3 enable] `= [@(0.0.255) true])&]
-[s2;%RU-RU Adds a new item to the list, [%-*@3 key] determines the 
-value of item, [%-*@3 value] is displayed in the value area and 
-in the list. If [%-*@3 enable] is false, DropList can be assigned 
-this [%-*@3 key]and displays corresponding [%-*@3 value], but does 
-not include it in drop list popup.&]
+[s2;%RU-RU Добавляет новый элемент в список, 
+ключ [%-*@3 key] определяет значение элемента, 
+значение [%-*@3 value] отображается в области 
+значения и в списке. Если [%-*@3 enable] равно 
+false, DropList`'у можно присвоить этот ключ 
+[%-*@3 key ]и будет показано соответствующее 
+значение [%-*@3 value], но оно не включается 
+во всплывающее окно выпадающего списка.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:DropList`:`:Add`(std`:`:initializer`_list`<std`:`:pair`<Upp`:`:Value`,Upp`:`:Value`>`>`): [_^Upp`:`:DropList^ D
 ropList][@(0.0.255) `&]_[* Add]([_^std`:`:initializer`_list^ std`::initializer`_list]<[_^std`:`:pair^ s
 td`::pair]<[_^Upp`:`:Value^ Value], [_^Upp`:`:Value^ Value]>>_[*@3 init])&]
-[s2;%RU-RU Adds [%-*@3 init] to the list.&]
+[s2;%RU-RU Добавляет в список пару [%-*@3 init].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:DropList`:`:Add`(const Value`&`): [_^DropList^ DropList][@(0.0.255) `&]_[* Add]([@(0.0.255) c
@@ -90,58 +95,66 @@ onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 value])&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:Remove`(int`): [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_[*@3 i])&]
-[s2;%RU-RU Removes drop list item [%-*@3 i].&]
+[s2;%RU-RU Удаляет элемент выпадающего списка 
+[%-*@3 i].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:DropList`:`:ClearList`(`): [@(0.0.255) void]_[* ClearList]()&]
-[s2;%RU-RU Clears the list.&]
+[s2;%RU-RU Очищает список.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%RU-RU Clears the list and sets DropList to Null.&]
+[s2;%RU-RU Очищает список и устанавливает 
+DropList в Null.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:AddSeparator`(`): [_^DropList^ DropList][@(0.0.255) `&]_[* AddSeparator]()
 &]
-[s2;%RU-RU Adds horizontal ruler separator item. This item cannot 
-be selected.&]
+[s2;%RU-RU Добавляет элемент разделителя 
+горизонтальной линейки. Этот элемент 
+нельзя выделить.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:Drop`(`): [@(0.0.255) void]_[* Drop]()&]
-[s2;%RU-RU Forces the list to `"drop`".&]
+[s2;%RU-RU Заставляет список `"выпадать`".&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:DropList`:`:SetIndex`(int`): [@(0.0.255) void]_[* SetIndex]([@(0.0.255) int]_[*@3 i])&]
-[s2;%RU-RU Устанавливаетthe value of list item [%-*@3 i] to be the current 
-value.&]
+[s2;%RU-RU Устанавливает значение элемента 
+списка [%-*@3 i] в текущее значение.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:GetIndex`(`)const: [@(0.0.255) int]_[* GetIndex]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the index of current value of DropList in the 
-list. Note that the current value is not required to be in the 
-list, in that case `-1 is returned.&]
+[s2;%RU-RU Возвращает индекс текущего значения 
+DropList в списке. Заметьте, что это текущее 
+значение не обязательно должно быть 
+в списке, в таком случае возвращается 
+`-1.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:GoBegin`(`): [@(0.0.255) void]_[* GoBegin]()&]
-[s2;%RU-RU If there are any items, selects the first one.&]
+[s2;%RU-RU Если есть элементы, выделяет самый 
+первый.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:GoEnd`(`): [@(0.0.255) void]_[* GoEnd]()&]
-[s2;%RU-RU If there are any items, selects the last one.&]
+[s2;%RU-RU Если есть элементы, выделяет самый 
+последний.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:HasKey`(const Value`&`)const: [@(0.0.255) bool]_[* HasKey]([@(0.0.255) con
 st]_[_^Value^ Value][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2;%RU-RU Tests whether key [%-*@3 k] is in the list. The search is 
-fast ([^topic`:`/`/Core`/src`/Indext`$en`-us`#`:`:Index`:`:Index`(`)^ Index] 
-based).&]
+[s2;%RU-RU Проверяет, находится ли ключ [%-*@3 k] 
+в этом списке. Поиск быстр (основан 
+на [^topic`:`/`/Core`/src`/Indext`_ru`-ru`#Index`:`:Index`(`)^ Index]).&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:FindKey`(const Value`&`)const: [@(0.0.255) int]_[* FindKey]([@(0.0.255) co
 nst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the index of key [%-*@3 k] in the list; returns 
-`-1 if not found. The search is fast ([^topic`:`/`/Core`/src`/Indext`$en`-us`#`:`:Index`:`:Index`(`)^ I
-ndex] based).&]
+[s2;%RU-RU Возвращает индекс ключа [%-*@3 k] в 
+списке; или `-1, если ключ не найден. 
+Поиск быстр (основан на [^topic`:`/`/Core`/src`/Indext`_ru`-ru`#Index`:`:Index`(`)^ I
+ndex]).&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:Find`(const Value`&`)const: [@(0.0.255) int]_[* Find]([@(0.0.255) const]_[_^Value^ V
@@ -151,43 +164,49 @@ alue][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
 [s4; &]
 [s5;:DropList`:`:FindValue`(const Value`&`)const: [@(0.0.255) int]_[* FindValue]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])_[@(0.0.255) const]&]
-[s2;%RU-RU Finds the index of item with value [%-*@3 v]. If there is 
-none, returns `-1.&]
+[s2;%RU-RU Находит индекс элемента со значением 
+[%-*@3 v]. Если оно отсутствует, возвращает 
+`-1.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:DropList`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the count of items in the list.&]
+[s2;%RU-RU Возвращает счёт элементов в списке.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:Trim`(int`): [@(0.0.255) void]_[* Trim]([@(0.0.255) int]_[*@3 n])&]
-[s2;%RU-RU Trims the count of items in the list to [%-*@3 n].&]
+[s2;%RU-RU Обрезает число элементов в списке 
+до [%-*@3 n].&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:GetKey`(int`)const: [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[* Ge
 tKey]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the key at index [%-*@3 i].&]
+[s2;%RU-RU Возвращает ключ по индексу [%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:GetValue`(int`)const: [_^Value^ Value]_[* GetValue]([@(0.0.255) int]_[*@3 i])
 _[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the value at index [%-*@3 i].&]
+[s2;%RU-RU Возвращает значение по индексу 
+[%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:GetValue`(`)const: [_^Value^ Value]_[* GetValue]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the first value from the list that has the key 
-equal to the current value of DropList. (Note that the GetData/SetData 
-interface of DropList uses the key).&]
+[s2;%RU-RU Возвращает первое значение из 
+списка, у которого ключ равен текущему 
+значению DropList. (Заметьте, что интерфейс 
+GetData/SetData DropList`'а использует этот ключ).&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:SetValue`(int`,const Value`&`): [@(0.0.255) void]_[* SetValue]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2;%RU-RU Replaces the value at index [%-*@3 i].&]
+[s2;%RU-RU Заменяет значение по индексу 
+[%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:SetValue`(const Value`&`): [@(0.0.255) void]_[* SetValue]([@(0.0.255) cons
 t]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2;%RU-RU Устанавливаетthe first value in the list that has the key equal 
-to the current value of DropList.&]
+[s2;%RU-RU Устанавливает первое значение 
+в списке, ключ которого равен текущему 
+значению DropList.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:operator`[`]`(int`)const: [_^Value^ Value]_[* operator`[`]]([@(0.0.255) in
@@ -196,68 +215,80 @@ t]_[*@3 i])_[@(0.0.255) const]&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:Adjust`(`): [@(0.0.255) void]_[* Adjust]()&]
-[s2;%RU-RU Checks whether the current DropList value is present as 
-key in the list. If it is not and list is not empty, first list 
-item is selected.&]
+[s2;%RU-RU Проверяет, присутствует ли текущее 
+значение DropList`'а в качестве ключа 
+в этом списке. Если нет и список не 
+пуст, выделяется первый элемент списка.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:Adjust`(const Value`&`): [@(0.0.255) void]_[* Adjust]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 k])&]
-[s2;%RU-RU Checks whether the current DropList value is present as 
-key in the list. If it is not and list is not empty, DropList 
-is assigned [%-*@3 k].&]
+[s2;%RU-RU Проверяет, присутствует ли в списке 
+текущее значение DropList в качестве 
+ключа. Если нет и список не пуст, DropList`'у 
+присваивается [%-*@3 k].&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:GetList`(`)const: [@(0.0.255) const]_[_^PopUpTable^ PopUpTable][@(0.0.255) `&
 ]_[* GetList]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the ArrayCtrl derived object representing the 
-dropdown list.  &]
+[s2;%RU-RU Возвращает производный от ArrayCtrl 
+объект, представляющий выпадающий 
+список.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:ListObject`(`): [_^PopUpTable^ PopUpTable][@(0.0.255) `&]_[* ListObject]()
 &]
-[s2;%RU-RU Возвращает a reference to internal PopUpTable that is used 
-to show items.&]
+[s2;%RU-RU Возвращает ссылку на внутреннюю 
+таблицу PopUpTable, используемую для показа 
+элементов.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:SetDropLines`(int`): [_^DropList^ DropList][@(0.0.255) `&]_[* SetDropLines
 ]([@(0.0.255) int]_[*@3 d])&]
-[s2;%RU-RU Устанавливаетthe number of lines in dropped list.&]
+[s2;%RU-RU Устанавливает число строк в выпадающем 
+списке.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:SetValueConvert`(const Convert`&`): [_^DropList^ DropList][@(0.0.255) `&
 ]_[* SetValueConvert]([@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&]_[*@3 cv])&]
-[s2;%RU-RU Устанавливаетthe converting object for the value in view area.&]
+[s2;%RU-RU Устанавливает конвертирующий 
+объект для значения в области видимости.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:SetConvert`(const Convert`&`): [_^DropList^ DropList][@(0.0.255) `&]_[* Se
 tConvert]([@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&]_[*@3 cv])&]
-[s2;%RU-RU Устанавливаетthe converting object for list values `- list values 
-are converted first before being displayed in either view area 
-of DropList or in list. Возвращает `*this.&]
+[s2;%RU-RU Устанавливает конвертирующий 
+объект для значений списка: значения 
+списка вначале преобразуются, а затем 
+отображаются либо в области видимости 
+DropList`'а, либо в списке. Возвращает 
+`*this.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:SetDisplay`(int`,const Display`&`): [_^DropList^ DropList][@(0.0.255) `&
 ]_[* SetDisplay]([@(0.0.255) int]_[*@3 i], [@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&
 ]_[*@3 d])&]
-[s2;%RU-RU Устанавливаетthe display for item [%-*@3 i] in the list. Возвращает 
-`*this.&]
+[s2;%RU-RU Устанавливает дисплей для элемента 
+[%-*@3 i] из этого списка. Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:SetDisplay`(const Display`&`): [_^DropList^ DropList][@(0.0.255) `&]_[* Se
 tDisplay]([@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&]_[*@3 d])&]
-[s2; [%RU-RU Устанавливаетthe common display ][*@3 d][%RU-RU  for items in the 
-list and view area. Возвращает `*this. If specific displays for 
-list items (]SetDisplay[@(64) (][@(0.0.255) int][@(64) _][@3 i][@(64) , 
+[s2; [%RU-RU Устанавливает общий дисплей ][*@3 d][%RU-RU  
+для элементов в этом списке и область 
+видимости. Возвращает `*this. Если определены 
+специфичные дисплеи для элементов 
+списка (]SetDisplay[@(64) (][@(0.0.255) int][@(64) _][@3 i][@(64) , 
 ][@(0.0.255) const][@(64) _][^`:`:Display^@(64) Display][@(64) `&_][@3 d][@(64) )]) 
-or view area (ValueDisplay[@(64) (][@(0.0.255) const][@(64) _][^`:`:Display^@(64) Display
-][@(64) `&_][@3 d][@(64) )]) are defined, they take the precedence.&]
+или области видимости (ValueDisplay[@(64) (][@(0.0.255) const][@(64) _
+][^`:`:Display^@(64) Display][@(64) `&_][@3 d][@(64) )]), то они 
+имеют преимущество.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:SetLineCy`(int`): [_^DropList^ DropList][@(0.0.255) `&]_[* SetLineCy]([@(0.0.255) i
 nt]_[*@3 lcy])&]
-[s2;%RU-RU Устанавливаетthe line height of the list item in pixels. Возвращает 
-`*this.&]
+[s2;%RU-RU Устанавливает высоту строки элемента 
+списка в пикселях. Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:SetDisplay`(const Display`&`,int`): [_^DropList^ DropList][@(0.0.255) `&
@@ -269,26 +300,32 @@ nt]_[*@3 lcy])&]
 [s4; &]
 [s5;:DropList`:`:ValueDisplay`(const Display`&`): [_^DropList^ DropList][@(0.0.255) `&]_[* V
 alueDisplay]([@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&]_[*@3 d])&]
-[s2;%RU-RU Устанавливаетthe display object to be used in view area of DropList. 
-Возвращает `*this.&]
+[s2;%RU-RU Устанавливает объект дисплея, 
+используемый в области видимости 
+DropList`'а. Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:DisplayAll`(bool`): [_^DropList^ DropList][@(0.0.255) `&]_[* DisplayAll]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU In this mode, if the current value of DropList is not 
-present as the key in the list, the value itself is used to be 
-displayed in the view area. Default is off. Возвращает `*this. When 
-DisplayAll() mode is on, Convert`::Format returns key value when 
-a given key is missing in the key / value table; when DisplayAll() 
-mode is off, Convert`::Format returns Value() for unknown key 
-values.&]
+[s2;%RU-RU В этом режиме, если текущее значение 
+отсутствует в списке в качестве ключа, 
+в области видимости будет отображено 
+само значение. Дефолтно отключено. 
+Возвращает `*this. Когда режим DisplayAll() 
+включен, Convert`::Format возвращает значение 
+ключа, если данный ключ отсутствует 
+в таблице ключей / значений; когда 
+режим DisplayAll() выключен, Convert`::Format возвращает 
+Value() для неизвестных ключевых значений.&]
 [s0;%RU-RU &]
 [s4; &]
 [s5;:DropList`:`:DropFocus`(bool`): [_^DropList^ DropList][@(0.0.255) `&]_[* DropFocus]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU In this mode, dropping down the list and closing it (either 
-by selecting the item or canceling the selection) brings the 
-keyboard focus to the widget. Default is on. Возвращает `*this.&]
+[s2;%RU-RU В этом режиме, `"выпадание`" и закрытие 
+списка (либо при выделении элемента, 
+либо при прекращении выделения) переносит 
+клавиатурный фокус в этот виджет. 
+По дефолту включено. Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:NoDropFocus`(`): [_^DropList^ DropList][@(0.0.255) `&]_[* NoDropFocus]()&]
@@ -297,39 +334,46 @@ keyboard focus to the widget. Default is on. Возвращает `*this.&]
 [s4; &]
 [s5;:DropList`:`:AlwaysDrop`(bool`): [_^DropList^ DropList][@(0.0.255) `&]_[* AlwaysDrop]([@(0.0.255) b
 ool]_[*@3 e]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU If this mode is active, drop button is enabled even when 
-the list is empty, allowing the client code to deffer the list 
-creation until the WhenDrop callback.&]
+[s2;%RU-RU Если этот режим активен, кнопка 
+`"выброса`" активна, даже если список 
+пуст, позволяя клиентскому коду создавать 
+список, пока не произойдёт обрвыз 
+WhenDrop.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:SetStyle`(const DropList`:`:Style`&`): [_^DropList^ DropList][@(0.0.255) `&
 ]_[* SetStyle]([@(0.0.255) const]_[_^DropList`:`:Style^ Style][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Устанавливаетthe chameleon style of DropList.&]
+[s2;%RU-RU Устанавливает хамелеон`-стиль 
+DropList`'а.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:DropList`:`:NotNull`(bool`): [_^DropList^ DropList][@(0.0.255) `&]_[* NotNull]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU Specifies that Null value is illegal for DropList. If 
-active, Null value is not [^Ctrl`:`:Accept^ accepted].&]
+[s2;%RU-RU Назначает значение Null, как допустимое 
+для DropList. Если активен, значение Null 
+не [^Ctrl`:`:Accept^ принимается].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:DropList`:`:DropWidth`(int`): [_^DropList^ DropList][@(0.0.255) `&]_[* DropWidth]([@(0.0.255) i
 nt]_[*@3 w])&]
-[s2;%RU-RU Override the with of dropped PopUpTable drop`-down list 
-(which by default is the same as the width of DropList).&]
+[s2;%RU-RU Переписывает ширину у `"выпавшего`" 
+выпадающего списка PopUpTable (которая 
+дефолтно равна ширине DropList`'а).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:DropList`:`:DropWidthZ`(int`): [_^DropList^ DropList][@(0.0.255) `&]_[* DropWidthZ]([@(0.0.255) i
 nt]_[*@3 w])&]
 [s2;%RU-RU То же, что и DropWidth(HorzLayoutZoom([%-*@3 w])) 
-`- this adjusts the width according to current standard GUI font 
-zooming.&]
+`- настраивает ширину в соответствии 
+с текущим масштабированием стандартного 
+шрифта ГИП.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:DropList`:`:Wheel`(bool`): [_^DropList^ DropList][@(0.0.255) `&]_[* Wheel]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU Если активен, the value of DropList can be changed by the 
-mouse wheel. Default is active.&]
+[s2;%RU-RU Если активен, значение DropList`'а 
+можно менять колёсиком мыши. По дефолту 
+активно.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:DropList`:`:NoWheel`(`): [_^DropList^ DropList][@(0.0.255) `&]_[* NoWheel]()&]
@@ -339,21 +383,22 @@ mouse wheel. Default is active.&]
 [s5;:DropList`:`:SetScrollBarStyle`(const ScrollBar`:`:Style`&`): [_^DropList^ DropList
 ][@(0.0.255) `&]_[* SetScrollBarStyle]([@(0.0.255) const]_[_^ScrollBar`:`:Style^ ScrollBa
 r`::Style][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Устанавливаетthe chameleon style of Scrollbar of PopUpTable drop`-down 
-list.&]
+[s2;%RU-RU Устанавливает стиль `"Хамелеон`" 
+Scrollbar`'а выпадающего списка PopUpTable.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:DropList`:`:operator`=`(const Value`&`): [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[* operator`=]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
 [s5;:DropList`:`:operator Value`(`)const: [@(0.0.255) operator]_Value()_[@(0.0.255) const
 ]&]
-[s2;%RU-RU These methods are deprecated in favor of operator`~ and 
-operator<<`=.&]
+[s2;%RU-RU Эти методы деприкированы в пользу 
+operator`~ и operator<<`=.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* DropList Related Global Functions]]}}&]
-[s9;%RU-RU These are simple utility function for filling DropList`'s 
-list and MapConvert.&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Относящиеся к DropList Глобальные 
+Функции]]}}&]
+[s9;%RU-RU Это простые вспомогательные функции 
+для заполнения списка DropList`'а и MapConvert.&]
 [s3;%RU-RU &]
 [s3;%RU-RU &]
 [s5;:Append`(DropList`&`,const VectorMap`<Value`,Value`>`&`): [@(0.0.255) void]_[* Append
@@ -362,7 +407,7 @@ Map]<[_^Value^ Value], [_^Value^ Value]>`&_[*@3 values])&]
 [s5;:Append`(DropList`&`,const VectorMap`<int`,String`>`&`): [@(0.0.255) void]_[* Append](
 [_^DropList^ DropList][@(0.0.255) `&]_[*@3 list], [@(0.0.255) const]_[_^VectorMap^ VectorMa
 p]<[@(0.0.255) int], [_^String^ String]>`&_[*@3 values])&]
-[s2;%RU-RU Fills the DropList from VectorMap.&]
+[s2;%RU-RU Заполняет DropList из VectorMap.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Append`(MapConvert`&`,const VectorMap`<Value`,Value`>`&`): [@(0.0.255) void]_[* Appe
@@ -371,13 +416,13 @@ ectorMap]<[_^Value^ Value], [_^Value^ Value]>`&_[*@3 values])&]
 [s5;:Append`(MapConvert`&`,const VectorMap`<int`,String`>`&`): [@(0.0.255) void]_[* Appen
 d]([_^MapConvert^ MapConvert][@(0.0.255) `&]_[*@3 convert], [@(0.0.255) const]_[_^VectorMap^ V
 ectorMap]<[@(0.0.255) int], [_^String^ String]>`&_[*@3 values])&]
-[s2;%RU-RU Fills the MapConvert from VectorMap.&]
+[s2;%RU-RU Заполняет MapConvert из VectorMap.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Append`(DropList`&`,const MapConvert`&`): [@(0.0.255) void]_[* Append]([_^DropList^ Dr
 opList][@(0.0.255) `&]_[*@3 list], [@(0.0.255) const]_[_^MapConvert^ MapConvert][@(0.0.255) `&
 ]_[*@3 convert])&]
-[s2;%RU-RU Fills the DropList from MapConvert.&]
+[s2;%RU-RU Заполняет DropList из MapConvert.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:operator`*`=`(DropList`&`,const VectorMap`<Value`,Value`>`&`): [@(0.0.255) void]_[* o
@@ -386,7 +431,7 @@ ectorMap]<[_^Value^ Value], [_^Value^ Value]>`&_[*@3 values])&]
 [s5;:operator`*`=`(DropList`&`,const VectorMap`<int`,String`>`&`): [@(0.0.255) void]_[* o
 perator`*`=]([_^DropList^ DropList][@(0.0.255) `&]_[*@3 list], [@(0.0.255) const]_[_^VectorMap^ V
 ectorMap]<[@(0.0.255) int], [_^String^ String]>`&_[*@3 values])&]
-[s2;%RU-RU Clears and fills the DropList from VectorMap.&]
+[s2;%RU-RU Очищает и заполняет DropList из VectorMap.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:operator`*`=`(MapConvert`&`,const VectorMap`<Value`,Value`>`&`): [@(0.0.255) void]_
@@ -397,12 +442,12 @@ es])&]
 [* operator`*`=]([_^MapConvert^ MapConvert][@(0.0.255) `&]_[*@3 convert], 
 [@(0.0.255) const]_[_^VectorMap^ VectorMap]<[@(0.0.255) int], [_^String^ String]>`&_[*@3 va
 lues])&]
-[s2;%RU-RU Clears and fills the MapConvert from VectorMap.&]
+[s2;%RU-RU Очищает и заполняет MapConvert из VectorMap.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:operator`*`=`(DropList`&`,const MapConvert`&`): [@(0.0.255) void]_[* operator`*`=]([_^DropList^ D
 ropList][@(0.0.255) `&]_[*@3 list], [@(0.0.255) const]_[_^MapConvert^ MapConvert][@(0.0.255) `&
 ]_[*@3 convert])&]
-[s2;%RU-RU Clears and fills the DropList from MapConvert.&]
+[s2;%RU-RU Очищает и заполняет DropList из MapConvert.&]
 [s3;%RU-RU &]
 [s0;%RU-RU ]]

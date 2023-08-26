@@ -1,4 +1,4 @@
-topic "RectTracker";
+topic "Класс RectTracker";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,174 +10,202 @@ topic "RectTracker";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000t/25b/25@3 [s0; [*@(229)4 RectTracker]]}}&]
+[ {{10000t/25b/25@3 [s0; [*@(229)4 Класс RectTracker]]}}&]
 [s3; &]
 [s1;:RectTracker`:`:class: [@(0.0.255)3 class][3 _][*3 RectTracker][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 LocalLoop]&]
-[s9;%% RectTracker is a class that represent repositioning modal 
-loop. It can reposition and/or resize rectangle or line as single 
-modal operation.&]
-[s3;%% &]
+[s9;%RU-RU RectTracker `- класс, представляющий 
+репозиционирующий модальный цикл. 
+Он может репозиционировать и/или 
+`"перемерять`" прямоугольник или линию 
+в единой модальной операции.&]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:RectTracker`:`:sync: [_^Callback1^ Callback1]<[_^Rect^ Rect]>_[* sync]&]
-[s2;%% This callback is called each time the dimensions change.&]
-[s3;%% &]
+[s2;%RU-RU Этот обрвыз вызывается всякий 
+раз при изменений размеров.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:round: [_^Callback1^ Callback1]<Rect[@(0.0.255) `&]>_[* round]&]
-[s2;%% If present, this callback is used to alter coordinates of 
-rectangle after they are determined from mouse position, before 
-other processing. Can be used e.g. to implement `"snap to grid`" 
-operations. This is more recent alternative to defining rounding 
-object and method Round.&]
+[s2;%RU-RU Если присутствует, этот обрвыз 
+используется для изменения координат 
+прямоугольника, после того как они 
+определены по позиции мыши, до иных 
+обработок. Может использоваться, 
+например,  для реализации операций 
+`"snap to grid`". Это свежая альтернатива 
+определению округления объекта и 
+метода Round.&]
 [s3; &]
 [s4; &]
 [s5;:RectTracker`:`:SetCursorImage`(const Image`&`): [_^RectTracker^ RectTracker][@(0.0.255) `&
 ]_[* SetCursorImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 m])&]
-[s2;%% Устанавливаетthe mouse cursor appearance during the loop.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает внешний вид курсора 
+мыши во время цикла.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:MinSize`(Size`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* MinSize
 ]([_^Size^ Size]_[*@3 sz])&]
-[s2;%% Устанавливаетthe minimal size of rectangle.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает минимальный размер 
+прямоугольника.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:MaxSize`(Size`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* MaxSize
 ]([_^Size^ Size]_[*@3 sz])&]
-[s2;%% Устанавливаетthe maximal size of rectangle.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает максимальный размер 
+прямоугольника.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:MaxRect`(const Rect`&`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_
 [* MaxRect]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 mr])&]
-[s2;%% Устанавливаетthe bounding rectangle which the resulting rectangle 
-cannot exceed.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает ограничивающий 
+прямоугольник, который не может превышать 
+итоговый прямоугольник.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:Clip`(const Rect`&`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* Cl
 ip]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 c])&]
-[s2;%% Устанавливаетthe clipping rectangle.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливаетthe прямоугольник 
+обрезки (clipping rectangle).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:Width`(int`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* Width]([@(0.0.255) i
 nt]_[*@3 n])&]
-[s2;%% Устанавливаетthe width of tracking rectangle shape lines.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает ширину линии формы 
+трэкингового прямоугольника.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:SetColor`(Color`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* SetCo
 lor]([_^Color^ Color]_[*@3 c])&]
-[s2;%% Устанавливаетthe color of tracking rectangle (if on white background).&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает цвет трэкингового 
+прямоугольника (если он на белом фоне).&]
+[s3;%RU-RU &]
 [s4; &]
-[s5;:RectTracker`:`:Образец`(int`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* Образец](
-[@(0.0.255) int]_[*@3 p])&]
-[s2;%% Устанавливаетthe pattern used to drive lines. [%-*@3 p] can be one of&]
-[s2;%% &]
-[ {{5000:5000<288; [s2;l0;%% DRAWDRAGRECT`_SOLID]
-:: [s2;l0;%% solid line]
-:: [s2;l0;%% DRAWDRAGRECT`_NORMAL]
-:: [s2;l0;%% line of alternating single dots `- default]
-:: [s2;l0;%% DRAWDRAGRECT`_DASHED ]
-:: [s2;l0;%% line of alternating 4 pixel segments]}}&]
-[s3;%% &]
+[s5;:RectTracker`:`:Образец`(int`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* О
+бразец]([@(0.0.255) int]_[*@3 p])&]
+[s2;%RU-RU Устанавливает образец, используемый 
+для черчения линий. [%-*@3 p] может быть 
+одним из&]
+[s2;%RU-RU &]
+[ {{5000:5000<288; [s2;l0;%RU-RU DRAWDRAGRECT`_SOLID]
+:: [s2;l0;%RU-RU плотная линия]
+:: [s2;l0;%RU-RU DRAWDRAGRECT`_NORMAL]
+:: [s2;l0;%RU-RU линия из чередующихся единичных 
+точек `- дефолт]
+:: [s2;l0;%RU-RU DRAWDRAGRECT`_DASHED ]
+:: [s2;l0;%RU-RU линия из чередующихся сегментов 
+в 4 пикселя]}}&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:Dashed`(`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* Dashed]()&]
-[s2;%% То же, что и Образец(DRAWDRAGRECT`_DASH).&]
-[s3;%% &]
+[s2;%RU-RU То же, что и Образец(DRAWDRAGRECT`_DASH).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:Solid`(`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* Solid]()&]
-[s2;%% То же, что и Образец(DRAWDRAGRECT`_SOLID).&]
-[s3;%% &]
+[s2;%RU-RU То же, что и Образец(DRAWDRAGRECT`_SOLID).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:Normal`(`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* Normal]()&]
-[s2;%% То же, что и Образец(DRAWDRAGRECT`_NORMAL). This is default.&]
+[s2;%RU-RU То же, что и Образец(DRAWDRAGRECT`_NORMAL). 
+Это дефолт.&]
 [s3; &]
 [s4; &]
 [s5;:RectTracker`:`:Animation`(int`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* Animat
 ion]([@(0.0.255) int]_[*@3 step`_ms]_`=_[@3 40])&]
-[s2;%% Activates pattern animation.&]
-[s3;%% &]
+[s2;%RU-RU Активирует анимацию образца.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:KeepRatio`(bool`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* KeepR
 atio]([@(0.0.255) bool]_[*@3 b])&]
-[s2;%% Forces rectangle to keep the original ratio.&]
-[s3;%% &]
+[s2;%RU-RU Заставляет прямоугольник сохранять 
+исходные пропорции.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:Round`(RectTracker`:`:Rounder`&`): [_^RectTracker^ RectTracker][@(0.0.255) `&
 ]_[* Round]([_^RectTracker`:`:Rounder^ Rounder][@(0.0.255) `&]_[*@3 r])&]
-[s2;%% Устанавливаетthe rounding object. This is somewhat obsoleted by round 
-callback.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает округляемый объект. 
+Устарело при появлении обрвыза round.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:Get`(`): [_^Rect^ Rect]_[* Get]()&]
-[s2;%% Возвращает the current tracking rectangle.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает текущий трэкинговый 
+прямоугольник.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:Track`(const Rect`&`,int`,int`): [_^Rect^ Rect]_[* Track]([@(0.0.255) c
 onst]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r], [@(0.0.255) int]_[*@3 tx]_`=_ALIGN`_RIGHT, 
 [@(0.0.255) int]_[*@3 ty]_`=_ALIGN`_BOTTOM)&]
-[s2;%% Performs the modal rectangle tracking loop. [%-*@3 tx] and [%-*@3 ty] 
-specify which edge or corner of rectangle is being changed:&]
-[s2;%% &]
+[s2;%RU-RU Выполняет трэкинговый цикл модального 
+прямоугольника. [%-*@3 tx] и [%-*@3 ty] задают, 
+какой край или угол прямоугольника 
+будет изменён:&]
+[s2;%RU-RU &]
 [ {{2807:2850:4343<288;>1088;h1;@(204) [s0; [*@3 tx]]
 :: [s0; [*@3 ty]]
-:: [s0;%% Changed]
-::@2 [s0;%% ALIGN`_LEFT]
-:: [s0;%% ALIGN`_TOP]
-:: [s0;%% Top`-left corner.]
-:: [s0;%% ALIGN`_LEFT]
-:: [s0;%% ALIGN`_CENTER]
-:: [s0;%% Left edge.]
-:: [s0;%% ALIGN`_LEFT]
-:: [s0;%% ALIGN`_BOTTOM]
-:: [s0;%% Bottom`-left corner.]
-:: [s0;%% ALIGN`_CENTER]
-:: [s0;%% ALIGN`_TOP]
-:: [s0;%% Top edge.]
-::@(255.255.192) [s0;%% ALIGN`_CENTER]
-:: [s0;%% ALIGN`_CENTER]
-:: [s0;%% Rectangle is moved.]
-::@2 [s0;%% ALIGN`_CENTER]
-:: [s0;%% ALIGN`_BOTTOM]
-:: [s0;%% Bottom edge.]
-:: [s0;%% ALIGN`_RIGHT]
-:: [s0;%% ALIGN`_TOP]
-:: [s0;%% Top`-right corner.]
-:: [s0;%% ALIGN`_RIGHT]
-:: [s0;%% ALIGN`_CENTER]
-:: [s0;%% Right edge.]
-:: [s0;%% ALIGN`_RIGHT]
-:: [s0;%% ALIGN`_BOTTOM]
-:: [s0;%% Bottom`-right corner.]}}&]
-[s2;%% &]
-[s2;%% Возвращает a new rectangle.&]
-[s3;%% &]
+:: [s0;%RU-RU Изменяется]
+::@2 [s0;%RU-RU ALIGN`_LEFT]
+:: [s0;%RU-RU ALIGN`_TOP]
+:: [s0;%RU-RU Верхний`-левый угол.]
+:: [s0;%RU-RU ALIGN`_LEFT]
+:: [s0;%RU-RU ALIGN`_CENTER]
+:: [s0;%RU-RU Левый край.]
+:: [s0;%RU-RU ALIGN`_LEFT]
+:: [s0;%RU-RU ALIGN`_BOTTOM]
+:: [s0;%RU-RU Нижний`-левый угол.]
+:: [s0;%RU-RU ALIGN`_CENTER]
+:: [s0;%RU-RU ALIGN`_TOP]
+:: [s0;%RU-RU Верхний край.]
+::@(255.255.192) [s0;%RU-RU ALIGN`_CENTER]
+:: [s0;%RU-RU ALIGN`_CENTER]
+:: [s0;%RU-RU Прямоугольник перемещён.]
+::@2 [s0;%RU-RU ALIGN`_CENTER]
+:: [s0;%RU-RU ALIGN`_BOTTOM]
+:: [s0;%RU-RU Нижний край.]
+:: [s0;%RU-RU ALIGN`_RIGHT]
+:: [s0;%RU-RU ALIGN`_TOP]
+:: [s0;%RU-RU Верхний`-правый угол.]
+:: [s0;%RU-RU ALIGN`_RIGHT]
+:: [s0;%RU-RU ALIGN`_CENTER]
+:: [s0;%RU-RU Правый край.]
+:: [s0;%RU-RU ALIGN`_RIGHT]
+:: [s0;%RU-RU ALIGN`_BOTTOM]
+:: [s0;%RU-RU Нижний`-правый угол.]}}&]
+[s2;%RU-RU &]
+[s2;%RU-RU Возвращает новый прямоугольник.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:TrackHorzLine`(int`,int`,int`,int`): [@(0.0.255) int]_[* TrackHorzLin
 e]([@(0.0.255) int]_[*@3 x0], [@(0.0.255) int]_[*@3 y0], [@(0.0.255) int]_[*@3 cx], 
 [@(0.0.255) int]_[*@3 line])&]
-[s2;%% Performs tracking loop of horizontal line. [%-*@3 x0], [%-*@3 y0] 
-is base point, [%-*@3 cx] the width of line, [%-*@3 line] the current 
-position. Возвращает the new position.&]
-[s3;%% &]
+[s2;%RU-RU Выполняет трэкинговый цикл горизонтальн
+ой линии. [%-*@3 x0], [%-*@3 y0] является базовой 
+точкой, [%-*@3 cx] `- ширина линии, [%-*@3 line] 
+`- текущая позиция. Возвращает новую 
+позицию.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:TrackVertLine`(int`,int`,int`,int`): [@(0.0.255) int]_[* TrackVertLin
 e]([@(0.0.255) int]_[*@3 x0], [@(0.0.255) int]_[*@3 y0], [@(0.0.255) int]_[*@3 cy], 
 [@(0.0.255) int]_[*@3 line])&]
-[s2;%% Performs tracking loop of vertical line. [%-*@3 x0], [%-*@3 y0] 
-is base point, [%-*@3 cy] the width of line, [%-*@3 line] the current 
-position. Возвращает the new position.&]
-[s3;%% &]
+[s2;%RU-RU Выполняет трэкинговый цикл вертикальной
+ линии. [%-*@3 x0], [%-*@3 y0] является базовой 
+точкой, [%-*@3 cy] `- ширина линии, [%-*@3 line 
+]`- текущая позиция. Возвращает новую 
+позицию.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:RectTracker`:`:TrackLine`(int`,int`): [_^Upp`:`:Point^ Point]_[* TrackLine]([@(0.0.255) i
 nt]_[*@3 x0], [@(0.0.255) int]_[*@3 y0])&]
-[s2;%% Performs tracking loop of line from the point [%-*@3 x0] [%-*@3 y0]. 
-Возвращает the new endpoint.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает трэкинговый цикл линии 
+из точки [%-*@3 x0] [%-*@3 y0]. Возвращает новую 
+конечную точку.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:RectTracker`(Ctrl`&`): [* RectTracker]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 m
 aster])&]
-[s2;%% Constructs RectTracker, the view area of [%-*@3 master] is used 
-for drawing and coordinate system.&]
-[s3;%% &]
-[s0;%% ]]
+[s2;%RU-RU Конструирует RectTracker, где используется 
+область видимости мастера [%-*@3 master] 
+для черчения и системы координат.&]
+[s3;%RU-RU &]
+[s0;%RU-RU ]]

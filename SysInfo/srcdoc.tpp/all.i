@@ -1,12 +1,12 @@
-TOPIC("SysInfoDemo_en-us")
-#include "SysInfoDemo_en-us.tppi"
+TOPIC("SysInfoDemo_ru-ru")
+#include "SysInfoDemo_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("SysInfo_en-us")
-#include "SysInfo_en-us.tppi"
+TOPIC("SysInfo_ru-ru")
+#include "SysInfo_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("ToDo_en-us")
-#include "ToDo_en-us.tppi"
+TOPIC("ToDo_ru-ru")
+#include "ToDo_ru-ru.tppi"
 END_TOPIC
 

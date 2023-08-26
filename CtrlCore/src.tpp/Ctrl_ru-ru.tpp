@@ -1,4 +1,4 @@
-topic "Класс Ctrl";
+topic "Класс Ctrl (\"Контрол\")";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "Класс Ctrl";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 Класс Ctrl]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс Ctrl (`"Контрол`")]]}}&]
 [s3;%- &]
 [s1;:Ctrl`:`:class:%- [@(0.0.255)3 class][3 _][*3 Ctrl][3 _:_][@(0.0.255)3 public][3 _][*@3;3 Pte][3 <
 ][*3 Ctrl][3 >_]&]
@@ -99,1692 +99,2122 @@ respond with image).&]
 повторную отправку клавиатурой этого 
 сообщения.&]
 [s0;l160; [* Кнопки]&]
-[s7;i1120;a17; [%-*C@3 LEFT]-|Левая кнопка. (This constant 
-is not defined in MouseEvents, instead LEFT from Placements Constants 
-is used).&]
-[s7;i1120;a17; [%-*C@3 RIGHT]-|Правая кнопка. (This constant 
-is not defined in MouseEvents, instead RIGHT from Placements 
-Constants is used).&]
+[s7;i1120;a17; [%-*C@3 LEFT]-|Левая кнопка. (Эта константа 
+не определена в [* MouseEvents], вместо неё 
+используется LEFT из [* PlacementConstants]).&]
+[s7;i1120;a17; [%-*C@3 RIGHT]-|Правая кнопка. (Эта константа 
+не определена в[*  MouseEvents], вместо неё 
+используется RIGHT из [* PlacementConstants]).&]
 [s0;l160; [* Комбинации]&]
-[s7;i1120;a17;:Ctrl`:`:LEFTDOWN: [%-*C@3 LEFTDOWN]-|Left button pressed.&]
-[s7;i1120;a17;:Ctrl`:`:LEFTDOUBLE: [%-*C@3 LEFTDOUBLE]-|Left button 
-double pressed.&]
-[s7;i1120;a17;:Ctrl`:`:LEFTREPEAT: [%-*C@3 LEFTREPEAT]-|Left button 
-autorepeat.&]
-[s7;i1120;a17;:Ctrl`:`:LEFTUP: [%-*C@3 LEFTUP]-|Left button released.&]
-[s7;i1120;a17;:Ctrl`:`:RIGHTDOWN: [%-*C@3 RIGHTDOWN]-|Right button pressed.&]
-[s7;i1120;a17;:Ctrl`:`:RIGHTDOUBLE: [%-*C@3 RIGHTDOUBLE]-|Right button 
-double pressed.&]
-[s7;i1120;a17;:Ctrl`:`:RIGHTREPEAT: [%-*C@3 RIGHTREPEAT]-|Right button 
-autorepeat.&]
-[s7;i1120;a17;:Ctrl`:`:RIGHTUP: [%-*C@3 RIGHTUP]-|Right button released.&]
+[s7;i1120;a17;:Ctrl`:`:LEFTDOWN: [%-*C@3 LEFTDOWN]-|Нажата левая 
+кнопка.&]
+[s7;i1120;a17;:Ctrl`:`:LEFTDOUBLE: [%-*C@3 LEFTDOUBLE]-|Дважды 
+нажата левая кнопка.&]
+[s7;i1120;a17;:Ctrl`:`:LEFTREPEAT: [%-*C@3 LEFTREPEAT]-|Автоповтор 
+левой кнопки.&]
+[s7;i1120;a17;:Ctrl`:`:LEFTUP: [%-*C@3 LEFTUP]-|Левая кнопка 
+отпущена.&]
+[s7;i1120;a17;:Ctrl`:`:RIGHTDOWN: [%-*C@3 RIGHTDOWN]-|Нажата правая 
+кнопка.&]
+[s7;i1120;a17;:Ctrl`:`:RIGHTDOUBLE: [%-*C@3 RIGHTDOUBLE]-|Дважды 
+нажата правая кнопка.&]
+[s7;i1120;a17;:Ctrl`:`:RIGHTREPEAT: [%-*C@3 RIGHTREPEAT]-|Автоповтор 
+правой кнопки.&]
+[s7;i1120;a17;:Ctrl`:`:RIGHTUP: [%-*C@3 RIGHTUP]-|Правая кнопка 
+отпущена.&]
 [s3; &]
 [s4; &]
 [s0;%- enum_`{_[*@3 NOBACKPAINT], [*@3 FULLBACKPAINT], [*@3 TRANSPARENTBACKPAINT], 
 [*@3 EXCLUDEPAINT]_`}&]
-[s2;b17;a17; These constants are parameters of BackPaint method. 
-They determine back`-plane drawing style.&]
-[s7;i1120;a17;:Ctrl`:`:NOBACKPAINT: [%-*C@3 NOBACKPAINT]-|No backpaint 
-is used.&]
-[s7;i1120;a17;:Ctrl`:`:FULLBACKPAINT: [%-*C@3 FULLBACKPAINT]-|Whole 
-area of Ctrl is backpainted.&]
-[s7;i1120;a17;:Ctrl`:`:TRANSPARENTBACKPAINT: [%-*C@3 TRANSPARENTBACKPAINT]-|Only 
-transparent child Ctrls are backpainted.&]
-[s7;i1120;a17;:Ctrl`:`:EXCLUDEPAINT: [%-*C@3 EXCLUDEPAINT]-|Ctrl is 
-not painted. This is special case for specific system related 
-situations (like OLE control painted by regular Windows routine).&]
+[s2;b17;a17; Эти константы являются параметрами 
+метода BackPaint. Они определяют стиль 
+отрисовки на задней плоскости.&]
+[s7;i1120;a17;:Ctrl`:`:NOBACKPAINT: [%-*C@3 NOBACKPAINT]-|Окраска 
+фона не используется.&]
+[s7;i1120;a17;:Ctrl`:`:FULLBACKPAINT: [%-*C@3 FULLBACKPAINT]-|Вся 
+площадь Ctrl`'а проходит фоноокраску.&]
+[s7;i1120;a17;:Ctrl`:`:TRANSPARENTBACKPAINT: [%-*C@3 TRANSPARENTBACKPAINT]-|Фоноок
+раска только прозрачных отпрысков 
+Ctrl`'ов.&]
+[s7;i1120;a17;:Ctrl`:`:EXCLUDEPAINT: [%-*C@3 EXCLUDEPAINT]-|Ctrl не 
+окрашивается. Это особый случай для 
+ситуаций, связаных с определённой 
+системой (типа контрола OLE, окрашиваемого 
+обычной процедурой Windows).&]
 [s3; &]
 [s4; &]
 [s5;%- [*@(64) typedef_][*@(0.0.255) bool][*@(64) _(`*][* MouseHook][*@(64) )(Ctrl_`*ctrl, 
 ][*@(0.0.255) bool][*@(64) _inframe, ][*@(0.0.255) int][*@(64) _event, 
 Point_p, ][*@(0.0.255) int][*@(64) _zdelta, dword_keyflags)]&]
-[s2;b17;a17; Type for hooking mouse events across all Ctrls.&]
+[s2;b17;a17; Тип для хука событий мыши по 
+всем Ctrl`'ам.&]
 [s3; &]
 [s4; &]
 [s5;%- [*@(64) typedef_][*@(0.0.255) bool][*@(64) _(`*][* KeyHook][*@(64) )(Ctrl_`*ctrl, 
 dword_key, ][*@(0.0.255) int][*@(64) _count)]&]
-[s2;b17;a17; Type for hooking keyboard events across all Ctrls.&]
+[s2;b17;a17; Тип для хука событий клавиатуры 
+по всем Ctrl`'ам.&]
 [s3; &]
 [s4; &]
 [s5;%- [*@(64) typedef_][*@(0.0.255) bool][*@(64) _(`*][* StateHook][*@(64) )(Ctrl_`*ctrl, 
 ][*@(0.0.255) int][*@(64) _reason)]&]
-[s2;b17;a17; Type for hooking state changes across all Ctrls.&]
+[s2;b17;a17; Тип для хука изменений состояния 
+по всем Ctrl`'ам.&]
 [s0; &]
 [s4;%- &]
 [s5;:Ctrl`:`:PosLeft`(int`,int`):%- [@(0.0.255) static] [_^Ctrl`:`:Logc^ Logc]_[* PosLeft](
 [@(0.0.255) int]_[*@3 pos], [@(0.0.255) int]_[*@3 size])&]
-[s2;b17;a17; Создаёт left (or top) aligned logical coordinate (Logc).&]
-[s7;i1120;a17; [%-*C@3 pos]-|Distance between left margin and left margin 
-of parent`'s view.&]
-[s7;i1120;a17; [%-*C@3 size]-|Size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Logical coordinate.&]
+[s2;b17;a17; Создаёт расположенную слева 
+(или вверху) логическую координату 
+(Logc).&]
+[s7;i1120;a17; [%-*C@3 pos]-|Расстояние между левой 
+кромкой и левой кромкой образа родителя.&]
+[s7;i1120;a17; [%-*C@3 size]-|Размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Логическая 
+координата.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:PosRight`(int`,int`):%- [@(0.0.255) static] [_^Ctrl`:`:Logc^ Logc]_[* PosRight
 ]([@(0.0.255) int]_[*@3 pos], [@(0.0.255) int]_[*@3 size])&]
-[s2;b17;a17; Создаёт right (or bottom) aligned logical coordinate 
+[s2;b17;a17; Создаёт расположенную справа 
+(или внизу) логическую координату 
 (Logc).&]
-[s7;i1120;a17; [%-*C@3 pos]-|Distance between right margin and right 
-margin of parent`'s view.&]
-[s7;i1120;a17; [%-*C@3 size]-|Size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Logical coordinate.&]
+[s7;i1120;a17; [%-*C@3 pos]-|Расстояние между правой 
+кромкой и правой кромкой образа родителя.&]
+[s7;i1120;a17; [%-*C@3 size]-|Размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Логическая 
+координата.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:PosTop`(int`,int`):%- [@(0.0.255) static] [_^`:`:Ctrl`:`:Logc^ Logc]_[* PosTop
 ]([@(0.0.255) int]_[*@3 pos], [@(0.0.255) int]_[*@3 size])&]
-[s2;b17;a17; Equal to PosLeft(pos, size).&]
-[s7;i1120;a17; [%-*C@3 pos]-|Distance between top margin and top margin 
-of parent`'s view.&]
-[s7;i1120;a17; [%-*C@3 size]-|Size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Logical coordinate.&]
+[s2;b17;a17; Равно PosLeft(pos, size).&]
+[s7;i1120;a17; [%-*C@3 pos]-|Расстояние между верхней 
+кромкой и верхней кромкой образа 
+родителя.&]
+[s7;i1120;a17; [%-*C@3 size]-|Размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Логическая 
+координата.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:PosBottom`(int`,int`):%- [@(0.0.255) static] [_^`:`:Ctrl`:`:Logc^ Logc]_[* Pos
 Bottom]([@(0.0.255) int]_[*@3 pos], [@(0.0.255) int]_[*@3 size])&]
-[s2;b17;a17; Equal to PosRight(pos, size).&]
-[s7;i1120;a17; [%-*C@3 pos]-|Distance between bottom margin and bottom 
-margin of parent`'s view.&]
-[s7;i1120;a17; [%-*C@3 size]-|Size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Logical coordinate.&]
+[s2;b17;a17; Равно PosRight(pos, size).&]
+[s7;i1120;a17; [%-*C@3 pos]-|Расстояние между нижней 
+кромкой и нижней кромкой образа родителя.&]
+[s7;i1120;a17; [%-*C@3 size]-|Размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Логическая 
+координата.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:PosSize`(int`,int`):%- [@(0.0.255) static] [_^`:`:Ctrl`:`:Logc^ Logc]_[* PosSi
 ze]([@(0.0.255) int]_[*@3 lpos], [@(0.0.255) int]_[*@3 rpos])&]
-[s2;b17;a17; Создаёт logical coordinate where distances between margins 
-and parent`'s view margins are fixed and size of Ctrl is variable 
-(depends of parent`'s view size).&]
-[s7;i1120;a17; [%-*C@3 lpos]-|Distance between left/top margin and left/top 
-margin of parent`'s view.&]
-[s7;i1120;a17; [%-*C@3 rpos]-|Distance between right/bottom margin and 
-right/bottom margin of parent`'s view.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Logical coordinate.&]
+[s2;b17;a17; Создаёт логическую координату, 
+у которой расстояния между кромками 
+и кромками образа родителя фиксированы, 
+а размер Ctrl`'а переменный (зависит 
+от размера образа родителя).&]
+[s7;i1120;a17; [%-*C@3 lpos]-|Расстояние между левой/верхней 
+кромкой и левой/верхней кромкой образа 
+родителя.&]
+[s7;i1120;a17; [%-*C@3 rpos]-|Расстояние между правой/нижней 
+кромкой и правой/нижней кромкой образа 
+родителя.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Логическая 
+координата.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:PosCenter`(int`,int`):%- [@(0.0.255) static] [_^`:`:Ctrl`:`:Logc^ Logc]_[* Pos
 Center]([@(0.0.255) int]_[*@3 size], [@(0.0.255) int]_[*@3 offset])&]
-[s2;b17;a17; Создаёт centered logical coordinate, where Ctrl is placed 
-in specified distance from center of parent`'s view. &]
-[s7;i1120;a17; [%-*C@3 size]-|Size.&]
-[s7;i1120;a17; [%-*C@3 offset]-|Offset from center.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Logical coordinate.&]
+[s2;b17;a17; Создаёт логическую координату 
+по центру, когда Ctrl размещается на 
+определённом расстоянии от центра 
+образа родителя. &]
+[s7;i1120;a17; [%-*C@3 size]-|Размер.&]
+[s7;i1120;a17; [%-*C@3 offset]-|Смещение от центра.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Логическая 
+координата.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:PosCenter`(int`):%- [@(0.0.255) static] [_^`:`:Ctrl`:`:Logc^ Logc]_[* PosCente
 r]([@(0.0.255) int]_[*@3 size])&]
-[s2;b17;a17; Equal to PosCenter(size, 0).&]
-[s7;i1120;a17; [%-*C@3 size]-|Size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Logical coordinate.&]
+[s2;b17;a17; Равно PosCenter(size, 0).&]
+[s7;i1120;a17; [%-*C@3 size]-|Размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Логическая 
+координата.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetTopCtrls`(`):%- [@(0.0.255) static] [_^`:`:Vector^ Vector][@(0.0.255) <]Ctr
 l_`*>_[* GetTopCtrls]()&]
-[s2;b17;a17; Возвращает all opened top`-level Ctrls of process. Top`-level 
-Ctrls are those without parent (GetParent() `=`= NULL) `- TopWindow 
-Ctrls and pop`-up Ctrls.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Vector of 
-all top Ctrls.&]
+[s2;b17;a17; Возвращает все открытые верхнеуровневы
+е Ctrl`'ы процесса. У верхнеуровневых 
+Ctrl`'ов нет родителя (GetParent() `=`= NULL) `- 
+TopWindow (верхнеуровневые) Ctrl`'ы и pop`-up 
+(всплывающие) Ctrl`'ы.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Вектор 
+из всех верхних Ctrl`'ов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetTopWindows`(`):%- [@(0.0.255) static] [_^`:`:Vector^ Vector][@(0.0.255) <]C
 trl_`*>_[* GetTopWindows]()&]
-[s2;b17;a17; Возвращает all opened TopWindows (that is, instances of 
-TopWindow class or classes derived from TopWindow) of process. 
-The difference between GetTopWindows and GetTopCtrls is that 
-GetTopCtrls returns pop`-ups too. &]
-[s7;i1120;a17; [*/ Возвратное значение]-|Vector of 
-all TopWindows.&]
+[s2;b17;a17; Возвращает все открытые TopWindows 
+(то есть экземпляры класса TopWindow или 
+производных от него) процесса. Разница 
+между GetTopWindows и GetTopCtrls в том, что GetTopCtrls 
+возвращает также и pop`-up`'ы. &]
+[s7;i1120;a17; [*/ Возвратное значение]-|Вектор 
+из всех TopWindows.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:CloseTopCtrls`(`):%- [@(0.0.255) static] [@(0.0.255) void]_[* CloseTopCtrls]()
 &]
-[s2;b17;a17; Closes all top`-level Ctrls.&]
+[s2;b17;a17; Закрывает все верхнеуровневые 
+Ctrl`'ы.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:InstallMouseHook`(Ctrl`:`:MouseHook`):%- [@(0.0.255) static] 
 [@(0.0.255) void]_[* InstallMouseHook]([_^`:`:Ctrl`:`:MouseHook^ MouseHook]_[*@3 hook])&]
-[s2;b17;a17; Installs mouse hook `- a routine that receives all mouse 
-input of application before it gets processed by Ctrls. You can 
-install more mouse hooks. Mouse hook routine should return true 
-to indicate the end of processing (and event propagation).&]
-[s7;i1120;a17; [%-*C@3 hook]-|Pointer to hook routine.&]
+[s2;b17;a17; Устанавливает хук мыши `- процедуру, 
+которая получает весь ввод в приложение 
+от мыши, до того, как он обрабатывается 
+Ctrl`'ами. Можно установить несколько 
+хуков мыши. Процедура хука мыши должна 
+возвращать true, указывая на конец обработки 
+(и пропагацию события).&]
+[s7;i1120;a17; [%-*C@3 hook]-|Указатель на процедуру 
+хука.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:DeinstallMouseHook`(Ctrl`:`:MouseHook`):%- [@(0.0.255) static] 
 [@(0.0.255) void]_[* DeinstallMouseHook]([_^`:`:Ctrl`:`:MouseHook^ MouseHook]_[*@3 hook])
 &]
-[s2;b17;a17; Uninstalls previously installed mouse hook.&]
-[s7;i1120;a17; [%-*C@3 hook]-|Pointer to hook routine.&]
+[s2;b17;a17; Убирает ранее установленный 
+хук мыши.&]
+[s7;i1120;a17; [%-*C@3 hook]-|Указатель на процедуру 
+хука.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:InstallKeyHook`(Ctrl`:`:KeyHook`):%- [@(0.0.255) static] 
 [@(0.0.255) void]_[* InstallKeyHook]([_^`:`:Ctrl`:`:KeyHook^ KeyHook]_[*@3 hook])&]
-[s2;b17;a17; Installs keyboard hook `- a routine that receives all 
-keyboard input of application before it gets processed by Ctrls. 
-You can install more than one keyboard hooks. Keyboard hook routine 
-should return true to indicate the end of processing (and event 
-propagation).&]
-[s7;i1120;a17; [%-*C@3 hook]-|Pointer to hook routine.&]
+[s2;b17;a17; Устанавливает хук клавиатуры 
+`- процедуру, которая получает весь 
+ввод в приложение от клавиатуры, до 
+того, как он обрабатывается Ctrl`'ами. 
+Можно установить несколько хуков 
+клавиатуры. Процедура хука клавиатуры 
+должна возвращать true, указывая на 
+конец обработки (и пропагацию события).&]
+[s7;i1120;a17; [%-*C@3 hook]-|Указатель на процедуру 
+хука.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:DeinstallKeyHook`(Ctrl`:`:KeyHook`):%- [@(0.0.255) static] 
 [@(0.0.255) void]_[* DeinstallKeyHook]([_^`:`:Ctrl`:`:KeyHook^ KeyHook]_[*@3 hook])&]
-[s2;b17;a17; Uninstalls previously installed keyboard hook.&]
-[s7;i1120;a17; [%-*C@3 hook]-|Pointer to hook routine.&]
+[s2;b17;a17; Убирает ранее установленный 
+хук клавиатуры.&]
+[s7;i1120;a17; [%-*C@3 hook]-|Указатель на процедуру 
+хука.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:InstallStateHook`(Ctrl`:`:StateHook`):%- [@(0.0.255) static] 
 [@(0.0.255) void]_[* InstallStateHook]([_^`:`:Ctrl`:`:StateHook^ StateHook]_[*@3 hook])&]
-[s2;b17;a17; Installs state hook `- a routine that receives all state 
-changes of any Ctrls.&]
-[s7;i1120;a17; [%-*C@3 hook]-|Pointer to hook routine.&]
+[s2;b17;a17; Устанавливает хук состояния 
+`- процедуру, получающую все изменения 
+состояния любых Ctrl`'ов.&]
+[s7;i1120;a17; [%-*C@3 hook]-|Указатель на процедуру 
+хука.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:DeinstallStateHook`(Ctrl`:`:StateHook`):%- [@(0.0.255) static] 
 [@(0.0.255) void]_[* DeinstallStateHook]([_^`:`:Ctrl`:`:StateHook^ StateHook]_[*@3 hook])
 &]
-[s2;b17;a17; Deinstalls previously installed state hook.&]
-[s7;i1120;a17; [%-*C@3 hook]-|Pointer to hook routine.&]
+[s2;b17;a17; Убирает ранее установленный 
+хук состояния.&]
+[s7;i1120;a17; [%-*C@3 hook]-|Указатель на процедуру 
+хука.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Paint`(Draw`&`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Paint]([_^`:`:Draw^ D
 raw][@(0.0.255) `&]_[*@3 draw])&]
-[s2;b17;a17; This method is called when Ctrl`'s view area is about 
-to be repainted.&]
-[s7;i1120;a17; [%-*C@3 draw]-|Target of draw operations.&]
+[s2;b17;a17; Вызывается перед переокрашиванием 
+области видимости Ctrl`'ов.&]
+[s7;i1120;a17; [%-*C@3 draw]-|Цель операций отрисовки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:CancelMode`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* CancelMode]()&]
-[s2;b17;a17; This method is called by U`+`+ core in situations when 
-internal state of Ctrl that represents ongoing user action is 
-about to be cleared to default. Typical example of such action 
-is state of Button that is pushed by mouse click `- if the pushed 
-state is internally recorded in Button, it should by cleared 
-by this method. Examples of situations when this method is called 
-by framework is removing Ctrl from its parent or releasing mouse 
-capture.&]
+[s2;b17;a17; Вызывается ядром U`+`+ в ситуациях, 
+когда внутреннее состояние Ctrl`'а, 
+представляющего происходящее действие 
+пользователя, находится перед очисткой 
+в дефолтное состояние. Типичный пример 
+такого действия `- состояние кнопки 
+Button, нажатой кликом мышью, `- если внутренне 
+записано о нажатом состоянии в Button, 
+то этот метод очистит. Примеры ситуаций, 
+в которых этот метод вызывается фремворком, 
+это удаление контрола из его родителя 
+или освобождение от захвата мышью.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Activate`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Activate]()&]
-[s2;b17;a17; This method is called when Ctrl is top`-level and is 
-activated `- it or some of its child Ctrls receives keyboard 
-focus (activation usually has other signs as bringing window 
-foreground or changing its caption).&]
+[s2;b17;a17; Вызывается, когда Ctrl на верхнем 
+уровне и активирован `- он или некоторые 
+его отпрыски`-контролы получают клавиатурны
+й фокус (у активации обычно есть другие 
+признаки, такие как вывод окна на 
+передний план или изменение его заголовка).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Deactivate`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Deactivate]()&]
-[s2;b17;a17; This method is called when Ctrl is top`-level and is 
-deactivated `- focus has gone outside of Ctrl and its child Ctrls.&]
+[s2;b17;a17; Вызывается, когда Ctrl на верхнем 
+уровне и дезактивирован `- фокус покидает 
+контрол и его отпрысков.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:DeactivateBy`(Upp`:`:Ctrl`*`):%- [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* DeactivateBy]([_^Upp`:`:Ctrl^ Ctrl]_`*[*@3 new`_focus])&]
-[s2; Similar to Deactivate without parameter, but if a widget that 
-caused deactivation by getting a focus is part of the same appliaction, 
-[%-*@3 new`_focus] contains a pointer to it. If deactivation is 
-caused by switching to another application, this parameter is 
-NULL. Both variants of Deactivate are called, the variant with 
-paremeter is called first.&]
+[s2; Подобен Deactivate без параметров, но 
+если вызвавший дезактивацию виджет, 
+получивший фокус, является частью 
+того же приложения, то [%-*@3 new`_focus] содержит 
+указатель на него. Если же дезактивация 
+вызвана переключением на другое приложение,
+ то этот параметр равен NULL. Вызываются 
+оба варианта Deactivate, первым `- с параметром.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:FrameMouseEvent`(int`,Point`,int`,dword`):%- [@(0.0.255) virtual] 
 [_^`:`:Image^ Image]_[* FrameMouseEvent]([@(0.0.255) int]_[*@3 event], 
 [_^`:`:Point^ Point]_[*@3 p], [@(0.0.255) int]_[*@3 zdelta], [_^`:`:dword^ dword]_[*@3 keyfla
 gs])&]
-[s2;b17;a17; This method is called when mouse event happens in frame 
-area of Ctrl not containing any child Ctrls. Default implementation 
-does nothing and returns Image`::Arrow().&]
-[s7;i1120;a17; [%-*C@3 event]-|Type of event define by [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:enum MouseEvents `{ BUTTON`, ACTION`, MOUSEENTER`, MOUSEMOVE`, MOUSELEAVE`, CURSORIMAGE`, MOUSEWHEEL`, DOWN`, UP`, DOUBLE`, REPEAT`, LEFTDOWN`, LEFTDOUBLE`, LEFTREPEAT`, LEFTUP`, RIGHTDOWN`, RIGHTDOUBLE`, RIGHTREPEAT`, RIGHTUP `}^ M
-ouseEvents] enum.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in frame coordinates.&]
-[s7;i1120;a17; [%-*C@3 zdelta]-|Mouse wheel rotation delta (if event 
-is MOUSEWHEEL).&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|If event 
-is MOUSEIMAGE, method should return Image to be displayed as 
-mouse cursor.&]
+[s2;b17;a17; Вызывается, когда в зоне фрейма 
+контрола случается событие мыши, 
+а контролов`-отпрысков не имеется. 
+Дефолтная реализация ничего не делает 
+и возвращает Image`::Arrow().&]
+[s7;i1120;a17; [%-*C@3 event]-|Тип события, определённоый 
+в перечне [^topic`:`/`/CtrlCore`/src`/Ctrl`_ru`-ru`#Ctrl`:`:LEFTUP^ MouseEv
+ents].&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах фрейма.&]
+[s7;i1120;a17; [%-*C@3 zdelta]-|Дельта вращения колёсика 
+мыши (если событие MOUSEWHEEL).&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Если 
+событие MOUSEIMAGE, метод должен вернуть 
+Image, показываемый в качестве курсора 
+мыши.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:MouseEvent`(int`,Point`,int`,dword`):%- [@(0.0.255) virtual] 
 [_^`:`:Image^ Image]_[* MouseEvent]([@(0.0.255) int]_[*@3 event], [_^`:`:Point^ Point]_[*@3 p
 ], [@(0.0.255) int]_[*@3 zdelta], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called when mouse event happens in view 
-area of Ctrl not containing any child Ctrls. Default implementation 
-calls specific mouse event methods based on event parameter.&]
-[s7;i1120;a17; [%-*C@3 event]-|Type of event define by [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:enum MouseEvents `{ BUTTON`, ACTION`, MOUSEENTER`, MOUSEMOVE`, MOUSELEAVE`, CURSORIMAGE`, MOUSEWHEEL`, DOWN`, UP`, DOUBLE`, REPEAT`, LEFTDOWN`, LEFTDOUBLE`, LEFTREPEAT`, LEFTUP`, RIGHTDOWN`, RIGHTDOUBLE`, RIGHTREPEAT`, RIGHTUP `}^ M
-ouseEvents] enum.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 zdelta]-|Mouse wheel rotation delta (if event 
-is MOUSEWHEEL).&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|If event 
-is MOUSEIMAGE, method should return Image to be displayed as 
-mouse cursor.&]
+[s2;b17;a17; Вызывается, когда в зоне фрейма 
+контрола случается событие мыши, 
+а контролов`-отпрысков не имеется. 
+Дефолтная реализация вызывает специфичные 
+методы события мыши, основанные на 
+параметре события.&]
+[s7;i1120;a17; [%-*C@3 event]-|Тип события, определённый 
+в перечне [^topic`:`/`/CtrlCore`/src`/Ctrl`_ru`-ru`#Ctrl`:`:LEFTUP^ MouseEv
+ents].&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах фрейма.&]
+[s7;i1120;a17; [%-*C@3 zdelta]-|Дельта вращения колёсика 
+мыши (если событие MOUSEWHEEL).&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Если 
+событие MOUSEIMAGE, метод должен вернуть 
+Image, показываемый в качестве курсора 
+мыши.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:MouseEnter`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* MouseE
 nter]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse cursor enters the view area of Ctrl.&]
-[s7;i1120;a17; [%-*C@3 p]-|Point of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда курсор мыши входит в 
+зону видимости контрола.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt..&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:MouseMove`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* MouseMo
 ve]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse cursor hovers above view area of Ctrl.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда курсор мыши проходит 
+над зоной видимости контрола.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:LeftDown`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* LeftDown
 ]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse left button is pressed.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда нажата левая кнопка мыши.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt..&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:LeftDouble`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* LeftDo
 uble]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse left button is double`-clicked. Default implementation 
-calls LeftDown.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Вызывается реализацией MouseEvent, 
+когда дважды нажата левая кнопка 
+мыши Дефолтная реализация вызывает 
+LeftDown.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:LeftTriple`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* LeftTr
 iple]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse left button is triple`-clicked. Default implementation 
-calls LeftDown.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда трижды нажата левая кнопка 
+мыши. Дефолтная реализация вызывает 
+LeftDown.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:LeftDrag`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* LeftDrag
 ]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when user moves the mouse while holding left button by more than 
-GUI`_DragDistance pixels. [%-*@3 p] is the starting point of drag, 
-not the current mouse position.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда пользователь перемещает 
+мышь, нажимая левую кнопку над более, 
+чем GUI`_DragDistance, пикселями. [%-*@3 p] `- это 
+стартовая точка `"тяга`" (drag), а не текущая 
+позиция мыши.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:LeftHold`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* LeftHold
 ]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when user holds the mouse left button down for a while.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда пользователь какое`-то 
+время удерживает нажатой левую кнопку 
+мыши.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:LeftRepeat`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* LeftRe
 peat]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is repeatedly called by default implementation 
-of MouseEvent when mouse left button is pressed for some time, 
-imitating keyboard autorepeat behaviour.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Этот метод повторно вызывается 
+дефолтной реализацией MouseEvent, когда 
+какое`-то время нажимается левая кнопка 
+мыши, имитируя поведения клавиатурного 
+автоповтора.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:LeftUp`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* LeftUp]([_^`:`:Point^ P
 oint]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse left button is released.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда левая кнопка мыши отпущена.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RightDown`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* RightDo
 wn]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse right button is pressed.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда нажата правая кнопка 
+мыши.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RightDouble`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Right
 Double]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse right button is double`-clicked. Default implementation 
-calls RightDown.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Вызывается реализацией MouseEvent, 
+когда дважды нажата правая кнопка 
+мыши. Дефолтная реализация вызывает 
+RightDown.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RightTriple`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Right
 Triple]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse right button is triple`-clicked. Default implementation 
-calls RightDown.&]
+[s2;b17;a17; Вызывается реализацией MouseEvent, 
+когда трижды нажата правая кнопка 
+мыши. Дефолтная реализация вызывает 
+RightDown.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RightDrag`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* RightDr
 ag]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when user moves the mouse while holding right button by more 
-than GUI`_DragDistance pixels. [%-*@3 p] is the starting point 
-of drag, not the current mouse position.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда пользователь перемещает 
+мышь, нажимая правую кнопку над более, 
+чем GUI`_DragDistance, пикселями. [%-*@3 p] `- это 
+стартовая точка `"тяга`" (drag), а не текущая 
+позиция мыши.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RightHold`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* RightHo
 ld]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when user holds the mouse right button down for a while.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда пользователь какое`-то 
+время удерживает нажатой правую кнопку 
+мыши.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RightRepeat`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Right
 Repeat]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is repeatedly called by default implementation 
-of MouseEvent when mouse right button is pressed for some time, 
-imitating keyboard autorepeat behaviour.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Этот метод повторно вызывается 
+дефолтной реализацией MouseEvent, когда 
+какое`-то время нажимается правая 
+кнопка мыши, имитируя поведения клавиатурно
+го автоповтора.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RightUp`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* RightUp](
 [_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse left button is released.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда правая кнопка мыши отпущена.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:MiddleDown`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Middle
 Down]([_^Point^ Point]_[*@3 p], [_^dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse middle button is pressed.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда нажата средняя кнопка 
+мыши.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:MiddleDouble`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Midd
 leDouble]([_^Point^ Point]_[*@3 p], [_^dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse left button is double`-clicked.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда дважды нажата средняя 
+кнопка мыши.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:MiddleTriple`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Midd
 leTriple]([_^Point^ Point]_[*@3 p], [_^dword^ dword]_[*@3 keyflags])&]
-[s2; This method is called by default implementation of MouseEvent 
-when mouse right button is triple`-clicked.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2; Вызывается дефолтной реализацией 
+MouseEvent, когда трижды нажата средняя 
+кнопка мыши.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:MiddleRepeat`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Midd
 leRepeat]([_^Point^ Point]_[*@3 p], [_^dword^ dword]_[*@3 keyflags])&]
-[s2; This method is repeatedly called by default implementation of 
-MouseEvent when mouse right button is pressed for some time, 
-imitating keyboard autorepeat behaviour.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2; Этот метод повторно вызывается дефолтной 
+реализацией MouseEvent, когда какое`-то 
+время нажимается средняя кнопка мыши, 
+имитируя поведения клавиатурного 
+автоповтора.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:MiddleDrag`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Middle
 Drag]([_^Point^ Point]_[*@3 p], [_^dword^ dword]_[*@3 keyflags])&]
-[s2; This method is called by default implementation of MouseEvent 
-when user moves the mouse while holding middle button by more 
-than GUI`_DragDistance pixels. [%-*@3 p] is the starting point 
-of drag, not the current mouse position.&]
+[s2; Вызывается дефолтной реализацией 
+MouseEvent, когда пользователь перемещает 
+мышь, нажимая среднюю кнопку над более, 
+чем GUI`_DragDistance, пикселями. [%-*@3 p] `- это 
+стартовая точка `"тяга`" (drag), а не текущая 
+позиция мыши.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:MiddleHold`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Middle
 Hold]([_^Point^ Point]_[*@3 p], [_^dword^ dword]_[*@3 keyflags])&]
-[s2; This method is called by default implementation of MouseEvent 
-when user holds the mouse middle button down for a while.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2; Вызывается дефолтной реализацией 
+MouseEvent, когда пользователь какое`-то 
+время удерживает нажатой среднюю 
+кнопку мыши.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:MiddleUp`(Point`,dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* MiddleUp
 ]([_^Point^ Point]_[*@3 p], [_^dword^ dword]_[*@3 keyflags])&]
-[s2; This method is called by default implementation of MouseEvent 
-when mouse middle button is released.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2; Вызывается дефолтной реализацией 
+MouseEvent, когда средняя кнопка мыши отпущена.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:MouseWheel`(Point`,int`,dword`):%- [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* MouseWheel]([_^`:`:Point^ Point]_[*@3 p], [@(0.0.255) int]_[*@3 zdelta],
  [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse wheel is rotated. Default implementation of this method 
-propagates event to the parent and suppresses call of ChildMouseEvent 
-for the parent.&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 zdelta]-|Amount of rotation.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent при вращении колёсика мыши. 
+Дефолтная реализация пропагирует 
+(распространяет) событие на родителя 
+и подавляет вызов ChildMouseEvent для этого 
+родителя.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 zdelta]-|Количество вращения.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:MouseLeave`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* MouseLeave]()&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when mouse cursor leaves view area of Ctrl.&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда курсор мыши покидает 
+область видимости контрола.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:GetPreedit`(`):%- [_^Upp`:`:Point^ Point]_[* GetPreedit]()&]
-[s2; If the widget is supposed to support text input, it should return 
-top`-left corner of insertion point so that host input method 
-can eventually display a composition window near the insertion 
-point with U`+`+ displaying composition text over the spot. Should 
-return Null if widget does not require the text input. Default 
-implementation returns the position of caret.&]
+[s2; Если предположительно этот виджет 
+поддерживает текстовый ввод, то метод 
+возвращает верхний левый угол точки 
+вставки, так чтобы хостовый метод 
+ввода мог отобразить оконце композиции 
+рядом с точкой ввода, и U`+`+ показал 
+текст композиции над этим местом. 
+Должен вернуть Null, если виджету не 
+требуется текстовый ввод. Дефолтная 
+реализация возвращает позицию каретки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:GetPreeditFont`(`):%- [_^Upp`:`:Font^ Font]_[* GetPreeditFont]()&]
-[s2; Should return the font that is supposed to be used for composition 
-text. Default implementation returns StdFont().&]
+[s2; Должен вернуть шрифт предположительно 
+используемый для текста композиции. 
+Дефолтная реализация возвращает 
+StdFont().&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:DragAndDrop`(Point`,PasteClip`&`):%- [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* DragAndDrop]([_^Point^ Point]_[*@3 p], [_^PasteClip^ PasteClip][@(0.0.255) `&
 ]_[*@3 d])&]
-[s2; This method is called when user performs drag and drop operation 
-over view area. The drag operation can either be just moving 
-the mouse, or actual drop `- the difference is that for actual 
-drop the PasteClip`::Accept method returns true. This allows to 
-share drag and drop logic, which is very similar, in the single 
-method.&]
+[s2; Вызывается при выполнении пользователем 
+операции `"тяга`-броса`" (drag and drop) над 
+областью видимости. Операцией тяга 
+может быть либо простое перемещение 
+мыши, либо действительный брос `- разница 
+в том, что при действительном бросе 
+метод PasteClip`::Accept возвращает true. Это 
+позволяет делиться логикой тяга`-броса, 
+которые очень похожи, в одном методе.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:FrameDragAndDrop`(Point`,PasteClip`&`):%- [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* FrameDragAndDrop]([_^Point^ Point]_[*@3 p], [_^PasteClip^ PasteClip][@(0.0.255) `&
 ]_[*@3 d])&]
-[s2; This method is called when user performs drag and drop operation 
-over frame area. The drag operation can either be just moving 
-the mouse, or actual drop `- the difference is that for actual 
-drop the PasteClip`::Accept method returns true. This allows to 
-share drag and drop logic, which is very similar, in the single 
-method.&]
+[s2; Вызывается при выполнении пользователем 
+операции `"тяга`-броса`" (drag and drop) над 
+областью фрейма. Операцией тяга может 
+быть либо простое перемещение мыши, 
+либо действительный брос `- разница 
+в том, что при действительном бросе 
+метод PasteClip`::Accept возвращает true. Это 
+позволяет делиться логикой тяга`-броса, 
+которые очень похожи, в одном методе.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:DragRepeat`(Point`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* DragRepeat]([_^Point^ P
 oint]_[*@3 p])&]
-[s2; This method is called when user holds his drag operation over 
-single position for some time. This is similar to LeftRepeat 
-and it is usually used to scroll the content of view when DragRepeat 
-occurs at the border area of view.&]
+[s2; Вызывается, когда пользователь какое`-то 
+время удерживает операцию тяга над 
+одной из позиций. Это подобно LeftRepeat 
+и обычно используется для промотки 
+содержимого в области видимости, 
+когда имеет место быть DragRepeat в бордюрной 
+области поля видимости.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:DragEnter`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* DragEnter]()&]
-[s2; Called when user enters view with drag.&]
+[s2; Вызывается, когда пользователь делает 
+`"тяг`" в область видимости.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:DragLeave`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* DragLeave]()&]
-[s2; Called when user`'s drag leaves the view.&]
+[s2; Вызывается, когда `"тяг`" пользователя 
+покидает область видимости.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetDropData`(const String`&`)const:%- [@(0.0.255) virtual] 
 [_^String^ String]_[* GetDropData]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 f
 mt])_[@(0.0.255) const]&]
-[s2; This method is invoked to obtain drop data from Ctrl if such 
-data was not supplied as ClipData in call to DoDragAndDrop. Default 
-implementation calls GetSelectionData.&]
+[s2; Вызывается для получения данных 
+`"броса`" от контрола, если подобные 
+данные не были поставлены как ClipData 
+при вызове DoDragAndDrop. Дефолтная реализация 
+вызывает GetSelectionData.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetSelectionData`(const String`&`)const:%- [@(0.0.255) virtual] 
 [_^String^ String]_[* GetSelectionData]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[*@3 fmt])_[@(0.0.255) const]&]
-[s2; This method should return the widget`'s actual selection in 
-requested format. It is used for X11 middle mouse selection paste 
-operation ans as default implementation of GetDropData, because 
-usually the data to be transfered by drag`&drop operation is 
-the selection.&]
+[s2; Этот метод должен вернуть действительное 
+выделение в виджете в требуемом формате. 
+Он используется для операции вставки 
+выделения средней кнопкой в X11 и как 
+дефолтная реализация GetDropData, так как 
+обычно данные, трансферируемые операцией 
+drag`&drop являются выделением.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:CursorImage`(Point`,dword`):%- [@(0.0.255) virtual] [_^`:`:Image^ Image]_[* Cu
 rsorImage]([_^`:`:Point^ Point]_[*@3 p], [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is called by default implementation of MouseEvent 
-when the shape of mouse cursor is to be determined..&]
-[s7;i1120;a17; [%-*C@3 p]-|Position of mouse cursor in view coordinates.&]
-[s7;i1120;a17; [%-*C@3 keyflags]-|Combination of key flags for Shift, 
-Ctrl and Alt keys.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Image of 
-new cursor. Default implementation returns Image`::Arrow().&]
+[s2;b17;a17; Вызывается дефолтной реализацией 
+MouseEvent, когда нужно определить форму 
+курсора мыши.&]
+[s7;i1120;a17; [%-*C@3 p]-|Позиция курсора мыши в 
+координатах видимости.&]
+[s7;i1120;a17; [%-*C@3 keyflags]-|Комбинация клавишных 
+флагов для клавиш Shift, Ctrl и Alt.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Рисунок 
+нового курсора. Дефолтная реализация 
+возвращает Image`::Arrow().&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Key`(dword`,int`):%- [@(0.0.255) virtual] [@(0.0.255) bool]_[* Key]([_^`:`:dword^ d
 word]_[*@3 key], [@(0.0.255) int]_[*@3 count])&]
-[s2;b17;a17; This method provides keyboard input. When keyboard event 
-occurs and some of U`+`+ application Ctrls has input focus, its 
-Key method is called. If Key method returns true, processing 
-of key event is finished. If it returns false, U`+`+ calls Key 
-method of parent Ctrl and it repeats until either true is returned 
-or Ctrl has no parent. If such top`-level Ctrl is reached, U`+`+ 
-calls its HotKey method. Default implementation is void and returns 
+[s2;b17;a17; Этот метод обеспечивает клавиатурный 
+ввод. Когда происходит клавиатурное 
+событие и у некоторых контролов приложения 
+U`+`+ есть фокус ввода, вызывается его 
+метод Key. Если метод Key возвращает 
+true, то обработка события клавиши окончена. 
+Если же он возвращает false, то U`+`+ вызывает 
+метод Key контрола`-родителя, и это 
+продолжается до тех пор, пока не вернётся 
+true, или же у контрола будет отсутствовать 
+родитель. Если достигнуты такие верхнеуровн
+евые контролы, U`+`+ вызывает у них метод 
+HotKey. Дефолтная рееализация void и возвращает 
 false.&]
-[s7;i1120;a17; [%-*C@3 key]-|Key identifier. If it is less than 65536, 
-it indicates character code, otherwise it is key`-code. Key`-code 
-is combination of basic key codes and further flags indicating 
-state of shift keys and push/release events.&]
-[s7;i1120;a17; [%-*C@3 count]-|Accumulated autorepeat count.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Method should 
-return true if further propagation is not desirable (in most 
-cases this indicates that Ctrl accepted the key).&]
+[s7;i1120;a17; [%-*C@3 key]-|Идентификатор клавиши. 
+Если он меньше 65536, то указывает на 
+код символа, иначе это код клавиши. 
+Код клавиши `- это комбинация базовых 
+кодов клавиш и прочих флагов, показывающих 
+состояние клавиш shift и событий push/release.&]
+[s7;i1120;a17; [%-*C@3 count]-|Накопленный счёт автоповторов.
+&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Метод 
+должен возвращать true, если дальнейшая 
+пропагация нежелательна (в большинстве 
+случаев это говорит о том, что контрол 
+принял (`"одобрил`") клавишу).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HotKey`(dword`):%- [@(0.0.255) virtual] [@(0.0.255) bool]_[* HotKey]([_^`:`:dword^ d
 word]_[*@3 key])&]
-[s2;b17;a17; This method is called when no Ctrl accepts key event 
-using Key method. Default implementation calls HotKey method 
-child Ctrls. If some child Ctrl returns true, method returns 
-true, otherwise it returns false.&]
-[s7;i1120;a17; [%-*C@3 key]-|Key indentifier.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Method should 
-return true to stop further distribution of key event via HotKey 
-methods.&]
+[s2;b17;a17; Вызывается, когда не осталось 
+контрола, принимающего событие клавиши, 
+через метод Key. Дефолтная реализация 
+вызывает метод HotKey контролов`-отпрысков. 
+Если один из контролов`-отпрысков 
+возвращает true, тогда метод тоже возвращает 
+true,иначе он вернёт false.&]
+[s7;i1120;a17; [%-*C@3 key]-|Идентификатор клавиши.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Метод 
+должен вернуть true, чтобы остановить 
+дальнейшее распространение события 
+клавиши через методы HotKey.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GotFocus`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* GotFocus]()&]
-[s2;b17;a17; This method is called when Ctrl receives input focus. 
-Default implementation is void.&]
+[s2;b17;a17; Вызывается, когда контрол получает 
+фокус ввода. Дефолтная реализация 
+void.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:LostFocus`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* LostFocus]()&]
-[s2;b17;a17; This method is called when Ctrl loses input focus. Default 
-implementation is void.&]
+[s2;b17;a17; Вызывается, когда контрол теряет 
+фокус ввода. Дефолтная реализация 
+void.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ChildFrameMouseEvent`(Ctrl`*`,int`,Point`,int`,dword`):%- [@(0.0.255) virt
 ual] [@(0.0.255) void]_[* ChildFrameMouseEvent]([_^Ctrl^ Ctrl]_`*[*@3 child], 
 [@(0.0.255) int]_[*@3 event], [_^Point^ Point]_[*@3 p], [@(0.0.255) int]_[*@3 zdelta], 
 [_^dword^ dword]_[*@3 keyflags])&]
-[s2; This method is invoked before the [/ frame] mouse [%-*@3 event] 
-is routed to the [%-*@3 child]. Parameters of the event are the 
-same as those in MouseEvent method. Default implementation calls 
-the parent`'s ChildMouseEvent method.&]
+[s2; Вызывается перед тем, как событие 
+мыши [%-*@3 event]  фрейма передаётся отпрыску 
+[%-*@3 child]. Параметры события такие же 
+как в методе MouseEvent. Дефолтная реализация 
+вызывает метод родителя ChildMouseEvent.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ChildMouseEvent`(Ctrl`*`,int`,Point`,int`,dword`):%- [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* ChildMouseEvent]([_^`:`:Ctrl^ Ctrl]_`*[*@3 child], 
 [@(0.0.255) int]_[*@3 event], [_^`:`:Point^ Point]_[*@3 p], [@(0.0.255) int]_[*@3 zdelta], 
 [_^`:`:dword^ dword]_[*@3 keyflags])&]
-[s2;b17;a17; This method is invoked before the mouse [%-*@3 event] 
-is routed to the [%-*@3 child]. Parameters of the event are the 
-same as those in MouseEvent method. Default implementation calls 
-the parent`'s ChildMouseEvent method.&]
+[s2; Вызывается перед тем, как событие 
+мыши [%-*@3 event] передаётся отпрыску [%-*@3 child]. 
+Параметры события такие же как в методе 
+MouseEvent. Дефолтная реализация вызывает 
+метод родителя ChildMouseEvent.&]
+[s2;b17;a17; &]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:ChildGotFocus`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* ChildGotFocus](
 )&]
-[s2;b17;a17; This method is invoked when any of child Ctrls receives 
-input focus.&]
-[s3;%- &]
+[s2;b17;a17; Вызывается, когда любой из контролов`-от
+прысков получает фокус ввода.&]
+[s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:ChildLostFocus`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* ChildLostFocus
 ]()&]
-[s2;b17;a17; This method is invoked when any of child Ctrls loses 
-input focus.&]
+[s2;b17;a17; Вызывается, когда любой из контролов`-от
+прысков теряет фокус ввода.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetAccessKeys`(`)const:%- [@(0.0.255) virtual] [_^`:`:dword^ dword]_[* GetAcce
 ssKeys]()_[@(0.0.255) const]&]
-[s2;b17;a17; Ctrl should use this method to signal presence of access 
-keys. Access keys are keyboard keys that can be used to access 
-or activate dialog functions when pressed together with Alt key. 
-They can be defined by application designer (usually using `& 
-or `\b in labels), or they are automatically synthesized using 
-[* AssignAccessKeys] method. If Ctrl (of one of Ctrls in its child 
-tree) has some access keys and those keys are letters (in range 
-`'A`' `- `'Z`'), they should be returned as bit value using AccessKeyBit 
-function. Other access keys should be indicated by bit 0 (that 
-means, by binary or of 1 to result). Default implementation returns 
+[s2;b17;a17; Ctrl должен использовать этот 
+метод для сигнализации о наличии 
+ключей доступа. Ключи доступа `- это 
+кнопки клавиатуры, которые могут 
+применяться для доступа или активации 
+функций диалогового окна, при нажатии 
+заодно с клавишей Alt. Их может назначать 
+дизайнер приложения (как правило, 
+используя `& или `\b в ярлыках), либо 
+же они автоматически синтезируются 
+методом [* AssignAccessKeys]. Если Ctrl (одного 
+из контролов в дереве отпрысков) имеет 
+какие`-либо ключи доступа и они являются 
+буквами (в диапазоне `'A`' `- `'Z`'), они 
+должны возвращаться как бит`-значения 
+функцией AccessKeyBit. Прочие ключи доступа 
+отмечаются битом 0 (that means, by binary or of 
+1 to result). Дефолтная реализация возвращает 
 0.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Bit set of 
-access keys.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Бит`-набор 
+ключей доступа.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:AssignAccessKeys`(dword`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* AssignA
 ccessKeys]([_^`:`:dword^ dword]_[*@3 used])&]
-[s2;b17;a17; This method gives a Ctrl chance to synthesize its letter 
-access keys.&]
-[s7;i1120;a17; [%-*C@3 used]-|Set of letter access keys that are already 
-used and should not be chosen by Ctrl as its access keys.&]
+[s2;b17;a17; Даёт контролу шанс синтезировать 
+его буквенные ключи доступа.&]
+[s7;i1120;a17; [%-*C@3 used]-|Набор буквенных ключей 
+доступа, которые уже используются, 
+и не должны выбираться контролом 
+в качестве ключей доступа.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:ChildAdded`(Ctrl`*`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* ChildAdded](
 [_^`:`:Ctrl^ Ctrl]_`*[*@3 child])&]
-[s2;b17;a17; This method is invoked when child is added to Ctrl.&]
-[s7;i1120;a17; [%-*C@3 child]-|Pointer to child added.&]
+[s2;b17;a17; Вызывается при добавление к 
+контролу отпрыска (child).&]
+[s7;i1120;a17; [%-*C@3 child]-|Указатель на добавляемый 
+отпрыск.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ChildRemoved`(Ctrl`*`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* ChildRemov
 ed]([_^`:`:Ctrl^ Ctrl]_`*[*@3 child])&]
-[s2;b17;a17; This method is invoked when child is removed from Ctrl.&]
-[s7;i1120;a17; [%-*C@3 child]-|Pointer to child removed.&]
+[s2;b17;a17; Вызывается, когда отпрыск контрола 
+удаляется.&]
+[s7;i1120;a17; [%-*C@3 child]-|Указатель на удаляемый 
+отпрыск.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ParentChange`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* ParentChange]()&]
-[s2;b17;a17; This method is called when Ctrl is added or removed 
-from parent.&]
+[s2;b17;a17; Вызывается, когда контрол добавляется 
+или удаляется у родителя.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:State`(int`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* State]([@(0.0.255) int
 ]_[*@3 reason])&]
-[s2;b17;a17; This method is used to notify Ctrls about special state`-change 
-events that are not covered by virtual methods. Method is called 
-for entire child tree of Ctrl whose state has changed.&]
-[s7;i1120;a17; [%-*C@3 reason]-|Code of event. Standard reasons are 
-enumerated by StateReason enum.&]
+[s2;b17;a17; Используется для уведомления 
+контрола об особых событиях смены 
+состояния, которые не покрываются 
+виртуальными методами. Метод вызывается 
+для всего дерева отпрысков контрола, 
+у которого изменилось состояние.&]
+[s7;i1120;a17; [%-*C@3 reason]-|Код события. Стандартные 
+`"резоны`" перечислены в перечне StateReason.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Layout`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Layout]()&]
-[s2;b17;a17; This method is invoked when layout of Ctrl has to be 
-refreshed. This is usually either before window is displayed 
-or when the Ctrl is resized.&]
+[s2;b17;a17; Вызывается, когда выкладка контрола 
+должна быть освежена. Обычно,`- либо 
+перед показом окна, либо при изменении 
+размера (`"перемере`") контрола.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetMinSize`(`)const:%- [@(0.0.255) virtual] [_^`:`:Size^ Size]_[* GetMinSize](
 )_[@(0.0.255) const]&]
-[s2;b17;a17; This method should return [/ minimal] size of Ctrl. This 
-is used e.g. to limit the minimal size of windows. Default implementation 
-returns size suitable for edit`-field type of widget, based on 
-default GUI font and EditFieldIsThin setting.&]
+[s2;b17;a17; Метод должен возвращать [/ минимальный] 
+размер контрола. Используется, напр., 
+для ограничения минимальных размеров 
+окон. Дефолтная реализация возвращает 
+размер, подходящий типу поля редактирования
+ виджета, опираясь на дефолтный шрифт 
+ГИП и настройку EditFieldIsThin.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetStdSize`(`)const:%- [@(0.0.255) virtual] [_^`:`:Size^ Size]_[* GetStdSize](
 )_[@(0.0.255) const]&]
-[s2;b17;a17; This method should return [/ standard] size of Ctrl. Default 
-implementation returns calls GetMinSize, increases width 10 and 
-returns resulting Size.&]
+[s2;b17;a17; Должен возвращать [/ стандартный] 
+размер контрола. Дефолтная реализация 
+возвращает вызовы GetMinSize, увеличивает 
+ширину в 10 раз и выдаёт итоговый размер 
+Size.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetMaxSize`(`)const:%- [@(0.0.255) virtual] [_^Size^ Size]_[* GetMaxSize]()_[@(0.0.255) c
 onst]&]
-[s2; This method should return [/ maximal] size of Ctrl. Default implementation 
-returns the size of virtual working area. Redefinition can be 
-used to e.g. define the maximum size of window (as maximal size 
-of view area).&]
+[s2; Должен возвращать [/ максимальный 
+]размер контрола. Дефолтная реализация 
+возвращает размер виртуальной рабочей 
+области. Переопределение применимо, 
+напр., для определения максимального 
+размера окна (как максимального размера 
+области видимости).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsShowEnabled`(`)const:%- [@(0.0.255) virtual] [@(0.0.255) bool]_[* IsShowEnab
 led]()_[@(0.0.255) const]&]
-[s2;b17;a17; This method indicates whether Ctrl should be painted 
-as enabled. Default implementation returns IsEnabled() `&`& (!parent 
-`|`| parent`->IsShowEnabled()), however TopWindow overloads this 
-function so that owner of modal dialogs while being disabled 
-during modal dialog lifetime are displayed with enabled Ctrls.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true if Ctrl 
-should be painted as enabled.&]
+[s2;b17;a17; Указывает, нужно ли отрисовывать 
+контрол, когда он активирован. Дефолтная 
+реализация возвращает IsEnabled() `&`& (!parent 
+`|`| parent`->IsShowEnabled()), однако TopWindow перегружает 
+эту функцию так, чтобы владелец модальных 
+диалогов, при его отображение во время 
+жизни модального диалогового окна, 
+отображался с активированными контролами.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, если 
+контрол должен отрисовываться при 
+его активировании.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetOpaqueRect`(`)const:%- [@(0.0.255) virtual] [_^Rect^ Rect]_[* GetOpaqueRect
 ]()_[@(0.0.255) const]&]
-[s2; Возвращает the rectangle of view area that is opaque (is completely 
-filled when painting the widget). The default implementation 
-returns the whole view area if Transparent flag is set, empty 
-rectangle otherwise. Paint routine uses this information to optimize.&]
+[s2; Возвращает периметр непрозрачной 
+области видимости (полностью заполненной 
+при отрисовке виджета). Дефолтная 
+реализация возвращает всю область 
+видимости, если установлен флаг Transparent, 
+или же пустой прямоугольник, в противном 
+случае. Процедура отрисовки использует 
+эту информацию для оптимизации.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetVoidRect`(`)const:%- [@(0.0.255) virtual] [_^Rect^ Rect]_[* GetVoidRect]()_
 [@(0.0.255) const]&]
-[s2; Возвращает the rectangle of view area that is fully transparent 
-(nothing is painted in that rectangle). Paint routine uses this 
-information to optimize.&]
+[s2; Возвращает периметр полностью прозрачной 
+области видимости (в этом периметре 
+ничего не отрисовано). Процедура отрисовки 
+использует эту информацию для оптимизации.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Updated`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Updated]()&]
-[s2; Invoked by Update method. Default implementation is empty.&]
+[s2; Вызывается методом Update. Дефолтная 
+реализация пустая.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:OverPaint`(`)const:%- [@(0.0.255) virtual] [@(0.0.255) int]_[* OverPaint]()_[@(0.0.255) c
 onst]&]
-[s2;b17;a17; This method can returns non`-zero number that represents 
-paint extension margin of view area `- Ctrl can paint inside 
-this margin despite that fact that it does not belong to view. 
-This is useful to represent some specific skinning effect (like 
-glare around the button). Default implementation returns zero.&]
+[s2;b17;a17; Метод может возвращать ненулевое 
+число, представляющее расширенную 
+кромку отрисовки области видимости, 
+`- Ctrl может `"рисовать`" внутри этой 
+кромки, несмотря на тот факт, что она 
+не относится к видимости (view). Используется 
+для представления некоторых специфичных 
+оболочечных (skinning) эфектов (типа сияния 
+вокруг кнопки). Дефолтная реализация 
+возвращает ноль.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Close`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Close]()&]
-[s2;b17;a17; Closes top`-level Ctrl. If Ctrl is not top`-level, has 
-no effect. If it is and is open in host GUI (either as pop`-up 
-or as [^topic`:`/`/CtrlCore`/src`/TopWindow`$en`-us`#`:`:TopWindow`:`:class^ TopWin
-dow]), it should close it. Default implementation closes. TopWindow 
-overrides this method to break modal loop instead of closing 
-if modal loop is performed for it.&]
+[s2;b17;a17; Закрывает верхнеуровневый (top`-level) 
+контрол (Ctrl). Если Ctrl не top`-level, никакого 
+действия. Если да и он открыт в ГИП 
+хоста (либо как pop`-up, либо как [^topic`:`/`/CtrlCore`/src`/TopWindow`_ru`-ru^ T
+opWindow]), то метод должен его закрыть. 
+Дефолтная реализация закрывает. TopWindow 
+переписывает этот метод, чтобы разорвать 
+модальный цикл, а не закрыть, если 
+модальный цикл выполняется для него.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsOcxChild`(`):%- [@(0.0.255) virtual] [@(0.0.255) bool]_[* IsOcxChild]()&]
-[s2;b17;a17; Used for Ocx control implementation.&]
+[s2;b17;a17; Используется для реализации 
+контрола в Ocx.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetDesc`(`)const:%- [@(0.0.255) virtual] [_^String^ String]_[* GetDesc]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает description of Ctrl for diagnostic purposes. Default 
-implementation is empty.&]
+[s2; Возвращает описание контрола для 
+диагностических целей. Дефолтная 
+реализация пустая.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:WhenAction:%- [_^Callback^ Callback]_[* WhenAction]&]
-[s2; This callback is used to signal that [/ user] has changed the 
-value (or state) of widget.&]
+[s2; Этот обрвыз используется для сигналировани
+я об изменении пользователем значения 
+(или состояния) виджета.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetData`(const Value`&`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* SetData](
 [@(0.0.255) const]_[_^`:`:Value^ Value][@(0.0.255) `&]_[*@3 data])&]
-[s2;b17;a17; Устанавливаетthe new value to the object. Default implementation 
-is void.&]
+[s2;b17;a17; Устанавливает новое значение 
+объекта. Дефолтная реализация void.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetData`(`)const:%- [@(0.0.255) virtual] [_^`:`:Value^ Value]_[* GetData]()_[@(0.0.255) c
 onst]&]
-[s2;b17;a17; Gets current value of the object. Default implementation 
-returns Value() `- void value.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Value of 
-object.&]
+[s2;b17;a17; Получает текущее значение объекта. 
+Дефолтная реализация возвращает 
+Value() `- значение void.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Значение 
+объекта.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetModify`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* SetModify]()&]
-[s2;b17;a17; Устанавливаетmodification flag.&]
+[s2;b17;a17; Устанавливает флаг модификации.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ClearModify`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* ClearModify]()&]
-[s2;b17;a17; Clears modification flag.&]
+[s2;b17;a17; Очищает флаг модификации.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsModified`(`)const:%- [@(0.0.255) virtual] [@(0.0.255) bool]_[* IsModified]()
 _[@(0.0.255) const]&]
-[s2;b17;a17; Возвращает the value modification flag.&]
+[s2;b17;a17; Возвращает флаг модификации 
+значения.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Accept`(`):%- [@(0.0.255) virtual] [@(0.0.255) bool]_[* Accept]()&]
-[s2;b17;a17; This virtual method is called when value of Ctrl is 
-about to be accepted. Default implementation calls Accept for 
-all child Ctrls and returns false if any of child Ctrls returns 
-false, true otherwise.&]
-[s2;b17;a17; Typical use is when user pressed OK button. If any Ctrl 
-of dialog returns false, OK is canceled.&]
-[s2;b17;a17; Typical implementation of this method should test whether 
-current state of Ctrl (its edited value) matches requirements. 
-If it does, it should finish editing, accept edited value and 
-return true. Otherwise it should return false, &]
-[s7;i1120;a17; [*/ Возвратное значение]-|Ctrl should 
-return true if it successfully finished editing, false otherwise.&]
+[s2;b17;a17; Этот виртуальный метод вызывается 
+перед принятием значения контрола. 
+Дефолтная реализация вызывает Accept 
+для всех отпрысков контрола и возвращает 
+false, если любой из них возвращает false, 
+или true `- в противном случае.&]
+[s2;b17;a17; В основном используется при 
+нажатии пользователем кнопки OK. Если 
+любой из контролов диалога возвращает 
+false, то OK отменяется.&]
+[s2;b17;a17; Обычная реализация этого метода 
+должна проверить, соответствует ли 
+текущее состояние контрола (его отредактиро
+ванное значение) требованиям. Если 
+да, то редактирование должно закончиться, 
+будет принято отредактированное 
+значение и вернётся true. При несоответствии 
+вернётся false &]
+[s7;i1120;a17; [*/ Возвратное значение]-|Ctrl должен 
+вернуть true, если редактирование успешно 
+завершилось, и false `- в противном случае.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Reject`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Reject]()&]
-[s2;b17;a17; This virtual method is called when Ctrl should abort 
-editing, discarding edited value. Default implementation calls 
-Reject for all child Ctrls.&]
+[s2;b17;a17; Этот виртуальный метод вызывается, 
+когда контролу нужно прервать редактировани
+е, удалив отредактированное значение. 
+Дефолтная реализация вызывает Reject 
+для всех отпрысков.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Serialize`(Stream`&`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Serialize](
 [_^`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 s])&]
-[s2;b17;a17; Serialization method. Should serialize the value of 
-Ctrl in a way that is suitable for dialog backup and optional 
-restore (e.g. when user presses Cancel button).&]
+[s2;b17;a17; Метод сериализации. Должен сериализова
+ть значение контрола удобным для 
+бэкапа диалога образом и опционального 
+восстановления (напр., когда пользователь 
+нажимает кнопку Cancel).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Jsonize`(JsonIO`&`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Jsonize]([_^JsonIO^ J
 sonIO][@(0.0.255) `&]_[*@3 jio])&]
-[s2; Method to convert the data of widget to/from JSON. Default implementation 
-calls Jsonize for Value obtained/set by GetData/SetData.&]
+[s2; Метод для преобразования данных 
+виджета в/из JSON. Дефолтная реализация 
+вызывает Jsonize для Value, полученного/установлен
+ного методами GetData/SetData.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:Xmlize`(XmlIO`&`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Xmlize]([_^XmlIO^ X
 mlIO][@(0.0.255) `&]_[*@3 xio])&]
-[s2; Method to convert the data of widget to/from XML. Default implementation 
-calls Jsonize for Value obtained/set by GetData/SetData.&]
+[s2; Метод для преобразования данных 
+из/в XML. Дефолтная реализация вызывает 
+Jsonize для Value, полученного/установленного 
+методами GetData/SetData.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:AddChild`(Ctrl`*`):%- [@(0.0.255) void]_[* AddChild]([_^`:`:Ctrl^ Ctrl]_`*[*@3 c
 hild])&]
-[s2;b17;a17; Adds a child Ctrl as last one.&]
-[s7;i1120;a17; [%-*C@3 child]-|Pointer to child Ctrl at the end of child 
-list. Note that U`+`+ never takes ownership of Ctrls `- never 
-calls delete for [@3 child. ]That allows using non`-heap based 
-Ctrls. &]
+[s2;b17;a17; Добавляет контрол`-отпрыск последним.&]
+[s7;i1120;a17; [%-*C@3 child]-|Указатель на контрол`-отпрыск 
+в конце списка отпрысков. Заметьте, 
+что U`+`+ никогда не овладевает контролами 
+и никогда не вызывает delete для [@3 child. 
+]Это позволяет использовать контролы, 
+расположенные не на куче. &]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:AddChild`(Ctrl`*`,Ctrl`*`):%- [@(0.0.255) void]_[* AddChild]([_^`:`:Ctrl^ Ctrl
 ]_`*[*@3 child], [_^`:`:Ctrl^ Ctrl]_`*[*@3 insafter])&]
-[s2;b17;a17; Inserts child Ctrl after another Ctrl that is already 
-child. If [%-*@3 insafter] is NULL, child is inserted as the first 
-child.&]
-[s7;i1120;a17; [%-*C@3 child]-|Pointer to child Ctrl.&]
-[s7;i1120;a17; [%-*C@3 insafter]-|Ctrl that will be before inserted 
-Ctrl.&]
+[s2;b17;a17; Вставляет контрол`-отпрыск после 
+другого Ctrl, который уже отпрыск. Если 
+[%-*@3 insafter] `= NULL, то отпрыск вставляется 
+как первый.&]
+[s7;i1120;a17; [%-*C@3 child]-|Указатель на контрол`-отпрыск.&]
+[s7;i1120;a17; [%-*C@3 insafter]-|Ctrl, который окажется 
+перед вставляемым.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:AddChildBefore`(Ctrl`*`,Ctrl`*`):%- [@(0.0.255) void]_[* AddChildBefore]([_^`:`:Ctrl^ C
 trl]_`*[*@3 child], [_^`:`:Ctrl^ Ctrl]_`*[*@3 insbefore])&]
-[s2;b17;a17; Inserts child Ctrl before another Ctrl that is already 
-child. If [%-*@3 insbefore], child is inserted as last child.&]
-[s7;i1120;a17; [%-*C@3 child]-|Pointer to child Ctrl.&]
-[s7;i1120;a17; [%-*C@3 insbefore]-|Ctrl that will be after inserted 
-Ctrl.&]
+[s2;b17;a17; Вставляет контрол`-отпрыск перед 
+другим Ctrl, который уже отпрыск. Если 
+[%-*@3 insbefore], то отпрыск вставляется как 
+последний&]
+[s7;i1120;a17; [%-*C@3 child]-|Указатель на контрол`-отпрыск.&]
+[s7;i1120;a17; [%-*C@3 insbefore]-|Ctrl, который окажется 
+после вставляемого&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RemoveChild`(Ctrl`*`):%- [@(0.0.255) void]_[* RemoveChild]([_^`:`:Ctrl^ Ctrl]_
 `*[*@3 child])&]
-[s2;b17;a17; Removes Ctrl from child list. Ctrl is never deleted.&]
-[s7;i1120;a17; [%-*C@3 child]-|Child to be removed.&]
+[s2;b17;a17; Убирает контрол из списка отпрысков. 
+Ctrl никода не удаляется.&]
+[s7;i1120;a17; [%-*C@3 child]-|Убираемый контрол&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetParent`(`)const:%- [_^`:`:Ctrl^ Ctrl]_`*[* GetParent]()_[@(0.0.255) const]&]
-[s2;b17;a17; Возвращает parent of Ctrl or NULL if Ctrl is topmost.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-parent Ctrl.&]
+[s2;b17;a17; Возвращает родителя контрола 
+или NULL, если он верхнеуровневый.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на родителя.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetLastChild`(`)const:%- [_^`:`:Ctrl^ Ctrl]_`*[* GetLastChild]()_[@(0.0.255) c
 onst]&]
-[s2;b17;a17; Возвращает last child.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-last child or NULL if Ctrl has no children.&]
+[s2;b17;a17; Возвращает последний отпрыск.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на последний отпрыск или NULL, если 
+отпрысков нет.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetFirstChild`(`)const:%- [_^`:`:Ctrl^ Ctrl]_`*[* GetFirstChild]()_[@(0.0.255) c
 onst]&]
-[s2;b17;a17; Возвращает first child.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-first child or NULL if Ctrl has no children.&]
+[s2;b17;a17; Возвращает первый отпрыск.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на первый отпрыск или NULL, если отпрысков 
+нет.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetPrev`(`)const:%- [_^`:`:Ctrl^ Ctrl]_`*[* GetPrev]()_[@(0.0.255) const]&]
-[s2;b17;a17; Возвращает child that is before this Ctrl in child list 
-or NULL if Ctrl is first or not in list.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-previous child or NULL.&]
+[s2;b17;a17; Возвращает отпрыск, который 
+в списке отпрысков находится перед 
+этим Ctrl, или NULL, если Ctrl первый или 
+не в списке.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на предыдущий отпрыск или NULL.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetNext`(`)const:%- [_^`:`:Ctrl^ Ctrl]_`*[* GetNext]()_[@(0.0.255) const]&]
-[s2;b17;a17; Возвращает next child that is after this Ctrl in child 
-list or NULL if Ctrl is last or not in list.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-next child or NULL.&]
+[s2;b17;a17; Возвращает следующий отпрыск, 
+находящийся в списке отпрысков после 
+этого Ctrl, или NULL, если Ctrl последний 
+или не в списке.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на следующий отпрыск или NULL.&]
 [s3;%- &]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetChildIndex`(const Ctrl`*`)const:%- [@(0.0.255) int]_[* GetChildIndex]([@(0.0.255) c
 onst]_[_^Ctrl^ Ctrl]_`*[*@3 child])_[@(0.0.255) const]&]
-[s2; Возвращает the index of [%-*@3 child] (first child has index 0, second 
-child 1 etc...). If [%-*@3 child] is not present in this Ctrl, 
-returns `-1. Note that this function performs sequential scan 
-of child (results in O(n) complexity).&]
+[s2; Возвращает индекс отпрыска [%-*@3 child] 
+(у первого отпрыска индекс 0, у второго 
+`- 1 и т.д.). Если [%-*@3 child] не находится 
+в этом Ctrl, возвращает `-1. Заметьте, 
+что эта функция выполняет последовательное 
+сканирование отпрыска (что сводится 
+к сложности в O(n)).&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetChildCount`(`)const:%- [@(0.0.255) int]_[* GetChildCount]()_[@(0.0.255) con
 st]&]
-[s2; Возвращает the number of child ctrls. Note that this function performs 
-sequential scan of child (results in O(n) complexity).&]
+[s2; Возвращает число контролов`-отпрысков. 
+Заметьте, что эта функция выполняет 
+последовательное сканирование отпрыска 
+(что сводится к сложности в O(n)).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:GetAscendant`(`)const:%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T
 ]>_[*@4 T]_`*[* GetAscendant]()_[@(0.0.255) const]&]
-[s2; Возвращает first ascendant (parent, parent of parent etc..) that 
-has type [%-*@4 T].&]
+[s2; Возвращает первую `"предтечу`" (родителя, 
+родителя родителя и т.п.), у которой 
+тип [%-*@4 T].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetIndexChild`(int`)const:%- [_^Ctrl^ Ctrl]_`*[* GetIndexChild]([@(0.0.255) in
 t]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Retruns child at index [%-*@3 i] or NULL if there is none. Note 
-that this function performs sequential scan of child (results 
-in O(n) complexity).&]
+[s2; Возвращает отпрыск по индексу [%-*@3 i] 
+или NULL, если такого нет. Заметьте, 
+что эта функция выполняет последовательное 
+сканирование отпрыска (что сводится 
+к сложности в O(n)).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:GetViewChildIndex`(const Upp`:`:Ctrl`*`)const:%- [@(0.0.255) int]_[* G
 etViewChildIndex]([@(0.0.255) const]_[_^Upp`:`:Ctrl^ Ctrl]_`*[*@3 child])_[@(0.0.255) con
 st]&]
-[s2; Возвращает the index of view [%-*@3 child] (first child has index 
-0, second child 1 etc...). If [%-*@3 child] is not present in this 
-Ctrl or is in frame, returns `-1. Note that this function performs 
-sequential scan of child (results in O(n) complexity). This is 
-similar to GetChildIndex, but frame widgets are ignored.&]
+[s2; Возвращает индекс отпрыска видимости 
+[%-*@3 child] (у первого отпрыска индекс 
+0, у второго `- 1 и т.д.). Если [%-*@3 child] не 
+в этом Ctrl или в фрейме, возвращает 
+`-1. Заметьте, что эта функция выполняет 
+последовательное сканирование отпрыска 
+(что сводится к сложности в O(n)). Аналогичен 
+GetChildIndex, но виджеты фрейма игнорируются.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:GetViewChildCount`(`)const:%- [@(0.0.255) int]_[* GetViewChildCount](
 )_[@(0.0.255) const]&]
-[s2; Возвращает the number of child ctrls. Note that this function performs 
-sequential scan of child (results in O(n) complexity). This is 
-similar to GetChildCount, but frame widgets are ignored.&]
+[s2; Возвращает число контролов`-отпрысков. 
+Заметьте, что эта функция выполняет 
+последовательное сканирование отпрыска 
+(что сводится к сложности в O(n)). Аналогичен 
+GetChildCount, но виджеты фрейма игнорируются.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:GetViewIndexChild`(int`)const:%- [_^Upp`:`:Ctrl^ Ctrl]_`*[* GetViewIn
 dexChild]([@(0.0.255) int]_[*@3 ii])_[@(0.0.255) const]&]
-[s2; Retruns view child at index [%-*@3 i] or NULL if there is none. 
-Note that this function performs sequential scan of child (results 
-in O(n) complexity). This is similar to GetIndexChild, but frame 
-widgets are ignored.&]
+[s2; Возвращает отпрычк видимости по 
+индексу [%-*@3 i] или NULL, если его нет. Заметьте, 
+что эта функция выполняет последовательное 
+сканирование отпрыска (что сводится 
+к сложности в O(n)). Аналогичен GetIndexChild, 
+но виджеты фрейма игнорируются.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsChild`(`)const:%- [@(0.0.255) bool]_[* IsChild]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True if Ctrl 
-has parent.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, если 
+у контрола нет предка (`"родителя`").&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ChildFromPoint`(Point`&`)const:%- [_^`:`:Ctrl^ Ctrl]_`*[* ChildFromPoint]([_^`:`:Point^ P
 oint][@(0.0.255) `&]_[*@3 pt])_[@(0.0.255) const]&]
-[s2;b17;a17; Checks whether opened top`-level Ctrl is foreground.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True if Ctrl 
-is foreground.&]
+[s2;b17;a17; Проверяет, является ли открытый 
+верхнеуровневый Ctrl передним планом.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, если 
+является.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsForeground`(`)const:%- [@(0.0.255) bool]_[* IsForeground]()_[@(0.0.255) cons
 t]&]
-[s2; Возвращает  true, если Ctrl or its top`-level parent 
-is foreground window.&]
+[s2; Возвращает true, если Ctrl или его верхнеуровнев
+ый предок является окном переднего 
+плана.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetForeground`(`):%- [@(0.0.255) void]_[* SetForeground]()&]
-[s2;b17;a17; Asks platform to put top`-level Ctrl to foreground.&]
+[s2;b17;a17; Заставляет платформу поместить 
+верхнеуровневый Ctrl на передний план 
+(foreground).&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetTopCtrl`(`)const:%- [@(0.0.255) const]_[_^Ctrl^ Ctrl]_`*[* GetTopCtrl]()_[@(0.0.255) c
 onst]&]
-[s2; Gets the top`-level Ctrl, that is Ctrl that has this Ctrl in 
-child tree and has no parent.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-top`-level Ctrl. Can return this.&]
+[s2; Получает верхнеуровневый Ctrl, являющийся 
+контролом, у которого данный Ctrl находится 
+в дереве отпрысков и не имеет предка.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на верхнеуровневый Ctrl. Может возвращать 
+this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetTopCtrl`(`):%- [_^Ctrl^ Ctrl]_`*[* GetTopCtrl]()&]
-[s2; Gets the top`-level Ctrl, that is Ctrl that has this Ctrl in 
-child tree and has no parent.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-top`-level Ctrl. Can return this.&]
+[s2; Получает верхнеуровневый Ctrl, являющийся 
+контролом, у которого данный Ctrl находится 
+в дереве отпрысков и не имеет предка.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на верхнеуровневый Ctrl. Может возвращать 
+this.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetOwner`(`)const:%- [@(0.0.255) const]_[_^Ctrl^ Ctrl]_`*[* GetOwner]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает owner of top`-level Ctrl. Example of owned window is 
-dialog launched from main application window. Owner is another 
-top`-level Ctrl.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-owner top`-level Ctrl or NULL is window is not owned.&]
+[s2; Возвращает владельца верхнеуровневого 
+Ctrl. Пример `"подвластного`" окна `- диалоговое 
+окно, запускаемое из главного окна 
+приложения. Владельцем является другой 
+верхнеуровневый Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на верхнеуровневый Ctrl`-владелец или 
+NULL, если у окна нет хозяина.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetOwner`(`):%- [_^`:`:Ctrl^ Ctrl]_`*[* GetOwner]()&]
-[s2;b17;a17; Возвращает owner of top`-level Ctrl.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-owner top`-level Ctrl or NULL is window is not owned.&]
+[s2;b17;a17; Возвращает владельца верхнеуровневого
+ Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на верхнеуровневый Ctrl`-владелец или 
+NULL, если у окна нет хозяина.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetTopCtrlOwner`(`)const:%- [@(0.0.255) const]_[_^Ctrl^ Ctrl]_`*[* GetTopCtrlO
 wner]()_[@(0.0.255) const]&]
 [s2; Эквивалентно GetTopCtrl()`->GetOwner() call.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-owner of top`-level Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на верхнеуровневый Ctrl`-владелец.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetTopCtrlOwner`(`):%- [_^`:`:Ctrl^ Ctrl]_`*[* GetTopCtrlOwner]()&]
 [s2;b17;a17; Эквивалентно GetTopCtrl()`->GetOwner() call.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-owner of top`-level Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на верхнеуровневый Ctrl`-владелец.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetOwnerCtrl`(`):%- [_^`:`:Ctrl^ Ctrl]_`*[* GetOwnerCtrl]()&]
 [s5;K:Ctrl`:`:GetOwnerCtrl`(`)const:%- [*@(0.0.255) const][*@(64) _][*^`:`:Ctrl^@(64) Ctrl][*@(64) _
 `*][* GetOwnerCtrl][*@(64) ()_][*@(0.0.255) const]&]
-[s2;b17;a17; Возвращает the owner Ctrl. Unlike GetOwner, it returns 
-actual widget that was used as `"owner`" parameter in Open or 
-PopUp calls.&]
+[s2;b17;a17; Возвращает контрола`-хозяина. 
+В отличие от GetOwner, возвращает действительный
+ виджет, использованный как параметр 
+`"owner`" при вызовах Open или PopUp.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetTopWindow`(`)const:%- [@(0.0.255) const]_[_^TopWindow^ TopWindow]_`*[* GetT
 opWindow]()_[@(0.0.255) const]&]
-[s2; TopWindow that contains this Ctrl.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-TopWindow.&]
+[s2; TopWindow, в котором находится данный 
+Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на TopWindow.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetTopWindow`(`):%- [_^`:`:TopWindow^ TopWindow]_`*[* GetTopWindow]()&]
-[s2;b17;a17; TopWindow that contains this Ctrl.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-TopWindow.&]
+[s2;b17;a17; TopWindow, в котором находится данный 
+Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на TopWindow.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetMainWindow`(`)const:%- [@(0.0.255) const]_[_^TopWindow^ TopWindow]_`*[* Get
 MainWindow]()_[@(0.0.255) const]&]
-[s2; Возвращает main window (one with no owner) that directly or indirectly 
-owns this Ctrl.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-main window.&]
+[s2; Возвращает главное окно (у которого 
+нет владельца), которое явно или косвенно 
+владеет этим Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на главное окно.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetMainWindow`(`):%- [_^`:`:TopWindow^ TopWindow]_`*[* GetMainWindow]()&]
-[s2;b17;a17; Возвращает main window (one with no owner) that directly 
-or indirectly owns this Ctrl.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-main window.&]
+[s2; Возвращает главное окно (у которого 
+нет владельца), которое явно или косвенно 
+владеет этим Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на главное окно.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetFrame`(int`,CtrlFrame`&`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* SetFrame](
 [@(0.0.255) int]_[*@3 i], [_^`:`:CtrlFrame^ CtrlFrame][@(0.0.255) `&]_[*@3 frm])&]
-[s2;b17;a17; УстанавливаетFrame at given position. If there is no such position 
-yet, required number of NullFrame frames is added. Only reference 
-to frame is stored, that means that frame must exists during 
-the time it is used in Ctrl. Also, some frames can also be used 
-for multiple Ctrls.&]
-[s7;i1120;a17; [%-*C@3 i]-|Position. First frame with i `=`= 0 is outermost.&]
-[s7;i1120;a17; [%-*C@3 frm]-|Reference to frame.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает `*this 
-to allow chaining of method calls.&]
+[s2;b17;a17; Устанавливает Frame в заданной 
+позиции. Если такая позиция ещё не 
+существует, то добавляется требуемое 
+число фремов NullFrame. Сохраняется только 
+ссылка на фрейм, то есть этот фрейм 
+должен сушествовать, пока он используется 
+в контроле. Некоторые фреймы, также, 
+могут использоваться несколькими 
+контролами.&]
+[s7;i1120;a17; [%-*C@3 i]-|Позиция. Первый фрейм с 
+i `=`= 0 самый внешний.&]
+[s7;i1120;a17; [%-*C@3 frm]-|Ссылка на фрейм.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает 
+`*this, позволяя сцеплять вызовы методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetFrame`(CtrlFrame`&`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* SetFrame]([_^`:`:CtrlFrame^ C
 trlFrame][@(0.0.255) `&]_[*@3 frm])&]
-[s2;b17;a17; Устанавливаетframe at position 0.&]
-[s7;i1120;a17; [%-*C@3 frm]-|Reference to frame.&]
+[s2;b17;a17; Устанавливает фрейм в позиции 
+0.&]
+[s7;i1120;a17; [%-*C@3 frm]-|Ссылка на фрейм.&]
 [s7;i1120;a17; [*/ Возвратное значение]-|`*this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:AddFrame`(CtrlFrame`&`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* AddFrame]([_^`:`:CtrlFrame^ C
 trlFrame][@(0.0.255) `&]_[*@3 frm])&]
-[s2;b17;a17; Adds frame at inner`-most position.&]
-[s7;i1120;a17; [%-*C@3 frm]-|Reference to frame.&]
+[s2;b17;a17; Добавляет фрейм в самую внутреннюю 
+позицию.&]
+[s7;i1120;a17; [%-*C@3 frm]-|Ссылка на фрейм.&]
 [s7;i1120;a17; [*/ Возвратное значение]-|`*this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetFrame`(int`)const:%- [@(0.0.255) const]_[_^`:`:CtrlFrame^ CtrlFrame][@(0.0.255) `&
 ]_[* GetFrame]([@(0.0.255) int]_[*@3 i]_`=_[@3 0])_[@(0.0.255) const]&]
-[s2;b17;a17; Возвращает reference to frame at given position.&]
-[s7;i1120;a17; [%-*C@3 i]-|Position.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Reference 
-to frame.&]
+[s2;b17;a17; Возвращает ссылку на фрейм в 
+данной позиции.&]
+[s7;i1120;a17; [%-*C@3 i]-|Позиция.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Ссылка 
+на фрейм.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetFrame`(int`):%- [_^CtrlFrame^ CtrlFrame][@(0.0.255) `&]_[* GetFrame]([@(0.0.255) i
 nt]_[*@3 i]_`=_[@3 0])&]
-[s2; Возвращает reference to frame at given position.&]
-[s7;i1120;a17; [%-*C@3 i]-|Position.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Reference 
-to frame.&]
+[s2; Возвращает ссылку на фрейм в данной 
+позиции.&]
+[s7;i1120;a17; [%-*C@3 i]-|Позиция.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Ссылка 
+на фрейм.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RemoveFrame`(int`):%- [@(0.0.255) void]_[* RemoveFrame]([@(0.0.255) int]_[*@3 i])
 &]
-[s2; Removes frame at given position.&]
-[s7;i1120;a17; [%-*C@3 i]-|Index of frame.&]
+[s2; Удаляет фрейм в данной позиции.&]
+[s7;i1120;a17; [%-*C@3 i]-|Индекс фрейма.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RemoveFrame`(CtrlFrame`&`):%- [@(0.0.255) void]_[* RemoveFrame]([_^`:`:CtrlFrame^ C
 trlFrame][@(0.0.255) `&]_[*@3 frm])&]
-[s2;b17;a17; Removes first frame equal to [@3 frm]. Equality means 
-here that pointers to both frames are the same (it is same instance).&]
-[s7;i1120;a17; [%-*C@3 frm]-|Frame to remove.&]
+[s2;b17;a17; Удаляет первый фрейм, равный 
+[@3 frm]. Равенство означает, что указатели 
+на оба фрейма одинаковы (это один 
+и тот же экземпляр).&]
+[s7;i1120;a17; [%-*C@3 frm]-|Удаляемый фрейм.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:InsertFrame`(int`,CtrlFrame`&`):%- [@(0.0.255) void]_[* InsertFrame]([@(0.0.255) i
 nt]_[*@3 i], [_^`:`:CtrlFrame^ CtrlFrame][@(0.0.255) `&]_[*@3 frm])&]
-[s2;b17;a17; Inserts frame at given position.&]
-[s7;i1120;a17; [%-*C@3 i]-|Position.&]
-[s7;i1120;a17; [%-*C@3 frm]-|Reference to frame.&]
+[s2;b17;a17; Вставляет фрейм в данной позиции.&]
+[s7;i1120;a17; [%-*C@3 i]-|Позиция.&]
+[s7;i1120;a17; [%-*C@3 frm]-|Ссылка на фрейм.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:FindFrame`(CtrlFrame`&`):%- [@(0.0.255) int]_[* FindFrame]([_^`:`:CtrlFrame^ C
 trlFrame][@(0.0.255) `&]_[*@3 frm])&]
-[s2;b17;a17; Finds first frame equal to [@3 frm]. Equality means here 
-that pointers to both frames are the same (it is same instance).&]
-[s7;i1120;a17; [%-*C@3 frm]-|Frame to find.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Index of 
-frame or negative value if frame is not found.&]
+[s2;b17;a17; Находит первый фрейм, равный 
+[@3 frm]. Равенство означает, что указатели 
+на оба фрейма одинаковы (это один 
+и тот же экземпляр).&]
+[s7;i1120;a17; [%-*C@3 frm]-|Искомый фрейм.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Индекс 
+фрейма или отрицательное число, если 
+фрейм не найден.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetFrameCount`(`)const:%- [@(0.0.255) int]_[* GetFrameCount]()_[@(0.0.255) con
 st]&]
-[s2;b17;a17; Возвращает count of frames in Ctrl.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Count of 
-frames.&]
+[s2;b17;a17; Возвращает число фреймов в Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Число 
+фреймов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ClearFrames`(`):%- [@(0.0.255) void]_[* ClearFrames]()&]
-[s2;b17;a17; Removes all frames from Ctrl. Frame at position 0 then 
-added and set to NullFrame.&]
+[s2;b17;a17; Удаляет все фреймы из Ctrl. Затем 
+добавляется Frame в позиции 0 и устанавливается
+ в NullFrame.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsOpen`(`)const:%- [@(0.0.255) bool]_[* IsOpen]()_[@(0.0.255) const]&]
-[s2;b17;a17; Checks whether top`-level Ctrl of this Ctrl is open.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true if open.&]
+[s2;b17;a17; Проверяет, открыт ли верхнеуровневый 
+Ctrl данного контрола.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, если 
+открыт.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Shutdown`(`):%- [@(0.0.255) void]_[* Shutdown]()&]
-[s2;b17;a17; Устанавливаетinternal flag indicating that Ctrl is being destructed. 
-This is rarely used to solve some destruction order problems.&]
+[s2;b17;a17; Устанавливает внутренний флаг, 
+указывающий на состояние деструкции 
+контрола. Используется изредка, помогая 
+решать проблему с порядком деструкций.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsShutdown`(`)const:%- [@(0.0.255) bool]_[* IsShutdown]()_[@(0.0.255) const]&]
-[s2;b17;a17; Checks whether internal shutdown flag is set.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True if in 
-shutdown mode.&]
+[s2;b17;a17; Проверяет, установлен ли внутренний 
+флаг shutdown.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, если 
+режим shutdown.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetPos`(Ctrl`:`:LogPos`,bool`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* SetPos](
 [_^`:`:Ctrl`:`:LogPos^ LogPos]_[*@3 p], [@(0.0.255) bool]_[*@3 inframe])&]
-[s2;b17;a17; Устанавливает[^topic`:`/`/CtrlCore`/src`/LogPos`$en`-us^ logical 
-position] of Ctrl. If Ctrl is top`-level, logical position must 
-be of left`-top type.&]
-[s7;i1120;a17; [%-*C@3 p]-|Logical position.&]
-[s7;i1120;a17; [%-*C@3 inframe]-|Если true, Ctrl is placed into [^topic`:`/`/CtrlCore`/src`/AboutFrames`$en`-us^ f
-rame area] instead of view area&]
+[s2;b17;a17; Устанавливает [^topic`:`/`/CtrlCore`/srcdoc`/LogPos`_ru`-ru^ л
+огическую позицию] контрола. Если 
+Ctrl верхнеуровневый, логическая позиция 
+должна быть типа left`-top (левая верхняя).&]
+[s7;i1120;a17; [%-*C@3 p]-|Логическая позиция.&]
+[s7;i1120;a17; [%-*C@3 inframe]-|Если true, Ctrl помещается 
+в [^topic`:`/`/CtrlCore`/srcdoc`/AboutFrames`_ru`-ru^ область 
+фрейма], а не в область видимости&]
 [s7;i1120;a17; [*/ Возвратное значение]-|`*this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetPos`(Ctrl`:`:LogPos`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* SetPos]([_^`:`:Ctrl`:`:LogPos^ L
 ogPos]_[*@3 p])&]
-[s2;b17;a17; Устанавливаетlogical position of Ctrl in view area.&]
-[s7;i1120;a17; [%-*C@3 p]-|Logical position.&]
+[s2;b17;a17; Устанавливает логическую позицию 
+контрола в область видимости.&]
+[s7;i1120;a17; [%-*C@3 p]-|Логическая позиция.&]
 [s7;i1120;a17; [*/ Возвратное значение]-|`*this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetPos`(Ctrl`:`:Logc`,Ctrl`:`:Logc`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* S
 etPos]([_^`:`:Ctrl`:`:Logc^ Logc]_[*@3 x], [_^`:`:Ctrl`:`:Logc^ Logc]_[*@3 y])&]
-[s2;b17;a17; Устанавливаетlogical position by individual coordinates (in 
-view area).&]
-[s7;i1120;a17; [%-*C@3 x]-|Horizontal logical position.&]
-[s7;i1120;a17; [%-*C@3 y]-|Vertical logical postion.&]
+[s2;b17;a17; Устанавливает логичискую позицию 
+по точным координатам (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 x]-|Горизонтальная логическая 
+позиция.&]
+[s7;i1120;a17; [%-*C@3 y]-|Вертикальная логическая 
+позиция.&]
 [s7;i1120;a17; [*/ Возвратное значение]-|`*this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetPosX`(Ctrl`:`:Logc`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* SetPosX]([_^`:`:Ctrl`:`:Logc^ L
 ogc]_[*@3 x])&]
-[s2;b17;a17; Устанавливаетhorizontal logical position only (in view area).&]
-[s7;i1120;a17; [%-*C@3 x]-|Horizontal logical position.&]
+[s2;b17;a17; Устанавливает только горизонтальную 
+логическую позицию (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 x]-|Горизонтальная логическая 
+позиция.&]
 [s7;i1120;a17; [*/ Возвратное значение]-|`*this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetPosY`(Ctrl`:`:Logc`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* SetPosY]([_^`:`:Ctrl`:`:Logc^ L
 ogc]_[*@3 y])&]
-[s2;b17;a17; Устанавливаетvertical logical position only (in view area).&]
-[s7;i1120;a17; [%-*C@3 y]-|Vertical logical position.&]
+[s2;b17;a17; Устанавливает только вертикальную 
+логическую позицию (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 y]-|Вертикальная логическая 
+позиция.&]
 [s7;i1120;a17; [*/ Возвратное значение]-|`*this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetRect`(const Rect`&`):%- [@(0.0.255) void]_[* SetRect]([@(0.0.255) const]_[_^`:`:Rect^ R
 ect][@(0.0.255) `&]_[*@3 r])&]
-[s2;b17;a17; Устанавливаетleft`-top logical position (in view area).&]
-[s7;i1120;a17; [%-*C@3 r]-|Rectangle determines left`-top position.&]
+[s2;b17;a17; Устанавливает левую верхнюю 
+логическую позицию (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 r]-|Прямоугольник, определяющий 
+левую верхнюю позицию.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetRect`(int`,int`,int`,int`):%- [@(0.0.255) void]_[* SetRect]([@(0.0.255) int
 ]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;b17;a17; Устанавливаетleft`-top logical position (in view area).&]
-[s7;i1120;a17; [%-*C@3 x]-|Distance between parent rectangle left`-edge 
-and Ctrl.&]
-[s7;i1120;a17; [%-*C@3 y]-|Distance between parent rectangle top`-edge 
-and Ctrl.&]
-[s7;i1120;a17; [%-*C@3 cx]-|Horizontal size.&]
-[s7;i1120;a17; [%-*C@3 cy]-|Vertical size.&]
+[s2;b17;a17; Устанавливает левую верхнюю 
+логическую позицию (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 x]-|Расстояние между левым 
+краем родительского прямоугольника 
+и контролом.&]
+[s7;i1120;a17; [%-*C@3 y]-|Расстояние между верхним 
+краем родительского прямоугольника 
+и контролом.&]
+[s7;i1120;a17; [%-*C@3 cx]-|Горизонтальный размер.&]
+[s7;i1120;a17; [%-*C@3 cy]-|Вертикальный размер.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetRectX`(int`,int`):%- [@(0.0.255) void]_[* SetRectX]([@(0.0.255) int]_[*@3 x],
  [@(0.0.255) int]_[*@3 cx])&]
-[s2;b17;a17; Устанавливаетleft horizontal logical position (in view area).&]
-[s7;i1120;a17; [%-*C@3 x]-|Distance between parent rectangle left`-edge 
-and Ctrl.&]
-[s7;i1120;a17; [%-*C@3 cx]-|Horizontal size.&]
+[s2;b17;a17; Устанавливает левую горизонтальную 
+логическую позицию (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 x]-|Расстояние между левым 
+краем родительского прямоугольника 
+и контролом.&]
+[s7;i1120;a17; [%-*C@3 cx]-|Горизонтальный размер.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetRectY`(int`,int`):%- [@(0.0.255) void]_[* SetRectY]([@(0.0.255) int]_[*@3 y],
  [@(0.0.255) int]_[*@3 cy])&]
-[s2;b17;a17; Устанавливаетtop vertical logical position (in view area).&]
-[s7;i1120;a17; [%-*C@3 y]-|Distance between parent rectangle top`-edge 
-and Ctrl.&]
-[s7;i1120;a17; [%-*C@3 cy]-|Vertical size.&]
+[s2;b17;a17; Устанавливает верхнюю вертикальную 
+логическую позицию (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 y]-|Расстояние между верхним 
+краем родительского прямоугольника 
+и контролом.&]
+[s7;i1120;a17; [%-*C@3 cy]-|Вертикальный размер.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetFramePos`(Ctrl`:`:LogPos`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* SetFrame
 Pos]([_^`:`:Ctrl`:`:LogPos^ LogPos]_[*@3 p])&]
-[s2;b17;a17; Устанавливаетlogical position of Ctrl in frame area.&]
-[s7;i1120;a17; [%-*C@3 p]-|Logical position.&]
+[s2;b17;a17; Устанавливает логическую позицию 
+контрола в области фрейма.&]
+[s7;i1120;a17; [%-*C@3 p]-|Логическая позиция.&]
 [s7;i1120;a17; [*/ Возвратное значение]-|`*this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetFramePos`(Ctrl`:`:Logc`,Ctrl`:`:Logc`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&
 ]_[* SetFramePos]([_^`:`:Ctrl`:`:Logc^ Logc]_[*@3 x], [_^`:`:Ctrl`:`:Logc^ Logc]_[*@3 y])&]
-[s2;b17;a17; Устанавливаетlogical position by individual coordinates (in 
-frame area).&]
-[s7;i1120;a17; [%-*C@3 x]-|Horizontal logical position.&]
-[s7;i1120;a17; [%-*C@3 y]-|Vertical logical postion.&]
+[s2;b17;a17; Устанавливает логическую позицию 
+по заданным координатам (в области 
+фрейма).&]
+[s7;i1120;a17; [%-*C@3 x]-|Горизонтальная логическая 
+позиция.&]
+[s7;i1120;a17; [%-*C@3 y]-|Вертикальная логическая 
+позиция.&]
 [s7;i1120;a17; [*/ Возвратное значение]-|`*this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetFramePosX`(Ctrl`:`:Logc`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* SetFrameP
 osX]([_^`:`:Ctrl`:`:Logc^ Logc]_[*@3 x])&]
-[s2;b17;a17; Устанавливаетhorizontal logical position only (in frame area).&]
-[s7;i1120;a17; [%-*C@3 x]-|Horizontal logical position.&]
+[s2;b17;a17; Устанавливает только горизонтальную 
+логическую позицию (в области фрейма).&]
+[s7;i1120;a17; [%-*C@3 x]-|Горизонтальная логическая 
+позиция.&]
 [s7;i1120;a17; [*/ Возвратное значение]-|`*this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetFramePosY`(Ctrl`:`:Logc`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* SetFrameP
 osY]([_^`:`:Ctrl`:`:Logc^ Logc]_[*@3 y])&]
-[s2;b17;a17; Устанавливаетvertical logical position only (in frame area).&]
-[s7;i1120;a17; [%-*C@3 y]-|Vertical logical position.&]
+[s2;b17;a17; Устанавливает только вертикальную 
+логическую позицию (в области фрейма).&]
+[s7;i1120;a17; [%-*C@3 y]-|Вертикальная логическая 
+позиция.&]
 [s7;i1120;a17; [*/ Возвратное значение]-|`*this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetFrameRect`(const Rect`&`):%- [@(0.0.255) void]_[* SetFrameRect]([@(0.0.255) c
 onst]_[_^`:`:Rect^ Rect][@(0.0.255) `&]_[*@3 r])&]
-[s2;b17;a17; Устанавливаетleft`-top logical position (in frame area).&]
-[s7;i1120;a17; [%-*C@3 r]-|Rectangle determines left`-top position.&]
+[s2;b17;a17; Устанавливает левую верхнюю 
+логическую позицию (в области фрейма).&]
+[s7;i1120;a17; [%-*C@3 r]-|Прямоугольник, определяющий 
+левую верхнюю позицию.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetFrameRect`(int`,int`,int`,int`):%- [@(0.0.255) void]_[* SetFrameRect]([@(0.0.255) i
 nt]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;b17;a17; Устанавливаетleft`-top logical position (in frame area).&]
-[s7;i1120;a17; [%-*C@3 x]-|Distance between parent rectangle left`-edge 
-and Ctrl.&]
-[s7;i1120;a17; [%-*C@3 y]-|Distance between parent rectangle top`-edge 
-and Ctrl.&]
-[s7;i1120;a17; [%-*C@3 cx]-|Horizontal size.&]
-[s7;i1120;a17; [%-*C@3 cy]-|Vertical size.&]
+[s2;b17;a17; Устанавливает левую верхнюю 
+логическую позицию (в области фрейма).&]
+[s7;i1120;a17; [%-*C@3 x]-|Расстояние между левым 
+краем родительского прямоугольника 
+и контролом.&]
+[s7;i1120;a17; [%-*C@3 y]-|Расстояние между верхним 
+краем родительского прямоугольника 
+и контролом.&]
+[s7;i1120;a17; [%-*C@3 cx]-|Горизонтальный размер.&]
+[s7;i1120;a17; [%-*C@3 cy]-|Вертикальный размер.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetFrameRectX`(int`,int`):%- [@(0.0.255) void]_[* SetFrameRectX]([@(0.0.255) i
 nt]_[*@3 x], [@(0.0.255) int]_[*@3 cx])&]
-[s2;b17;a17; Устанавливаетleft horizontal logical position (in frame area).&]
-[s7;i1120;a17; [%-*C@3 x]-|Distance between parent rectangle left`-edge 
-and Ctrl.&]
-[s7;i1120;a17; [%-*C@3 cx]-|Horizontal size.&]
+[s2;b17;a17; Устанавливает левую горизонтальную 
+логическую позицию (в области фрейма).&]
+[s7;i1120;a17; [%-*C@3 x]-|Расстояние между левым 
+краем родительского прямоугольника 
+и контролом.&]
+[s7;i1120;a17; [%-*C@3 cx]-|Горизонтальный размер.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetFrameRectY`(int`,int`):%- [@(0.0.255) void]_[* SetFrameRectY]([@(0.0.255) i
 nt]_[*@3 y], [@(0.0.255) int]_[*@3 cy])&]
-[s2;b17;a17; Устанавливаетtop vertical logical position (in frame area).&]
-[s7;i1120;a17; [%-*C@3 y]-|Distance between parent rectangle top`-edge 
-and Ctrl.&]
-[s7;i1120;a17; [%-*C@3 cy]-|Vertical size.&]
+[s2;b17;a17; Устанавливает верхнюю вертикальную 
+логическую позицию (в области фрейма).&]
+[s7;i1120;a17; [%-*C@3 y]-|Расстояние между верхним 
+краем родительского прямоугольника 
+и контролом.&]
+[s7;i1120;a17; [%-*C@3 cy]-|Вертикальный размер.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:InFrame`(`)const:%- [@(0.0.255) bool]_[* InFrame]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true when 
-Ctrl has position in frame area.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, когда 
+у контрола есть позиция в области 
+фрейма.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:InView`(`)const:%- [@(0.0.255) bool]_[* InView]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true when 
-Ctrl has position in view area.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, когда 
+у контрола есть позиция в области 
+видимости.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetPos`(`)const:%- [_^`:`:Ctrl`:`:LogPos^ LogPos]_[* GetPos]()_[@(0.0.255) con
 st]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Logical position 
-of Ctrl&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Логическая 
+позиция контрола&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RefreshLayout`(`):%- [@(0.0.255) void]_[* RefreshLayout]()&]
-[s2;b17;a17; Recomputes layout for Ctrl. This includes calling FrameLayout 
-for all frames and calling Layout virtual method. Layout of child 
-widgets is recomputed if their size changes.&]
+[s2;b17;a17; Перевычисляет выкладку для Ctrl. 
+В это входит вызов FrameLayout для всех 
+фреймов и виртуального метода Layout. 
+Выкладка виджетов`-отпрысков пеервычисляетс
+я, если у них меняется размер.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RefreshLayoutDeep`(`):%- [@(0.0.255) void]_[* RefreshLayoutDeep]()&]
-[s2; Recomputes layout for the whole Ctrl tree `- unlike RefreshLayout, 
-recomputes layout of all descendants regardless whether their 
-size has changed.&]
+[s2; Перевычисляет выкладку для всего 
+дерева контролов: в отличие от RefreshLayout, 
+перевычисляется выкладка всех потомков, 
+несмотря на то, изменился ли их размер.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RefreshParentLayout`(`):%- [@(0.0.255) void]_[* RefreshParentLayout]()&]
-[s2;b17;a17; If Ctrl has parent, calls parent`->RefreshLayout().&]
+[s2;b17;a17; Если у контрола есть родитель 
+(предок), вызывает parent`->RefreshLayout().&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:UpdateLayout`(`):%- [@(0.0.255) void]_[* UpdateLayout]()&]
-[s2; Recomputes layout of widget by recalculating its frame coverage, 
-then, if view size has changed, calls Layout method (this is 
-the difference from RefreshLayout, which calls Layout always). 
-Layout of child widgets is recomputed if their size changes.&]
+[s2; Перевычисляет выкладку виджета, 
+пересчитывая его frame coverage, затем, если 
+размер видимости изменился, вызывает 
+метод Layout (это отличие от RefreshLayout, 
+которое всегда вызывает Layout). Выкладка 
+виджетов`-отпрысков перевычисляется, 
+если у них меняется размер.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:UpdateParentLayout`(`):%- [@(0.0.255) void]_[* UpdateParentLayout]()&]
-[s2; Вызывает UpdateLayout for parent (if exists).&]
+[s2; Вызывает UpdateLayout для предка (если 
+он есть).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:LeftPos`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* LeftPos]([@(0.0.255) i
 nt]_[*@3 a], [@(0.0.255) int]_[*@3 size]_`=_STDSIZE)&]
-[s2;b17;a17; Устанавливаетleft horizontal position (in view area).&]
-[s7;i1120;a17; [%-*C@3 a]-|Distance from left border of parent.&]
-[s7;i1120;a17; [%-*C@3 size]-|Horizontal size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает левую горизонтальную 
+позицию (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 a]-|Расстояние от левого бордюра 
+предка.&]
+[s7;i1120;a17; [%-*C@3 size]-|Горизонтальный размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RightPos`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* RightPos]([@(0.0.255) i
 nt]_[*@3 a], [@(0.0.255) int]_[*@3 size]_`=_STDSIZE)&]
-[s2;b17;a17; Устанавливаетright horizontal position (in view area).&]
-[s7;i1120;a17; [%-*C@3 a]-|Distance from the right border of parent.&]
-[s7;i1120;a17; [%-*C@3 size]-|Horizontal size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает правую горизонтальную 
+позицию (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 a]-|Расстояние от правого 
+бордюра предка.&]
+[s7;i1120;a17; [%-*C@3 size]-|Горизонтальный размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:TopPos`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* TopPos]([@(0.0.255) i
 nt]_[*@3 a], [@(0.0.255) int]_[*@3 size]_`=_STDSIZE)&]
-[s2;b17;a17; Устанавливаетtop vertical position (in view area).&]
-[s7;i1120;a17; [%-*C@3 a]-|Distance from the top border of parent.&]
-[s7;i1120;a17; [%-*C@3 size]-|Vertical size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает верхнюю горизонтальную 
+позицию (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 a]-|Расстояние от верхнего 
+бордюра предка.&]
+[s7;i1120;a17; [%-*C@3 size]-|Горизонтальный размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:BottomPos`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* BottomPos]([@(0.0.255) i
 nt]_[*@3 a], [@(0.0.255) int]_[*@3 size]_`=_STDSIZE)&]
-[s2;b17;a17; Устанавливаетbottom vertical position (in view area).&]
-[s7;i1120;a17; [%-*C@3 a]-|Distance from the bottom border of parent.&]
-[s7;i1120;a17; [%-*C@3 size]-|Vertical size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает нижнюю горизонтальную 
+позицию (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 a]-|Расстояние от нижнего 
+бордюра предка.&]
+[s7;i1120;a17; [%-*C@3 size]-|Горизонтальный размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HSizePos`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* HSizePos]([@(0.0.255) i
 nt]_[*@3 a]_`=_[@3 0], [@(0.0.255) int]_[*@3 b]_`=_[@3 0])&]
-[s2;b17;a17; Устанавливаетhorizontal sizing position (in view area).&]
-[s7;i1120;a17; [%-*C@3 a]-|Distance from left border of parent.&]
-[s7;i1120;a17; [%-*C@3 b]-|Distance from right border of parent.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает горизонтальную 
+перемерную позицию (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 a]-|Расстояние от левого бордюра 
+предка.&]
+[s7;i1120;a17; [%-*C@3 b]-|Расстояние от правого 
+бордюра предка.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this  для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:VSizePos`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* VSizePos]([@(0.0.255) i
 nt]_[*@3 a]_`=_[@3 0], [@(0.0.255) int]_[*@3 b]_`=_[@3 0])&]
-[s2;b17;a17; Устанавливаетvertical sizing position (in view area).&]
-[s7;i1120;a17; [%-*C@3 a]-|Distance form top border of parent.&]
-[s7;i1120;a17; [%-*C@3 b]-|Distance from bottom border of parent.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает вертикальную 
+перемерную позицию (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 a]-|Расстояние от верхнего 
+бордюра предка.&]
+[s7;i1120;a17; [%-*C@3 b]-|Расстояние от нижнего 
+бордюра предка.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SizePos`(`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* SizePos]()&]
 [s2;b17;a17; То же, что и VSizePos().HSizePos().&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this  для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HCenterPos`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* HCenterPos]([@(0.0.255) i
 nt]_[*@3 size]_`=_STDSIZE, [@(0.0.255) int]_[*@3 delta]_`=_[@3 0])&]
-[s2;b17;a17; Horizontal centered position (in view area).&]
-[s7;i1120;a17; [%-*C@3 size]-|Horizontal size.&]
-[s7;i1120;a17; [%-*C@3 delta]-|Offset from centered position (rarely 
-used).&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Горизонтальная центрированная 
+позиция (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 size]-|Горизонтальный размер.&]
+[s7;i1120;a17; [%-*C@3 delta]-|Смещение от центрированной 
+позиции (используется редко).&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this  для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:VCenterPos`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* VCenterPos]([@(0.0.255) i
 nt]_[*@3 size]_`=_STDSIZE, [@(0.0.255) int]_[*@3 delta]_`=_[@3 0])&]
-[s2;b17;a17; Vertical centered position (in view area).&]
-[s7;i1120;a17; [%-*C@3 size]-|Vertical size.&]
-[s7;i1120;a17; [%-*C@3 delta]-|Offset from centered position (rarely 
-used).&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Вертикальная центрированная 
+позиция (в области видимости).&]
+[s7;i1120;a17; [%-*C@3 size]-|Вертикальный размер.&]
+[s7;i1120;a17; [%-*C@3 delta]-|Смещение от центрированной 
+позиции (используется редко).&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this  для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:LeftPosZ`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* LeftPosZ]([@(0.0.255) i
 nt]_[*@3 a], [@(0.0.255) int]_[*@3 size]_`=_STDSIZE)&]
-[s2;b17;a17; Устанавливаетleft horizontal [/ zoomed ]position (in view area). 
-Distances are recalculated using zoom factor to accommodate size 
-differences between standard font used during layout design and 
-actual standard font.&]
-[s7;i1120;a17; [%-*C@3 a]-|Distance from the left border of parent.&]
-[s7;i1120;a17; [%-*C@3 size]-|Horizontal size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает левую горизонтальную 
+[/ zoomed ]позицию (в области видимости). 
+Расстояния перевычисляются с помощью 
+зум`-фактора, приспосабливая разницы 
+в размере между дизайном выкладки 
+(используемым в нём стандартным шрифтом) 
+и действительным стандартным шрифтом.&]
+[s7;i1120;a17; [%-*C@3 a]-|Расстояние от левого бордюра 
+предка.&]
+[s7;i1120;a17; [%-*C@3 size]-|Горизонтальный размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this  для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RightPosZ`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* RightPosZ]([@(0.0.255) i
 nt]_[*@3 a], [@(0.0.255) int]_[*@3 size]_`=_STDSIZE)&]
-[s2;b17;a17; Устанавливаетright horizontal [/ zoomed ]position (in view area). 
-Distances are recalculated using zoom factor to accommodate size 
-differences between standard font used during layout design and 
-actual standard font.&]
-[s7;i1120;a17; [%-*C@3 a]-|Distance from the right border of parent.&]
-[s7;i1120;a17; [%-*C@3 size]-|Horizontal size.&]
-[s2;b17;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает правую горизонтальную 
+[/ zoomed ]позицию (в области видимости). 
+Расстояния перевычисляются с помощью 
+зум`-фактора, приспосабливая разницы 
+в размере между дизайном выкладки 
+(используемым в нём стандартным шрифтом) 
+и действительным стандартным шрифтом.&]
+[s7;i1120;a17; [%-*C@3 a]-|Расстояние от правого 
+бордюра предка.&]
+[s7;i1120;a17; [%-*C@3 size]-|Горизонтальный размер.&]
+[s2;b17;a17; [*/ Возвратное значение]-|`*this  для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:TopPosZ`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* TopPosZ]([@(0.0.255) i
 nt]_[*@3 a], [@(0.0.255) int]_[*@3 size]_`=_STDSIZE)&]
-[s2;b17;a17; Устанавливаетtop vertical [/ zoomed ]position (in view area). 
-Distances are recalculated using zoom factor to accommodate size 
-differences between standard font used during layout design and 
-actual standard font.&]
-[s7;i1120;a17; [%-*C@3 a]-|Distance from the top border of parent.&]
-[s7;i1120;a17; [%-*C@3 size]-|Vertical size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает верхнюю вертикальную 
+[/ zoomed ]позицию (в области видимости). 
+Расстояния перевычисляются с помощью 
+зум`-фактора, приспосабливая разницы 
+в размере между дизайном выкладки 
+(используемым в нём стандартным шрифтом) 
+и действительным стандартным шрифтом.&]
+[s7;i1120;a17; [%-*C@3 a]-|Расстояние от верхнего 
+бордюра предка.&]
+[s7;i1120;a17; [%-*C@3 size]-|Вертикальный размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this  для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:BottomPosZ`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* BottomPosZ]([@(0.0.255) i
 nt]_[*@3 a], [@(0.0.255) int]_[*@3 size]_`=_STDSIZE)&]
-[s2;b17;a17; Устанавливаетbottom vertical [/ zoomed ]position (in view area). 
-Distances are recalculated using zoom factor to accommodate size 
-differences between standard font used during layout design and 
-actual standard font.&]
-[s7;i1120;a17; [%-*C@3 a]-|Distance from the bottom border of parent.&]
-[s7;i1120;a17; [%-*C@3 size]-|Vertical size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает нижнюю вертикальную 
+[/ zoomed ]позицию (в области видимости). 
+Расстояния перевычисляются с помощью 
+зум`-фактора, приспосабливая разницы 
+в размере между дизайном выкладки 
+(используемым в нём стандартным шрифтом) 
+и действительным стандартным шрифтом.&]
+[s7;i1120;a17; [%-*C@3 a]-|Расстояние от нижнего 
+бордюра предка.&]
+[s7;i1120;a17; [%-*C@3 size]-|Вертикальный размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this  для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HSizePosZ`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* HSizePosZ]([@(0.0.255) i
 nt]_[*@3 a]_`=_[@3 0], [@(0.0.255) int]_[*@3 b]_`=_[@3 0])&]
-[s2;b17;a17; Устанавливаетvertical [/ zoomed ]sizing position (in view area). 
-Distances are recalculated using zoom factor to accommodate size 
-differences between standard font used during layout design and 
-actual standard font.&]
-[s7;i1120;a17; [%-*C@3 a]-|Distance form top border of parent.&]
-[s7;i1120;a17; [%-*C@3 b]-|Distance from bottom border of parent.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает горизонтальную 
+перемерную [/ zoomed ]позицию (в области 
+видимости). Расстояния перевычисляются 
+с помощью зум`-фактора, приспосабливая 
+разницы в размере между дизайном 
+выкладки (используемым в нём стандартным 
+шрифтом) и действительным стандартным 
+шрифтом.&]
+[s7;i1120;a17; [%-*C@3 a]-|Расстояние от верхнего 
+бордюра предка.&]
+[s7;i1120;a17; [%-*C@3 b]-|Расстояние от нижнего 
+бордюра предка.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:VSizePosZ`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* VSizePosZ]([@(0.0.255) i
 nt]_[*@3 a]_`=_[@3 0], [@(0.0.255) int]_[*@3 b]_`=_[@3 0])&]
-[s2;b17;a17; Устанавливаетvertical [/ zoomed ]sizing position (in view area). 
-Distances are recalculated using zoom factor to accommodate size 
-differences between standard font used during layout design and 
-actual standard font.&]
-[s7;i1120;a17; [%-*C@3 a]-|Distance form top border of parent.&]
-[s7;i1120;a17; [%-*C@3 b]-|Distance from bottom border of parent.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает вертикальную 
+перемерную [/ zoomed ]позицию (в области 
+видимости). Расстояния перевычисляются 
+с помощью зум`-фактора, приспосабливая 
+разницы в размере между дизайном 
+выкладки (используемым в нём стандартным 
+шрифтом) и действительным стандартным 
+шрифтом.&]
+[s7;i1120;a17; [%-*C@3 a]-|Расстояние от верхнего 
+бордюра предка.&]
+[s7;i1120;a17; [%-*C@3 b]-|Расстояние от нижнего 
+бордюра предка.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this  для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HCenterPosZ`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* HCenterPosZ]([@(0.0.255) i
 nt]_[*@3 size]_`=_STDSIZE, [@(0.0.255) int]_[*@3 delta]_`=_[@3 0])&]
-[s2;b17;a17; Horizontal centered [/ zoomed ]position (in view area). 
-Distances are recalculated using zoom factor to accommodate size 
-differences between standard font used during layout design and 
-actual standard font.&]
-[s7;i1120;a17; [%-*C@3 size]-|Horizontal size.&]
-[s7;i1120;a17; [%-*C@3 delta]-|Offset from centered position (rarely 
-used).&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Горизонтальная центрированная 
+[/ zoomed ]позиция (в области видимости). 
+Расстояния перевычисляются с помощью 
+зум`-фактора, приспосабливая разницы 
+в размере между дизайном выкладки 
+(используемым в нём стандартным шрифтом) 
+и действительным стандартным шрифтом.&]
+[s7;i1120;a17; [%-*C@3 size]-|Горизонтальный размер.&]
+[s7;i1120;a17; [%-*C@3 delta]-|Смещение от центрированной 
+позиции (используется редко).&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this  для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:VCenterPosZ`(int`,int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* VCenterPosZ]([@(0.0.255) i
 nt]_[*@3 size]_`=_STDSIZE, [@(0.0.255) int]_[*@3 delta]_`=_[@3 0])&]
-[s2;b17;a17; Vertical centered [/ zoomed] position (in view area). 
-Distances are recalculated using zoom factor to accommodate size 
-differences between standard font used during layout design and 
-actual standard font.&]
-[s7;i1120;a17; [%-*C@3 size]-|Vertical size.&]
-[s7;i1120;a17; [%-*C@3 delta]-|Offset from centered position (rarely 
-used).&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Вертикальная центрированная 
+[/ zoomed ]позиция (в области видимости). 
+Расстояния перевычисляются с помощью 
+зум`-фактора, приспосабливая разницы 
+в размере между дизайном выкладки 
+(используемым в нём стандартным шрифтом) 
+и действительным стандартным шрифтом.&]
+[s7;i1120;a17; [%-*C@3 size]-|Вертикальный размер.&]
+[s7;i1120;a17; [%-*C@3 delta]-|Смещение от центрированной 
+позиции (используется редко).&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this  для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetRect`(`)const:%- [_^`:`:Rect^ Rect]_[* GetRect]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает current 
-position in parent. It is either position in view or frame coordinates.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает 
+текущую позицию в предке. Это либо 
+позиция в видимости, либо координаты 
+фрейма.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetScreenRect`(`)const:%- [_^`:`:Rect^ Rect]_[* GetScreenRect]()_[@(0.0.255) c
 onst]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает current 
-position in absolute screen coordinates.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает 
+текущую позицию в абсолютных экранных 
+координатах.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetView`(`)const:%- [_^`:`:Rect^ Rect]_[* GetView]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает position 
-of view rectangle in frame coordinates.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает 
+позицию прямоугольника видимости 
+в координатах фрейма.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetScreenView`(`)const:%- [_^`:`:Rect^ Rect]_[* GetScreenView]()_[@(0.0.255) c
 onst]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает position 
-of view rectangle in absolute screen coordinates.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает 
+позицию прямоугольника видимости 
+в абсолютных экранных координатах.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetSize`(`)const:%- [_^`:`:Size^ Size]_[* GetSize]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает size 
-of view rectangle of Ctrl.&]
-[s3;%- &]
+[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает 
+размер прямоугольника видимости 
+контрола.&]
+[s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetVisibleScreenRect`(`)const:%- [_^`:`:Rect^ Rect]_[* GetVisibleScreenRect](
 )_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает current 
-position in parent intersected with either parent`'s visible 
-screen rectangle for frame Ctrl (as obtained using GetVisibleScreenRect) 
-or parent`'s screen view rectangle for view Ctrl (obtained using 
-GetVisibleScreenView). This method is useful when rectangle of 
-Ctrl exceeds it`'s parent area `- in this case this method returns 
-part of Ctrl that is not clipped out by parent`'s are limits.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает 
+текущую позицию в предке, пересекающуюся 
+либо с видимым экранным прямоугольником 
+предка для контрола фрейма (полученного 
+посредством GetVisibleScreenRect), либо с прямоуголько
+м видимости экрана для контрола видимости 
+(полученного посредством GetVisibleScreenView). 
+Этот метод применим, когда прямоугольник 
+контрола превышает область его предка: 
+в этом случае этот метод возвращает 
+часть контрола, не обрезанную пределами 
+предка.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetVisibleScreenView`(`)const:%- [_^`:`:Rect^ Rect]_[* GetVisibleScreenView](
 )_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает current 
-position of view area intersected with either parent`'s visible 
-screen rectangle for frame Ctrl (as obtained using GetVisibleScreenRect) 
-or parent`'s screen view rectangle for view Ctrl (obtained using 
-GetVisibleScreenView). This method is useful when rectangle of 
-Ctrl exceeds it`'s parent area `- in this case this method returns 
-part of Ctrl view that is not clipped out by parent`'s are limits.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Возвращает 
+текущую позицию области видимости, 
+пересекающуюся либо с видимым экранным 
+прямоугольником предка для контрола 
+фрейма (полученного посредством GetVisibleScreenRect)
+, либо с прямоугольком видимости экрана 
+для контрола видимости (полученного 
+посредством GetVisibleScreenView). Этот метод 
+применим, когда прямоугольник контрола 
+превышает область его предка: в этом 
+случае этот метод возвращает часть 
+контрола, не обрезанную пределами 
+предка.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetWorkArea`(`)const:%- [_^Rect^ Rect]_[* GetWorkArea]()_[@(0.0.255) const]&]
-[s2; Возвращает the work area (the maximum rectangle that window can 
-use) for screen that this window is in.&]
+[s2; Возвращает рабочую область (максимальный 
+периметр, который может использовать 
+окно) для экрана, на котором находится 
+это окно.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:AddFrameSize`(int`,int`)const:%- [_^`:`:Size^ Size]_[* AddFrameSize]([@(0.0.255) i
 nt]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])_[@(0.0.255) const]&]
-[s2;b17;a17; Computes size of Ctrl for given size of view and actual 
-set of frames.&]
-[s7;i1120;a17; [%-*C@3 cx]-|Width.&]
-[s7;i1120;a17; [%-*C@3 cy]-|Height.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Size of Ctrl 
-that would have requested view size.&]
+[s2;b17;a17; Вычисляет размер контрола для 
+заданного размера видимости и действительно
+го набора фреймов.&]
+[s7;i1120;a17; [%-*C@3 cx]-|Ширина.&]
+[s7;i1120;a17; [%-*C@3 cy]-|Высота.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Размер 
+контрола, у которого будет требуемый 
+размер видимости.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:AddFrameSize`(Size`)const:%- [_^`:`:Size^ Size]_[* AddFrameSize]([_^`:`:Size^ S
 ize]_[*@3 sz])_[@(0.0.255) const]&]
 [s2;b17;a17; То же, что и AddFrameSize(sz.cx, sz.cy).&]
-[s7;i1120;a17; [%-*C@3 sz]-|Size.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Size of Ctrl 
-that would have requested view size.&]
+[s7;i1120;a17; [%-*C@3 sz]-|Размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Размер 
+контрола, у которого будет требуемый 
+размер видимости.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:Refresh`(const Rect`&`):%- [@(0.0.255) void]_[* Refresh]([@(0.0.255) const]_[_^Rect^ R
 ect][@(0.0.255) `&]_[*@3 r])&]
-[s2; Marks requested rectangle of view area for repainting. Actual 
-repaint is deferred for performance reasons.&]
-[s7;i1120;a17; [%-*C@3 r]-|Rectangle in view.&]
+[s2; Отмечает требуемый периметр области 
+видимости для перерисовки. Действительная 
+перерисовка по соображениям производительн
+ости иная.&]
+[s7;i1120;a17; [%-*C@3 r]-|Периметр в видимости.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Refresh`(int`,int`,int`,int`):%- [@(0.0.255) void]_[* Refresh]([@(0.0.255) int
 ]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;b17;a17; Marks requested rectangle of view area for repainting. 
-Actual repaint is deferred for performance reasons.&]
-[s7;i1120;a17; [%-*C@3 x]-|Left position of rectangle.&]
-[s7;i1120;a17; [%-*C@3 y]-|Top position of rectangle.&]
-[s7;i1120;a17; [%-*C@3 cx]-|Width.&]
-[s7;i1120;a17; [%-*C@3 cy]-|Height.&]
+[s2;b17;a17; Отмечает требуемый периметр 
+области видимости для перерисовки. 
+Действительная перерисовка по соображениям
+ производительности иная.&]
+[s7;i1120;a17; [%-*C@3 x]-|Левая позиция периметра.&]
+[s7;i1120;a17; [%-*C@3 y]-|Верхняя позиция периметра.&]
+[s7;i1120;a17; [%-*C@3 cx]-|Ширина.&]
+[s7;i1120;a17; [%-*C@3 cy]-|Высота.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Refresh`(`):%- [@(0.0.255) void]_[* Refresh]()&]
-[s2;b17;a17; Marks whole view area for repainting.&]
+[s2;b17;a17; Отмечает всю область видимости 
+для перерисовки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsFullRefresh`(`)const:%- [@(0.0.255) bool]_[* IsFullRefresh]()_[@(0.0.255) co
 nst]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true when 
-whole view area is marked for repainting but was not repainted 
-yet.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, когда 
+вся область видимости отмечена для 
+перерисовки, но ещё не перерисована.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RefreshFrame`(const Rect`&`):%- [@(0.0.255) void]_[* RefreshFrame]([@(0.0.255) c
 onst]_[_^`:`:Rect^ Rect][@(0.0.255) `&]_[*@3 r])&]
-[s2;b17;a17; Marks requested rectangle of frame area for repainting. 
-Actual repainting is deferred for performance reasons.&]
-[s7;i1120;a17; [%-*C@3 r]-|Area to repaint.&]
+[s2;b17;a17; Отмечает требуемый периметр 
+области фрейма для перерисовки. Действитель
+ная перерисовка по соображениям производите
+льности иная.&]
+[s7;i1120;a17; [%-*C@3 r]-|Перерисовываемая область.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RefreshFrame`(int`,int`,int`,int`):%- [@(0.0.255) void]_[* RefreshFrame]([@(0.0.255) i
 nt]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;b17;a17; Marks requested rectangle of frame area for repainting. 
-Actual repaint is deferred for performance reasons.&]
-[s7;i1120;a17; [%-*C@3 x]-|Left position of rectangle.&]
-[s7;i1120;a17; [%-*C@3 y]-|Top position of rectangle.&]
-[s7;i1120;a17; [%-*C@3 cx]-|Width.&]
-[s7;i1120;a17; [%-*C@3 cy]-|Height.&]
+[s2;b17;a17; Отмечает требуемый периметр 
+области фрейма для перерисовки. Действитель
+ная перерисовка по соображениям производите
+льности иная.&]
+[s7;i1120;a17; [%-*C@3 x]-|Левая позиция периметра.&]
+[s7;i1120;a17; [%-*C@3 y]-|Верхняя позиция периметра.&]
+[s7;i1120;a17; [%-*C@3 cx]-|Ширина.&]
+[s7;i1120;a17; [%-*C@3 cy]-|Высота.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RefreshFrame`(`):%- [@(0.0.255) void]_[* RefreshFrame]()&]
-[s2;b17;a17; Marks whole Ctrl area for repainting.&]
+[s2;b17;a17; Отмечает всю область контрола 
+для перерисовки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:ScrollView`(const Rect`&`,int`,int`):%- [@(0.0.255) void]_[* ScrollView]([@(0.0.255) c
 onst]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r], [@(0.0.255) int]_[*@3 dx], 
 [@(0.0.255) int]_[*@3 dy])&]
-[s2; Marks requested view rectangle for repainting, indicating that 
-part of this repaint can be done by scrolling current content 
-of rectangle. Note that actual scroll is deferred to repaint 
-and that U`+`+ is still allowed to solve the situation by repainting 
-rather than scrolling.&]
-[s7;i1120;a17; [%-*C@3 r]-|Area for repainting.&]
-[s7;i1120;a17; [%-*C@3 dx]-|Horizontal scroll.&]
-[s7;i1120;a17; [%-*C@3 dy]-|Vertical scroll.&]
+[s2; Отмечает требуемый периметр видимости 
+для перерисовки, указывая, что часть 
+этой перерисовки может быть выполнена 
+промоткой текущего содержимого периметра. 
+Заметьте, что действительная промотка 
+(scroll) отлична от перерисовки, и что 
+U`+`+ всё ешё в состоянии разрешить 
+ситуацию путём перерисовки, а не промотки.&]
+[s7;i1120;a17; [%-*C@3 r]-|Область для перерисовки.&]
+[s7;i1120;a17; [%-*C@3 dx]-|Горизонтальная промотка.&]
+[s7;i1120;a17; [%-*C@3 dy]-|Вертикальная промотка.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ScrollView`(int`,int`,int`,int`,int`,int`):%- [@(0.0.255) void]_[* ScrollVie
 w]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], 
 [@(0.0.255) int]_[*@3 cy], [@(0.0.255) int]_[*@3 dx], [@(0.0.255) int]_[*@3 dy])&]
-[s2;b17;a17; Marks requested view rectangle for repainting, indicating 
-that part of this repaint can be done by scrolling current content 
-of rectangle. Note that actual scroll is deferred to repaint 
-and that U`+`+ is still allowed to solve the situation by repainting 
-rather than scrolling.&]
-[s7;i1120;a17; [%-*C@3 r]-|Area for repainting.&]
-[s7;i1120;a17; [%-*C@3 x]-|Left position of rectangle.&]
-[s7;i1120;a17; [%-*C@3 y]-|Top position of rectangle.&]
-[s7;i1120;a17; [%-*C@3 cx]-|Width.&]
-[s7;i1120;a17; [%-*C@3 cy]-|Height.&]
-[s7;i1120;a17; [%-*C@3 dx]-|Horizontal scroll.&]
-[s7;i1120;a17; [%-*C@3 dy]-|Vertical scroll.&]
+[s2;b17;a17; Отмечает требуемый периметр 
+видимости для перерисовки, указывая, 
+что часть этой перерисовки может 
+быть выполнена промоткой текущего 
+содержимого периметра. Заметьте, 
+что действительная промотка (scroll) 
+отлична от перерисовки, и что U`+`+ всё 
+ешё в состоянии разрешить ситуацию 
+путём перерисовки, а не промотки.&]
+[s7;i1120;a17; [%-*C@3 r]-|Область для перерисовки.&]
+[s7;i1120;a17; [%-*C@3 x]-|Левая позиция периметра.&]
+[s7;i1120;a17; [%-*C@3 y]-|Верхняя позиция периметра.&]
+[s7;i1120;a17; [%-*C@3 cx]-|Ширина.&]
+[s7;i1120;a17; [%-*C@3 cy]-|Высота.&]
+[s7;i1120;a17; [%-*C@3 dx]-|Горизонтальная промотка.&]
+[s7;i1120;a17; [%-*C@3 dy]-|Вертикальная промотка.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ScrollView`(int`,int`):%- [@(0.0.255) void]_[* ScrollView]([@(0.0.255) int]_[*@3 d
 x], [@(0.0.255) int]_[*@3 dy])&]
-[s2;b17;a17; Marks while view area for repainting, indicating that 
-part of this repaint can be done by scrolling current content 
-of rectangle. Note that actual scroll is deferred to repaint 
-and that U`+`+ is still allowed to solve the situation by repainting 
-rather than scrolling.&]
-[s7;i1120;a17; [%-*C@3 dx]-|Horizontal scroll.&]
-[s7;i1120;a17; [%-*C@3 dy]-|Vertical scroll.&]
+[s2;b17;a17; Отмечает требуемый периметр 
+видимости для перерисовки, указывая, 
+что часть этой перерисовки может 
+быть выполнена промоткой текущего 
+содержимого периметра. Заметьте, 
+что действительная промотка (scroll) 
+отлична от перерисовки, и что U`+`+ всё 
+ешё в состоянии разрешить ситуацию 
+путём перерисовки, а не промотки.&]
+[s7;i1120;a17; [%-*C@3 dx]-|Горизонтальная промотка.&]
+[s7;i1120;a17; [%-*C@3 dy]-|Вертикальная промотка.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ScrollView`(const Rect`&`,Size`):%- [@(0.0.255) void]_[* ScrollView]([@(0.0.255) c
@@ -1798,306 +2228,370 @@ elta])&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Sync`(`):%- [@(0.0.255) void]_[* Sync]()&]
-[s2;b17;a17; Forces immediate repainting of areas marked using Refresh, 
-RefreshFrame or ScrollView methods.&]
+[s2;b17;a17; Вызывает немедленную перерисовку 
+областей, отмеченных с помощью методов 
+Refresh, RefreshFrame или ScrollView.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:Sync`(const Rect`&`):%- [@(0.0.255) void]_[* Sync]([@(0.0.255) const]_[_^Rect^ R
 ect][@(0.0.255) `&]_[*@3 r])&]
-[s2; Forces immediate repainting of areas marked using Refresh, RefreshFrame 
-or ScrollView methods, limited with intersection of given rectangle.&]
-[s7;i1120;a17; [%-*C@3 r]-|Rectangle.&]
+[s2; Вызывает немедленную перерисовку 
+областей, отмеченных с помощью методов 
+Refresh, RefreshFrame или ScrollView,ограниченную 
+пересечением с заданным прямоугольником.&]
+[s7;i1120;a17; [%-*C@3 r]-|Прямоугольник.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:OverrideCursor`(const Image`&`):%- [@(0.0.255) static] 
 [_^Image^ Image]_[* OverrideCursor]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 m
 ])&]
-[s2; Overrides mouse cursor to [%-*@3 m]. To end the override, call 
-it again with the Image returned by the override call.&]
+[s2; Переписывает курсор мыши в [%-*@3 m]. Для 
+окончания переписи нужно вызвать 
+этот метод ещё раз, с рисунком Image, 
+который вернул первый вызов.&]
 [s2; &]
 [s4;%- &]
 [s5;:Ctrl`:`:DrawCtrl`(Draw`&`,int`,int`):%- [@(0.0.255) void]_[* DrawCtrl]([_^Draw^ Draw][@(0.0.255) `&
 ]_[*@3 w], [@(0.0.255) int]_[*@3 x]_`=_[@3 0], [@(0.0.255) int]_[*@3 y]_`=_[@3 0])&]
-[s2; Draws Ctrl at specified position. This is intended for utility 
-purposes like taking screen`-shots. This version Draws Ctrl [/ without] 
-background (supplied by parent).&]
-[s7;i1120;a17; [%-*C@3 w]-|Target Draw.&]
-[s7;i1120;a17; [%-*C@3 x, ][*C@3 y]-|Position.&]
+[s2; Отрисовывает Ctrl в заданной позиции. 
+Предназначен для вспомогательных 
+целей, типа создания скриншотов. Эта 
+версия рисует контрол [/ без] фона (предоставля
+емого предком).&]
+[s7;i1120;a17; [%-*C@3 w]-|Целевой Draw.&]
+[s7;i1120;a17; [%-*C@3 x, ][*C@3 y]-|Позиция.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:DrawCtrlWithParent`(Draw`&`,int`,int`):%- [@(0.0.255) void]_[* DrawCtrlWithP
 arent]([_^Draw^ Draw][@(0.0.255) `&]_[*@3 w], [@(0.0.255) int]_[*@3 x]_`=_[@3 0], 
 [@(0.0.255) int]_[*@3 y]_`=_[@3 0])&]
-[s2; Draws Ctrl at specified position. This is intended for utility 
-purposes like taking screen`-shots. This version Draws Ctrl [/ with] 
-background (supplied by parent).&]
-[s7;i1120;a17; [%-*C@3 w]-|Target Draw.&]
-[s7;i1120;a17; [%-*C@3 x, ][*C@3 y]-|Position.&]
+[s2; Отрисовывает Ctrl в заданной позиции. 
+Предназначен для вспомогательных 
+целей, типа создания скриншотов. Эта 
+версия рисует контрол [/ без] фона (предоставля
+емого предком).&]
+[s7;i1120;a17; [%-*C@3 w]-|Целевой Draw.&]
+[s7;i1120;a17; [%-*C@3 x, ][*C@3 y]-|Позиция.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HasChild`(Ctrl`*`)const:%- [@(0.0.255) bool]_[* HasChild]([_^`:`:Ctrl^ Ctrl]_`*
 [*@3 ctrl])_[@(0.0.255) const]&]
-[s2;b17;a17; Tests whether Ctrl has specified [/ direct] child.&]
-[s7;i1120;a17; [%-*C@3 ctrl]-|Child.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true if ctrl 
-is child.&]
+[s2;b17;a17; Проверяет, назначен ли у контрола 
+[/ прямой] отпрыск (потомок).&]
+[s7;i1120;a17; [%-*C@3 ctrl]-|Отпрыск.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, если 
+контрол с отпрыском.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HasChildDeep`(Ctrl`*`)const:%- [@(0.0.255) bool]_[* HasChildDeep]([_^`:`:Ctrl^ C
 trl]_`*[*@3 ctrl])_[@(0.0.255) const]&]
-[s2;b17;a17; Tests whether Ctrl has specified ctrl in its child tree 
-(direct or indirect).&]
-[s7;i1120;a17; [%-*C@3 ctrl]-|Child.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true if ctrl 
-is in child tree.&]
+[s2;b17;a17; Проверяет, есть ли у контрола 
+в дереве отпрысков указанный отпрыск 
+(прямой или непрямой).&]
+[s7;i1120;a17; [%-*C@3 ctrl]-|Отпрыск.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, если 
+контрол в дереве отпрысков.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IgnoreMouse`(bool`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* IgnoreMouse]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;b17;a17; Устанавливаетignore`-mouse flag. When active, Ctrl is ignored 
-for mouse input. That is important for static Ctrls that cover 
-other Ctrls, like LabelBox `- this flag ensures, that mouse input 
-is not consumed by LabelBox, but is distributed to Ctrls that 
-lay inside it.&]
-[s7;i1120;a17; [%-*C@3 b]-|Value of flag.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает флаг ignore`-mouse (игнорироват
+ь мышь). Если он активен, контрол не 
+воспринимает ввод от мыши. Это важно 
+для статических контролов, покрывающих 
+другие контролы, типа LabelBox: этот флаг 
+гарантирует, что ввод от мыши не `"потребляет
+ся`" LabelBox`'ом, но поставляется к контролам, 
+расположенным внутри него.&]
+[s7;i1120;a17; [%-*C@3 b]-|Значение флага.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:NoIgnoreMouse`(`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* NoIgnoreMouse]()&]
 [s2;b17;a17; То же, что и IgnoreMouse(false).&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsIgnoreMouse`(`)const:%- [@(0.0.255) bool]_[* IsIgnoreMouse]()_[@(0.0.255) co
 nst]&]
-[s2; Возвращает the ignore`-mouse flag (see IgnoreMouse).&]
+[s2; Возвращает флаг ignore`-mouse (смотрите 
+IgnoreMouse).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HasMouse`(`)const:%- [@(0.0.255) bool]_[* HasMouse]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true when 
-Ctrl is target for mouse events.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, когда 
+Ctrl является целью для событий мыши.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HasMouseDeep`(`)const:%- [@(0.0.255) bool]_[* HasMouseDeep]()_[@(0.0.255) cons
 t]&]
-[s2; Возвращает  true, если Ctrl or any of its descendants 
-is target for mouse events.&]
+[s2; Возвращает true, если Ctrl или любой из 
+его потомков является целью для событий 
+мыши.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HasMouseInFrame`(const Rect`&`)const:%- [@(0.0.255) bool]_[* HasMouseInFrame
 ]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r])_[@(0.0.255) const]&]
-[s7;i1120;a17; [%-*C@3 r]-|rectangle in frame area.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true when 
-Ctrl is target for mouse events and mouse pointer is inside specified 
-frame area rectangle.&]
+[s7;i1120;a17; [%-*C@3 r]-|Прямоугольник в области 
+фрейма.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, когда 
+Ctrl является целью для событий мыши 
+и указатель мыши находится внутри 
+указанного прямоугольника области 
+фрейма.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:HasMouseIn`(const Rect`&`)const:%- [@(0.0.255) bool]_[* HasMouseIn]([@(0.0.255) c
 onst]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r])_[@(0.0.255) const]&]
-[s2; Возвращает true when Ctrl is target for mouse events and mouse 
-pointer is inside specified view area rectangle.&]
+[s2; Возвращает true, когда Ctrl является 
+целью для событий мыши и указатель 
+мыши находится внутри указанного 
+прямоугольника области видимости.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetMouseViewPos`(`)const:%- [_^Point^ Point]_[* GetMouseViewPos]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает the position of mouse relative to the view area. Note 
-that the result can negative point or point outside &]
+[s2; Возвращает позицию мыши относительно 
+области видимости. Заметьте что результатом
+ может быть отрицательная точка или 
+внешняя точка &]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetMouseCtrl`(`):%- [@(0.0.255) static] [_^`:`:Ctrl^ Ctrl]_`*[* GetMouseCtrl](
 )&]
-[s7;i1120;a17; Возвращает current target for mouse events.&]
+[s7;i1120;a17; Возвращает текущую цель для 
+событий мыши.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IgnoreMouseClick`(`):%- [@(0.0.255) static] [@(0.0.255) void]_[* IgnoreMouseCl
 ick]()&]
-[s2;b17;a17; Forces framework to ignore all mouse events till next 
-button`-up event. This is good tool to solve some corner cases, 
-like popup window closed by button click when mouse pointer is 
-over its owner as well (TopWindow`::Close calls this function).&]
+[s2;b17;a17; Заставляет фреймворк игнорировать 
+все события мыши до очередного события 
+button`-up (`"кнопка вверху`"). Это отличный 
+инструмент для разрешения некоторых 
+`"острых`" случаев, например, закрытие 
+всплывающего окна нажатием кнопки, 
+когда указатель мыши также находится 
+и над его владельцем (TopWindow`::Close вызывает 
+эту функцию).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IgnoreMouseUp`(`):%- [@(0.0.255) static] [@(0.0.255) void]_[* IgnoreMouseUp]()
 &]
-[s2;b17;a17; Invokes IgnoreMouseClick if some of mouse buttons is 
-pressed.&]
+[s2;b17;a17; Вызывает IgnoreMouseClick, если нажаты 
+какие`-то кнопки мыши.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:UnIgnoreMouse`(`):%- [@(0.0.255) static] [@(0.0.255) void]_[* UnIgnoreMouse]()
 &]
-[s2; Cancels the effect or IgnoreMouseClick and IgnoreMouseUp (clicks 
-are not ignored anymore).&]
+[s2; Отменяет эффект или IgnoreMouseClick и IgnoreMouseUp 
+(клики больше не игнорируются).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetCapture`(`):%- [@(0.0.255) bool]_[* SetCapture]()&]
-[s2;b17;a17; Устанавливаетmouse capture for Ctrl. This method should be called 
-in MouseLeft or MouseRight methods only. Ctrl will receive all 
-mouse input until ReleaseCapture is called or mouse button is 
-released.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True when 
-SetCapture was successful (usually you can ignore this return 
-value).&]
+[s2;b17;a17; Устанавливает захват мыши для 
+контрола. Следует вызывать только 
+в методах MouseLeft или MouseRight. Ctrl будет 
+получать весь ввод от мыши, пока не 
+будет вызван ReleaseCapture или не нажата 
+кнопка мыши.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, когда 
+SetCapture удался (обычно можно игнорировать 
+его возвратное значение).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ReleaseCapture`(`):%- [@(0.0.255) bool]_[* ReleaseCapture]()&]
-[s2;b17;a17; Release Ctrl`'s mouse capture.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True when 
-mouse capture was released.&]
+[s2;b17;a17; Освобождает от захвата мыши 
+контролом.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, если 
+захват мыши сброшен.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HasCapture`(`)const:%- [@(0.0.255) bool]_[* HasCapture]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True if Ctrl 
-has mouse capture.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, если 
+у Ctrl есть захват мыши.&]
 [s3;%- &]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetCaptureCtrl`(`):%- [@(0.0.255) static] [_^Ctrl^ Ctrl]_`*[* GetCaptureCtrl](
 )&]
-[s2; Возвращает a pointer to the Ctrl that is currently capturing the 
-mouse.&]
+[s2; Возвращает указатель на контрол, 
+который в данное время захватывает 
+мышь.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:ReleaseCtrlCapture`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* ReleaseCtrl
 Capture]()&]
-[s2;b17;a17; If any of application`'s Ctrls has mouse capture, it 
-is released.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True if mouse 
-capture was released.&]
+[s2;b17;a17; Если у любого контрола приложения 
+есть захват мыши, он сбрасывается.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, если 
+захват мыши сброшен.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetFocus`(`):%- [@(0.0.255) bool]_[* SetFocus]()&]
-[s2;b17;a17; Устанавливаетkeyboard input focus to the Ctrl. Ctrl is first 
-to receive keyboard events via Key method as long as it has keyboard 
-input focus. When Ctrl denies keyboard event (by returning false 
-from Key method), it is passed to its parent`'s Key method and 
-so on.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True if setting 
-focus was successful.&]
+[s2;b17;a17; Устанавливает фокус ввода клавиатуры 
+у контрола. Ctrl будет первым получать 
+клавиатурные события через метод 
+Key, покуда у него есть фокус клавиатурного 
+ввода. Когда Ctrl отрицает клавиатурное 
+событие (возвращая false из метода Key), 
+это передаётся методу Key его предка 
+и так далее.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, если 
+фокус успешно установлен.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HasFocus`(`)const:%- [@(0.0.255) bool]_[* HasFocus]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True if Ctrl 
-has keyboard input focus.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, если 
+у контрола есть фокус клавиатурного 
+ввода.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HasFocusDeep`(`)const:%- [@(0.0.255) bool]_[* HasFocusDeep]()_[@(0.0.255) cons
 t]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True if Ctrl 
-or any of its descendants has focus or is equal to GetOwnerCtrl 
-of any active popup.&]
-[s3;%- &]
-[s4;%- &]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, если 
+Ctrl или любой его потомок имеет фокус, 
+или равен GetOwnerCtrl любого активного 
+всплывающего окна.&]
+[s3; &]
+[s4; &]
 [s5;:Ctrl`:`:WantFocus`(bool`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* WantFocus]([@(0.0.255) b
 ool]_[*@3 ft]_`=_[@(0.0.255) true])&]
-[s2;b17;a17; Indicates whether Ctrl wants focus to be passed to it 
-by U`+`+, when navigating through the dialog using Tab (or Shift`+Tab) 
-key.&]
-[s7;i1120;a17; [%-*C@3 ft]-|true to indicate that Ctrl wants focus.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Same Ctrl 
-for method chaining.&]
+[s2;b17;a17; Указывает нужно ли передавать 
+контролу фокус от U`+`+, при навигации 
+по диалоговому окну с помощью клавиши 
+Tab (или Shift`+Tab).&]
+[s7;i1120;a17; [%-*C@3 ft]-|true, если надо указать на 
+необходимость фокуса.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Тот же 
+Ctrl для сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:NoWantFocus`(`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* NoWantFocus]()&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Same Ctrl 
-for method chaining.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Тот же 
+Ctrl для сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsWantFocus`(`)const:%- [@(0.0.255) bool]_[* IsWantFocus]()_[@(0.0.255) const]&]
-[s2;b17;a17;%- Checks whether Ctrl has WantFocus acti.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true, when 
-Ctrl wants focus.&]
+[s2;b17;a17;%- Проверяет, активен ли у контрола 
+WantFocus.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, когда 
+контролу нужен фокус.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:InitFocus`(bool`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* InitFocus]([@(0.0.255) b
 ool]_[*@3 ft]_`=_[@(0.0.255) true])&]
-[s2;b17;a17; Indicates that Ctrl is eligible to obtain focus upon 
-opening of dialog or in other similar situations.&]
-[s7;i1120;a17; [%-*C@3 ft]-|true to indicate Ctrl is eligible.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Same Ctrl 
-for method chaining.&]
+[s2;b17;a17; Указывает, что Ctrl в праве получать 
+фокус при отпрытии диалогового окна 
+или в иных подобных ситуациях.&]
+[s7;i1120;a17; [%-*C@3 ft]-|true, для указания права 
+контрола.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Тот же 
+Ctrl для сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:NoInitFocus`(`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* NoInitFocus]()&]
 [s2;b17;a17; То же, что и InitFocus(false).&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Same Ctrl 
-for method chaining.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Тот же 
+Ctrl для сцепления методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsInitFocus`(`):%- [@(0.0.255) bool]_[* IsInitFocus]()&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true when 
-Ctrl wants init focus.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, когда 
+Ctrl нуждается в начальном фокусе.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetWantFocus`(`):%- [@(0.0.255) bool]_[* SetWantFocus]()&]
-[s2;b17;a17; If Ctrl wants focus (WantFocus(true) was called for 
-it), set focus to Ctrl, otherwise nothing happens.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true if focus 
-was set.&]
+[s2;b17;a17; Если контролу требуется фокус 
+(для него вызван WantFocus(true)),устанавливает 
+контролу фокус, в противном случае 
+ничего не происходит.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, если 
+фокус установлен.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetFocusChild`(`)const:%- [_^`:`:Ctrl^ Ctrl]_`*[* GetFocusChild]()_[@(0.0.255) c
 onst]&]
-[s2;b17;a17; If any immediate child of Ctrl has focus, returns pointer 
-to it.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-child with focus or NULL if no such exists.&]
+[s2;b17;a17; Если любой `"подручный`" отпрыск 
+контрола имеет фокус, возвращается 
+указатель на него.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на отпрыск с фокусом или NULL, если такого 
+нет&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetFocusChildDeep`(`)const:%- [_^`:`:Ctrl^ Ctrl]_`*[* GetFocusChildDeep]()_[@(0.0.255) c
 onst]&]
-[s2;b17;a17; If any child of Ctrl`'s child tree has focus, returns 
-pointer to it.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|&]
+[s2;b17;a17; Если у любого отпрыска контрола 
+в дереве отпрысков есть фокус, возвращается 
+указатель на него.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на отпрыск.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:CancelModeDeep`(`):%- [@(0.0.255) void]_[* CancelModeDeep]()&]
-[s2;b17;a17; Вызывает CancelMode virtual method for Ctrl and all of 
-its descendants.&]
+[s2;b17;a17; Вызывает виртуальный метод CancelMode 
+для контрола и всех его потомков.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetCaret`(int`,int`,int`,int`):%- [@(0.0.255) void]_[* SetCaret]([@(0.0.255) i
 nt]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;b17;a17; Place caret rectangle block at given position in view 
-area. Caret rectangle is full flashing box and usually indicates 
-place where text is to entered. Ctrl can have just one caret. 
-Only Ctrl with focus has its caret displayed (also means that 
-you do not need to remove caret when Ctrl goes out of focus).&]
-[s7;i1120;a17; [%-*C@3 x]-|X position.&]
-[s7;i1120;a17; [%-*C@3 y]-|Y position.&]
-[s7;i1120;a17; [%-*C@3 cx]-|Horizontal size.&]
-[s7;i1120;a17; [%-*C@3 cy]-|Vertical size.&]
+[s2;b17;a17; Помещает прямоугольный блок 
+каретки в заданной позиции области 
+видимости. Прямоугольник каретки 
+`- это полный мерцающий бокс, обычно 
+указывающий место, в которое вводится 
+текст.  У контрола может быть только 
+одна каретка. Отображается только 
+каретка у контрола с фокусом (то есть, 
+вам не приходится удалять каретку, 
+когда контрол теряет фокус).&]
+[s7;i1120;a17; [%-*C@3 x]-|Позиция X.&]
+[s7;i1120;a17; [%-*C@3 y]-|Позиция Y.&]
+[s7;i1120;a17; [%-*C@3 cx]-|Горизонтальный размер.&]
+[s7;i1120;a17; [%-*C@3 cy]-|Вертикальный размер.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetCaret`(const `:`:Rect`&`):%- [@(0.0.255) void]_[* SetCaret]([@(0.0.255) con
 st]_[_^`:`:Rect^ Rect][@(0.0.255) `&]_[*@3 r])&]
-[s2;b17;a17; Place caret rectangle block at given position in view 
-area. Caret rectangle is full flashing box and usually indicates 
-place where text is to entered. Ctrl can have just one caret. 
-Only Ctrl with focus has its caret displayed (also means that 
-you do not need to remove caret when Ctrl goes out of focus).&]
-[s7;i1120;a17; [%-*C@3 r]-|Caret block rectangle.&]
+[s2;b17;a17; Помещает прямоугольный блок 
+каретки в заданной позиции области 
+видимости. Прямоугольник каретки 
+`- это полный мерцающий бокс, обычно 
+указывающий место, в которое вводится 
+текст.  У контрола может быть только 
+одна каретка. Отображается только 
+каретка у контрола с фокусом (то есть, 
+вам не приходится удалять каретку, 
+когда контрол теряет фокус)&]
+[s7;i1120;a17; [%-*C@3 r]-|Прямоугольник блока каретки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:KillCaret`(`):%- [@(0.0.255) void]_[* KillCaret]()&]
-[s2;b17;a17; Removes caret from Ctrl.&]
+[s2;b17;a17; Удаляет каретку из контрола.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:CancelPreedit`(`):%- [@(0.0.255) void]_[* CancelPreedit]()&]
-[s2; Terminates any input method composition in progress, if possible. 
-Text input widgets typically call this on status change, like 
-new cursor position or new text through SetData.&]
+[s2; Прекращает любую текущую композицию 
+метода ввода, если это возможно. Виджеты 
+с текстовым вводом, как правило, вызывают 
+этот метод при изменении состояния, 
+как то `- новая позиция курсора или 
+новый текст от SetData.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:CancelMyPreedit`(`):%- [@(0.0.255) void]_[* CancelMyPreedit]()&]
-[s2; Вызывает CancelPreedit if this widget has keyboard focus.&]
+[s2; Вызывает CancelPreedit, если у данного виджета 
+есть клавиатурный фокус.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetFocusCtrl`(`):%- [@(0.0.255) static] [_^`:`:Ctrl^ Ctrl]_`*[* GetFocusCtrl](
 )&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Ctrl that 
-has focus or NULL if no Ctrl of application has it.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Ctrl, у 
+которого есть фокус, или NULL, если его 
+нет ни у одного контрола приложения.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:IterateFocusForward`(Ctrl`*`,Ctrl`*`,bool`,bool`,bool`):%- [@(0.0.255) sta
@@ -2105,79 +2599,101 @@ tic] [@(0.0.255) bool]_[* IterateFocusForward]([_^Ctrl^ Ctrl]_`*[*@3 ctrl],
 [_^Ctrl^ Ctrl]_`*[*@3 top], [@(0.0.255) bool]_[*@3 noframe]_`=_[@(0.0.255) false], 
 [@(0.0.255) bool]_[*@3 init]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*@3 all]_`=_[@(0.0.255) f
 alse])&]
-[s2; Tries to move focus to next `"appropriate`" Ctrl, like when 
-Tab key is pressed in the dialog. Appropriate Ctrl needs to have 
-WantFocus flag, be visible and enabled.&]
-[s7;i1120;a17; [%-*C@3 ctrl]-|Ctrl with focus.&]
-[s7;i1120;a17; [%-*C@3 top]-|Top Ctrl `- function cycles only between 
-this Ctrl subtree.&]
-[s7;i1120;a17; [%-*C@3 noframe]-|Indicates that frame Ctrls are to be 
-excluded.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true when 
-focus was successfully moved.&]
+[s2; Пытается переместить фокус следующему 
+`"подходящему`" контролу, как в случае, 
+когда в диалоговом окне нажата клавиша 
+Tab. У подходящего контрола должен 
+стоять флаг WantFocus, он должен быть видимым 
+и активным.&]
+[s7;i1120;a17; [%-*C@3 ctrl]-|Контрол с фокусом.&]
+[s7;i1120;a17; [%-*C@3 top]-|Верхний контрол: функция 
+циклирует только между этим поддеревом 
+контролов.&]
+[s7;i1120;a17; [%-*C@3 noframe]-|Указывает на то, что 
+следует исключить контролы`-фреймы.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, когда 
+фокус успешно перемещён.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:IterateFocusBackward`(Ctrl`*`,Ctrl`*`,bool`,bool`):%- [@(0.0.255) static] 
 [@(0.0.255) bool]_[* IterateFocusBackward]([_^Ctrl^ Ctrl]_`*[*@3 ctrl], 
 [_^Ctrl^ Ctrl]_`*[*@3 top], [@(0.0.255) bool]_[*@3 noframe]_`=_[@(0.0.255) false], 
 [@(0.0.255) bool]_[*@3 all]_`=_[@(0.0.255) false])&]
-[s2; Tries to move focus to previous appropriate Ctrl, like when 
-Tab key is pressed in the dialog. `"Appropriate`" Ctrl needs 
-to have WantFocus flag, be visible and enabled.&]
-[s7;i1120;a17; [%-*C@3 ctrl]-|Ctrl with focus.&]
-[s7;i1120;a17; [%-*C@3 top]-|Top Ctrl `- function cycles only between 
-this Ctrl subtree.&]
-[s7;i1120;a17; [%-*C@3 noframe]-|Indicates that frame Ctrls are to be 
-excluded.&]
-[s7;i1120;a17; [*C@3 init]-|Ctrl must have InitFocus flag.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true when 
-focus was successfully moved.&]
+[s2; Пытается переместить фокус предыдущему 
+подходящему контролу, как в случае, 
+когда в диалоговом окне нажата клавиша 
+Tab. У подходящего контрола должен 
+стоять флаг WantFocus, он должен быть видимым 
+и активным.&]
+[s7;i1120;a17; [%-*C@3 ctrl]-|Контрол с фокусом.&]
+[s7;i1120;a17; [%-*C@3 top]-|Верхний контрол: функция 
+циклирует только между этим поддеревом 
+контролов.&]
+[s7;i1120;a17; [%-*C@3 noframe]-|Указывает на то, что 
+следует исключить контролы`-фреймы.&]
+[s7;i1120;a17; [*C@3 init]-|У контрола должен быть 
+флаг InitFocus.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, когда 
+фокус успешно перемещён.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:AccessKeyBit`(byte`):%- [@(0.0.255) static] [_^`:`:dword^ dword]_[* AccessKeyB
 it]([_^`:`:byte^ byte]_[*@3 accesskey])&]
-[s2;b17;a17; Возвращает bit`-mask for specified access`-key.&]
-[s7;i1120;a17; [%-*C@3 accesskey]-|Access`-key. It should be plain ASCII 
-value of access`-key.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Access`-key 
-bitmask. Note that only `'A`' `- `'Z`' have distinct bit`-masks 
-as those are only access`-keys distributed automatically.&]
+[s2;b17;a17; Возвращает бит`-максу для указанного 
+ключа доступа.&]
+[s7;i1120;a17; [%-*C@3 accesskey]-|Ключ доступа. Простое 
+значение ASCII для ключа доступа.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Битмаска 
+ключа доступа. Заметьте, только у 
+`'A`' `- `'Z`' чёткие битмаски, так как только 
+они автоматически назначаются ключами 
+доступа.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetAccessKeysDeep`(`)const:%- [_^`:`:dword^ dword]_[* GetAccessKeysDeep]()_[@(0.0.255) c
 onst]&]
 [s5;:Ctrl`:`:GetAccessKeysDeep`(`)const:%- [_^`:`:dword^ dword]_[* GetAccessKeysDeep]()_[@(0.0.255) c
 onst]&]
-[s2;b17;a17; Возвращает binary or of Ctrl`'s GetAccessKey method results 
-with the result of calling GetAccessKeyDeep for all children. 
-In other words, returns key coverage for the whole Ctrl tree.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Access`-keys 
-used by Ctrl and its descendants.&]
+[s2;b17;a17; Возвращает binary or of Ctrl`'s GetAccessKey 
+method results with the result of calling GetAccessKeyDeep for 
+all children. In other words, returns key coverage for the whole 
+Ctrl tree.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Ключи 
+доступа, используемые контролом и 
+его потомками.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:DistributeAccessKeys`(`):%- [@(0.0.255) void]_[* DistributeAccessKeys]()&]
-[s2;b17;a17; Triggers automatic distribution of access keys. This 
-is implemented as gathering all already used access keys using 
-GetAccessKeys method and then using AssignAccessKeys method with 
-this value to distribute rest of keys (in other words, it is 
-equivalent of AssignAccessKeys(GetAccessKeys())).&]
+[s2;b17;a17; Триггирует автоматическое назначение 
+ключей доступа. Реализовано в форме 
+сбора всех уже используемых ключей 
+доступа методом GetAccessKeys, а затем применения 
+метода AssignAccessKeys с этим значением, 
+чтобы назначить остальные ключи (другими 
+словами, метод эквивалентен AssignAccessKeys(GetAccessKey
+s())).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:RefreshAccessKeys`(`):%- [@(0.0.255) void]_[* RefreshAccessKeys]()&]
-[s2;b17;a17; Invokes Refresh for this Ctrl or any descendant with 
-any access`-key assigned.&]
+[s2;b17;a17; Вызывает Refresh для этого контрола 
+или любого его потомка с любым назначенным 
+ключом доступа.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:VisibleAccessKeys`(`):%- [@(0.0.255) bool]_[* VisibleAccessKeys]()&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True if according 
-to current access`-key model there should be visible graphical 
-representation (usually underline) of access`-keys.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, если, 
+согласно текущей модели ключей доступа, 
+должно быть видимое графическое представлен
+ие (обычно, подчёркивание) ключей 
+доступа.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Show`(bool`):%- [@(0.0.255) void]_[* Show]([@(0.0.255) bool]_[*@3 show]_`=_[@(0.0.255) t
 rue])&]
-[s2;b17;a17; Устанавливаетvisibility flag for Ctrl.&]
-[s7;i1120;a17; [%-*C@3 show]-|true indicates that Ctrl should be visible.&]
+[s2;b17;a17; Устанавливает флаг видимости 
+для контрола.&]
+[s7;i1120;a17; [%-*C@3 show]-|true указывает на то, что 
+контрол должен быть видимым.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Hide`(`):%- [@(0.0.255) void]_[* Hide]()&]
@@ -2185,21 +2701,24 @@ rue])&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsShown`(`)const:%- [@(0.0.255) bool]_[* IsShown]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|visibility 
-flag for Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|флаг 
+видимости для Ctrl.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsVisible`(`)const:%- [@(0.0.255) bool]_[* IsVisible]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true if Ctrl 
-is currently visible on the screen. Ctrl is visible if it has 
-visibility flag set, its parent is visible and its top`-level 
-Ctrl is open.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, если 
+в данный момент контрол видим на экране. 
+Контрол видим, если у него установлен 
+флаг видимости, его предок видим и 
+его высокоуровневый контрол открыт.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Enable`(bool`):%- [@(0.0.255) void]_[* Enable]([@(0.0.255) bool]_[*@3 enable]_`=
 _[@(0.0.255) true])&]
-[s2;b17;a17; Enables or disables Ctrl.&]
-[s7;i1120;a17; [%-*C@3 enable]-|true indicates that Ctrl should be enabled.&]
+[s2;b17;a17; Активирует или дезактивирует 
+контрол.&]
+[s7;i1120;a17; [%-*C@3 enable]-|true, указывает на то, 
+что нужно активировать контрол.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Disable`(`):%- [@(0.0.255) void]_[* Disable]()&]
@@ -2207,17 +2726,22 @@ _[@(0.0.255) true])&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsEnabled`(`)const:%- [@(0.0.255) bool]_[* IsEnabled]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true if Ctrl 
-is enabled.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, если 
+контрол активирован.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetEditable`(bool`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* SetEditable]([@(0.0.255) b
 ool]_[*@3 editable]_`=_[@(0.0.255) true])&]
-[s2;b17;a17; Устанавливаетeditable or read`-only mode of Ctrl. Specific Ctrls 
-can check this flag using IsEditable method and behave accordingly.&]
-[s7;i1120;a17; [%-*C@3 editable]-|true indicates that Ctrl is editable.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает редактируемый 
+или предназначенный только для чтения 
+режим контрола. Специфичные контролы 
+могут проверять этот флаг методом 
+IsEditable и проявлять соответствующее 
+поведение.&]
+[s7;i1120;a17; [%-*C@3 editable]-|true указывает, что контрол 
+редактируемый.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепки методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetReadOnly`(`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* SetReadOnly]()&]
@@ -2225,8 +2749,8 @@ method chaining.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsEditable`(`)const:%- [@(0.0.255) bool]_[* IsEditable]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true if Ctrl 
-is editable.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, если 
+контрол редактируемый.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsReadOnly`(`)const:%- [@(0.0.255) bool]_[* IsReadOnly]()_[@(0.0.255) const]&]
@@ -2234,18 +2758,18 @@ is editable.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:ClearModifyDeep`(`):%- [@(0.0.255) void]_[* ClearModifyDeep]()&]
-[s2; Clear modify flag (by calling ClearModify) for the widgets and 
-all its descendants.&]
+[s2; Удаляет флаг modify (вызывая ClearModify) 
+для виджетов и всех их потомков.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:IsModifiedDeep`(`)const:%- [@(0.0.255) bool]_[* IsModifiedDeep]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает  true, если widget or any of its descendants 
-have modify flag active.&]
+[s2; Возвращает true, если виджет или его 
+потомки имеют активный флаг modify.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:UpdateRefresh`(`):%- [@(0.0.255) void]_[* UpdateRefresh]()&]
-[s2;b17;a17; Вызывает both Update and Refresh methods.&]
+[s2;b17;a17; Вызывает оба метода,`- Update и Refresh.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Update`(`):%- [@(0.0.255) void]_[* Update]()&]
@@ -2253,26 +2777,29 @@ have modify flag active.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Action`(`):%- [@(0.0.255) void]_[* Action]()&]
-[s2;b17;a17; Invokes default Ctrl callback `- WhenAction. Action 
-actually makes a copy of WhenAction `- this ensures that the 
-Event<> object is not destroyed during the call.&]
+[s2;b17;a17; Вызывает дефолтный обратный 
+вызов контрола `- WhenAction. Метод Action 
+на деле копирует WhenAction `- что гарантирует, 
+что объект Event<> при вызове не разрушится.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:UpdateAction`(`):%- [@(0.0.255) void]_[* UpdateAction]()&]
-[s2;b17;a17; Вызывает Update and then Action.&]
+[s2;b17;a17; Вызывает Update, а затем Action.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:UpdateActionRefresh`(`):%- [@(0.0.255) void]_[* UpdateActionRefresh]()&]
-[s2;b17;a17; Вызывает Update, then Action, then Refresh. Typically called 
-after user changes values of Ctrl.&]
+[s2;b17;a17; Вызывает Update, затем Action, и далее 
+Refresh. Как правило, вызывается после 
+изменения пользователем значений 
+контрола.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:BackPaint`(int`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* BackPaint]([@(0.0.255) i
 nt]_[*@3 bp]_`=_FULLBACKPAINT)&]
-[s2;b17;a17; Activates back`-paint mode for Ctrl.&]
-[s7;i1120;a17; [%-*C@3 bp]-|Back`-paint mode.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Активирует режим back`-paint для контрола.&]
+[s7;i1120;a17; [%-*C@3 bp]-|Режим Back`-paint.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепки методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:TransparentBackPaint`(`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* TransparentBa
@@ -2286,23 +2813,27 @@ T).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:BackPaintHint`(`):%- [_^Ctrl^ Ctrl][@(0.0.255) `&]_[* BackPaintHint]()&]
-[s2; Activates FULLBACKPAINT mode if computer is a `"decent machine`" 
-(simple heurestics to identify fast enough PC with enough memory).&]
+[s2; Активирует режим FULLBACKPAINT, если компьютер 
+является `"decent machine`" (простая эвристика 
+для идентификации быстрого ПК с достаточным
+ количеством памяти).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetBackPaint`(`)const:%- [@(0.0.255) int]_[* GetBackPaint]()_[@(0.0.255) const
 ]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Current back`-paint 
-mode of Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Текущий 
+режим back`-paint для контрола.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Transparent`(bool`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* Transparent]([@(0.0.255) b
 ool]_[*@3 bp]_`=_[@(0.0.255) true])&]
-[s2;b17;a17; Устанавливаетtransparency flag of Ctrl. If transparency flag 
-is disabled, U`+`+ can paint Ctrl in more effective way.&]
-[s7;i1120;a17; [%-*C@3 bp]-|Transparency flag.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает у контрола флаг 
+прозрачности. Если флаг прозрачности 
+отключен, U`+`+ может отобразить контрол 
+более эффективным способом.&]
+[s7;i1120;a17; [%-*C@3 bp]-|Флаг прозрачности.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепки методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:NoTransparent`(`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* NoTransparent]()&]
@@ -2311,17 +2842,19 @@ method chaining.&]
 [s4;%- &]
 [s5;:Ctrl`:`:IsTransparent`(`)const:%- [@(0.0.255) bool]_[* IsTransparent]()_[@(0.0.255) co
 nst]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Value of 
-transparency flag.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Значение 
+флага прозрачности.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ActiveX`(bool`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* ActiveX]([@(0.0.255) boo
 l]_[*@3 ax]_`=_[@(0.0.255) true])&]
-[s2;b17;a17; Special flag used for ActiveX Ctrls implementation.&]
+[s2;b17;a17; Особый флаг, используемый для 
+реализации контролов в ActiveX.&]
 [s6; Windows specific.&]
-[s7;i1120;a17; [%-*C@3 ax]-|true `- Ctrl is ActiveX control&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s7;i1120;a17; [%-*C@3 ax]-|true `- Ctrl является контролом 
+ActiveX.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепки методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:NoActiveX`(`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* NoActiveX]()&]
@@ -2329,304 +2862,370 @@ method chaining.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsActiveX`(`)const:%- [@(0.0.255) bool]_[* IsActiveX]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Value of 
-ActiveX flag.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Значение 
+флага ActiveX.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Info`(const char`*`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* Info]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 txt])&]
-[s2;b17;a17; УстанавливаетTip text of Ctrl. This text is displayed as tooltip 
-of Ctrl.&]
-[s7;i1120;a17; [%-*C@3 txt]-|Text.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает текст подсказки 
+(Tip). Этот текст отображается как `"tooltip`" 
+(справка об инструменте) контрола.&]
+[s7;i1120;a17; [%-*C@3 txt]-|Текст.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*this для 
+сцепки методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HelpLine`(const char`*`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* HelpLine]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 txt])&]
-[s2;b17;a17; Устанавливаетhelp topic link for Ctrl.&]
-[s7;i1120;a17; [%-*C@3 txt]-|Link.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|`*this for 
-method chaining.&]
+[s2;b17;a17; Устанавливает ссылку на тематику 
+справки для контрола.&]
+[s7;i1120;a17; [%-*C@3 txt]-|Ссылка.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|`*thisдля 
+сцепки методов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetTip`(`)const:%- [_^`:`:String^ String]_[* GetTip]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Current Tip 
-text.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|текст 
+текущей подсказки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetHelpLine`(`)const:%- [_^`:`:String^ String]_[* GetHelpLine]()_[@(0.0.255) c
 onst]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Current HelpTopic 
-link.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Текущая 
+ссылка на Тематику Справки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:operator`<`<`(Ctrl`&`):%- [_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[* operator<<]([_^`:`:Ctrl^ C
 trl][@(0.0.255) `&]_[*@3 ctrl])&]
 [s5;:Ctrl`:`:Add`(Ctrl`&`):%- [@(0.0.255) void]_[* Add]([_^`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 c
 trl])&]
-[s2;b17;a17; Adds ctrl as the last child.&]
-[s7;i1120;a17; [%-*C@3 ctrl]-|Ctrl to add.&]
+[s2;b17;a17; Добавляет контрол в качестве 
+последнего отпрыска.&]
+[s7;i1120;a17; [%-*C@3 ctrl]-|Добавляемый контрол.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Remove`(`):%- [@(0.0.255) void]_[* Remove]()&]
-[s2;b17;a17; Removes Ctrl from its parent.&]
+[s2;b17;a17; Удаляет контрол из его предка.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:operator`<`<`=`(const Value`&`):%- [@(0.0.255) const]_[_^`:`:Value^ Value][@(0.0.255) `&
 ]_[* operator<<`=]([@(0.0.255) const]_[_^`:`:Value^ Value][@(0.0.255) `&]_[*@3 v])&]
 [s2;b17;a17; То же, что и SetData(v).&]
-[s7;i1120;a17; [%-*C@3 v]-|New Value of Ctrl.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Reference 
-to v.&]
+[s7;i1120;a17; [%-*C@3 v]-|Новое значение контрола.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Ссылка 
+на v.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:operator`<`<`(Upp`:`:Function`<void`(`)`>`):%- [_^Upp`:`:Callback^ C
 allback][@(0.0.255) `&]_[* operator<<]([_^Upp`:`:Function^ Upp`::Function]<[@(0.0.255) voi
 d]_()>_[*@3 action])&]
-[s2; То же, что и WhenAction << action, can be used both 
-with lambdas and Events (former Callbacks)..&]
+[s2; То же, что и WhenAction << action, может использоватьс
+я как с лямбдами, так и с событиями 
+Events (ранее Callbacks)..&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:SetTimeCallback`(int`,Upp`:`:Function`<void`(`)`>`,int`):%- [@(0.0.255) v
 oid]_[* SetTimeCallback]([@(0.0.255) int]_[*@3 delay`_ms], [_^Upp`:`:Function^ Function]<
 [@(0.0.255) void]_()>_[*@3 cb], [@(0.0.255) int]_[*@3 id]_`=_[@3 0])&]
-[s2;b17;a17; Puts delayed callback to the timer queue. As an identifier 
-of callback, which is void `* in timer queue, [* this] `+ [* id] 
-is used. When Ctrl is destroyed, all callbacks with [* id] in range 
-0 ... sizeof(Ctrl) are removed from timer callback queue `- this 
-ensures that no dangling callbacks are left there.&]
-[s2; [%-*@3 delay`_ms][%-  is d]elay of callback in ms. If this is 0, 
-callback is called immediately after all pending input GUI events 
-are processed. Negative value means the event is periodic `- 
-it is triggered after `-delay`_ms and after being performed, 
-it is rescheduled with the same delay`_ms.&]
-[s2; [%- Identifier ][%-*@3 id] should be in range 0..80. U`+`+ defines 
-compile`-time protocol for distributing these ids. If Ctrl wants 
-to use non`-zero time callback id, it should define it using&]
+[s2;b17;a17; Помещает отложенный обрвыз в 
+очередь таймера. Как идентификатор 
+обрвыза, который void `* в очереди таймера, 
+используется [* this] `+ [* id]. Когда контрол 
+разрущается, все обрвызы с [* id] в диапазоне 
+0 ... sizeof(Ctrl) удаляются из очереди обратных 
+вызовов таймера `- это гарантирует, 
+что не останется `"висячих`" обрвызовов.&]
+[s2; [%-*@3 delay`_ms][%-  `- задержка обрвыза в мс]. 
+Если равна 0, то обрвыз вызывается 
+немедленно после всех обработки всех 
+ожидающих событий ввода ГИП. Отрицательное 
+значение значит, что событие периодическое 
+`- оно триггируется после `-delay`_ms, и 
+после выполнения, оно повторно планируется 
+с той же delay`_ms.&]
+[s2; [%- Идентификатор ][%-*@3 id] должен быть 
+в диапазоне 0..80. U`+`+ определяет протокол 
+времени компиляции для поставки подобных 
+идов. Если контролу требуется ненулевой 
+ ид обрвыза таймера, его нужно определить 
+с помощью&]
 [s2; &]
 [s2; -|enum `{ TIMEID`_PERIODIC `= [/ baseclass]`::TIMEID`_COUNT, TIMEID`_COUNT[@(0.0.255)  
 `};]&]
 [s2; &]
-[s2; -|Using zero as [* id] is OK as long as you do not intend to remove 
-time callbacks using [* KillTimeCallback. ]Alternative to using 
-id is class TimeCallback that represents whole issue as member 
-variable of Ctrl.&]
+[s2; -|Использовать ноль как [* id] допустимо, 
+если у вас нет намерения удалить обрвызы 
+таймера с помощью [* KillTimeCallback. ]Альтернативой 
+использованию ида является классTimeCallback, 
+представляющийвсё это как переменную`-член 
+Ctrl.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:KillTimeCallback`(int`):%- [@(0.0.255) void]_[* KillTimeCallback]([@(0.0.255) i
 nt]_[*@3 id]_`=_[@3 0])&]
-[s2;b17;a17; Removes time callback associated with Ctrl.&]
-[s7;i1120;a17; [%-*C@3 id]-|Id of callback.&]
+[s2;b17;a17; Удаляет временной обрвыз, связанный 
+с контролом.&]
+[s7;i1120;a17; [%-*C@3 id]-|Ид обрвызова.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:KillSetTimeCallback`(int`,Upp`:`:Function`<void`(`)`>`,int`):%- [@(0.0.255) v
 oid]_[* KillSetTimeCallback]([@(0.0.255) int]_[*@3 delay`_ms], [_^Upp`:`:Function^ Functi
 on]<[@(0.0.255) void]_()>_[*@3 cb], [@(0.0.255) int]_[*@3 id])&]
-[s2; Removes callback with [%-*@3 id] and sets it again.&]
+[s2; Удаляет обрвыз с [%-*@3 id] и устанавливает 
+снова.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:ExistsTimeCallback`(int`)const:%- [@(0.0.255) bool]_[* ExistsTimeCallback]([@(0.0.255) i
 nt]_[*@3 id]_`=_[@3 0])_[@(0.0.255) const]&]
-[s2;b17;a17; Tests whether Ctrl has associated callback in timer 
-queue.&]
-[s7;i1120;a17; [%-*C@3 id]-|Id of callback.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true when 
-id is found in timer queue.&]
+[s2;b17;a17; Проверяет, есть ли ассоциированный 
+с контролом обрвыз в очереди таймера.&]
+[s7;i1120;a17; [%-*C@3 id]-|Ид обрвыза.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, когда 
+ид найден в очереди таймера.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:PostCallback`(Upp`:`:Function`<void`(`)`>`,int`):%- [@(0.0.255) voi
 d]_[* PostCallback]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>_[*@3 cb], 
 [@(0.0.255) int]_[*@3 id]_`=_[@3 0])&]
-[s2; Posts callback to be executed immediately (but in the main loop 
-after all current GUI events).&]
+[s2; Постирует обрвыз для незамедлительного 
+исполнения (в главном цикле это происходит 
+только после всех текущих событий 
+ГИП).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:KillPostCallback`(Upp`:`:Function`<void`(`)`>`,int`):%- [@(0.0.255) v
 oid]_[* KillPostCallback]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>_[*@3 cb], 
 [@(0.0.255) int]_[*@3 id])&]
-[s2; Similar to PostCallback, but removes callback(s) with the same 
-id from the queue first.&]
+[s2; Подобно PostCallback, но вначале удаляет 
+обрвыз(ы) с одинаковым идлм из очереди.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetActiveCtrl`(`):%- [@(0.0.255) static] [_^`:`:Ctrl^ Ctrl]_`*[* GetActiveCtrl
 ]()&]
-[s2;b17;a17; Возвращает pointer to active Ctrl. Active Ctrl is top`-level 
-Ctrl of Ctrl with keyboard focus.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-active Ctrl.&]
+[s2;b17;a17; Возвращает указатель на активный 
+контрол. Активный контрол `- это верхнеуровне
+вый контрол контрола с клавиатурным 
+фокусом.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на активный контрол.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetActiveWindow`(`):%- [@(0.0.255) static] [_^`:`:Ctrl^ Ctrl]_`*[* GetActiveWi
 ndow]()&]
-[s2;b17;a17; Возвращает pointer to active TopWindow that is either active 
-or owns active Ctrl. Difference between GetActiveWindow and GetActiveCtrl 
-is that GetActiveCtrl can return pop`-up Ctrl, while GetActiveWindow 
-returns always TopWindow `- if active Ctrl is pop`-up, owner 
-of pop`-up is returned.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-active window.&]
+[s2;b17;a17; Возвращает указатель на активное 
+окно TopWindow, которое либо само активно, 
+либо владеет активным контролом. 
+Разница между GetActiveWindow и GetActiveCtrl в 
+том, что GetActiveCtrl может возвращать 
+всплывающий контрол, а GetActiveWindow всегда 
+возвращает TopWindow `- если активный контрол 
+всплывающий (pop`-up), то возвращается 
+его владелец.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на активное окно.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetVisibleChild`(Ctrl`*`,Point`,bool`):%- [@(0.0.255) static] 
 [_^`:`:Ctrl^ Ctrl]_`*[* GetVisibleChild]([_^`:`:Ctrl^ Ctrl]_`*[*@3 ctrl], 
 [_^`:`:Point^ Point]_[*@3 p], [@(0.0.255) bool]_[*@3 pointinframe])&]
-[s2;b17;a17; Finds deepest descendant of Ctrl that is visible and 
-contains given point. If not such Ctrl exists, returns this.&]
-[s7;i1120;a17; [%-*C@3 ctrl]-|Parent ctrl.&]
-[s7;i1120;a17; [%-*C@3 p]-|Point.&]
-[s7;i1120;a17; [%-*C@3 pointinframe]-|Determines whether point is in 
-view or frame coordinates.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Pointer to 
-Ctrl.&]
+[s2;b17;a17; Находит самого `"глубокого`" потомка 
+контрола, который видим и содержит 
+указанную точку. Если такого конрола 
+не существует, возвращает this.&]
+[s7;i1120;a17; [%-*C@3 ctrl]-|Родительский контрол.&]
+[s7;i1120;a17; [%-*C@3 p]-|Точка.&]
+[s7;i1120;a17; [%-*C@3 pointinframe]-|Определяет точку 
+либо в координатах видимости, либо 
+фрейма.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Указатель 
+на контрол.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:PopUpHWND`(HWND`,bool`,bool`,bool`,bool`):%- [@(0.0.255) void]_[* PopUpHWND](
 HWND_[*@3 hwnd], [@(0.0.255) bool]_[*@3 savebits]_`=_[@(0.0.255) true], 
 [@(0.0.255) bool]_[*@3 activate]_`=_[@(0.0.255) true], [@(0.0.255) bool]_[*@3 dropshadow]_`=
 _[@(0.0.255) false], [@(0.0.255) bool]_[*@3 topmost]_`=_[@(0.0.255) false])&]
-[s2;b17;a17; Opens top`-level Ctrl as pop`-up window. [*/ This method 
-can only be invoked in the main thread.]&]
-[s6; [2 Win32 specific.]&]
-[s7;i1120;a17; [%-*C@3 hwnd]-|Win32 handle of owner window.&]
-[s7;i1120;a17; [%-*C@3 savebits]-|Indicates that system should try to 
-preserve background bits.&]
-[s7;i1120;a17; [%-*C@3 activate]-|Pop`-up should be activated.&]
-[s7;i1120;a17; [%-*C@3 dropshadow]-|Pop`-up should have drop`-shadow 
-(if supported).&]
-[s7;i1120;a17; [%-*C@3 topmost]-|Pop`-up should be top`-most window.&]
+[s2;b17;a17; Открывает высокоуровневый контрол 
+как всплывающее окно. [*/ Этот метод 
+вызывается только в главном потоке.]&]
+[s6; [2 Специфичен для Win32.]&]
+[s7;i1120;a17; [%-*C@3 hwnd]-|Хэндл окна`-владельца 
+Win32.&]
+[s7;i1120;a17; [%-*C@3 savebits]-|Указывает, что система 
+должна попытаться сохранить фоновые 
+биты.&]
+[s7;i1120;a17; [%-*C@3 activate]-|Следует активировать 
+всплывающее окно.&]
+[s7;i1120;a17; [%-*C@3 dropshadow]-|У всплывающего окна 
+должно быть отбрасывание тени (если 
+поддерживается).&]
+[s7;i1120;a17; [%-*C@3 topmost]-|Всплывающее окно должно 
+быть самым верхним.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:PopUp`(Ctrl`*`,bool`,bool`,bool`,bool`):%- [@(0.0.255) void]_[* PopUp]([_^`:`:Ctrl^ C
 trl]_`*[*@3 owner]_`=_NULL, [@(0.0.255) bool]_[*@3 savebits]_`=_[@(0.0.255) true], 
 [@(0.0.255) bool]_[*@3 activate]_`=_[@(0.0.255) true], [@(0.0.255) bool]_[*@3 dropshadow]_`=
 _[@(0.0.255) false], [@(0.0.255) bool]_[*@3 topmost]_`=_[@(0.0.255) false])&]
-[s2;b17;a17; Opens top`-level Ctrl as pop`-up window. [*/ This method 
-can only be invoked in the main thread.]&]
-[s7;i1120;a17; [%-*C@3 owner]-|Owner.&]
-[s7;i1120;a17; [%-*C@3 savebits]-|Indicates that system should try to 
-preserve background bits.&]
-[s7;i1120;a17; [%-*C@3 activate]-|Pop`-up should be activated.&]
-[s7;i1120;a17; [%-*C@3 dropshadow]-|Pop`-up should have drop`-shadow 
-(if supported).&]
-[s7;i1120;a17; [%-*C@3 topmost]-|Pop`-up should be top`-most window.&]
+[s2;b17;a17; Открывает верхнеуровневый контрол 
+как всплывающее окно. [*/ Этот метод 
+вызывается только в главном потоке.]&]
+[s7;i1120;a17; [%-*C@3 owner]-|Владелец.&]
+[s7;i1120;a17; [%-*C@3 savebits]-|Указывает, что система 
+должна постараться сохранить фоновые 
+биты.&]
+[s7;i1120;a17; [%-*C@3 activate]-|Следует активировать 
+всплывающее окно.&]
+[s7;i1120;a17; [%-*C@3 dropshadow]-|У всплывающего окна 
+должна быть drop`-shadow (отбрасываемая 
+тень) (если поддерживается).&]
+[s7;i1120;a17; [%-*C@3 topmost]-|Всплывающее окно должно 
+быть самым верхним.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetAlpha`(`:`:byte`):%- [@(0.0.255) void]_[* SetAlpha]([_^`:`:byte^ byte]_[*@3 a
 lpha])&]
-[s2;b17;a17; Устанавливаетtop`-level Ctrl alpha blending if supported by 
-system. Ctrl must be open.&]
-[s7;i1120;a17; [%-*C@3 alpha]-|Value of alpha.&]
+[s2;b17;a17; Устанавливает альфа`-смешивание 
+(alpha blending) верхнеуовневого контрола, 
+если оно поддерживается системой. 
+Контрол должен быть открытым.&]
+[s7;i1120;a17; [%-*C@3 alpha]-|Значение альфы.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsWaitingEvent`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsWaitingEvent](
 )&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True when 
-there is waiting unprocessed event in input queue.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, если 
+в очереди ввода есть ожидающее необработанн
+ое событие.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ProcessEvent`(bool`*`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* ProcessEven
 t]([@(0.0.255) bool]_`*[*@3 quit]_`=_NULL)&]
-[s2;b17;a17; Processes single event from input queue. When there 
-is no pending event, returns immediately. (Processing event involves 
-usually involves dispatching it via virtual methods to proper 
-Ctrls).&]
-[s7;i1120;a17; [%-*C@3 quit]-|Assigned true when WM`_QUIT message is 
-intercepted (Win32 specific).&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True indicates 
-that event was processed, false that queue was empty.&]
+[s2;b17;a17; Обрабатывает единичное событие 
+из очереди ввода. Когда очередного 
+события нет, сразу же возвращает. 
+(Обработка события обычно задействует 
+его диспетчирование через виртуальные 
+методы соответствующим контролам).&]
+[s7;i1120;a17; [%-*C@3 quit]-|Присваивается true, когда 
+перехвачено событие WM`_QUIT (Специфично 
+для Win32).&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True указывает, 
+что событие обработано, false `- что очередь 
+была пустая.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ProcessEvents`(bool`*`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* ProcessEve
 nts]([@(0.0.255) bool]_`*[*@3 quit]_`=_NULL)&]
-[s2;b17;a17; Processes all events from input queue. When there is 
-no pending event, returns immediately. (Processing event involves 
-usually involves dispatching it via virtual methods to proper 
-Ctrls).&]
-[s7;i1120;a17; [%-*C@3 quit]-|Assigned true when WM`_QUIT message is 
-intercepted (Win32 specific).&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True indicates 
-that one or more events were processed, false that queue was 
-empty.&]
+[s2;b17;a17; Обрабатывает все события из 
+очереди ввода. Когда очередного события 
+нет, сразу же возвращает. (Обработка 
+события обычно задействует его диспетчирова
+ние через виртуальные методы соответствующи
+м контролам).&]
+[s7;i1120;a17; [%-*C@3 quit]-|Присваивается true, когда 
+перехвачено событие WM`_QUIT (Специфично 
+для Win32).&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True указывает, 
+что событие обработано, false `- что очередь 
+была пустая.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:GetEventLevel`(`):%- [@(0.0.255) static] [@(0.0.255) int]_[* GetEventLe
 vel]()&]
-[s2; Возвращает the level of input event. This is basically a reentrancy 
-level of ProcessEvent(s) routine `- it starts zero but increments 
-each time the input event is generated by ProcessEvent(s). This 
-information can be useful for background threads or in timer 
-events (where this is zero when application is in the `"base`" 
-state).&]
+[s2; Возвращает уровень события ввода. 
+В основном, это уровень повторной 
+вхожести (реэнтрантности) процедуры 
+ProcessEvent(s) `- он начинается с нуля, но 
+каждый раз инкрементируется, когда 
+ProcessEvent(s) генерирует событие ввода. 
+Эта информация пригодится для фоновых 
+потоков или событий таймера (при них 
+этот уровень равен ноль, если приложение 
+находится в состояние `"base`").&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsPopUp`(`)const:%- [@(0.0.255) bool]_[* IsPopUp]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|True if Ctrl 
-is pop`-up window.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|True, если 
+контрол является всплывающим окном.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:EventLoop`(Ctrl`*`):%- [@(0.0.255) static] [@(0.0.255) void]_[* EventLoop]([_^`:`:Ctrl^ C
 trl]_`*[*@3 loopctrl]_`=_NULL)&]
-[s2;b17;a17; Executes event`-loop. If [*@3 loopctrl ]is not NULL, it 
-must be opened top`-level Ctrl and loop is executed until EndLoop 
-method for [*@3 loopctrl ]is invoked. If [*@3 loopctrl] is NULL, 
-loop is executed as long as any top`-level Ctrl exists or application 
-is terminated by OS specific `"shutdown`" event. [*/ This method 
-can only be invoked in the main thread.]&]
-[s7;i1120;a17; [%-*C@3 loopctrl]-|Looping Ctrl.&]
+[s2;b17;a17; Выполняет цикл событий. Если 
+[*@3 loopctrl ]не равен NULL, it must be opened top`-level 
+Ctrl and loop is executed until EndLoop method for [*@3 loopctrl 
+]is invoked. If [*@3 loopctrl] is NULL, loop is executed as long 
+as any top`-level Ctrl exists or application is terminated by 
+OS specific `"shutdown`" event. [*/ Этот метод вызывается 
+только в главном потоке.]&]
+[s7;i1120;a17; [%-*C@3 loopctrl]-|Циклический контрол.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetLoopLevel`(`):%- [@(0.0.255) static] [@(0.0.255) int]_[* GetLoopLevel]()&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Level of 
-even`-loop (even`-loops a reentrant).&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Уровень 
+цикла событий (цикл событий с повторным 
+входом (reentrant), `"реэнтрантный`").&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetLoopCtrl`(`):%- [@(0.0.255) static] [_^`:`:Ctrl^ Ctrl]_`*[* GetLoopCtrl]()&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Current looping 
-Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Текущий 
+циклический контрол.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:EndLoop`(`):%- [@(0.0.255) void]_[* EndLoop]()&]
-[s2;b17;a17; Terminates loop for looping Ctrl. Note that this terminates 
-only loop for looping Ctrl. If there is another loop above such 
-loop, nothing is terminated until this additional loop is active.&]
+[s2;b17;a17; Завершает цикл для циклического 
+контрола. Заметьте, что только для 
+циклического `- если поверх цикла 
+идёт другой цикл, ничего не терминируется, 
+пока этот дополнительный цикл активен.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:EndLoop`(int`):%- [@(0.0.255) void]_[* EndLoop]([@(0.0.255) int]_[*@3 code])&]
-[s2; То же, что и EndLoop(), but also defines loop exit code.&]
-[s7;i1120;a17; [%-*C@3 code]-|Loop exit code.&]
+[s2; То же, что и EndLoop(), но также определяет 
+код выхода из цикла.&]
+[s7;i1120;a17; [%-*C@3 code]-|Код выхода из цикла.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:InLoop`(`)const:%- [@(0.0.255) bool]_[* InLoop]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|true if Ctrl 
-is looping Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|true, если 
+контрол является `"циклическим`" (looping 
+Ctrl).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetExitCode`(`)const:%- [@(0.0.255) int]_[* GetExitCode]()_[@(0.0.255) const]&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Exit code 
-of last loop performed with this Ctrl.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Код выхода 
+из последнего цикла, выполненного 
+с этим контролом.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Clipboard`(`):%- [@(0.0.255) static] [_^PasteClip^ PasteClip][@(0.0.255) `&]_[* C
 lipboard]()&]
-[s2; Represents the clipboard as PasteClip. This allows unification 
-of drag`&drop and clipboard operations as there can be single 
-method handling with Clipboard and Drag`&Drop (and X11 selection) 
-operations.&]
+[s2; Представляет буфер обмена как PasteClip. 
+Это позволяет унифицировать тяг`-брос 
+(drag`&drop) и операции с буфером обмена, 
+так как может быть единый метод, обрабатывае
+мый при операциях Clipboard и Drag`&Drop (и 
+выделением в X11).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Selection`(`):%- [@(0.0.255) static] [_^PasteClip^ PasteClip][@(0.0.255) `&]_[* S
 election]()&]
-[s2; Represents X11 selection as PasteClip. This allows unification 
-of drag`&drop and selection operations as there can be single 
-method handling with Clipboard and Drag`&Drop (and X11 selection) 
-operations.&]
+[s2; Представляет выделение в X11 как PasteClip. 
+Это позволяет унифицировать тяг`-брос 
+(drag`&drop) и операции с выделением, так 
+как может быть единый метод, обрабатываемый 
+при операциях Clipboard и Drag`&Drop (и выделением 
+в X11).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetSelectionSource`(const char`*`):%- [@(0.0.255) void]_[* SetSelectionSourc
 e]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 fmts])&]
-[s2; Tells X11 system that this Ctrl is current selection source, 
-with [%-*@3 fmts] available (semicolon separated list).&]
+[s2; Сообщает системе X11, что этот контрол 
+`- текущий источник выделения, с доступными 
+форматами [%-*@3 fmts] (список, разделённый 
+точками с запятой).&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:DoDragAndDrop`(const char`*`,const Image`&`,dword`,const VectorMap`<String`,ClipData`>`&`):%- [@(0.0.255) i
@@ -2634,41 +3233,53 @@ nt]_[* DoDragAndDrop]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 fmts],
 [@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 sample], [_^dword^ dword]_[*@3 action
 s], [@(0.0.255) const]_[_^VectorMap^ VectorMap]<[_^String^ String], 
 [_^ClipData^ ClipData]>`&_[*@3 data])&]
-[s2; Performs drag`&drop operation, with this Ctrl as source. [%-*@3 fmts] 
-is a semicolon separated list of formats available using GetDropData 
-method, [%-*@3 sample] is an image representation of data, [%-*@3 actions] 
-are allowed drag and drop operations `- a binary or DND`_NONE, 
-DND`_COPY, DND`_MOVE (or DND`_ALL as combination of all of them). 
-Special unrelated flag DND`_EXACTIMAGE can be add to actions 
-to indicate that Drag`&Drop should not alter [%-*@3 sample] image 
-(otherwise it can be adjusted to look consistent). [%-*@3 data] 
-is data directly provided for the operation as map of individual 
-formats to ClipData.&]
+[s2; Выполняет операция тяга`-броса (drag`&drop), 
+в которой данный контрол является 
+источником. [%-*@3 fmts]  `- разделённый точкой 
+с запятой список форматов, доступных 
+при использовании метода GetDropData, [%-*@3 sample] 
+`- представление данных как рисунка, 
+[%-*@3 actions] допустимые операции тяга`-броса 
+`- бинарная или DND`_NONE, DND`_COPY, DND`_MOVE (или 
+DND`_ALL как сочетание всех сразу). Можно 
+добавить особый флаг DND`_EXACTIMAGE, указывающий, 
+что тяг`-брос не должен менять [%-*@3 sample] 
+рисунок (иначе он может быть настроен 
+для консистентности вида). [%-*@3 data]  
+`- данные, прямо предоставляемые операции, 
+как мап индивидуальных форматов для 
+ClipData.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:DoDragAndDrop`(const char`*`,const Image`&`,dword`):%- [@(0.0.255) int]_[* D
 oDragAndDrop]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 fmts], [@(0.0.255) const]_[_^Image^ I
 mage][@(0.0.255) `&]_[*@3 sample]_`=_Null, [_^dword^ dword]_[*@3 actions]_`=_DND`_ALL)&]
-[s2; DoDragAndDrop with empty data (all formats are provided by GetDropData).&]
+[s2; DoDragAndDrop с пустыми данными (все форматы 
+поставляются методом GetDropData).&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:DoDragAndDrop`(const VectorMap`<String`,ClipData`>`&`,const Image`&`,dword`):%- [@(0.0.255) i
 nt]_[* DoDragAndDrop]([@(0.0.255) const]_[_^VectorMap^ VectorMap]<[_^String^ String], 
 [_^ClipData^ ClipData]>`&_[*@3 data], [@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 s
 ample]_`=_Null, [_^dword^ dword]_[*@3 actions]_`=_DND`_ALL)&]
-[s2; DoDragAndDrop with empty fmts (all formats are provided by [%-*@3 data]).&]
+[s2; DoDragAndDrop с пустыми форматами (все форматы 
+поставляются [%-*@3 data]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetDragAndDropSource`(`):%- [@(0.0.255) static] [_^Ctrl^ Ctrl]_`*[* GetDragAnd
 DropSource]()&]
-[s2; Возвращает current source of Drag and Drop, is such source exists 
-in this process and it is U`+`+ widget (otherwise returns NULL).&]
+[s2; Возвращает текущий источник тяга`-броса,есл
+и такой источник существует в данном 
+процессе и это виджет U`+`+ (иначе возвращает 
+NULL).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetDragAndDropTarget`(`):%- [@(0.0.255) static] [_^Ctrl^ Ctrl]_`*[* GetDragAnd
 DropTarget]()&]
-[s2; Возвращает current target of Drag and Drop, is such target exists 
-in this process and it is U`+`+ widget (otherwise returns NULL).&]
+[s2; Возвращает текущую цель тяга`-броса, 
+если она существует в данном процессе, 
+и это виджет U`+`+ (иначе возвращает 
+NULL).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsDragAndDropSource`(`):%- [@(0.0.255) bool]_[* IsDragAndDropSource]()&]
@@ -2680,220 +3291,280 @@ in this process and it is U`+`+ widget (otherwise returns NULL).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:StdSampleSize`(`):%- [@(0.0.255) static] [_^Size^ Size]_[* StdSampleSize]()&]
-[s2; Возвращает the best size of DoDragAndDrop sample parameter.&]
+[s2; Возвращает наилучший размер для 
+параметра сэмпла DoDragAndDrop.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetMinSize`(Size`):%- [@(0.0.255) void]_[* SetMinSize]([_^`:`:Size^ Size]_[*@3 s
 z])&]
-[s2;b17;a17; This method does nothing. It is a interface placeholder 
-to get Layout templates working `- in derived classes this can 
-be statically overloaded to receive minimal size of layout.&]
-[s7;i1120;a17; [%-*C@3 sz]-|Minimal size of layout.&]
+[s2;b17;a17; Ничего не далает. Это местодержатель 
+интерфейса, заставляющий работать 
+шаблоны Layout (выкладок) `- в производных 
+классах его можно статически перегружать, 
+чтобы получать минимальный размер 
+выкладки.&]
+[s7;i1120;a17; [%-*C@3 sz]-|Минимальный размер выкладки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Csizeinit`(`):%- [@(0.0.255) static] [@(0.0.255) void]_[* Csizeinit]()&]
-[s2;b17;a17; Устанавливаетzoom factor used to scale layouts (to scale zoomed 
-positioning methods like LeftPosZ). Horizontal distances are 
-scaled by sz.cx / bsz.cx, vertical by sz.cy / bsz.cy. If bsz 
-is Size(0, 0), default base size (based on standard Win32 GUI 
-font) is used. Note that U`+`+ sets scaling factor automatically 
-upon startup based on actual standard GUI font size.&]
-[s7;i1120;a17; [%-*C@3 sz]-|Numerator of scaling factor.&]
-[s7;i1120;a17; [%-*C@3 bsz]-|Denominator of scaling factor.&]
+[s2;b17;a17; Устанавливает зум`-фактор, используемый
+ для масштабирования выкладок (to scale 
+zoomed positioning methods like LeftPosZ). Горизонтальные 
+расстояния масштабируются путём 
+sz.cx / bsz.cx, вертикальные путём sz.cy / bsz.cy. 
+Если bsz `= Size(0, 0), используется дефолтный 
+базовый размер (основанный на стандартном 
+шрифте ГИП Win32). Заметьте, что U`+`+ устанавлива
+ет фактор масштабирования автоматически 
+при стартапе, основываясь на действительном
+ размере стандартного шрифта ГИП.&]
+[s7;i1120;a17; [%-*C@3 sz]-|Числитель фактора масштабирован
+ия.&]
+[s7;i1120;a17; [%-*C@3 bsz]-|Знаменатель фактора масштабиров
+ания.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:HorzLayoutZoom`(int`):%- [@(0.0.255) static] [@(0.0.255) int]_[* HorzLayoutZoo
 m]([@(0.0.255) int]_[*@3 cx])&]
-[s2;b17;a17; Performs horizontal scaling by actual scaling factor.&]
-[s7;i1120;a17; [%-*C@3 cx]-|Distance to scale.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Scaled distance.&]
+[s2;b17;a17; Выполняет горизонтальное масштабирова
+ние по действительному фактору масштабирова
+ния.&]
+[s7;i1120;a17; [%-*C@3 cx]-|Масштабируемое расстояние.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Масштабированно
+е расстояние.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:HorzLayoutZoomf`(double`):%- [@(0.0.255) double]_[* HorzLayoutZoomf](
 [@(0.0.255) double]_[*@3 cx])&]
-[s2; Similar to HorzLayoutZoom, but with double precision.&]
+[s2; Подобно HorzLayoutZoom, но с двойной точностью 
+(double precision).&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:VertLayoutZoom`(int`):%- [@(0.0.255) static] [@(0.0.255) int]_[* VertLayoutZoo
 m]([@(0.0.255) int]_[*@3 cy])&]
-[s2;b17;a17; Performs vertical scaling by actual scaling factor.&]
-[s7;i1120;a17; [%-*C@3 cy]-|Distance to scale.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Scaled distance.&]
+[s2;b17;a17; Выполняет вертикальное масштабировани
+е по действительному фактору масштабировани
+я.&]
+[s7;i1120;a17; [%-*C@3 cy]-|Масштабируемое расстояние.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Масштабированно
+е расстояние.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:LayoutZoom`(int`,int`):%- [@(0.0.255) static] [_^`:`:Size^ Size]_[* LayoutZoom
 ]([@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;b17;a17; Performs scaling by actual scaling factor.&]
-[s7;i1120;a17; [%-*C@3 cx]-|Horizontal distance.&]
-[s7;i1120;a17; [%-*C@3 cy]-|Vertical distance.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Scaled size.&]
+[s2;b17;a17; Выполняет масштабирование по 
+действительному фактору масштабирования.&]
+[s7;i1120;a17; [%-*C@3 cx]-|Горизонтальное расстояние.&]
+[s7;i1120;a17; [%-*C@3 cy]-|Вертикальное расстояние.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Масштабированны
+й размер.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:LayoutZoom`(Size`):%- [@(0.0.255) static] [_^`:`:Size^ Size]_[* LayoutZoom]([_^`:`:Size^ S
 ize]_[*@3 sz])&]
-[s2;b17;a17; Performs scaling by actual scaling factor.&]
-[s7;i1120;a17; [%-*C@3 sz]-|Size to scale.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Scaled size.&]
+[s2;b17;a17; Выполняет масштабирование по 
+действительному фактору масштабирования.&]
+[s7;i1120;a17; [%-*C@3 sz]-|Масштабируемый размер.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Масштабированны
+й размер.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:NoLayoutZoom`(`):%- [@(0.0.255) static] [@(0.0.255) void]_[* NoLayoutZoom]()&]
-[s2;b17;a17; Устанавливаетscaling factor to (1, 1). То же, что и 
-SetZoomSize(Size(1, 1), Size(1, 1)).&]
+[s2;b17;a17; Устанавливает фактор масштабирования 
+в (1, 1). То же, что и SetZoomSize(Size(1, 1), Size(1, 
+1)).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:SetUHDEnabled`(bool`):%- [@(0.0.255) void]_[* SetUHDEnabled]([@(0.0.255) b
 ool]_[*@3 set])&]
-[s2; Informs host platform that application is UHD ready. Default 
-is true. Disabling UHD mode has to be done before GUI`_APP`_MAIN, 
-e.g. in INITBLOCK.&]
+[s2; Информирует платформу, что приложение 
+готово к UHD. Дефолт равен true. Отключение 
+режима UHD нужно делать перед GUI`_APP`_MAIN, 
+напр., в INITBLOCK.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:IsUHDEnabled`(`):%- [@(0.0.255) bool]_[* IsUHDEnabled]()&]
-[s2; Возвращает  значение, установленное посредством  SetUHDEnabled.&]
+[s2; Возвращает значение, установленное 
+посредством SetUHDEnabled.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:SetDarkThemeEnabled`(bool`):%- [@(0.0.255) static] 
 [@(0.0.255) void]_[* SetDarkThemeEnabled]([@(0.0.255) bool]_[*@3 set]_`=_[@(0.0.255) true])
 &]
-[s2; Hints coloring and skinning algorithms that the application 
-is ready to work in dark theme mode. Currently this enables dark 
-theme in Windows (with other platforms dark theme is enabled 
-by default). Default value is true. Disabling dark theme has 
-to be done before GUI`_APP`_MAIN, e.g. in INITBLOCK.&]
+[s2; Окраска подсказок и поверхностные 
+алгоритмы,приложение готово работать 
+в режиме тёмной темы. На данный момент 
+этим активируется тёмная тема в Windows 
+(тёмная тема другой платформы активирована 
+дефолтно). Дефолтное значение равно 
+true. Отключение тёмной темы нужно выполнять 
+перед GUI`_APP`_MAIN, напр., в INITBLOCK.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:IsDarkThemeEnabled`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsDa
 rkThemeEnabled]()&]
-[s2; Возвращает  значение, установленное посредством  SetDarkThemeEnabled.&]
+[s2; Возвращает значение, установленное 
+посредством SetDarkThemeEnabled.&]
 [s3;%- &]
 [s4; &]
 [s5;K:Ctrl`:`:GetWorkArea`(`):%- [*^`:`:Rect^@(64) Rect][*@(64) _][* GetWorkArea][*@(64) ()]&]
-[s2; Возвращает OS specific working area for the widget `- this is rectangle 
-in screen coordinates where application top`-level windows can 
-be placed `- the size of screen minus the size of any border 
-entities like the task`-bar. If widget is not associated with 
-the open window, returns the size of primary work area.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Work area 
-rectangle.&]
+[s2; Возвращает ОС`-спейифичную рабочую 
+область для виджета `- это прямоугольник 
+в координатах экрана, в который могут 
+помещаться верхнеуровневые окна 
+приложения `- размер экрана минус 
+размер любых бордюрных сущностей, 
+типа task`-bar. Если виджет не ассоциирован 
+с открытым окном, то возвращается 
+размер первичной рабочей области.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Прямоугольник 
+рабочей области.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetVirtualWorkArea`(`):%- [@(0.0.255) static] [_^`:`:Rect^ Rect]_[* GetVirtual
 WorkArea]()&]
-[s2;b17;a17; Возвращает the total size of all displays minus any border 
-entities.&]
+[s2;b17;a17; Возвращает общий размер всех 
+дисплеев минус всякие бордюрные сущности.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetVirtualScreenArea`(`):%- [@(0.0.255) static] [_^`:`:Rect^ Rect]_[* GetVirtu
 alScreenArea]()&]
-[s2;b17;a17; Возвращает the total size of all displays.&]
+[s2;b17;a17; Возвращает общий размер всех 
+дисплеев.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetPrimaryWorkArea`(`):%- [@(0.0.255) static] [_^`:`:Rect^ Rect]_[* GetPrimary
 WorkArea]()&]
-[s2;b17;a17; Возвращает the size of primary work area `- primary screen 
-in Windows is the display with start menu.&]
+[s2;b17;a17; Возвращает размер первичной 
+рабочей области `- первичный экран 
+(primary screen) в Windows `- это дисплей с меню 
+`"Пуск`".&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetPrimaryScreenArea`(`):%- [@(0.0.255) static] [_^`:`:Rect^ Rect]_[* GetPrima
 ryScreenArea]()&]
-[s2;b17;a17; Возвращает the size of primary screen `- primary screen 
-in Windows is the display with start menu.&]
+[s2;b17;a17; Возвращает размер первичного 
+экрана `- первичный экран (primary screen) 
+в Windows `- это дисплей с меню `"Пуск`".&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetWorkArea`(Point`):%- [@(0.0.255) static] [_^Rect^ Rect]_[* GetWorkArea]([_^Point^ P
 oint]_[*@3 pt])&]
-[s2; Возвращает the recangle of work area which contains [%-*@3 pt]. If 
-[%-*@3 pt] does not belong to any area, returns the primary work 
-area.&]
+[s2; Возвращает прямоугольник рабочей 
+области, содержащий [%-*@3 pt]. Если [%-*@3 pt] 
+не принадлежит никакой области, возвращаетс
+я первичная рабочая область.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetMouseWorkArea`(`):%- [@(0.0.255) static] [_^Rect^ Rect]_[* GetMouseWorkArea
 ]()&]
-[s2; Возвращает the work are which contains mouse cursor. То же, 
-что и GetWorkArea(GetMousePos()).&]
+[s2; Возвращает рабочую область, в которой 
+находится курсор мыши. То же, что и 
+GetWorkArea(GetMousePos()).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetKbdDelay`(`):%- [@(0.0.255) static] [@(0.0.255) int]_[* GetKbdDelay]()&]
-[s2;b17;a17; Возвращает delay of keyboard before autorepeat starts when 
-key is pressed.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Time in ms.&]
+[s2;b17;a17; Возвращает задержку клавиатуры 
+перед началом автоповтора при нажатии 
+кнопки.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Время 
+в мс.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetKbdSpeed`(`):%- [@(0.0.255) static] [@(0.0.255) int]_[* GetKbdSpeed]()&]
-[s2;b17;a17; Возвращает speed of autorepeat.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Speed of 
-autorepeat.&]
+[s2;b17;a17; Возвращает скорость автоповтора.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Скорость 
+автоповтора.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetDefaultWindowRect`(`):%- [@(0.0.255) static] [_^`:`:Rect^ Rect]_[* GetDefau
 ltWindowRect]()&]
-[s2;b17;a17; Возвращает OS suggested rectangle of newly open window.&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Default window 
-rectangle.&]
+[s2;b17;a17; Возвращает рекомендуемый ОС 
+прямоугольник нового открываемого 
+окна.&]
+[s7;i1120;a17; [*/ Возвратное значение]-|Дефолтный 
+прямоугольник окна.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetAppName`(`):%- [@(0.0.255) static] [_^`:`:String^ String]_[* GetAppName]()&]
-[s7;i1120;a17; [*/ Возвратное значение]-|Name of application. 
+[s7;i1120;a17; [*/ Возвратное значение]-|Имя приложения. 
 Used by U`+`+ in several places like Prompts.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:SetAppName`(const String`&`):%- [@(0.0.255) static] [@(0.0.255) void]_[* SetAp
 pName]([@(0.0.255) const]_[_^`:`:String^ String][@(0.0.255) `&]_[*@3 appname])&]
-[s7;i1120;a17; [%-*C@3 appname]-|Adjusts application name.&]
+[s7;i1120;a17; [%-*C@3 appname]-|Настраивает имя приложения.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Name`(`)const:%- [_^`:`:String^ String]_[* Name]()_[@(0.0.255) const]&]
-[s2;b17;a17; Dumps diagnostic informations to standard log.&]
+[s2;b17;a17; Демпирует диагностическую информацию 
+в стандартный лог.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Dump`(Stream`&`)const:%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Dump]([_^`:`:Stream^ S
 tream][@(0.0.255) `&]_[*@3 s])_[@(0.0.255) const]&]
-[s2;b17;a17;%- Dumps diagnostic informations to specified output 
-stream.&]
-[s7;i1120;a17; [%-*C@3 s]-|Stream.&]
+[s2;b17;a17;%- Демпиркет диагностическую 
+информацию в указанный поток вывода.&]
+[s7;i1120;a17; [%-*C@3 s]-|Поток.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GuiSleep`(int`):%- [@(0.0.255) static] [@(0.0.255) void]_[* GuiSleep]([@(0.0.255) i
 nt]_[*@3 ms])&]
-[s2;b17;a17; Sleeps (while allowing other applications or threads 
-to run) for at least [*@3 ms] milliseconds or until new input event 
-is available. [*/ This method can only be invoked in the main thread.]&]
-[s7;i1120;a17; [%-*@3 ms]-|Time to sleep.&]
+[s2;b17;a17; `"Спит`"(позволяя выполняться 
+другим приложениям или нитям), как 
+минимум, [*@3 ms] миллисекунд или до тех 
+пор, пока не появится новое событие 
+ввода. [*/ Вызывается только в главном 
+потоке.]&]
+[s7;i1120;a17; [%-*@3 ms]-|Время сна.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:Call`(Upp`:`:Function`<void`(`)`>`):%- [@(0.0.255) static] 
 [@(0.0.255) void]_[* Call]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>_[*@3 cb])&]
-[s2; Executes a callback in the main thread (the one responsible 
-for GUI). It works by posting callback into timer queue (with 
-zero delay), then waits its completion using Semaphore. Main 
-GUI thread has to run timer queue management for callback to 
-be executed (by running event`-loop (TopWindow`::Run) or ProcessEvents). 
-Warning: Call temporarily unlocks GuiLock (if locked) so that 
-the main thread can run on GUI, this is possible source of race`-conditions 
-(GuiLock is relocked after call completes). Be prepared that 
-some other code can run on GUI between call to Call and cb being 
-executed!&]
+[s2; Выполняет обрвыз в главном потоке 
+(отвечающем за ГИП). Срабатывает постировани
+ем обрвыза в очередь таймера (с нулевой 
+заминкой), затем ожидает завершения, 
+используя Semaphore. Главный поток ГИП 
+должен управлять очередью тамера 
+для исполняемого обрвыза (выполняя 
+цикл событий (TopWindow`::Run) или ProcessEvents). 
+Внимание: Вызов временно отмыкает 
+GuiLock (если он замкнут), чтобы  главный 
+поток мог выполняться на ГИП. Это 
+вероятный источник условий `"гона`" 
+(race`-conditions) (GuiLock повторно замыкается 
+после завершения вызова). Приготовьтесь 
+к тому, что какой`-то иной код может 
+выполняться в ГИП между вызовом Call 
+и выполнением cb!&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:IsShutdownThreads`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsShutdownTh
 reads]()&]
-[s2; То же, что и Thread`::IsShutdownThreads. Used to signal 
-non`-main threads that the program is about to end, so that non`-main 
-threads should terminate.&]
+[s2; То же, что и Thread`::IsShutdownThreads. Используется 
+для сигнализирования неглавных потоков 
+о том, что программа скоро завершится, 
+поэтому этим потокам следует завершаться.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:ShutdownThreads`(`):%- [@(0.0.255) static] [@(0.0.255) void]_[* ShutdownThread
 s]()&]
-[s2; Similiar to Thread`::ShutdownThreads, but as part of waiting 
-for threads to finish calls ProcessEvents so that any Call methods 
-can finish.&]
+[s2; Подобно Thread`::ShutdownThreads, но как часть 
+ожидания завершения потоками вызовов 
+ProcessEvents, чтобы люьые методы Call смогли 
+финишировать.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:GetEventId`(`):%- [@(0.0.255) static] [_^int64^ int64]_[* GetEventId]()&]
-[s2; This function is guaranteed to return the same number while 
-single input event (mouse event or keyboard event) is processed. 
-This is helpful in certain caching situations `- e.g. if you 
-want to lazy fetch some data, but only once per input event.&]
+[s2; Эта функция гарантированно возвращает 
+одинаковое число при обработке события 
+единичного ввода (события мыши или 
+клавиатуры). Применяется в некоторых 
+ситуациях с кэшированием, например, 
+если требуется `"ленивое`" (lazy) получение 
+(fetch) каких`-то данных, но только один 
+раз на событие ввода.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:begin`(`)const:%- [_^Upp`:`:Ctrl`:`:CtrlConstIterator^ CtrlConstIte
@@ -2903,127 +3574,132 @@ rator]_[* begin]()_[@(0.0.255) const]&]
 [s5;:Upp`:`:Ctrl`:`:end`(`)const:%- [_^Upp`:`:Ctrl`:`:CtrlConstIterator^ CtrlConstItera
 tor]_[* end]()_[@(0.0.255) const]&]
 [s5;:Upp`:`:Ctrl`:`:end`(`):%- [_^Upp`:`:Ctrl`:`:CtrlIterator^ CtrlIterator]_[* end]()&]
-[s2; Adds rudimentary iterators over child widgets. Allows range`-based 
-for loops: for(Ctrl`& q : widget).&]
+[s2; Добавляет рудиментарные итераторы 
+над виджетами`-отпрысками. Позволяет 
+основанные на диапазоне циклы for: for(Ctrl`& 
+q : widget).&]
 [s0;%- &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 Ctrl`::Logc]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс Ctrl`::Logc]]}}&]
 [s3; &]
 [s1;:Ctrl`:`:Logc`:`:class:%- [@(0.0.255)3 class][3 _][*3 Logc]&]
-[s9; This nested class serves as either vertical or horizontal part 
-of logical position.&]
+[s9; Этот `"гнездовой`" класс служит либо 
+вертикальной, либо горизонтальной 
+частью логической позиции.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:Ctrl`:`:Logc`:`:Logc`(int`,int`,int`):%- [* Logc]([@(0.0.255) int]_[*@3 al], 
 [@(0.0.255) int]_[*@3 a], [@(0.0.255) int]_[*@3 b])&]
-[s7;l352;i1120;a17; [%-*C@3 al]-|Alignment type. Determines what other 
-parameters mean. &]
-[s7;l352;i1120;a17; [%-*C@3 a]-|First value.&]
-[s7;l352;i1120;a17; [%-*C@3 b]-|Second value.&]
+[s7;l352;i1120;a17; [%-*C@3 al]-|Тип раскладки. Определяет 
+значение других параметров.&]
+[s7;l352;i1120;a17; [%-*C@3 a]-|Первое значение.&]
+[s7;l352;i1120;a17; [%-*C@3 b]-|Второе значение.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ctrl`:`:Logc`:`:Logc`(`):%- [* Logc]()&]
-[s2; Дефолтный конструктор. УстанавливаетLogc to the 
-empty state.&]
+[s2; Дефолтный конструктор. Устанавливает 
+Logc в пустое состояние.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:Ctrl`:`:Logc`:`:LSGN`(dword`):%- [@(0.0.255) static] [@(0.0.255) int]_[* LSGN]([_^dword^ d
 word]_[*@3 d])&]
-[s7;l352;i1120;a17; [%-*C@3 q]-|Logc to compare with.&]
-[s7;l352;i1120;a17; [*/ Возвратное значение]-|True 
-when equal.&]
+[s7;l352;i1120;a17; [%-*C@3 q]-|Logc для сравнения.&]
+[s7;l352;i1120;a17; [*/ Возвратное значение]-|True, 
+если равны.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:Logc`:`:operator`!`=`(Ctrl`:`:Logc`)const:%- [@(0.0.255) bool]_[* operator!`=
 ]([_^Ctrl`:`:Logc^ Logc]_[*@3 q])_[@(0.0.255) const]&]
-[s7;l352;i1120;a17; [%-*C@3 q]-|Logc to compare with.&]
-[s7;l352;i1120;a17; [*/ Возвратное значение]-|True 
-when not equal.&]
+[s7;l352;i1120;a17; [%-*C@3 q]-|Logc для сравнения.&]
+[s7;l352;i1120;a17; [*/ Возвратное значение]-|True, 
+если не равны.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:Logc`:`:GetAlign`(`)const:%- [@(0.0.255) int]_[* GetAlign]()_[@(0.0.255) const
 ]&]
-[s7;l352;i1120;a17; [*/ Возвратное значение]-|Alignment 
-type.&]
+[s7;l352;i1120;a17; [*/ Возвратное значение]-|Тип 
+раскладки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:Logc`:`:GetA`(`)const:%- [@(0.0.255) int]_[* GetA]()_[@(0.0.255) const]&]
-[s7;l352;i1120;a17; [*/ Возвратное значение]-|First 
-value.&]
+[s7;l352;i1120;a17; [*/ Возвратное значение]-|Первое 
+значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:Logc`:`:GetB`(`)const:%- [@(0.0.255) int]_[* GetB]()_[@(0.0.255) const]&]
-[s7;l352;i1120;a17; [*/ Возвратное значение]-|Second 
-value.&]
+[s7;l352;i1120;a17; [*/ Возвратное значение]-|Второе 
+значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:Logc`:`:SetAlign`(int`):%- [@(0.0.255) void]_[* SetAlign]([@(0.0.255) int]_[*@3 a
 lign])&]
-[s2;l352;b17;a17;%- Устанавливаетalignment type.&]
-[s7;l352;i1120;a17; [%-*C@3 align]-|Alignment type.&]
+[s2;l352;b17;a17;%- Устанавливает тип раскладки.&]
+[s7;l352;i1120;a17; [%-*C@3 align]-|Тип раскладки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:Logc`:`:SetA`(int`):%- [@(0.0.255) void]_[* SetA]([@(0.0.255) int]_[*@3 a])&]
-[s2;l352;b17;a17; Устанавливаетfirst value.&]
-[s7;l352;i1120;a17; [%-*C@3 a]-|Value.&]
+[s2;l352;b17;a17; Устанавливает первое значение.&]
+[s7;l352;i1120;a17; [%-*C@3 a]-|Значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:Logc`:`:SetB`(int`):%- [@(0.0.255) void]_[* SetB]([@(0.0.255) int]_[*@3 b])&]
-[s2;l352;b17;a17; Устанавливаетsecond value.&]
-[s7;l352;i1120;a17; [%-*C@3 b]-|Value.&]
+[s2;l352;b17;a17; Устанавливает второе значение.&]
+[s7;l352;i1120;a17; [%-*C@3 b]-|Значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:Logc`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s7;l352;i1120;a17; [*/ Возвратное значение]-|True 
-if Logc is empty.&]
+[s7;l352;i1120;a17; [*/ Возвратное значение]-|True, 
+если Logc пуст.&]
 [s3; &]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 Ctrl`::LogPos]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Структура Ctrl`::LogPos]]}}&]
 [s3; &]
 [s5;:`:`:Ctrl`:`:LogPos`:`:struct:%- [*@(0.0.255) struct][*@(64) _][* LogPos]&]
-[s9; This nested class combines two Logc value into complete logical 
-position.&]
+[s9; Этот гнездовой класс комбинирует 
+два значения Logc в полную логическую 
+позицию.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:Ctrl`:`:LogPos`:`:LogPos`(Ctrl`:`:Logc`,Ctrl`:`:Logc`):%- [* LogPos]([_^Ctrl`:`:Logc^ L
 ogc]_[*@3 x], [_^Ctrl`:`:Logc^ Logc]_[*@3 y])&]
-[s7;l352;i1120;a17; [%-*C@3 x]-|Horizontal Logc.&]
-[s7;l352;i1120;a17; [%-*C@3 y]-|Vertical Logc.&]
+[s7;l352;i1120;a17; [%-*C@3 x]-|Горизонтальная Logc.&]
+[s7;l352;i1120;a17; [%-*C@3 y]-|Вертикальная Logc.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:LogPos`:`:LogPos`(`):%- [* LogPos]()&]
-[s2; Дефолтный конструктор. Устанавливаетboth Logc empty.&]
+[s2; Дефолтный конструктор. Устанавливает 
+пустыми оба Logc.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:Ctrl`:`:LogPos`:`:operator`=`=`(Ctrl`:`:LogPos`)const:%- [@(0.0.255) bool]_[* operat
 or`=`=]([_^Ctrl`:`:LogPos^ LogPos]_[*@3 b])_[@(0.0.255) const]&]
-[s7;l352;i1120;a17; [%-*C@3 b]-|LogPos to compare with.&]
-[s7;l352;i1120;a17; [*/ Возвратное значение]-|True 
-when equal.&]
+[s7;l352;i1120;a17; [%-*C@3 b]-|LogPos для сравнения.&]
+[s7;l352;i1120;a17; [*/ Возвратное значение]-|True, 
+если равны.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:LogPos`:`:operator`!`=`(Ctrl`:`:LogPos`)const:%- [@(0.0.255) bool]_[* operat
 or!`=]([_^Ctrl`:`:LogPos^ LogPos]_[*@3 b])_[@(0.0.255) const]&]
-[s7;l352;i1120;a17; [%-*C@3 b]-|LogPos to compare with.&]
-[s7;l352;i1120;a17; [*/ Возвратное значение]-|True 
-when equal.&]
+[s7;l352;i1120;a17; [%-*C@3 b]-|LogPos для сравнения.&]
+[s7;l352;i1120;a17; [*/ Возвратное значение]-|True, 
+если равны.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:LogPos`:`:x:%- [_^Ctrl`:`:Logc^ Logc]_[* x]&]
-[s2; Horizontal Logc.&]
+[s2; Горизонтальная Logc.&]
 [s3; &]
 [s4;%- &]
 [s5;:Ctrl`:`:LogPos`:`:y:%- [_^Ctrl`:`:Logc^ Logc]_[* y]&]
-[s2; Vertical Logc.&]
+[s2; Вертикальная Logc.&]
 [s3; &]
 [s0; ]]

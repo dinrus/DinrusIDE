@@ -1,4 +1,4 @@
-topic "Класс HeaderCtrl";
+topic "Класс HeaderCtrl (ЗагКтрл)";
 [i448;a25;kKO9;*@(64)2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [a83;*R6 $$3,0#31310162474203024125188417583966:caption]
@@ -8,8 +8,10 @@ topic "Класс HeaderCtrl";
 [0 $$7,0#96390100711032703541132217272105:end]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s3;:class:~~~64;%- [%RU-RUA@7$3;4 Класс][%RU-RUA$3;4  ][$3 HeaderCtrl]&]
-[s0; class_[* HeaderCtrl]&]
+[ {{10000@3 [s3;~~~64;%- [%RU-RUA@7$3;4 Класс][%RU-RUA$3;4  ][@7$3 HeaderCtrl 
+(ЗагКтрл)]]}}&]
+[s0;:Upp`:`:HeaderCtrl`:`:class:%- [@(0.0.255)3 class][3 _][*3 HeaderCtrl][3 _:_][@(0.0.255)3 pu
+blic][3 _][*@3;3 Ctrl][3 , ][@(0.0.255)3 public][3 _][*@3;3 CtrlFrame]&]
 [s2; &]
 [s2; 
 @@image:1350&150
@@ -18,288 +20,425 @@ topic "Класс HeaderCtrl";
 [s2; &]
 [s0; [/ Производный от] Ctrl, [@(0.0.255) CtrlFrame]&]
 [s0; &]
-[s0; HeaderCtrl is used mainly for table headers. It can be set up 
-to a certain column structure (in the code terminology, the individual 
-header columns are called [/ tabs]) including the tabs`' visual 
-characteristics (tab title names, icons etc.) and behavioral 
-constraints (tab width limits, the ability to show / hide individual 
-tabs).&]
+[s0; HeaderCtrl используется, главным образом, 
+для заголовочников таблиц. Его можно 
+настроить под определённую колоночную 
+структуру (в терминологии кода, индивидуальн
+ые заголовочные колонки называются 
+[/ вкладки]), включая визуальные характеристик
+и вкладок (имена титулов вкладок, 
+иконки и т.д.) и поведенческие констрейнты 
+(пределы ширины вкладки, способность 
+показывать/скрывать отдельные вкладки).&]
 [s0; &]
-[s0; The individual tab widths are defined by three basic properties: 
-the [/ logical tab width], its [/ minimum] and [/ maximum pixel width]. 
-The minimum and maximum tab width are final pixel values defining 
-constraints for physical (final) column widths. On the other 
-hand, the logical tab widths are given in arbitrary units, which 
-are multiplied by a certain scaling factor whenever the header 
-control is laid out to fit the view size. Therefore normally 
-their absolute magnitudes don`'t matter, just their ratios.&]
+[s0; Ширины индивидуальной вкладки определены 
+тремя базовыми свойствами `- [/ логической 
+шириной вкладки], её [/ минимальной 
+]и [/ максимальной пиксельной шириной]. 
+Минимальная и максимальная ширина 
+вкладки `- это конечные пиксельные 
+значения, определяющие констрейнты 
+для физических (конечных) ширин колонок. 
+С другой стороны, логические ширины 
+вкладок задаются в произвольных единицах, 
+которые умножаются на определённый 
+фактор масштабирования всякий раз, 
+когда контрол`-заголовочник выкладывается, 
+подстраиваясь под размер видимой 
+области. Следовательно, их абсолютные 
+величины не имеют значения, а только 
+их пропорции.&]
 [s0; &]
-[s0; The header control can operate in four different visual modes. 
-Each mode effectively defines how the logical relative tab widths 
-are fitted to the current view size:&]
+[s0; Контрол`-заголовочник может работать 
+в четырёх разных визуальных режимах. 
+Каждый режим эффективно определяет 
+то, как относительные логические 
+ширины вкладок встраиваются в текущий 
+размер видимой области:&]
 [s0; &]
-[s0;i150;O0; [* Proportional]: the tab widths are proportionally adjusted 
-with respect to preset width constraints to fill the current 
-view width;&]
-[s0;i150;O0; [* ReduceLast]: every time a tab width is set and the total 
-tab width exceeds the view size, the following tab widths (tabs 
-to the right) are reduced in right`-to`-left order (beginning 
-with the rightmost tab) to fit the view size.&]
-[s0;i150;O0; [* ReduceNext]: every time a tab width is set and the total 
-tab width exceeds the view size, the following tab widths (tabs 
-to the right) are reduced in left`-to`-right order (beginning 
-with the tab just after the tab being adjusted) to fit the view 
-size.&]
-[s0;i150;O0; [* Absolute]: the tab widths are never modified automatically, 
-the logical header width can be smaller or greater than the actual 
-view size. Whenever the total tab width exceeds the view size, 
-the header can be scrolled to the left or right to pan its visible 
-portion within the parent view.&]
+[s0;i150;O0; [* Пропорциональный]: ширины вкладок 
+пропорционально регулируются, соблюдая 
+предустановленные ограничения (констрейнты
+) ширин, заполняя текущую ширину видимости;&]
+[s0;i150;O0; [* УменьшитьПоследний]: при каждой 
+установке ширины вкладки, когда общая 
+ширина вкладок превосходит размер 
+видимой области, ширины следующих 
+вкладок (вкладки справа) уменьшаются 
+в порядке справа налево (начиная с 
+самой правой вкладки), пока не попадут 
+в размер видимой области;&]
+[s0;i150;O0; [* УменьшитьСледующий]: при каждой 
+установке ширины вкладки, когда общая 
+ширина вкладок превосходит размер 
+видимой области, ширины следующих 
+вкладок (вкладки справа) уменьшаются 
+в порядке слева направо (начиная с 
+вкладки, находящейся сразу за регулируемой),
+ пока не попадут в размер видимой 
+области;&]
+[s0;i150;O0; [* Абсолютный]: ширины вкладок не 
+регулируются автоматически, логическая 
+ширина заголовочника может быть меньше 
+или больше действительного размера 
+видимой области. При каждом превышении 
+общей ширины вкладок размера видимой 
+области, этот заголовочник может 
+проматываться влево или вправо, панируя 
+свою видимую порцию в пределах области 
+видимости родителя.&]
 [s0; &]
-[s0; From the programmer`'s point of view, the HeaderCtrl takes complete 
-control over the distribution of tabs and the user interface 
-needed to adjust them. The host control can use the header control 
-(typically during [/ Layout] or [/ Paint]) to obtain horizontal pixel 
-positions of the individual tab breaks and use them to position 
-and paint the column data.&]
+[s0; С точки зрения программиста, HeaderCtrl 
+полностью контролирует распределение 
+вкладок и необходимый для их регулирования 
+пользовательский интерфейс. Контрол`-хост 
+может использовать контрол`-заголовочник 
+(как правило во время операций [/ Layout] 
+или [/ Paint]), чтобы получить горизонтальную 
+пиксельную позицию отдельных разрывов 
+вкладок и использовать их для размещения 
+и отрисовки данных колонки.&]
 [s0; &]
-[s0; If Moving modifier is used, HeaderCtrl allows to reorder tabs 
-using drag `& drop operation. Client code can identify the order 
-using GetTabIndex method, which returns the `"original`" index 
-for the tab.&]
+[s0; Если используется модификатор Moving, 
+HeaderCtrl позволяет переупорядочивать 
+вкладки, используя операцию тяга 
+`& броса. Клиентский код может идентифицирова
+ть этот порядок, используя метод GetTabIndex, 
+который возвращает `"оригинальный`" 
+индекс для данной вкладки.&]
 [s0; &]
-[s0; The HeaderCtrl implements the [/ frame interface]; when attached 
-to a parent control using the [/ AddFrame] method, it positions 
-itself automatically at the top of the control rectangle (above 
-its view).&]
+[s0; HeaderCtrl реализует [/ интерфейс фрейма]; 
+если он `"приторочен`" к родительскому 
+контролу методом [/ AddFrame], он автоматически 
+самопозиционируется поверх прямоугольника 
+этого контрола (над его видимой областью).&]
 [s0; &]
-[s0; In addition to the standard tab title functionality, the rectangular 
-areas corresponding to the individual tabs can act as pseudo`-buttons 
-invoking a certain functionality when clicked. Each header tab 
-has a [/ WhenAction] callback; when set to a non`-null value, the 
-header control starts to check for mouse clicks and executes 
-the callback whenever the corresponding tab is clicked. When 
-used to invoke popups, you can use the [/ GetTabRect] method to 
-determine the actual location of a certain header tab and align 
-the dropdown control with respect to the tab rectangle location.&]
+[s0; В дополнение к стандартному функционалу 
+титула вкладки, прямоугольные области, 
+соответствующие отдельным вкладкам, 
+могут действовать как псевдо`-кнопки, 
+вызывая некий функционал при клике. 
+У каждой вкладки`-заголовочника есть 
+обрвыз [/ WhenAction]; если установлен не 
+в нулевое значение, контрол заголовочник 
+начинает проверять клики мыши и выполнять 
+этот обрвыз, когда нажимается соответствующ
+ая вкладка. При использовании для 
+вызова всплывающих окон, методом 
+[/ GetTabRect] можно определять действительное 
+положение определённой вкладки заголовочни
+ка и размещать ниспадающий контрол 
+в соответствии с положением прямоугольника 
+вкладки.&]
 [s0; &]
-[s5;K%- [^`:`:Rect^ Rect]_[@0 GetTabRect]([@(0.0.255) int]_[@3 i])&]
-[s2; Возвращает the bounding box of a certain tab (in coordinates relative 
-to the HeaderCtrl view). This can be used by controls using the 
-header (like ArrayCtrl) to determine column break locations or 
-by host applications for positioning dropdown controls (activated 
-upon clicking a tab) relative to the tab box within the header.&]
-[s4; [*C@3 i]-|Tab index (zero based).&]
-[s4; [*/ Возвратное значение]-|rectangular tab bounding 
-box within the HeaderCtrl.&]
+[s5;K:Upp`:`:HeaderCtrl`:`:GetTabRect`(int`):%- Rect_[@0 GetTabRect]([@(0.0.255) int]_[@3 i
+])&]
+[s2; Возвращает ограничивающий бокс определённо
+й вкладки (в координатах, относительных 
+к видимости HeaderCtrl). Может использоваться 
+контролами, использующими заголовочник 
+(наподобии ArrayCtrl) для определения 
+положений разрыва колонок или хостовыми 
+приложениями для позиционирования 
+выпадающих контролов (активируемых 
+при клике на вкладке) относительно 
+бокса вкладки внутри заголовочника.&]
+[s4; [*C@3 i]-|Индекс вкладки (с нулевым основанием).&]
+[s4; [*/ Возвратное значение]-|прямоугольный 
+ограничивающий бокс вкладки внутри 
+HeaderCtrl.&]
 [s0;* &]
-[s0; [* Hint:] to locate drop`-down controls (e.g. popup menus) relative 
-to the tab rectangle, you have to transform the returned rectangle 
-to screen coordinates. This can be done for example using the 
-following code snippet:&]
+[s0; [* Подсказка:] для размещения выпадающих 
+контролов (напр.,  выпадающих меню) 
+относительно прямоугольника вкладки, 
+нужно трансформировать возвращённый 
+прямоугольник в экранные координаты. 
+Это можно выполнить, например, используя 
+следующий сниппет кода:&]
 [s0; &]
 [s0; [C -|Rect tab2`_scr`_rect `= tab.GetTabRect(2) `+ tab.GetScreenView().TopLeft();]&]
 [s0;3 &]
-[s5;:`:`:HeaderCtrl`:`:Tab`(int`)const: [@(0.0.255) const]_[^`:`:Column^ Column]`&_[@0 Tab](
-[@(0.0.255) int]_[@3 i][@0 )_const]&]
-[s2; Возвращает the descriptive [* HeaderCtrl`::Column] structure of a 
-given header tab. This constant version can be used to retrieve 
-individual tab properties. For a thorough description of the 
-[* Column] structure, see below.&]
-[s4; [*C@3 i]-|Tab index within the header (zero based).&]
-[s4; [*/ Возвратное значение]-|a (constant) reference 
-to the [* Column] structure describing the tab.&]
+[s5;:Upp`:`:HeaderCtrl`:`:Tab`(int`)const: [@(0.0.255) const]_[^`:`:Column^ Column]`&_[@0 T
+ab]([@(0.0.255) int]_[@3 i][@0 )_const]&]
+[s2; Возвращает описательную структуру 
+[* HeaderCtrl`::Column] данной вкладки заголовочника. 
+Эту константную версию можно использовать 
+для получения свойств индивидуальной 
+вкладки. Более подробное описание 
+структуры [* Column ]можно найти ниже.&]
+[s4; [*C@3 i]-|Индекс вкладки внутри заголовочника 
+(на основании нуль).&]
+[s4; [*/ Возвратное значение]-|(константная) 
+ссылка на структуру [* Column], описывающую 
+данную вкладку.&]
 [s0;3 &]
-[s5;:`:`:HeaderCtrl`:`:Tab`(int`): [^`:`:Column^ Column][%- `&]_[@0 Tab]([@(0.0.255) int]_[@3 i
-][@0 )]&]
-[s2; Возвращает a (non`-constant) reference to the descriptive [* HeaderCtrl`::Column] 
-structure of a given header tab. This can be used to set and 
-retrieve individual tab properties (see below for a full description 
-of the [* Column] structure).&]
-[s4; [*C@3 i]-|Tab index (zero based).&]
-[s4; [*/ Возвратное значение]-|a non`-constant reference 
-to the [* Column] structure for the given tab.&]
+[s5;:Upp`:`:HeaderCtrl`:`:Tab`(int`): Column[%- `&]_[@0 Tab]([@(0.0.255) int]_[@3 i][@0 )]&]
+[s2; Возвращает (неконстантную) ссылку 
+на описательную структуру [* HeaderCtrl`::Column] 
+данной вкладки заголовочника. Её 
+можно использовать для установки 
+и получения свойств индивидуальной 
+вкладки (более подробное описание 
+структуры [* Column ]можно найти ниже).&]
+[s4; [*C@3 i]-|Индекс вкладки (с нулевым основанием).&]
+[s4; [*/ Возвратное значение]-|неконстантная 
+ссылка на структуру [* Column], описывающую 
+данную вкладку.&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 Add]([@(0.0.255) const]_[@(0.0.255) char]_`*
-[@3 text], [@(0.0.255) double]_[@3 ratio]_`=_[@3 0])&]
-[s2; Adds a new tab after (to the right of) all existing header tabs. 
-The function returns a (non`-constant) reference to the [* HeaderCtrl`::Column] 
-structure which can be further used to set up additional tab 
-properties.&]
-[s4; [*C@3 text]-|Tab (title) name.&]
-[s4; [*C@3 ratio]-|Logical tab width.&]
-[s4; [*/ Возвратное значение]-|a non`-constant reference 
-to the [* Column] structure describing the newly added tab.&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Add`(const char`*`,double`):%- Column`&_[@0 Add]([@(0.0.255) c
+onst]_[@(0.0.255) char]_`*[@3 text], [@(0.0.255) double]_[@3 ratio]_`=_[@3 0])&]
+[s2; Добавляет новую вкладку после (справа 
+от) всех существующих вкладок`-заголовочнико
+в. Эта функция возвращает (неконстантную) 
+ссылку на структуру [* HeaderCtrl`::Column], которую 
+затем можно использовать для настройти 
+(установки) дополнительных свойств 
+вкладки.&]
+[s4; [*C@3 text]-|Имя вкладки (титул).&]
+[s4; [*C@3 ratio]-|Логическая ширина вкладки.&]
+[s4; [*/ Возвратное значение]-|неконстантная 
+ссылка на структуру [* Column], описывающую 
+вновь добавленную вкладку.&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 Add]()&]
-[s2; Adds a new tab after (to the right of) all existing header tabs. 
-This is identical to the above version with the [/ text] argument 
-set to an empty string and [/ ratio] set to 0.&]
-[s4; [*/ Возвратное значение]-|a non`-constant reference 
-to the [* Column] structure describing the newly added tab.&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Add`(`):%- Column`&_[@0 Add]()&]
+[s2; Добавляет новую вкладку после (справа 
+от)  всех существующих вкладок`-заголовочник
+ов. Это идентично версии выше, с аргументом 
+[%-@3 text ]установленным как пустая строка 
+и [%-@3 ratio ]равным 0.&]
+[s4; [*/ Возвратное значение]-|неконстантная 
+ссылка на структуру [* Column], описывающую 
+вновь добавленную вкладку.&]
 [s0;3 &]
-[s5;K%- [@(0.0.255) const]_[^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 operator`[`]]([@(0.0.255) i
-nt]_[@3 i])_[@(0.0.255) const]&]
-[s2; Возвращает a (constant) reference to a given header tab. This is 
-identical to the [/ const] version of the [* Tab] method.&]
-[s4; [*C@3 i]-|Tab index (zero based).&]
-[s4; [*/ Возвратное значение]-|a constant reference 
-to the given header tab.&]
+[s5;K:Upp`:`:HeaderCtrl`:`:operator`[`]`(int`)const:%- [@(0.0.255) const]_[^`:`:HeaderCtrl`:`:Column^ C
+olumn]`&_[@0 operator`[`]]([@(0.0.255) int]_[@3 i])_[@(0.0.255) const]&]
+[s2; Возвращает (константную) ссылку на 
+заданную вкладку`-заголовочник. Идентично 
+версии [/ const] метода [* Tab].&]
+[s4; [*C@3 i]-|Индекс вкладки (на основании 
+ноль).&]
+[s4; [*/ Возвратное значение]-|константная 
+ссылка на заданную вкладку`-заголовочник.&]
 [s0;3 &]
-[s5;K%- [@(0.0.255) int]_[@0 GetCount]()_[@(0.0.255) const]&]
-[s2; Возвращает the current number of header tabs. Each [* Add] increases 
-this value by one and [* Reset] sets it to 0 (the initial value).&]
-[s4; [*/ Возвратное значение]-|Number of tabs.&]
+[s5;K:Upp`:`:HeaderCtrl`:`:GetCount`(`)const:%- [@(0.0.255) int]_[@0 GetCount]()_[@(0.0.255) c
+onst]&]
+[s2; Возвращает текущее число вкладок`-заголовоч
+ников. Каждый [* Add] увеличивает это 
+значение на единицу, а [* Reset] устанавливает 
+его в 0 (начальное значение).&]
+[s4; [*/ Возвратное значение]-|Число вкладок.&]
 [s0;3 &]
-[s5;K%- [@(0.0.255) void]_[@0 Reset]()&]
-[s2; Resets the header tab to its initial state (removes all tabs).&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Reset`(`):%- [@(0.0.255) void]_[@0 Reset]()&]
+[s2; Сбрасывает вкладку`-заголовочник 
+в его начальное состояние (удаляет 
+все вкладки).&]
 [s0;3 &]
-[s5;K%- [@(0.0.255) void]_[@0 ShowTab]([@(0.0.255) int]_[@3 i], [@(0.0.255) bool]_[@3 show]_`=_tr
-ue)&]
-[s2; Shows or hides a certain header tab.&]
-[s4; [*C@3 i]-|tab index (zero based)&]
-[s4; [*C@3 show]-|flag indicating whether the tab should be shown ([* true]) 
-or hidden ([* false]).&]
+[s5;K:Upp`:`:HeaderCtrl`:`:ShowTab`(int`,bool`):%- [@(0.0.255) void]_[@0 ShowTab]([@(0.0.255) i
+nt]_[@3 i], [@(0.0.255) bool]_[@3 show]_`=_true)&]
+[s2; Показывает или скрывает определённую 
+вкладку`-заголовочник.&]
+[s4; [*C@3 i]-|индекс вкладки (с основанием 
+ноль)&]
+[s4; [*C@3 show]-|флаг, указывающий, показывать 
+ли вкладку ([* true]) или же скрывать её 
+([* false]).&]
 [s0;3 &]
-[s5;K%- [@(0.0.255) void]_[@0 HideTab]([@(0.0.255) int]_[@3 i])&]
-[s2; Hides a certain header tab. This is identical to [* ShowTab(i, 
-false)].&]
-[s4; [*C@3 i]-|tab index (zero based)&]
+[s5;K:Upp`:`:HeaderCtrl`:`:HideTab`(int`):%- [@(0.0.255) void]_[@0 HideTab]([@(0.0.255) int
+]_[@3 i])&]
+[s2; Скрывает определённую вкладку`-заголовочни
+к. Идентично [* ShowTab(i, false)].&]
+[s4; [*C@3 i]-|индекс вкладки (с основанием 
+ноль)&]
 [s0;3 &]
-[s5;K%- [@(0.0.255) bool]_[@0 IsTabVisible]([@(0.0.255) int]_[@3 i])&]
-[s2; Checks for visibility of a certain tab.&]
-[s4; [*C@3 i]-|tab index (zero based).&]
-[s4; [*/ Возвратное значение]-|[* false] `= hidden, 
-[* true] `= shown.&]
-[s0;3 &]
-[s5;K%- [@(0.0.255) void]_[@0 SetTabRatio]([@(0.0.255) int]_[@3 i], [@(0.0.255) double]_[@3 ratio
-])&]
-[s2; Устанавливаетthe logical tab width (ratio) of a given tab.&]
-[s4; [*C@3 i]-|tab index&]
-[s4; [*C@3 ratio]-|logical tab width.&]
-[s0;3 &]
-[s5;K%- [@(0.0.255) double]_[@0 GetTabRatio]([@(0.0.255) int]_[@3 i])_[@(0.0.255) const]&]
-[s2; Retrieves the current logical width of a certain tab. The logical 
-tab width can be set using the [* SetTabRatio] method (or using 
-the [* SetRatio] method for an individual [* HeaderCtrl`::Column] 
-object) or by dragging the tab breaks using the mouse.&]
-[s4; [*C@3 i]-|tab index (zero based)&]
-[s4; [*/ Возвратное значение]-|current logical tab 
-width&]
-[s0;3 &]
-[s5;K%- [@(0.0.255) void]_[@0 SetTabWidth]([@(0.0.255) int]_[@3 i], [@(0.0.255) int]_[@3 cx])&]
-[s2; Устанавливаетthe given header tab to a physical (pixel) size. This also 
-modifies the logical (relative) tab width accordingly.&]
-[s4; [*C@3 i]-|tab index (zero based)&]
-[s4; [*C@3 cx]-|tab pixel size&]
-[s0;3 &]
-[s5;K%- [@(0.0.255) int]_[@0 GetTabWidth]([@(0.0.255) int]_[@3 i])&]
-[s2; Возвращает the physical (pixel) width of a given header tab. Remember 
-that (unless the HeaderCtrl is in the [* Scroll] mode) the physical 
-tab widths can change with the parent view size. Algorithms for 
-long`-term manipulation of tab sizes (typically serialization) 
-should always count on the logical tab widths.&]
-[s4; [*C@3 i]-|tab index (zero based)&]
-[s4; [*/ Возвратное значение]-|physical (pixel) tab 
-width. Note that this function isn`'t [/ const], because the header 
-control uses a lazy algorithm to lay out the header control, 
-and during the call to [* GetTabWidth] it may show that the tabs 
-need to be newly laid out.&]
-[s0;3 &]
-[s5;K:`:`:HeaderCtrl`:`:SwapTabs`(int`,int`):%- [@(0.0.255) void]_[@0 SwapTabs]([@(0.0.255) i
-nt]_[@3 first], [@(0.0.255) int]_[@3 second])&]
-[s2; Swaps tabs [%-*@3 first] and [%-*@3 second].&]
-[s0; &]
-[s5;K:`:`:HeaderCtrl`:`:MoveTab`(int`,int`):%- [@(0.0.255) void]_[@0 MoveTab]([@(0.0.255) i
-nt]_[@3 from], [@(0.0.255) int]_[@3 to])&]
-[s2; Moves tab to another position.&]
-[s0; &]
-[s5;K:`:`:HeaderCtrl`:`:GetTabIndex`(int`):%- [@(0.0.255) int]_[@0 GetTabIndex]([@(0.0.255) i
+[s5;K:Upp`:`:HeaderCtrl`:`:IsTabVisible`(int`):%- [@(0.0.255) bool]_[@0 IsTabVisible]([@(0.0.255) i
 nt]_[@3 i])&]
-[s2; Возвращает `"original`" index of Tab.&]
+[s2; Проверяет видимость определённой 
+вкладки.&]
+[s4; [*C@3 i]-|индекс вкладки (с основанием 
+ноль).&]
+[s4; [*/ Возвратное значение]-|[* false] `= скрыта, 
+[* true] `= видна.&]
+[s0;3 &]
+[s5;K:Upp`:`:HeaderCtrl`:`:SetTabRatio`(int`,double`):%- [@(0.0.255) void]_[@0 SetTabRati
+o]([@(0.0.255) int]_[@3 i], [@(0.0.255) double]_[@3 ratio])&]
+[s2; Устанавливает логическую ширину 
+(пропорцию) указанной вкладки.&]
+[s4; [*C@3 i]-|индекс вкладки&]
+[s4; [*C@3 ratio]-|логическая ширина вкладки.&]
+[s0;3 &]
+[s5;K:Upp`:`:HeaderCtrl`:`:GetTabRatio`(int`)const:%- [@(0.0.255) double]_[@0 GetTabRatio
+]([@(0.0.255) int]_[@3 i])_[@(0.0.255) const]&]
+[s2; Выводит текущую логическую ширину 
+определённой вкладки. Логическую 
+ширину вкладки можно установить методом 
+[* SetTabRatio] (или использую метод [* SetRatio] 
+для индивидуального объекта [* HeaderCtrl`::Column]), 
+либо перетягиванием разрывов вкладки 
+мышью.&]
+[s4; [*C@3 i]-|индекс вкладки (с основанием 
+ноль)&]
+[s4; [*/ Возвратное значение]-|текущая логическая 
+ширина вкладки&]
+[s0;3 &]
+[s5;K:Upp`:`:HeaderCtrl`:`:SetTabWidth`(int`,int`):%- [@(0.0.255) void]_[@0 SetTabWidth](
+[@(0.0.255) int]_[@3 i], [@(0.0.255) int]_[@3 cx])&]
+[s2; Устанавливает указанную вкладку`-заголовоч
+ник в физический (пиксельный) размер. 
+Соответственно это изменяет и логическую 
+(относительную) ширину вкладки.&]
+[s4; [*C@3 i]-|индекс вкладки (с основанием 
+ноль)&]
+[s4; [*C@3 cx]-|пиксельный размер вкладки&]
+[s0;3 &]
+[s5;K:Upp`:`:HeaderCtrl`:`:GetTabWidth`(int`):%- [@(0.0.255) int]_[@0 GetTabWidth]([@(0.0.255) i
+nt]_[@3 i])&]
+[s2; Возвращает физическую (пиксельную) 
+ширину указанной вкладки`-заголовочника. 
+Помните, что (если только HeaderCtrl не 
+в режиме [* Scroll]) физическая ширина вкладки 
+может меняться вместе с размером 
+видимости родителя. Алгоритмы для 
+долгосрочного манипулирования размерами 
+вкладок (типично, путём сериализации) 
+всегда должны опираться на логические 
+ширины вкладок.&]
+[s4; [*C@3 i]-|индекс вкладки (с основанием 
+ноль)&]
+[s4; [*/ Возвратное значение]-|физическая 
+(пиксельная) ширина вкладки. Заметьте, 
+что эта функция не [/ const], так как контрол`-заго
+ловочник использует `"ленивый`" алгоритм 
+при своей выкладке, и при вызове [* GetTabWidth] 
+может понадобиться перевыкладка 
+вкладок.&]
+[s0;3 &]
+[s5;K:Upp`:`:HeaderCtrl`:`:SwapTabs`(int`,int`):%- [@(0.0.255) void]_[@0 SwapTabs]([@(0.0.255) i
+nt]_[@3 first], [@(0.0.255) int]_[@3 second])&]
+[s2; Меняет местами вкладки [%-*@3 first] и [%-*@3 second].&]
 [s0; &]
-[s5;K:`:`:HeaderCtrl`:`:FindIndexTab`(int`):%- [@(0.0.255) int]_[@0 FindIndexTab]([@(0.0.255) i
+[s5;K:Upp`:`:HeaderCtrl`:`:MoveTab`(int`,int`):%- [@(0.0.255) void]_[@0 MoveTab]([@(0.0.255) i
+nt]_[@3 from], [@(0.0.255) int]_[@3 to])&]
+[s2; Перемещает вкладку в другую позицию.&]
+[s0; &]
+[s5;K:Upp`:`:HeaderCtrl`:`:GetTabIndex`(int`):%- [@(0.0.255) int]_[@0 GetTabIndex]([@(0.0.255) i
+nt]_[@3 i])&]
+[s2; Возвращает `"оригинальный`" индекс 
+вкладки.&]
+[s0; &]
+[s5;K:Upp`:`:HeaderCtrl`:`:FindIndexTab`(int`):%- [@(0.0.255) int]_[@0 FindIndexTab]([@(0.0.255) i
 nt]_[@3 ndx])&]
-[s2; Finds a current position of tab with original index [%-*@3 ndx].&]
+[s2; Находит текущую позицию вкладки 
+с оригинальным индексом [%-*@3 ndx].&]
 [s0; &]
-[s5;K%- [@(0.0.255) void]_[@0 StartSplitDrag]([@(0.0.255) int]_[@3 s])&]
-[s2; Starts the header tab drag `& drop for a given tab break.&]
-[s4; [*C@3 s]-|break index (zero `= left side of tab 0).&]
+[s5;K:Upp`:`:HeaderCtrl`:`:StartSplitDrag`(int`):%- [@(0.0.255) void]_[@0 StartSplitDrag](
+[@(0.0.255) int]_[@3 s])&]
+[s2; Начинает тяг `& брос вкладки`-заголовочника 
+для указанного разрыва вкладки.&]
+[s4; [*C@3 s]-|индекс разрыва (ноль `= левая сторона 
+вкладки 0).&]
 [s0;3 &]
-[s5;K%- [@(0.0.255) int]_[@0 GetSplit]([@(0.0.255) int]_[@3 x])&]
-[s2; Locates the header tab break corresponding to a given [/ x] coordinate 
-(relative to the header control). This can be used by the parent 
-controls to check whether the mouse cursor hovers above a tab 
-break (e.g. [* ArrayCtrl] uses this function to check whether to 
-display the horizontal resizing cursor).&]
-[s4; [*C@3 x]-|horizontal pixel coordinate (relative to the header control 
-bounding box).&]
-[s4; [*/ Возвратное значение]-|Index of tab break 
-(in the range `[0..GetCount()`]) or `-1 when there is no tab 
-break in the vicinity of a given point.&]
+[s5;K:Upp`:`:HeaderCtrl`:`:GetSplit`(int`):%- [@(0.0.255) int]_[@0 GetSplit]([@(0.0.255) in
+t]_[@3 x])&]
+[s2; Определяет положение разрыва вкладки`-загол
+овочника, соответствующее заданной 
+координате [/ x] (относительно контрола`-заголо
+вочника). Может использоваться родительским
+и контролами для проверки, находится 
+ли курсор мывши поверх разрыва вкладки 
+(напр.,. [* ArrayCtrl] использует эту функцию 
+для проверки того, показывать ли ему 
+горизонтальный курсор перемера).&]
+[s4; [*C@3 x]-|горизонтальная пиксельная координата 
+(относительно органичивающего бокса 
+контрола`-заголовочника).&]
+[s4; [*/ Возвратное значение]-|индекс разрыва 
+вкладки (в диапазоне `[0..GetCount()`]) или 
+`-1, когда поблизости от заданной точки 
+нет разрыва вкладки.&]
 [s0;3 &]
-[s5;K%- [@(0.0.255) int]_[@0 GetScroll]()_[@(0.0.255) const]&]
-[s2; [* Absolute] mode only: returns pixel offset defining the current 
-origin of the (potentially scrolled) header. For non`-scrolling 
-visual modes, this function always returns 0 (in non`-scrolling 
-modes the left side of first tab always aligns with the left 
-side of parent view).&]
-[s4; [*/ Возвратное значение]-|Number of pixels by 
-which the header control is currently scrolled in the horizontal 
-direction. The physical [/ x] coordinate of a tab edge (relative 
-to parent view) can be calculated by subtracting this value from 
-its logical coordinate (relative to leftmost header edge).&]
+[s5;K:Upp`:`:HeaderCtrl`:`:GetScroll`(`)const:%- [@(0.0.255) int]_[@0 GetScroll]()_[@(0.0.255) c
+onst]&]
+[s2; Только в режиме [* Absolute]: возвращает 
+пиксельное смещение, определяющее 
+текущее начало (потенциально промотанного) 
+заголовочника. Для безпромоточных 
+визуальных режимов, эта функция всегда 
+возвращает 0 (в этих режимах левая 
+сторона первой вкладки всегда совпадает 
+с левой стороной родительской области 
+видимости).&]
+[s4; [*/ Возвратное значение]-|Число пикселей, 
+на которые в данный момент промотан 
+контрол`-заголовочник в горизонтальном 
+направлении. Физическая координата 
+[/ x] края вкладки (относительно родительской 
+видимости) может быть вычислена вычитанием 
+этого значения от его логической 
+координаты (относительно крайней 
+левой кромки заголовочника).&]
 [s0;3 &]
-[s5;K%- [@(0.0.255) bool]_[@0 IsScroll]()_[@(0.0.255) const]&]
-[s2; Checks whether the header control is currently in scrolling 
-mode (i.e., whether it is in the [* Absolute] visual mode and its 
-total tab width exceeds current view size). When [* IsScroll] returns 
-[* true], the [* GetScroll] method can be used to retrieve the current 
-horizontal scrollbar position.&]
-[s4; [*/ Возвратное значение]-|[* true] `= scrolling 
-header, [* false ]`= non`-scrolling header.&]
+[s5;K:Upp`:`:HeaderCtrl`:`:IsScroll`(`)const:%- [@(0.0.255) bool]_[@0 IsScroll]()_[@(0.0.255) c
+onst]&]
+[s2; Проверяет, находится ли в данное 
+время контрол`-заголовочник в режиме 
+промотки (т.е., находится ли он в визуальном 
+режиме [* Absolute] и его общая ширина вкладок 
+превышает текущий размер видимой 
+области). Когда [* IsScroll] возвращает [* true], 
+метод [* GetScroll] можно использовать для 
+получения текущей позиции горизонтальной 
+полосы промотки.&]
+[s4; [*/ Возвратное значение]-|[* true] `= проматываемый 
+заголовочник, [* false ]`= непроматываемый 
+заголовочник.&]
 [s0;3 &]
-[s5;K%- [@(0.0.255) int]_[@0 GetHeight]()_[@(0.0.255) const]&]
-[s2; Determines the pixel height of the header control. This is equal 
-to the maximum of all the individual tab heights (depending on 
-the tab title font and icon sizes).&]
-[s4; [*/ Возвратное значение]-|HeaderCtrl pixel height.&]
+[s5;K:Upp`:`:HeaderCtrl`:`:GetHeight`(`)const:%- [@(0.0.255) int]_[@0 GetHeight]()_[@(0.0.255) c
+onst]&]
+[s2; Определяет пиксельную высоту контрола`-заго
+ловочника. Она равна максимуму всех 
+индивидуальных высот вкладок (зависит 
+от шрифтов титула вкладки и размеров 
+иконок).&]
+[s4; [*/ Возвратное значение]-|пиксельная 
+высота HeaderCtrl.&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl^ HeaderCtrl]`&_[@0 Invisible]([@(0.0.255) bool]_[@3 inv])&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Invisible`(bool`):%- HeaderCtrl`&_[@0 Invisible]([@(0.0.255) b
+ool]_[@3 inv])&]
 [s2; When called with a [* true] argument, makes the header zero height 
 in frame mode (the tab placement routines still work but the 
 header itself remains hidden).&]
 [s4; [*C@3 inv]-|[* true] `= hide the header, [* false] `= show it.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl^ HeaderCtrl]`&_[@0 Track]([@(0.0.255) bool]_[@3 `_track]_`=_true)&]
-[s2; Устанавливаетwhether the HeaderCtrl and its parent view contents should 
-be `'animated`' during repositioning the tab breaks using mouse 
-drag `& drop. When [* `_track] is set to [* true], the header and 
-its parents repaint is requested every time the mouse moves during 
-the drag `& drop. When set to [* false], the header and the parent 
-control get repainted only after the drag `& drop is finished. 
-It is wise to set this value depending on the complexity of the 
-data shown `'beneath`' the header (usually in an ArrayCtrl) and 
-on the expected target hardware because the track mode is much 
-more demanding with respect to computational time spent during 
-the necessary multiple repaints.&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Track`(bool`):%- HeaderCtrl`&_[@0 Track]([@(0.0.255) bool]_[@3 `_
+track]_`=_true)&]
+[s2; Устанавливает whether the HeaderCtrl and its parent 
+view contents should be `'animated`' during repositioning the 
+tab breaks using mouse drag `& drop. When [* `_track] is set to 
+[* true], the header and its parents repaint is requested every 
+time the mouse moves during the drag `& drop. When set to [* false], 
+the header and the parent control get repainted only after the 
+drag `& drop is finished. It is wise to set this value depending 
+on the complexity of the data shown `'beneath`' the header (usually 
+in an ArrayCtrl) and on the expected target hardware because 
+the track mode is much more demanding with respect to computational 
+time spent during the necessary multiple repaints.&]
 [s4; [*C@3 `_track]-|[* true] `= regenerate header and its parent dynamically 
 during drag `& drop, [* false] `= only after it`'s finished.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl^ HeaderCtrl]`&_[@0 NoTrack]()&]
+[s5;K:Upp`:`:HeaderCtrl`:`:NoTrack`(`):%- HeaderCtrl`&_[@0 NoTrack]()&]
 [s2; Turns off track mode. This is identical to [* Track(false)].&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl^ HeaderCtrl]`&_[@0 Proportional]()&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Proportional`(`):%- HeaderCtrl`&_[@0 Proportional]()&]
 [s2; Switches the HeaderCtrl to the [/ proportional] mode. In proportional 
 mode, the individual logical tab widths are always recalculated 
 to physical (pixel) widths by scaling them using a common multiplication 
 factor in order to fit the whole header into the view width.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl^ HeaderCtrl]`&_[@0 ReduceNext]()&]
+[s5;K:Upp`:`:HeaderCtrl`:`:ReduceNext`(`):%- HeaderCtrl`&_[@0 ReduceNext]()&]
 [s2; Switches the HeaderCtrl to the [/ reduce next] mode. Every time 
 a tab width is set in this mode and the total tab width exceeds 
 the view size, the following tab widths (tabs to the right) are 
@@ -307,7 +446,7 @@ reduced in left`-to`-right order (beginning with the tab just
 after the tab being adjusted) to fit the view size.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl^ HeaderCtrl]`&_[@0 ReduceLast]()&]
+[s5;K:Upp`:`:HeaderCtrl`:`:ReduceLast`(`):%- HeaderCtrl`&_[@0 ReduceLast]()&]
 [s2; Switches the HeaderCtrl to the [/ reduce last] mode. Every time 
 a tab width is set in this mode and the total tab width exceeds 
 the view size, the following tab widths (tabs to the right) are 
@@ -315,7 +454,7 @@ reduced in right`-to`-left order (beginning with the rightmost
 tab) to fit the view size.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl^ HeaderCtrl]`&_[@0 Absolute]()&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Absolute`(`):%- HeaderCtrl`&_[@0 Absolute]()&]
 [s2; Switches the HeaderCtrl to the [/ absolute] (scroll) mode. In 
 this mode the tab widths are never modified automatically, the 
 logical header width can be smaller or greater than the actual 
@@ -324,39 +463,45 @@ the header can be scrolled to the left or right to pan its visible
 portion within the parent view.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K:`:`:HeaderCtrl`:`:Moving`(bool`):%- [^`:`:HeaderCtrl^ HeaderCtrl]`&_[@0 Moving]([@(0.0.255) b
-ool]_[@3 b]_`=_true)&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Moving`(bool`):%- HeaderCtrl`&_[@0 Moving]([@(0.0.255) bool]_[@3 b
+]_`=_true)&]
 [s2; Activates mode when tabs can be rearranged by dragging them. 
 Default is inactive.&]
 [s0;3 &]
 [s0;3 &]
-[s5;K%- static static_[@(0.0.255) int]_[@0 GetStdHeight]()&]
-[s2; Возвращает the standard header control height (when there are no 
-icons and the standard font is used in all tabs).&]
+[s5;K:Upp`:`:HeaderCtrl`:`:GetStdHeight`(`):%- static static_[@(0.0.255) int]_[@0 GetStdH
+eight]()&]
+[s2; Возвращает the standard header control height (when 
+there are no icons and the standard font is used in all tabs).&]
 [s4; [*/ Возвратное значение]-|&]
 [s0;3 &]
-[s5;K%- [^`:`:Callback^ Callback]_[@0 WhenLayout]&]
+[s5;K:Upp`:`:HeaderCtrl`:`:WhenLayout:%- Callback_[@0 WhenLayout]&]
 [s2; This callback is executed whenever the header control gets laid 
 out (whenever the tab positions and/or widths change).&]
 [s0;3 &]
-[s5;K%- [^`:`:Callback^ Callback]_[@0 WhenScroll]&]
+[s5;K:Upp`:`:HeaderCtrl`:`:WhenScroll:%- Callback_[@0 WhenScroll]&]
 [s2; This callback is executed whenever the header control gets scrolled 
 ([/ absolute] mode only).&]
 [s0;3 &]
-[s5;K%- [^`:`:Callback^ Callback]_[@0 WhenScrollVisibility]&]
+[s5;K:Upp`:`:HeaderCtrl`:`:WhenScrollVisibility:%- Callback_[@0 WhenScrollVisibility]&]
 [s2; This callback is executes whenever its scrollbar appears or 
 disappears (whenever the return value of the [* IsScroll] method 
 changes).&]
 [s0; &]
 [s0; &]
-[s0; [*+117 HeaderCtrl`::Column (nested class)]&]
+[s0;:Upp`:`:HeaderCtrl`:`:Column`:`:class: [*+117 HeaderCtrl`::Column 
+(nested class)]&]
 [s2; &]
 [s0;%- [%RU-RU/ Производный от][%RU-RU  ]LabelBase&]
 [s0; &]
-[s0; The [* HeaderCtrl`::Column] structure represents an individual 
-header tab. HeaderCtrl methods for tab insertion and editation 
-typically return a reference to this [/ Column] class which can 
-be used afterwards to program the various tab properties.&]
+[s0; Структура [* HeaderCtrl`::Column] представляет 
+индивидуальную вкладку заголовочника. 
+Методы HeaderCtrl для вставки вкладок 
+и редактирования, как правило, возвращают 
+ссылку на этот класс [/ Column], который 
+может использоваться впоследствии 
+для программирования различных свойств 
+вкладки.&]
 [s0; &]
 [s0; The set methods return a reference to [* `*this] ; this allows 
 multiple tab properties to be set using a single C`+`+ statement 
@@ -364,61 +509,67 @@ with repeated use of the dot operator, e.g.:&]
 [s0; &]
 [s0; [C -|headerctrl.Add().Min(10).Max(20).Margin(3);]&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 Min]([@(0.0.255) int]_[@3 `_min])&]
-[s2; Устанавливаетminimum tab pixel size. The default value is 0 (the tab 
-can be shrunk arbitrarily and can disappear altogether at a certain 
-moment).&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Column`:`:Min`(int`):%- Column`&_[@0 Min]([@(0.0.255) int]_[@3 `_
+min])&]
+[s2; Устанавливает minimum tab pixel size. The default 
+value is 0 (the tab can be shrunk arbitrarily and can disappear 
+altogether at a certain moment).&]
 [s4; [%-*C@3 `_min]-|Minimum tab width in pixels.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 Max]([@(0.0.255) int]_[@3 `_max])&]
-[s2; Устанавливаетmaximum tab pixel size. The default value is [/ INT`_MAX] 
-(unlimited).&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Column`:`:Max`(int`):%- Column`&_[@0 Max]([@(0.0.255) int]_[@3 `_
+max])&]
+[s2; Устанавливает maximum tab pixel size. The default 
+value is [/ INT`_MAX] (unlimited).&]
 [s4; [%-*C@3 `_max]-|Maximum tab width in pixels.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 MinMax]([@(0.0.255) int]_[@3 m], 
-[@(0.0.255) int]_[@3 n])&]
-[s2; Устанавливаетboth minimum and maximum tab pixel size at the same time. 
-This has the same effect as [* .Min(m).Max(n)].&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Column`:`:MinMax`(int`,int`):%- Column`&_[@0 MinMax]([@(0.0.255) i
+nt]_[@3 m], [@(0.0.255) int]_[@3 n])&]
+[s2; Устанавливает both minimum and maximum tab pixel 
+size at the same time. This has the same effect as [* .Min(m).Max(n)].&]
 [s4; [%-*C@3 m]-|Minimum tab width in pixels.&]
 [s4; [%-*C@3 n]-|Maximum tab width in pixels.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 Fixed]([@(0.0.255) int]_[@3 f])&]
-[s2; Устанавливаетboth minimum and maximum tab pixel size to the same value, 
-effectively making the tab width constant. Equal to [* .MinMax(f, 
-f)].&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Column`:`:Fixed`(int`):%- Column`&_[@0 Fixed]([@(0.0.255) int]_
+[@3 f])&]
+[s2; Устанавливает both minimum and maximum tab pixel 
+size to the same value, effectively making the tab width constant. 
+Равно [* .MinMax(f, f)].&]
 [s4; [%-*C@3 f]-|Fixed tab width in pixels.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 SetRatio]([@(0.0.255) double]_[@3 ratio])&]
-[s2; Устанавливаетlogical (relative) tab width. The logical tab width (together 
-with logical widths of other tabs and the minimum / maximum width 
-constraints) is used to calculate the final pixel size of each 
-tab according to the current header visual mode.&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Column`:`:SetRatio`(double`):%- Column`&_[@0 SetRatio]([@(0.0.255) d
+ouble]_[@3 ratio])&]
+[s2; Устанавливает logical (relative) tab width. The 
+logical tab width (together with logical widths of other tabs 
+and the minimum / maximum width constraints) is used to calculate 
+the final pixel size of each tab according to the current header 
+visual mode.&]
 [s4; [%-*C@3 ratio]-|relative tab width (a generic floating`-point value)&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 SetMargin]([@(0.0.255) int]_[@3 m])&]
-[s2; Устанавливаетhorizontal tab margin size, the number of pixels to deflate 
-the tab rectangle horizontally to obtain the final `"column data`" 
-rectangle. In [/ ArrayCtrl], the tab margin areas are used to paint 
-the grid lines and the inverted selection rectangle outside of 
-the table cells.&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Column`:`:SetMargin`(int`):%- Column`&_[@0 SetMargin]([@(0.0.255) i
+nt]_[@3 m])&]
+[s2; Устанавливает horizontal tab margin size, the number 
+of pixels to deflate the tab rectangle horizontally to obtain 
+the final `"column data`" rectangle. In [/ ArrayCtrl], the tab 
+margin areas are used to paint the grid lines and the inverted 
+selection rectangle outside of the table cells.&]
 [s4; [%-*C@3 m]-|Horizontal tab margin size in pixels.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [@(0.0.255) int]_[@0 GetMargin]()_[@(0.0.255) const]&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Column`:`:GetMargin`(`)const:%- [@(0.0.255) int]_[@0 GetMargin
+]()_[@(0.0.255) const]&]
 [s2; Возвращает current tab margin width in pixels.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
-[s5;K%- [^`:`:Callback^ Callback]_[@0 WhenAction]&]
+[s5;K:Upp`:`:HeaderCtrl`:`:Column`:`:WhenAction:%- Callback_[@0 WhenAction]&]
 [s2; The tab action callback. When set to a non`-null value, the 
 header control starts to check for mouse clicks within this tab 
 and calls this callback whenever the corresponding tab is clicked.&]
 [s0; &]
-[s5;K:`:`:HeaderCtrl`:`:Column`:`:WhenBar:%- [^`:`:Callback1^ Callback1]<Bar`&>_[@0 WhenB
-ar]&]
+[s5;K:`:`:HeaderCtrl`:`:Column`:`:WhenBar:%- Callback1<Bar`&>_[@0 WhenBar]&]
 [s2; Provides am optional context menu for header tab.  &]
 [s0; ]]

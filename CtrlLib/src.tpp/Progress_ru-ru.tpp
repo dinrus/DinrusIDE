@@ -1,4 +1,4 @@
-topic "Progress";
+topic "Класс Progress";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,12 +10,14 @@ topic "Progress";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@3 [s0; [*@(229)4 Progress]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Класс Progress]]}}&]
 [s3; &]
 [s1;:Progress`:`:class:%- [@(0.0.255)3 class][3 _][*3 Progress][3 _:_][@(0.0.255)3 public][3 _][*@3;3 W
 ithProgressLayout][@(0.0.255)3 <][_^TopWindow^3 TopWindow][@(0.0.255)3 >][3 _]&]
-[s9; Progress is simple helper dialog that can be used to show a 
-progress of long operation and to cancel it.&]
+[s9; Progress `- простое вспомогательное диалоговое 
+окно, которое можно использовать 
+для показа продвижения (прогресса) 
+длительной операции и её прекращения.&]
 [s2; &]
 [s2; 
 @@image:1644&520
@@ -35,77 +37,95 @@ har]_`*[*@3 txt], [@(0.0.255) int]_[*@3 total]_`=_[@3 0])&]
 [s5;:Progress`:`:Progress`(Ctrl`*`,const char`*`,int`):%- [* Progress]([_^Ctrl^ Ctrl]_`*[*@3 `_
 owner], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 txt], [@(0.0.255) int]_[*@3 total]_`=_[@3 0
 ])&]
-[s2; Convenience constructor variants can set owner, text and total 
-number of steps.&]
+[s2; Варианты контструктора для удобства 
+`- могут устанавливать владельца, 
+текст и общее число шагов.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:Progress`:`:SetOwner`(Ctrl`*`):%- [@(0.0.255) void]_[* SetOwner]([_^Ctrl^ Ctrl]_`*[*@3 `_
 owner])&]
-[s2; Устанавливаетthe owner window of progress. [%-*@3 `_owner] can be child 
-of owner window too. Note that if owner is not specified, current 
-active window is used as owner.&]
+[s2; Устанавливает окно`-владельца прогресса. 
+[%-*@3 `_owner] также может быть отпрыском 
+владельца. Заметьте, что если владелец 
+не указан, в качестве него используется 
+текущее активное окно.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:Create`(`):%- [@(0.0.255) void]_[* Create]()&]
-[s2; Forces dialog to appear on the screen.&]
+[s2; Выводит диалоговое окно на экран.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:Cancel`(`):%- [@(0.0.255) void]_[* Cancel]()&]
-[s2; Closes the dialog and sets it to canceled mode.&]
+[s2; Закрывает диалоговое окно и устанавливает 
+его в режим отмены.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:Set`(int`,int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 pos], 
 [@(0.0.255) int]_[*@3 total])&]
-[s2; Устанавливаетthe current progress position and total. This method can 
-be called from non`-main thread without restriction.&]
+[s2; Устанавливает текущую позицию продвижения 
+и общий счёт. Этот метод может без 
+ограничений вызываться из неглавного 
+потока.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:SetPos`(int`):%- [@(0.0.255) void]_[* SetPos]([@(0.0.255) int]_[*@3 pos])&]
-[s2; Устанавливаетthe current progress position. This method can be called 
-from non`-main thread without restriction.&]
+[s2; Устанавливает текущую позицию продвижения.
+ Этот метод может без ограничений 
+вызываться из неглавного потока.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:SetText`(const char`*`):%- [@(0.0.255) void]_[* SetText]([@(0.0.255) const
 ]_[@(0.0.255) char]_`*[*@3 s])&]
 [s5;:Progress`:`:SetText`(const String`&`):%- [@(0.0.255) void]_[* SetText]([@(0.0.255) con
 st]_[_^String^ String][@(0.0.255) `&]_[*@3 s])&]
-[s2; Устанавливаетthe text to be displayed in dialog. This method can be 
-called from non`-main thread without restriction.&]
+[s2; Устанавливает текст, показываемый 
+в диалоговом окне. Этот метод может 
+без ограничений вызываться из неглавного 
+потока.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:SetTotal`(int`):%- [@(0.0.255) void]_[* SetTotal]([@(0.0.255) int]_[*@3 tota
 l])&]
-[s2; Устанавливаетthe [%-*@3 total] number of progress steps.&]
+[s2; Устанавливает общее число [%-*@3 total] 
+шагов продвижения.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:Step`(int`):%- [@(0.0.255) void]_[* Step]([@(0.0.255) int]_[*@3 steps]_`=_[@3 1
 ])&]
-[s2; Advances progress by [%-*@3 steps]. If total number of steps is 
-zero, `"running bar`" is displayed. This method can be called 
-from non`-main thread without restriction.&]
+[s2; Продвигает прогресс на шаги [%-*@3 steps]. 
+Если общее число шагов равно нулю, 
+будет показана `"бегущая строка`". 
+Этот метод может без ограничений 
+вызываться из неглавного потока.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:GetPos`(`)const:%- [@(0.0.255) int]_[* GetPos]()_[@(0.0.255) const]&]
-[s2; Возвращает the current number of progress steps.&]
+[s2; Возвращает текущее число шагов продвижения
+.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:GetTotal`(`)const:%- [@(0.0.255) int]_[* GetTotal]()_[@(0.0.255) const]&]
-[s2; Возвращает the total number of steps (as set by [* Set ]or [* SetTotal]).&]
+[s2; Возвращает общее число шагов (установленное
+ через [* Set ]или [* SetTotal]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:GetText`(`)const:%- [_^String^ String]_[* GetText]()_[@(0.0.255) const]&]
-[s2; Возвращает the text of Progress.&]
+[s2; Возвращает текст Progress`'а.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:Canceled`(`):%- [@(0.0.255) bool]_[* Canceled]()&]
-[s2; Shows a Cancel button if not shown yet. If this button is pressed, 
-sets dialog to canceled mode. Возвращает  true, если dialog was canceled. 
-This method can be called from non`-main thread without restriction. 
-Calling this method from the main thread also invokes processing 
-GUI events, including paint event, so calling this as often as 
-once per 1ms is desirable.&]
+[s2; Показывает кнопку `"Отмена`", если 
+она ещё не показана. Если эта кнопка 
+нажата, устанавливает диалог в отменённый 
+режим. Возвращает true, если диагол 
+отменён. Этот метод может без ограничений 
+вызываться из неглавного потока. 
+Вызов этого метода из главного потока 
+также вызывает обработку событий 
+ГИП, включая событие отрисовки,`- желателен 
+его вызов каждую 1 мс.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:SetCanceled`(int`,int`):%- [@(0.0.255) bool]_[* SetCanceled]([@(0.0.255) i
@@ -124,29 +144,34 @@ nt]_[*@3 pos])&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:Reset`(`):%- [@(0.0.255) void]_[* Reset]()&]
-[s2; Resets dialog to default settings.&]
+[s2; Сбрасывает диалог в дефолтные настройки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:Granularity`(int`):%- [@(0.0.255) void]_[* Granularity]([@(0.0.255) int]_[*@3 m
 s])&]
-[s2; Устанавливаетhow much often should dialog refresh. Default is 50ms.&]
+[s2; Устанавливает то, как часто должен 
+освежаться диалог. Дефолт равен 50 
+мс.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:AlignText`(int`):%- [@(0.0.255) void]_[* AlignText]([@(0.0.255) int]_[*@3 al
 ign])&]
-[s2; Устанавливаетtext alignment. Allowed values are ALIGN`_LEFT, ALIGN`_CENTER 
-and ALIGN`_RIGHT.&]
+[s2; Устанавливает разлиновку текста. 
+Допустимые значения `- ALIGN`_LEFT, ALIGN`_CENTER 
+и ALIGN`_RIGHT.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:operator Gate2`<int`,int`>`(`):%- [* operator_Gate2<int, 
 int>]()&]
-[s2; Возвращает a callback to dialog`'s SetCanceled method.&]
+[s2; Возвращает обратный вызов метода 
+SetCanceled диалога.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Progress`:`:Delay`(int`):%- [@(0.0.255) void]_[* Delay]([@(0.0.255) int]_[*@3 ms])
 &]
-[s2; Устанавливаетthe delay before the dialog is shown for the first time 
-(in order not to show it when operation proceeds fast). Default 
-is 250ms.&]
+[s2; Устанавливает задержку перед первым 
+показом диалога (с тем, чтобы не показывать 
+его, когда операция происходит слишком 
+быстро). Дефолт равен 250 мс.&]
 [s3; &]
 [s0; ]]

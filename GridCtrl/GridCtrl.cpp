@@ -486,7 +486,7 @@ void GridCtrl::StdMenuBar(Bar &bar)
 		{
 			bar.Add(c, t_("Вставить "), StdInsert)
 			   .Image(GridImg::Insert())
-			   .Help(RowFormat(t_("Всавить новый %s в эту таблицу.")))
+			   .Help(RowFormat(t_("Вставить новый %s в эту таблицу.")))
 			   .Key(K_INSERT);
 		}
 		else if(bains == 1)
@@ -637,7 +637,7 @@ void GridCtrl::ClipboardMenu(Bar &bar)
 	if(paste_allowed)
 		bar.Add(t_("Вставить"), THISBACK(DoPaste)).Image(CtrlImg::paste()).Key(K_CTRL_V).Enable(c && paste_allowed && IsClipboardAvailable());
 	if(extra_paste)
-		bar.Add(t_("Paste as"), THISBACK(PasteAsMenu));
+		bar.Add(t_("Вставить как"), THISBACK(PasteAsMenu));
 }
 
 void GridCtrl::PasteAsMenu(Bar &bar)

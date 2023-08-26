@@ -1,4 +1,4 @@
-topic "TextCtrl";
+topic "Класс TextCtrl";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,521 +10,615 @@ topic "TextCtrl";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@3 [s0; [*@(229)4 TextCtrl]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Класс TextCtrl]]}}&]
 [s3; &]
 [s1;:TextCtrl`:`:class: [@(0.0.255)3 class][3 _][*3 TextCtrl][3 _:_][@(0.0.255)3 public][3 _][*@3;3 C
 trl][3 , ][@(0.0.255)3 protected][3 _][*@3;3 TextArrayOps]&]
-[s9;%% A base class that implements operations common for [^`:`:DocEdit^ DocEdit] 
-(raw text editor where lines `- LF delimited sections `- are 
-displayed as paragraphs `- wrapped when they do not fit the width) 
-and [^`:`:LineEdit^ LineEdit].(where lines are simply lines and 
-are never wrapped). TextCtrl works in UNICODE, but is able performing 
-conversions to any of predefined charsets. The Value of TextCtrl 
-is contained text; setting it is the same as using Set method, 
-reading is equivalent to Get method.&]
-[s3;%% &]
+[s9;%RU-RU Базовый класс, реализующий общие 
+операции для [^topic`:`/`/CtrlLib`/src`/DocEdit`_ru`-ru`#DocEdit`:`:class^ D
+ocEdit] (редактора `"сырого`" текста, в 
+котором строки `- разделы, разделённые 
+символом LF `-показываются как параграфы 
+`- и подгоняются под размер окна, если 
+не вмещаются в него по ширине) и [^topic`:`/`/CtrlLib`/src`/LineEdit`_ru`-ru`#LineEdit`:`:class^ L
+ineEdit].(в котором строки `- просто строки 
+и не подгоняются совсем никак). TextCtrl 
+работает в кодировке UNICODE, но способен 
+выполнять преобразования в любой 
+из заранее определённых набсимов. 
+Значением TextCtrl`'а является содержащийся 
+в нём текст; его установка равносильна 
+использованию метода Set, а чтение 
+равносильно методу Get.&]
+[s3;%RU-RU &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Protected Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Защищённых Методов]]}}&]
 [s3; &]
 [s5;:TextCtrl`:`:SelectionChanged`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* SelectionC
 hanged]()&]
-[s2;%% Selection anchor or cursor has changed. (called even when 
-there is no selection, just cursor). If you override this, you 
-should call base`-class version in the body.&]
-[s3;%% &]
+[s2;%RU-RU Якорь секции или курсор изменён 
+(если вызван при отсутствии выделения, 
+то только курсор). При переписании 
+следует в теле вызывать версию базового 
+класса.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:ClearLines`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* ClearLines]()&]
-[s2;%% The content was removed (e.g. Clear or Load operations). If 
-you override this, you should call base`-class version in the 
-body.&]
-[s3;%% &]
+[s2;%RU-RU Контент был удалён (напр., операцией 
+Clear или Load). При переписании следует 
+в теле вызывать версию базового класса.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:InsertLines`(int`,int`): [@(0.0.255) virtual] [@(0.0.255) void]_[* InsertL
 ines]([@(0.0.255) int]_[*@3 line], [@(0.0.255) int]_[*@3 count])&]
-[s2;%% [%-*@3 count] lines at [%-*@3 line] position were inserted. If 
-you override this, you should call base`-class version in the 
-body.&]
-[s3;%% &]
+[s2;%RU-RU Было вставлено [%-*@3 count] строк в 
+позиции [%-*@3 line]. При переписании следует 
+в теле вызывать версию базового класса.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:RemoveLines`(int`,int`): [@(0.0.255) virtual] [@(0.0.255) void]_[* RemoveL
 ines]([@(0.0.255) int]_[*@3 line], [@(0.0.255) int]_[*@3 count])&]
-[s2;%% [%-*@3 count] lines at [%-*@3 line] position were removed. If 
-you override this, you should call base`-class version in the 
-body.&]
-[s3;%% &]
+[s2;%RU-RU Было удалено [%-*@3 count] строк в позиции 
+[%-*@3 line]. При переписании следует в теле 
+вызывать версию базового класса.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:PreInsert`(int`,const WString`&`): [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* PreInsert]([@(0.0.255) int]_[*@3 pos], [@(0.0.255) const]_[_^WString^ WS
 tring][@(0.0.255) `&]_[*@3 text])&]
-[s2;%% Called before any [%-*@3 text] gets inserted at [%-*@3 pos.] If 
-you override this, you should call base`-class version in the 
-body.&]
-[s3;%% &]
+[s2;%RU-RU Вызывается перед тем, как любой 
+текст [%-*@3 text] вставлен в позиции [%-*@3 pos.] 
+При переписании следует в теле вызывать 
+версию базового класса.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:PostInsert`(int`,const WString`&`): [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* PostInsert]([@(0.0.255) int]_[*@3 pos], [@(0.0.255) const]_[_^WString^ W
 String][@(0.0.255) `&]_[*@3 text])&]
-[s2;%% Called after [%-*@3 text] was inserted at [%-*@3 pos.] If you 
-override this, you should call base`-class version in the body.&]
-[s3;%% &]
+[s2;%RU-RU Вызывается после того, как текст 
+[%-*@3 text] был вставлен в позиции [%-*@3 pos.]При 
+переписании следует в теле вызывать 
+версию базового класса.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:PreRemove`(int`,int`): [@(0.0.255) virtual] [@(0.0.255) void]_[* PreRemove
 ]([@(0.0.255) int]_[*@3 pos], [@(0.0.255) int]_[*@3 size])&]
-[s2;%% Called before [%-*@3 size] characters get removed from the [%-*@3 pos]. 
-If you override this, you should call base`-class version in 
-the body.&]
-[s3;%% &]
+[s2;%RU-RU Вызывается перед тем, как [%-*@3 size] 
+символов удалится из позиции [%-*@3 pos]. 
+При переписании следует в теле вызывать 
+версию базового класса.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:PostRemove`(int`,int`): [@(0.0.255) virtual] [@(0.0.255) void]_[* PostRemo
 ve]([@(0.0.255) int]_[*@3 pos], [@(0.0.255) int]_[*@3 size])&]
-[s2;%% Called after [%-*@3 size] characters was removed from the [%-*@3 pos]. 
- If you override this, you should call base`-class version in 
-the body.&]
-[s3;%% &]
+[s2;%RU-RU Вызывается после того, как [%-*@3 size] 
+символов удалится из позиции [%-*@3 pos]. 
+При переписании следует в теле вызывать 
+версию базового класса.&]
+[s3;%RU-RU &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:TextCtrl`:`:RefreshLine`(int`): [@(0.0.255) virtual] [@(0.0.255) void]_[* RefreshLine](
 [@(0.0.255) int]_[*@3 i])&]
-[s2;%% This virtual method is called by TextCtrl when the content 
-of line [%-*@3 i] is changed. If you override this, you should 
-call base`-class version in the body.&]
-[s3;%% &]
+[s2;%RU-RU Этот виртуальный метод вызывается 
+TextCtrl`'ом, когда изменён контент строки 
+[%-*@3 i].При переписании следует в теле 
+вызывать версию базового класса.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:WhenBar: [_^Callback1^ Callback1][@(0.0.255) <]Bar[@(0.0.255) `&>]_[* WhenBa
 r]&]
-[s2;%% This callback is invoked when user right`-clicks the widget 
-and should specify local menu. It is initialized by the constructor 
-to the StdBar method.  &]
-[s3;%% &]
+[s2;%RU-RU Этот обратный вызов происходит, 
+когда пользователь делает правый 
+клик на виджете и должен задать локальное 
+меню. Инициализируется конструктором 
+в метод StdBar.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:WhenState: [_^Callback^ Callback]_[* WhenState]&]
-[s2;%% This callback is invoked when the status of widget changes 
-from not`-modified to modified (`"dirty`") or back.&]
-[s3;%% &]
+[s2;%RU-RU Этот обрвыз происходит, когда 
+статус виджета меняется из неизменённого 
+в изменённый (`"грязный`"), или наоборот.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:WhenSel: [_^Callback^ Callback]_[* WhenSel]&]
-[s2;%% Called when cursor or selection changes.&]
+[s2;%RU-RU Вызывается, когда изменены курсор 
+или выделение.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:WhenViewLoading: [_^Upp`:`:Event^ Event]<[_^Upp`:`:int64^ int64]>
 _[* WhenViewMapping]&]
-[s2;%% Called during mapping view stream with current position in 
-the stream.&]
+[s2;%RU-RU Вызывается при маппинге потока 
+видимой области с текущей позиции 
+в потоке.&]
 [s3; &]
 [s4; &]
 [s5;:TextCtrl`:`:CachePos`(int`): [@(0.0.255) void]_[* CachePos]([@(0.0.255) int]_[*@3 pos])&]
-[s2;%% This is specific optimization hint to the widget saying that 
-following operations will be performed near [%-*@3 pos]. Unlikely 
-to be used in the client code.&]
-[s3;%% &]
+[s2;%RU-RU Это особая оптимизационная подсказка 
+виджету, сообщающая, что следующие 
+операции будут выполняться рядом 
+с [%-*@3 pos]. Едва ли может использоваться 
+в клиентском коде.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:CacheLinePos`(int`): [@(0.0.255) void]_[* CacheLinePos]([@(0.0.255) int]_[*@3 l
 inei])&]
-[s2;%% This is specific optimization hint to the widget saying that 
-following operations will be performed near line [%-*@3 linei]. 
-Unlikely to be used in the client code.&]
-[s3;%% &]
+[s2;%RU-RU Это особая оптимизационная подсказка 
+виджету, сообщающая, что следующие 
+операции будут выполняться рядом 
+со строкой [%-*@3 linei]. Едва ли может использовать
+ся в клиентском коде.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Load`(Stream`&`,byte`): [@(0.0.255) int]_[* Load]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 s], [_^byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT)&]
-[s2;%% Loads the text from the stream with defined [%-*@3 charset]. 
-Function returns the detected line endings mode `- LE`_CRLF, 
-LE`_LF or LE`_DEFAULT if there were no line endings in the file. 
-If file is bigger then the limit set by MaxLength, editor is 
-put into `'truncated`' and read`-only mode.&]
-[s3;%% &]
+[s2;%RU-RU Загружает текст из потока с определённым
+ набсимом [%-*@3 charset]. Функция возвращает 
+обнаруженный ею режим окончания строк 
+`- LE`_CRLF, LE`_LF или LE`_DEFAUL, если в файле 
+окончания строк не обнаружены. Если 
+файл превышает ограничение, установленное 
+посредством MaxLength,то редактор устанавливает
+ся в режим `'обрезанный`' и только`-чтение.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:IsTruncated`(`)const: [@(0.0.255) bool]_[* IsTruncated]()_[@(0.0.255) cons
 t]&]
-[s2;%% Indicates that last Load had to truncate the size because 
-of MaxLength limit.&]
+[s2;%RU-RU Указывает на то, что последняя 
+загрузка (Load) вынуждена была выполнить 
+обрезку, так как превышено ограничение 
+максимальной длины файла (MaxLength).&]
 [s3; &]
 [s4; &]
 [s5;:TextCtrl`:`:Save`(Stream`&`,byte`,int`)const: [@(0.0.255) void]_[* Save]([_^Stream^ St
 ream][@(0.0.255) `&]_[*@3 s], [_^byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT, 
 [@(0.0.255) int]_[*@3 line`_endings]_`=_LE`_DEFAULT)_[@(0.0.255) const]&]
-[s2;%% Saves the text to the stream with defined [%-*@3 charset]. Characters 
-that cannot be represented in suggested [%-*@3 charset] are saved 
-as `'?`'. [%-*@3 line`_endings] parameter sets the line ending 
-mode. LE`_DEFAULT uses platform specific line endings (CRLF in 
-Windows, LF in POSIX), LE`_CRLF sets CRLF line endings, LE`_LF 
-sets LF line endings). If IsTruncated is true, Save is blocked.&]
-[s3;%% &]
+[s2;%RU-RU Сохраняет текст в поток, с определённым 
+набором символов [%-*@3 charset]. Символы, 
+которые не могут быть представлены 
+в предложенном набсиме [%-*@3 charset], сохраняются 
+как `'?`'. Параметр [%-*@3 line`_endings] устанавливает 
+режим окончания строк. LE`_DEFAULT использует 
+специфичные для платформы окончания 
+строк (CRLF на Windows, LF на POSIX), LE`_CRLF устанавливает
+ окончания строк CRLF, LE`_LF устанавливает 
+окончание строки LF). Если IsTruncated равно 
+true, Save блокируется.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetInvalidCharPos`(byte`)const: [@(0.0.255) int]_[* GetInvalidCharPos]([_^byte^ b
 yte]_[*@3 charset]_`=_CHARSET`_DEFAULT)_[@(0.0.255) const]&]
-[s2;%% Возвращает the position of the first character that cannot be 
-represented [%-*@3 charset]. If there is none, returns negative 
-value.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает позицию первого символа, 
+который не может быть представлен 
+в набсиме [%-*@3 charset]. Если таковой отсутствует, 
+возвращает отрицательное число.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:CheckCharset`(byte`)const: [@(0.0.255) bool]_[* CheckCharset]([_^byte^ byt
 e]_[*@3 charset]_`=_CHARSET`_DEFAULT)_[@(0.0.255) const]&]
-[s2; [%% То же, что и GetInvalidCharPos(]charset) < 0.&]
-[s3;%% &]
+[s2; [%RU-RU То же, что и GetInvalidCharPos(]charset) < 0.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Set`(const WString`&`): [@(0.0.255) void]_[* Set]([@(0.0.255) const]_[_^WString^ W
 String][@(0.0.255) `&]_[*@3 s])&]
 [s5;:TextCtrl`:`:Set`(const String`&`,byte`): [@(0.0.255) void]_[* Set]([@(0.0.255) const]_
 [_^String^ String][@(0.0.255) `&]_[*@3 s], [_^byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT
 )&]
-[s2;%% Устанавливаетthe text in the widget.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает текст виджета.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Get`(byte`)const: [_^String^ String]_[* Get]([_^byte^ byte]_[*@3 charset]_`=
 _CHARSET`_DEFAULT)_[@(0.0.255) const]&]
-[s2;%% Gets the text in the widget.&]
-[s3;%% &]
+[s2;%RU-RU Выдаёт текст виджета.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:Get`(Upp`:`:int64`,int`,Upp`:`:byte`)const: [_^Upp`:`:String^ S
 tring]_[* Get]([_^Upp`:`:int64^ int64]_[*@3 pos], [@(0.0.255) int]_[*@3 size], 
 [_^Upp`:`:byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT)_[@(0.0.255) const]&]
-[s2;%% Gets the part of text in the widget.&]
-[s3;%% &]
+[s2;%RU-RU Выдаёт часть текста виджета.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetW`(Upp`:`:int64`,int`)const: [_^Upp`:`:WString^ WString]_[* Ge
 tW]([_^Upp`:`:int64^ int64]_[*@3 pos], [@(0.0.255) int]_[*@3 size])_[@(0.0.255) const]&]
-[s2;%% Gets the part of text in the widget in UNICODE.&]
-[s3;%% &]
+[s2;%RU-RU Выдаёт часть текста виджета в 
+UNICODE.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetW`(`)const: [_^WString^ WString]_[* GetW]()_[@(0.0.255) const]&]
-[s2;%% Gets the text in the widget in UNICODE.&]
-[s3;%% &]
+[s2;%RU-RU Выдаёт текст виджета в UNICODE.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:ClearDirty`(`): [@(0.0.255) void]_[* ClearDirty]()&]
-[s2;%% Clears dirty flag. Note that the difference between `"dirty`" 
-flag and `"modified`" flag of Ctrl interface is that `"dirty`" 
-flag can get cleared by undo operation, when the text is restored 
-to the original state (one after setting it or at ClearDirty).&]
-[s3;%% &]
+[s2;%RU-RU Удаляет флаг `"грязный`" (dirty). Помните, 
+что разница между флагами `"dirty`" и 
+`"modified`" интерфейса Ctrl состоит в том, 
+что флаг `"dirty`" может убираться операцией 
+undo, а текст восстанавливается в исходное 
+состояние (one after setting it or at ClearDirty).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:IsDirty`(`)const: [@(0.0.255) bool]_[* IsDirty]()_[@(0.0.255) const]&]
-[s2;%% Tests if text is different from `"original`" state (one after 
-setting it or at ClearDirty).&]
-[s3;%% &]
+[s2;%RU-RU Проверяет, отличается ли текст 
+от состояния `"original`" (one after setting it or 
+at ClearDirty).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%% Empties the text.&]
-[s3;%% &]
+[s2;%RU-RU Удаляет текст.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetLine`(Upp`:`:int64`)const: [@(0.0.255) int]_[* GetLine]([_^Upp`:`:int64^ i
 nt64]_[*@3 pos])_[@(0.0.255) const]&]
-[s2;%% Similar to GetLinePos, but does not alter [%-*@3 pos] parameter.&]
-[s3;%% &]
+[s2;%RU-RU Подобен GetLinePos, но параметр [%-*@3 pos] 
+не меняется.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetLinePos`(int`&`)const: [@(0.0.255) int]_[* GetLinePos]([@(0.0.255) int`&
 ]_[*@3 pos])_[@(0.0.255) const]&]
-[s2;%% Возвращает the line where character at offset [%-*@3 pos] resides; 
-[%-*@3 pos] is altered to contain the position withing the line.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает строку, в которой находится 
+символ со смещением [%-*@3 pos]; [%-*@3 pos] меняется 
+на его позицию в строке.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetPos`(int`,int`)const: [@(0.0.255) int]_[* GetPos]([@(0.0.255) int]_[*@3 l
 ine], [@(0.0.255) int]_[*@3 column])_[@(0.0.255) const]&]
-[s2;%% Возвращает the offset of character at [%-*@3 line] and [%-*@3 column] 
-index within the line.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает смещение символа на 
+строке [%-*@3 line] и индекс колонки [%-*@3 column] 
+в этой строке.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetPos`(int`)const: [@(0.0.255) int]_[* GetPos]([@(0.0.255) int]_[*@3 line])
 _[@(0.0.255) const]&]
-[s2;%% То же, что и GetPos([%-*@3 line], 0).&]
-[s3;%% &]
+[s2;%RU-RU То же, что и GetPos([%-*@3 line], 0).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetUtf8Line`(int`)const: [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[* GetUtf8Line]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Возвращает the line [%-*@3 i] in UTF`-8 encoding.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает строку [%-*@3 i] в кодировке 
+UTF`-8.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetWLine`(int`)const: [_^WString^ WString]_[* GetWLine]([@(0.0.255) int]_[*@3 i
 ])_[@(0.0.255) const]&]
-[s2;%% Возвращает the line [%-*@3 i] in UNICODE.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает строку [%-*@3 i] в UNICODE.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetEncodedLine`(int`,byte`)const: [_^String^ String]_[* GetEncodedLine](
 [@(0.0.255) int]_[*@3 i], [_^byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT)_[@(0.0.255) con
 st]&]
-[s2;%% Возвращает the line [%-*@3 i] required encoding.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает строку [%-*@3 i] в требуемой 
+кодировке.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetLineLength`(int`)const: [@(0.0.255) int]_[* GetLineLength]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Возвращает the length of line [%-*@3 i].&]
-[s3;%% &]
+[s2;%RU-RU Возвращает длину строки [%-*@3 i].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetLineCount`(`)const: [@(0.0.255) int]_[* GetLineCount]()_[@(0.0.255) con
 st]&]
-[s2;%% Возвращает the number of lines.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает число строк.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetChar`(Upp`:`:int64`)const: [@(0.0.255) int]_[* GetChar]([_^Upp`:`:int64^ i
 nt64]_[*@3 pos])_[@(0.0.255) const]&]
 [s5;:Upp`:`:TextCtrl`:`:operator`[`]`(Upp`:`:int64`)const: [@(0.0.255) int]_[* operator`[
 `]]([_^Upp`:`:int64^ int64]_[*@3 pos])_[@(0.0.255) const]&]
-[s2;%% Возвращает the UNICODE character at [%-*@3 pos] offset.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает символ UNICODE, расположенный 
+по смещению [%-*@3 pos].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetChar`(`)const: [@(0.0.255) int]_[* GetChar]()_[@(0.0.255) const]&]
-[s2;%% Возвращает UNICODE character at cursor, or 0 if cursor is behind 
-the last character.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает символ UNICODE по курсору, 
+или 0, если курсор расположен за последним 
+символом.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetLength`(`)const: [@(0.0.255) int]_[* GetLength]()_[@(0.0.255) const]&]
-[s2;%% Возвращает the total number of characters in the text.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает общее число символов 
+в тексте.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetCursor`(`)const: [@(0.0.255) int]_[* GetCursor]()_[@(0.0.255) const]&]
-[s2;%% Возвращает the position of cursor.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает позицию курсора.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetCursorLine`(`)const: [@(0.0.255) int]_[* GetCursorLine]()_[@(0.0.255) c
 onst]&]
-[s2;%% То же, что и GetLine(GetCursor).&]
+[s2;%RU-RU То же, что и GetLine(GetCursor).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:SetSelection`(Upp`:`:int64`,Upp`:`:int64`): [@(0.0.255) void]_[* S
 etSelection]([_^Upp`:`:int64^ int64]_[*@3 anchor]_`=_[@3 0], [_^Upp`:`:int64^ int64]_[*@3 c
 ursor]_`=_[@3 2147483647]_)&]
-[s2;%% Устанавливаетthe selection. If [%-*@3 anchor] or [%-*@3 cursor] are out 
-of range, they are `"fixed`". If they are equal, method changes 
-the position of cursor.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает выделение. Если 
+[%-*@3 anchor] или [%-*@3 cursor] вне диапазона, они 
+`"фиксируются`". Если они равны, то 
+метод изменяет позицию курсора.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:IsSelection`(`)const: [@(0.0.255) bool]_[* IsSelection]()_[@(0.0.255) cons
 t]&]
-[s2;%% Tests whether there is non`-empty normal selection.&]
-[s3;%% &]
+[s2;%RU-RU Проверяет, имеется ли непустое 
+нормальное выделение.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:IsRectSelection`(`)const: [@(0.0.255) bool]_[* IsRectSelection]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает  true, если there is rectangular selection.&]
+[s2;%RU-RU Возвращает true, если имеется прямоугольно
+е выделение.&]
 [s3; &]
 [s4; &]
 [s5;:TextCtrl`:`:IsAnySelection`(`)const: [@(0.0.255) bool]_[* IsAnySelection]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает  true, если there is either rectangular or normal selection.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает true, если имеется прямоугольно
+е или нормальное выделение.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetSelection`(int`&`,int`&`)const: [@(0.0.255) bool]_[* GetSelection]([@(0.0.255) i
 nt`&]_[*@3 l], [@(0.0.255) int`&]_[*@3 h])_[@(0.0.255) const]&]
 [s5;:Upp`:`:TextCtrl`:`:GetSelection`(Upp`:`:int64`&`,Upp`:`:int64`&`)const: [@(0.0.255) b
 ool]_[* GetSelection]([_^Upp`:`:int64^ int64][@(0.0.255) `&]_[*@3 l], 
 [_^Upp`:`:int64^ int64][@(0.0.255) `&]_[*@3 h])_[@(0.0.255) const]&]
-[s2;%% Возвращает the selection lower and upper bounds. int64 version 
-is only useful in view mode. In view mode, 32 bit version returns 
-false if the range is larger than 2GB.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает нижний и верхний предел 
+выделения. Версия int64 используется 
+только в режиме просмотра. В режиме 
+просмотра, 32`-битная версия возвращает 
+false, если диапазон превышвет 2 ГБ.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetSelection`(byte`)const: [_^String^ String]_[* GetSelection]([_^byte^ by
 te]_[*@3 charset]_`=_CHARSET`_DEFAULT)_[@(0.0.255) const]&]
-[s2;%% Возвращает the selected text in given [%-*@3 charset].&]
-[s3;%% &]
+[s2;%RU-RU Возвращает выделенный текст в 
+заданном набсиме [%-*@3 charset].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetSelectionW`(`)const: [_^WString^ WString]_[* GetSelectionW]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает the selected text in UNICODE.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает выделенный текст в 
+UNICODE.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:ClearSelection`(`): [@(0.0.255) void]_[* ClearSelection]()&]
-[s2;%% Cancels the selection.&]
-[s3;%% &]
+[s2;%RU-RU Отменяет выделение.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:RemoveSelection`(`): [@(0.0.255) bool]_[* RemoveSelection]()&]
-[s2;%% Deletes the selection text.&]
-[s3;%% &]
+[s2;%RU-RU Удаляет текст выделения.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:SetCursor`(Upp`:`:int64`): [@(0.0.255) void]_[* SetCursor]([_^Upp`:`:int64^ i
 nt64]_[*@3 cursor])&]
-[s2;%% Places cursor at new position.&]
-[s3;%% &]
+[s2;%RU-RU Помещает курсор в новую позицию.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Paste`(const WString`&`): [@(0.0.255) int]_[* Paste]([@(0.0.255) const]_[_^WString^ W
 String][@(0.0.255) `&]_[*@3 text])&]
-[s2;%% Pastes [%-*@3 text] at current cursor position.&]
-[s3;%% &]
+[s2;%RU-RU Вставляет текст [%-*@3 text] в текущей 
+позиции курсора.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Insert`(int`,const WString`&`): [@(0.0.255) int]_[* Insert]([@(0.0.255) in
 t]_[*@3 pos], [@(0.0.255) const]_[_^WString^ WString][@(0.0.255) `&]_[*@3 txt])&]
-[s2;%% Inserts [%-*@3 txt] at [%-*@3 pos].&]
-[s3;%% &]
+[s2;%RU-RU Вставляет текст [%-*@3 txt] в позиции 
+[%-*@3 pos].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Insert`(int`,const String`&`,byte`): [@(0.0.255) int]_[* Insert]([@(0.0.255) i
 nt]_[*@3 pos], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 txt], 
 [_^byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT)&]
-[s2;%% Inserts [%-*@3 txt] encoded with [%-*@3 charset ]at [%-*@3 pos].&]
-[s3;%% &]
+[s2;%RU-RU Вставляет текст [%-*@3 txt], кодированный 
+в набсиме [%-*@3 charset], в позиции [%-*@3 pos].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Insert`(int`,const char`*`): [@(0.0.255) int]_[* Insert]([@(0.0.255) int]_
 [*@3 pos], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 txt])&]
-[s2;%% Inserts [%-*@3 txt] at [%-*@3 pos] using default charset.&]
-[s3;%% &]
+[s2;%RU-RU Вставляет текст [%-*@3 txt] в позиции 
+[%-*@3 pos], используя дефолтный набсим.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Remove`(int`,int`): [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_[*@3 pos],
  [@(0.0.255) int]_[*@3 size])&]
-[s2;%% Removes the text.&]
-[s3;%% &]
+[s2;%RU-RU Удаляет текст.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:Append`(const Upp`:`:WString`&`): [@(0.0.255) int]_[* Append]([@(0.0.255) c
 onst]_[_^Upp`:`:WString^ WString][@(0.0.255) `&]_[*@3 txt])&]
-[s2;%% То же, что и Insert(GetLength(), [%-*@3 txt]).&]
-[s3;%% &]
+[s2;%RU-RU То же, что и Insert(GetLength(), [%-*@3 txt]).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:Append`(const Upp`:`:String`&`,Upp`:`:byte`): [@(0.0.255) int]_
 [* Append]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 txt], 
 [_^Upp`:`:byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT)&]
-[s2;%% То же, что и Insert(GetLength(), [%-*@3 txt], [%-*@3 charset]).&]
-[s3;%% &]
+[s2;%RU-RU То же, что и Insert(GetLength(), [%-*@3 txt], [%-*@3 charset]).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:Append`(const char`*`): [@(0.0.255) int]_[* Append]([@(0.0.255) con
 st]_[@(0.0.255) char]_`*[*@3 txt])&]
-[s2;%% То же, что и Append(WString([%-*@3 txt])).&]
-[s3;%% &]
+[s2;%RU-RU То же, что и Append(WString([%-*@3 txt])).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:NextUndo`(`): [@(0.0.255) void]_[* NextUndo]()&]
-[s2;%% Marks the beginning of next undo block. All text altering 
-operations (inserts and removes) are recorded into undo buffer 
-in sections where each sections represents single user action. 
-NextUndo tells TextCtrl that the next altering operation belongs 
-to the new section. Note that NextUndo does not create a new 
-section (yet); calling it twice without any altering operation 
-in between is the same as calling it once.&]
-[s3;%% &]
+[s2;%RU-RU Метит начало следующего блока 
+undo. Все изменяющие текст операции 
+(вставки и удаления) записываются 
+в буфер undo посекционно, причём каждая 
+секция представляет собой единичное 
+действие пользователя. NextUndo сообщает 
+TextCtrl`'у, что следующая операция изменения 
+относится к новой секции. Заметьте, 
+что NextUndo не создаёт новую секцию; 
+дважды вызвать её без операции изменения, 
+равносильно вызову её единожды.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Undo`(`): [@(0.0.255) void]_[* Undo]()&]
-[s2;%% Performs undo.&]
-[s3;%% &]
+[s2;%RU-RU Выполняет undo (`"Отменить`").&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Redo`(`): [@(0.0.255) void]_[* Redo]()&]
-[s2;%% Performs redo.&]
-[s3;%% &]
+[s2;%RU-RU Выполняет redo (`"Восстановить`").&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:IsUndo`(`)const: [@(0.0.255) bool]_[* IsUndo]()_[@(0.0.255) const]&]
-[s2;%% Tests whether there are some undo records.&]
-[s3;%% &]
+[s2;%RU-RU Проверяет на наличие каких`-либо 
+записей undo.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:IsRedo`(`)const: [@(0.0.255) bool]_[* IsRedo]()_[@(0.0.255) const]&]
-[s2;%% Tests whether there are some redo records.&]
-[s3;%% &]
+[s2;%RU-RU Проверяет на наличие каких`-либо 
+записей redo.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:ClearUndo`(`): [@(0.0.255) void]_[* ClearUndo]()&]
-[s2;%% Clears all undo and redo records.&]
-[s3;%% &]
+[s2;%RU-RU Удаляет все записи undo и redo.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:ClearRedo`(`): [@(0.0.255) void]_[* ClearRedo]()&]
-[s2;%% Clears redo records.&]
+[s2;%RU-RU Удаляет записи redo.&]
 [s3; &]
 [s4; &]
 [s5;:TextCtrl`:`:PickUndoData`(`): [_^TextCtrl`:`:UndoData^ UndoData]_[* PickUndoData]()&]
-[s2;%% Picks undo and redo record. This is useful when single widget 
-is used to edit various text, this allows to change undo/redo 
-records with the text. Must be followed by either SetPickUndoData 
-or ClearUndo before performing any text altering operation.&]
-[s3;%% &]
+[s2;%RU-RU Пикует запись undo и redo. Используется, 
+когда один виджет применяется для 
+редактирования разных текстов,что 
+позволяет изменять записи undo/redo records 
+вместе с текстом. За ним должны следовать 
+либо SetPickUndoData, либо ClearUndo, прежде чем 
+выполняется какая`-либо операция 
+по изменению текста.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:SetPickUndoData`(Upp`:`:TextCtrl`:`:UndoData`&`&`): [@(0.0.255) v
 oid]_[* SetPickUndoData]([_^Upp`:`:TextCtrl`:`:UndoData^ TextCtrl`::UndoData][@(0.0.255) `&
 `&]_[*@3 data])&]
-[s2;%% Устанавливаетthe undo/redo records. [%-@3 data] is picked (destroyed) 
-during the operation.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает записи undo/redo. [%-@3 data] 
+пикуется (разрушается) при этой операции.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Cut`(`): [@(0.0.255) void]_[* Cut]()&]
-[s2;%% Performs Cut.&]
-[s3;%% &]
+[s2;%RU-RU Выполняет Cut (вырезку выделения 
+в буфер обмена).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Copy`(`): [@(0.0.255) void]_[* Copy]()&]
-[s2;%% Performs Copy.&]
-[s3;%% &]
+[s2;%RU-RU Выполняет Copy (копирование выделения 
+в буфер обмена).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:Paste`(`): [@(0.0.255) void]_[* Paste]()&]
-[s2;%% Performs Paste.&]
-[s3;%% &]
+[s2;%RU-RU Выполняет Paste (вставку из буфера 
+обмена).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:SelectAll`(`): [@(0.0.255) void]_[* SelectAll]()&]
-[s2;%% Selects the whole text.&]
-[s3;%% &]
+[s2;%RU-RU Выделяет весь текст.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:StdBar`(Bar`&`): [@(0.0.255) void]_[* StdBar]([_^Bar^ Bar][@(0.0.255) `&]_[*@3 m
 enu])&]
-[s2;%% Provides the standard local [%-*@3 menu].&]
-[s3;%% &]
+[s2;%RU-RU Предоставляет стандартное локальное 
+меню [%-*@3 menu].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:SetCharset`(byte`): [@(0.0.255) void]_[* SetCharset]([_^byte^ byte]_[*@3 cs])
 &]
-[s2;%% Устанавливаетthe input character encoding of widget. This character 
-set is used to decide which characters can be entered by the 
-user into the text.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает вводную символьную 
+кодировку виджета. Этот набор символов 
+определяет, какие символы будут вводиться 
+пользователем в текст.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetCharset`(`)const: [_^byte^ byte]_[* GetCharset]()_[@(0.0.255) const]&]
-[s2;%% Возвращает  значение, установленное посредством  SetCharset.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает значение, установленное 
+посредством SetCharset.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:SetColor`(int`,Color`): [@(0.0.255) void]_[* SetColor]([@(0.0.255) int]_[*@3 i
 ], [_^Color^ Color]_[*@3 c])&]
-[s2;%% Устанавливаетone of colors used to display the text.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает один из цветов 
+для отображения текста.&]
+[s3;%RU-RU &]
 [ {{4443:5557<288;>864; [s0; [+75 TextCtrl`::][*+75 INK`_NORMAL]]
-:: [s0;%% [+75 Normal text color.]]
+:: [s0;%RU-RU [+75 Нормальный цвет текста.]]
 :: [s0; [+75 TextCtrl`::][*+75 INK`_DISABLED]]
-:: [s0;%% [+75 Text color when widget is disabled. ]]
+:: [s0;%RU-RU [+75 Цвет текста при отключенном 
+виджете. ]]
 :: [s0; [+75 TextCtrl`::][*+75 INK`_SELECTED]]
-:: [s0;%% [+75 Selected text color.]]
+:: [s0;%RU-RU [+75 Цвет выделенного текста.]]
 :: [s0; [+75 TextCtrl`::][*+75 PAPER`_NORMAL]]
-:: [s0;%% [+75 Normal paper color.]]
+:: [s0;%RU-RU [+75 Нормальный цвет бумаги.]]
 :: [s0; [+75 TextCtrl`::][*+75 PAPER`_READONLY]]
-:: [s0;%% [+75 Paper color when widget is read`-only.]]
+:: [s0;%RU-RU [+75 Цвет бумаги, когда виджет только 
+для чтения.]]
 :: [s0; [+75 TextCtrl`::][*+75 PAPER`_SELECTED]]
-:: [s0;%% [+75 Selected paper color.]]
+:: [s0;%RU-RU [+75 Цвет бумаги при выделении.]]
 :: [s0; [+75 TextCtrl`::][*+75 COLOR`_COUNT]]
-:: [s0;%% [+75 Total number of color indexes.]]}}&]
-[s3;%% &]
+:: [s0;%RU-RU [+75 Общее число индексов цвета.]]}}&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:GetColor`(int`)const: [_^Color^ Color]_[* GetColor]([@(0.0.255) int]_[*@3 i])
 _[@(0.0.255) const]&]
-[s2;%% Gets the color used to display the text.&]
-[s3;%% &]
+[s2;%RU-RU Выдаёт цвет, используемый для 
+отображения текста.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:View`(Upp`:`:Stream`&`,Upp`:`:byte`): [@(0.0.255) int]_[* View]([_^Upp`:`:Stream^ S
 tream][@(0.0.255) `&]_[*@3 s], [_^Upp`:`:byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT)&]
-[s2;%% Initiates the view mode. In view mode, file is not loaded, 
-but displayed while loading it from the stream as necessary. 
-TextCtrl retains a reference to [%-*@3 s] so it must exist for 
-the whole time it is displayed in TextCtrl. TextCtrl is in read`-only 
-mode for view operations. View allows viewing of files >2GB, 
-therefore some functions have 64`-bit counterparts working in 
-view mode only. View actually needs to scan the file to create 
-a map of file; this operation is performed in background (via 
-PostCallbacks), application can use SerializeViewMap to store 
-cache this map for particular file.&]
-[s3;%% &]
+[s2;%RU-RU Инициирует режим просмотра. В 
+режиме просмотра, файл не загружается, 
+но отображается по необходимости, 
+загружаясь из потока. TextCtrl снова приобретает
+ ссылку на поток [%-*@3 s], поэтому она 
+должна существовать всё время, пока 
+происходит отображение в TextCtrl`'е. 
+TextCtrl iнаходится в режиме только`-чтение 
+при операциях просмотра. Просмотр 
+позволяет просматривать файлы >2 ГБ, 
+следовательно у некоторых функций 
+есть 64`-битные `"двойники`", работающие 
+в режиме только просмотра. При просмотре 
+файл нуждается в сканировании и создании 
+маппинга; эта операция выполняется 
+в фоновом режиме (через PostCallbacks), приложение 
+может использовать SerializeViewMap для сохранения 
+кэшированного мапа для определённого 
+файла.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:WaitView`(int`,bool`): [@(0.0.255) void]_[* WaitView]([@(0.0.255) i
 nt]_[*@3 line], [@(0.0.255) bool]_[*@3 progress])&]
-[s2;%% While mapping of file for view is in progress, makes sure 
-that the file is mapped up to [%-*@3 line] or EOF. If [%-*@3 progress] 
-is true, progress is displayed.&]
-[s3;%% &]
+[s2;%RU-RU Пока проводится маппинг файла 
+для просмотра, этот метод гарантирует, 
+что файл будет маппирован до строки 
+[%-*@3 line] или EOF (КФ `- `"конца файла`"). Если 
+[%-*@3 progress] равно true, то прогресс отображается.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:LockViewMapping`(`): [@(0.0.255) void]_[* LockViewMapping]()&]
-[s2;%% Stops background mapping of file for view.&]
+[s2;%RU-RU Останавливает фоновый маппинг 
+файла для просмотра.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:UnlockViewMapping`(`): [@(0.0.255) void]_[* UnlockViewMapping]()&]
-[s2; Continues mapping of file for view.&]
+[s2; Продолжает маппирование файла для 
+просмотра.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:SerializeViewMap`(Upp`:`:Stream`&`): [@(0.0.255) void]_[* Seriali
 zeViewMap]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 s])&]
-[s2;%% Serializes the file view map.&]
-[s3;%% &]
+[s2;%RU-RU Сериализует мап просмотра файла.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:IsView`(`)const: [@(0.0.255) bool]_[* IsView]()_[@(0.0.255) const]&]
-[s2;%% Возвращает  true, если TextCtrl is in view mode.&]
+[s2;%RU-RU Возвращает true, если TextCtrl находится 
+в режиме просмотра.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetViewSize`(`)const: [_^Upp`:`:int64^ int64]_[* GetViewSize]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает GetSize of view stream.&]
+[s2;%RU-RU Возвращает GetSize потока просмотра.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetLinePos64`(Upp`:`:int64`&`)const: [@(0.0.255) int]_[* GetLineP
@@ -535,68 +629,76 @@ nt]_[*@3 ln], [@(0.0.255) int]_[*@3 lpos])_[@(0.0.255) const]&]
 onst]&]
 [s5;:Upp`:`:TextCtrl`:`:GetCursor64`(`)const: [_^Upp`:`:int64^ int64]_[* GetCursor64]()_[@(0.0.255) c
 onst]&]
-[s2;%% These are variants of GetLinePos, GetPos, GetLength and GetCursor64 
-for view mode (where values > INT`_MAX are possible).&]
+[s2;%RU-RU Это варианты GetLinePos, GetPos, GetLength 
+и GetCursor64 для режима просмотра (при 
+котором возможны значения > INT`_MAX).&]
 [s3; &]
 [s4; &]
 [s5;:TextCtrl`:`:UndoSteps`(int`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* UndoSteps]([@(0.0.255) i
 nt]_[*@3 n])&]
-[s2;%% Устанавливаетthe maximum number of undo steps.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает максимальное число 
+шагов undo.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:ProcessTab`(bool`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* ProcessTab]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% If active (default), widget accepts K`_TAB keystrokes (inserts 
+[s2;%RU-RU Если активен (дефолт), виджет принимает 
+нажатие клавиши табуляции K`_TAB (вставляет 
 `'`\t`').&]
-[s3;%% &]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:NoProcessTab`(`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* NoProcessTab]()
 &]
-[s2;%% То же, что и ProcessTab(false).&]
-[s3;%% &]
+[s2;%RU-RU То же, что и ProcessTab(false).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:ProcessEnter`(bool`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* ProcessEnte
 r]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% If active (non`-default), widget accepts K`_ENTER keystrokes 
-(inserts a new line).&]
-[s3;%% &]
+[s2;%RU-RU Если активен (недефолт), виджет 
+принимает нажатие клавиши K`_ENTER (вставляет 
+новую строку).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:NoProcessEnter`(`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* NoProcessEnte
 r]()&]
-[s2;%% То же, что и ProcessEnter(false).&]
+[s2;%RU-RU То же, что и ProcessEnter(false).&]
 [s3; &]
 [s4; &]
 [s5;:TextCtrl`:`:NoBackground`(bool`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* NoBackgroun
 d]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Устанавливаетthe widget into transparent mode `- background is not 
-painted and Transparent is activated `- a result, anything painted 
-behind the widget is visible, allowing client code to provide 
-any background it needs.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает виджет в прозрачный 
+режим `- фон не отрисовывается и активируется
+ Transparent `- в итоге видно всё, что отрисовано 
+за виджетом, что позволяет клиентскому 
+коду предоставлять любой необходимый 
+фон.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:MaxLength`(int`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* MaxLength]([@(0.0.255) i
 nt]_[*@3 len])&]
-[s2;%% Устанавливаетthe maximum size of text in unicode characters. Has to 
-be less than 1Gchars. The default is 400Mchars.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает максимальный размер 
+текста в символах unicode. Должен быть 
+менее 1Gchars. Дефолтно равен 400Mchars.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:TextCtrl`:`:IsProcessTab`(`): [@(0.0.255) bool]_[* IsProcessTab]()&]
-[s2;%% Tests whether ProcessTab mode is active.&]
-[s3;%% &]
-[s0;%% &]
-[s0;%% &]
-[s0;%% &]
-[ {{10000@3 [s0; [*@(229)4 TextCtrl`::UndoData]]}}&]
+[s2;%RU-RU Проверяет, активен ли режим ProcessTab.&]
+[s3;%RU-RU &]
+[s0;%RU-RU &]
+[s0;%RU-RU &]
+[s0;%RU-RU &]
+[ {{10000@3 [s0; [*@(229)4 Структура TextCtrl`::UndoData]]}}&]
 [s3; &]
 [s1;:TextCtrl`:`:UndoData`:`:struct: [@(0.0.255)3 struct][3 _][*3 UndoData]&]
-[s9;%% This structure contains informations about undo/redo state 
-of the widget. It can be with PickUndoData and SetPickUndoDate 
-to store and restore undo/redo state.&]
-[s3;%% &]
+[s9;%RU-RU Эта структура содержит информацию 
+о состоянии undo/redo виджета. Может быть 
+с PickUndoData и SetPickUndoDate для сохранения 
+и восстановления состояния undo/redo.&]
+[s3;%RU-RU &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:TextCtrl`:`:UndoData`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%% Clears the undo/redo state&]
-[s3;%% &]
-[s3;%% .]]
+[s2;%RU-RU Очищает состояние undo/redo&]
+[s3;%RU-RU &]
+[s3;%RU-RU .]]

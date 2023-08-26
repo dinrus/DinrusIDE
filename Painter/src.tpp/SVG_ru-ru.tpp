@@ -13,27 +13,33 @@ har]_`*[*@3 svg], [_^Callback2^ Callback2]<[_^String^ String], [_^String^ String
 ]>`&_[*@3 resloader])&]
 [s2;:RenderSVG`(Painter`&`,const char`*`): [@(0.0.255) bool]_[* RenderSVG]([_^Painter^ Pain
 ter][@(0.0.255) `&]_[*@3 p], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 svg])&]
-[s3; Renders [*@3 svg ]to Painter [*@3 p]. Use [*@3 resloader] to provide 
-resources like images, first String of callback is resource name 
-(filename), the data is to be returned in second parameter. Return 
-empty String if resource not found..&]
+[s3; Отображает [*@3 svg ]на Painter [*@3 p]. Используйте 
+[*@3 resloader], чтобы предоставить ресурсы 
+типа рисунков, первая String обрвыза 
+является именем ресурса (имя файла), 
+а данные будут возвращены во второй 
+параметр. Если ресурс не найден, возвратит 
+пустую строку.&]
 [s4; &]
 [s1; &]
 [s2;:GetSVGDimensions`(const char`*`,Sizef`&`,Rectf`&`): [@(0.0.255) void]_[* GetSVGDimen
 sions]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 svg], [_^Sizef^ Sizef][@(0.0.255) `&]_[*@3 s
 z], [_^Rectf^ Rectf][@(0.0.255) `&]_[*@3 viewbox])&]
-[s3; Возвращает size and viewbox attributes of SVG.&]
+[s3; Возвращает атрибуты size и viewbox для 
+SVG.&]
 [s4; &]
 [s1; &]
 [s2;:GetSVGBoundingBox`(const char`*`): [_^Rectf^ Rectf]_[* GetSVGBoundingBox]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 svg])&]
-[s3; Computes the complete bounding box of SVG.&]
+[s3; Вычисляет полностью ограничивающий 
+периметр SVG.&]
 [s4; &]
 [s1;%- &]
 [s2;:Upp`:`:GetSVGPathBoundingBox`(const char`*`):%- [_^Upp`:`:Rectf^ Rectf]_[* GetSVGPat
 hBoundingBox]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path])&]
-[s3; Возвращает the bounding box of [%-*@3 SVG] path stored in path element 
-format.&]
+[s3; Возвращает путь ограничивающего 
+периметра [%-*@3 SVG], сохранённый в формате 
+элемента пути.&]
 [s4; &]
 [s1; &]
 [s2;:RenderSVGImage`(Size`,const char`*`,Callback2`<String`,String`&`>`&`): [_^Image^ I
@@ -42,14 +48,18 @@ vg], [_^Callback2^ Callback2]<[_^String^ String], [_^String^ String][@(0.0.255) 
 esloader])&]
 [s2;:RenderSVGImage`(Size`,const char`*`): [_^Image^ Image]_[* RenderSVGImage]([_^Size^ Siz
 e]_[*@3 sz], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 svg])&]
-[s3; Renders SVG into Image. This function basically ignores dimensions 
-specified in SVG and uses computed bounding box. It is then scaled 
-into [*@3 sz] at maximum size preserving aspect ratio. Use [*@3 resloader] 
-to provide resources like images.&]
+[s3; Отображает SVG в Image. Как правило, эта 
+функция игнорирует размерности, определённы
+е в SVG, и использует вычисленный органичивающ
+ий периметр. Затем он масштабируется 
+в [*@3 sz] при максимальном размере, сохраняющем 
+пропорции. Используйте [*@3 resloader], чтобы 
+предоставить ресурсы типа рисунков.&]
 [s4; &]
 [s1;%- &]
 [s2;:Upp`:`:IsSVG`(const char`*`):%- [@(0.0.255) bool]_[* IsSVG]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 svg])&]
-[s3; Возвращает  true, если [%-*@3 svg] likely contains SVG image.&]
+[s3; Возвращает  true, если есть вероятность, 
+что [%-*@3 svg] содержит рисунок SVG.&]
 [s4; &]
 [s0; ]]

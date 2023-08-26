@@ -16,73 +16,84 @@ topic "Функции Выкладки";
 [s5;:InitLayout`(Ctrl`&`,L`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 L]>_[@(0.0.255) v
 oid]_[* InitLayout]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 ctrl], [*@4 L][@(0.0.255) `&]_[*@3 layou
 t])&]
-[s2; Assigns layout parameters to member Ctrl variables of [@3 layout], 
-and adds them to the specified [*@3 ctrl].&]
-[s7; [*C@4 L]-|Class (or structure) with Ctrl variables. Ctrl variables 
-must have public access.&]
-[s7; [%-*C@3 ctrl]-|Parent Ctrl.&]
-[s7; [%-*C@3 layout]-|[*C@4 L] instance.&]
+[s2; Присваивает параметры выкладки переменным`-
+членам Ctrl из [@3 layout], и добавляет их 
+указанному [*@3 ctrl].&]
+[s7; [*C@4 L]-|Класс (или структура) с переменными 
+Ctrl. У переменных Ctrl должен иметься 
+публичный доступ.&]
+[s7; [%-*C@3 ctrl]-|Родительский Ctrl.&]
+[s7; [%-*C@3 layout]-|Экземпляр [*C@4 L].&]
 [s3; &]
 [s4;%- &]
 [s5;:CtrlLayout`(T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) void
 ]_[* CtrlLayout]([*@4 T][@(0.0.255) `&]_[*@3 ctrl])&]
-[s2; Assigns layout parameters to member variables. Required layout 
-must be one of base classes of T.&]
-[s7; [*C@4 T]-|Parent Ctrl type.&]
-[s7; [%-*C@3 ctrl]-|Parent Ctrl.&]
+[s2; Присваивает параметры выкладки переменным`-
+членам. Требуемая выкладка должна 
+быть от одного из базовых классов 
+T.&]
+[s7; [*C@4 T]-|Тип родительского Ctrl`'а.&]
+[s7; [%-*C@3 ctrl]-|Родительский Ctrl.&]
 [s3; &]
 [s4;%- &]
 [s5;:CtrlLayout`(T`&`,const char`*`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_
 [@(0.0.255) void]_[* CtrlLayout]([*@4 T][@(0.0.255) `&]_[*@3 ctrl], [@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 title])&]
-[s2; Вызывает CtrlLayout and then calls Title method of [*@3 ctrl ](assigning 
-a caption text to the TopWindow).&]
-[s7; [*C@4 T]-|Parent Ctrl type.&]
-[s7; [%-*C@3 ctrl]-|Parent Ctrl.&]
-[s7; [%-*C@3 title]-|Window title.&]
+[s2; Вызывает CtrlLayout, а затем метод Title 
+у [*@3 ctrl ](присваивая текст заглавия 
+(caption text) окну TopWindow).&]
+[s7; [*C@4 T]-|Тип родительского Ctrl`'а.&]
+[s7; [%-*C@3 ctrl]-|Родительский Ctrl.&]
+[s7; [%-*C@3 title]-|Титул окна.&]
 [s3; &]
 [s4;%- &]
 [s5;:CtrlLayoutOK`(T`&`,const char`*`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>
 _[@(0.0.255) void]_[* CtrlLayoutOK]([*@4 T][@(0.0.255) `&]_[*@3 ctrl], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 title])&]
-[s2; Вызывает CtrlLayout and then assigns Acceptor(IDOK) to the [/ ok] 
-member Ctrl variable and makes it the default button (activated 
-by Enter).&]
-[s7; [*C@4 T]-|Parent Ctrl type.&]
-[s7; [%-*C@3 ctrl]-|Parent Ctrl.&]
-[s7; [%-*C@3 title]-|Window title.&]
+[s2; Вызывает CtrlLayout, а затем присваивает 
+Acceptor(IDOK) члену [/ ok] переменной`-члена 
+Ctrl`'а, и делает эту кнопку дефольной 
+(активируемой посредством Enter).&]
+[s7; [*C@4 T]-|Тип родительского Ctrl`'а.&]
+[s7; [%-*C@3 ctrl]-|Родительский Ctrl.&]
+[s7; [%-*C@3 title]-|Титул окна.&]
 [s3; &]
 [s4;%- &]
 [s5;:CtrlLayoutCancel`(T`&`,const char`*`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T
 ]>_[@(0.0.255) void]_[* CtrlLayoutCancel]([*@4 T][@(0.0.255) `&]_[*@3 ctrl], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 title])&]
-[s2; Вызывает CtrlLayout and then assigns Rejector(IDCANCEL) to the 
-[/ cancel] member Ctrl variable and makes it the default cancel 
-button (activated by Esc).&]
-[s7; [*C@4 T]-|Parent Ctrl type.&]
-[s7; [%-*C@3 ctrl]-|Parent Ctrl.&]
-[s7; [%-*C@3 title]-|Window title.&]
+[s2; Вызывает CtrlLayout, а затем присваивает 
+Rejector(IDCANCEL) члену [/ cancel] переменной`-члена 
+Ctrl`'а, и делает эту кнопку дефольной 
+кнопкой отмены (активируемой посредством 
+Esc).&]
+[s7; [*C@4 T]-|Тип родительского Ctrl`'а.&]
+[s7; [%-*C@3 ctrl]-|Родительский Ctrl.&]
+[s7; [%-*C@3 title]-|Титул окна.&]
 [s3; &]
 [s4;%- &]
 [s5;:CtrlLayoutOKCancel`(T`&`,const char`*`):%- [@(0.0.255) template]_<[@(0.0.255) class]_
 [*@4 T]>_[@(0.0.255) void]_[* CtrlLayoutOKCancel]([*@4 T][@(0.0.255) `&]_[*@3 ctrl], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 title])&]
-[s2; Вызывает CtrlLayoutOK and then assigns Rejector(IDCANCEL) to the 
-[/ cancel] member Ctrl variable and makes it the default cancel 
-button (activated by Esc).&]
-[s7; [*C@4 T]-|Parent Ctrl type.&]
-[s7; [%-*C@3 ctrl]-|Parent Ctrl.&]
-[s7; [%-*C@3 title]-|Window title.&]
+[s2; Вызывает CtrlLayoutOK, а затем присваивает 
+Rejector(IDCANCEL) члену [/ cancel] переменной`-члена 
+Ctrl`'а, и делает эту кнопку дефольной 
+кнопкой отмены (активируемой посредством 
+Esc).&]
+[s7; [*C@4 T]-|Тип родительского Ctrl`'а.&]
+[s7; [%-*C@3 ctrl]-|Родительский Ctrl.&]
+[s7; [%-*C@3 title]-|Титул окна.&]
 [s3; &]
 [s4;%- &]
 [s5;:CtrlLayoutExit`(T`&`,const char`*`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T
 ]>_[@(0.0.255) void]_[* CtrlLayoutExit]([*@4 T][@(0.0.255) `&]_[*@3 ctrl], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 title])&]
-[s2; Вызывает CtrlLayoutOK and then assigns Acceptor(IDEXIT) to the 
-[/ exit] member Ctrl variable and makes it the default button (activated 
-by Enter).&]
-[s7; [*C@4 T]-|Parent Ctrl type.&]
-[s7; [%-*C@3 ctrl]-|Parent Ctrl.&]
-[s7; [%-*C@3 title]-|Window title.&]
+[s2; Вызывает CtrlLayoutOK, а затем присваивает 
+Acceptor(IDEXIT) члену [/ exit] переменной`-члена 
+Ctrl`'а, и делает эту кнопку дефольной 
+(активируемой посредством Enter).&]
+[s7; [*C@4 T]-|Тип родительского Ctrl`'а.&]
+[s7; [%-*C@3 ctrl]-|Родительский Ctrl.&]
+[s7; [%-*C@3 title]-|Титул окна.&]
 [s3; &]
 [s0; ]]

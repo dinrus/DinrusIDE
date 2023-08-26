@@ -26,14 +26,14 @@ sh] base class, and has pick semantics.&]
 ]_[* Timeout]([@(0.0.255) int]_[*@3 ms])&]
 [s2;%% Устанавливаетtimeout value in miliseconds. Setting the timeout value 
 to Null puts the SshSession object into blocking mode. Возвращает 
-`*this for method chaining. Note that ssh subsystems and channels 
+`*this для сцепки методов. Note that ssh subsystems and channels 
 inherit their default timeout values from their session.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:Compression`(bool`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* Compression]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s2;%% Enables or disables Z compression for data transfers. Возвращает 
-`*this for method chaining. Compression is disabled by default. 
+`*this для сцепки методов. Compression is disabled by default. 
 This method affects the whole session. Therefore it must be invoked 
 either before any connection attempt or within the [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_Session`_ru`-ru`#Upp`:`:SshSession`:`:WhenConfig^ W
 henConfig] event. Compression schemes can be specified via the 
@@ -43,7 +43,7 @@ transport method settings.&]
 [s5;:Upp`:`:SshSession`:`:NoCompression`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* NoCompression]()&]
 [s2;%% Disables Z compression. То же, что и Compression(false). Возвращает 
-`*this for method chaining. Compression is disabled by default. 
+`*this для сцепки методов. Compression is disabled by default. 
 This method affects the whole session. Therefore it must be invoked 
 either before any connection attempt or within the [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_Session`_ru`-ru`#Upp`:`:SshSession`:`:WhenConfig^ W
 henConfig] event.&]
@@ -80,37 +80,37 @@ chaining.&]
 key`-value pairs, where keys represent possible method types, 
 and values represent a single or multiple transport method(s), 
 with the most preferred listed as first and the least preferred 
-as last. Возвращает `*this for method chaining.&]
+as last. Возвращает `*this для сцепки методов.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:PasswordAuth`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* PasswordAuth]()&]
 [s2;%% Устанавливаетthe authentication method to basic password authentication. 
-Возвращает `*this for method chaining.&]
+Возвращает `*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:PublicKeyAuth`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* PublicKeyAuth]()&]
 [s2;%% Устанавливаетthe authentication method to public key authentication. 
-Возвращает `*this for method chaining.&]
+Возвращает `*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:HostBasedAuth`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* HostBasedAuth]()&]
 [s2;%% Устанавливаетthe authentication method to host based authentication. 
-Возвращает `*this for method chaining.&]
+Возвращает `*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:KeyboardAuth`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* KeyboardAuth]()&]
 [s2;%% Устанавливаетthe authentication method to keyboard`-interactive (challenge/response) 
-authentication. Возвращает `*this for method chaining.&]
+authentication. Возвращает `*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:AgentAuth`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&]_
 [* AgentAuth]()&]
 [s2;%% Enables using an ssh`-agent for authentication. Возвращает this 
-for method chaining. This method requires public and private 
+для сцепки методов. This method requires public and private 
 keys to be present.&]
 [s3; &]
 [s4; &]

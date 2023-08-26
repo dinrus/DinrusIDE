@@ -527,7 +527,7 @@ void Ide::SyncT(int kind)
 	for(int iPackage = 0; iPackage < wspc.GetCount(); iPackage++) {
 		const Package& pk = wspc.GetPackage(iPackage);
 		String n = wspc[iPackage];
-		pi.SetText("Скануруется " + n);
+		pi.SetText("Сканируется " + n);
 		if(pi.StepCanceled()) return;
 		VectorMap<String, LngEntry> pmap;
 		for(int iFile = 0; iFile < pk.file.GetCount(); iFile++) {

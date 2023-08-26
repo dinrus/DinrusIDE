@@ -156,7 +156,7 @@ void Ide::BTabs()
 	btabs.Add(IdeImg::ff2, "Найти в файлах 2");
 	btabs.Add(IdeImg::ff3, "Найти в файлах 3");
 	btabs.Add(IdeImg::calc, "Калькулятор");
-	btabs.Add(IdeImg::IdeAux, "Редактор 2");
+//	btabs.Add(IdeImg::IdeAux, "Редактор 2");
 	if(bottomctrl)
 		btabs.Add(IdeImg::debug, "Отладка");
 }

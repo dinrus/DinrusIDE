@@ -1,4 +1,4 @@
-topic "Esc scripting language";
+topic "Язык сценариев Esc";
 [b133;a83;*+117 $$1,0#31310162474203024125188417583966:subtitle]
 [H4;b83;*+150 $$2,0#07864147445237544204411237157677:title]
 [l321;C@5;1 $$3,3#20902679421464641399138805415013:code]
@@ -6,38 +6,45 @@ topic "Esc scripting language";
 [a83;*6 $$5,5#B3A4428F1E67450ED340E28F681B00E8:caption]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s5; Esc scripting language&]
-[s2; Table of contents&]
+[s5; Язык сценариев Esc&]
+[s2; Содержание&]
 [s0; &]
-[s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#1^ 1. Introduction]&]
-[s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2^ 2. Value types]&]
+[s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#1^ 1. Введение]&]
+[s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2^ 2. Типы значений]&]
 [s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_1^ 2.1 Voids]&]
-[s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_2^ 2.2 Numbers]&]
-[s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_3^ 2.3 Arrays]&]
-[s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_4^ 2.4 Maps]&]
-[s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_5^ 2.5 Lambdas]&]
-[s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#3^ 3. Variables and contexts]&]
-[s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#4^ 4. Expressions]&]
-[s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#5^ 5. Statements]&]
-[s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#6^ 6. Standard library]&]
+[s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_2^ 2.2 Числа]&]
+[s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_3^ 2.3 Массивы]&]
+[s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_4^ 2.4 Мапы]&]
+[s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_5^ 2.5 Лямбды]&]
+[s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#3^ 3. Переменные 
+и контексты]&]
+[s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#4^ 4. Выражения]&]
+[s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#5^ 5. Инструкции]&]
+[s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#6^ 6. Стандартная 
+библиотека]&]
 [s0; &]
-[s2;:1: 1. Introduction&]
-[s4; Esc is a simple scripting language intended for embedding in 
-Ultimate`+`+ applications.&]
-[s4; It is typeless, value oriented language with simple interfacing 
-with C`+`+/U`+`+ code. It is very simple yet quite complete language.&]
-[s2;:2: 2. Value types&]
+[s2;:1: 1. Введение&]
+[s4; Esc является простым языком сценариев, 
+предназначенным для внедрения в приложения 
+Ultimate`+`+.&]
+[s4; Он безтипный, ориентированный на 
+значения, язык с простым кодом, имеющий 
+интерфес к C`+`+/U`+`+. Очень простой, но 
+дастаточно полноценный, язык.&]
+[s2;:2: 2. Типы значений&]
 [s1;:2`_1: 2.1 Voids&]
-[s4; All variables have void value before assigned any other value. 
-Void type has single value&]
+[s4; Все переменные имеют значение void 
+до присвоения им любого другого  значения. 
+У типа Void одно значение&]
 [s0; &]
 [s3; void&]
 [s0; &]
-[s4; and expression can be tested for voidness using [@(128.0.255) is`_void] 
-function.&]
-[s1;:2`_2: 2.2 Numbers&]
-[s4; Number is floating point number (corresponding to C type double). 
-Examples of number literals:&]
+[s4; и можно проверить выражение на voidness 
+с помощью функции [@(128.0.255) is`_void].&]
+[s1;:2`_2: 2.2 Числа&]
+[s4; Число `- это число с плавающей запятой 
+(соответствующее типу Си double). Примеры 
+числовых литералов:&]
 [s0; &]
 [s3; 1&]
 [s3; 1.123&]
@@ -47,8 +54,9 @@ Examples of number literals:&]
 [s3; 0b10100100  [@4 // binary]&]
 [s3; `'x`'         [@4 // character code]&]
 [s0; &]
-[s4; Esc supports common C`-like operations for number values.&]
-[s1;:2`_3: 2.3 Arrays&]
+[s4; Esc поддерживает общие операции, наподобии 
+как в Си, для числовых значений.&]
+[s1;:2`_3: 2.3 Массивы&]
 [s4; Arrays are ordered random access sequences of other Esc values 
 (nested arrays included). Array values are specified using [@(128.0.255) `[`]] 
 brackets:&]
@@ -156,7 +164,7 @@ array is replaced:&]
 [s0; &]
 [s4; Esc allows [/ void] value on the right side of array concatenation 
 expression `- in such cases, operator has no effect.&]
-[s1;:2`_4: 2.4 Maps&]
+[s1;:2`_4: 2.4 Мапы&]
 [s4; Maps contain key`-value pairs as entries. Normal subscripts 
 [@(128.0.255) `[`]] are used to access map entries:&]
 [s0; &]
@@ -195,7 +203,7 @@ this job easier, special [/ .field] syntax is supported:&]
 [s3; `{ 2 `* a : `"100`" `}                 [@4 // map values can contain 
 expressions]&]
 [s0; &]
-[s1;:2`_5: 2.5 Lambdas&]
+[s1;:2`_5: 2.5 Лямбды&]
 [s4; Lambdas represent executable Esc code. Lambda values are introduced 
 using [@(128.0.255) `@] character:&]
 [s0; &]
@@ -225,7 +233,7 @@ is available:&]
 [s0; &]
 [s3; #:foo(x) `{ return 2 `* x; `}&]
 [s0; &]
-[s2;i150;O9;:3: 3. Variables and contexts&]
+[s2;i150;O9;:3: 3. Переменные и контексты&]
 [s4; Variable names in Esc follow C principles (are case sensitive, 
 start with alphabetic character or [@(128.0.255) `_] and can contain 
 alphabetic characters, [@(128.0.255) `_] and numbers).&]
@@ -263,15 +271,15 @@ and [*@(128.0.255) :] can still be used to designate context:&]
 [s3; :beta(x) [@4 // calls global beta even if local or instance beta 
 is present]&]
 [s0; &]
-[s2;:4: 4. Expressions&]
+[s2;:4: 4. Выражения&]
 [s4; When expressions are used as logical values, void, zero number 
 and map or array with zero elements represent [/ false], other 
 values are [/ true.]&]
 [s4; In following table, thick lines divide operators with the same 
 priority, with topmost items having the highest priority:&]
 [s0; &]
-[ {{4468:5532h1;@(216) [s0; Operator]
-:: [s0; Comments]
+[ {{4468:5532h1;@(216) [s0; Оператор]
+:: [s0; Комментарии]
 ::^@2 [s0; [/C map][*C `[][/C key][*C `]]]
 :: [s0; Map value at [/ key].]
 :: [s0; [/C map][*C .][/C field]]
@@ -376,10 +384,10 @@ just skipped.]
 :: [s0; То же, что и [C l`-number `= l`-number % number].]}}&]
 [s0; &]
 [s0; &]
-[s2;:5: 5. Statements&]
+[s2;:5: 5. Инструкции&]
 [s0; &]
-[ {{4508:5492h1;@(216) [s0; Statement]
-:: [s0; Comments]
+[ {{4508:5492h1;@(216) [s0; Инструкция]
+:: [s0; Комментарии]
 ::^@2 [s0; [*C ;]]
 :: [s0; Empty statement.]
 :: [s0; [/C expression][*C ;]]
@@ -436,10 +444,10 @@ case and default exists, does nothing.]
 :: [s0; [*C #:][/C name][*C (][/C args][*C ) `{ ... `}]]
 :: [s0; То же, что и [C :][/C name][C  `= `@(][/C args][C ) `{ ... `};]]}}&]
 [s0; &]
-[s2;:6: 6. Standard library&]
+[s2;:6: 6. Стандартная библиотека&]
 [s0;3 &]
-[ {{2479:7521h1;@(216) [s0; Function]
-:: [s0; Comments]
+[ {{2479:7521h1;@(216) [s0; Функция]
+:: [s0; Комментарии]
 ::^@2 [s0; [*C is`_number(][/C x][*C )]]
 :: [s0; Возвращает 1 if [/ x] is a number, 0 otherwise.]
 :: [s0; [*C is`_array(][/C x][*C )]]
@@ -461,11 +469,11 @@ case and default exists, does nothing.]
 [s0; If x is an map, returns number of entries in this map with non`-void 
 values.]
 :: [s0; [*C keys(][/C map][*C )]]
-:: [s0; Возвращает array of keys of map (ordering is the same as for [* values] 
-function, otherwise is unspecified).]
+:: [s0; Возвращает array of keys of map (ordering is the same 
+as for [* values] function, otherwise is unspecified).]
 :: [s0; [*C values(][/C map][*C )]]
-:: [s0; Возвращает array of values of map (ordering is the same as for 
-[* keys] function, otherwise is unspecified).]
+:: [s0; Возвращает array of values of map (ordering is the 
+same as for [* keys] function, otherwise is unspecified).]
 :: [s0; [*C rand()]]
 :: [s0; Возвращает random number in range 0..32767.]
 :: [s0; [*C reverse(][/C array][*C )]]
@@ -475,14 +483,14 @@ function, otherwise is unspecified).]
 :: [s0; [*C order(][/C array][*C )]]
 :: [s0; Возвращает sort order of elements in the [/ array].]
 :: [s0; [*C IsDate(][/C map][*C )]]
-:: [s0; Возвращает 1 if map contains `"day`", `"month`" and `"year`" keys, 
-0 otherwise.]
+:: [s0; Возвращает 1 if map contains `"day`", `"month`" and 
+`"year`" keys, 0 otherwise.]
 :: [s0; [*C IsTime(][/C map][*C )]]
-:: [s0; Возвращает 1 if map contains `"second`", `"minute`", `"hour`", 
-`"day`", `"month`" and `"year`" members, 0 otherwise.]
+:: [s0; Возвращает 1 if map contains `"second`", `"minute`", 
+`"hour`", `"day`", `"month`" and `"year`" members, 0 otherwise.]
 :: [s0; [*C GetSysTime()]]
-:: [s0; Возвращает current time as map with `"second`", `"minute`", `"hour`", 
-`"day`", `"month`" and `"year`" members.]
+:: [s0; Возвращает current time as map with `"second`", `"minute`", 
+`"hour`", `"day`", `"month`" and `"year`" members.]
 :: [s0; [*C sin(][/C x][*C )]&]
 [s0; [*C cos(][/C x][*C )]&]
 [s0; [*C tan(][/C x][*C )]&]

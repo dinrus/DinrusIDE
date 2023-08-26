@@ -203,7 +203,7 @@ bool RepoSync::ListGit(const String& path)
 			}
 			else {
 				static const char *as[] = {
-					"Изменить", "Разрещён", "Добавить", "Удалить", "Переименовать"
+					"Изменить", "Разрешён", "Добавить", "Удалить", "Переименовать"
 				};
 				static Color c[] = { LtBlue, Magenta, Green, LtRed, LtMagenta };
 				an = as[action];

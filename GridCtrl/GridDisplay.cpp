@@ -39,7 +39,7 @@ void GridDisplay::SetDefault()
 void GridDisplay::SetTheme(int th)
 {
 	theme = th;
-	hdrhigh = Contrast(vhdr[theme](), 230);	
+	hdrhigh = Contrast(vhdr[theme](), 230);
 }
 
 WString GridDisplay::GetStdConvertedValue(const Value &v) const
@@ -114,7 +114,7 @@ void GridDisplay::PaintFixed(Draw &w, bool firstx, bool firsty, int x, int y, in
 {
 	real_size.cx = 0;
 	real_size.cy = 0;
-	
+
 	bool chameleon = style & GD::CHAMELEON;
 	bool highlight = style & GD::HIGHLIGHT;
 	bool readonly  = style & GD::READONLY;
@@ -224,13 +224,13 @@ void GridDisplay::PaintFixed(Draw &w, bool firstx, bool firsty, int x, int y, in
 
 		tx += 3;
 	}
-	
+
 	if(indicator)
 	{
 		w.Clip(x, y, cx, cy);
 
 		Image img;
-		
+
 		if((style & GD::CURSOR) && (style & GD::SELECT))
 		{
 			img = GridImg::FocSel();
@@ -254,10 +254,10 @@ void GridDisplay::PaintFixed(Draw &w, bool firstx, bool firsty, int x, int y, in
 			if(!IsNull(val))
 				tx += isz.cx + 3;
 		}
-		
+
 		w.End();
 	}
-	
+
 	if(cx > lm + rm && cy > tm + bm)
 	{
 		int nx = x + lm;
@@ -284,7 +284,7 @@ int GridDisplay::GetLinesCount(int cx, const wchar* s, const Font& font, bool wr
 
 	const wchar *p = s;
 	const wchar *t = s;
-		
+
 	const wchar * e = t;
 	int ccx = max(5, cx);
 	int enters = 0;
@@ -304,15 +304,15 @@ int GridDisplay::GetLinesCount(int cx, const wchar* s, const Font& font, bool wr
 				{
 					lines += tcx / ccx;
 					if(tcx % ccx > 0)
-						lines++;						
+						lines++;
 				}
 				else
 					lines++;
-				
+
 			}
 			else
 				lines++;
-			
+
 			e = p + 1;
 		}
 		p++;
@@ -361,7 +361,7 @@ void GridDisplay::DrawText(Draw &w, int mx, int x, int y, int cx, int cy, int al
 		const wchar * pp = p;
 
 		bool textbreak = false;
-		
+
 		if(nextline || endtext)
 		{
 			/*int kk = p - t;
@@ -421,11 +421,11 @@ void GridDisplay::DrawText(Draw &w, int mx, int x, int y, int cx, int cy, int al
 			if(dots)
 			{
 				real_size.cx = max(real_size.cx, tsz.cx);
-				
+
 				w.Clip(x, y, cx, cy);
 				w.DrawImage(x + cx - isz.cx, ty + font.Info().GetAscent() - isz.cy, GridImg::Dots2, tfg);
 				w.End();
-				
+
 				if(p > t)
 				{
 					w.Clip(x, y, cx - isz.cx , cy);
@@ -439,7 +439,7 @@ void GridDisplay::DrawText(Draw &w, int mx, int x, int y, int cx, int cy, int al
 			ty += tcy;
 			t = textbreak ? p : (p = pp + 1);
 		}
-		
+
 		if(caret)
 			*(char *) p = ' ';
 

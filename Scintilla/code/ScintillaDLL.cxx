@@ -7,11 +7,15 @@
 
 #ifndef GTK
 
+#include <Core/Core.h>
+
+#ifdef PLATFORM_WIN32
+
 #undef _WIN32_WINNT
 #define _WIN32_WINNT 0x0500
 #undef WINVER
 #define WINVER 0x0500
-#include <windows.h>
+
 
 #include "../ScintillaTypes.h"
 #include "ScintillaWin.h"
@@ -39,4 +43,5 @@ extern "C" int APIENTRY DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpvR
 }
 */
 
+#endif
 #endif

@@ -1,4 +1,4 @@
-topic "LabelBase - basic label routines";
+topic "Класс LabelBase - основные процедуры с ярлыками";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,22 +10,33 @@ topic "LabelBase - basic label routines";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s0; [*+150 Label routines]&]
-[s3; &]
-[s0; LabelBase.h contains functions and simple helper classes used 
-to implement Ctrls with text, images and accelerator keys.&]
-[s0; Generally, format of text used by LabelBase facilities is either 
-simple multi`-line or [^topic`:`/`/RichText`/srcdoc`/QTF`$en`-us^ QTF]:&]
-[s0;i150;O2; If first character of text is `'`\1`', text is QTF (starting 
-with next character).&]
-[s0;i150;O2; If first character is NOT `'`\1`', text is simple multi`-line 
-text with `'`\n`' used as line separator.&]
-[s0; In both cases, `'`&`' or `'`\b`' are used as accelerator key 
-flags. If `'`&`' should be the part of text, it must be escaped 
-as `"`&`&`".&]
-[s0; This format is formally named `"SmartText`".&]
-[s0; Note also that U`+`+ normally distributes accelerator keys automatically. 
-Providing accelerator keys is thus usually unnecessary.&]
+[ {{10000@3 [s0;# [*@7$3+150 Процедуры с ярлыками]]}}&]
+[s0;# &]
+[s0;# LabelBase.h содержит функции и простые 
+вспомогательные классы, используемые 
+для реализации контролов с текстом, 
+рисунками и клавишами`-акселераторами.&]
+[s0; Как правило, формат текста, используемого 
+средствами LabelBase, либо простой многострочный
+, либо [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru^ QTF]:&]
+[s0;i150;O2; Если первый символ текста `'`\1`', 
+то текст QTF (начиная со следующего 
+символа).&]
+[s0;i150;O2; Если первый символ НЕ `'`\1`', то 
+текст простой многострочник с `'`\n`', 
+в качестве разделителя строк.&]
+[s0; В обоих случаях, `'`&`' или `'`\b`' используются 
+как флаги клавиш`-акселераторов. Если 
+`'`&`' должен быть частью текста, он 
+эскапируется посредством записи 
+`"`&`&`".&]
+[s0; Этот формат формально называется 
+`"SmartText`".&]
+[s0; Заметьте также, что U`+`+, как правило, 
+распределяет клавиши`-акселераторы 
+автоматически. Поэтому предоставлять 
+клавиши`-акселераторы не имеется 
+никакой необходимости.&]
 [s3; &]
 [s0; &]
 [s5;:DeAmp`(const char`*`):%- [_^String^ String]_[* DeAmp]([@(0.0.255) const]_[@(0.0.255) cha
@@ -40,10 +51,10 @@ flag.&]
 [s5;:GetSmartTextSize`(const char`*`,Font`,int`):%- [_^Size^ Size]_[* GetSmartTextSize]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 text], [_^Font^ Font]_[*@3 font]_`=_StdFont(), 
 [@(0.0.255) int]_[*@3 cx]_`=_INT`_MAX)&]
-[s2; Возвращает the minimal size of SmartText. If text is multi`-paragraph 
-QTF text, width of text is the width of widest paragraph without 
-doing any line breaks (paragraphs are formatted for infinite 
-width).&]
+[s2; Возвращает the minimal size of SmartText. If text 
+is multi`-paragraph QTF text, width of text is the width of widest 
+paragraph without doing any line breaks (paragraphs are formatted 
+for infinite width).&]
 [s7; [%-*C@3 w]-|Draw.&]
 [s7; [%-*C@3 text]-|SmartText string.&]
 [s7; [%-*C@3 font]-|Font for non`-QTF text.&]
@@ -53,8 +64,8 @@ width).&]
 [s5;:GetSmartTextHeight`(const char`*`,int`,Font`):%- [@(0.0.255) int]_[* GetSmartTextHei
 ght]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s], [@(0.0.255) int]_[*@3 cx], 
 [_^Font^ Font]_[*@3 font]_`=_StdFont())&]
-[s2; Возвращает the height of given SmartText for given width. QTF paragraphs 
-are formatted for this width.&]
+[s2; Возвращает the height of given SmartText for given 
+width. QTF paragraphs are formatted for this width.&]
 [s7; [%-*C@3 w]-|Draw.&]
 [s7; [%-*C@3 s]-|SmartText string.&]
 [s7; [%-*C@3 cx]-|Required width.&]
@@ -106,13 +117,13 @@ onst]_[@(0.0.255) char]_`*[*@3 s], [_^dword^ dword]_[*@3 used])&]
 [s7; [%-*C@3 used]-|Bit`-set of already used access`-keys. Bit`-mask 
 of specific access`-key is defined by [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:AccessKeyBit`(byte`)^ C
 trl`::AccessKeyBit] class method.&]
-[s7; [*/ Возвратное значение]-|Access`-key or 0 if no suitable access`-key 
-found.&]
+[s7; [*/ Возвратное значение]-|Access`-key or 0 if 
+no suitable access`-key found.&]
 [s3; &]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@3 [s0; [*@(229)4 DrawLabel]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Структура DrawLabel]]}}&]
 [s3; &]
 [s1;:DrawLabel`:`:struct:%- [@(0.0.255)3 struct][3 _][*3 DrawLabel]&]
 [s9; This structure in fact just encapsulates generic label painting 
@@ -122,16 +133,16 @@ routine that otherwise would have way too much parameters.&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:DrawLabel`:`:DrawLabel`(`):%- [* DrawLabel]()&]
-[s2; Дефолтный конструктор. Default values are documented in attributes 
-descriptions.&]
+[s2; Дефолтный конструктор. Default values are 
+documented in attributes descriptions.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:DrawLabel`:`:GetSize`(int`)const:%- [_^Size^ Size]_[* GetSize]([@(0.0.255) int]_[*@3 txt
 cx]_`=_INT`_MAX)_[@(0.0.255) const]&]
-[s2; Возвращает the size of label based on current set of attributes. 
-[%-*@3 txtcx] specifies the maximum width of text.&]
+[s2; Возвращает the size of label based on current set 
+of attributes. [%-*@3 txtcx] specifies the maximum width of text.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:Paint`(Draw`&`,const Rect`&`,bool`)const:%- [_^Size^ Size]_[* Paint]([_^Draw^ D
@@ -235,7 +246,7 @@ at the right size of Label.&]
 [s0; &]
 [s0;3 &]
 [s0;%- &]
-[ {{10000@3 [s0; [*@(229)4 LabelBase]]}}&]
+[ {{10000@3 [s0; [*@(229)4 Класс LabelBase]]}}&]
 [s3; &]
 [s1;:LabelBase`:`:class:%- [@(0.0.255)3 class][3 _][*3 LabelBase]&]
 [s9; This class encapsulates basic DrawLabel struct into form suitable 
@@ -262,7 +273,8 @@ is placed at left size of Label.&]
 [s4;%- &]
 [s5;:LabelBase`:`:SetPaintRect`(const PaintRect`&`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&
 ]_[* SetPaintRect]([@(0.0.255) const]_[_^PaintRect^ PaintRect][@(0.0.255) `&]_[*@3 pr])&]
-[s2; УстанавливаетPaintRect to be drawn behind or instead of label text.&]
+[s2; УстанавливаетPaintRect to be drawn behind or instead 
+of label text.&]
 [s7; [%-*C@3 pr]-|PaintRect&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
@@ -352,7 +364,8 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:GetAlign`(`)const:%- [@(0.0.255) int]_[* GetAlign]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|Current horizontal alignment.&]
+[s7; [*/ Возвратное значение]-|Current horizontal 
+alignment.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:GetVAlign`(`)const:%- [@(0.0.255) int]_[* GetVAlign]()_[@(0.0.255) const]&]

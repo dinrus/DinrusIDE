@@ -365,7 +365,7 @@ bool Pdb::RunToException()
 				                            STATUS_WX86_BREAKPOINT, STATUS_WX86_SINGLE_STEP) < 0)
 				{
 					LLOG("Non-debug EXCEPTION");
-					String desc = Format("Exception: [* %lX] at [* %16llX]&",
+					String desc = Format("Исключение: [* %lX] по [* %16llX]&",
 					                     (int64)x.ExceptionCode, (int64)x.ExceptionAddress);
 					bool known = false;
 					for(int i = 0; i < __countof(ex_desc); i++)
@@ -389,7 +389,7 @@ bool Pdb::RunToException()
 						ErrorOK(desc);
 					}
 					else
-					if(!Prompt(Ctrl::GetAppName(), CtrlImg::error(), desc, t_("OK"), t_("Stop"))) {
+					if(!Prompt(Ctrl::GetAppName(), CtrlImg::error(), desc, t_("OK"), t_("Стоп"))) {
 						Stop();
 						return false;
 					}

@@ -21,7 +21,6 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <map>
 #include <vector>
 #include <assert.h>
-//#include <windows.h>
 
 #include "Scintilla/ILexer.h"
 #include "Scintilla/Scintilla.h"
@@ -33,6 +32,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include "../lexlib/StyleContext.h"
 #include "../lexlib/LexerModule.h"
 #include "../lexlib/PropSetSimple.h"
+#include <string.h>
 
 using namespace Lexilla;
 

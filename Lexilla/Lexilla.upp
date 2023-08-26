@@ -2,9 +2,6 @@ description "\3770,128,128";
 
 noblitz;
 
-uses
-	Scintilla;
-
 options(CLANG) "-DUNICODE -Wpedantic -Wall -Os";
 
 file

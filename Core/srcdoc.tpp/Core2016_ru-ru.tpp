@@ -1,4 +1,4 @@
-topic "New features of U++ Core 2016 (C++11)";
+topic "Новые фичи U++ Core 2016 (C++11)";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [H4;b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -22,7 +22,7 @@ topic "New features of U++ Core 2016 (C++11)";
 [b50;2 $$21,21#03324558446220344731010354752573:Par]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; New features of U`+`+ Core 2016 (C`+`+11)&]
+[s2; Новые фичи U`+`+ Core 2016 (C`+`+11)&]
 [s3; Содержание&]
 [s0; &]
 [s0; [^topic`:`/`/Core`/srcdoc`/Core2016`_ru`-ru`#1^ 1. Allocator]&]
@@ -149,7 +149,7 @@ of 32`-bit int)&]
 WStringBuffer, StringStream.&]
 [s5;l128;i150;O0; StringStream now has SizeLimit option, if breached 
 (when storing data to StringStream), exception is thrown.&]
-[s5;l128;i150;O0; NanoString'и class is removed.&]
+[s5;l128;i150;O0; NanoString`'и class is removed.&]
 [s5;l128;i150;O0; HashFn / precomputed hash options in Index/Maps 
 are removed.&]
 [s5;l128;i150;O0; Index/Maps are further optimized (about 5% gain 

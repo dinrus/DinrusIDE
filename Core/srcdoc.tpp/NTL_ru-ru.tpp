@@ -50,27 +50,37 @@ maps]&]
 [s5; Примеры кода найдутся в [^topic`:`/`/Core`/srcdoc`/Tutorial`_ru`-ru^ У
 чебнике по Core].&]
 [s3;:2: [@(28.127.0) 2. Случайный доступ]&]
-[s5; Each single NTL container template that can store more than 
-one element has random access. This random access is as fast 
-as access using iterators so for iterating elements you can use 
-indices rather than iterators and we recommend this approach.&]
+[s5; У каждого единичного шаблона контейнера 
+NTL, который может хранить более одного 
+элемента, случайный доступ. Этот случайный 
+доступ так же быстр, как доступ с использован
+ием итераторов. Для итерации элементов 
+можно использовать индексы, а не итераторы, 
+и мы рекомендуем такой подход.&]
 [s3;:3: [@(28.127.0) 3. Требования]&]
-[s5; An important feature of NTL are requirements for stored elements. 
-Unlike STL, which has single [/ copy`-constructible] and [/ assignable] 
-requirement for whole library, NTL makes requirements on per 
-container and even per method basis. This way NTL allows [/ direct] 
-storing of [/ any] type of elements. NTL provides two or even three 
-flavors for each basic ADT kind of container relative to requirements 
-for elements.&]
-[s3;:4: [@(28.127.0) 4. Flavors]&]
-[s5; [*/ Vector] flavor of containers requires types to be [*/^dpp`:`/`/SourceDoc`/Containers`/Moveable^ m
-oveable] and have either [*/^dpp`:`/`/SourceDoc`/Containers`/pick`_^ deep 
-copy constructor][^dpp`:`/`/SourceDoc`/Containers`/pick`_^  ]and 
-operator, [*/^dpp`:`/`/SourceDoc`/Containers`/pick`_^ pick constructor] 
-and operator or default constructor. Containers of this flavor 
-have word [* Vector] in their their names, with the exception of 
-[* Index] which is also of this flavor. This flavor has the best 
-runtime characteristics.&]
+[s5; Важная фича NTL `- требования к сохраняемым 
+элементам. В отличие от STL, у которой 
+есть единое [/ copy`-constructible] и [/ assignable] требование 
+для всей библиотеки, NTL выставляет 
+требования на `"по контейнерной`" и 
+даже `"по методной`" основе. Таким образом 
+NTL разрешает [/ прямое] сохранение [/ любого] 
+типа элементов. NTL предоставляет два 
+или даже три флейвора для каждого 
+базового ADT типа контейнера, относящихся 
+к требованиям к элементам.&]
+[s3;:4: [@(28.127.0) 4. Флейворы]&]
+[s5; [*/ Vector] `- флейвор контейнеров, требующий, 
+чтобы типы были [*/^topic`:`/`/Core`/srcdoc`/Moveable`_ru`-ru^ moveabl
+e (перемещаемыми)] и имели либо [*/^topic`:`/`/Core`/srcdoc`/pick`_`_ru`-ru^ d
+eep copy constructor (конструктор глубокой 
+копии)] и оператор, либо [*/^topic`:`/`/Core`/srcdoc`/pick`_`_ru`-ru^ p
+ick constructor (пик`-конструктор)] и оператор 
+или дефолтный конструктор. Контейнеры 
+этого флейвора имеют в имени слово 
+[* Vector], за исключением [* Index], который 
+также из этого флейвора. У этого флейвора 
+наилучшие рантаймные характеристики.&]
 [s5; [*/ Array] flavor of containers has [*/ no][/  ]common requirements 
 for elements, but is less efficient. You can use it to store 
 even polymorphic types. Type of stored elements does not even 
@@ -82,9 +92,10 @@ name.&]
 [s3;:5: [@(28.127.0) 5. Контейнеры как возвратные 
 значения]&]
 [s5; NTL allows containers to be used as return values, in single 
-constant time operation. It is allowed by defining specific [*/^topic`:`/`/Core`/src`/pick`_`$en`-us^ t
+constant time operation. It is allowed by defining specific [*/^topic`:`/`/Core`/srcdoc`/pick`_`_ru`-ru^ t
 ransfer semantics][/ .]&]
-[s3;:6: [@(28.127.0) 6. Basic random access containers]&]
+[s3;:6: [@(28.127.0) 6. Базовые контейнеры случайного 
+доступа]&]
 [s5; This kind of containers allows adding/removing elements at the 
 end of the sequence in amortized constant time. As these containers 
 are basic building blocks for NTL, their names are the same as 
@@ -92,12 +103,12 @@ names for all three flavors. [* Vector] flavor allows direct access
 to underlying C vector of elements. [* Vector] and [* Array] flavors 
 allow removing and inserting of elements at any position (with 
 complexity based on number of elements moved).&]
-[s3;:7: [@(28.127.0) 7. Bidirectional containers]&]
+[s3;:7: [@(28.127.0) 7. Двунаправленные контейнеры]&]
 [s5; This kind of containers allows adding/removing elements to/from 
 both beginning and end of sequence in constant amortized time. 
 It is well suited for FIFO operations. [* BiVector] and [* BiArray] 
 are two flavors of bidirectional containers.&]
-[s3;:8: [@(28.127.0) 8. Index]&]
+[s3;:8: [@(28.127.0) 8. Индекс]&]
 [s5; Basically, this kind of container provides random access sequence 
 that allows adding elements at the end of sequence in constant 
 amortized time (much like basic random access containers) with 
@@ -117,7 +128,7 @@ operations are shared in common template class [* AIndex], which
 represents index container without concrete flavor. [* Index] and 
 [* ArrayIndex] are derived from this [* AIndex], adding few operations 
 specific for their flavors.&]
-[s3;:9: [@(28.127.0) 9. Maps]&]
+[s3;:9: [@(28.127.0) 9. Мапы]&]
 [s5; Basically, maps are just simple compositions of Index and basic 
 random access container to store values, thus getting classical 
 map design. In find operation, position of key in Index is retrieved 
@@ -130,7 +141,7 @@ be moveable). [* VectorMap], [* ArrayMap] and [* SegtorMap] are flavors
 of maps. As with [* Index], the common operations of this flavor 
 are implemented in template base class [* AMap]. Also, picking 
 operations for any part of maps are available.&]
-[s3;:10: [@(28.127.0) 10. InVector and Sorted maps]&]
+[s3;:10: [@(28.127.0) 10. InVector и Сортированные Мапы]&]
 [s5; NTL provides random access containers with fast insertion at 
 arbitrary position, which scale well to milions of items. These 
 containers then provide basis for `'sorted maps`' that are using 

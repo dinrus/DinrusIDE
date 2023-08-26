@@ -292,7 +292,7 @@ queue.&]
 [s5;:Upp`:`:SshShell`:`:PageSize`(Upp`:`:Size`):%- [_^Upp`:`:SshShell^ SshShell][@(0.0.255) `&
 ]_[* PageSize]([_^Upp`:`:Size^ Size]_[*@3 sz])&]
 [s2; Устанавливаетthe terminal view size as character cells to [%-*@3 sz]. 
-Возвращает `*this for method chaining.&]
+Возвращает `*this для сцепки методов.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SshShell`:`:GetPageSize`(`)const:%- [_^Upp`:`:Size^ Size]_[* GetPageSize]()_[@(0.0.255) c

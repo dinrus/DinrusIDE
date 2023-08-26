@@ -128,7 +128,7 @@ again:
 	}
 	String pkg = AppendFileName(dir, ~~dlg.name);
 	if(DirectoryExists(pkg)) {
-		Exclamation("Целавая папка пакета уже существует!");
+		Exclamation("Целевая папка пакета уже существует!");
 		goto again;
 	}
 	if(FileExists(pkg)) {
@@ -154,9 +154,9 @@ void SelectPackageDlg::DeletePackage()
 	}
 	if(!PromptYesNo("Действительно удалить пакет [* \1" + GetCurrentName() + "\1]?&&"
 	                "[/ Предупреждение:] [* Пакет не будет удалён "
-	                "из использования любых жругих пакетов!]"))
+	                "из использования в любых других пакетах!]"))
 		return;
-	if(!PromptYesNo("Эта операция необратима.&На самом деле продолжить?"))
+	if(!PromptYesNo("Эта операция необратима.&В самом деле,- продолжить?"))
 		return;
 	DeleteFolderDeep(pp);
 	Load();

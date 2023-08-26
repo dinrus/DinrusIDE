@@ -27,57 +27,71 @@ topic "Использование DinrusIDE как Инструмент Крос
 [s3; [@3 Содержание]&]
 [s0; &]
 [s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#1^ 1. Введение]&]
-[s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#2^ 2. Создать 
-пустой пакет в Projects]&]
-[s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#3^ 3. Создать 
-файл макросов  для пакета <имя>]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#2^ 2. Создание 
+пустого пакета в Projects]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#3^ 3. Создание 
+файла макросов  для пакета <имя>]&]
 [s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#4^ 4. Запуск 
 кросс`-компиляции]&]
 [s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#5^ 5. Добавление 
 файлов и спейсеров]&]
 [s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#6^ 6. Открыть 
-файл  или Открыть Edited Files Warning]&]
+файл или Открыть Edited Files Warning]&]
 [s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#7^ 7. Встройка 
 в DinrusIDE]&]
 [s0; &]
 [s3;:1: [@(128.0.255) 1. Введение]&]
-[s5; By turning off many of the features of DinrusIDE it can be used 
-as a cross development tool which uses pre`-defined external 
-makefiles. This is especially useful when moving applications 
-previously developed under other IDE`'s to DinrusIDE.&]
-[s5; What follows is a description of how to use DinrusIDE with such 
-external makefiles without having to edit such files. There may 
-be other ways of achieving such tasks and it may be possible 
-to utilities the existing comprehensive build features of DinrusIDE. 
-However the aim was to minimize the effort of conversion in order 
-to get a valid compilation.&]
-[s5; It should be noted that the following will only work with versions 
-of DinrusIDE from 602 onwards. This is because it requires additional 
-standard library functions not implemented in previous versions.&]
-[s3;:2: [@(128.0.255) 2. Create an empty package within MyApps]&]
-[s5; Start DinrusIDE and create a new package.  Define the <name> 
-of the package and select an `'empty`' package.  Immediately 
-the package has been created load and edit the <name>.upp file 
-in the <name> directory using DinrusIDE.  If not already present 
-add the lines:&]
+[s5; При отключении многих фич DinrusIDE, его 
+можно использовать как инструмент 
+кросплатформной разработки, использующий 
+заранее заготовленные внешние makefiles 
+(файлы с описание процесса построения). 
+Это особенно пригодно при перемещении 
+приложений, разработанных изначально 
+под другие ГИП (IDE) в DinrusIDE.&]
+[s5; Далее следует описание того, как 
+использовать DinrusIDE с такими внешними 
+makefiles, при этом без необходимости 
+их редактировать. Могут иметься другие 
+способы выполнения таких задач; как, 
+впрочем, может иметься возможность 
+применить существующие средства 
+построения DinrusIDE. Но целью было уменьшение 
+усилий при преобразовании ради получения 
+приемлемой компиляции.&]
+[s5; &]
+[s3;:2: [@(128.0.255) 2. Создание пустого пакета 
+в Projects]&]
+[s5; Запустите DinrusIDE и создайте новый 
+пакет.  Определите <имя> пакета и выберите 
+шаблон `'пустой`' пакет. Как только 
+пакет будет создан, загрузите и отредактируй
+те файл <имя>.upp из директории <имя>, 
+используя DinrusIDE. Если эти строки ещё 
+отсутствуют, добавьте их:&]
 [s5;  &]
 [ {{10000<544;>2176; [s0; mainconfig&]
 [s0;      `"`"`=`"`";]}}&]
 [s5; &]
-[s5; Close and reopen the package.  This tests that the <name> package 
-can be found and that the <name>.upp file is recognized and has 
-the correct syntax.  Without the two lines above DinrusIDE will 
-not find the package.&]
-[s3;:3: [@(128.0.255) 3. Create a macro file for the <name> package]&]
+[s5; Закройте и снова откройте пакет. 
+Это проверка на то, находится ли пакет 
+<имя> и что файл <имя>.upp распознаётся 
+и имеет правильный синтаксис. Без 
+указанных выше двух строк DinrusIDE пакета 
+не сможет отыскать.&]
+[s3;:3: [@(128.0.255) 3. Создание файла макросов 
+для пакета <имя>]&]
 [s0; &]
-[s5; With the <name> package open under DinrusIDE create a new file 
-with the extension usc... I suggest macro.usc. This will be the 
-macro file where all the work will be done. Create appropriate 
-macros in this file  in the form of the examples below. This 
-is using the ESC scripting language. Note the `'Execute`' standard 
-library function is required. This is only available in versions 
-602 onwards of DinrusIDE.&]
-[s5; &]
+[s5; При открытом пакете <имя> в DinrusIDE создайте 
+новый файл с расширением usc... Рекомендуем 
+назвать его macro.usc. В этом файле макрокоманд 
+будет проводиться вся работа. Создайте 
+соответствующий макрос в этом файле, 
+наподобии ниже показанных примеров. 
+Здесь применяется язык сценариев 
+ESC. Заметьте, что потребуется функция 
+из стандартной библиотеки с названием 
+`'Execute`'. &]
 [ {{10000@(255.255.150) [s0; [* macro ]`"MakeA`" Alt`+A `{&]
 [s0; -|Execute(`"c:/mingw/bin/mingw32`-make.exe `-C d:/myapps/control 
 `-f d:/myapps/control/makealarm all`");&]
@@ -88,26 +102,33 @@ library function is required. This is only available in versions
 [s0; -|Execute(`"cp d:/myapps/edrtoslib/libed8535.a d:/myapps/control/`");&]
 [s0; `}]}}&]
 [s5; &]
-[s5; The first macro named `'MakeA`' can be invoked by the `'Alt`+A`' 
-keystrokes or by clicking the macro name. When invoked it calls 
-the Execute standard function.  The parameter within this function 
-is the full path name with its parameters for a command line 
-application execution. You will need to incorporate your own 
-command lines as appropriate for your cross development environment.&]
-[s5; The above example is for the AVR cross development package WINAVR. 
- This utilities the mingw GCC compiler and other packages along 
-with the mingw32`-make utility.&]
-[s5; Note that an explicit makefile has been defined and that an 
-explicit directory has been named.  The reasons for this are 
-twofold. Firstly, the IDE has as its `'root`' directory `'MyApps`' 
-rather than the package directory when the command is executed. 
- Secondly the explicit directory naming results in the makefile 
-not having to be edited.&]
+[s5; Первый макрос с именем `'MakeA`' может 
+вызываться нажатием комбинации клавиш 
+`'Alt`+A`' или кликом над именем макроса. 
+При вызове он запускает стандартную 
+функцию Execute. Параметром к этой функции 
+является полный путь к приложению 
+командной строки. Нужно включить 
+сюда свои собственные командные строки, 
+которые соответствуют вашей среде 
+кросс`-разработки.&]
+[s5; Пример выше относится с пакету кросс`-разраб
+отки AVR с именем WINAVR. Используются 
+компилятор mingw GCC и другие пакеты, 
+вместе с утилитой mingw32`-make.&]
+[s5; Заметьте, что определён явный makefile 
+и указана явно проименованная директория. 
+На то две причины: во0первых, ГИП имеет 
+при выполнении команд в качестве 
+`'root`' (корня) директорию `'Projects`' , а 
+не директорию пакета; во`-вторых, явное 
+именование директории ведёт к тому, 
+что makefile не надо будет редактировать.&]
 [s5; Also for some of the above `'applications; to be found the `'autoexec.bat`' 
 file path and other environmental variable names have been set 
 from the previous cross development application. This is not 
 part of the function of DinrusIDE.&]
-[s3;:4: [@(128.0.255) 4. Running the Cross`-Compile]&]
+[s3;:4: [@(128.0.255) 4. Запуск кросс`-компиляции]&]
 [s5; The `'macro`' menu item will appear sometime on the menu bar. 
 You may have to close and reopen the package for it to appear 
 for the first time. Click on `'macro`' and then the required 
@@ -117,19 +138,19 @@ body will be executed which will in this case invoke the application
 make facility. Errors will be displayed in the bottom window. 
 Any errors can be located by clicking the left mouse button on 
 the error line as with the normal DinrusIDE operation.&]
-[s3;:5: [@(128.0.255) 5. Adding Files and Spacers]&]
+[s3;:5: [@(128.0.255) 5. Добавление Файлов и Спейсеров]&]
 [s5; Files and spacers can be added in the normal way by clicking 
 the right mouse button in the files window at the left side of 
 the screen. These however will have no association with the external 
 makefiles.&]
-[s3;:6: [@(128.0.255) 6. Open File  or Open Edited Files Warning]&]
+[s3;:6: [@(128.0.255) 6. Open File or Open Edited Files Warning]&]
 [s5; I am unsure of what will happen with open / edited files with 
 the external makefiles. When the inbuilt `'build`' is executed 
 any open files are updated so that the changed will be compiled. 
 This does not appear to be the case when the external makefile 
 is used.  It is recommended that all edited files are written 
 back prior to invoking the macro.&]
-[s3;:7: [@(128.0.255) 7. Incorporation into DinrusIDE]&]
+[s3;:7: [@(128.0.255) 7. Встройка в DinrusIDE]&]
 [s5; When more knowledge of DinrusIDE is known it may be possible 
 to incorporate such external make facilities such as WINAVR into 
 its standard build features. There are mechanisms to select other 

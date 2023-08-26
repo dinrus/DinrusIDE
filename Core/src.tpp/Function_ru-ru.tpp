@@ -28,10 +28,10 @@ zero.&]
 [s5;:Function`<Res`(ArgTypes`.`.`.`)`> `:`:Function`(`):%- [* Function]()&]
 [s5;:Upp`:`:Function`<Res`(ArgTypes`.`.`.`)`> `:`:Function`(const Upp`:`:Nuller`&`):%- [* F
 unction]([@(0.0.255) const]_[_^Upp`:`:Nuller^ Nuller][@(0.0.255) `&])&]
-[s2; Создаёт empty Function. Invoking empty function is NOP and eventual 
-return value is Res() (which results in 0 for fundamental types). 
-Variant with Nuller is useful when defining function declaration 
-with optional Function parameters like [*C@5 void Foo(Function<void 
+[s2; Создаёт empty Function. Invoking empty function is NOP 
+and eventual return value is Res() (which results in 0 for fundamental 
+types). Variant with Nuller is useful when defining function 
+declaration with optional Function parameters like [*C@5 void Foo(Function<void 
 ()> `= Null);]&]
 [s3;%- &]
 [s4; &]
@@ -54,9 +54,9 @@ nction][@(0.0.255) `&`&]_[*@3 src])&]
 [s4; &]
 [s5;:Function`<Res`(ArgTypes`.`.`.`)`> `:`:Proxy`(`)const:%- Function_[* Proxy]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает a new Function, which, when invoked, invokes this Function. 
-This is useful when some Function is to changed later, but we 
-need another Function to represent it.&]
+[s2; Возвращает a new Function, which, when invoked, invokes 
+this Function. This is useful when some Function is to changed 
+later, but we need another Function to represent it.&]
 [s3; &]
 [s4; &]
 [s5;:Function`<Res`(ArgTypes`.`.`.`)`> `:`:operator`<`<`(F`):%- [@(0.0.255) template]_<
@@ -78,11 +78,11 @@ es]_[* operator()]([*@4 ArgTypes][@(0.0.255) ...]_args)_[@(0.0.255) const]&]
 [s4; &]
 [s5;:Function`<Res`(ArgTypes`.`.`.`)`> `:`:operator bool`(`)const:%- [* operator_bool](
 )_[@(0.0.255) const]&]
-[s2; Возвращает  true, если Function is not empty.&]
+[s2; Возвращает true, если Function не пуст.&]
 [s3; &]
 [s4; &]
 [s5;:Function`<Res`(ArgTypes`.`.`.`)`> `:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; УстанавливаетFunction empty.&]
+[s2; Устанавливает пустой Function.&]
 [s0; &]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Event и Gate]]}}&]
@@ -93,16 +93,17 @@ two convenience template aliases:&]
 [s0;%- &]
 [s5;:Upp`:`:Event`:`:typedef:%- [@(0.0.255) template <typename... ][*@4 ArgTypes][@(0.0.255) >
  using]_[* Event]_`=_Function<[@(0.0.255) void]_(ArgTypes[@(0.0.255) ...])>&]
-[s2; Создаёт alias for Function returning void. For example, [*C@5 Event<int, 
-String>] is equivalent of [*C@5 Function<void (int, String)>].&]
+[s2; Создаёт alias for Function returning void. For example, 
+[*C@5 Event<int, String>] is equivalent of [*C@5 Function<void (int, 
+String)>].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Gate`:`:typedef:%- [@(0.0.255) template <typename... ][*@4 ArgTypes][@(0.0.255) >
  using]_[* Gate]_`=_Function<[@(0.0.255) bool]_(ArgTypes[@(0.0.255) ...])>&]
-[s2; Создаёт alias for Function returning bool. For example, [*C@5 Gate<int, 
-String>] is equivalent of [*C@5 Function<bool (int, String)>]. 
-Note that empty Gate returns false (because empty Function returns 
-bool(0), which is false).&]
+[s2; Создаёт alias for Function returning bool. For example, 
+[*C@5 Gate<int, String>] is equivalent of [*C@5 Function<bool (int, 
+String)>]. Note that empty Gate returns false (because empty 
+Function returns bool(0), which is false).&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 MemFn и THISFN]]}}&]

@@ -13,8 +13,8 @@ pkg_config(POSIX !OSX !VIRTUALGUI) "freetype2 x11 xinerama xrender xft xdmcp fon
 pkg_config(POSIX !X11 !OSX !VIRTUALGUI) "gtk+-3.0 libnotify";
 
 file
-	Core readonly separator,
 	CtrlCore.h options(BUILDER_OPTION) PCH,
+	CtrlCore readonly separator,
 	MKeys.h,
 	stdids.h,
 	SystemDraw.cpp,

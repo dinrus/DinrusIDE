@@ -1,4 +1,4 @@
-topic "WithSpin template and Value editors with spin buttons";
+topic "Шаблонный класс WithSpin и редакторы Value со спин-кнопками";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "WithSpin template and Value editors with spin buttons";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 WithSpin]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Шаблонный класс WithSpin]]}}&]
 [s3;%- &]
 [s1;:noref:%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 DataType][3 , 
 ][@(0.0.255)3 class][3 _][*@3;3 Base][3 , ][@(0.0.255)3 class][3 _][*@4;3 IncType][3 _`=_][*@4;3 Da
@@ -37,11 +37,11 @@ how the value is incremented or decremented.&]
 [s3;%- &]
 [s5;:WithSpin`:`:SetInc`(IncType`):%- [_^WithSpin^ WithSpin][@(0.0.255) `&]_[* SetInc]([*@4 I
 ncType]_[*@3 `_inc]_`=_[@3 1])&]
-[s2; Устанавливает the increment value.&]
+[s2; Устанавливает значение инкремента.&]
 [s3; &]
 [s4; &]
 [s5;:WithSpin`:`:GetInc`(`)const:%- [*@4 DataType]_[* GetInc]()_[@(0.0.255) const]&]
-[s2; Возвращает current increment value.&]
+[s2; Возвращает текущее значение инкремента.&]
 [s3; &]
 [s4; &]
 [s5;:WithSpin`:`:OnSides`(bool`):%- [_^WithSpin^ WithSpin][@(0.0.255) `&]_[* OnSides]([@(0.0.255) b
@@ -51,33 +51,37 @@ puts decrement button to the left and increment to the right.&]
 [s3; &]
 [s4; &]
 [s5;:WithSpin`:`:IsOnSides`(`)const:%- [@(0.0.255) bool]_[* IsOnSides]()_[@(0.0.255) const]&]
-[s2; True is OnSides is active.&]
+[s2; True, если OnSides активен.&]
 [s3; &]
 [s4; &]
 [s5;:WithSpin`:`:ShowSpin`(bool`):%- [_^WithSpin^ WithSpin][@(0.0.255) `&]_[* ShowSpin]([@(0.0.255) b
 ool]_[*@3 s]_`=_[@(0.0.255) true])&]
-[s2; Shows/hides spin buttons.&]
+[s2; Показывает/скрывает спин`-кнопки.&]
 [s3; &]
 [s4; &]
 [s5;:WithSpin`:`:IsSpinVisible`(`)const:%- [@(0.0.255) bool]_[* IsSpinVisible]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает  true, если spin buttons are shown.&]
+[s2; Возвращает true, если спин`-кнопки показаны.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:RoundFromMin`(bool`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&
 ]_[* RoundFromMin]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; If this option is active, increments are rounded with respect 
-to minimum value. E.g. normally (when not active) if minimum 
-value is 3, going up from the minimum goes through values 3, 
-5, 10, ..., which when RoundFromMin is active, it goes through 
-3, 8, 13, ...&]
+[s2; Если эта опция активна, инкременты 
+округляются в сторону минимального 
+значения. Напр.,  обычно (когда неактивно), 
+если минимальное значение равно 3, 
+рарастающая от минимума проходит 
+через значения 3, 5, 10, ..., котрая при 
+активном RoundFromMin, идёт через 3, 8, 13, 
+...&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:MouseWheelSpin`(bool`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&
 ]_[* MouseWheelSpin]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Если активен, the value can be altered by mouse wheel 
-`- rolling the wheel is equivalent to pushing up/down arrows. 
-Default is active.&]
+[s2; Если активен, значение можно менять 
+колёсиком мыши `- прокручивание колеса 
+равносильно нажатию стрелок вверх/вниз. 
+Дефолтно активен.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:NoMouseWheelSpin`(`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&
@@ -87,8 +91,8 @@ Default is active.&]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:KeySpin`(bool`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&]_[* K
 eySpin]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Если активен, the value can be altered with Up and 
-Down keys. Default is active.&]
+[s2; Если активен, значение можно менять 
+кнопками Вверх и Вниз. Дефолтно активен.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:NoKeySpin`(`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&]_[* No
@@ -100,10 +104,11 @@ KeySpin]()&]
 inButtonsObject]()&]
 [s5;:WithSpin`:`:SpinButtonsObject`(`)const:%- [@(0.0.255) const]_[_^SpinButtons^ SpinBut
 tons][@(0.0.255) `&]_[* SpinButtonsObject]()_[@(0.0.255) const]&]
-[s2; Возвращает a reference to internal SpinButtons object.&]
+[s2; Возвращает ссылку на внутренний 
+объект SpinButtons.&]
 [s0; &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 Predefined WithSpin widgets]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Предопределённые значения WithSpin]]}}&]
 [s3;%- &]
 [s5;:EditIntSpin`:`:typedef:%- [@(0.0.255) typedef]_[_^WithSpin^ WithSpin]<[@(0.0.255) int],
  [_^EditInt^ EditInt]>_[* EditIntSpin]&]
@@ -125,6 +130,7 @@ ouble], [_^EditDoubleNotNull^ EditDoubleNotNull]>_[* EditDoubleNotNullSpin]&]
 ate], [_^EditDateNotNull^ EditDateNotNull], [@(0.0.255) int]>_[* EditDateNotNullSpin]&]
 [s5;:EditTimeNotNullSpin`:`:typedef:%- [@(0.0.255) typedef]_[_^WithSpin^ WithSpin]<[_^Time^ T
 ime], [_^EditTimeNotNull^ EditTimeNotNull], [@(0.0.255) int]>_[* EditTimeNotNullSpin]&]
-[s2; These typedefs predefine common EditField based value editors 
-with spin buttons.&]
+[s2; Эти typedefs предопределяют общие, основанные 
+на EditField, редакторы значений со спин`-кнопкам
+и.&]
 [s3; ]]

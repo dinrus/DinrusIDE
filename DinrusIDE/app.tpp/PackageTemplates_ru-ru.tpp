@@ -374,11 +374,11 @@ IS SELECTED.&]
 Имя начинается сразу после второго 
 `"`@`" (с третьего символа на строке) 
 и заканчивается с последним символом 
-логичекой строки. Если имя файла вводится 
-как литерал, нужно убедиться в его 
-полноценности, особенно если используется 
-пробел. Полноценности имени файла 
-зависит от ОС.&]
+логической строки. Если имя файла 
+вводится как литерал, нужно убедиться 
+в его полноценности, особенно если 
+используется пробел. Полноценность 
+имени файла зависит от ОС.&]
 [s5;l160; Существует три типичных образца 
 (файловые расширения просто примеры), 
 хотя возможны иные или более сложные 
@@ -472,15 +472,16 @@ true, тогда файл будет создан. Если результат
 [s5;l160; [C ... <: PACKAGE :> ...]&]
 [s42;:5`_7: [@(128.0.255) 5.7 `"PACKAGE`_TOUPPER`"]&]
 [s42;l160;:5`_7`_1: [@6 5.7.1 Описание]&]
-[s5;l160; `"PACKAGE`_TOUPPER`" `- это предопрежедённый 
+[s5;l160; `"PACKAGE`_TOUPPER`" `- это предопределённый 
 идентификатор переменной, которой 
 присваивается содержимое поля ввода 
-`"Имя пакета`", преоблазованное в заглавные 
+`"Имя пакета`", преобразованное в заглавные 
 буквы. Если ранее были заглавные буквы, 
 то они не изменяются.&]
 [s5;l160; Причина существования этой переменной 
 `- хорошо устоявшаяся практика записывать 
-заглавными include guards в файлах .hpp (.h).&]
+заглавными include`-гварды в файлах .hpp 
+(.h).&]
 [s5;l160; `"PACKAGE`_TOUPPER`" доступен только в выпусках 
 Ultimate`+`+ позднее `"609`-dev3`".&]
 [s42;l160;:5`_7`_2: [@6 5.7.2 Использование]&]
@@ -490,32 +491,40 @@ Ultimate`+`+ позднее `"609`-dev3`".&]
 [s5;l160; [C ... <: PACKAGE`_TOUPPER :> ...]&]
 [s42;:5`_8: [@(128.0.255) 5.8-|`"PACKAGE`_TOUPPER`_CAPS`"]&]
 [s42;l160;:5`_8`_1: [@6 5.8.1 Описание]&]
-[s5;l160; `"PACKAGE`_TOUPPER`_CAPS`" is the predefined identifier 
-of a variable to which the content of the `"Package name`" input 
-field, transformed into uppercase letters, is assigned. In contrast 
-to `"PACKAGE`_TO`_UPPER`" the sequence of a lowercase letter 
-followed by an uppercase letter is separated by `"`_`", but not 
-vice versa. Furthermore `"/`" is replaced by `"`_`", e.g.:&]
+[s5;l160; `"PACKAGE`_TOUPPER`_CAPS`" `- это предопределённый 
+идентификатор переменной, которой 
+присваивается контент поля ввода 
+`"Имя пакета`", преобразованный в заглавные 
+буквы. В отличие от `"PACKAGE`_TO`_UPPER`" последовател
+ьность прописных букв, за которой 
+следует заглавная буква, отделена 
+`"`_`", но не наоборот. Более того, `"/`" 
+заменяется на `"`_`", напр.:&]
 [s5;l160; MyPath/MyPackage `-> MY`_PATH`_MY`_PACKAGE&]
-[s5;l160; The reason for the existence of this variable is a well`-established 
-practice to write uppercase include guards in .hpp`- (.h`-) files.&]
-[s5;l160; `"PACKAGE`_TOUPPER`_CAPS`" is only available with Ultimate`+`+ 
-releases later than `"609`-dev3`".&]
+[s5;l160; Причина существования этой переменной 
+`- установившаяся практика написания 
+заглавных include`-гвардов в файлах .hpp 
+(.h).&]
+[s5;l160; `"PACKAGE`_TOUPPER`_CAPS`" доступен только 
+в выпусках Ultimate`+`+ после `"609`-dev3`".&]
 [s42;l160;:5`_8`_2: [@6 5.8.2-|Использование]&]
-[s5;l160; In contrast to `"PACKAGE`", `"PACKAGE`_TOUPPER`_CAPS`" 
-always contains the path part `- if any `- of the `"Package name`" 
-input field.&]
+[s5;l160; В отличие от `"PACKAGE`", `"PACKAGE`_TOUPPER`_CAPS`" 
+всегда содержит путевую часть `- если 
+она есть `-поля ввода `"Имя пакета`".&]
 [s5;l160; [C ... <: PACKAGE`_TOUPPER`_CAPS :> ...]&]
-[s42;:5`_9: [@(128.0.255) 5.9 Header Line]&]
+[s42;:5`_9: [@(128.0.255) 5.9 Строка Заголовочника]&]
 [s42;l160;:5`_9`_1: [@6 5.9.1 Описание]&]
-[s5;l160; The header line identifies a UPT file as such, names the 
-template and categorizes it.&]
+[s5;l160; Строка заголовочника идентифицирует 
+файл UPT как таковой, именует шаблон 
+и категоризует его.&]
 [s42;l160;:5`_9`_2: [@6 5.9.2 `"template`"]&]
-[s5;l160; The `"template`" keyword identifies the UPT file as such. 
-If this keyword is not at the beginning of the file `- apart 
-from comments or any white space `-, the file is classified as 
-invalid and ignored. The keyword must no be enclosed in quotation 
-marks.&]
+[s5;l160; Ключевое слово `"template`" идентифицирует 
+файл UPT как таковой. Если это ключслово 
+отсутствует в начале файла `- помимо 
+комментариев или пробелов `-, то файл 
+классифицируется как неполноценный 
+и игнорируется. Это ключслово не должно 
+заключаться в кавычки.&]
 [s42;l160;:5`_9`_3: [@6 5.9.3 `"][/@6 Name][@6 `"]&]
 [s5;l160; This is the name of the UPT file which appears in the template 
 list of the `"Create new package`" dialog. It must be enclosed 

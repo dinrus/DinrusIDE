@@ -59,9 +59,9 @@ bool TreeViewDes::Load(const String& fn)
 	
 	String parsingError = Load0(txt);
 	if(in.GetSize() >= limit)
-		MergeWith(parsingError, ", ", "file was longer than 20MB and was truncated");
+		MergeWith(parsingError, ", ", "файл длиннее 20 МБ, поэтому укорочен");
 	if(parsingError.GetCount()) {
-		error = String() << "XML parsing error: " << parsingError << ".";
+		error = String() << "Ошибка при разборе XML: " << parsingError << ".";
 		AddFrame(errorbg);
 	}
 
@@ -70,7 +70,7 @@ bool TreeViewDes::Load(const String& fn)
 
 void TreeViewDes::EditMenu(Bar& menu)
 {
-	menu.Add(tree.IsCursor(), "Copy current path to clipboard", [=] { CopyPath(); });
+	menu.Add(tree.IsCursor(), "Копировать текущий путь в БО", [=] { CopyPath(); });
 }
 
 void TreeViewDes::RestoreEditPos()

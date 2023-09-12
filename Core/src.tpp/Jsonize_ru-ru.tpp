@@ -1,4 +1,4 @@
-topic "JsonIO и фреймворк Jsonize";
+topic "Класс JsonIO и фреймворк Jsonize";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,18 +10,19 @@ topic "JsonIO и фреймворк Jsonize";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 JsonIO и фреймворк Jsonize]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс JsonIO и фреймворк Jsonize]]}}&]
 [s3; &]
 [s1;:JsonIO`:`:class: [@(0.0.255)3 class][3 _][*3 JsonIO]&]
-[s2;%RU-RU JsonIO представляет единичное значение 
-JSON в фреймворке Jsonize. Оно используется 
-в качестве параметра для глобальной 
-функции Jsonize. Глобальная функция Jsonize 
-имеет дефолтное шаблонное определение, 
-которое в свою очередь вызывает метод 
-Jsonize объекта. However, when implementation using method 
-is not possible (e.g. for supported primitive types), global 
-templated specialization of Jsonize can be used.&]
+[s2;%RU-RU JsonIO представляет собой единичное 
+значение JSON в фреймворке Jsonize. Оно 
+используется в качестве параметра 
+для глобальной функции Jsonize. Глобальная 
+функция Jsonize имеет дефолтное шаблонное 
+определение, которое, в свою очередь, 
+вызывает метод Jsonize объекта. However, 
+when implementation using method is not possible (e.g. for supported 
+primitive types), global templated specialization of Jsonize 
+can be used.&]
 [s2;%RU-RU &]
 [s3; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
@@ -41,18 +42,21 @@ onst]&]
 [s4; &]
 [s5;:JsonIO`:`:Set`(const Value`&`): [@(0.0.255) void]_[* Set]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2;%RU-RU Устанавливаетthe value of JSON node when storing.&]
+[s2;%RU-RU Устанавливаетthe value of JSON node when 
+storing.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:JsonIO`:`:Get`(const char`*`): [_^Upp`:`:Value^ Value]_[* Get]([@(0.0.255) cons
 t]_[@(0.0.255) char]_`*[*@3 key])&]
-[s2;%RU-RU Возвращает the value of JSON subnode [%-*@3 key] when loading.&]
+[s2;%RU-RU Возвращает the value of JSON subnode [%-*@3 key] 
+when loading.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:JsonIO`:`:Set`(const char`*`,const Upp`:`:Value`&`): [@(0.0.255) void]_[* Set
 ]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 key], [@(0.0.255) const]_[_^Upp`:`:Value^ Val
 ue][@(0.0.255) `&]_[*@3 v])&]
-[s2;%RU-RU Устанавливаетthe value of JSON subnode [%-*@3 key] when storing.&]
+[s2;%RU-RU Устанавливает the value of JSON subnode [%-*@3 key] 
+when storing.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:JsonIO`:`:Put`(Value`&`): [@(0.0.255) void]_[* Put]([_^Value^ Value][@(0.0.255) `&]_[*@3 v
@@ -62,28 +66,29 @@ invoked to finish jsonization.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:JsonIO`:`:GetResult`(`)const: [_^Value^ Value]_[* GetResult]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает JSON node data into [%-*@3 v] when storing `- invoked 
-to finish jsonization.&]
+[s2;%RU-RU Возвращает JSON node data into [%-*@3 v] when 
+storing `- invoked to finish jsonization.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:JsonIO`:`:operator`(`)`(const char`*`,T`&`): [@(0.0.255) template]_<[@(0.0.255) clas
 s]_[*@4 T]>_[_^JsonIO^ JsonIO][@(0.0.255) `&]_[* operator()]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 key], [*@4 T][@(0.0.255) `&]_[*@3 value])&]
-[s2;%RU-RU Устанавливаетthe JsonIO to represent JSON object (if it does not 
-already), creates member [%-*@3 key] and jsonizes [%-*@3 value] into 
-it (by calling global Jsonize function, whose general form invokes 
-Jsonize method).&]
+[s2;%RU-RU Устанавливает the JsonIO to represent JSON 
+object (if it does not already), creates member [%-*@3 key] and 
+jsonizes [%-*@3 value] into it (by calling global Jsonize function, 
+whose general form invokes Jsonize method).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:JsonIO`:`:operator`(`)`(const char`*`,T`&`,const T`&`): [@(0.0.255) templat
 e]_<[@(0.0.255) class]_[*@4 T]>_[_^Upp`:`:JsonIO^ JsonIO][@(0.0.255) `&]_[* operator()]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 key], [*@4 T][@(0.0.255) `&]_[*@3 value], 
 [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 defvalue])&]
-[s2;%RU-RU Устанавливаетthe JsonIO to represent JSON object (if it does not 
-already), creates member [%-*@3 key] and jsonizes [%-*@3 value] into 
-it (by calling global Jsonize function, whose general form invokes 
-Jsonize method). When loading and [%-*@3 key] is missing in source 
-data, [%-*@3 defvalue] is assigned to [%-*@3 value].&]
+[s2;%RU-RU Устанавливает the JsonIO to represent JSON 
+object (if it does not already), creates member [%-*@3 key] and 
+jsonizes [%-*@3 value] into it (by calling global Jsonize function, 
+whose general form invokes Jsonize method). When loading and 
+[%-*@3 key] is missing in source data, [%-*@3 defvalue] is assigned 
+to [%-*@3 value].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:JsonIO`:`:List`(const char`*`,const char`*`,T`&`): [@(0.0.255) template]_<[@(0.0.255) c
@@ -116,15 +121,15 @@ routines that provide both Jsonize and Xmlize code.&]
 [s4;%RU-RU &]
 [s5;:JsonIO`:`:JsonIO`(const Value`&`): [* JsonIO]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[*@3 src])&]
-[s2;%RU-RU УстанавливаетJsonIO for retrieving data from [%-*@3 src] which is 
-must be Json compatible Value.&]
+[s2;%RU-RU Устанавливает JsonIO for retrieving data 
+from [%-*@3 src] which is must be Json compatible Value.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:JsonIO`:`:JsonIO`(`): [* JsonIO]()&]
-[s2;%RU-RU Создаёт JsonIO for storing data.&]
+[s2;%RU-RU Создаёт JsonIO для сохранения данных.&]
 [s3; &]
 [s0; &]
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Jsonize Store/Load functions]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4  Функции Store/Load из Jsonize]]}}&]
 [s3; &]
 [s5;:StoreAsJsonValue`(const T`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Value^ V
 alue]_[* StoreAsJsonValue]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 var])&]
@@ -173,7 +178,8 @@ NULL, ConfigFile(GetExeTitle() `+ `".json`") is used as the file
 path.&]
 [s3; &]
 [s0;i448;a25;kKO9;@(0.0.255) &]
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Standard Jsonize template specializations]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Стандартные определения шаблона 
+Jsonize]]}}&]
 [s3; &]
 [s5;:Jsonize`(JsonIO`&`,int`&`): [@(0.0.255) template]_<>_[@(0.0.255) void]_[* Jsonize]([_^JsonIO^ J
 sonIO][@(0.0.255) `&]_[*@3 io], [@(0.0.255) int`&]_[*@3 var])&]
@@ -196,11 +202,11 @@ sonIO][@(0.0.255) `&]_[*@3 io], [@(0.0.255) bool`&]_[*@3 var])&]
 sonIO][@(0.0.255) `&]_[*@3 io], [_^Date^ Date][@(0.0.255) `&]_[*@3 var])&]
 [s5;:Jsonize`(JsonIO`&`,Time`&`): [@(0.0.255) template]_<>_[@(0.0.255) void]_[* Jsonize]([_^JsonIO^ J
 sonIO][@(0.0.255) `&]_[*@3 io], [_^Time^ Time][@(0.0.255) `&]_[*@3 var])&]
-[s2; Provides Jsonize template specialization to support [*@3 var] 
-data type.&]
+[s2; Предлагают определение шаблона Jsonize 
+ для поддержки типа данных [*@3 var].&]
 [s3; &]
 [s0; &]
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Special Jsonize variants]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Особые варианты Jsonize]]}}&]
 [s3; &]
 [s5;:StringMap`(JsonIO`&`,VectorMap`<K`,V`>`&`): [@(0.0.255) template]_<[@(0.0.255) class
 ]_[*@4 K], [@(0.0.255) class]_[*@4 V]>_[@(0.0.255) void]_[* StringMap]([_^JsonIO^ JsonIO][@(0.0.255) `&

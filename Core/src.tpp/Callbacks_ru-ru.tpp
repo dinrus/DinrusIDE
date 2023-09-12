@@ -441,41 +441,50 @@ Callback.&]
 [s0; &]
 [s0;%- &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 EventArgTarget]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс EventArgTarget]]}}&]
 [s3;%- &]
 [s1;:noref:%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 T][3 >]&]
 [s1;:EventArgTarget`:`:class:%- [@(0.0.255) class]_[* CallbackArgTarget]&]
-[s9; This helper class is useful in a situation when a set of callbacks 
-define some output value. Example is pop`-up menu that provides 
-selection of one character `- in that case, CallbackArgTarget 
-can be used instead of dedicated method to obtain result of user 
-selection.&]
-[s8; [%-*@4 T]-|Type of output value. Must be able to be assigned Null.&]
+[s9; Этот вспомогательный класс полезен 
+в тех ситуациях, когда некоторое возвратное 
+значение определено набором обратных 
+вызовов. Например, всплывающее меню, 
+которое предоставляет возможность 
+выбора одного символа, `- в этом случае 
+можно использовать CallbackArgTarget, вместо 
+спепциального метода, чтобы получить 
+результат пользовательского выбора.&]
+[s8; [%-*@4 T]-|Тип выводимого значения. Должен 
+быть в состоянии принимать значение 
+Null.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:EventArgTarget`:`:EventArgTarget`(`):%- [* CallbackArgTarget]()&]
-[s2; Assigns Null to the output value.&]
+[s2; Присваивает Null выводимому значению.&]
 [s3; &]
 [s4; &]
 [s5;:EventArgTarget`:`:operator const T`&`(`)const:%- [* operator_const_T`&]()_[@(0.0.255) c
 onst]&]
-[s7; [*/ Возвратное значение]-|The result. If no CallbackArgTarget 
-was invoked, returns Null.&]
+[s7; [*/ Возвратное значение]-|Результат. 
+Если не было вызвано CallbackArgTarget, возвращает 
+Null.&]
 [s3; &]
 [s4;%- &]
 [s5;:EventArgTarget`:`:IsNullInstance`(`)const:%- [@(0.0.255) bool]_[* IsNullInstance]()_
 [@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|True if there is not 
-Null in output value.&]
+[s7; [*/ Возвратное значение]-|True, если выводимое 
+значение не Null.&]
 [s3; &]
 [s4;%- &]
 [s5;:EventArgTarget`:`:operator`[`]`(const T`&`):%- [_^Callback^ Callback]_[* operator`[`]
 ]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 value])&]
-[s2; Возвращает a Callback that, when invoked, assigns [@3 value] to the 
-output value.&]
-[s7; [%-*C@3 value]-|Value.&]
-[s7; [*/ Возвратное значение]-|Callback.&]
+[s2; Возвращает Callback, который при вызове 
+присваивает значение [@3 value] выводимому 
+значению.&]
+[s7; [%-*C@3 value]-|Знаечение.&]
+[s7; [*/ Возвратное значение]-|Callback. (Обратный 
+вызов).&]
 [s3; &]
 [s0; ]]

@@ -1,4 +1,4 @@
-topic "MarkdownConverter";
+topic "Класс MarkdownConverter";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,125 +10,133 @@ topic "MarkdownConverter";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 MarkdownConverter]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс MarkdownConverter]]}}&]
 [s0; &]
 [s1;:Upp`:`:MarkdownConverter`:`:class: [@(0.0.255)3 class][3 _][*3 MarkdownConverter]&]
-[s2;%% Converts a markdown formatted text into qtf formatted text.&]
+[s2;%RU-RU Преобразует текст, форматированный 
+в markdown, в текст формата qtf.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:MarkdownConverter`:`:CollapseWhitespaces`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* CollapseWhitespaces]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
-[s2;%% Collapses non`-trivial whitespaces in main text into single 
-space (`' `') character. Возвращает `*this для сцепки методов.&]
-[s3;%% &]
+[s2;%RU-RU Collapses non`-trivial whitespaces in main text into single 
+space (`' `') character. Возвращает `*this для сцепки 
+методов.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:NoIndentedCodeblocks`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* NoIndentedCodeblocks]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
-[s2;%% Disable indented code blocks. (Only fenced code works.) Возвращает 
-`*this для сцепки методов.&]
-[s3;%% &]
+[s2;%RU-RU Disable indented code blocks. (Only fenced code works.) 
+Возвращает `*this для сцепки методов.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:Tables`(bool`): [_^Upp`:`:MarkdownConverter^ MarkdownC
 onverter][@(0.0.255) `&]_[* Tables]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables tables. Возвращает `*this для сцепки методов.&]
-[s3;%% &]
+[s2;%RU-RU Enables tables. Возвращает `*this для сцепки 
+методов.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:WikiLinks`(bool`): [_^Upp`:`:MarkdownConverter^ Markdo
 wnConverter][@(0.0.255) `&]_[* WikiLinks]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables wikilinks. Возвращает `*this для сцепки методов.&]
-[s3;%% &]
+[s2;%RU-RU Enables wikilinks. Возвращает `*this для 
+сцепки методов.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:Strikeout`(bool`): [_^Upp`:`:MarkdownConverter^ Markdo
 wnConverter][@(0.0.255) `&]_[* Strikeout]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables strikedout text. Возвращает `*this для сцепки методов.&]
-[s3;%% &]
+[s2;%RU-RU Enables strikedout text. Возвращает `*this для 
+сцепки методов.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:Underline`(bool`): [_^Upp`:`:MarkdownConverter^ Markdo
 wnConverter][@(0.0.255) `&]_[* Underline]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables underlined text. Возвращает `*this для сцепки методов.&]
-[s3;%% &]
+[s2;%RU-RU Enables underlined text. Возвращает `*this для 
+сцепки методов.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:NoHtmlBlocks`(bool`): [_^Upp`:`:MarkdownConverter^ Mar
 kdownConverter][@(0.0.255) `&]_[* NoHtmlBlocks]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) tr
 ue])&]
-[s2;%% Disables raw html blocks. Возвращает `*this для сцепки методов.&]
-[s3;%% &]
+[s2;%RU-RU Disables raw html blocks. Возвращает `*this 
+для сцепки методов.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:NoHtmlSpans`(bool`): [_^Upp`:`:MarkdownConverter^ Mark
 downConverter][@(0.0.255) `&]_[* NoHtmlSpans]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true
 ])&]
-[s2;%% Disables [/ inline] raw html text. Возвращает `*this for method 
-chaining.&]
-[s3;%% &]
+[s2;%RU-RU Disables [/ inline] raw html text. Возвращает 
+`*this for method chaining.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:NoHtml`(bool`): [_^Upp`:`:MarkdownConverter^ MarkdownC
 onverter][@(0.0.255) `&]_[* NoHtml]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Disables both raw html blocks and inline raw html text. Возвращает 
-`*this для сцепки методов.&]
-[s3;%% &]
+[s2;%RU-RU Disables both raw html blocks and inline raw html text. 
+Возвращает `*this для сцепки методов.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:PermissiveAtxHeaders`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* PermissiveAtxHeaders]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
-[s2;%% Do not require space in ATX headers (e.g [C ###header]). Возвращает 
-`*this для сцепки методов.&]
-[s3;%% &]
+[s2;%RU-RU Do not require space in ATX headers (e.g [C ###header]). 
+Возвращает `*this для сцепки методов.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:PermissiveUrlAutolinks`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* PermissiveUrlAutolinks]([@(0.0.255) bool]_[*@3 b]_`=_
 [@(0.0.255) true])&]
-[s2;%% Allows URLs as autolinks even without `'[C <]`', `'[C >]`'. Возвращает 
-`*this для сцепки методов.&]
-[s3;%% &]
+[s2;%RU-RU Allows URLs as autolinks even without `'[C <]`', `'[C >]`'. 
+Возвращает `*this для сцепки методов.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:PermissiveWWWAutolinks`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* PermissiveWWWAutolinks]([@(0.0.255) bool]_[*@3 b]_`=_
 [@(0.0.255) true])&]
-[s2;%% Enables www autolinks (even without any scheme prefix, if 
-they begin with `'[C www]`'.) Возвращает `*this для сцепки методов.&]
-[s3;%% &]
+[s2;%RU-RU Enables www autolinks (even without any scheme prefix, 
+if they begin with `'[C www]`'.) Возвращает `*this для 
+сцепки методов.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:PermissiveEmailAutolinks`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* PermissiveEmailAutolinks]([@(0.0.255) bool]_[*@3 b]_`=
 _[@(0.0.255) true])&]
-[s2;%% Recognize e`-mails as autolinks even without `'[C <]`', `'[C >]`' 
-and `'[C mailto:]`'&]
-[s3;%% &]
+[s2;%RU-RU Recognize e`-mails as autolinks even without `'[C <]`', 
+`'[C >]`' and `'[C mailto:]`'&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:PermissiveAutolinks`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* PermissiveAutolinks]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
-[s2;%% Enables or disables permissive autolink parsing as a whole. 
+[s2;%RU-RU Enables or disables permissive autolink parsing as a whole. 
 Возвращает `*this для сцепки методов.&]
-[s3;%% &]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:CommonMarkDialect`(`): [_^Upp`:`:MarkdownConverter^ Ma
 rkdownConverter][@(0.0.255) `&]_[* CommonMarkDialect]()&]
-[s2;%% This is the default dialect of MarkdownConverter. Возвращает 
+[s2;%RU-RU This is the default dialect of MarkdownConverter. Возвращает 
 `*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:GitHubDialect`(`): [_^Upp`:`:MarkdownConverter^ Markdo
 wnConverter][@(0.0.255) `&]_[* GitHubDialect]()&]
-[s2;%% Enables GitHub`'s markdown dialect. Возвращает `*this for method 
-chaining.&]
+[s2;%RU-RU Enables GitHub`'s markdown dialect. Возвращает 
+`*this for method chaining.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:ToQtf`(const Upp`:`:String`&`): [_^Upp`:`:String^ Stri
 ng]_[* ToQtf]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 markdown`_te
 xt])&]
-[s2;%% Attempts to convert the [%-*@3 markdown`_text] into a qtf text. 
-The markdown text has to be a valid UTF`-8 string. Возвращает the 
-qtf formatted text on success or a void String on failure.&]
-[s3;%% &]
+[s2;%RU-RU Attempts to convert the [%-*@3 markdown`_text] into a qtf 
+text. The markdown text has to be a valid UTF`-8 string. Возвращает 
+the qtf formatted text on success or a void String on failure.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:WhenImages: [_^Upp`:`:Event^ Event]<_[_^Upp`:`:VectorMap^ V
 ectorMap]<[_^Upp`:`:String^ String], [_^Upp`:`:String^ String]>`&_>_[* WhenImages]&]
-[s2;%% This event is dispatched when the markdown text contains valid 
-image spans. Client is presented with a string map of key`-value 
+[s2;%RU-RU This event is dispatched when the markdown text contains 
+valid image spans. Client is presented with a string map of key`-value 
 pairs. The keys of this map will be the URLs of images to be 
 rendered. Note that the URLs [/ may ]contain relative addresses 
 or they [/ may ]point to local sources. Client can render the images, 
@@ -138,9 +146,9 @@ however, then the resulting span may be converted into qtf as
 a hyperlink, plain text, or it can be completely discarded, depending 
 on the enabled markdown extensions or selected dialect. &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
-[s3;%% &]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора]]}}&]
+[s3;%RU-RU &]
 [s5;:Upp`:`:MarkdownConverter`:`:MarkdownConverter`(`): [* MarkdownConverter]()&]
-[s2;%% Дефолтный конструктор.&]
+[s2;%RU-RU Дефолтный конструктор.&]
 [s3; &]
-[s0;%% ]]
+[s0;%RU-RU ]]

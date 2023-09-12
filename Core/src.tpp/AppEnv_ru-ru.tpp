@@ -20,19 +20,19 @@ topic "Приложение & Среда (утилиты)";
 [s3; &]
 [s5;:GetExeFilePath`(`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ Stri
 ng]_[* GetExeFilePath]()&]
-[s2;%RU-RU Возвращает  абсолютный путь к 
+[s2;%RU-RU Возвращает абсолютный путь к 
 бинарнику приложения.&]
 [s3; &]
 [s4; &]
 [s5;:GetEnv`(const char`*`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* GetEnv]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id])&]
-[s2;%RU-RU Возвращает  значение переменной 
+[s2;%RU-RU Возвращает значение переменной 
 среды [*@3 id].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:GetExeDirFile`(const char`*`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* GetExeDirFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 fp])&]
-[s2;%RU-RU Возвращает  абсолютный путь файла, 
+[s2;%RU-RU Возвращает абсолютный путь файла, 
 находящегося в папке бинарников приложения.
 &]
 [s2;%RU-RU [*@(129.0.0) fp][@(129.0.0) ..................................................
@@ -41,13 +41,13 @@ tring]_[* GetExeDirFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 fp])&]
 [s4; &]
 [s5;:GetHomeDirectory`(`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ St
 ring]_[* GetHomeDirectory]()&]
-[s2;%RU-RU Возвращает  абсолютный путь домашней 
+[s2;%RU-RU Возвращает абсолютный путь домашней 
 папки текущего пользователя.&]
 [s3; &]
 [s4; &]
 [s5;:GetHomeDirFile`(const char`*`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* GetHomeDirFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 fp])&]
-[s2;%RU-RU Возвращает  абсолютный путь файла, 
+[s2;%RU-RU Возвращает абсолютный путь файла, 
 расположенного в домашней папке текущего 
 пользователя.&]
 [s7;%RU-RU [*@3 fp]..................................................имя 
@@ -56,7 +56,7 @@ tring]_[* GetHomeDirFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 fp])&]
 [s4; &]
 [s5;:GetExeTitle`(`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ String]_
 [* GetExeTitle]()&]
-[s2;%RU-RU Возвращает  титул этого приложения.&]
+[s2;%RU-RU Возвращает титул этого приложения.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:GetAppFolder`(`): [_^Upp`:`:String^ String]_[* GetAppFolder]()&]
@@ -67,7 +67,7 @@ tring]_[* GetHomeDirFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 fp])&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:GetAppName`(`): [_^Upp`:`:String^ String]_[* GetAppName]()&]
-[s2;%RU-RU Возвращает  имя приложения. Дефолтное 
+[s2;%RU-RU Возвращает имя приложения. Дефолтное 
 значение `= GetExeTitle, но его можно изменить 
 посредством SetAppName. Это значение используетс
 я, например, как имя папки конфигурации.&]
@@ -91,7 +91,7 @@ onst]_[@(0.0.255) char]_`*[*@3 group])&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:GetConfigGroup`(`): [_^Upp`:`:String^ String]_[* GetConfigGroup]()&]
-[s2;%RU-RU Возвращает  текущую группу config.&]
+[s2;%RU-RU Возвращает текущую группу config.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:GetTempDirectory`(`): [_^Upp`:`:String^ String]_[* GetTempDirectory]()&]
@@ -100,13 +100,13 @@ onst]_[@(0.0.255) char]_`*[*@3 group])&]
 [s4; &]
 [s5;:Upp`:`:TempFile`(const char`*`): [_^Upp`:`:String^ String]_[* TempFile]([@(0.0.255) co
 nst]_[@(0.0.255) char]_`*[*@3 filename])&]
-[s2;%RU-RU Возвращает  абсолютный путь файла 
+[s2;%RU-RU Возвращает абсолютный путь файла 
 во временной папке.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:GetExeFolder`(`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* GetExeFolder]()&]
-[s2;%RU-RU Возвращает  директорию исполнимого 
+[s2;%RU-RU Возвращает директорию исполнимого 
 приложения.&]
 [s3; &]
 [s4; &]
@@ -129,7 +129,7 @@ rectory]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 s])&]
 [s4; &]
 [s5;:ConfigFile`(const char`*`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* ConfigFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 file])&]
-[s2;%RU-RU Возвращает  абсолютный путь файла 
+[s2;%RU-RU Возвращает абсолютный путь файла 
 конфигурации. Эта директория зависит 
 от хостовой платформы и других настроек. 
 Если уже установлена какая`-то, посредством 
@@ -149,7 +149,7 @@ SetConfigDirectory, используется она. Иначе,
 [s4; &]
 [s5;:ConfigFile`(`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ String]_
 [* ConfigFile]()&]
-[s2;%RU-RU Возвращает  дефолтный файл конфигурации 
+[s2;%RU-RU Возвращает дефолтный файл конфигурации 
 из пути поиска конфигурационных файлов. 
 Дефолтный файл конфигурации называется 
 [*/ `[GetAppName()`]][* .cfg].&]
@@ -165,7 +165,7 @@ ector][@(0.0.255) <][_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ St
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:GetArgv0`(`): [_^Upp`:`:String^ String]_[* GetArgv0]()&]
-[s2;%RU-RU Возвращает  аргумент argv`[0`] main (содержит 
+[s2;%RU-RU Возвращает аргумент argv`[0`] main (содержит 
 имя исполнимого).&]
 [s3; &]
 [s4; &]
@@ -173,7 +173,7 @@ ector][@(0.0.255) <][_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ St
 ectorMap][@(0.0.255) <][_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ Stri
 ng], [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ String][@(0.0.255) >`&
 ]_[* Environment]()&]
-[s2;%RU-RU Возвращает  вектор строк с системными 
+[s2;%RU-RU Возвращает вектор строк с системными 
 переменными среды.&]
 [s3; &]
 [s4; &]
@@ -190,7 +190,7 @@ ng], [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ String][@(0.0.255
 [s3; &]
 [s4; &]
 [s5;:IsMainRunning`(`): [@(0.0.255) bool]_[* IsMainRunning]()&]
-[s2;%RU-RU Возвращает  true, если выполнение 
+[s2;%RU-RU Возвращает true, если выполнение 
 приложения достигло, но ещё не вышло 
 из главной функции main.&]
 [s3; &]
@@ -224,17 +224,17 @@ har]_`*[*@3 path])&]
 [s4; &]
 [s5;:GetComputerName`(`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ Str
 ing]_[* GetComputerName]()&]
-[s2;%RU-RU Возвращает  имя компьютера.&]
+[s2;%RU-RU Возвращает имя компьютера.&]
 [s3; &]
 [s4; &]
 [s5;:GetUserName`(`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ String]_
 [* GetUserName]()&]
-[s2;%RU-RU Возвращает  текущего пользователя.&]
+[s2;%RU-RU Возвращает текущего пользователя.&]
 [s3; &]
 [s4; &]
 [s5;:GetDesktopManager`(`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* GetDesktopManager]()&]
-[s2;%RU-RU Возвращает  текущий идентификатор 
+[s2;%RU-RU Возвращает текущий идентификатор 
 ГИП (GUI). Предопределены значения `"windows`", 
 `"gnome`", `"kde`". Если в этом списке отсутствует 
 менеджер рабочего стола X11, то возвращается 
@@ -258,23 +258,23 @@ onst]_[@(0.0.255) char]_`*[*@3 dir])&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:CpuMMX`(`): [@(0.0.255) bool]_[* CpuMMX]()&]
-[s2;%RU-RU Возвращает  true, если ЦПБ поддерживает 
+[s2;%RU-RU Возвращает true, если ЦПБ поддерживает 
 MMX.&]
 [s3;%RU-RU &]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:CpuSSE`(`): [@(0.0.255) bool]_[* CpuSSE]()&]
-[s2;%RU-RU Возвращает  true, если ЦПБ поддерживает 
+[s2;%RU-RU Возвращает true, если ЦПБ поддерживает 
 SSE.&]
 [s3; &]
 [s4; &]
 [s5;:CpuSSE2`(`): [@(0.0.255) bool]_[* CpuSSE2]()&]
-[s2;%RU-RU Возвращает  true, если ЦПБ поддерживает 
+[s2;%RU-RU Возвращает true, если ЦПБ поддерживает 
 SSE2.&]
 [s3; &]
 [s4; &]
 [s5;:CpuSSE3`(`): [@(0.0.255) bool]_[* CpuSSE3]()&]
-[s2;%RU-RU Возвращает  true, если ЦПБ поддерживает 
+[s2;%RU-RU Возвращает true, если ЦПБ поддерживает 
 SSE3.&]
 [s3; &]
 [s4; &]
@@ -288,6 +288,6 @@ SSE3.&]
 [s3; &]
 [s4; &]
 [s5;:CPU`_Cores`(`): [@(0.0.255) int]_[* CPU`_Cores]()&]
-[s2;%RU-RU Возвращает  число ядер ЦПБ.&]
+[s2;%RU-RU Возвращает число ядер ЦПБ.&]
 [s3; &]
 [s0; ]]

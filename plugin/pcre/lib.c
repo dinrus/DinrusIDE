@@ -3,11 +3,6 @@
 #define SUPPORT_UCP
 #define HAVE_CONFIG_H
 
-////#define HAVE_STDINT_H 0
-////#define HAVE_INTTYPES_H 0
-//#undef HAVE_STDINT_H
-//#undef HAVE_INTTYPES_H
-
 #ifdef _MSC_VER
 
 typedef __int64            int64;

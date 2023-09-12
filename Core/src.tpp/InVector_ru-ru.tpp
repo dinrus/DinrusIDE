@@ -1,5 +1,4 @@
-topic "InVector";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс InVector";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,8 +8,9 @@ topic "InVector";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 InVector]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс InVector]]}}&]
 [s1;%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 T][3 >]&]
 [s1;:InVector`:`:class:%- [@(0.0.255) class]_[* InVector]_:_[@(0.0.255) public]_[*@3 MoveableA
 ndDeepCopyOption]<_[* InVector]<[*@4 T]>_>_&]
@@ -63,19 +63,19 @@ nt]_[*@3 i])&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Add`(`):%- [*@4 T][@(0.0.255) `&]_[* Add]()&]
-[s2; То же, что и Insert(GetCount()). Invalidates iterators and references 
-to elements.&]
+[s2; То же, что и Insert(GetCount()). Invalidates iterators 
+and references to elements.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Add`(const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Add]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 x])&]
-[s2; То же, что и Insert(GetCount(), [%-*@3 x]). Invalidates iterators and 
-references to elements.&]
+[s2; То же, что и Insert(GetCount(), [%-*@3 x]). Invalidates 
+iterators and references to elements.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:AddN`(int`):%- [@(0.0.255) void]_[* AddN]([@(0.0.255) int]_[*@3 n])&]
-[s2; То же, что и InsertN(GetCount(), [%-*@3 n]). Invalidates iterators 
-and references to elements.&]
+[s2; То же, что и InsertN(GetCount(), [%-*@3 n]). Invalidates 
+iterators and references to elements.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
@@ -87,19 +87,19 @@ and references to elements.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Trim`(int`):%- [@(0.0.255) void]_[* Trim]([@(0.0.255) int]_[*@3 n])&]
-[s2; То же, что и Remove(n, GetCount() `- n). Invalidates iterators and 
-references to elements.&]
+[s2; То же, что и Remove(n, GetCount() `- n). Invalidates 
+iterators and references to elements.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:SetCount`(int`):%- [@(0.0.255) void]_[* SetCount]([@(0.0.255) int]_[*@3 n])&]
-[s2; Устанавливаетthe number of elements to be [%-*@3 n] either removing surplus 
-elements or using AddN to extend the InVector. Invalidates iterators 
-and references to elements.&]
+[s2; Устанавливаетthe number of elements to be [%-*@3 n] 
+either removing surplus elements or using AddN to extend the 
+InVector. Invalidates iterators and references to elements.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; То же, что и Remove(0, GetCount()). Invalidates iterators and references 
-to elements.&]
+[s2; То же, что и Remove(0, GetCount()). Invalidates iterators 
+and references to elements.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:At`(int`):%- [*@4 T][@(0.0.255) `&]_[* At]([@(0.0.255) int]_[*@3 i])&]
@@ -116,13 +116,14 @@ iterators and references to elements.&]
 [s4; &]
 [s5;:InVector`:`:Set`(int`,const T`&`,int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 i
 ], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x], [@(0.0.255) int]_[*@3 count])&]
-[s2; Устанавливаетthe value of [%-*@3 count] elements starting at [%-*@3 i] to 
-[%-*@3 x].&]
+[s2; Устанавливаетthe value of [%-*@3 count] elements 
+starting at [%-*@3 i] to [%-*@3 x].&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Set`(int`,const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Set]([@(0.0.255) int]_[*@3 i
 ], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2; Устанавливаетthe value of element at [%-*@3 i] to [%-*@3 x].&]
+[s2; Устанавливаетthe value of element at [%-*@3 i] to 
+[%-*@3 x].&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Swap`(int`,int`):%- [@(0.0.255) void]_[* Swap]([@(0.0.255) int]_[*@3 i1], 
@@ -141,7 +142,8 @@ onst]&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Pop`(`):%- [*@4 T]_[* Pop]()&]
-[s2; Возвращает a copy to the last element and removes it.&]
+[s2; Возвращает a copy to the last element and removes 
+it.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:FindUpperBound`(const T`&`,const L`&`)const:%- [@(0.0.255) template]_<

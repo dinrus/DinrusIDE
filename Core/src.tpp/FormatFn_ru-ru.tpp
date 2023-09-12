@@ -101,13 +101,15 @@ padding`'ом до заданной ширины [%-*@3 width]
 [s4;%- &]
 [s5;:FormatIntAlpha`(int`,bool`):%- [_^String^ String]_[* FormatIntAlpha]([@(0.0.255) int]_
 [*@3 i], [@(0.0.255) bool]_[*@3 upper]_`=_[@(0.0.255) true])&]
-[s2; Форматирует значное целое [%-*@3 i] in 
-length`-first lexicographic index, i.e. excel column numbering 
-(1 `= A,2 `= B..  26 `= Z, 27 `= AA, 28 `= AB .. 52 `= AZ, 53 
-`= BA ... 78 `= BZ etc). 0 or Null is output as a Null String. 
-Только к отрицательным числам предпоставляе
-тся `[`-`]. Если [%-*@3 upper] равен true, используется 
-верхний регистр букв.&]
+[s2; Форматирует значное целое [%-*@3 i] в 
+лексикографическом индексе `"length`-first`" 
+(`"первой `- длина`"), т.е. исчисление 
+колонок excel (1 `= A,2 `= B..  26 `= Z, 27 `= AA, 28 
+`= AB .. 52 `= AZ, 53 `= BA ... 78 `= BZ etc). 0 или Null 
+выводится как Null String. Только к отрицательным
+ числам предпоставляется `[`-`]. Если 
+[%-*@3 upper] равен true, используются заглавные 
+буквы.&]
 [s3; &]
 [s4;%- &]
 [s5;:Format64Hex`(uint64`):%- [_^String^ String]_[* Format64Hex]([_^uint64^ uint64]_[*@3 a])&]
@@ -121,10 +123,11 @@ length`-first lexicographic index, i.e. excel column numbering
 [@(0.0.255) void]_`*[*@3 ptr])&]
 [s2; Форматирует адрес указателя [%-*@3 ptr] 
 как шестнадцатиричное (основание 
-16) число, zero`-padded to the number of digits appropriate 
-for the memory model (8 digits in 32`-bit systems, 16 digits 
-in 64`-bit systems). Useful for logging and debugging purposes. 
-Equivalent to FormatHex, god knows why there are two of them.&]
+16) число, zero`-padded до числа цифр, соответствующ
+его данной модели памяти (8 цифр в 
+32`-битных системах, 16 цифр в 64`-битных 
+системах).Применимо для отладочных 
+и логовых целей. Эквивалентно FormatHex.&]
 [s3; &]
 [s4;%- &]
 [s5;:FormatHex`(const void`*`):%- [_^String^ String]_[* FormatHex]([@(0.0.255) const]_[@(0.0.255) v
@@ -140,42 +143,55 @@ ormatDouble]([@(0.0.255) char]_`*[*@3 t], [@(0.0.255) double]_[*@3 x],
 matDouble]([@(0.0.255) double]_[*@3 x], [@(0.0.255) int]_[*@3 precision], 
 [_^Upp`:`:dword^ dword]_[*@3 flags]_`=_FD`_TOLERANCE([@3 6])`|FD`_MINIMAL`_EXP[@(0.0.255) `|
 ]FD`_SPECIAL)&]
-[s2; Форматирует a floating point number [%-*@3 d] in decimal 
-notation automatically selecting ordinary or scientific (exponential) 
-notation according to the FD`_TOLERANCE flag.&]
-[s2; The first variant requires the buffer of size [%-*@3 precision] 
-`+ 30 and returns a pointer after the last character produced 
-(terminating `'`\0`' is NOT appended).&]
-[s2; [%-*@3 precision]  represents the number of valid digits.&]
-[s2; [%-*@3 flags] can be a binary combination &]
+[s2; Форматирует число с плавающей точкой 
+[%-*@3 d], указанное в десятичной форме, 
+автоматически выбирая ординарную 
+или научную (экспоненциальную) форму, 
+согласно флагу FD`_TOLERANCE.&]
+[s2; Для первого варианта требуется буфер 
+размером [%-*@3 precision] `+ 30; возвращает 
+указатель за последним произведённым 
+символом (заверщающий `'`\0`' Не добавляется!).&]
+[s2; [%-*@3 precision]  представляет собой число 
+полноценных цифр.&]
+[s2; [%-*@3 flags] может быть бинарной комбинацией 
+&]
 [s0; &]
 [ {{2691:7309<288;h1; [s0; FD`_SIGN]
-:: [s0; [/ always prepend sign (`+10)]]
+:: [s0; [/ всегда приставлять знак (`+10)]]
 :: [s0; FD`_MINUS0]
-:: [s0; [/ print minus sign for negative zero (`-0.0)]]
+:: [s0; [/ выводить знак минус для отрицательного 
+нуля (`-0.0)]]
 :: [s0; FD`_SIGN`_EXP]
-:: [s0; [/ always prepend sign to exponent (1e`+2)]]
+:: [s0; [/ всегда приставлять знак к экспоненте 
+(1e`+2)]]
 :: [s0; FD`_CAP`_E]
-:: [s0; [/ capital E for exponent (1E10)]]
+:: [s0; [/ заглавнае E для экспоненты (1E10)]]
 :: [s0; FD`_ZEROS]
-:: [s0; [/ keep trailing zeros (1.25000)]]
+:: [s0; [/ сохранять завершающие нули (1.25000)]]
 :: [s0; FD`_MINIMAL`_EXP]
-:: [s0; [/ use minimal exponent (1e5 instead 1e`+05)]]
+:: [s0; [/ использовать минимальную экспоненту 
+(1e5 instead 1e`+05)]]
 :: [s0; FD`_TOLERANCE(x)]
-:: [s0; [/ number of zeroes allowed between the decimal points and valid 
-digits to the right before switching to E notation]]
+:: [s0; [/ число нулей, допустимое между десятичными 
+точками и полноценными цифрами, справа, 
+до переключения в нотацию E]]
 :: [s0; FD`_SPECIAL]
-:: [s0; [/ allow ][*/ nan][/  / ][*/ inf][/  printing (otherwise such numbers 
-are printed as empty)]]
+:: [s0; [/ разрешает вывод ][*/ nan][/  / ][*/ inf][/  (иначе 
+такие числа выводятся пустыми)]]
 :: [s0; FD`_FIX]
-:: [s0; [/ always use fixed notation (redirects FormatDouble to FormatF)]]
+:: [s0; [/ всегда использовать фиксированную 
+нотацию (перенаправляет FormatDouble в 
+FormatF)]]
 :: [s0; FD`_EXP]
-:: [s0; [/ always use exponential notation (redirects FormatDouble to 
+:: [s0; [/ всегда использовать экпоненциальную 
+нотацию (перенаправляет FormatDouble в 
 FormatE)]]
 :: [s0; FD`_SIGN`_SPACE]
-:: [s0; [/ prepend space in place of sign for positive numbers]]
+:: [s0; [/ приставляет пробел в месте знака 
+для положительных чисел]]
 :: [s0; FD`_POINT]
-:: [s0; [/ always add decimal point]]}}&]
+:: [s0; [/ всегда добавлять десятичную точку]]}}&]
 [s0; &]
 [s3; &]
 [s4;%- &]
@@ -183,11 +199,11 @@ FormatE)]]
 har]_`*[*@3 t], [@(0.0.255) double]_[*@3 x])&]
 [s5;:FormatDouble`(double`):%- [_^String^ String]_[* FormatDouble]([@(0.0.255) double]_[*@3 a
 ])&]
-[s2; То же, что и FormatDouble with flags FD`_TOLERANCE(6)`|FD`_MINIMAL`_EXP`|
-FD`_SPECIAL and precision 15. Should represent the most reasonable 
-formatting for displayed output. The first variant requires the 
-buffer of size 32 and returns a pointer after the last character 
-produced (terminating `'`\0`' is NOT appended).&]
+[s2; То же, что и FormatDouble с флагами FD`_TOLERANCE(6)`|FD`_MINIMA
+L`_EXP`|FD`_SPECIAL и precision 15. Should represent the most 
+reasonable formatting for displayed output. The first variant 
+requires the buffer of size 32 and returns a pointer after the 
+last character produced (terminating `'`\0`' is NOT appended).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:FormatE`(char`*`,double`,int`,Upp`:`:dword`):%- [@(0.0.255) char]_`*[* Format

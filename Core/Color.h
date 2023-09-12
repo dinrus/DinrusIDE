@@ -1,6 +1,6 @@
 #ifdef PLATFORM_MACOS
 struct RGBA : Moveable<RGBA> {
-        byte a, r, g, b;
+	byte a, r, g, b;
 };
 #else
 struct RGBA : Moveable<RGBA> {
@@ -77,7 +77,7 @@ public:
 
 	static Color FromRaw(dword co)     { Color c; c.color = co; return c; }
 	static Color Special(int n)        { Color c; c.color = 0x80000000 | n; return c; }
-	
+
 	int  GetSpecial() const            { return color & 0x80000000 ? color & 0x7fffffff : -1; }
 
 #ifdef PLATFORM_WIN32

@@ -12,158 +12,197 @@ topic "Функции Кучи";
 [{_} 
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Куча (Heap)]]}}&]
 [s3; &]
-[s0; U`+`+ has its own high`-performance allocator that is finetuned 
-for use with U`+`+. Globals operators new/delete are normally 
-overloaded to use this allocator, unless it is not possible or 
-unless flagUSEMALLOC macro is defined (e.g. main package configuration 
-contains USEMALLOC).&]
+[s0; В U`+`+ есть свой высокопроизводительный 
+аллокатор, настроенный под использование 
+с U`+`+. Глобальные операторы new/delete, 
+как правило, перегружаются под использовани
+е этого аллокатора, если это возможно, 
+или если не юыл определён макрос flagUSEMALLOC 
+(напр., конфигурация главного пакета 
+содержит USEMALLOC).&]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Basic allocation functions]]}}&]
 [s3; &]
 [s5;:Upp`:`:MemoryAllocPermanent`(size`_t`): [@(0.0.255) void]_`*[* MemoryAllocPermanent](
 [_^size`_t^ size`_t]_[*@3 size])&]
-[s2;%RU-RU Allocates a memory block of [%-*@3 size] bytes. This pointer 
-is permanent and cannot be released, it is also ignored in leak 
-checks.&]
+[s2;%RU-RU Размещает блок памяти в [%-*@3 size] 
+байтов. Этот указатель перманентен 
+и не может быть освобождён, также 
+он игнорируется при проверке утечек 
+памяти.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MemoryAllocSz`(size`_t`&`): [@(0.0.255) void]_`*[* MemoryAllocSz]([_^size`_t^ s
 ize`_t][@(0.0.255) `&]_[*@3 size])&]
-[s2;%RU-RU Allocates a memory block of at least [%-*@3 size] bytes. 
-[%-*@3 size] is set to the real number of bytes in the block that 
-can be used by an application. Guaranteed alignment is specified 
-in [* UPP`_HEAP`_ALIGNMENT] constant (currently 16). The minimal 
-real size of returned block in release mode is [* UPP`_HEAP`_MINBLOCK] 
-(currently 32).&]
+[s2;%RU-RU Размещает блок памяти, как минимум, 
+в [%-*@3 size] байтов. [%-*@3 size] устанавливается 
+в реальное число байтов в блоке, которое 
+может быть использовано приложением. 
+Гарантированная разлиновка (alignment) 
+указывается в константе [* UPP`_HEAP`_ALIGNMENT] 
+(на данный момент 16). Минимальный реальный 
+размер возвращаемого блока в режиме 
+выпуска (release) равен [* UPP`_HEAP`_MINBLOCK] (на 
+данный момент 32).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MemoryAlloc`(size`_t`): [@(0.0.255) void]_`*[* MemoryAlloc]([_^size`_t^ size`_t
 ]_[*@3 size])&]
-[s2;%RU-RU Allocates a memory block of at least [%-*@3 size] bytes.&]
+[s2;%RU-RU Размещает блок памяти, как минимум, 
+в [%-*@3 size] байтов.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MemoryFree`(void`*`): [@(0.0.255) void]_[* MemoryFree]([@(0.0.255) void]_`*[*@3 p
 tr])&]
-[s2;%RU-RU Frees block previously allocated in MemoryAllocSz or MemoryAlloc.&]
+[s2;%RU-RU Освобождает блок, ранее размещённый 
+в MemoryAllocSz или MemoryAlloc.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MemoryAlloc32`(`): [@(0.0.255) void]_`*[* MemoryAlloc32]()&]
-[s2;%RU-RU Allocates memory block of exactly 32 bytes. This has the 
-same functionality as MemoryAlloc(32), but is slightly faster.&]
+[s2;%RU-RU Размещает блок памяти ровно в 
+32 байта. Функциональность такая же, 
+как у MemoryAlloc(32), но слегка быстрее.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MemoryFree32`(void`*`): [@(0.0.255) void]_[* MemoryFree32]([@(0.0.255) void]_`*
 [*@3 ptr])&]
-[s2;%RU-RU Frees a memory block previously allocated by MemoryAlloc32. 
-This has the same functionality as MemoryFree([%-*@3 ptr]), but 
-is slightly faster.&]
+[s2;%RU-RU Освобождает блок памяти, ранее 
+размещённый с MemoryAlloc32. Функциональность 
+такая же, как у MemoryFree([%-*@3 ptr]), но слегка 
+быстрее.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MemoryTryRealloc`(void`*`,size`_t`&`): [@(0.0.255) bool]_[* MemoryTryRealloc](
 [@(0.0.255) void]_`*[*@3 ptr], [_^size`_t^ size`_t][@(0.0.255) `&]_[*@3 newsize])&]
-[s2;%RU-RU Attempts to change the size of block at [%-*@3 ptr] to something 
-closer to [%-*@3 newsize]. The real value is returned in [%-*@3 newsize]. 
-Возвращает true on success.&]
+[s2;%RU-RU Пытается изменить размер блока 
+по указателюt [%-*@3 ptr] в чему`-то, близкому 
+к [%-*@3 newsize]. Реальное значение возвращается 
+в [%-*@3 newsize]. Возвращает true при успехе.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TinyAlloc`(int`): [@(0.0.255) void]_`*[* TinyAlloc]([@(0.0.255) int]_[*@3 size])&]
-[s2;%RU-RU Allocates the block of [%-*@3 size] bytes. This allows for 
-allocation of smaller real size blocks (normally the minimal 
-size of block returned is 32 bytes), but requires the block to 
-be freed with TinyFree.&]
+[s2;%RU-RU Размещает блок в [%-*@3 size] байтов. 
+Это позволяет размещать меньшие блоки 
+реального размера (как правило, минимальный 
+размер возвращаемого блока равен 
+32 байта), но требует, чтобы блок высвобождалс
+я посредством TinyFree.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TinyFree`(int`,void`*`): [@(0.0.255) void]_[* TinyFree]([@(0.0.255) int]_[*@3 siz
 e], [@(0.0.255) void]_`*[*@3 ptr])&]
-[s2;%RU-RU Frees the block allocated with TinyAlloc, [%-*@3 size] has 
-to be the same as during allocation.&]
+[s2;%RU-RU Высвобождает блок, размещённый 
+посредством TinyAlloc, [%-*@3 size] должен быть 
+таким же, как при аллокации.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:tiny`_new`(Args`.`.`.args`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T],
  [@(0.0.255) class...]_[*@4 Args]>_[*@4 T]_`*[* tiny`_new]([*@4 Args][@(0.0.255) ...]_args)&]
-[s2;%RU-RU Allocates single object with TinyAlloc and initializes 
-it (with placement new).&]
+[s2;%RU-RU Размещает единичный объект посредством 
+TinyAlloc и инициализирует его (with placement 
+new).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:tiny`_delete`(T`*`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) v
 oid]_[* tiny`_delete]([*@4 T]_`*[*@3 ptr])&]
-[s2;%RU-RU Deletes object allocated with tiny`_new.&]
+[s2;%RU-RU Удаляет объект, размещённый с 
+помощью tiny`_new.&]
 [s0;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Heap diagnostics]]}}&]
 [s3;%RU-RU &]
 [s5;:Upp`:`:GetMemoryBlockSize`(void`*`): [_^size`_t^ size`_t]_[* GetMemoryBlockSize]([@(0.0.255) v
 oid]_`*[*@3 ptr])&]
-[s2;%RU-RU Возвращает the size of block in bytes.&]
+[s2;%RU-RU Возвращает размер блока в байтах.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MemoryCheck`(`): [@(0.0.255) void]_[* MemoryCheck]()&]
-[s2;%RU-RU Checks the heap for any errors (caused by e.g. buffer 
-overrides).&]
+[s2;%RU-RU Проверяет кучу на наличие ошибок 
+(вызванных, например, переполнением 
+буфера).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MemoryDumpLarge`(`): [@(0.0.255) void]_[* MemoryDumpLarge]()&]
-[s2;%RU-RU Dumps a list of large allocations (1`-64KB) to the standard 
-log.&]
+[s2;%RU-RU Делает дамп списка больших размещений 
+(large) (1`-64KB) в стандартный лог.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MemoryDumpHuge`(`): [@(0.0.255) void]_[* MemoryDumpHuge]()&]
-[s2;%RU-RU Dups a list of huge allocations (normally 64KB `- 16MB) 
-to the standard log.&]
+[s2;%RU-RU Делает дамп списка  ещё больших 
+размещений (huge) (как правило, 64KB `- 16MB) 
+в стандартный лог.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MemoryUsedKb`(`): [@(0.0.255) int]_[* MemoryUsedKb]()&]
-[s2;%RU-RU Возвращает the currently used memory.&]
+[s2;%RU-RU Возвращает текущую используемую 
+память.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MemoryUsedKbMax`(`): [@(0.0.255) int]_[* MemoryUsedKbMax]()&]
-[s2;%RU-RU Возвращает the peak memory usage.&]
+[s2;%RU-RU Возвращает пиковое использование 
+памяти.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MemoryLimitKb`(int`): [@(0.0.255) void]_[* MemoryLimitKb]([@(0.0.255) int]_[*@3 k
 b])&]
-[s2;%RU-RU This debug / diagnostics function limits memory usage 
-to [%-*@3 kb] KBs. If the application allocates more, it stops 
-with error.&]
+[s2;%RU-RU Ота отладочная / диагностическая 
+функция ограничивает использование 
+памяти до [%-*@3 kb] килобайтов. Если приложение 
+размещает больше, она останавливает 
+его с ошибкой.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MemoryGetCurrentSerial`(`): [_^Upp`:`:dword^ dword]_[* MemoryGetCurrentSerial
 ]()&]
-[s2;%RU-RU In debug mode, returns the serial number of the next allocated 
-block. This number is eventually listed in the log in case there 
-are any leaks.&]
+[s2;%RU-RU В отладочном режиме, возвращает 
+серийный номер следующего размещаемого 
+блока. TЭтот номер, в итоге, попадает 
+в список в логе, в случае наличия утечек 
+памяти.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MemoryIgnoreNonMainLeaks`(`): [@(0.0.255) void]_[* MemoryIgnoreNonMainLeaks](
 )&]
-[s2;%RU-RU Makes leaks detector ignore leaks by global constructors.&]
-[s3; &]
+[s2;%RU-RU Заставляет детектор утечек памяти 
+игнорировать утечки в глобальных 
+конструкторах.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MemoryIgnoreNonUppThreadsLeaks`(`): [@(0.0.255) void]_[* MemoryIgnoreNonUppTh
 readsLeaks]()&]
-[s2;%RU-RU Makes leaks dectector ignore leaks created by threads 
-that are not launched by U`+`+ Thread class.&]
+[s2;%RU-RU Заставляет детектор утечек памяти 
+игнорировать утечки, созданные потоками, 
+которые не запущены из класса U`+`+ 
+Thread.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MemoryIgnoreLeaksBegin`(`): [@(0.0.255) void]_[* MemoryIgnoreLeaksBegin]()&]
-[s2;%RU-RU Makes leak detector ignore leaks of blocks allocated until 
-[%-* MemoryIgnoreLeaksEnd ]is called. Вызывает can be nested. This 
-is especially useful when working with 3rd party code that might 
-e.g. create static leaks (memory is allocated just once, but 
-library does not bother to deallocate on exit).&]
+[s2;%RU-RU Заставляет детектор утечек памяти 
+игнорировать утечки в блоках, размещённых 
+до вызова [%-* MemoryIgnoreLeaksEnd]. Вызов может 
+быть гнездовым (be nested). Это особенно 
+полезно при работе со сторонним кодом 
+(`"3rd party code`"), который может, например, 
+создать статические утечки (память 
+размещается только раз, но библиотека 
+не вымещает её при выходе (on exit)).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MemoryIgnoreLeaksEnd`(`): [@(0.0.255) void]_[* MemoryIgnoreLeaksEnd]()&]
-[s2;%RU-RU Ends the suppression started by MemoryIgnoreLeaksBegin.&]
+[s2;%RU-RU Завершает подавление, начатое 
+MemoryIgnoreLeaksBegin.&]
 [s3;%RU-RU &]
 [s4; &]
 [s1;:Upp`:`:MemoryIgnoreLeaksBlock`:`:struct: [@(0.0.255) struct]_[* MemoryIgnoreLeaksBlo
 ck]&]
-[s2;%RU-RU This helper class calls [%-* MemoryIgnoreLeaksBegin] in 
-constructor and [%-* MemoryIgnoreLeaksEnd], in other works supresses 
-leaks till the end of block.&]
+[s2;%RU-RU Этот вспомогательный класс вызывает 
+в конструкторе [%-* MemoryIgnoreLeaksBegin] и [%-* MemoryIgnoreLeaksEnd
+], другими словами, подавляет утечки 
+до конца блока.&]
 [s3;%RU-RU &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Heap tuning]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Тюнинг кучи]]}}&]
 [s0;%RU-RU &]
-[s0;%RU-RU Heap tuning is provided through MemoryOptions class. Конструктор  
-of this class sets the default values to individual parameters, 
-destructor applies them to the heap subsystem.]]
+[s0;%RU-RU Тюнинг кучи предоставляется классом 
+MemoryOptions. Конструктор этого класса 
+устанавливает дефолтные значения 
+конкретных параметров, деструктор 
+применяет их к подсистеме кучи.]]

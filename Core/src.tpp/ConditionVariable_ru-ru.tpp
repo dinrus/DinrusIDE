@@ -53,7 +53,7 @@ topic "Класс ConditionVariable";
 [s0;3 &]
 [s0;3 &]
 [s0;3 &]
-[ {{10000t/25b/25@(113.42.0) [s0; [*@7;4 StaticConditionVariable]]}}&]
+[ {{10000t/25b/25@(113.42.0) [s0; [*@7;4 Класс StaticConditionVariable]]}}&]
 [s3;%RU-RU &]
 [s1;:StaticConditionVariable`:`:class: [@(0.0.255)3 class][3 _][*3 StaticConditionVariable]&]
 [s9; Вариант ConditionVariable, который можно 
@@ -73,7 +73,7 @@ topic "Класс ConditionVariable";
 ]_[* Get]()&]
 [s5;:StaticConditionVariable`:`:operator ConditionVariable`&`(`): [* operator_Condition
 Variable`&]()&]
-[s2;%RU-RU Возвращает  экземпляр ConditionVariable.&]
+[s2;%RU-RU Возвращает экземпляр ConditionVariable.&]
 [s3; &]
 [s4; &]
 [s5;:StaticConditionVariable`:`:Wait`(Mutex`&`): [@(0.0.255) void]_[* Wait]([_^Mutex^ Mutex

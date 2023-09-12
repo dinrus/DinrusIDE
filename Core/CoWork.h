@@ -226,7 +226,7 @@ public:
 
 template< class Function, class... Args>
 AsyncWork<
-#ifdef CPP_20
+#ifdef CPP_17
 	std::invoke_result_t<Function, Args...>
 #else
 	typename std::result_of<
@@ -238,7 +238,7 @@ AsyncWork<
 Async(Function&& f, Args&&... args)
 {
 	AsyncWork<
-#ifdef CPP_20
+#ifdef CPP_17
 		std::invoke_result_t<Function, Args...>
 #else
 		typename std::result_of<

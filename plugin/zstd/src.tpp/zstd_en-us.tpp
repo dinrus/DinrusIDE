@@ -1,5 +1,4 @@
-topic "Zstd compression";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Сжатие Zstd";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,59 +8,63 @@ topic "Zstd compression";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 ZstdCompressStream]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс ZstdCompressStream]]}}&]
 [s3; &]
 [s1;:Upp`:`:ZstdCompressStream`:`:class: [@(0.0.255)3 class][3 _][*3 ZstdCompressStream][3 _:_
 ][@(0.0.255)3 public][3 _][*@3;3 Stream]&]
-[s2;%% [^https`:`/`/github`.com`/Cyan4973`/zstd^ Zstandard] is a very 
-fast (200MB/s per CPU core) compression algorithm with good compression 
-ratio (average 50%) by Yann Collet. File compressed using ZstdCompressStream 
-can be decompressed by Zstd commandline utilities.&]
+[s2;%RU-RU [^https`:`/`/github`.com`/Cyan4973`/zstd^ Zstandard] is 
+a very fast (200MB/s per CPU core) compression algorithm with 
+good compression ratio (average 50%) by Yann Collet. File compressed 
+using ZstdCompressStream can be decompressed by Zstd commandline 
+utilities.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:ZstdCompressStream`:`:Co`(bool`): [@(0.0.255) void]_[* Co]([@(0.0.255) bool]_[*@3 b
 ]_`=_[@(0.0.255) true])&]
-[s2;%% Activates multithreaded mode. The parallelization is completely 
+[s2;%RU-RU Activates multithreaded mode. The parallelization is completely 
 encapsulated, nothing special is required from calling thread.&]
-[s3;%% &]
-[s4;%% &]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Upp`:`:ZstdCompressStream`:`:Open`(Upp`:`:Stream`&`,int`): [@(0.0.255) void]_[* Open
 ]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 out], [@(0.0.255) int]_[*@3 level]_`=_[@3 1])
 &]
-[s2;%%  [%-*@3 out] [%-*@3 level] .&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU  [%-*@3 out] [%-*@3 level] .&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Upp`:`:ZstdCompressStream`:`:ZstdCompressStream`(Upp`:`:Stream`&`,int`): [* ZstdCo
 mpressStream]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 out], [@(0.0.255) int]_[*@3 lev
 el]_`=_[@3 1])&]
-[s2;%% Устанавливаетthe output stream where compressed data are stored. [%-*@3 level] 
-is the compression level `- higher levels provide better compression 
-but slower speed. For fast compression, level 1 is recommended.&]
-[s0;*@7;4%% &]
-[ {{10000@(113.42.0) [s0;%% [*@7;4 ZstdDecompressStream]]}}&]
+[s2;%RU-RU Устанавливает the output stream where compressed 
+data are stored. [%-*@3 level] is the compression level `- higher 
+levels provide better compression but slower speed. For fast 
+compression, level 1 is recommended.&]
+[s0;*@7;4%RU-RU &]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс ZstdDecompressStream]]}}&]
 [s3; &]
 [s1;:Upp`:`:ZstdDecompressStream`:`:class: [@(0.0.255)3 class][3 _][*3 ZstdDecompressStream
 ][3 _:_][@(0.0.255)3 public][3 _][*@3;3 Stream]&]
-[s2;%% Provides Zstd decompression.&]
+[s2;%RU-RU Provides Zstd decompression.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
-[s3;%% &]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
+[s3;%RU-RU &]
 [s5;:Upp`:`:ZstdDecompressStream`:`:Co`(bool`): [@(0.0.255) void]_[* Co]([@(0.0.255) bool]_
 [*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Activates multithreaded mode. The parallelization is completely 
+[s2;%RU-RU Activates multithreaded mode. The parallelization is completely 
 encapsulated, nothing special is required from calling thread.&]
-[s3;%% &]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ZstdDecompressStream`:`:Open`(Upp`:`:Stream`&`): [@(0.0.255) bool]_[* Open]([_^Upp`:`:Stream^ S
 tream][@(0.0.255) `&]_[*@3 in])&]
 [s5;:Upp`:`:ZstdDecompressStream`:`:ZstdDecompressStream`(Upp`:`:Stream`&`): [* ZstdDec
 ompressStream]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 in])&]
-[s2;%% Устанавливаетthe input stream from where compressed data are read.&]
-[s3;%% &]
-[s0;%% &]
-[ {{10000@(113.42.0) [s0;%% [*@7;4 Zstd Compress/Decompress functions]]}}&]
+[s2;%RU-RU Устанавливаетthe input stream from where 
+compressed data are read.&]
+[s3;%RU-RU &]
+[s0;%RU-RU &]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Функции Zstd Compress/Decompress]]}}&]
 [s3; &]
 [s5;:Upp`:`:ZstdCompress`(Upp`:`:Stream`&`,Upp`:`:Stream`&`,Upp`:`:EventGate`<Upp`:`:int64`,Upp`:`:int64`>`): [_^Upp`:`:int64^ i
 nt64]_[* ZstdCompress]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 out], 
@@ -111,7 +114,7 @@ tring]_[* CoZstdDecompress]([@(0.0.255) const]_[@(0.0.255) void]_`*[*@3 data],
 tring]_[* CoZstdDecompress]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 s
 ], [_^Upp`:`:EventGate^ EventGate]<[_^Upp`:`:int64^ int64], [_^Upp`:`:int64^ int64]>_[*@3 p
 rogress]_`=_[@(0.0.255) false])&]
-[s2;%% Simple Zstd compression/decompression functions. [%-*@3 out] 
+[s2;%RU-RU Simple Zstd compression/decompression functions. [%-*@3 out] 
 [%-*@3 in] parameters are input / ouput streams and function returns 
 the number of bytes stored to [%-*@3 out], otherwise input is provided 
 as memory block [%-*@3 data] of [%-*@3 len] bytes or as input String 
@@ -119,12 +122,12 @@ as memory block [%-*@3 data] of [%-*@3 len] bytes or as input String
 can be used to to track progress of operation and eventually 
 interrupt it by returning true. Functions with Co prefix run 
 multithreaded.&]
-[s3;%% &]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:IsZstd`(Upp`:`:Stream`&`): [@(0.0.255) bool]_[* IsZstd]([_^Upp`:`:Stream^ Strea
 m][@(0.0.255) `&]_[*@3 s])&]
-[s2;%% Checks the Stream for magic number identifying Zstd stream. 
-Seeks back after the check. Возвращает  true, если magic number was 
-detected.&]
-[s3;%% &]
-[s0;%% ]]
+[s2;%RU-RU Checks the Stream for magic number identifying Zstd stream. 
+Seeks back after the check. Возвращает  true, если 
+magic number was detected.&]
+[s3;%RU-RU &]
+[s0;%RU-RU ]]

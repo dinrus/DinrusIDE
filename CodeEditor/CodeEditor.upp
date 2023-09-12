@@ -2,8 +2,7 @@ description "Редактор исходного кода, производны�
 
 uses
 	CtrlLib,
-	plugin/pcre,
-	Lexilla;
+	plugin/pcre;
 
 file
 	CodeEditor.h options(BUILDER_OPTION) PCH,

@@ -92,7 +92,7 @@ U`+`+)]&]
 [s3;     [^`#5`_9^ 5.9 Строка Заголовочника]&]
 [s3;         [^`#5`_9`_1^ 5.9.1 Описание]&]
 [s3;         [^`#5`_9`_2^ 5.9.2 `"template`"]&]
-[s3;         [^`#5`_9`_3^ 5.9.3 `"][/^`#5`_9`_3^ Name][^`#5`_9`_3^ `"]&]
+[s3;         [^`#5`_9`_3^ 5.9.3 `"][/^`#5`_9`_3^ Имя][^`#5`_9`_3^ `"]&]
 [s3;         [^`#5`_9`_4^ 5.9.4 `"main`", `"sub`"]&]
 [s3;         [^`#5`_9`_5^ 5.9.5 Использование]&]
 [s3;     [^`#5`_10^ 5.10 `"filename`"]&]
@@ -525,62 +525,89 @@ Ultimate`+`+ позднее `"609`-dev3`".&]
 классифицируется как неполноценный 
 и игнорируется. Это ключслово не должно 
 заключаться в кавычки.&]
-[s42;l160;:5`_9`_3: [@6 5.9.3 `"][/@6 Name][@6 `"]&]
-[s5;l160; This is the name of the UPT file which appears in the template 
-list of the `"Create new package`" dialog. It must be enclosed 
-in quotation marks. If the name is missing, the file is classified 
-as invalid and ignored.&]
+[s42;l160;:5`_9`_3: [@6 5.9.3 `"Name`"]&]
+[s5;l160; Это имя файла UPT, который появляется 
+в списке шаблонов диалогового окна 
+`"Создать новый пакет`". Его обязательно 
+заключают в кавычки. Если этого имени 
+нет, файл классифицируется как неполноценны
+й и игнорируется.&]
 [s42;l160;:5`_9`_4: [@6 5.9.4 `"main`", `"sub`"]&]
-[s5;l160; These keywords which must not be enclosed in quotation 
-marks, determine the scope of the UPT file.&]
-[s5;l160; The `"Select main package`" window contains the option 
-`"All packages`". If this option is checked, all the `"main`" 
-UPT files only are presented in the template list of the `"Create 
-new package`" dialog. If this option is unchecked all the `"sub`" 
-UPT files only are shown in the template list of the `"Create 
-new package`" dialog.&]
-[s5;l160; A UPT file can be both `"main`" and `"sub`".&]
-[s5;l160; If neither keyword is used, the UPT file is silently ignored.&]
+[s5;l160; Эти ключевые слова не требуется 
+заключать в кавычки. Они определяют 
+масштаб файла UPT.&]
+[s5;l160; Окно `"Выбрать главный пакет`" содержит 
+опцию `"Все пакеты`". Если эта опция 
+помечена флажком, все только `"main`" 
+(главные) файлы UPT присутствуют в списке 
+шаблонов диалогового окна `"Создать 
+новый пакет`". Если эта опция не отмечена 
+флажком, тогда будут показаны только 
+все `"sub`" файлы UPT.&]
+[s5;l160; Файл UPT может быть как `"main`", так 
+и `"sub`".&]
+[s5;l160; Если ни одно из ключевых слов не 
+используется, тогда файл UPT молча 
+игнорируется.&]
 [s42;l160;:5`_9`_5: [@6 5.9.5 Использование]&]
-[s5;l160; The header line is terminated by a semicolon.&]
+[s5;l160; Строка заголовочника оканчивается 
+точкой с запятой.&]
 [s5;l160; [C template `"][/C name][C `" `[main `| sub `| main sub `| sub 
 main`];]&]
 [s42;:5`_10: [@(128.0.255) 5.10 `"filename`"]&]
 [s42;l160;:5`_10`_1: [@6 5.10.1 Описание]&]
-[s5;l160; `"filename`" defines a variable which is determined to 
-host a filename. Using it makes a named edit field appear. The 
-input is filtered. Only alphanumeric characters, `"`_`", and 
-`".`" are accepted. That means that you cannot enter a path or 
-a drive specification (e. g., Windows).&]
+[s5;l160; `"filename`" определяет переменную, 
+которая является детерменированным 
+для хоста именем файла. При его использовани
+и появляется именованное поле радактировани
+я. Ввод фильтруется. Только альфачисловые 
+символы, `"`_`", м `".`" принимаются. Таким 
+образом, определение пути или диска 
+ввести невозможно (напр., Windows).&]
 [s42;l160;:5`_10`_2: [@6 5.10.2 Определение]&]
-[s5;l160; The keyword and the variable name must not be enclosed 
-in quotation marks, whereas the title must. Doing otherwise results 
-in an error message and the UPT file is ignored. You can set 
-a literal, enclosed in quotation marks, as default. Using a variable 
-name instead, although syntactically correct, doesn`'t work. 
-The variable definition is terminated by a semicolon.&]
+[s5;l160; Ключевое клово и имя переменной 
+не должно быть заключено в кавычки, 
+а титул, наоборот, должен быть. Нарушение 
+этого правила приведёт к выводу сообщения 
+об ошибке и игнорированию файла UPT. 
+Можно установить литерал, заключённый 
+в кавычки, как дефолт. Использование 
+имени переменной, хоть синтактически 
+и корректно, не срабатывает. Определение 
+переменной заканчивается точкой 
+с запятой.&]
 [s5;l160; [C filename `"][/C title][C `" ][/C variable`_name][C  `[`= `"][/C default`"][C `];]&]
 [s42;l160;:5`_10`_3: [@6 5.10.3-|Использование]&]
 [s5;l160; [C ... <: ][/C variable`_name][C  :> ...]&]
-[s5;l160; You can compare filename variables and act based on the 
-result of this comparison.&]
+[s5;l160; Можно сравнивать переменные имён 
+файлов и действовать, опираясь на 
+это сравнение.&]
 [s42;:5`_11: [@(128.0.255) 5.11 `"id`"]&]
 [s42;l160;:5`_11`_1: [@6 5.11.1 Описание]&]
-[s5;l160; `"id`" defines a variable which is determined to host a 
-string. Using it makes a named edit field appear. The input is 
-filtered. Only alphanumeric characters and `"`_`" are accepted.&]
+[s5;l160; `"id`" определяет переменную, которая 
+детерминируется у хоста как строка. 
+При её использовании появляется именованное
+ поле редактирования. Ввод фильтруется. 
+Принимаются только альфачисленные 
+символы и `"`_`".&]
 [s42;l160;:5`_11`_2: [@6 5.11.2 Определение]&]
-[s5;l160; The keyword and the variable name must not be enclosed 
-in quotation marks, whereas the title must. Doing otherwise results 
-in an error message and the UPT file is ignored. You can set 
-a literal, enclosed in quotation marks, as default. Using a variable 
-name instead, although syntactically correct, doesn`'t work. 
-The variable definition is terminated by a semicolon.&]
+[s5;l160; Ключевое слово и имя переменной 
+в кавычки не заключаются, а титул 
+должен быть в кавычках. Нарушение 
+правила приводит в выводу сообщения 
+об ошибке и файл UPT игнорируется. Можно 
+установить литерал, заключённый в 
+кавычки, в качестве дефолта. Использование 
+вместо него мени переменной, хоть 
+синтектически и корректно, но не работает. 
+Определение переменной заканцивается 
+точкой с запятой.&]
 [s5;l160; [C id `"][/C title][C `" ][/C variable`_name][C  `[`= `"][/C default`"][C `];]&]
 [s42;l160;:5`_11`_3: [@6 5.11.3 Использование]&]
 [s5;l160; [C ... <: ][/C variable`_name][C  :> ...]&]
-[s5;l160; You can compare id variables and act based on the result 
-of this comparison.&]
+[s5;l160; Можно сравнивать переменные идентификат
+оров и действовать, опираясь на это 
+сравнение.&]
 [s42;:5`_12: [@(128.0.255) 5.12 `"option`"]&]
 [s42;l160;:5`_12`_1: [@6 5.12.1 Описание]&]
 [s5;l160; `"option`" defines a variable which is determined to host 
@@ -659,8 +686,8 @@ The variable definition is terminated by a semicolon.&]
 [s5;l160; [C text `"][/C title][C `" ][/C variable`_name][C  `[`= `"][/C default`"][C `];]&]
 [s42;l160;:5`_14`_3: [@6 5.14.3 Использование]&]
 [s5;l160; [C ... <: ][/C variable`_name][C  :> ...]&]
-[s5;l160; You can compare text variables and act based on the result 
-of this comparison.&]
+[s5;l160; Можно сравнивать текстовые переменные 
+и действовать, опираясь на это сравнение.&]
 [s42;:5`_15: [@(128.0.255) 5.15 Неопределённые переменные]&]
 [s5; Using undefined variables in syntactically correct places causes 
 no harm. Nevertheless an undefined variable has no value, even 
@@ -681,10 +708,10 @@ rectangles, but after opening the generated project files these
 characters show up as usual.&]
 [s0; &]
 [s3;:7: [@5 7. Деплоймент]&]
-[s5; DinrusIDE looks in the following directories for UPT files:&]
+[s5; DinrusIDE ищет файлы UPT в следующих директориях:&]
 [s5;l160;i150;O2; Projects&]
-[s5;l160;i150;O2; uppsrc&]
-[s5; Sub`-directories are also scanned.&]
+[s5;l160;i150;O2; src&]
+[s5; Сканируются также и поддиректории.&]
 [s28;l0;~~~256; &]
 [s3;:8: [@5 8. Эпилог]&]
 [s5; This documentation is valid for Ultimate`+`+ releases starting 
@@ -697,11 +724,13 @@ so on the Ultimate`+`+ forum.&]
 please say so on the Ultimate`+`+ forum.&]
 [s0; &]
 [s3;:9: [@5 9. Синтаксис Файла UPP]&]
-[s5; Each package has a package definition file, the name of which 
-must be the same as the name of the package folder. The extension 
-is `".upp`".&]
-[s5; If you create Ultimate`+`+ GUI applications, the UPP file normally 
-has the following three sections:&]
+[s5; У каждого пакета имеется файл определения 
+пакета, имя которого должно совпадать 
+с именем папки пакета. Расширение 
+у него `".upp`".&]
+[s5; Если создаётся приложение Ultimate`+`+ 
+GUI, у этого файла UPP, как правило, будут 
+иметься три следующих раздела:&]
 [s38;l160; &]
 [s39;l160; uses&]
 [s39;l160;     CtrlLib;&]

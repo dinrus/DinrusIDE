@@ -1,4 +1,4 @@
-topic "Function reference";
+topic "Справка по Функциям";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,56 +10,65 @@ topic "Function reference";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
-[ {{10000@(113.42.0) [s0; [*@7;4 SysInfo]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Пакет SysInfo]]}}&]
 [s0; &]
 [s0; &]
-[ {{10000@1 [s0; [* Hardware, BIOS, OS and Distro info]]}}&]
+[ {{10000@1 [s0; [* Информация о Hardware, BIOS, OS и Distro]]}}&]
 [s4;%- &]
 [s5;:GetSystemInfo`(String`&`,String`&`,String`&`,int`&`,String`&`):%- [@(0.0.255) void
 ]_[* GetSystemInfo]([_^String^ String]_`&[*@3 manufacturer], [_^String^ String]_`&[*@3 prod
 uctName], [_^String^ String]_`&[*@3 version], [@(0.0.255) int]_`&[*@3 numberOfProcessors],
  [_^String^ String]_`&[*@3 mbSerial])&]
-[s2; Возвращает hardware information including computer [%-*@3 manufacturer, 
-] [%-*@3 productName, ] [%-*@3 version], [%-*@3 numberOfProcessors 
-]and [%-*@3 mbSerial ](motherboard serial number).&]
+[s2; Возвращает информацию о железе компьютера, 
+включая [%-*@3 manufacturer (производитель), 
+] [%-*@3 productName (имя продукта), ] [%-*@3 version 
+(версия)], [%-*@3 numberOfProcessors (число процессоров) 
+]and [%-*@3 mbSerial (серийный номер материнской 
+платы)].&]
 [s3; &]
 [s4;%- &]
 [s5;:GetBiosInfo`(String`&`,Date`&`,String`&`):%- [@(0.0.255) void]_[* GetBiosInfo]([_^String^ S
 tring]_`&[*@3 biosVersion], [_^Date^ Date]_`&[*@3 biosReleaseDate][_^String^ , 
 String]_`&[*@3 biosSerial])&]
-[s2;%- [%% Возвращает bios information including ][*@3 biosVersion][%% , ][*@3 biosReleaseDate][%% .
-and ][*@3 biosSerial.]&]
+[s2;%- [%RU-RU Возвращает информацию о bios, включая 
+][*@3 biosVersion (версия)][%RU-RU , ][*@3 biosReleaseDate (дата 
+выпуска)][%RU-RU .and ][*@3 biosSerial (серийный номер).]&]
 [s3; &]
 [s4;%- &]
 [s5;:GetProcessorInfo`(int`,String`&`,String`&`,String`&`,int`&`):%- [@(0.0.255) bool]_
 [* GetProcessorInfo]([@(0.0.255) int]_[*@3 number], [_^String^ String]_`&[*@3 vendor], 
 [_^String^ String]_`&[*@3 identifier], [_^String^ String]_`&[*@3 architecture], 
 [@(0.0.255) int]_`&[*@3 speed])&]
-[s2; Возвращает information about the different cpu cores.&]
-[s2; [%-*@3 number] is the core number to get the information&]
-[s2; [%-*@3 vendor] is the core vendor&]
-[s2; [%-*@3 identifier] is the core identifier&]
-[s2; [%-*@3 architecture] is the core architecture (32, 64)&]
-[s2; [%-*@3 speed].is the core speed in MHz.&]
+[s2; Возвращает инофрмацию о разных ядрах 
+ЦПБ (центрального процессорного блока).&]
+[s2; [%-*@3 number] `- номер ядра, о котором нужно 
+получить инфу&]
+[s2; [%-*@3 vendor] `- производитель ядра&]
+[s2; [%-*@3 identifier] `- идентификатор ядра&]
+[s2; [%-*@3 architecture] `- архитектура ядра (32, 64)&]
+[s2; [%-*@3 speed].`- скорость ядра в МГц.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetCpuSpeed`(`):%- [@(0.0.255) int]_[* GetCpuSpeed]()&]
-[s2; Gets the real time main CPU speed in MHz.&]
-[s0;l288; This data is directly calculated by the function.&]
+[s2; Получает скорость главного ЦПБ в 
+МГц в реальном времени.&]
+[s0;l288; Эти данные непосредственно вычисляются 
+этой функцией.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetVideoInfo`(Array`<Value`>`&`,Array`<Value`>`&`,Array`<Value`>`&`,Array`<Value`>`&`,Array`<Value`>`&`):%- [@(0.0.255) b
 ool]_[* GetVideoInfo]([_^Array^ Array]_<[_^Value^ Value]>_`&[*@3 name], 
 Array_<Value>_`&[*@3 description], Array_<Value>_`&[*@3 videoProcessor], 
 Array_<Value>_`&[*@3 ram], Array_<Value>_`&[*@3 videoMode])&]
-[s2; If true gets information about video systems installed:&]
-[s2; [%-*@3 name] is the video system name&]
-[s2; [%-*@3 description] is the video description&]
-[s2; [%-*@3 videoProcessor] is the processor used&]
-[s2; [%-*@3 ram ]is the available memory in the video hardware in Mb&]
-[s2; [%-*@3 videoMode] is the video mode actually selected including 
-screen resolution and number of colors&]
-[s6; Only available in Windows&]
+[s2; Если возвращено true, то получена информация 
+об установленных видеосистемах:&]
+[s2; [%-*@3 name] `- имя видеосистемы&]
+[s2; [%-*@3 description] `-описание видео&]
+[s2; [%-*@3 videoProcessor] `- используемый процессор&]
+[s2; [%-*@3 ram] `- доступная память в Мб&]
+[s2; [%-*@3 videoMode] `- выбранный видеорежим, 
+включая разрешение и число цветов&]
+[s6; Доступно только в Windows&]
 [s3; &]
 [s4;%- &]
 [s5;:GetPackagesInfo`(Array`<Value`>`&`,Array`<Value`>`&`,Array`<Value`>`&`,Array`<Value`>`&`,Array`<Value`>`&`,Array`<Value`>`&`,Array`<Value`>`&`):%- [@(0.0.255) b
@@ -67,7 +76,8 @@ ool]_[* GetPackagesInfo]([_^Array^ Array]_<[_^Value^ Value]>_`&[*@3 name],
 Array_<Value>_`&[*@3 version], Array_<Value>_`&[*@3 vendor], Array_<Value>_`&[*@3 insta
 llDate], Array_<Value>_`&[*@3 caption], Array_<Value>_`&[*@3 description], 
 Array_<Value>_`&[*@3 state])&]
-[s2; If true gets information about installed software:&]
+[s2; Если возвращено true, то получена информация 
+об установленном ПО:&]
 [s2;%- [*@3 name]&]
 [s2;%- [*@3 version]&]
 [s2;%- [*@3 vendor]&]
@@ -81,7 +91,7 @@ Array_<Value>_`&[*@3 state])&]
 [s0;l640; `- `"Advertised`"&]
 [s0;l640; `- `"Absent`"&]
 [s0;l640; `- `"Ok`"&]
-[s6; Only available in Windows&]
+[s6; Доступно только в Windows&]
 [s3; &]
 [s4;%- &]
 [s5;:GetCpuTemperature`(`):%- [@(0.0.255) double]_[* GetCpuTemperature]()&]
@@ -92,13 +102,13 @@ Array_<Value>_`&[*@3 state])&]
 [s5;:GetNetworkInfo`(String`&`,String`&`,String`&`,String`&`):%- [@(0.0.255) bool]_[* Get
 NetworkInfo]([_^String^ String]_`&[*@3 name], [_^String^ String]_`&[*@3 domain], 
 [_^String^ String]_`&[*@3 ip4], [_^String^ String]_`&[*@3 ip6])&]
-[s2; Возвращает the local computer network [%-*@3 name], [%-*@3 domain], 
-[%-*@3 ip4] and [%-*@3 ip6].&]
+[s2; Возвращает the local computer network [%-*@3 name], 
+[%-*@3 domain], [%-*@3 ip4] and [%-*@3 ip6].&]
 [s3; &]
 [s4;%- &]
 [s5;:GetMacAddress`(`):%- [@(0.0.255) String]_[* GetMacAddress]()&]
-[s2; Возвращает the [%-@3 MAC ]address in uppercase hexadecimal formated 
-like `"0A:0B:0C:0C:0D:0E`" or Null.&]
+[s2; Возвращает the [%-@3 MAC ]address in uppercase hexadecimal 
+formated like `"0A:0B:0C:0C:0D:0E`" or Null.&]
 [s0;l288; This function is deprecated by GetAdapterInfo().&]
 [s3; &]
 [s4;%- &]
@@ -124,19 +134,20 @@ included types are:&]
 [s4;%- &]
 [s5;:GetNetworkInfo`(String`&`,String`&`):%- [@(0.0.255) bool]_[* GetNetworkInfo]([_^String^ S
 tring]_`&[*@3 name], [_^String^ String]_`&[*@3 domain])&]
-[s2; Возвращает the local computer network [%-*@3 name] and [%-*@3 domain].&]
+[s2; Возвращает the local computer network [%-*@3 name] and 
+[%-*@3 domain].&]
 [s3; &]
 [s4;%- &]
 [s5;:GetAvailableSocketPort`(int`):%- [@(0.0.255) int]_[* GetAvailableSocketPort]([@(0.0.255) i
 nt]_[*@3 from]_`=_[@3 49152])&]
-[s2; Возвращает the first available socket port from [%-*@3 from] or Null 
-if there is an error.&]
+[s2; Возвращает the first available socket port from [%-*@3 from] 
+or Null if there is an error.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetHDSerial`(`):%- [@(0.0.255) String]_[* GetHDSerial]()&]
-[s2; Возвращает the hard disk physical [%-*@3 serial ]number or Null. 
-This code is not affected by disk formatting.&]
-[s6; Only available in Windows&]
+[s2; Возвращает the hard disk physical [%-*@3 serial ]number 
+or Null. This code is not affected by disk formatting.&]
+[s6; Доступно только в Windows&]
 [s3; &]
 [s4;%- &]
 [s5;:GetMemoryInfo`(int`&`,uint64`&`,uint64`&`,uint64`&`,uint64`&`,uint64`&`,uint64`&`):%- [@(0.0.255) b
@@ -178,7 +189,8 @@ veSpace]([_^String^ String]_[*@3 drive], [_^uint64^ uint64]_`&[*@3 freeBytesUser
 [s2; [%-*@3 freeBytesUser]: Amount of free bytes available to the user&]
 [s2; [%-*@3 totalBytesUser]: Size of drive visible for the user&]
 [s2; [%-*@3 totalFreeBytes]: Amount of free bytes.&]
-[s0; -|Возвращает false if drive is not mounted or it is not accessible&]
+[s0; -|Возвращает false if drive is not mounted or it is 
+not accessible&]
 [s3; &]
 [s4;%- &]
 [s5;:GetDriveInformation`(String`,String`&`,String`&`,int`&`,String`&`):%- [@(0.0.255) b
@@ -192,15 +204,16 @@ ool]_[* GetDriveInformation]([_^String^ String]_[*@3 drive], [_^String^ String]_
 [s2;%- [*@3 volume]: Gets the name of the drive&]
 [s2;%- [*@3 maxName]: Gets the maximum length permitted for a file name&]
 [s2;%- fileSystem: Gets the drive formatting system.&]
-[s2; Возвращает false if drive is not mounted or it is not accessible&]
+[s2; Возвращает false if drive is not mounted or it is 
+not accessible&]
 [s3; &]
 [s4; &]
 [s5;:GetCompilerInfo`(name`, version`, time`, mode`, bits`):%- [@(0.0.255) void]_[* GetCo
 mpilerInfo]([_^String^ String]_`&[*@3 name], [@(0.0.255) int]_`&[*@3 version], 
 [_^Time^ Time]_`&[*@3 time], [_^String^ String]_`&[*@3 mode], [_^String^ int]_`&[*@3 bits])&]
-[s2; Возвращает compiling information, like compiler [%-*@3 name, ]compiler 
-[%-*@3 version], program compilation [%-*@3 time], compiling [%-*@3 mode] 
-and [%-*@3 bits].&]
+[s2; Возвращает compiling information, like compiler [%-*@3 name, 
+]compiler [%-*@3 version], program compilation [%-*@3 time], compiling 
+[%-*@3 mode] and [%-*@3 bits].&]
 [s3; &]
 [s4; &]
 [s5;:GetBatteryStatus`(bool`&`,int`&`,int`&`):%- [@(0.0.255) bool]_[* GetBatteryStatus]([@(0.0.255) b
@@ -210,13 +223,13 @@ iningMin])&]
 connected to the grid, [%-*@3 percentage] of charging where 100% 
 means full charge, and number of expected computer running minutes 
 in [%-*@3 remainingMin].&]
-[s2; Возвращает  true, если the values got are valid.&]
+[s2; Возвращает true, если the values got are valid.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetBatteryInfo`(bool`&`):%- [@(0.0.255) bool]_[* GetBatteryInfo]([@(0.0.255) bool]_`&[*@3 p
 resent]_)&]
 [s2; Gets if battery is [%-*@3 present ]or not.&]
-[s2; Возвращает  true, если the values got are valid.&]
+[s2; Возвращает true, если the values got are valid.&]
 [s3; &]
 [s4;%- &]
 [s5;:OpenCDTray`(`):%- [@(0.0.255) void]_[* OpenCDTray]()&]
@@ -227,7 +240,7 @@ resent]_)&]
 [s2; Closes CD/DVD tray if possible&]
 [s3;@(0.0.255)%- &]
 [s0;%- &]
-[ {{10000@1 [s0; [* Process handling]]}}&]
+[ {{10000@1 [s0; [* Обработка процесса]]}}&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:GetWindowsList`(Upp`:`:Array`<Upp`:`:int64`>`&`,Upp`:`:Array`<Upp`:`:int64`>`&`,Upp`:`:Array`<Upp`:`:String`>`&`,Upp`:`:Array`<Upp`:`:String`>`&`,Upp`:`:Array`<Upp`:`:String`>`&`,bool`):%- [@(0.0.255) v
@@ -262,7 +275,8 @@ ing]>_`&[*@3 pNames])&]
 [s4;%- &]
 [s5;:GetProcessName`(int64`):%- [_^String^ String]_[* GetProcessName]([@(0.0.255) int64]_[*@3 p
 id])&]
-[s2; Возвращает the process name for a process with handle [%-*@3 pid].&]
+[s2; Возвращает the process name for a process with handle 
+[%-*@3 pid].&]
 [s3; &]
 [s4;%- &]
 [s5;:GetProcessFileName`(int64`):%- [_^String^ String]_[* GetProcessFileName]([@(0.0.255) i
@@ -273,7 +287,7 @@ nt64]_[*@3 pid])&]
 [s5;:GetProcessCPUUsage`(int64`):%- [@(0.0.255) int]_[* GetProcessCPUUsage]([@(0.0.255) int
 64]_[*@3 pid])&]
 [s2; Gets the percentage of CPU usage for process [%-*@3 pid].&]
-[s6; Only available in Windows&]
+[s6; Доступно только в Windows&]
 [s3; &]
 [s4;%- &]
 [s5;:GetProcessIdFromName`(String`):%- [_^int64^ int64]_[* GetProcessIdFromName]([_^String^ S
@@ -284,40 +298,40 @@ tring]_[*@3 name])&]
 [s5;:GetProcessIdFromWindowCaption`(String`,bool`):%- [@(0.0.255) int64]_[* GetProcessIdF
 romWindowCaption]([_^String^ String]_[*@3 windowCaption], [@(0.0.255) bool]_[*@3 exactMat
 ch]_`=_[@(0.0.255) false])&]
-[s2;%- [%% Gets the process handle of a program with a window with 
+[s2;%- [%RU-RU Gets the process handle of a program with a window with 
 title ][*@3 windowCaption.]&]
-[s2;%- [%% If ][*@3 exactMatch][%% .is true it only returns the process 
-handle of a process with a window title that is equal to ][*@3 windowCaption. 
-][%% If it is false then the handle is returned if only part of 
-the window title matches with ][*@3 windowCaption.]&]
+[s2;%- [%RU-RU If ][*@3 exactMatch][%RU-RU .is true it only returns the 
+process handle of a process with a window title that is equal 
+to ][*@3 windowCaption. ][%RU-RU If it is false then the handle is 
+returned if only part of the window title matches with ][*@3 windowCaption.]&]
 [s3; &]
 [s4;%- &]
 [s5;:GetWindowIdFromCaption`(String`,bool`):%- [@(0.0.255) int64]_[* GetWindowIdFromCapti
 on]([_^String^ String]_[*@3 windowCaption], [@(0.0.255) bool]_[*@3 exactMatch]_`=_[@(0.0.255) f
 alse])&]
-[s2;%- [%% Gets the window handle of a program with a window with title 
-][*@3 windowCaption.]&]
-[s2;%- [%% If ][*@3 exactMatch][%% .is true it only returns the process 
-handle of a process with a window title that is equal to ][*@3 windowCaption. 
-][%% If it is false then the handle is returned if only part of 
-the window title matches with ][*@3 windowCaption.]&]
+[s2;%- [%RU-RU Gets the window handle of a program with a window with 
+title ][*@3 windowCaption.]&]
+[s2;%- [%RU-RU If ][*@3 exactMatch][%RU-RU .is true it only returns the 
+process handle of a process with a window title that is equal 
+to ][*@3 windowCaption. ][%RU-RU If it is false then the handle is 
+returned if only part of the window title matches with ][*@3 windowCaption.]&]
 [s3; &]
 [s4;%- &]
 [s5;:GetProcessIdFromWindowId`(int64`):%- [@(0.0.255) int64]_[* GetProcessIdFromWindowId](
 [@(0.0.255) int64]_[*@3 wid])&]
-[s2;%- [%% Возвращает the process handle of a program with window handle 
-][*@3 wid.]&]
+[s2;%- [%RU-RU Возвращает the process handle of a program 
+with window handle ][*@3 wid.]&]
 [s3; &]
 [s4;%- &]
 [s5;:GetWindowIdFromProcessId`(int64`):%- [@(0.0.255) int64]_[* GetWindowIdFromProcessId](
 [@(0.0.255) int64]_[*@3 pid])&]
-[s2;%- [%% Возвращает the window handle of a program with process handle 
-][*@3 pid.]&]
+[s2;%- [%RU-RU Возвращает the window handle of a program 
+with process handle ][*@3 pid.]&]
 [s3; &]
 [s4;%- &]
 [s5;:ProcessTerminate`(int64`,int`):%- [@(0.0.255) bool]_[* ProcessTerminate]([@(0.0.255) i
 nt64]_[*@3 pid], [@(0.0.255) int]_[*@3 timeout]_`=_[@3 500])&]
-[s2;%- [%% Ends the program with handle ][*@3 pid.]&]
+[s2;%- [%RU-RU Ends the program with handle ][*@3 pid.]&]
 [s2; If after asking the process to end [%-*@3 timeout ]is over, it 
 will kill the process by different means in order of increasing 
 `"agressivity`".&]
@@ -335,14 +349,15 @@ as a number from 0 (minimum) to 10 (maximum), if possible.&]
 [s4;%- &]
 [s5;:SetProcessPriority`(int64`,int`):%- [@(0.0.255) bool]_[* SetProcessPriority]([@(0.0.255) i
 nt64]_[*@3 pid], [@(0.0.255) int]_[*@3 priority])&]
-[s2; Устанавливаетthe process priority to [%-*@3 priority ]of the process with 
-handle [%-*@3 pid] as a number from 0 (minimum) to 10 (maximum), 
-if possible.&]
+[s2; Устанавливает the process priority to [%-*@3 priority 
+]of the process with handle [%-*@3 pid] as a number from 0 (minimum) 
+to 10 (maximum), if possible.&]
 [s3; &]
 [s4;%- &]
 [s5;:ProcessExists`(int64`):%- [@(0.0.255) bool]_[* ProcessExists]([@(0.0.255) int64]_[*@3 pi
 d])&]
-[s2; Возвращает  true, если a process with handle [%-*@3 pid ]exists.&]
+[s2; Возвращает true, если a process with handle [%-*@3 pid 
+]exists.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetProcessId`(`):%- [@(0.0.255) int64]_[* GetProcessId]()&]
@@ -355,7 +370,7 @@ d])&]
 and `"shutdown`".&]
 [s3; &]
 [s0; &]
-[ {{10000@1 [s0; [* Windows handling]]}}&]
+[ {{10000@1 [s0; [* Обработка окон]]}}&]
 [s0; &]
 [s5;:Window`_GetRect`(int64`,long`&`,long`&`,long`&`,long`&`):%- [@(0.0.255) bool]_[* Win
 dow`_GetRect]([@(0.0.255) int64]_[*@3 windowId], [@(0.0.255) long]_`&[*@3 left], 
@@ -373,7 +388,7 @@ Rect]([_^int64^ int64]_[*@3 windowId], [@(0.0.255) long]_[*@3 left],
 [s2; Giving this function the [%-*@3 windowId], it sets the window 
 location in the screen in [%-*@3 left], [%-*@3 top], [%-*@3 right] 
 and [%-*@3 bottom].&]
-[s2; Возвращает  true, если the values got are valid.&]
+[s2; Возвращает true, если the values got are valid.&]
 [s3; &]
 [s4;%- &]
 [s5;:Window`_Bottom`(int64`):%- [@(0.0.255) void]_[* Window`_Bottom]([_^int64^ int64]_[*@3 wi
@@ -391,20 +406,23 @@ indowId])&]
 [s2; Moves [%-*@3 windowId] as the topmost window.&]
 [s3; &]
 [s0; &]
-[ {{10000@1 [s0; [* Mouse and keyboard handling]]}}&]
+[ {{10000@1 [s0; [* Обработка мыши и клавиатуры]]}}&]
 [s3; &]
 [s5;:Mouse`_GetPos`(int`&`,int`&`):%- [@(0.0.255) bool]_[* Mouse`_GetPos]([@(0.0.255) int]_
 `&[*@3 x], [@(0.0.255) int]_`&[*@3 y])&]
 [s2; Gets the mouse position [%-*@3 x, y].in screen pixels where upper 
 left corner is (0, 0).&]
-[s2; Возвращает  true, если the operation has been done successfully.&]
+[s2; Возвращает true, если the operation has been done 
+successfully.&]
 [s3; &]
 [s4; &]
 [s5;:Mouse`_SetPos`(int`,int`,int64`):%- [@(0.0.255) bool]_[* Mouse`_SetPos]([@(0.0.255) in
 t]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int64]_[*@3 windowId])&]
-[s2; Устанавливаетthe mouse position to [%-*@3 x] [%-*@3 y] referenced to the 
-upper left vertex of window with window handle [%-*@3 windowId].&]
-[s2; Возвращает  true, если the operation has been done successfully.&]
+[s2; Устанавливает the mouse position to [%-*@3 x] [%-*@3 y] 
+referenced to the upper left vertex of window with window handle 
+[%-*@3 windowId].&]
+[s2; Возвращает  true, если the operation has been 
+done successfully.&]
 [s3; &]
 [s4;%- &]
 [s5;:Mouse`_LeftClick`(`):%- [@(0.0.255) void]_[* Mouse`_LeftClick]()&]
@@ -493,22 +511,24 @@ l])&]
 [s4;%- &]
 [s5;:SetKeyLockStatus`(bool`,bool`,bool`):%- [@(0.0.255) void]_[* SetKeyLockStatus]([@(0.0.255) b
 ool]_[*@3 caps], [@(0.0.255) bool]_[*@3 num], [@(0.0.255) bool]_[*@3 scroll])&]
-[s2; Устанавливаетthe status of keys [%-*@3 caps ]lock,  [%-*@3 num ]lock and 
-[%-*@3 scroll] [%-*@3  ]lock. Not fully functional in Linux.&]
+[s2; Устанавливает статус клавиш [%-*@3 caps 
+]lock,  [%-*@3 num ]lock и [%-*@3 scroll] [%-*@3  ]lock. Не полностью 
+функционален в Linux.&]
 [s3; &]
 [s0; &]
-[ {{10000@1 [s0; [* Screen recording]]}}&]
+[ {{10000@1 [s0; [* Запись экрана]]}}&]
 [s3; &]
 [s5;:Snap`_Desktop`(String`):%- [@(0.0.255) bool]_[* Snap`_Desktop]([_^String^ String]_[*@3 f
 ileName])&]
-[s2; Saves the desktop in [%-*@3 fileName].as an image file.&]
-[s2; Allowed formats are:&]
+[s2; Сохраняет рабочий стол в [%-*@3 fileName].как 
+файл рисунка.&]
+[s2; Допустимые форматы:&]
 [s2;i150;O0; Posix:-|xwd&]
 [s2;i150;O0; Windows:-|bmp, png, jpg&]
 [s3; &]
 [s4;%- &]
 [s5;:GetDesktopRect`(`):%- [_^Rect^ Rect]_[* GetDesktopRect]()&]
-[s2; Gets the Desktop dimensions.&]
+[s2; Получает размеры рабочего стола.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Snap`_DesktopRectangle`(String`,int`,int`,int`,int`):%- [@(0.0.255) bool]_[* Snap`_D
@@ -531,14 +551,14 @@ as an image file.&]
 [s3; &]
 [s4;%- &]
 [s5;:Snap`_Desktop`(`):%- [_^Image^ Image]_[* Snap`_Desktop]()&]
-[s2; Возвращает the desktop image.&]
+[s2; Возвращает рисунок рабочего стола.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Snap`_DesktopRectangle`(int`,int`,int`,int`):%- [_^Image^ Image]_[* Snap`_DesktopRec
 tangle]([@(0.0.255) int]_[*@3 left], [@(0.0.255) int]_[*@3 top], [@(0.0.255) int]_[*@3 width],
  [@(0.0.255) int]_[*@3 height])&]
-[s2; Возвращает the image of a desktop rectangle defined by [%-*@3 left], 
-[%-*@3 top], [%-*@3 width ]and [%-*@3 height].&]
+[s2; Возвращает the image of a desktop rectangle defined 
+by [%-*@3 left], [%-*@3 top], [%-*@3 width ]and [%-*@3 height].&]
 [s3; &]
 [s4;%- &]
 [s5;:Snap`_Window`(int64`):%- [_^Image^ Image]_[* Snap`_Window]([_^int64^ int64]_[*@3 handle])
@@ -555,7 +575,7 @@ frames and recording also mouse movement if [%-*@3 viewMouse].is
 true.&]
 [s0;l288; Allowed formats are:&]
 [s0;l288;i150;O0; Windows: Uncompressed .avi &]
-[s6; Only available in Windows&]
+[s6; Доступно только в Windows&]
 [s3; &]
 [s4;%- &]
 [s5;:Record`_DesktopRectangle`(String`,int`,int`,int`,int`,int`,int`,bool`):%- [@(0.0.255) b
@@ -570,7 +590,7 @@ seconds between frames and recording also mouse movement if [%-*@3 viewMouse].is
 true.&]
 [s2; Allowed formats are:&]
 [s2;i150;O0; Windows: Uncompressed .avi&]
-[s6; Only available in Windows&]
+[s6; Доступно только в Windows&]
 [s3; &]
 [s4;%- &]
 [s5;:Record`_Window`(String`,int`,long`,int`,bool`):%- [@(0.0.255) bool]_[* Record`_Windo
@@ -583,15 +603,16 @@ with [%-*@3 secsFrame] seconds between frames and recording also
 mouse movement if [%-*@3 viewMouse].is true.&]
 [s0;l288; Allowed formats are:&]
 [s2;i150;O0; Windows: Uncompressed .avi&]
-[s6; Only available in Windows&]
+[s6; Доступно только в Windows&]
 [s3; &]
 [s0; &]
-[ {{10000@1 [s0; [* Miscellaneous functions]]}}&]
+[ {{10000@1 [s0; [* Различные функции]]}}&]
 [s4;%- &]
 [s5;:SetDesktopWallPaper`(char`*`):%- [@(0.0.255) void]_[* SetDesktopWallPaper]([@(0.0.255) c
 har]_`*[*@3 path])&]
-[s2; Устанавливает[%-*@3 path].file as desktop wallpaper. Supports Gnome, Kde 
-v3 and Windows desktops.&]
+[s2; Устанавливает файл [%-*@3 path].как обои 
+рабочего стола. Поддерживает рабочие 
+столы Gnome, Kde v3 и Windows.&]
 [s0;l288; &]
 [s0;l288;i150;O0; In Gnome, [%-*@3 path] has to be .png&]
 [s0;l288;i150;O0; In Kde, [%-*@3 path] has to be .png, .gif or .jpg&]

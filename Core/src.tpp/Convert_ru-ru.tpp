@@ -170,7 +170,7 @@ otNull](false).&]
 [s4;%- &]
 [s5;:Upp`:`:ConvertDate`:`:GetDefaultMax`(`):%- [@(0.0.255) static] 
 [_^Upp`:`:Date^ Date]_[* GetDefaultMax]()&]
-[s2; Возвращает  дефолтный максимиум.&]
+[s2; Возвращает дефолтный максимиум.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertDate`:`:SetDefaultMinMax`(Upp`:`:Date`,Upp`:`:Date`):%- [@(0.0.255) v
@@ -189,7 +189,7 @@ st]&]
 [s0; &]
 [s0;%- &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 ConvertTime]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс ConvertTime]]}}&]
 [s3; &]
 [s1;:ConvertTime`:`:class:%- [@(0.0.255)3 class][3 _][*3 ConvertTime][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Convert]&]
@@ -331,7 +331,7 @@ st]&]
 [s3; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 ConvertDouble]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс ConvertDouble]]}}&]
 [s3; &]
 [s1;:ConvertDouble`:`:class:%- [@(0.0.255)3 class][3 _][*3 ConvertDouble][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 Convert]&]
@@ -435,7 +435,7 @@ onst]&]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 ConvertInt]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс ConvertInt]]}}&]
 [s3; &]
 [s1;:ConvertInt`:`:class:%- [@(0.0.255)3 class][3 _][*3 ConvertInt][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Convert]&]
@@ -520,7 +520,7 @@ t]&]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 ConvertString]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс ConvertString]]}}&]
 [s3; &]
 [s1;:ConvertString`:`:class:%- [@(0.0.255)3 class][3 _][*3 ConvertString][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 Convert]&]
@@ -604,7 +604,7 @@ onst]&]
 [s0; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 FormatConvert]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс FormatConvert]]}}&]
 [s3; &]
 [s1;:FormatConvert`:`:class:%- [@(0.0.255)3 class][3 _][*3 FormatConvert][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 Convert]&]
@@ -628,13 +628,13 @@ onst]_[@(0.0.255) char]_`*[*@3 fmt])&]
 [s0;3 &]
 [s0;3 &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 JoinConvert]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс JoinConvert]]}}&]
 [s3; &]
 [s1;:JoinConvert`:`:class:%- [@(0.0.255)3 class][3 _][*3 JoinConvert][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Convert]&]
 [s9; Этот однонаправленный класс Convert 
 (реализовано только направление Format) 
-преобразует ValueArray, испольуя набор 
+преобразует ValueArray, используя набор 
 других экземпляров Convert. Итоговое 
 текстовое представление создаётся 
 путёт объединения ряда заданных элементов 

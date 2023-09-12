@@ -231,7 +231,9 @@
 enum
 {
 	INVALID_SOCKET = -1,
+#ifndef TCP_NODELAY // macos defines it as macro, with the same value 1
 	TCP_NODELAY    = 1,
+#endif
 	SD_RECEIVE     = 0,
 	SD_SEND        = 1,
 	SD_BOTH        = 2,
@@ -239,12 +241,7 @@ enum
 typedef int SOCKET;
 #endif
 
-#ifdef PLATFORM_WIN32
 #include <plugin/z/lib/zlib.h>
-#else
-#include <plugin/z/lib/zlib.h>//<zlib.h>
-#endif
-
 #include <functional>
 #include <algorithm>
 #include <string>

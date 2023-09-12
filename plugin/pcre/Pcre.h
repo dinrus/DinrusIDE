@@ -4,7 +4,7 @@
 #include <Core/Core.h>
 
 #ifdef PLATFORM_WIN32
-#define PCRE_EXP_DECL extern 
+#define PCRE_EXP_DECL extern
 #endif
 
 #include "lib/pcre.h"

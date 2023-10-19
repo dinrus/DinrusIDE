@@ -681,20 +681,20 @@ void Ide::EditFileAssistSync()
 void Ide::TriggerAssistSync()
 {
 	if(auto_rescan && editor.GetLength64() < 500000 && !file_scan) {
-		text_updated.KillSet(1000, [=] {
+		text_updated.KillSet(1000, [=, this] {
 			if(!file_scan && IsCppBaseFile()) {
 				String s = ~editor;
 				String fn = editfile;
 				file_scan++;
-				if(Ctrl::GetEventLevel() == 0 && !CoWork::TrySchedule([=] {
+				if(Ctrl::GetEventLevel() == 0 && !CoWork::TrySchedule([=, this] {
 					StringStream ss(s);
 					file_scanned = TryCodeBaseScanFile(ss, editfile);
 					file_scan--;
 					if(!file_scanned)
-						trigger_assist.KillSet(100, [=] { TriggerAssistSync(); });
+						trigger_assist.KillSet(100, [=, this] { TriggerAssistSync(); });
 				})) {
 					file_scan--;
-					trigger_assist.KillSet(100, [=] { TriggerAssistSync(); });
+					trigger_assist.KillSet(100, [=, this] { TriggerAssistSync(); });
 				}
 			}
 		});

@@ -16,23 +16,25 @@ topic "Класс Id";
 ][*3 Id][3 >_]&]
 [s2;%RU-RU Id простая обёртка класса String, 
 служащая как текст `"идентификатора`". 
-The main purpose for wrapping is overloading resolution in places 
-where the distinction between text value and identifier is required.&]
+Главной целью обёртки является разрешение 
+перегрузок в местах, где требуется 
+различение текстового значения и 
+идентификатора.&]
 [s3; &]
 [s0;i448;a25;kKO9;@(0.0.255) &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Id`:`:ToString`(`)const: [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[* ToStrin
 g]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  содержимый текст.&]
+[s2;%RU-RU Возвращает содержимый текст.&]
 [s3; &]
 [s4; &]
 [s5;:Id`:`:GetHashValue`(`)const: [_^dword^ dword]_[* GetHashValue]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  хэширующее значение.&]
+[s2;%RU-RU Возвращает хэширующее значение.&]
 [s3; &]
 [s4; &]
 [s5;:Id`:`:IsNull`(`)const: [@(0.0.255) bool]_[* IsNull]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если пустой.&]
+[s2;%RU-RU Возвращает true, если пустой.&]
 [s3; &]
 [s4; &]
 [s5;:Id`:`:operator const String`&`(`)const: [* operator_const_String`&]()_[@(0.0.255) co
@@ -51,8 +53,8 @@ tor`~]()_[@(0.0.255) const]&]
 [s4; &]
 [s5;:Id`:`:operator`=`=`(const Id`&`)const: [@(0.0.255) bool]_[* operator`=`=]([@(0.0.255) c
 onst]_[_^Id^ Id][@(0.0.255) `&]_[*@3 b])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если both Id contain the 
-same text.&]
+[s2;%RU-RU Возвращает true, если оба Id содержат 
+одинаковый текст.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Id`:`:operator`!`=`(const Id`&`)const: [@(0.0.255) bool]_[* operator!`=]([@(0.0.255) c

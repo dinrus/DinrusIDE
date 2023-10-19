@@ -87,12 +87,12 @@ ArrayCtrl::Column& ArrayCtrl::Column::WithLined(Event<int, One<Ctrl>&> f)
 
 ArrayCtrl::Column& ArrayCtrl::Column::With(Event<One<Ctrl>&> factory)
 {
-	return WithLined([=](int, One<Ctrl>& x) { factory(x); });
+	return WithLined([=, this](int, One<Ctrl>& x) { factory(x); });
 }
 
 ArrayCtrl::Column& ArrayCtrl::Column::Ctrls(Callback1<One<Ctrl>&> _factory)
 {
-	return Ctrls([=](int, One<Ctrl>& x) { _factory(x); });
+	return Ctrls([=, this](int, One<Ctrl>& x) { _factory(x); });
 }
 
 void ArrayCtrl::Column::ClearCache() {

@@ -235,7 +235,7 @@ SqlArray::SqlArray() {
 	RowName(t_("запись"));
 	offset = 0;
 	count = Null;
-	WhenFilter = [=](const VectorMap<Id, Value>& row) -> bool { return true; };
+	WhenFilter = [=, this](const VectorMap<Id, Value>& row) -> bool { return true; };
 	updatekey = false;
 }
 

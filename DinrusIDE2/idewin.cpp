@@ -359,8 +359,8 @@ Ide::Ide()
 	DiffDlg::WhenHighlight = callback(sHighlightLine);
 
 	editor.DinrusIDE2 = this;
-	editor.WhenSel << [=] {
-		delayed_toolbar.KillSet(150, [=] { SetToolBar(); });
+	editor.WhenSel << [=, this] {
+		delayed_toolbar.KillSet(150, [=, this] { SetToolBar(); });
 	};
 
 	editormode = false;
@@ -436,7 +436,7 @@ Ide::Ide()
 	btabs <<= THISBACK(SyncBottom);
 	BTabs();
 
-	editor.WhenSelectionChanged << [=] {
+	editor.WhenSelectionChanged << [=, this] {
 		editor2.Illuminate(editor.GetIlluminated());
 	};
 
@@ -449,7 +449,7 @@ Ide::Ide()
 	editor.topsbbutton.ScrollStyle().NoWantFocus().Show();
 	editor.topsbbutton1.ScrollStyle().NoWantFocus().Show();
 	tabs <<= THISBACK(TabFile);
-	tabs.WhenClose = [=](Value file) { // remove file from Ctrl+Tab logic
+	tabs.WhenClose = [=, this](Value file) { // remove file from Ctrl+Tab logic
 		int q = FindIndex(tablru, ~file);
 		if(q >= 0)
 			tablru.Remove(q);
@@ -620,8 +620,8 @@ Ide::Ide()
 	editor.search.Add(indeximage.RightPos(DPI(1), DPI(16)).VSizePos());
 
 #ifdef PLATFORM_COCOA
-	WhenDockMenu = [=](Bar& bar) {
-		bar.Add("Открыть главный пакет..", [=] {
+	WhenDockMenu = [=, this](Bar& bar) {
+		bar.Add("Открыть главный пакет..", [=, this] {
 			Host h;
 			CreateHost(h, false, false);
 			h.Launch(GetExeFilePath() + " --nosplash");

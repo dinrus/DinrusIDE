@@ -137,7 +137,7 @@ void EventsDlg::Generate(String& ins, String& clip, const String& scope, bool in
 			else
 				ins << var << " =";
 			if(in_line)
-				ins << " [=](" << param << ") {\n\t}\n\t\n";
+				ins << " [=, this](" << param << ") {\n\t}\n\t\n";
 			else {
 				ins << " THISFN(" << method << ");\n";
 				String t = type.StartsWith("Gate") ? "bool " : "void ";

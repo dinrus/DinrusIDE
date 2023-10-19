@@ -233,7 +233,7 @@ void AssistEditor::EditAnnotation(bool leftclick)
 		if(tl.GetCount() > 1) {
 			MenuBar bar;
 			for(int i = 0; i < tl.GetCount(); i++)
-				bar.Add(tl[i], [=] { GoToTopic(i); });
+				bar.Add(tl[i], [=, this] { GoToTopic(i); });
 			bar.Execute();
 			return;
 		}
@@ -279,6 +279,6 @@ void AssistEditor::EditAnnotation(bool leftclick)
 	bar.Add("Новая тематика справки..", THISBACK2(NewTopic, "src", coderef));
 	bar.Add("Новая тематика по реализации..", THISBACK2(NewTopic, "srcimp", coderef));
 	bar.Separator();
-	bar.Add("Copy code reference id", [=] { WriteClipboardText(coderef); });
+	bar.Add("Copy code reference id", [=, this] { WriteClipboardText(coderef); });
 	bar.Execute();
 }

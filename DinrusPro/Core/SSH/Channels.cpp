@@ -23,7 +23,7 @@
 	if(!channel)
 		return;
 
-	пуск([=]() mutable {
+	пуск([=, this]() mutable {
 		цел rc = libssh2_channel_free(*channel);
 		if(!WouldBlock(rc) && rc < 0)
 			выведиОш(rc);
@@ -40,12 +40,12 @@
 {
 	if(открыт())
 		открой();
-	return пуск([=]() mutable { return иниц(); });
+	return пуск([=, this]() mutable { return иниц(); });
 }
 
 бул SshChannel::открой()
 {
-	return пуск([=]() mutable {
+	return пуск([=, this]() mutable {
 		цел rc = libssh2_channel_close(*channel);
 		if(!WouldBlock(rc) && rc < 0) выведиОш(rc);
 		if(!rc) LLOG("Channel close message is sent to the server.");
@@ -55,7 +55,7 @@
 
 бул SshChannel::WaitClose()
 {
-	return пуск([=]() mutable {
+	return пуск([=, this]() mutable {
 		цел rc = libssh2_channel_wait_closed(*channel);
 		if(!WouldBlock(rc) && rc < 0) выведиОш(rc);
 		if(!rc)	LLOG("Channel close message is acknowledged by the server.");
@@ -65,7 +65,7 @@
 
 бул SshChannel::Request(const Ткст& request, const Ткст& params)
 {
-	return пуск([=]() mutable {
+	return пуск([=, this]() mutable {
 		цел rc = libssh2_channel_process_startup(
 			*channel,
 			request,
@@ -83,7 +83,7 @@
 
 бул SshChannel::RequestTerminal(const Ткст& term, цел width, цел height, const Ткст& modes)
 {
-	return пуск([=]() mutable {
+	return пуск([=, this]() mutable {
 		цел rc = libssh2_channel_request_pty_ex(
 			*channel,
 			~term,
@@ -105,7 +105,7 @@
 
 бул SshChannel::SetEnv(const Ткст& ПЕРЕМЕННАЯ, const Ткст& значение)
 {
-	return пуск([=]() mutable {
+	return пуск([=, this]() mutable {
 		цел rc = libssh2_channel_setenv(*channel, ПЕРЕМЕННАЯ, значение);
 		if(!WouldBlock(rc) && rc < 0) выведиОш(rc);
 		if(!rc)	LLOG("систСреда ПЕРЕМЕННАЯ '" << ПЕРЕМЕННАЯ << "' set to " << значение);
@@ -115,7 +115,7 @@
 
 бул SshChannel::PutEof()
 {
-	return пуск([=]() mutable {
+	return пуск([=, this]() mutable {
 		цел rc = libssh2_channel_send_eof(*channel);
 		if(!WouldBlock(rc) && rc < 0) выведиОш(rc);
 		if(!rc)	LLOG("EOF message is sent to the server.");
@@ -125,7 +125,7 @@
 
 бул SshChannel::GetEof()
 {
-	return пуск([=]() mutable {
+	return пуск([=, this]() mutable {
 		цел rc = libssh2_channel_wait_eof(*channel);
 		if(!WouldBlock(rc) && rc < 0) выведиОш(rc);
 		if(!rc) LLOG("EOF message is acknowledged by the server.");;
@@ -147,7 +147,7 @@
 
 бул SshChannel::SetTerminalSize(цел width, цел height)
 {
-	return пуск([=]() mutable { return SetPtySz(width, height) >= 0; });
+	return пуск([=, this]() mutable { return SetPtySz(width, height) >= 0; });
 }
 
 цел SshChannel::SetPtySz(цел w, цел h)
@@ -161,7 +161,7 @@
 
 бул SshChannel::SetReadWindowSize(бцел size, бул force)
 {
-	return пуск([=]() mutable { return SetWndSz(size, force); });
+	return пуск([=, this]() mutable { return SetWndSz(size, force); });
 }
 
 бул SshChannel::SetWndSz(бцел size, бул force)
@@ -200,7 +200,7 @@
 цел SshChannel::дай(ук укз, цел size, цел sid)
 {
 	done = 0;
-	пуск([=]() mutable {
+	пуск([=, this]() mutable {
 		while(done < size && !кф_ли() && !таймаут_ли()) {
 			цел rc = читай(укз, size, sid);
 			if(rc < 0) return false;
@@ -250,7 +250,7 @@
 цел SshChannel::помести(кук укз, цел size, цел sid)
 {
 	done = 0;
-	пуск([=]() mutable {
+	пуск([=, this]() mutable {
 		while(done < size && !кф_ли() && !таймаут_ли()) {
 			цел rc = пиши(укз, size, sid);
 			if(rc < 0) return false;

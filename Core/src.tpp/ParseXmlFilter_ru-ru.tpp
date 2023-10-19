@@ -13,35 +13,43 @@ topic "ParseXmlFilter и IgnoreXmlPaths";
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Структура ParseXmlFilter]]}}&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
 [s1;:ParseXmlFilter`:`:struct: [@(0.0.255)3 struct][3 _][*3 ParseXmlFilter]&]
-[s2;%RU-RU This abstract class serves as filter for ParseXML function, 
-allowing it to ignore certain parts of source XML.&]
+[s2;%RU-RU Этот абстрактный класс служит 
+в качестве фильтра для функции ParseXML, 
+позволяя ей игнорировать некоторые 
+части исходного XML.&]
 [s3; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:ParseXmlFilter`:`:DoTag`(const String`&`): [@(0.0.255) virtual] 
 [@(0.0.255) bool]_[* DoTag]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 tag])_`=
 _[@3 0]&]
-[s2;%RU-RU ParseXML calls this method when it is about to start parsing 
-[%-*@3 tag]. If method returns true, tag is parsed and included 
-in in resulting XmlNode, otherwise it is skipped.&]
+[s2;%RU-RU ParseXML вызывает этот метод, когда 
+собирается запустить разбор тэга 
+[%-*@3 tag]. Если метод возвращает true, тэг 
+парсируется и включается в итоговый 
+XmlNode, иначе он пропускается&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:ParseXmlFilter`:`:EndTag`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* EndTag]()&]
-[s2;%RU-RU ParseXML calls this method when it encounters end of tag.&]
+[s2;%RU-RU ParseXML вызывает этот метод, когда 
+натыкается на конец тэга.&]
 [s3; &]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс IgnoreXmlPaths]]}}&]
 [s3; &]
 [s1;:IgnoreXmlPaths`:`:class: [@(0.0.255)3 class][3 _][*3 IgnoreXmlPaths][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 ParseXmlFilter]&]
-[s2;%RU-RU This filter can be used to ignore some tags, defined by 
-path, from xml.&]
+[s2;%RU-RU Этот фильтр может использоваться 
+для ингорирования некоторых тэгов, 
+отпределённых через путь, из xml.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Конструктор  detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:IgnoreXmlPaths`:`:IgnoreXmlPaths`(const char`*`): [* IgnoreXmlPaths]([@(0.0.255) con
 st]_[@(0.0.255) char]_`*[*@3 s])&]
-[s2;%RU-RU [%-*@3 s] is semicolon separated list of paths. Components 
-of path, tag ids, are separated by `'/`', also path starts with 
-`'/`'.&]
+[s2;%RU-RU [%-*@3 s] `- список путей, разделённых 
+точкой с запятой. Компоненты пути, 
+идентификаторы тэгов разделяются 
+посредством `'/`', а путь начинается 
+с `'/`'.&]
 [s0;%RU-RU ]]

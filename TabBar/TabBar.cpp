@@ -458,9 +458,9 @@ int TabBar::GetNextId()
 
 void TabBar::ContextMenu(Bar& bar)
 {
-	int ii = GetHighlight(); // Need copy to freeze it, [=] copies 'this' and thus reference to highlight
+	int ii = GetHighlight(); // Need copy to freeze it, [=, this] copies 'this' and thus reference to highlight
 	if (GetCursor() >= 0 && ii >= 0 && !IsCancelClose(ii))
-		bar.Add(tabs.GetCount() > mintabcount, t_("Закрыть"), [=] {
+		bar.Add(tabs.GetCount() > mintabcount, t_("Закрыть"), [=, this] {
 			if (!CancelClose(tabs[ii].key)) {
 				WhenClose(tabs[ii].key);
 				TabClosed(tabs[ii].key);
@@ -471,16 +471,16 @@ void TabBar::ContextMenu(Bar& bar)
 			}
 		});
 	if (ii >= 0 && !IsCancelCloseAll(ii))
-		bar.Add(t_("Закрыть другие"), [=] { CloseAll(ii); });
+		bar.Add(t_("Закрыть другие"), [=, this] { CloseAll(ii); });
     if (ii >= 0 && ii < GetCount() - 1 && !IsCancelCloseAll(-1, ii + 1))
-		bar.Add(t_("Закрыть вкладки справа"), [=] { CloseAll(-1, ii + 1); });
+		bar.Add(t_("Закрыть вкладки справа"), [=, this] { CloseAll(-1, ii + 1); });
 	if (mintabcount <= 0 && !IsCancelCloseAll(-1))
-		bar.Add(t_("Закрыть все"), [=] { CloseAll(-1); });
-	bar.Add(false, t_("Док"), [=] {});
+		bar.Add(t_("Закрыть все"), [=, this] { CloseAll(-1); });
+	bar.Add(false, t_("Док"), [=, this] {});
 	if(ii >= 1)
-		bar.Sub(t_("Поместить слева от"), [=](Bar& bar) {
+		bar.Sub(t_("Поместить слева от"), [=, this](Bar& bar) {
 			for(int i = 0; i < ii; i++)
-			   bar.Add(tabs[i].value.ToString(), [=] {
+			   bar.Add(tabs[i].value.ToString(), [=, this] {
 				tabs.Move(ii,i);
 				SetCursor0(i);
 				Repos();
@@ -488,9 +488,9 @@ void TabBar::ContextMenu(Bar& bar)
 			});;
 		});
 	if(tabs.GetCount() - 2 >= ii && ii >= 0)
-		bar.Sub(t_("Поместить справа за"),  [=](Bar& bar)  {
+		bar.Sub(t_("Поместить справа за"),  [=, this](Bar& bar)  {
 			for(int i = ii+1; i < tabs.GetCount(); i++)
-				bar.Add(tabs[i].value.ToString(),[=] {
+				bar.Add(tabs[i].value.ToString(),[=, this] {
 				tabs.Move(ii,i+1);
 				SetCursor0(i);
 				Repos();

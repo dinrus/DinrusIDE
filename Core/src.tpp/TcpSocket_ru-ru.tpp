@@ -29,16 +29,16 @@ user feedback in interactive applications.&]
 [s4; &]
 [s5;:TcpSocket`:`:GetHostName`(`): [@(0.0.255) static] [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* GetHostName]()&]
-[s2;%RU-RU Возвращает the name of computer.&]
+[s2;%RU-RU Возвращает имя компьютера.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:GetDone`(`)const: [@(0.0.255) int]_[* GetDone]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает number of bytes processed during current operation; 
-intended to be called from WhenWait routine&]
+[s2;%RU-RU Возвращает number of bytes processed during 
+current operation; intended to be called from WhenWait routine&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsOpen`(`)const: [@(0.0.255) bool]_[* IsOpen]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если socket is open.&]
+[s2;%RU-RU Возвращает true, если сокет открыт.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsEof`(`)const: [@(0.0.255) bool]_[* IsEof]()_[@(0.0.255) const]&]
@@ -48,7 +48,7 @@ if there was an error or if socket was aborted.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsError`(`)const: [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если some previous operations 
+[s2;%RU-RU Возвращает true, если some previous operations 
 reported error. In that case, all subsequent request are ignored.&]
 [s3; &]
 [s4; &]
@@ -57,8 +57,8 @@ reported error. In that case, all subsequent request are ignored.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:GetError`(`)const: [@(0.0.255) int]_[* GetError]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает errorcode. Errorcodes are either defined by SOCKET 
-API or it can be `-1 for other errors.&]
+[s2;%RU-RU Возвращает errorcode. Errorcodes are either 
+defined by SOCKET API or it can be `-1 for other errors.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:GetErrorDesc`(`)const: [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
@@ -67,32 +67,33 @@ tring]_[* GetErrorDesc]()_[@(0.0.255) const]&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:Abort`(`): [@(0.0.255) void]_[* Abort]()&]
-[s2;%RU-RU УстанавливаетTcpSocket to aborted state. In aborted state, all 
-subsequent request are ignored. Intended to be called from WhenWait 
-routine.&]
+[s2;%RU-RU УстанавливаетTcpSocket to aborted state. 
+In aborted state, all subsequent request are ignored. Intended 
+to be called from WhenWait routine.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsAbort`(`)const: [@(0.0.255) bool]_[* IsAbort]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает true is TcpSocket is in aborted state.&]
+[s2;%RU-RU Возвращает true, если TcpSocket в прерванном 
+состоянии.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:ClearAbort`(`): [@(0.0.255) void]_[* ClearAbort]()&]
-[s2;%RU-RU Clears the aborted state.&]
+[s2;%RU-RU Очищает состояние прерванности.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsTimeout`(`)const: [@(0.0.255) bool]_[* IsTimeout]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если the last operation 
-time`-outed.&]
+[s2;%RU-RU Возвращает true, если последняя 
+операция просрочена (в таймауте).&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:GetSOCKET`(`)const: SOCKET_[* GetSOCKET]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает socket handle. Note that all TcpSocket sockets 
-are non`-blocking from host OS perspective.&]
+[s2;%RU-RU Возвращает хэндл сокета. Note that 
+all TcpSocket sockets are non`-blocking from host OS perspective.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:GetPeerAddr`(`)const: [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* GetPeerAddr]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the peer address.&]
+[s2;%RU-RU Возвращает адрес пира.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:Attach`(SOCKET`): [@(0.0.255) void]_[* Attach](SOCKET_[*@3 socket])&]
@@ -144,7 +145,7 @@ cpSocket][@(0.0.255) `&]_[*@3 listen`_socket])&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Close`(`): [@(0.0.255) void]_[* Close]()&]
-[s2;%RU-RU Closes the socket.&]
+[s2;%RU-RU Закрывает сокет.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Shutdown`(`): [@(0.0.255) void]_[* Shutdown]()&]
@@ -152,12 +153,12 @@ cpSocket][@(0.0.255) `&]_[*@3 listen`_socket])&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:NoDelay`(`): [@(0.0.255) void]_[* NoDelay]()&]
-[s2;%RU-RU УстанавливаетTCP`_NODELAY option.&]
+[s2;%RU-RU Устанавливает опцию TCP`_NODELAY.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Linger`(int`): [@(0.0.255) void]_[* Linger]([@(0.0.255) int]_[*@3 msecs])&]
-[s2;%RU-RU УстанавливаетSO`_LINGER option to [%-*@3 msecs]. If [%-*@3 msecs] 
-is Null, switches SO`_LINGER off.&]
+[s2;%RU-RU Устанавливает опцию SO`_LINGER в [%-*@3 msecs]. 
+Если [%-*@3 msecs] равно Null, отключает SO`_LINGER.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:NoLinger`(`): [@(0.0.255) void]_[* NoLinger]()&]
@@ -184,9 +185,9 @@ wait), false on timeout.&]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Peek`(`): [@(0.0.255) int]_[* Peek]()&]
 [s5;:TcpSocket`:`:Term`(`): [@(0.0.255) int]_[* Term]()&]
-[s2;%RU-RU Возвращает the next input byte without actually removing 
-it from input queue. It at most waits for specified timeout for 
-it, if there is still none, returns `-1.&]
+[s2;%RU-RU Возвращает the next input byte without actually 
+removing it from input queue. It at most waits for specified 
+timeout for it, if there is still none, returns `-1.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Get`(`): [@(0.0.255) int]_[* Get]()&]
@@ -197,21 +198,22 @@ timeout for it, if there is still none, returns `-1.&]
 [s5;:TcpSocket`:`:Get`(void`*`,int`): [@(0.0.255) int]_[* Get]([@(0.0.255) void]_`*[*@3 buffe
 r], [@(0.0.255) int]_[*@3 len])&]
 [s2;%RU-RU Reads at most [%-*@3 len] bytes into [%-*@3 buffer], trying 
-to do so at most for specified timeout. Возвращает the number of 
-bytes actually read.&]
+to do so at most for specified timeout. Возвращает 
+the number of bytes actually read.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Get`(int`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* Get]([@(0.0.255) int]_[*@3 len])&]
 [s2;%RU-RU Reads at most [%-*@3 len] bytes, trying to do so at most 
-for specified timeout. Возвращает a String with read data.&]
+for specified timeout. Возвращает a String with read 
+data.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TcpSocket`:`:Put`(const void`*`,int`): [@(0.0.255) int]_[* Put]([@(0.0.255) const]_[@(0.0.255) v
 oid]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
 [s2;%RU-RU Writes at most [%-*@3 len] bytes from [%-*@3 buffer], trying 
-to do so at most for specified timeout. Возвращает the number of 
-bytes actually written.&]
+to do so at most for specified timeout. Возвращает 
+the number of bytes actually written.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Put`(const String`&`): [@(0.0.255) int]_[* Put]([@(0.0.255) const]_[_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
@@ -257,57 +259,59 @@ false.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:StartSSL`(`): [@(0.0.255) bool]_[* StartSSL]()&]
-[s2;%RU-RU УстанавливаетTcpSocket to SSL mode and starts SSL handshake. Core/SSL 
-must be present in project. Возвращает  true, если 
-SSL could have been started. Handshake is not finished until 
-SSLHandshake returns false.&]
+[s2;%RU-RU Устанавливает TcpSocket to SSL mode and starts 
+SSL handshake. Core/SSL must be present in project. Возвращает 
+ true, если SSL could have been started. Handshake is not 
+finished until SSLHandshake returns false.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:IsSSL`(`)const: [@(0.0.255) bool]_[* IsSSL]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если TcpSocket is in SSL 
-mode.&]
+[s2;%RU-RU Возвращает true, если TcpSocket находится 
+в режиме SSL.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:SSLHandshake`(`): [@(0.0.255) dword]_[* SSLHandshake]()&]
 [s2;%RU-RU Attempts the progress on SSL handshake for at most timeout 
-period. Возвращает a combination of WAIT`_READ and WAIT`_WRITE if 
-SSL handshake is (still) in progress, indicating whether the 
-process needs to read or write more bytes from the socket. Возвращает 
-0 if handshake is finished.&]
+period. Возвращает a combination of WAIT`_READ and 
+WAIT`_WRITE if SSL handshake is (still) in progress, indicating 
+whether the process needs to read or write more bytes from the 
+socket. Возвращает 0 if handshake is finished.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:SSLCertificate`(const String`&`,const String`&`,bool`): [@(0.0.255) v
 oid]_[* SSLCertificate]([@(0.0.255) const]_[_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring][@(0.0.255) `&]_[*@3 cert], [@(0.0.255) const]_[_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring][@(0.0.255) `&]_[*@3 pkey], [@(0.0.255) bool]_[*@3 asn1])&]
-[s2;%RU-RU Устанавливаетthe SSL certificate. Must be called before StartSSL. 
-(Note that clients usually do not need certificates, this is 
-usually used on accepting sockets.)&]
+[s2;%RU-RU Устанавливает сертификат SSL. Должен 
+вызываться до StartSSL. (Note that clients usually 
+do not need certificates, this is usually used on accepting sockets.)&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TcpSocket`:`:SSLServerNameIndication`(const Upp`:`:String`&`): [@(0.0.255) v
 oid]_[* SSLServerNameIndication]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&
 ]_[*@3 name])&]
-[s2;%RU-RU Устанавливает[^https`:`/`/cs`.wikipedia`.org`/wiki`/Server`_Name`_Indication^ SNI] 
-for SSL connection.&]
+[s2;%RU-RU Устанавливает [^https`:`/`/cs`.wikipedia`.org`/wiki`/Server`_Name`_Indication^ S
+NI] для подключения SSL.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:GetSSLInfo`(`)const: [@(0.0.255) const]_[_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#SSLInfo`:`:struct^ S
 SLInfo]_`*[* GetSSLInfo]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает information about established (after handshake) 
-SSL connection or NULL if such information is not available.&]
+[s2;%RU-RU Возвращает information about established (after 
+handshake) SSL connection or NULL if such information is not 
+available.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Timeout`(int`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
 cpSocket][@(0.0.255) `&]_[* Timeout]([@(0.0.255) int]_[*@3 ms])&]
-[s2;%RU-RU Устанавливаетtimeout for all operations. Zero means that all operations 
-return immediately (in that case it is usually a good idea to 
-perform some sort of external blocking on socket or socket group 
-using e.g. SocketWaitEvent). Null means operations are blocking 
-(but they still can invoke WhenProgress periodically if defined). 
-Other values specify a number of milliseconds. Note: It is possible 
-to adjust timeout before any single TcpSocket operation. Возвращает 
-`*this. Default value is Null, which means TcpSocket is blocking.&]
+[s2;%RU-RU Устанавливает таймаут для всех 
+операций. Zero means that all operations return immediately 
+(in that case it is usually a good idea to perform some sort 
+of external blocking on socket or socket group using e.g. SocketWaitEvent). 
+Null means operations are blocking (but they still can invoke 
+WhenProgress periodically if defined). Other values specify a 
+number of milliseconds. Note: It is possible to adjust timeout 
+before any single TcpSocket operation. Возвращает `*this. 
+Default value is Null, which means TcpSocket is blocking.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:GetTimeout`(`)const: [@(0.0.255) int]_[* GetTimeout]()_[@(0.0.255) const]&]
@@ -316,11 +320,12 @@ to adjust timeout before any single TcpSocket operation. Возвращает
 [s4; &]
 [s5;:TcpSocket`:`:GlobalTimeout`(int`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
 cpSocket][@(0.0.255) `&]_[* GlobalTimeout]([@(0.0.255) int]_[*@3 ms])&]
-[s2;%RU-RU Устанавливаетthe `"global timeout`". This timeout is in effect 
-over a whole range of operations, until it is canceled by calling 
-this method with Null parameter or by setting a new global timeout. 
-If global timeout is exceeded, operation during which it happened 
-fails and socket error code is set to ERROR`_GLOBAL`_TIMEOUT.&]
+[s2;%RU-RU Устанавливает `"глобальный таймаут`". 
+This timeout is in effect over a whole range of operations, until 
+it is canceled by calling this method with Null parameter or 
+by setting a new global timeout. If global timeout is exceeded, 
+operation during which it happened fails and socket error code 
+is set to ERROR`_GLOBAL`_TIMEOUT.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TcpSocket`:`:NoGlobalTimeout`(`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
@@ -330,18 +335,18 @@ cpSocket][@(0.0.255) `&]_[* NoGlobalTimeout]()&]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Blocking`(`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
 cpSocket][@(0.0.255) `&]_[* Blocking]()&]
-[s2;%RU-RU То же, что и Timeout(Null). Возвращает `*this. This 
-is the default value.&]
+[s2;%RU-RU То же, что и Timeout(Null). Возвращает 
+`*this. This is the default value.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TcpSocket`:`:IsBlocking`(`): [@(0.0.255) bool]_[* IsBlocking]()&]
-[s2;%RU-RU Same is IsNull(GetTimeout()).&]
+[s2;%RU-RU То же, что и IsNull(GetTimeout()).&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:WaitStep`(int`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
 cpSocket][@(0.0.255) `&]_[* WaitStep]([@(0.0.255) int]_[*@3 ms])&]
-[s2;%RU-RU Устанавливаетthe periodicity of calling WhenWait in millisecond 
-between calls. Default is 10ms (100hz).&]
+[s2;%RU-RU Устанавливаетthe periodicity of calling WhenWait 
+in millisecond between calls. Default is 10ms (100hz).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TcpSocket`:`:GetWaitStep`(`)const: [@(0.0.255) int]_[* GetWaitStep]()_[@(0.0.255) cons
@@ -351,50 +356,52 @@ t]&]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:TcpSocket`(`): [* TcpSocket]()&]
 [s5;:TcpSocket`:`:`~TcpSocket`(`): [@(0.0.255) `~][* TcpSocket]()&]
-[s2;%RU-RU Конструктор , destructor.&]
+[s2;%RU-RU Конструктор , деструктор.&]
 [s3;%RU-RU &]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Структура SSLInfo]]}}&]
 [s0;%RU-RU &]
 [s1;:SSLInfo`:`:struct: [@(0.0.255)3 struct][3 _][*3 SSLInfo]&]
-[s2;%RU-RU This structure is used to pass information about established 
-SSL connection.&]
+[s2;%RU-RU Эта структура используется для 
+передачи информации об установленном 
+подключении SSL.&]
 [s3; &]
 [s4; &]
 [s5;:SSLInfo`:`:cipher: [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ Strin
 g]_[* cipher]&]
-[s2;%RU-RU Cipher used.&]
+[s2;%RU-RU Используемый шифр.&]
 [s3; &]
 [s4; &]
 [s5;:SSLInfo`:`:cert`_avail: [@(0.0.255) bool]_[* cert`_avail]&]
-[s2;%RU-RU Certificate is available.&]
+[s2;%RU-RU Сертификат доступен.&]
 [s3; &]
 [s4; &]
 [s5;:SSLInfo`:`:cert`_subject: [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* cert`_subject]&]
-[s2;%RU-RU Subject name.&]
+[s2;%RU-RU Имя субъекта.&]
 [s3; &]
 [s4; &]
 [s5;:SSLInfo`:`:cert`_issuer: [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* cert`_issuer]&]
-[s2;%RU-RU Issuer name.&]
+[s2;%RU-RU Имя издателя.&]
 [s3; &]
 [s4; &]
 [s5;:SSLInfo`:`:cert`_notbefore: [_^topic`:`/`/Core`/src`/DateTime`$en`-us`#Date`:`:struct^ D
 ate]_[* cert`_notbefore]&]
-[s2;%RU-RU Certificate is not valid before this date.&]
+[s2;%RU-RU До этой даты сертификат недействителен.&]
 [s3; &]
 [s4; &]
 [s5;:SSLInfo`:`:cert`_notafter: [_^topic`:`/`/Core`/src`/DateTime`$en`-us`#Date`:`:struct^ D
 ate]_[* cert`_notafter]&]
-[s2;%RU-RU Certificate is not valid after this date.&]
+[s2;%RU-RU После этой даты сертификат недействител
+ен.&]
 [s3; &]
 [s4; &]
 [s5;:SSLInfo`:`:cert`_version: [@(0.0.255) int]_[* cert`_version]&]
-[s2;%RU-RU Version of certificate.&]
+[s2;%RU-RU Версия сертификата.&]
 [s3; &]
 [s4; &]
 [s5;:SSLInfo`:`:cert`_serial: [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* cert`_serial]&]
-[s2;%RU-RU Serial number of certificate.&]
+[s2;%RU-RU Серийный номер сертификата.&]
 [s3; ]]

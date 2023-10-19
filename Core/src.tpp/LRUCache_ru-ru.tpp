@@ -15,132 +15,163 @@ topic "Класс LRUCache";
 [s1;:noref: [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 T][3 , 
 ][@(0.0.255)3 class][3 _][*@4;3 K][3 _`=_String>]&]
 [s1;:LRUCache`:`:class: [@(0.0.255) class]_[* LRUCache]&]
-[s2;%RU-RU This class simplifies implementation of LRU (least recently 
-used) type of caches. Cache keeps the track of size of data contained 
-and provides Shrink method, that reduces this size to requested 
-number, removing least recently used items first. LRUCache also 
-provides two size counters, GetFoundSize and GetNewSize, that 
-can be used to further finetuning of cache.&]
-[s2;%RU-RU GetFoundSize basically says how much data was reused since 
-the last counter reset. GetNewSize says how much data had to 
-be added since the last counter reset. GetSize() `- GetFoundSize() 
-`- GetNewSize() is amount of data that has not been used since 
-the last counter reset.&]
+[s2;%RU-RU Этот класс упрощает реализацию 
+типа кэша LRU (least recently used). Кэш отслеживает 
+размер содержимых в нём данных и предоставля
+ет метод Shrink, уменьшающий этот размер 
+до требуемого значения, первыми удаляя 
+least recently used items (давно использованные 
+элементы). LRUCache также предоставляет 
+два счётчика размера, GetFoundSize и GetNewSize, 
+которые могут использоваться для 
+дальнейшего совершенствования кэша.&]
+[s2;%RU-RU GetFoundSize в основном сообщает, сколько 
+данных использовано повторно со времени 
+последнего сброса счётчика. GetNewSize 
+сообщает, сколько данных нужно добавилось 
+с последнего сброса. GetSize() `- GetFoundSize() 
+`- GetNewSize() даёт количество данных, которое 
+не использовалось за этот период 
+времени.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Maker subclass]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Подкласс Maker]]}}&]
 [s3; &]
 [s5; [@(0.0.255) struct]_[* Maker]&]
-[s2;%RU-RU This structure provides virtual base class for specific 
-LRUCache to create requested data if not available in cache. 
-Client code derives from Maker, adds required input parameters; 
-Maker then provides key for the client parameter set and Make 
-to create the data based on parameters.&]
+[s2;%RU-RU Эта структура предоставляет виртуальный
+ базовый класс для определённого 
+LRUCache, чтобы создавать требуемые данные, 
+если в кэше они недоступны. Код`-клиент 
+производится от Maker, добавляя необходимые 
+вводные параметры; Maker далее предоставляет 
+ключ для клиентского набора параметров 
+и Make, чтобы создать данные на основе 
+параметров.&]
 [s3; &]
 [s4; &]
 [s5;:LRUCache`:`:Maker`:`:Key`(`)const: [@(0.0.255) virtual] [*@4 K]_[* Key]()_[@(0.0.255) co
 nst]_`=_[@3 0]&]
-[s2;%RU-RU Возвращает key based on parameters.&]
+[s2;%RU-RU Возвращает ключ на основе параметров.&]
 [s3; &]
 [s4; &]
 [s5;:LRUCache`:`:Maker`:`:Make`(T`&`)const: [@(0.0.255) virtual] [@(0.0.255) int]_[* Make](
 [*@4 T][@(0.0.255) `&]_[*@3 object])_[@(0.0.255) const]_`=_[@3 0]&]
-[s2;%RU-RU Создаёт the data based on parameters, returns the 
-size of created data in bytes.&]
+[s2;%RU-RU Создаёт данные на основе параметров, 
+возвращает размер созданных данных 
+в байтах.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:LRUCache`:`:Maker`:`:`~Maker`(`): [@(0.0.255) `~][* Maker]()&]
-[s2;%RU-RU Virtual destructor.&]
+[s2;%RU-RU Виртуальный деструктор.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:LRUCache`:`:GetSize`(`)const: [@(0.0.255) int]_[* GetSize]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the total size of data in cache (as 
-sum of numbers returned by Maker`::Make). Note that LRUCache adds 
-and estimate of its internal memory consumption per item as well.&]
+[s2;%RU-RU Возвращает общее число данных 
+в кэше (как сумму чисел, возвращённых 
+Maker`::Make). Заметьте, что LRUCache также добавляет 
+и оценивает своё внутреннее потребление 
+памяти поэлементно.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:LRUCache`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the number of data items in cache.&]
+[s2;%RU-RU Возвращает число элементов данных 
+в кэше.&]
 [s3; &]
 [s4; &]
 [s5;:LRUCache`:`:AdjustSize`(P`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 P]>_[@(0.0.255) v
 oid]_[* AdjustSize]([*@4 P]_[*@3 getsize])&]
-[s2;%RU-RU Recalculates the total size of data in cache, using [%-*@3 getsize] 
-functional (which should have single const [%-*@4 T][%-@(0.0.255) `&] 
-parameter) to retrieve the size of individual data items. When 
-[%-*@3 getsize] returns negative value, the known size of element 
-is retained, otherwise it is overwritten with the new value.&]
+[s2;%RU-RU Перевычисляет общий размер данных 
+в кэше, используя функционал [%-*@3 getsize] 
+(у которого должен быть единственный 
+параметр const [%-*@4 T][%-@(0.0.255) `&]) для получения 
+размера индивидуальных элементов 
+данных. Когда [%-*@3 getsize] возвращает отрицательн
+ое значение, применяется старый, уже 
+известный, размер элементов, иначе 
+он переписывается новым значением.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:LRUCache`:`:GetLRU`(`): [*@4 T][@(0.0.255) `&]_[* GetLRU]()&]
-[s2;%RU-RU Возвращает a reference to the least recently 
-used data item in the cache (candidate for removal).&]
+[s2;%RU-RU Возвращает ссылку на самый давно 
+используемый элемент данных в кэше 
+(кандидат на удаление).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:LRUCache`:`:GetLRUKey`(`): [@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[* GetLRUKey
 ]()&]
-[s2;%RU-RU Возвращает the key of the least recently used 
-data item in the cache (candidate for removal).&]
+[s2;%RU-RU Возвращает ключ самого давно 
+использованного элемента данных 
+в кэше (кандидата на удаление).&]
 [s3; &]
 [s4; &]
 [s5;:LRUCache`:`:DropLRU`(`): [@(0.0.255) void]_[* DropLRU]()&]
-[s2;%RU-RU Removes the least recently used data item from the cache.&]
+[s2;%RU-RU Удаляет самый давно использованный 
+элемент из кэша.&]
 [s3; &]
 [s4; &]
 [s5;:LRUCache`:`:Shrink`(int`,int`): [@(0.0.255) void]_[* Shrink]([@(0.0.255) int]_[*@3 maxsi
 ze], [@(0.0.255) int]_[*@3 maxcount]_`=_[@3 30000])&]
-[s2;%RU-RU Reduces the cache to contain no more than [%-*@3 maxsize] 
-data and [%-*@3 maxcount] items removing the least recently used 
-items first.&]
+[s2;%RU-RU Уменьшает кэш, чтобы в нём было 
+не более [%-*@3 maxsize] данных и [%-*@3 maxcount] 
+элементов, первыми удаляются наиболее 
+давно использованные.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:LRUCache`:`:ShrinkCount`(int`): [@(0.0.255) void]_[* ShrinkCount]([@(0.0.255) i
 nt]_[*@3 maxcount]_`=_[@3 30000])&]
-[s2;%RU-RU Reduces the cache to contain no more than [%-*@3 maxcount] 
-regardless of data size.&]
+[s2;%RU-RU Уменьшает кэш до [%-*@3 maxcount], не принимая 
+во внимание размера данных.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:LRUCache`:`:Remove`(P`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 P]>_[@(0.0.255) i
 nt]_[* Remove]([*@4 P]_[*@3 predicate])&]
-[s2;%RU-RU Removes data items from the cache for which [%-*@3 predicate] 
-(which should have single const [%-*@4 T][%-@(0.0.255) `&] parameter) 
-returns true. Возвращает the number of items removed.&]
+[s2;%RU-RU Удаляет элементы данных из кэша, 
+для которых [%-*@3 predicate] (у которого должен 
+быть единственный параметр const [%-*@4 T][%-@(0.0.255) `&]) 
+возвращает true. Возвращает число удалённых 
+элементов.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:LRUCache`:`:RemoveOne`(P`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 P]>_[@(0.0.255) b
 ool]_[* RemoveOne]([*@4 P]_[*@3 predicate])&]
-[s2;%RU-RU Removes the first data item from the cache for which [%-*@3 predicate] 
-(which should have single const [%-*@4 T][%-@(0.0.255) `&] parameter) 
-returns true, scanning the cache from the most recently used 
-items to least recently used. Возвращает  true, если 
-item was found and removed.&]
+[s2;%RU-RU Удаляет первый элемент данных 
+из кэша, для которого [%-*@3 predicate] у которого 
+должен быть единственный параметр 
+const [%-*@4 T][%-@(0.0.255) `&]) возвращает true, сканируя 
+кэш от недавно используемых до давно 
+использованных элементов. Возвращает 
+true, если элемент был найден и удалён.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:LRUCache`:`:Get`(const LRUCache`:`:Maker`&`): [*@4 T][@(0.0.255) `&]_[* Get]([@(0.0.255) c
 onst]_[_^LRUCache`:`:Maker^ Maker][@(0.0.255) `&]_[*@3 m])&]
-[s2;%RU-RU Retrieves data from the cache or creates them if needed 
-[%-*@3 m].&]
+[s2;%RU-RU Получает данные из кэша или создаёт 
+их, если нужно, [%-*@3 m].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:LRUCache`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%RU-RU Clears all data from the cache.&]
+[s2;%RU-RU Очищает все данные в кэше.&]
 [s3; &]
 [s4; &]
 [s5;:LRUCache`:`:ClearCounters`(`): [@(0.0.255) void]_[* ClearCounters]()&]
-[s2;%RU-RU Clears the value of both size counters.&]
+[s2;%RU-RU Очищает значения обеих счётчиков 
+размера.&]
 [s3; &]
 [s4; &]
 [s5;:LRUCache`:`:GetFoundSize`(`)const: [@(0.0.255) int]_[* GetFoundSize]()_[@(0.0.255) con
 st]&]
-[s2;%RU-RU Возвращает the size of data in the cache that 
-has been reused since the last ClearCounters call (or constructor 
-if there was none).&]
+[s2;%RU-RU Возвращает размер данных в кэше, 
+которые повторно использовались 
+с момента последнего вызова ClearCounters 
+(или конструктора, если такого вызова 
+не было).&]
 [s3; &]
 [s4; &]
 [s5;:LRUCache`:`:GetNewSize`(`)const: [@(0.0.255) int]_[* GetNewSize]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the size of data that had to be created 
-since the last ClearCounters call (or constructor if there was 
-none).&]
+[s2;%RU-RU Возвращает размер данных, которые 
+были созданы с последнего вызова 
+ClearCounters (или конструктора, если такого 
+вызова не было).&]
 [s3; &]
 [s0;%RU-RU ]]

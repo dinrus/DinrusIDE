@@ -95,6 +95,12 @@ void DrawDragRect(SystemDraw& w, const Rect& rect1, const Rect& rect2, const Rec
                   Color color, uint64 pattern);
 
 class TopWindowFrame;
+class Ctrl;
+
+// Похоже, после объявления в форме
+// #define GUIPLATFORM_CTRL_TOP_DECLS   Ctrl *owner_window;
+// owner_window воспринимается как тип bool (поскольку это дефолтный тип для #define-ов).
+//static Ctrl *owner_window = NULL;
 
 #define GUIPLATFORM_CTRL_TOP_DECLS   Ctrl *owner_window;
 

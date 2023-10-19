@@ -188,7 +188,7 @@ class AsyncWork {
 		Ret2   ret;
 
 		template<class Function, class... Args>
-		void        Do(Function&& f, Args&&... args) { co.Do([=]() { ret = f(args...); }); }
+		void        Do(Function&& f, Args&&... args) { co.Do([=, this]() { ret = f(args...); }); }
 		const Ret2& Get()                            { return ret; }
 		Ret2        Pick()                           { return pick(ret); }
 	};
@@ -197,7 +197,7 @@ class AsyncWork {
 		CoWork co;
 
 		template<class Function, class... Args>
-		void        Do(Function&& f, Args&&... args) { co.Do([=]() { f(args...); }); }
+		void        Do(Function&& f, Args&&... args) { co.Do([=, this]() { f(args...); }); }
 		void        Get()                            {}
 		void        Pick()                           {}
 	};
@@ -226,26 +226,26 @@ public:
 
 template< class Function, class... Args>
 AsyncWork<
-#ifdef CPP_17
-	std::invoke_result_t<Function, Args...>
-#else
+//#ifdef CPP_17
+//	std::invoke_result_t<Function, Args...>
+//#else
 	typename std::result_of<
 		typename std::decay<Function>::type
 			(typename std::decay<Args>::type...)
 	>::type
-#endif
+//#endif
 >
 Async(Function&& f, Args&&... args)
 {
 	AsyncWork<
-#ifdef CPP_17
-		std::invoke_result_t<Function, Args...>
-#else
+//#ifdef CPP_17
+	//	std::invoke_result_t<Function, Args...>
+//#else
 		typename std::result_of<
 			typename std::decay<Function>::type
 				(typename std::decay<Args>::type...)
 		>::type
-#endif
+//#endif
 	> h;
 	h.Do(f, args...);
 	return pick(h);

@@ -13,14 +13,21 @@ topic "Класс Huge";
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс Huge]]}}&]
 [s3;%- &]
 [s1;:Upp`:`:Huge`:`:class:%- [@(0.0.255)3 class][3 _][*3 Huge]&]
-[s2; This class is intended for dealing of large raw binary data. 
-The main use is supposed to be in serialization loading, where 
-it is used to preload large binary data (e.g. String or Image) 
-as means for protection against invalid input `- Huge is storing 
-data in 1MB chunks, so is likely to run to the end of stream 
-without allocating invalid amounts of data.&]
-[s2; To explain further, the problem we are trying to solve here 
-is&]
+[s2; Этот класс предназначен для работы 
+с большими кусками сырых двоичных 
+данных. Основная сфера применения 
+относится к сериализационным загрузкам, 
+при которых он используется для предгазрузк
+и больших двоичных данных (напр., String 
+или Image) , в смысле, для защиты против 
+неполноценного ввода `- Huge сортирует 
+данные отрезками по 1 МБ, поэтому имеется 
+вероятность достижения конца потока 
+без размещения в памяти неполноценных 
+объёмов данных.&]
+[s2; Для дальнейшего пояснения, проблема, 
+которая здесь решается, выражается 
+так:&]
 [s2; &]
 [s2; [C void Foo`::Serialize(Stream`& s)]&]
 [s2; [C `{]&]
@@ -33,11 +40,15 @@ is&]
 [s2; [C    .....]&]
 [s2; [C `}]&]
 [s2; &]
-[s2; now if input stream is invalid, the allocation is likely to 
-fail. We could prevent this by examining the amount of remaining 
-data in the stream, but for certain class of streams (e.g. compressed 
-ones) we do not have that info. [* Huge] solves the problem by 
-serving as temporary buffer for loaded data:&]
+[s2; в случае если поток неполноценен 
+(повреждён), есть вероятность, что 
+произойдёт ошибка аллокации. Это 
+можно предотвратить, изучив количество 
+оставшихся в потоке данных, но для 
+некоторых классав потоков (например, 
+для сжатых) такая информация отсутствует. 
+[* Huge] решает эту проблему, служа временным 
+буфером для загружаемых данных:&]
 [s2; &]
 [s2; [C void Foo`::Serialize(Stream`& s)]&]
 [s2; [C `{]&]
@@ -52,43 +63,53 @@ serving as temporary buffer for loaded data:&]
 [s2; [C    .....]&]
 [s2; [C `}]&]
 [s2;C &]
-[s2; Now if stream remaining length is less than [C len], [* Huge] performs 
-allocation just in 1MB chunks and the end of stream will be reached 
-without allocating too much data. GetAll will then fail with 
-LoadingError. The downside of this step is the fact that data 
-get copied one more time and that for particular element, twice 
-as much memory is required to load it, however, usually these 
-are negligible.&]
+[s2; Теперь, если остаточная длина потока 
+меньше [C len], [* Huge] выполняет размещение 
+кусками по 1 МБ, и конец потока будет 
+достигнут без размещения избыточной 
+памяти. GetAll далее должен завершиться 
+неуспешно, с ошибкой LoadingError. За этим 
+шагом кроется тот факт, что данные 
+копируются ещё раз и что для загрузки 
+отдельного элемента требуется в два 
+раза больше памяти. Одако зачастую 
+этим можно пренебречь.&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255)%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:Huge`:`:CHUNK:%- [@(0.0.255) enum]_[* CHUNK]_`=_[@3 1024]_`*_[@3 1024]_&]
-[s2; This is the size of allocation chunk for [* Huge], currently at 
-1MB.&]
+[s2; Это размер куска размещения для [* Huge], 
+на данный момент в районе 1МБ.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Huge`:`:AddChunk`(`):%- [_^Upp`:`:byte^ byte]_`*[* AddChunk]()&]
-[s2; Adds a chunk and returns a pointer to it. Client code must respect 
-the [* CHUNK] size.&]
+[s2; Добавляет кусок (`"чанк`") в возвращает 
+указатель не него. Код`-`"клиент`" должен 
+`"уважать`" размер куска [* CHUNK].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Huge`:`:Finish`(int`):%- [@(0.0.255) void]_[* Finish]([@(0.0.255) int]_[*@3 last`_
 chunk`_size])&]
-[s2; After adding a last chunk, [* Huge] is `'closed`' with calling 
-this method with the size of its [%-*@3 last`_chunk`_size]. Usually, 
-[* Huge] gets data from some source (like Stream) which returns 
-full sized chunks until the last one.&]
+[s2; После добавления последнего куска, 
+[* Huge] `'закрывается`' вызовом этого метода 
+с размером своего последнего куска 
+[%-*@3 last`_chunk`_size]. Обычно, [* Huge] получает 
+данные из какого`-либо источника(типа 
+Stream), который возвращает полноразмерные 
+куски, вплоть до самого последнего 
+из них.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Huge`:`:GetSize`(`)const:%- [_^size`_t^ size`_t]_[* GetSize]()_[@(0.0.255) cons
 t]&]
-[s2; Возвращает the number of bytes stored.&]
+[s2; Возвращает число сохранённых байтов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Huge`:`:Get`(void`*`,size`_t`,size`_t`)const:%- [@(0.0.255) void]_[* Get]([@(0.0.255) v
 oid]_`*[*@3 t`_], [_^size`_t^ size`_t]_[*@3 pos], [_^size`_t^ size`_t]_[*@3 sz])_[@(0.0.255) c
 onst]&]
-[s2; Reads data into target pointer.&]
+[s2; Считывает данные в указатель цели 
+(приёмник).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Huge`:`:Get`(void`*`):%- [@(0.0.255) void]_[* Get]([@(0.0.255) void]_`*[*@3 t])&]
@@ -96,6 +117,7 @@ onst]&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Huge`:`:Get`(`)const:%- [_^Upp`:`:String^ String]_[* Get]()_[@(0.0.255) const]&]
-[s2; Возвращает data as String. There must be less than 2GB of data 
-or operation fails with Panic.&]
+[s2; Возвращает данные в виде String. Должно 
+быть менее 2 ГБ данных, иначе операция 
+завершается `"паникой`" ( Panic).&]
 [s3;%- ]]

@@ -14,32 +14,41 @@ topic "Класс RWMutex";
 [s3; &]
 [s1;:RWMutex`:`:class: [@(0.0.255)3 class][3 _][*3 RWMutex][3 _:_][@(0.0.255)3 private][3 _][*@3;3 N
 oCopy]&]
-[s9;%RU-RU This class mediates reader`-writer sharing of global data. 
-Only single thread can EnterWrite, but any number of threads 
-can EnterRead. RWMutex is NOT reentrant (same thread can Enter 
-the Mutex multiple times).&]
+[s9;%RU-RU Этот класс является посредником 
+между считывателем`-записывателем, 
+разделяя глобальные данные. Только 
+единственный поток может выполнять 
+EnterWrite, но любое число потоков может 
+использовать EnterRead. RWMutex НЕ реэнтрантен 
+(один и тот же поток может Enter Mutex несколько 
+раз).&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:RWMutex`:`:EnterWrite`(`): [@(0.0.255) void]_[* EnterWrite]()&]
-[s2;%RU-RU Blocks until all threads Leave the RWMutex, then enters 
-it and blocks any threads to enter the RWMutex until invoking 
-LeaveWrite().&]
+[s2;%RU-RU Вход для записи. Блокирует, пока 
+все потоки не покинут (через Leave) данный 
+RWMutex, затем входит в него и блокирует 
+все потоки, входящие в RWMutex, пока не 
+будет вызван LeaveWrite().&]
 [s3; &]
 [s4; &]
 [s5;:RWMutex`:`:LeaveWrite`(`): [@(0.0.255) void]_[* LeaveWrite]()&]
-[s2;%RU-RU Leaves the RWMutex.&]
+[s2;%RU-RU Покидает RWMutex.&]
 [s3; &]
 [s4; &]
 [s5;:RWMutex`:`:EnterRead`(`): [@(0.0.255) void]_[* EnterRead]()&]
-[s2;%RU-RU Enter in read mode. More than single thread can enter 
-the RWMutex in read mode. Blocks any threads attempting EnterWrite, 
-until all reader threads leave using LeaveRead.&]
+[s2;%RU-RU Войти в режиме чтения. Более одного 
+потока может входить в RWMutex в режиме 
+чтения. Блокируются любые потоки, 
+пытающиеся войти для записи (EnterWrite), 
+пока все потоки`-считыватели не покинут 
+(используя LeaveRead).&]
 [s3; &]
 [s4; &]
 [s5;:RWMutex`:`:LeaveRead`(`): [@(0.0.255) void]_[* LeaveRead]()&]
-[s2;%RU-RU Leave the read mode.&]
+[s2;%RU-RU Покинуть режим чтения.&]
 [s3; &]
 [s0; &]
 [s0; &]
@@ -47,25 +56,29 @@ until all reader threads leave using LeaveRead.&]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс StaticRWMutex]]}}&]
 [s3; &]
 [s1;:StaticRWMutex`:`:class: [@(0.0.255)3 class][3 _][*3 StaticRWMutex]&]
-[s9;%RU-RU Variant of RWMutex that can be used as static or global 
-variable without the need of initialization  `- it has no constructor 
-and correctly performs the first initialization when any of methods 
-is called. That avoids problems with initialization order or 
-multithreaded initialization issues.&]
+[s9;%RU-RU Вариант RWMutex, который может использовать
+ся как статическия или глобальная 
+переменная без необходимости в инициализаци
+и  `-у него нет конструктора и первая 
+инициализация корректно выполняется 
+при вызове любого из методов. Это 
+решает проблему порядка инициализации 
+или многопоточной инициализации.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:StaticRWMutex`:`:Get`(`): [_^RWMutex^ RWMutex][@(0.0.255) `&]_[* Get]()&]
 [s5;:StaticRWMutex`:`:operator RWMutex`&`(`): [* operator_RWMutex`&]()&]
-[s2;%RU-RU Возвращает the instance of RWMutex.&]
+[s2;%RU-RU Возвращает экземпляр RWMutex.&]
 [s3; &]
 [s4; &]
 [s5;:StaticRWMutex`:`:EnterRead`(`): [@(0.0.255) void]_[* EnterRead]()&]
 [s5;:StaticRWMutex`:`:LeaveRead`(`): [@(0.0.255) void]_[* LeaveRead]()&]
 [s5;:StaticRWMutex`:`:EnterWrite`(`): [@(0.0.255) void]_[* EnterWrite]()&]
 [s5;:StaticRWMutex`:`:LeaveWrite`(`): [@(0.0.255) void]_[* LeaveWrite]()&]
-[s2;%RU-RU Вызывает respective RWMutex methods.&]
+[s2;%RU-RU Вызывает соответствующие методы 
+RWMutex.&]
 [s3; &]
 [s0; &]
 [s0; &]
@@ -73,21 +86,24 @@ multithreaded initialization issues.&]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс RWMutex`::ReadLock]]}}&]
 [s3; &]
 [s1;:RWMutex`:`:ReadLock`:`:class: [@(0.0.255)3 class][3 _][*3 ReadLock]&]
-[s9;%RU-RU This nested class automates calls to Mutex`::EnterRead 
-/ Mutex`::LeaveRead for block of code using C`+`+ constructor 
-/ destructor rules. Using [* operator StaticRWMutex`::RWMutex], 
-it can be used with StaticRWMutex as well.&]
+[s9;%RU-RU Этот гнездовой класс автоматизирует 
+вызовы Mutex`::EnterRead / Mutex`::LeaveRead для блока 
+кода, используя правила конструктора/дестру
+ктора C`+`+. Посредством оператора[*  
+StaticRWMutex`::RWMutex], может также использоваться 
+со StaticRWMutex.&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Конструктор  / Destructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора / Деструктора]]}}&]
 [s3; &]
 [s5;:RWMutex`:`:ReadLock`:`:ReadLock`(RWMutex`&`): [* ReadLock]([_^RWMutex^ RWMutex][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2;%RU-RU Вызывает [%-*@3 s].EnterRead().&]
+[s2;%RU-RU Вызывает у [%-*@3 s].EnterRead().&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RWMutex`:`:ReadLock`:`:`~ReadLock`(`): [@(0.0.255) `~][* ReadLock]()&]
-[s2; [%RU-RU Вызывает s.LeaveRead()] where [*@3 s] is the constructor parameter.&]
+[s2; [%RU-RU Вызывает у s.LeaveRead(), где] [*@3 s] `- параметр 
+конструктора.&]
 [s3;%RU-RU &]
 [s0; &]
 [s0; &]
@@ -95,21 +111,23 @@ it can be used with StaticRWMutex as well.&]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс RWMutex`::WriteLock]]}}&]
 [s3; &]
 [s1;:RWMutex`:`:WriteLock`:`:class: [@(0.0.255)3 class][3 _][*3 WriteLock]&]
-[s9; This nested class automates calls to Mutex`::EnterWrite / Mutex`::LeaveLeave 
-for block of code using C`+`+ constructor / destructor rules. 
-Using [* operator StaticRWMutex`::RWMutex], it can be used with 
-StaticRWMutex as well.&]
+[s9;%RU-RU [%- Этот гнездовой класс автоматизирует 
+вызовы Mutex`::EnterWrite / Mutex`::LeaveLeave для блока 
+кода, используя правила конструктора/дестру
+ктора C`+`+. Посредством оператора][%-*  
+StaticRWMutex`::RWMutex], может также использоваться 
+со StaticRWMutex.&]
 [s3; &]
 [s0; &]
 [ {{10000t/25b/25@1 [s0; [* Конструктор  / Destructor detail]]}}&]
 [s3; &]
 [s5;:RWMutex`:`:WriteLock`:`:WriteLock`(RWMutex`&`): [* WriteLock]([_^RWMutex^ RWMutex][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2;%RU-RU Вызывает [%-*@3 s].EnterWrite().&]
+[s2;%RU-RU Вызывает у [%-*@3 s].EnterWrite().&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RWMutex`:`:WriteLock`:`:`~WriteLock`(`): [@(0.0.255) `~][* WriteLock]()&]
-[s2;%RU-RU Вызывает [*@3 s].LeaveWrite() where [*@3 s] is the constructor 
-parameter.&]
+[s2; [%RU-RU Вызывает у ][%RU-RU*@3 s][%RU-RU .LeaveWrite(), где] 
+[*@3 s] `- параметр конструктора.&]
 [s3; &]
 [s0; ]]

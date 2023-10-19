@@ -1,5 +1,4 @@
 topic "DrawingDraw";
-[2 $$0,0#00000000000000000000000000000000:Default]
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,6 +8,7 @@ topic "DrawingDraw";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [ {{10000@(113.42.0) [s0;%- [*@7;4 DrawingDraw]]}}&]
 [s3;%- &]
@@ -31,11 +31,12 @@ already any records stored in DrawingDraw, they are cleaned.&]
 [s3; &]
 [s4; &]
 [s5;:DrawingDraw`:`:GetSize`(`)const:%- [_^Size^ Size]_[* GetSize]()_[@(0.0.255) const]&]
-[s2; Возвращает the size set by constructor or Create.&]
+[s2; Возвращает размер, установленный 
+конструктором или Create.&]
 [s3; &]
 [s4; &]
 [s5;:DrawingDraw`:`:GetResult`(`):%- [_^Drawing^ Drawing]_[* GetResult]()&]
-[s2; Возвращает actual result.&]
+[s2; Возвращает действительный результат.&]
 [s3; &]
 [s4; &]
 [s5;:DrawingDraw`:`:operator Drawing`(`):%- [* operator_Drawing]()&]
@@ -45,14 +46,15 @@ already any records stored in DrawingDraw, they are cleaned.&]
 [ {{10000F(128)G(128)@1 [s0; [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:DrawingDraw`:`:DrawingDraw`(`):%- [* DrawingDraw]()&]
-[s2; Дефолтный конструктор. Create has to be explicitly called on default 
-constructed DrawingDraw.&]
+[s2; Дефолтный конструктор. Create has to be 
+explicitly called on default constructed DrawingDraw.&]
 [s3; &]
 [s4; &]
 [s5;:DrawingDraw`:`:DrawingDraw`(int`,int`,bool`):%- [* DrawingDraw]([@(0.0.255) int]_[*@3 c
 x], [@(0.0.255) int]_[*@3 cy], [@(0.0.255) bool]_[*@3 dots]_`=_[@(0.0.255) true])&]
 [s5;:DrawingDraw`:`:DrawingDraw`(Size`,bool`):%- [* DrawingDraw]([_^Size^ Size]_[*@3 sz], 
 [@(0.0.255) bool]_[*@3 dots]_`=_[@(0.0.255) true])&]
-[s2; Вызывает Create to start a recording session.&]
+[s2; Вызывает Create, чтобы начать сессию 
+записи.&]
 [s3; &]
-[s0; ]
+[s0; ]]

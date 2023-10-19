@@ -184,7 +184,7 @@ void SetAppName(const String& name)
 	SyncLogPath__();
 }
 
-static char sConfigGroup[256] = "u++";
+static char sConfigGroup[256] = "DinrusIDE";
 
 void SetConfigGroup(const char *group)
 {

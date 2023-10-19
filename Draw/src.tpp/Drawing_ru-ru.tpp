@@ -1,5 +1,4 @@
-topic "Drawing";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс Drawing";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,100 +8,106 @@ topic "Drawing";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 Drawing]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс Drawing]]}}&]
 [s3; &]
 [s1;:Drawing`:`:class: [@(0.0.255)3 class][3 _][*3 Drawing][3 _:_][@(0.0.255)3 private][3 _][*@3;3 A
 ssignValueTypeNo][3 <][*3 Drawing][3 , ][@3;3 49][3 , ][_^Moveable^3 Moveable][3 <][*3 Drawing][3 >
 _>_]&]
-[s9;%% This concrete class, with full value semantics (with fast 
+[s9;%RU-RU This concrete class, with full value semantics (with fast 
 deep copy) represents a record of Draw drawing operations that 
 can be replayed at any time. In other words, Drawing is a sort 
 of vector format. To create Drawing, use [^DrawingDraw^ DrawingDraw] 
 class.&]
-[s9;%% Drawing is Value compatible with `"rich`" feature set `- as 
-Value it supports equality comparisons, serialization, Null compatibility 
-and hash`-value support.&]
+[s9;%RU-RU Drawing is Value compatible with `"rich`" feature set 
+`- as Value it supports equality comparisons, serialization, 
+Null compatibility and hash`-value support.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Drawing`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
-[s2;%% True if Drawing is non`-empty.&]
+[s2;%RU-RU True, если Drawing непустой.&]
 [s3; &]
 [s4; &]
 [s5;:Drawing`:`:GetSize`(`)const: [_^Size^ Size]_[* GetSize]()_[@(0.0.255) const]&]
-[s2;%% Возвращает the size of Drawing `- the value explicitly defined 
-in DrawingDraw or set by SetSize.&]
+[s2;%RU-RU Возвращает размер для Drawing `- значение, 
+явно определённое в DrawingDraw, или установленно
+е посредством SetSize.&]
 [s3; &]
 [s4; &]
 [s5;:Drawing`:`:SetSize`(Size`): [@(0.0.255) void]_[* SetSize]([_^Size^ Size]_[*@3 sz])&]
 [s5;:Drawing`:`:SetSize`(int`,int`): [@(0.0.255) void]_[* SetSize]([@(0.0.255) int]_[*@3 cx],
  [@(0.0.255) int]_[*@3 cy])&]
-[s2;%% Устанавливаетthe size of Drawing.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Устанавливает размер для Drawing.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Drawing`:`:RatioSize`(int`,int`)const: [_^Size^ Size]_[* RatioSize]([@(0.0.255) int]_[*@3 c
 x], [@(0.0.255) int]_[*@3 cy])_[@(0.0.255) const]&]
 [s5;:Drawing`:`:RatioSize`(Size`)const: [_^Size^ Size]_[* RatioSize]([_^Size^ Size]_[*@3 sz])
 _[@(0.0.255) const]&]
-[s2;%% If either width or height specified as parameter is zero, 
+[s2;%RU-RU If either width or height specified as parameter is zero, 
 it gets computed based on current Drawing size and nonzero height 
 or width keeping the aspect ratio. If both width and height are 
 zero, returns Drawing size.&]
-[s3;%% &]
-[s4;%% &]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Drawing`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%% УстанавливаетDrawing empty.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Устанавливает Drawing пустым.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Drawing`:`:Append`(Drawing`&`): [@(0.0.255) void]_[* Append]([_^Drawing^ Drawing][@(0.0.255) `&
 ]_[*@3 dw])&]
-[s2;%% Appends another Drawing at the end.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Приставляет в конце другой Drawing.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Drawing`:`:Serialize`(Stream`&`): [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2;%% Serializes the content of Drawing with the stream [%-*@3 s].&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Сериализует контент у Drawing потоком 
+[%-*@3 s].&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Drawing`:`:IsNullInstance`(`)const: [@(0.0.255) bool]_[* IsNullInstance]()_[@(0.0.255) c
 onst]&]
-[s2;%% True if Drawing is empty.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU True, если Drawing пустой.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Drawing`:`:operator`=`=`(const Drawing`&`)const: [@(0.0.255) bool]_[* operator`=`=](
 [@(0.0.255) const]_[_^Drawing^ Drawing][@(0.0.255) `&]_[*@3 b])_[@(0.0.255) const]&]
-[s2;%% True if both Drawings are equal.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Tru, если оба Drawing`'а равны.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Drawing`:`:ToString`(`)const: [_^String^ String]_[* ToString]()_[@(0.0.255) const]&]
-[s2;%% Text representation for debug purposes.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Текстовое представление для целей 
+отладки.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Drawing`:`:GetHashValue`(`)const: [@(0.0.255) unsigned]_[* GetHashValue]()_[@(0.0.255) c
 onst]&]
-[s2;%% Hash value.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Хэш`-значение.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Drawing`:`:operator Value`(`)const: [* operator_Value]()_[@(0.0.255) const]&]
-[s2;%% Возвращает Drawing as Value `- Drawing is `"rich`" Value, supporting 
-operator`=`=, hashing, Null and serialization.&]
+[s2;%RU-RU Возвращает Drawing как Value `- Drawing является 
+`"rich`" Value, поддерживающим оператор 
+`=`=, хэширование, Null и сериализацию.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали конструктора]]}}&]
 [s3; &]
 [s5;:Drawing`:`:Drawing`(const Value`&`): [* Drawing]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[*@3 src])&]
-[s2;%% Deep copy constructor.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Конструктор глубокой копии.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Drawing`:`:Drawing`(`): [* Drawing]()&]
-[s2;%% Дефолтный конструктор.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Дефолтный конструктор.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Drawing`:`:Drawing`(const Nuller`&`): [* Drawing]([@(0.0.255) const]_[_^Nuller^ Nuller
 ][@(0.0.255) `&])&]
-[s2; Null constructor (provides Drawing Null).&]
+[s2; Конструктор Null (предоставляет Drawing 
+Null).&]
 [s3; &]
-[s0; ]
+[s0; ]]

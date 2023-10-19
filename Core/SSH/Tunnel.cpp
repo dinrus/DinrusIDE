@@ -25,7 +25,7 @@ void SshTunnel::Exit()
 	if(!listener)
 		return;
 
-	Run([=]() mutable{
+	Run([=, this]() mutable{
 		int rc = libssh2_channel_forward_cancel(*listener);
 		if(!WouldBlock(rc) && rc < 0) ThrowError(rc);
 		if(rc == 0)	listener.Clear();
@@ -40,7 +40,7 @@ bool SshTunnel::Connect(const String& host, int port)
 	if(!IsValid())
 		return false;
 
-	return Run([=]() mutable{
+	return Run([=, this]() mutable{
 		LIBSSH2_CHANNEL *ch = libssh2_channel_direct_tcpip(ssh->session, host , port);
 		if(!ch && !WouldBlock()) ThrowError(-1);
 		if(ch) {
@@ -67,7 +67,7 @@ bool SshTunnel::Listen(const String& host, int port, int* bound_port, int listen
 	if(!IsValid())
 		return false;
 
-	return Run([=]() mutable {
+	return Run([=, this]() mutable {
 		LIBSSH2_LISTENER *lsn = libssh2_channel_forward_listen_ex(
 			ssh->session,
 			host.IsEmpty() ? nullptr : ~host,

@@ -160,7 +160,7 @@ void Navigator::Navigate()
 				search <<= h;
 				search.AddHistory();
 				Search();
-				PostCallback([=] {
+				PostCallback([=, this] {
 					for(int i = 0; i < litem.GetCount(); i++)
 						if(IsStruct(litem[i]->kind) && litem[i]->id == id) {
 							list.SetCursor(i);

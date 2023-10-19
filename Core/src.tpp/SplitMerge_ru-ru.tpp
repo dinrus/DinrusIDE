@@ -14,7 +14,7 @@ topic "Split, Join, Merge";
 [s0;i448;a25;kKO9;@(0.0.255) &]
 [s0;%% [* Утилитные Функции for splitting and joining String'и and WString'и.]&]
 [s0;*%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Function List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Функций]]}}&]
 [s3; &]
 [s5;:Split`(int`,const char`*`,const char`*`(`*`)`(const char`*`)`,bool`): [_^Vector^ V
 ector]<[_^String^ String]>_[* Split]([@(0.0.255) int]_[*@3 maxcount], 

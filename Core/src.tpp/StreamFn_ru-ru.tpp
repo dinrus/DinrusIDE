@@ -12,7 +12,7 @@ topic "Stream utilities";
 [{_} 
 [ {{10000@(113.42.0) [s0;%% [*@2;4 Stream helpers]]}}&]
 [s0;%% &]
-[ {{10000t/25b/25@1 [s0; [* Function List]]}}&]
+[ {{10000t/25b/25@1 [s0; [* Список Функций]]}}&]
 [s3; &]
 [s5;:LoadStream`(Stream`&`): [_^String^ String]_[* LoadStream]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 in])&]

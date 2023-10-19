@@ -83,7 +83,7 @@ void Pdb::DebugBar(Bar& bar)
 	bar.Add(b, AK_THISS, THISBACK1(SetTab, 2));
 	bar.Add(b, AK_WATCHES, THISBACK1(SetTab, 3));
 	bar.Add(b, AK_CLEARWATCHES, THISBACK(ClearWatches));
-	bar.Add(b, AK_ADDWATCH, [=] { AddWatch(); });
+	bar.Add(b, AK_ADDWATCH, [=, this] { AddWatch(); });
 	bar.Add(b, AK_CPU, THISBACK1(SetTab, 4));
 	bar.Add(b, AK_MEMORY, THISBACK1(SetTab, 5));
 	bar.Add(b, AK_BTS, THISBACK1(SetTab, 6));
@@ -279,25 +279,25 @@ Pdb::Pdb()
 	autos.AddColumn("", 1);
 	autos.AddColumn("", 6).SetDisplay(visual_display);
 	autos.WhenEnterRow = THISBACK1(SetTreeA, &autos);
-	autos.WhenBar = [=](Bar& bar) { DataMenu(autos, bar); };
+	autos.WhenBar = [=, this](Bar& bar) { DataMenu(autos, bar); };
 	autos.EvenRowColor();
-	autos.WhenLeftDouble << [=] { AddWatch(autos.GetKey()); };
+	autos.WhenLeftDouble << [=, this] { AddWatch(autos.GetKey()); };
 
 	locals.NoHeader();
 	locals.AddColumn("", 1);
 	locals.AddColumn("", 6).SetDisplay(visual_display);
 	locals.WhenEnterRow = THISBACK1(SetTreeA, &locals);
-	locals.WhenBar = [=](Bar& bar) { DataMenu(locals, bar); };
+	locals.WhenBar = [=, this](Bar& bar) { DataMenu(locals, bar); };
 	locals.EvenRowColor();
-	locals.WhenLeftDouble << [=] { AddWatch(locals.GetKey()); };
+	locals.WhenLeftDouble << [=, this] { AddWatch(locals.GetKey()); };
 
 	self.NoHeader();
 	self.AddColumn("", 1);
 	self.AddColumn("", 6).SetDisplay(visual_display);
 	self.WhenEnterRow = THISBACK1(SetTreeA, &self);
-	self.WhenBar = [=](Bar& bar) { DataMenu(self, bar); };
+	self.WhenBar = [=, this](Bar& bar) { DataMenu(self, bar); };
 	self.EvenRowColor();
-	self.WhenLeftDouble << [=] { AddWatch(self.GetKey()); };
+	self.WhenLeftDouble << [=, this] { AddWatch(self.GetKey()); };
 
 	watches.NoHeader();
 	watches.AddColumn("", 1).Edit(watchedit);
@@ -336,11 +336,11 @@ Pdb::Pdb()
 	pane.Add(framelist.HSizePos(Zx(434), 2 * bcx).TopPos(2, EditField::GetStdHeight()));
 	pane.Add(frame_up.RightPos(bcx, bcx).TopPos(2, EditField::GetStdHeight()));
 	frame_up.SetImage(DbgImg::FrameUp());
-	frame_up << [=] { FrameUpDown(-1); };
+	frame_up << [=, this] { FrameUpDown(-1); };
 	frame_up.Tip("Предыдущий кадр");
 	pane.Add(frame_down.RightPos(0, bcx).TopPos(2, EditField::GetStdHeight()));
 	frame_down.SetImage(DbgImg::FrameDown());
-	frame_down << [=] { FrameUpDown(1); };
+	frame_down << [=, this] { FrameUpDown(1); };
 	frame_down.Tip("Следующий кадр");
 
 	Add(pane.SizePos());

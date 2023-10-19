@@ -92,7 +92,7 @@ QtfDlg::QtfDlg()
 {
 	Title("QTF дизайнер");
 	CtrlLayout(qtfText);
-	qtfText.text << [=] { Text(); };
+	qtfText.text << [=, this] { Text(); };
 	qtf.SetFrame(ViewFrame());
 	qtf.Background(SColorPaper);
 	Sizeable().Zoomable();
@@ -108,11 +108,11 @@ QtfDlg::QtfDlg()
 	else {
 		help <<= "[= &&&QTF документация не найдена";
 	}
-	help.WhenLink = [=] (const String& link) { OnHelpLink(link); };
+	help.WhenLink = [=, this] (const String& link) { OnHelpLink(link); };
 
-	qtfText.clear << [=] { Clear(); };
-	qtfText.copy << [=] { Copy(); };
-	qtfText.editor << [=] { Editor(); };
+	qtfText.clear << [=, this] { Clear(); };
+	qtfText.copy << [=, this] { Copy(); };
+	qtfText.editor << [=, this] { Editor(); };
 
 	leftSplit.Vert(qtfText, qtf).SetPos(4000);
 	mainSplit.Horz(leftSplit, help).SetPos(3500);

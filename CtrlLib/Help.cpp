@@ -37,7 +37,7 @@ bool HelpWindow::GoTo0(const String& link)
 		}
 	else if(WhenMatchLabel) {
 		WString lw = label.ToWString();
-		return view.GotoLabel([=](const WString& data) { return WhenMatchLabel(data, lw); }, true, true);
+		return view.GotoLabel([=, this](const WString& data) { return WhenMatchLabel(data, lw); }, true, true);
 	}
 
 	else if(IsNull(link) || doing_goto)	return true;
@@ -322,7 +322,7 @@ HelpWindow::HelpWindow()
 	Sizeable().Zoomable();
 	Title(t_("Help"));
 	BackPaint();
-	view.WhenLink = [=](const String& h) { GoTo(h); };
+	view.WhenLink = [=, this](const String& h) { GoTo(h); };
 	AddFrame(toolbar);
 	view.SetZoom(Zoom(1, 1));
 	zoom.m = 160;

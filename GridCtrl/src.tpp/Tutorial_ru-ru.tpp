@@ -1,5 +1,4 @@
-topic "Tutorial";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "ÐšÐ°Ðº Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ \"ÑƒÐ¿Ñ€ÑÐ»Ñ‚\" Ñ‚.Ðµ. \"ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ñ\", Ñ‚.Ðµ. \"ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»\" \"Ð¡Ð•Ð¢ÐšÐ\"";
 [l288;i704;a17;O9;~~~.992;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [b83;*2 $$3,5#07864147445237544204411237157677:title]
@@ -18,13 +17,19 @@ topic "Tutorial";
 [l321;*C$7;2 $$16,16#03451589433145915344929335295360:result]
 [l321;b83;a83;*C$7;2 $$17,17#07531550463529505371228428965313:result`-line]
 [l160;t4167;*C+117 $$18,5#88603949442205825958800053222425:package`-title]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
-[s0; [* 1. Basics]&]
+[s0; [* 1. ÐžÑÐ½Ð¾Ð²Ñ‹]&]
 [s0;* &]
-[s0; -|To use a grid control in your application add the GridCtrl 
-package to your project and then just add grid as any other control 
-in layout editor (Complex`-> GridCtrl) or manually put some code 
-somewhere in your app constructor eg:&]
+[s0; -|Ð§Ñ‚Ð¾Ð±Ñ‹ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ñ 
+`*`"ÑƒÐ¿Ñ€ÑÐ»Ñ‚`"), Ð¸Ð½Ð°Ñ‡Ðµ Ð³Ð¾Ð²Ð¾Ñ€Ñ, `"ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»`" 
+Ð¿Ð¾Ð´ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸ÐµÐ¼ grid (Ñ‚Ð¾ Ð±Ð¸ÑˆÑŒ, `"ÑÐµÑ‚ÐºÐ°`"), 
+Ð´Ð¾Ð±Ð°Ð²ÑŒÑ‚Ðµ Ðº ÑÐµÐ±Ðµ Ð² Ð¿Ñ€Ð¾ÐµÐºÑ‚ Ð¿Ð°ÐºÐµÑ‚ GridCtrl, 
+Ð° Ð·Ð°Ñ‚ÐµÐ¼ Ð¿Ñ€Ð¾ÑÑ‚Ð¾ Ð´Ð¾Ð±Ð°Ð²ÑŒÑ‚Ðµ grid (ÑÐµÑ‚ÐºÑƒ), 
+ÐºÐ°Ðº Ð»ÑŽÐ±Ð¾Ð¹ Ð´Ñ€ÑƒÐ³Ð¾Ð¹ `"ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»`", Ð² Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¾Ñ€Ðµ 
+Ð²Ñ‹ÐºÐ»Ð°Ð´Ð¾Ðº (Complex`-> GridCtrl); Ð¸Ð»Ð¸ Ð¶Ðµ Ð²Ñ€ÑƒÑ‡Ð½ÑƒÑŽ 
+Ð¿Ð¾Ð¼ÐµÑÑ‚Ð¸Ñ‚Ðµ ÐºÐ¾Ð´, Ð³Ð´Ðµ`-Ð»Ð¸Ð±Ð¾ Ð² Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ð¸, 
+Ð½Ð°Ð¿Ñ€Ð¸Ð¼ÐµÑ€ Ñ‚Ð°ÐºÐ¾Ð¹:&]
 [s0; &]
 [s7; #include <CtrlLib/CtrlLib.h>&]
 [s7; #include <GridCtrl/GridCtrl.h>&]
@@ -46,87 +51,118 @@ somewhere in your app constructor eg:&]
 [s7; -|App().Run();&]
 [s7; `}&]
 [s0; &]
-[s0; Now we have grid control spanned onto the main window. However 
-grid without columns is useless. To add some columns write:&]
+[s0; Ð¢ÐµÐ¿ÐµÑ€ÑŒ Ñƒ Ð²Ð°Ñ ÐµÑÑ‚ÑŒ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»`-ÑÐµÑ‚ÐºÐ°, 
+`"spanned onto the main window`" `- `"Ñ€Ð°ÑÐ¿Ñ€Ð¾ÑÑ‚Ñ‘Ñ€Ñ‚Ñ‹Ð¹ 
+Ð½Ð° Ð²ÑÑ‘ Ð³Ð»Ð°Ð²Ð½Ð¾Ðµ Ð¾ÐºÐ½Ð¾`". ÐžÐ´Ð½Ð°ÐºÐ¾, ÑÐµÑ‚ÐºÐ° 
+Ð±ÐµÐ· ÐºÐ¾Ð»Ð¾Ð½Ð¾Ðº Ð±ÐµÑÑÐ¼Ñ‹ÑÐ»ÐµÐ½Ð°. Ð, Ñ‡Ñ‚Ð¾Ð±Ñ‹ 
+Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ ÐºÐ¾Ð»Ð¾Ð½ÐºÐ¸, Ð½Ð°Ð¿Ð¸ÑˆÐµÐ¼:&]
 [s0; &]
-[s7; grid.AddColumn(`"Name`");&]
-[s7; grid.AddColumn(`"Age`");&]
+[s7; grid.AddColumn(`"Ð˜Ð¼Ñ`");&]
+[s7; grid.AddColumn(`"Ð’Ð¾Ð·Ñ€Ð°ÑÑ‚`");&]
 [s7; &]
 [s7; &]
-[s0; Let`'s add some data into it:&]
+[s0; Ð Ñ‚ÐµÐ¿ÐµÑ€ÑŒ Ð´Ð¾Ð±Ð°Ð²Ð¸Ð¼ ÐºÐ¾ Ð²ÑÐµÐ¼Ñƒ ÑÑ‚Ð¾Ð¼Ñƒ Ð´Ð°Ð½Ð½Ñ‹Ñ…:&]
 [s0; &]
-[s7; grid.Add(`"Ann`", 21)&]
-[s7;     .Add(`"Jack`", 34)&]
-[s7;     .Add(`"David`", 15);&]
+[s7; grid.Add(`"ÐÐ½Ð½Ð°`", 21)&]
+[s7;     .Add(`"Ð¯ÐºÐ¾Ð²`", 34)&]
+[s7;     .Add(`"Ð”Ð°Ð²Ð¸Ð´`", 15);&]
 [s0; &]
-[s0; As you can see the first row of grid containing column names 
-is painted differently. It is often called header (as in the 
-array control), but here I call it fixed row (because there can 
-me more than one fixed row). Next `"lines`" are just ordinary 
-rows.&]
+[s0; ÐšÐ°Ðº Ð²Ð¸Ð´Ð¸Ñ‚Ðµ, Ð¿ÐµÑ€Ð²Ñ‹Ð¹ Ñ€ÑÐ´ ÑÐµÑ‚ÐºÐ¸, Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¼ 
+Ð½Ð°Ñ…Ð¾Ð´ÑÑ‚ÑÑ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ñ ÐºÐ¾Ð»Ð¾Ð½Ð¾Ðº, Ð¾Ñ‚Ñ€Ð¸ÑÐ¾Ð²Ñ‹Ð²Ð°ÐµÑ‚ÑÑ 
+Ð¸Ð½Ð°Ñ‡Ðµ, Ñ‡ÐµÐ¼ Ð¾ÑÑ‚Ð°Ð»ÑŒÐ½Ñ‹Ðµ. Ð•Ð³Ð¾ Ñ‡Ð°ÑÑ‚Ð¾ Ð¸Ð¼ÐµÐ½ÑƒÑŽÑ‚ 
+`"Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²Ð¾Ñ‡Ð½Ð¸ÐºÐ¾Ð¼`" (header )(ÐºÐ°Ðº Ð² ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ðµ 
+`"Ð¼Ð°ÑÑÐ¸Ð²`"), Ð½Ð¾ Ð·Ð´ÐµÑÑŒ ÐµÐ³Ð¾ Ð½Ð°Ð´Ð¾ Ð±Ñ‹ Ð½Ð°Ð·Ð²Ð°Ñ‚ÑŒ 
+`"Ñ„Ð¸ÐºÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼ Ñ€ÑÐ´Ð¾Ð¼`" (Ñ‚Ð°Ðº ÐºÐ°Ðº Ñ‚Ð°ÐºÐ¸Ñ… 
+Ñ€ÑÐ´Ð¾Ð² Ð¼Ð¾Ð¶ÐµÑ‚ Ð±Ñ‹Ñ‚ÑŒ Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¾). Ð¡Ð»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ðµ 
+`"ÑÑ‚Ñ€Ð¾ÐºÐ¸`" ÑÐ²Ð»ÑÑŽÑ‚ÑÑ Ð¿Ñ€Ð¾ÑÑ‚Ñ‹Ð¼Ð¸ Ñ€ÑÐ´Ð°Ð¼Ð¸.&]
 [s0; &]
-[s0; Once you`'ve added data into the grid you can change it:&]
+[s0; Ð”Ð¾Ð±Ð°Ð²Ð¸Ð² Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð² ÑÐµÑ‚ÐºÑƒ, Ð¼Ñ‹ Ð¸Ñ… Ð¼Ð¾Ð¶ÐµÑ‚ 
+Ð»ÐµÐ³ÐºÐ¾ Ð¸Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ:&]
 [s0; &]
-[s7; grid.Set(0, 0, `"Daniel`");&]
+[s7; grid.Set(0, 0, `"Ð”Ð°Ð½Ð¸Ð»Ð°`");&]
 [s0; &]
-[s0; First argument of Set() is a row number, second is a column 
-and the last `- a new value to be set. Remember that the row 
-0 is the first row after fixed rows. To change the value of fixed 
-item use SetFixed:&]
+[s0; ÐŸÐµÑ€Ð²Ñ‹Ð¹ Ð°Ñ€Ð³ÑƒÐ¼ÐµÐ½Ñ‚ Ñƒ Set() `- ÑÑ‚Ð¾ Ð½Ð¾Ð¼ÐµÑ€ 
+Ñ€ÑÐ´Ð°, Ð²Ñ‚Ð¾Ñ€Ð¾Ð¹ `- ÐºÐ¾Ð»Ð¾Ð½ÐºÐ°, Ð° Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ 
+`- Ð½Ð¾Ð²Ð¾Ðµ ÑƒÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÐ¼Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ. 
+Ð—Ð°Ð¿Ð¾Ð¼Ð½Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾ Ñ€ÑÐ´ 0 ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð¿ÐµÑ€Ð²Ñ‹Ð¼ 
+Ð¿Ð¾ÑÐ»Ðµ Ñ„Ð¸ÐºÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ…. Ð”Ð»Ñ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ 
+Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ Ñ„Ð¸ÐºÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð° 
+Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ SetFixed:&]
 [s0; &]
-[s7; grid.SetFixed(0, 1, `"Age of person`");&]
+[s7; grid.SetFixed(0, 1, `"Ð’Ð¾Ð·Ñ€Ð°ÑÑ‚ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ°`");&]
 [s9; &]
-[s0; If number of row/column in Set is greater than the number of 
-total rows/columns `- grid is automatically `"stretched`" to 
-fit the new item[` 1].&]
+[s0; Ð•ÑÐ»Ð¸ Ð½Ð¾Ð¼ÐµÑ€ Ñ€ÑÐ´Ð°/ÐºÐ¾Ð»Ð¾Ð½ÐºÐ¸ Ð² Set Ð±Ð¾Ð»ÑŒÑˆÐµ 
+Ð¾Ð±Ñ‰ÐµÐ³Ð¾ Ñ‡Ð¸ÑÐ»Ð° Ñ€ÑÐ´Ð¾Ð²/ÐºÐ¾Ð»Ð¾Ð½Ð¾Ðº, `- Ñ‚Ð¾Ð³Ð´Ð° 
+ÑÐµÑ‚ÐºÐ° Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸ `"Ñ€Ð°Ð·Ð´Ð²Ð¸Ð³Ð°ÐµÑ‚ÑÑ`" 
+Ð¿Ð¾Ð´ Ð½Ð¾Ð²Ñ‹Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚[` 1].&]
 [s0; &]
-[s0; If you want to change value of current row you can omit the 
-first argument of Set():&]
+[s0; Ð ÐµÑÐ»Ð¸ Ð½ÑƒÐ¶Ð½Ð¾ Ð¸Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ñ‚ÐµÐºÑƒÑ‰ÐµÐ³Ð¾ 
+Ñ€ÑÐ´Ð°, Ð¼Ð¾Ð¶Ð½Ð¾ Ð½Ðµ ÑƒÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ Ð¿ÐµÑ€Ð²Ñ‹Ð¹ Ð°Ñ€Ð³ÑƒÐ¼ÐµÐ½Ñ‚ 
+Ðº Set():&]
 [s0; &]
-[s7; grid.Set(0, `"Daniel 1`");&]
+[s7; grid.Set(0, `"Ð”Ð°Ð½Ð¸Ð»Ð° 1`");&]
 [s7; &]
-[s0; In both cases you can use the short form:&]
+[s0; Ð’ Ð¾Ð±Ð¾Ð¸Ñ… ÑÐ»ÑƒÑ‡Ð°ÑÑ… Ð¿Ñ€Ð¸Ð¼ÐµÐ½Ð¸Ð¼Ð° ÐºÑ€Ð°Ñ‚ÐºÐ°Ñ 
+Ñ„Ð¾Ñ€Ð¼Ð°:&]
 [s0; &]
-[s7; grid(0, 0) `= `"Daniel`";&]
-[s7; grid(0) `= `"Daniel 1`";&]
+[s7; grid(0, 0) `= `"Ð”Ð°Ð½Ð¸Ð»Ð°`";&]
+[s7; grid(0) `= `"Ð”Ð°Ð½Ð¸Ð»Ð° 1`";&]
 [s0; &]
-[s0; However there are two differences:&]
-[s0;i150;O0; short form always updates internal data. That means 
-if there is an edit control active above your item it`'s value 
-won`'t change `- only underlaying value will change.&]
-[s0;i150;O0; short form never refreshes grid.&]
+[s0; ÐžÐ´Ð½Ð°ÐºÐ¾, ÐµÑÑ‚ÑŒ Ð´Ð²Ðµ Ñ€Ð°Ð·Ð½Ð¸Ñ†Ñ‹:&]
+[s0;i150;O0; ÐºÑ€Ð°Ñ‚ÐºÐ°Ñ Ñ„Ð¾Ñ€Ð¼Ð° Ð²ÑÐµÐ³Ð´Ð° Ð¾Ð±Ð½Ð¾Ð²Ð»ÑÐµÑ‚ 
+Ð²Ð½ÑƒÑ‚Ñ€ÐµÐ½Ð½Ð¸Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ. Ð¢Ð¾ ÐµÑÑ‚ÑŒ, ÐºÐ¾Ð³Ð´Ð° 
+Ð¸Ð¼ÐµÐµÑ‚ÑÑ Ð°ÐºÑ‚Ð¸Ð²Ð½Ñ‹Ð¹ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð» Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ 
+(`"edit control`") Ð½Ð°Ð´ Ð²Ð°ÑˆÐ¸Ð¼ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð¼, ÐµÐ³Ð¾ 
+Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð¾ÑÑ‚Ð°Ð½ÐµÑ‚ÑÑ Ð½ÐµÐ¸Ð·Ð¼ÐµÐ½Ð½Ñ‹Ð¼: Ñ‚Ð¾Ð»ÑŒÐºÐ¾ 
+Ð½Ð¸Ð·Ð»ÐµÐ¶Ð°Ñ‰ÐµÐµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð¼ÐµÐ½ÑÐµÑ‚ÑÑ.&]
+[s0;i150;O0; ÐºÑ€Ð°Ñ‚ÐºÐ°Ñ Ñ„Ð¾Ñ€Ð¼Ð° Ð½Ð¸ÐºÐ¾Ð³Ð´Ð° Ð½Ðµ Ð¾ÑÐ²ÐµÐ¶Ð°ÐµÑ‚ 
+ÑÐµÑ‚ÐºÑƒ.&]
 [s0; &]
-[s0; Short form are mainly dedicated to extremely fast updates and 
-to use in callbacks (see next chapter)&]
+[s0; ÐšÑ€Ð°Ñ‚ÐºÐ°Ñ Ñ„Ð¾Ñ€Ð¼Ð°, Ð² Ñ†ÐµÐ»Ð¾Ð¼, `"Ð½Ð°Ñ†ÐµÐ»ÐµÐ½Ð°`" 
+Ð½Ð° Ð¿Ñ€ÐµÐ´ÐµÐ»ÑŒÐ½Ð¾ ÑÐºÐ¾Ñ€Ñ‹Ðµ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Ð¸ 
+Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð² Ð¾Ð±Ñ€Ð°Ñ‚Ð½Ñ‹Ñ… Ð²Ñ‹Ð·Ð¾Ð²Ð°Ñ… 
+(ÑÐ¼Ð¾Ñ‚Ñ€Ð¸Ñ‚Ðµ Ð² ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÐµÐ¹ Ð³Ð»Ð°Ð²Ðµ)&]
 [s0; &]
-[s0; Now let`'s do opposite. Let`'s get the data from grid. To do 
-it simply use Get() method:&]
+[s0; Ð Ñ‚ÐµÐ¿ÐµÑ€ÑŒ ÑÐ´ÐµÐ»Ð°ÐµÑ‚ Ð¿Ñ€Ð¾Ñ‚Ð¸Ð²Ð¾Ð¿Ð¾Ð»Ð¾Ð¶Ð½Ð¾Ðµ. 
+ÐŸÐ¾Ð»ÑƒÑ‡Ð¸Ð¼ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð¸Ð· ÑÐµÑ‚ÐºÐ¸. Ð”Ð»Ñ ÑÑ‚Ð¾Ð³Ð¾ 
+ÐµÑÑ‚ÑŒ Ð¿Ñ€Ð¾ÑÑ‚Ð¾Ð¹ Ð¼ÐµÑ‚Ð¾Ð´ Get():&]
 [s0; &]
-[s7; Value v0 `= grid.Get(0, 0); // get value from row 0 and column 
-0&]
-[s7; Value v1 `= grid.Get(0);    // get value from cursor row and 
-column 0&]
-[s7; Value v0 `= grid(0, 0);     // short form of case 1&]
-[s7; Value v1 `= grid(0);        // short form of case 2&]
+[s7; Value v0 `= grid.Get(0, 0); // Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ‚ÑŒ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ 
+Ð¸Ð· Ñ€ÑÐ´Ð° 0 Ð¸ ÐºÐ¾Ð»Ð¾Ð½ÐºÐ¸ 0&]
+[s7; Value v1 `= grid.Get(0);    // Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ‚ÑŒ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ 
+Ð¸Ð· ÐºÑƒÑ€ÑÐ¾Ñ€Ð½Ð¾Ð³Ð¾ Ñ€ÑÐ´Ð° Ð¸ ÐºÐ¾Ð»Ð¾Ð½ÐºÐ¸ 0&]
+[s7; Value v0 `= grid(0, 0);     // ÐºÑ€Ð°Ñ‚ÐºÐ°Ñ Ñ„Ð¾Ñ€Ð¼Ð° ÑÐ»ÑƒÑ‡Ð°Ñ 
+1&]
+[s7; Value v1 `= grid(0);        // ÐºÑ€Ð°Ñ‚ÐºÐ°Ñ Ñ„Ð¾Ñ€Ð¼Ð° ÑÐ»ÑƒÑ‡Ð°Ñ 
+2&]
 [s0; &]
-[s0; Get always returns a copy of internal data (short form returns 
-reference to the internal value).&]
+[s0; Get Ð²ÑÐµÐ³Ð´Ð° Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ ÐºÐ¾Ð¿Ð¸ÑŽ Ð²Ð½ÑƒÑ‚Ñ€ÐµÐ½Ð½Ð¸Ñ… 
+Ð´Ð°Ð½Ð½Ñ‹Ñ… (Ð° ÐºÑ€Ð°Ñ‚ÐºÐ°Ñ Ñ„Ð¾Ñ€Ð¼Ð° Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ 
+ÑÑÑ‹Ð»ÐºÑƒ Ð½Ð° Ð²Ð½ÑƒÑ‚Ñ€ÐµÐ½Ð½ÐµÐµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ).&]
 [s0; &]
-[s0; 1) Not fully implemented in current version, only resizing of 
-rows. Column resizing will be available in full 1.0 version.&]
+[s0; 1)Ð•Ñ‰Ñ‘ Ð½Ðµ Ð¿Ð¾Ð»Ð½Ð¾ÑÑ‚ÑŒÑŽ Ñ€ÐµÐ°Ð»Ð¸Ð·Ð¾Ð²Ð°Ð½Ð¾ Ð² Ñ‚ÐµÐºÑƒÑ‰ÐµÐ¹ 
+Ð²ÐµÑ€ÑÐ¸Ð¸, Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð° 
+Ñ€ÑÐ´Ð¾Ð². Ð˜Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð° ÐºÐ¾Ð»Ð¾Ð½Ð¾Ðº 
+Ð±ÑƒÐ´ÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ Ð² Ð¿Ð¾Ð»Ð½Ð¾Ñ‚Ðµ Ð² Ð²ÐµÑ€ÑÐ¸Ð¸ 
+1.0.&]
 [s0; &]
-[s0; [* 2. Callbacks]&]
+[s0; [* 2. ÐžÐ±Ñ€Ð°Ñ‚Ð½Ñ‹Ðµ Ð²Ñ‹Ð·Ð¾Ð²Ñ‹]&]
 [s0;* &]
-[s0; The easiest method to add some interaction to the grid control 
-is to use callbacks. There are many. The most basic are:&]
+[s0; ÐŸÑ€Ð¾ÑÑ‚ÐµÐ¹ÑˆÐ¸Ð¼ ÑÐ¿Ð¾ÑÐ¾Ð±Ð¾Ð¼ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ñ Ð½ÐµÐºÐ¾Ð¹ 
+Ð¸Ð½Ñ‚ÐµÑ€Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚Ð¸ Ð² ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»`-ÑÐµÑ‚ÐºÑƒ 
+ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð¿Ñ€Ð¸Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ Ð¾Ð±Ñ€Ð°Ñ‚Ð½Ñ‹Ñ… Ð²Ñ‹Ð·Ð¾Ð²Ð¾Ð². 
+Ð˜Ñ… Ð¼Ð½Ð¾Ð³Ð¾. ÐÐ°Ð¸Ð±Ð¾Ð»ÐµÐµ Ñ‡Ð°ÑÑ‚Ñ‹Ðµ:&]
 [s0; &]
-[s0; [* WhenLeftClick] `- called when left mouse button is pushed.&]
-[s0; [* WhenLeftDouble] `- called when left mouse button is pushed 
-twice.&]
-[s0; [* WhenRowChange] `- called when cursor in grid changes its position.&]
-[s0; [* WhenEnter] `- called when enter key is pressed.&]
+[s0; [* WhenLeftClick] `- Ð²Ñ‹Ð·Ñ‹Ð²Ð°ÐµÑ‚ÑÑ Ð¿Ñ€Ð¸ Ð½Ð°Ð¶Ð°Ñ‚Ð¸Ð¸ 
+Ð»ÐµÐ²Ð¾Ð¹ ÐºÐ½Ð¾Ð¿ÐºÐ¸ Ð¼Ñ‹ÑˆÐ¸.&]
+[s0; [* WhenLeftDouble] `- Ð²Ñ‹Ð·Ñ‹Ð²Ð°ÐµÑ‚ÑÑ Ð¿Ñ€Ð¸ Ð´Ð²Ð¾Ð¹Ð½Ð¾Ð¼ 
+Ð½Ð°Ð¶Ð°Ñ‚Ð¸Ð¸ Ð»ÐµÐ²Ð¾Ð¹ ÐºÐ½Ð¾Ð¿ÐºÐ¸ Ð¼Ñ‹ÑˆÐ¸.&]
+[s0; [* WhenRowChange] `- Ð²Ñ‹Ð·Ñ‹Ð²Ð°ÐµÑ‚ÑÑ, ÐºÐ¾Ð³Ð´Ð° ÐºÑƒÑ€ÑÐ¾Ñ€ 
+Ð² ÑÐµÑ‚ÐºÐµ Ð¼ÐµÐ½ÑÐµÑ‚ ÑÐ²Ð¾ÑŽ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸ÑŽ.&]
+[s0; [* WhenEnter] `- Ð²Ñ‹Ð·Ñ‹Ð²Ð°ÐµÑ‚ÑÑ, ÐºÐ¾Ð³Ð´Ð° Ð½Ð°Ð¶Ð°Ñ‚Ð° 
+ÐºÐ»Ð°Ð²Ð¸ÑˆÐ° enter.&]
 [s0; &]
-[s0; Add to the code:&]
+[s0; Ð”Ð¾Ð±Ð°Ð²ÑŒÑ‚Ðµ Ð² ÐºÐ¾Ð´:&]
 [s0; &]
 [s7; void ShowInfo()&]
 [s7; `{&]
@@ -135,149 +171,14 @@ twice.&]
 [s7; &]
 [s7; grid.WhenLeftDouble `= THISBACK(ShowInfo);&]
 [s0; &]
-[s0; After running the application and double clicking at first row 
-you should see:&]
+[s0; Ð¿Ð¾ÑÐ»Ðµ Ð·Ð°Ð¿ÑƒÑÐºÐ° Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ñ Ð¸ Ð´Ð²Ð¾Ð¹Ð½Ð¾Ð¼ 
+ÐºÐ»Ð¸ÐºÐµ Ð½Ð° Ð¿ÐµÑ€Ð²Ð¾Ð¼ Ñ€ÑÐ´Ðµ, Ð²Ñ‹ Ð´Ð¾Ð»Ð¶Ð½Ñ‹ ÑƒÐ²Ð¸Ð´ÐµÑ‚ÑŒ:&]
 [s0; &]
 [s0;= 
 @@image:1449&1034
-ˆƒ¢Ï€€€€€€€€€€øÃœíý‰ÐœÙí™æÅÌîÌ®‰Ç»»³»±»æî·Ç½“ŽžÆÙ÷ìôû¶¼¯Þ°Ãíž·ç™íñ÷ÛíîÏåÛòßºÚ­û
-ÀÂ‡ˆ‰Ýˆˆ¨îÑÜÈœªÉª€âÐñßé—„Òë„¸ÀïÂ‡Âœ’‡Þþ™¯³««Ý³ª©¢ªÔ¥õâÿñÅÆŸÿ¯ûÏ—ï£³Ê¤ „‡Žœ¸
-ŽðàÀƒ‡ŽØœ¸ð¸ãÐáÏÀÃÆá«¿ƒœÇßœ¸¼õŠØÉÁæêâÚ„ÀØ„Û×´Ú€ÊÄ£³®´¯•ø®¡ÌÜ´‰Ë¾îýý¯ŽÜú¯û»
-Ÿ¿æÓùŸýº¯ÿÌ÷ÖÿÝ÷õëïŽôþÕ¿Ž¿ôëøº÷ÝûÿÛßñõŸÓö¯œù²µÇÝå­¡¼’×–¯·ÖÖ–Ù‰à°ö‡ß…–É„ïäª—Ô›
-²®«¶ÿ¥Úô÷ù·ßùÛ®À¾¬Úô‰¹Îî¹ô†æÈµçþÒÏÒæž¬éÿ§¸½òñ‚ÛË¯ˆÂÃÀ·¯ºõöâïªðßŠËÄ“³ìÎâÏ­â«·‹
-Ñ¯ö”ßéàŽ Œî²š¸½ò»³èÒû¹Ë·Ü‹®µë¯ŒüäÀýíÒË“Ë¬¯ŠÂÃàÓÖ¿—¸¸Ê—Âú‡–±êù«ÀÖË¦ö£ËŽÇÅ²áÙœ‹‰­
-ò„Í“Âž‚Ñãš”žä™ÂáÈð Ó²ôÚ³Ã°Þ×Ùã·ËÌž“² ü¯û’²©“Ù†ð¸»ÜŠå‚±²¯‹…í¬›·÷»Ž³Áú„¶ä™³Âáð“–™õ
-À×®õÉ¬ÓÆÂ†øë—¯´Çºü¢ ¼ŒŽ®å™ÜØú–Íé™’íÑÒÁ¥²Í±ßµÖÖÇ¹ü¢ ¼ŒË¹†å‹ìç²ÅÊØ¶­º…Ù†˜ð¸œûÙÊž
-¥ßíž˜—¥˜àñŽ¨¦ä™ÓÂáð“–¹ÿùÛºæÙ›šû¥ñä‡¦¹¾§¦Âå—…áá¾ðÆ÷„îöÍåþ÷ßŠûéÍ“À—þšÈœÿÎæÄ·ß¼¦Á
-Ì«¿ÛÕÐÓéÏò‹‚ð°¬‡úÿ•žèéìºÜùÃŽ›×¯Ë˜ñçüØå—…ááØŽ¬Ã ¾Ü‹åðÛÂˆ·„Ëñ¼¾ù²‘…¬Ã œä¤™‚áì Ë
-”ˆçÃš–Ýî¡ªÄ Ë€Íº¬“›àÀÃäù¬åï¿ÿŒ‘‚°’ËæÏÙüÂ‚œ´ ÕÙ©„µÀ…ô¾¼ØÃ²Ù¹¹ˆ¹èÀ³Óˆëµ€‹èù°‡å
-Ê³žÉÁƒšÁÂØƒÜÀÏ‰ƒ½¬›þ¸£€‡èöŠáðð½ö°ìÃþƒé¹èÀ³ÈÓˆëðì–©þå„—·»Ì¼àËîÞ»¯¸‡¨œÒ«©
-ü¾µë…°´€–æ—ÑÎàÕø—Æ°‡å“Ó÷«å …Óº½«Ä§æ½––«Ðì²Ú‰¼ŠÏ˜ö°ìâò€ÊŽšÐ¸…Çùá¨‘èŸŠ™õòË‡ä
-‡Í®žøÙ¬­ý©¤Â¢–ò€¼æ­¼ˆ–‚ü®ÏØÃ²±‰É¹èÀá”œÓ…£ØØÔÀ¢Þ·ëë‘¬ ëÂâØ¹ÐÊÆâÖš‰šË—Ò×¦’–›ìáÙ
-§ÈØ„œ´ ð‚ŠŽâÁüªŒç¹™ØÞâéñÝ¬ ÂâØ¹ìÐæåù­‰î©±‘»ØÊ²ŽÌ®òµÝš»Ë†ÆÆä á…Óð”‹â£ÄÜïÉþÙÁ¾
-Ÿ€’¡¼€òØ¬éì™Ùµ¬¥­Ãë¨†½°¬›˜š•ƒ†¤”ÎÁÑ¬ÓÓ‰Ò¬‘ˆòËÇ‡Â‚ª¬‹ÁÂÂ©›Ûé¶Ã¨£Í¥­·ØÃ²Þá¹è
-²Àá”œÅ²ð†ªþá¬¶³«ˆ½žŠ‹èäöÙ¬Ù¨¹¥ß‚ü’™õ´·ÕØå‹ëòëÕº´–õ÷ÊŒÁƒšÂØƒÐÛ—®Ãò€ºªŽÂŽûØ
-Æö«§ßŽšÐåì”ÂšØ¹€‡ÂÃÑù˜äŠ¡½¬ëèÇê“ƒ†´»…°†¸€ž‡ûŽØÖÞÙ£‡€èöŠáðü½ö°ìÆÍ®¹èÀ³Óˆ
-êë€‹èù°‡Èåˆ„ÂÊ¬™˜åò³ª¯íêÈÁ¬™×¯¸¥¼†„ã×ô½É¬››Ÿ—ƒ„Ùæÿ•ñùÖˆÇÂž–½š£•ƒÙæÿ•°ñùˆÇÂž
-é–Í¿œ½ü¥åë§–Œ©ÝÍ¾èÎ¾¢®¯ÚáØØÃ²³‚¯¶ËØ¦ŽâÜÓá–ì—¡Ë½Ì® Ç¯ƒ§µÁž–ÍÝ½§Éü†‚È”ò–·™•—ŒßÝ
-Ö’–™ÝÀ¥üõÔÂ¸ö°ì­ö“÷áá”× À²ÚÙ¾‘ËŸŠµ–¬Ý¾¶èÎ¾¢–¦œ‰þ£‹ñìà«ËÆïßÑ™ŽÕÐØÉ²‰Æ¾†ÿ”õžŒË¬
-íÃ§Æç—ö°ÿÌìë´¶ÞËÜ–å™‚¥ÇÂŠ¬Ë¬ýôÂ¼¦—°‡åÃ¦ïýòŠ¯…Šã›öå™òÊÒ½¹ÌìÀÏƒÙïÒ¿äæž¿Žž€„ûØ¶°´¢
-àÐŒäŠë¾ýüØšË–ç½ÌªÒ¿ž¿Žž„ŒûØÖÓ¿Ä©ò†‚€«¿É·ãò‰Ñì©žõÂàÈÙ¦ßÃ³òËŠðÛØÃ²›®ÞÐÃÑŒûüÝû¯ˆË
-ðëÀ¸–ö°ÌáÒ‹ë®ïê¹Î†²ÌóàËþ¬½°æò¦žäë Ë¼ö°ÃÌÒ‹ë®ïê¹†²ÌóàË¬â¢ˆö±–Ì²¹™‚Žž‡•ƒÞ‘œ
-õž´ìá™¥·Ò¸Ÿí‡ž¶êåž·ìá™¥¥·¸Ÿí‡ž¶Õåž·ìá™×ÂŸÐÝò°›°ýÙä™çŒûØ¦ð§ô¥¡¾ôØÓ²ÌÑÎ²Ë‹ˆëõ
-á¼ŒûØ¦¼¹æ©†¥û™²Ì‰Ê¡á™øÁ¤®²®Õó²ìá™ýíÓ‚ÅÙö¦ÿÉ¬ÖˆÍÞœØ¦¥’ðàêðÈÐÞéö°æìüö¹¬¿³—©Ìé¥ ô
-ãø «Óóµ§ÁêÊ·œÑÀÁ´ÎÁ™ëö°Ì“áûÚŠÀÌµï ÄœËžéÅúÆ§€ÉçÅšñ…¨ öà¿°¹ø¤¥é­ëË”þ¸ó§¥ˆªÙ§Œ
-€çü¯ã¨¶¶Á•äèÎ²´ÅÊ–Ô§ë‚Ä…æÓ¡Ù¬¤ò Ó¦¶†ÁØì¢´‹§âŒÆ®æŒÍŠÍæÉŒ‹¤…­š°‘ÙÜ»¶•¡ñ¶ïæÜ²Þ
-›–Ü›Ì×ãñ¥é”²¿ç×â«õþÐ³Û×ž±–‰ïîŠá¯–ÉõŽš”åÿš¼Ú¤¢¦¤áÂ¦Î¨êŠæ…„æÐ¤–µ§–ñÓ¢Î±±ÆÔ€ëÕ¬
-­¸óÆ…Ô¨ãÒ´…Âä“Ü‰Ø¢Íâ‘¥²¸Â©±à©Î¢§ç©“ØðåðÆïò¾’˜Šë’òÌêé¶¦È•Á§àÚ–š´×ÆÅ³¤å®û¡èÄÓÇ—Î¨Ð
-æý®Å©Ã³¶Ïì‚¾¢Õ×ÑˆÊ…ýÅÅÞè´•ÏÁ‘Œ©ûœÂÁãšýáŽ®ç™øåÍñÛéœ’ÇÉÃ ü¦³£¥‡È‡“Ô‚–Ýº…«•‘ÐØøâÌ
-°œÁ¾ñ¦š—¸ØÌåÔ°¶ÊŒÐÈ‹…µ‰ôŠêÎÔ¤™²Þáúòðí¨‰ ¨µÐ“Ó¦šèœöÊ˜ã‡¬’’…©ø‚¡ ãÅ•‘´Óí¾°ˆÌˆ
-àÆãÑ½Ñ’Ä¸ì… ¤ò¤¶˜ë©àÚ‘’×˜¨ªƒ•šÏ¸¤â…ª”—‚ÚÍ†ìùÕê›Ûá…èÉ”±°ˆ¦š¤àÆËµëÚ°ý‰ÛÙÒµÈ¬ê
-éÈ¨ïÙ—–ìŠ“’ˆÇÅ…°ì¾ù®‰ë¹ èñëÈŠüßÚ½Ã²Éû›ÂÛœŽ¥†ƒ‡ôìÑû­×äÁù±ýŒ„‰Ó–œÓ‰Ï¹œ›…Øˆÿ¢£ðäþØ
-ôÆ±È¸¸šæ³Õá™Œ›Âà²Ê´¹Õôâñ‚—˜Ÿ‰ÍÚ¶—‘ÆøÊ‡€÷¿Öƒ²Ã½Ööçˆ¯®±ŽÁ¶„ä¦²äÏì¨¹’Àä‡¼¤‚áÃôå ‡
-›³ ”žÂžÍš´ûÿèÙÏ´©¸Ãù«“€¾€€«…íÙ‹ÝÖ±Èåð–©üÕÙÁ÷œÐÅÝ­õÞø¸š™Ýˆ•ßÐŸÐÐŸ™™Õ…Çè³Õô‡ã³Çê
-ž©»ÔÉ‡ã³¨Á¾”›¦µÂèÎÔÆäÕ‚¬±ø©µ¥¡Ú¼Ãè†áØÉüÐÍÎ¥›§²ðäÙÇ“éü—ßˆ´ý‘Ú¸À…ì½š‹ñÀÜ¾¤£„ºÇ°
-´ÉàŽñ™ôÓ‘ÚÐí±†²óÇãßˆÔå­±ÐƒÈ ÷ìÀ¸¨Ç—³ÑèƒÎåÓ¸ðÐ³œÁŽÈ¢ÎÝÐÈ¬¦›ÚÎé …Å—¶°ÀÉ«“¸ã¸
-‰–é™¬±ß˜•³Éê£ùŠ™Ì÷ºÅôŽÓí´Ò””“Ø€Ââ²É¹Í–ÃÌÕ¨˜³‘‡³„ÈÕ´²Ÿ…ó§ÉéœÖ¼à‹ã‹È’—ÖŸßÈÎ•
-ßÖ›¸óÅ‹í–ÄðÅ›û’ºøµÙ–¦žÓ¥»ç»»ƒã¨×‰ŒÂñ‹Âª«¡‰¯¬þ­ÿ™œãÙ¦ðç‡µÝóÐ§Æ¸üøæµÂõåñùõ ÃÝªÄë
-›ðÈÙìŸ£è÷¹öò¬ÌúÍÅä†ž†òÕõŠæˆÅè´µ†ãÉç¿ÜŸ§þáæƒÔ¹³²¨Ñì„ÿä¼ç†ž§ °¹ŽÒÁ‹ÎúÏ¬¼œ£ß™” 
-“É¾·¢Õ¯†—˜®ßüä„—ª§ù¬ÔÌ‹áËä„Ú¼«©¶ã¦àªçóÓ†…Ü”àƒˆ•òùÅ‹¶ìÞàƒâÐ©¶ŽãÜÀØ€À­Ôæ†™—‚õ·ÙÃ
-©ÖÆðçÓÔ±¢Éõüœªˆì’Â© ©ƒÉÑ¹Ç„”·ÃÖ£ä˜óÅÃ½ùÆÛ€ñ´—¸÷¾¸øãáìÒ‰›í¤ÞÔ†Š§ÎÖµú¨“àŽµð«¨–„ºøô
-•ž¥Öø‡¤€üÀƒÇô’óñ†…ÜòîÍõº¬Ë”þì ûªŽöÞÖ—œÑ´šû¶– Î¨ÿ‹É«Í«óƒÖïºœÅíØÀ¸˜­Û“šæ–”÷Ð£Û
-Öž”à“ž‚Ê¥íÁ‰ÞÁñßáìÕï¼œ½éÄÐ”ÈûÂÓ÷ë†§üî•ðÖœ§Û©ïÚýáË ÿð³Ÿ½õÖŠŒßšŠî€ð÷èšÄƒèÀäˆò‡ž˜
-Øà©ÖîÕÓùÓ¿ìöûÌëž¨•™ì‰Â¹ñ‡µú˜¼º¨µÛ¼”ÅÃáå Ã»±œ†åâúâ´± ·Ñ–‚ËÌÙºöà”‘À†ÑÄ˜í‚ÙŸ‡
-ˆ±Žæ–…´õ©ÁÚš°®˜ÏáÊš›Ó°‚–Ñ®¡·•ËÍñ²šêÌåÒêë…ÒËÌ¼ò«˜ìôŠ©ƒöµÁèÄ•ÖŠìÓø¤ìÀÆÝËºÎåñÅÓÈÌ
-©Ò¼î¡Ø¡Ì•¼˜†¡‹¾¸ÅÚñ³×±˜·¸…í‰ŽÛñÔÌ£¬¿Õˆ§ªÞšÐ€À˜žÜ¸€Ú²áªéŽåÙó÷–§ôÑÿ£–Ô¶°Ý“×£
-ãÉ«Ê¯ÖäÝÕœˆÖýáË¤¡îŸï¹´£ü°þã¡¨õ‡Ó¢€Íßøðû¶Ÿ””…ôôÓÃ¯£Ô£žÀÆžµ¾¡¿úì»ÄÿúÂ»¬åõÙÞúºáà”
-÷àòó•ëÅŽí¿Ý·—Š¿üŠøËï×úÓ™¸ü÷„Å¿»ê„§½Ýú¬žª­‡êÙâÁ¨ôÌ³À±†é‚¤“‚Ùö´¹µíéÅ¬†Œ‹öé§¬Ð«¡Æ
-å¹µâ¸ÁÆ© â¾Ž³•“Û•Ã†¤É‹ãòÐëµüŠÎ¦—ŠÉÁæç‚²Ó¯¹µ¬Àù‰Š¥«•¯¼¯Ð²œêâÄ‘ÓèÒÖÚ˜ÑÆ“«®™Ð¸åÌ•ËÛ
-Éæ¢‡ÑŠó‹½³Ý°ÓéüµÍéì¢äÖðÞ¶¹µðø‡›‚Ûƒ¢áÈ…„¹„©ª¤•­Ô…ò—àõ¡œì³åü–§ÈôÑò±³º—‡ù®ãèÊ‘ü
-§„×äÖ…¤”—ú„œÜ±é¿ƒµÙñ¬öÏøµº÷èÉÀÇ»ïŽ®Øä§Žðãþ—œþµÒõ‹Š¿Þ¹ó«Ï¶ÑÙ§ô”×àýµ¾ôô³Öÿ¬ß‰íšŸ
-ààúŠ‚„¤òŸëï®¢ÂªŸÛõÆÃ‘¿Ý»Ó‡žÂ™ïÿÉ“¹¯»¹£°îÎ˜‚ÈÌÍ¹—Õ€£©…Ì—Û¹Õ¦šœª®†¯Ð˜ˆàÜ•¥Í›ƒ×€çÞ
-€…ÓšÎàÖ£‘šŠÜÀº¾Â°ŠºÕåŒÌ¦ñÕˆÉó¸¤ ×á’æ˜×ÙÈ¼ŽÅÒâÅÆ‚üÀ€¶ ³õÉŠ³Ž ÉóÅÞ©˜š©ÆÔ¨ž’÷®¡ëóÊ
-ó”Ý¨˜»Ð˜Ã´Ì¬Ôâþí«Î ˜À–ÿ¨”ÁïÉ”œÊÓÎµ²ý±íÖø…§»öÞöÇÜ½Å‰Ý´Ü­è»œœÿâÌà•À¶žÖ¬÷ØÈ±ìû±Ø
-¹ýÑÚÁåÍÝÖÒá£íÇê¦ïüÊ‘êá÷ÖÓ´¿ø”è³•¡Îž €¬ŸŠäñäæ„ù‡ïýÌ¹æœŒüüÏðûîßì‘ÛÈÜáÀÔÜ³Š¶ˆÙ
-¤¶˜Ÿ¬êØü ¤‚žˆ‚ ¥ÞÅ’©ÀÅ²ðß™ñÚ±¬ÎûîÞâäØÖ…ÖŸ™Ýù ¡®—Ž¬‡Çý›‘§¿ØÀíæÀÖûŸÿïÍŒîúúÆï¸¶
-¸í¸ùéî ÝŽ‚þíÏ·î‰ÔÛ­¾¹þÿÐ‰ßó¼€ÓÔýÑÚÿç£ÿƒâÃÍï‹¤•³…Ý–ûîšÖ®ìÏ¿Ü¤¤£Ø£¾‰ÓïüŸ¾ƒžÂ³èè
-ÐÆ‰­¾Š­Þ÷é¢ªÊ¨©‚’õå¢ÄÉµ•Ô«Ïšã¨óª¶‘Ò›ª³ÞÖþÆ€ùâ…—ˆß‚‹Æ¦µ‹¼¶Ôˆ¢Æ‰¦àÞÑ¢›áŠÓ—œ©òÛ¤‹Æ
-˜È®ì€ã›î…Ã‘ŠòÁÄÏÅÐ¡¶·½ŠßºªÏýÎª¸–åÎø‹ÓÞáØÿÔÁËÐÒ‘™Õ‘žÊÕ¾¯öŒˆ‘±Ù• œŒÍÜ›çÇ­æª½Á
-¢«¶œúïÍ®ºúú¶ÿÍ†ïüäšà÷üÇ·å·¾å¾ü½»öæ÷ï·î£òë¾Èô°ÙÁÛ€ì¸’û¨¶óˆ½Ÿ™Ì„¶‰¡î«ýÂö©“à×ù‡‰¶ï¯
-•ó•Ü÷ª“¿ýÞþ˜ž‚™÷€‰½Ó³ÓüöÄÖù„Û…œ Á‰‚´•žÍØµàÓáË´È–ÎÅá«üËã²£éÔœëýžÝîËÄ©ˆÈ®ðå‚²‚
-Ñ¬‰Í‘ÎÅÎî–’†ƒ±›”¶ÎùÒµäêáÝ¦üã˜¤‘¬Æ—­‡ÏÁ—¼†¼’ºç³‚ÓÌ«ì‹³é‡­ƒìè®ì¡¤à¤—½›¢‰·¹„Þ£ÄË’
-Œ§˜³ËâÜÔáýÊýù®èÊÎ ©ÀÅó¦À’¾ðí¸±ÍáÀ˜øÃ™ÈÍ ‘Ÿò¶§àäó™·ôÙå»—£´Žå™µïºñÊÿÓÃÊ¡é·÷ˆËšÛú
-ºý¢³Ãôåáú²¢²Á¨‹ß®¾éõ¼ñ‹‹¿Æî¢üíÛ”à—“¹ë™·Ù¹§ð³’½Á’ã°¹ ­²ûí¡§öØ†Ãäé¿‘¬Üô¹ÈÜ
-°¤¶Ð¸¯¿°äÒÒðºÁ§ôÚŸ®¯ƒš™Æ®ØâÁ€Í¸‹¾ÜÛ£çþ‘ÔÅßæ­ç¦º²Ëé§¬†•²À£ãÆ‹·Ã¦š²æµÀÈì¬‹Ë„åÑÓ
-©Èà“Îø±š·š‚â¼˜²¡ÊÅå°¶áôÖÊ£çµÌ”¸êûÓŠÙúÂ®µ³õðÞÞüØáì®êÅÕÈ¼–ßÆ·ÃôÎ­§è©´æ¡Á€ïß¼×á™
-ŠÝŸ°Ú©×¼õÛ©­Ùè‚³¹ÑƒåÖù…ìŒ‹¸±Õ¿Š„—ºòëŽÈ´þ ¡ðŠÊÀ¥™œÝçˆ³§ª›Ã±¬³æ­ÎÎ‡þÆ”ãØÖÕÞŸª¯Ý••
-ª‘ªãÖ™„°ÐýéðúÑúÿ¶¸Ÿ°Ô¯ã‰¸«ýÃá¸Ù¿‚ú•ï¨œß¦žˆò‰ÏõÏ«ÊÝ’”Œ‚ÏÊøÚªÆ¦‘ìÊ™›£ŒøÁ‰©ÿâÎÖê“
-§–ºöÀ”¸œÌÏ¯ÚÀÄÎƒ—˜ŸìŠÚüÄ¾ƒÂª½¼ûÞëÆËÏ£ßË¦ì€¥Ø€Èë·Æù§åÀ”äÍÊÇã …Î°¶ø¸²ÂÔä†ô’¦«Ý
-“Í´ÓŠòîÖ‚“ª¯ƒ¡Ì×ñÆ÷ÚŠÍîŠÓÒ±‚ëÌúí§ŠÔ…±ÞÌ¢Á°ÞÌÀØ“êºžÊˆÔ¸ŒÆúŽ£ñ¸¤Ô†µ“Åúé¸úÝ¨×˜±°²Þ
-Ë†ÍžÉ™³îÀº¡©ëœéìÌ‹ÎÅòµë„¹›¦æÞàóÃ•ÑÜá´ Û¨²˜Ê¦Ý¥¥ê¢”®‹¿¾ñ´Ó®»ë•˜¦ß»Õ¿òí¾Æµˆ—¢å‚
-ÑÉÔÔ¦¿¬ú¡ÒÏü£œË²–ëÞâÔøåàãÉ¯²Êìä–ØŽáÙÑ…öº…Ùö„ëÃõ¥š¡ºÒ¯ðôãŽ§•îº–´Æß£÷‰ËÙ³¢¿Ê»¬…äõ
-å‡ãý´ºÿÄ¤³›¥…¥–¡±¶‰Ç’Ïœ¢ÉÌ¸µß¹£ƒãÊ”¾‰ÇÓŠ‚Ø¸°à€ÞÛÕ§ ÈþÐÚÑÆ¦²÷Î›Œ–à¸Ë‘ƒÊ¯Ç
-É€¥ÍÁæÏ…±¤à€ÞÛÔÀÑÛ³þÌŠˆ˜Ü‚ûÐ„èÊØëâÓÃØ®¼Â¡µ ðÝäÀÔ½‰×˜–·¡¹–ÐãÖÆØòœˆ•Â´¬—“ê°”‹ÈÆÎà
-Ã–…‰ÈÓä”™°šÆ Æ¡ÜÊŠ®ŒÞ¸Ý¬ò‰á«ŒåÜ…ù€Ìá¼¦”‹ÿ¬“Ø”ŠŒà© éÈ†âÏ»àÝ…úö„Ô‰¹¸Â¢ìÛà³›¹¸´
-Ó¯’Èýé–ÿ™È­¬‰¬”’§òª…Òý¢õ…Žå™µïñÚÒâ™Äã‰åŽ»ýåáˆÐÔ¾‘°­¤•¶ŠÀ¾¶†¤ª©¦·”Ñ¨õÆ©í¡éâãµï£
-èöç„È£³®¬ÈÜ™Ü¡´†û©±ŒšÐ×øêÌê’«”‹‘Ãî¤ãŠÐÎØêš”ëÇçÈâƒý‰Ú®å•¦ô¥¦¹ø›‘¦°ï¬³­ÃžïýëÈÚˆ
-ÿØÆ˜«Ô´°„ÒÑœÒ®²ëå£öë÷£ÌˆÝÉæ£‘€¥Õûƒ–•À¸óŒÍÈ£ïÕè²Ë²ëÞâÜ™ôÞ¦¹ÙºÛ•‡ÚÂ€ˆÍø·‡Â´Å›ƒ
-´ÓÂ´†µ¶„Ö„µ¶Ø­µ°ÁšâþŠ´ œÖÒ³š­ŒÍ‰µÚäŠúÁÔ©–ºÅÚÐ÷ÓÌµœŒÎ¦ÄÄ¸Ë…Ù¿¼ŸÇž ØˆÅÂˆÿ“¢Äè¥æÊ
-’à³‹¶àîà“½¸”êÓ®Ì‡Êº›»‘Æ…äËÂÌŽÃØšù¸¥–„ê¶É¥ÞÞñÈÒñ»îó­€¼µáÚâø¼êÓÀ¢‚˜«Å…Šýäíæ•³ç
-Ë¿Åé–åæ¹±óìØÖÐÜÆÞ¯åÆ “ôÁ ·†¥óÂàÉÃãÔéºõ²„Í³‘ŒÓêÓÁ©ÍÁ§Í¢Ÿ°–´’ãƒ©¦÷™Õ˜¤•¤°˜Ç¬ˆÜƒ•
-¼ÊÍ¦…Éê±ù˜–æ°˜ÂÄ•Ýà²âÒÕ½”é®—Ä“¬ëÕç¹¼–¦‚ÄïÌ¦ãÙæÍšÛœŠ„²ÆöÛÆ½ìý±¤ºâ¬ö‰†‡Å±ôÏ¸½ì’ºÿ
-•µà…ý±Žæ‘™ÍïñÊïêâò½¥ÊºðÛËßíðÆ œÎŠÇ²ìùü‹ã“ðÝ Î€˜Ù†­··¸‰¥²ŒáÌ¸œåËÏãÛœ„Ù†øð¦œÎ²çñ
-„­Î‚¬Ã¸“œŽçÙóø–§…²ŒáÔÐ†¹Íê­Îçñ Ë†Î†¥†‘ää™‚á  Ë åˆçƒÙ†¬ˆÃ¸›È²ä™«ÂÙÀ–¡Ë¥Î†²ŒÙ†ð
-ê¶åÈ²„³ñ¬ó”ËÆ†ø‡¦¦ÆÛúÆÞû†ÆÇÇïÃƒ˜œäñûòüøüòàüî­¡Å©‹­×ïÜ»¯áò‹ŽøÆÀÅ–¹„åÍ­×ï¿ºÑýðúþ
-‘Ã‡÷ŸÍ¼ü—òø±¸ÅÓÂÇææææçŸŒ¼½ÿäÌÑÝËûö—ßúÄì³ƒ²ÌÎ–õÖö¯Ìþ½œŸ™™üÝñ«´æ¼š¾§üúÑŒ½
-ðÝøÂææžÌ¹Í³†÷æžæ™ëðùÕÇ¼¼› Ë–Ì²»ãÃ×»ÆÆÇ®ÆîÞ½³ýð¿æÉÓ§â°¿ÔþïÊõ£•»êÇÿô­ß½»šŸ—ôÀ±û
-ŸžÜŸ™Û ÿ¤¤±½¦î‚ÛË÷€ÂÙÀ–Â­™å·úÆ†Ï‡úÇÆ§žÌ¡ÎËâ¶ßîÑÝ©þ¡úæ‘Õô‹ê•êÕÖ ü‚ÐŠ¦çž­ŽÌÎÌ®‹
-ÀÝÓ¹…Õ®ß¤†ˆ§‚Ù¶´Å–Ýíšž˜èŒŸž¸·½ÇããÌ¿¡çÉ¦ŒûÀ¸°þÀËõŸÖªÞÍøûÕÑžÕ«©±êç®‘æ©‘Ü•ž¡÷ø²Í½
-úúÒ·ñðÎÌßãìš›ù…å‘·Ç‡Ý¾™ÄÎ‚²ì‰¬»¹Ù³ô«»»ÿÌèìòþ¬òîðÜŸ£Óó«äÁœ™ùÂèÑü“›ßø·ý‚ïü‡Ö…´ƒ
-›±¦Ÿ“ÉÇä¡ü¡™ûÀÆžÍ’Ùöéòìúžñ×ØÃ‰Ùòü º¯®®Éå¥›á¤ Ëì¾åÙäØð…ëÇÝ·ºû‡§îñ±ü¢Àµ»…˜ÛÕÝ–ž
-ð›ŸŽŸñÇñÈ™²ºÍàøš²ŒÞ£ý÷É´»õëâ®ûüï¦¾óöŽ¿ØŸ›íøÅ£ç‚ˆÙæ«Ëºû†ó®µõôöÞ²þ°€¬›š¥¯“³äÎ£æÖ
-”…‚°Œž çüˆó„ûÕÃ§žäèÞÂØ£‚°˜úÀ†ï“‹ ØÝÒ»Åú¡î²æãóäÊÏßƒ¾ûÏ¿ó‰ŠÎÎÍ™ŸžÆðù–À¸œÈà²ÛÙÖõéÖ
-ß•ö®ž¡»÷†—È½…²±Í¬¦æÈøƒæÑÊðâ‘™Ú ëŒŽêÿæ‡ÛÞûù·£ßûµÿÎÿÿß›ÔÿñÉëã‰å‰Ã¯¯Þ»¤ëŠô¢Ï‘Û÷ÈÇ„
-ñéûÀ¦Ÿ’«˜Ãó×úïçµ×ö­Ùúüºþƒ›µ§‚Ùæ«ÙËŒõ—Îßíáèžýðçž¡£Õðý²‚˜æ îÕ£™–…Ì¤·ý‡ÿ¼¨ÙúÓßÕ‹Áª
-¯—Ôª¯íò¹øÑ…¬ë¾Ë¥«ó’ôÌ’öéÀ¸é› ƒ³§äúèüãûÄ—é•‘ŸþòÓÜÞþ¹Ë·„Â½áÀ–ÙÊ²óÍÕ­µ­íÃòÆÅ€þ
-Š©ÒÿŸŒÎ“¬ ”àÛ¿ÔÅ½œ¡ú­Ùõ±£þ‰Í÷‰¿é¼Ã«í¶é¹¾Á®ÆÈ•Õ±ÒñÜœ…œ«¿ºÜþíøÛÿüáäÌó†«ö‚¬ƒË
-ê÷£³ºð‡¾ùå¶³¬¶µ¿¢ùÆÁûÃ»Óì§¬»¤ç¡Š¼‡ö±˜˜æ¾Ùøçã×ŠêÅ€Õë‰™ª—ŽùÆµÍº’–ßãäÚ¨¹¼ÆàŠœÇ
-ÓÈÉò¾ïÎüðñ°üêÈ·ÐÞÛ‘”‘êýüö’†ûÐ¬¶þÑ°æ³»üìË£ËÜóØÊ¿²üê–²¦›¿—ûîÁ§ª®áö¡ÐøŽ¼ÉŒ¾ŠÞºË¦–
-ïÈ›«âÕßò¦×½–€¬Û›Ù×´†Ÿ¿¦Èå¥Ñò•à˜´×Ž’‹£¤õ„šÜž ½óÅä—‡ÏÝšþæï«¿·‰åŽÝÈ¶…±›ý‰©”÷¸åî¹
-øìåÙ†¡ÙÐŽðµ¥óŽÐŒðž‚»î“öÛÍÌýªýŽ„Ç§Á›Óäøž·üôóøÕ‹Ç¶©Ë¼ãš†Ÿ‡“¯Æ˜æÝ˜Ò¦ç‡ÉË°¹Ä°ÄÎ±ô«
-©îøØØ² ëÝèÿáÕß­†åò­®¿•ë ¬ÙÚ“Ð¹’Ù³æŠ””ÌÉ­ëÙ´ŒÅ»ÃŸ–¹Ã°•åé—¥—ÏÖ¶Öü©ÕÿåìñÛ‰ö¡ð‚Ü™§
-®×ÇÉ•‘æÑÛðú¤é›¥ÿ¥²’îåÇ™§™ÆïžÚ­éš”ØàîÜç‡ÈÁó éœ¤Íý¥¤‘ä¡ÒßÏˆŠ®Íä¶ôÇþ–µ¿ðêŠãø‘éÖ–±è£
-åšä—Ê´–ô›ÊÊ¥”±è®‹…Ê­ý„Ø´‹²Ãïôö‚Ùôæ«ËòËÎëŸËšóê®·ö‹Ü»ö›¡—ý¢Ž¼¸Ê®±‘×¦È÷ŒùíãóÊ²„Õ‹
-±‡öÆ·õÌ²Áœê˜ õý¤ÞžŽ½Ì±á¶”·ÏäÖ÷æ´¶ôÿæÓ‰ï¾ü÷ß£âôÖÏ–±è­çÑ–ü©ØšÝê‹Ö‰°¨Ì–éå¥å¶ñ—Ùæî
-•ÃÖ–Ý»þÃàÛõÃ×ò¾ ‡¹§¹÷îÞ÷ðÔ×ŠÏôÄ¡ðÜœ£·ÿ¦ÉëŸóŸË¬Þ¼è¥¹ß±ýÃÐ¬¶ŸÔôÓ‘ê¾ÒÕËªùúÉé×“¬æ
-¿‘ÔÊ¶ˆÂëº¯ýèÝÿýÿÂëÏ–ÖØÙÆ›¢·žëïåŠ¸•¶ù¢ÛÞ…¡¼åèŠ•ª®—©Ðµë¬Ë³•å€¨ÝÛ¶äüº¡¥¿®å ¡ïÉë˜
-¢óŸêšäîÍÄðì ½‹äß§«™ïðÕß—Õ¨þúÿºµ¶‹Ô’ª¾šÒÖÍÊ»Éå¬Ÿ©¾õÄß¸ñšÔü½©¼ýìƒßíŸþë—ïë½‚­ÿ“Ú
-ÑìÆÚšË”î´åÖžÚ³¥­©íü«ëÙ´Œêä™»¥°¬‡·«ëðÊåÂüîÍÊ¹–¼óŒƒµÝóÍ£Œ‹Åà¡°‘îçß£¤äæôß¿þž¨ú§¸¯½
-Öþúß‹ýñ¸ÍõÑû½Ú¡‚ÒÙÃÊûÉÙ”©êøªíœ¡½÷­º¿õìÇÜÕŸýç½¯ï½±úÔúÙµëÿÃÊþÄå–Ö¯°ûåìÑòì¶…¤‹
-Ç¥€‹’Äâ¬þÜ¹¥È–º°µ´¾È²—Œ¥…°ŒÛÜÿ¬Å£¾öÌÍâÁ¿ÅÌ†¾â¶™¼ø”„»ÕÕ‡ÝÄ·ù’êÏ¾êÐýýÜ·ß­îøåÓ–ÿø¸
-»å…ß•ÿÑëÁ¡‡²ºêÇˆ­á–É¹º›Òì»ü¢ðêÔÙ±Ö½§›þî§é›Þøå½¯ý¬Ñí×ÛÜ¾Ÿ™œ„÷Øê®„á²ìé¬ƒÄ¤È›ü’Êãòë
-Îãòš’ÊîèÞš‡ó¯ÍÔôû‘Ü«³‰Õ÷ÿòÚ‰î«ù´íó³©ççÊ‡Ëˆö«¢íý””÷ýöÔýèÌøÉÇøÞ¥ˆÜá‹ÛÎÔüçÍÜÿþ·¿Û
-þð´ªºÑå›éÁùÀ–¡ËÈÚÒÿÇ‚¸Ó¹Ã«æ†ç·œÇÈ®ºó¾¦ÁðêüÉûúýÎÐÞõ‡Å·ç¦Œó•ƒ¤êÿ„”ö“Üë³ÞÉÕƒ‘…í¡
-ÙÙ­¡Ùçë¼®üà—õçÿïÿÛÿñ¿ßýÆðíá¢Ã•þ¢¶¾‡ƒÙ¶äÍ–Æ††ôÙÝ†Ï¶†®ÎõóÏ©ÔëëŽÇëëüÏ·žÕ…ŸÌì‰¿û
-òµ¹æ¤ûÚã«Ó­¢áŠ¹—‚³®œÈ»¯ÿ¬¨àå·å·ýýïÿýòŒ¾Þâ“ÞÖÊÑ”óì Ëáìá™ÅÃã…”ƒ±ï­Œøßýã£ŸîÏõ
-åŽ«Û›ßæ—„ÜùðäÕÐöüëòÃ„ÚÛÄÁ¹×¶Æ”ÿôäåÈ¿¼µ÷îÏ¾ñ¯ÿûÏ´ÿøïÓß¨Ø«Ý¥Ë—Ý¾‡ÚÎ†²Ìþ–ÊúûºŒ¥Õ
-ÿûÆ®øâÈ´Ï¿ðùùÇßöüï—ÞÛÂòºƒõ­±µ·Óð®ÌŸÈ¿øÿï¯úËï¼óñý·×ÿôåá¯ÐèÓµõÍÃ«ý½®ß€ˆç„€ä™ÃØÆ
-þÜëëîîëî»ª¬êø×ßì¿ýþ»ûƒÏÞËª˜ÖÞÙðýÍèû»ÿóÉß†ê¼‚ò¸øÿô¹üÒŠ£ž™åŽäÍ™˜­­ßýïîçëÖ„×„—
-Ûô¦ßšÛöêåú¿þäÍÒ©—œÉ±¡—ßô™Ä³†²ÌÉ¬úƒä—–¿ò“‘µŸ…•Ÿêùß°ùÔ—ÿ¸˜²®¹Ëå×œÇñì¬óžËŽ€ÕÕïÿò
-üàëÊÕíúžÝ—þðù‰¸ý½Äˆþ¿‹ËŽíÈ²§²ŒÐÕ³Ù±åÿôÖ†Æý¯ÿÙ‹¬­Ã¯í—¡åÑÎæ™€îßúóì¢ÃÁ‰çŠ««ñÞ¶Œ¬
-€û†¬Ã¬ó ƒËåˆçƒÙ¡†¬Ã¸›È²¬ä™ÂÙÀ–¡•ËÎ†²ŒÙ©†ð¶åÈ²§„³¬Ã–¡Ñœä™²ŒáŒì Ëåˆç„ƒÙ†¬Ã¸›
-±È²ä™ÂÙÀÕ–¡ËÎ†²¤ŒÙ†ð¶åÝÈ²„³¬óŠ¤–éÓÓÔžª´ —¯©Ã¡€¬ÓùŠË¨ÅÜ½œŽœžøÃ´ä™Ç°Ì˜ãš‘ÐßùÍ
-íå‘ÿÁ¾²Ììã¶§¥ÆîŒè‹ÐŽ ¶´Ä‰Ë®Ù¹ˆ²íŒ ËÜŒ´‘Â»ãÃ²–Œ‰¹°ÄžÙ¡¥’—€¬£È²·°ƒíäÒº«í“ÙäãÃÖÂ’
-ëÖ²¥Ô£†Ä™ÑäÊæ‹¬£ñÈ²·ƒÇ²±†ÁÉÆæ´‚”õ¦–ÕÀÒ¼¦–ËŽ¬£È²Ø·ƒíäöÈÿ‡äè€˜“ÖÃ¥âˆ¡„ÌÊæª­¥ÐÎ®Ž‰
-Ð¨†æ‘å„ÚÙææ Ì˜ìîãé®¶…õ—³Â¿á‰µæååž©Ô¦¯ˆ†ÙÆåî†‰å“Ãý–¡££’’ø¯ˆ¬Ÿ—å‚Ã¬£È²·ƒíäü
-Ÿ¨×±€°ð”¤ïþª‘Ÿ„˜ä™Á–¹™è´£ãƒ½ã–±¨æ» ¬™ÍÀôý€„Õ§Ñ¬¯‡æ‘åä„ÙææÀ–¹ú­åžÆ²Øî‰Æû»„È
-€ç—…Ë¥³š“ñÑÉÀ–‘äç™›¶¢æ”œœ£¦°Ò˜¢‚ËäÑÖ˜µ••–€åâå„úÙææ Œô¥ÝÒÀèß§‚´”œ…ïòÅš×³ò’³Êç‘
-èå„Ùææ ’ŒõöÈöªèÔ„Œ÷öŠ¡ž›’Ïªâ¦©¬´Úª§ÐÎŽ¬ò£È²·ƒÀ²Ñ¡ž“Œ‹ Ù…óÃ½·ÍáñÊöØ´Ž”âÆ€É²Ê Íá‘
-“à‹¬£È²·ŽƒÇ²îö› Šå™åØ”Ö¡­…­¾È²‚¬äó³ÐÆ†»Û®†»ÚÅïÛñÉ”ã¬†‚£ÄÒÁÑôÊÂòœåÙä™òþæÄ–¹œœËº
-ÄäÔêê“° ÑˆÁ§à±”æ¯ë¤ŽÈ²‚¬¤ó³ð¬Û„Ê·Ö³Ì¡–Ö“¤ÙîŒ¬£È²Œ·ƒýßõàç¸úŒÔø¿ë ëËÜø¿Å¹‚§åªâ™
-¥Â½¬Ã–¡Ñœä™²ŒáŒì Ëåˆç„ƒÙ†¬Ã¸›±È²ä™ÂÙÀÕ–¡ËÎ†²¤ŒÙ†ð¶åÈ²„³¬ÃÅ–¡œä™²ÒŒáì ËÔì
-èïýÃˆ„ó€¬Ãã™Œ›³Ûï™°Œ‡€Ž—Žä™ŽœÅÎžÈ²œ¸œ‚½å¸ð¸ûª ËðàðöÀ¿–áÀáì¬ßÃÃÙÃÖ–Ô¡ˆ¥Àú–
-¡ˆû€¬ÃÒ œ…–Íá ï€¢Ž‚¥ÿ–áÀÃÃóÆïÎðàÀ€ƒ‡Žœ¸ð¬·ßñÿ€àá€
+(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)
 &]
-[s0; Now some funky stuff:&]
+[s0; Ð Ñ‚ÐµÐ¿ÐµÑ€ÑŒ Ð·Ð°Ð¼Ñ‹ÑÐ»Ð¾Ð²Ð°Ñ‚Ñ‹Ð¹ ÐºÐ¾Ð´:&]
 [s0; &]
 [s7; void RandomColor()&]
 [s7; `{&]
@@ -287,11 +188,14 @@ you should see:&]
 [s7; &]
 [s7; grid.WhenRowChange `= THISBACK(RandomColor);&]
 [s0;* &]
-[s0; Try to change cursor position (using cursor keys or mouse). 
-After each position change the background color of the previous 
-active row is changed.&]
+[s0; ÐŸÐ¾Ð¿Ñ‹Ñ‚Ð°Ð¹Ñ‚ÐµÑÑŒ Ð¸Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸ÑŽ ÐºÑƒÑ€ÑÐ¾Ñ€Ð° 
+(Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÑ ÐºÐ»Ð°Ð²Ð¸ÑˆÐ¸ ÐºÑƒÑ€ÑÐ¾Ñ€Ð° Ð¸Ð»Ð¸ Ð¼Ñ‹ÑˆÑŒ).ÐŸÐ¾ÑÐ»Ðµ 
+Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ ÐºÐ°Ð¶Ð´Ð¾Ð¹ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¸, Ð¼ÐµÐ½ÑÐµÑ‚ÑÑ 
+Ñ„Ð¾Ð½Ð¾Ð²Ñ‹Ð¹ Ñ†Ð²ÐµÑ‚ Ð¿Ñ€ÐµÐ´Ñ‹Ð´ÑƒÑ‰ÐµÐ³Ð¾ Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾Ð³Ð¾ 
+Ñ€ÑÐ´Ð°.&]
 [s0;* &]
-[s0; [* 3. Editing, indexes and integration with databases]&]
+[s0; [* 3. Ð ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ, Ð¸Ð½Ð´ÐµÐºÑÑ‹ Ð¸ Ð¸Ð½Ñ‚ÐµÐ³Ñ€Ð°Ñ†Ð¸Ñ 
+Ñ Ð±Ð°Ð·Ð°Ð¼Ð¸ Ð´Ð°Ð½Ð½Ñ‹Ñ…]&]
 [s0;* &]
 [s0; Displaying static data is very useful, but in most cases some 
 of it must be changed. One way is to show another window (eg 

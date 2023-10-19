@@ -79,19 +79,19 @@ WebSearchTab::WebSearchTab()
 	list.AddColumn("УИР", 5);
 	list.AddColumn("Иконка").SetDisplay(Single<IconDisplay>());
 	list.Moving().RowName("поисковый движок").Removing();
-	list.WhenLeftDouble = [=] { Edit(); };
+	list.WhenLeftDouble = [=, this] { Edit(); };
 	list.SetLineCy(max(GetStdFontSize().cy, DPI(18)));
-	list.WhenSel << [=] { Sync(); };
-	list.WhenBar = [=](Bar& bar) {
+	list.WhenSel << [=, this] { Sync(); };
+	list.WhenBar = [=, this](Bar& bar) {
 		bool b = list.IsCursor();
-		bar.Add("Добавить поисковый движок", IdeImg::add(), [=] { Add(); }).Key(K_INSERT);
-		bar.Add(b, "Редактировать поисковый движок", IdeImg::pencil(), [=] { Edit(); }).Key(K_ENTER);
-		bar.Add(b, "Удалить поисковый движок", IdeImg::remove(), [=] { list.DoRemove(); Sync(); }).Key(K_DELETE);
-		bar.Add(b, "Установить движком по молчанию", IdeImg::star(), [=] { Default(); Sync(); });
-		bar.Add(b, "Поднять", IdeImg::arrow_up(), [=] { list.SwapUp(); Sync(); }).Key(K_CTRL_UP);
-		bar.Add(b, "Опустить", IdeImg::arrow_down(), [=] { list.SwapDown(); Sync(); }).Key(K_CTRL_DOWN);
+		bar.Add("Добавить поисковый движок", IdeImg::add(), [=, this] { Add(); }).Key(K_INSERT);
+		bar.Add(b, "Редактировать поисковый движок", IdeImg::pencil(), [=, this] { Edit(); }).Key(K_ENTER);
+		bar.Add(b, "Удалить поисковый движок", IdeImg::remove(), [=, this] { list.DoRemove(); Sync(); }).Key(K_DELETE);
+		bar.Add(b, "Установить движком по молчанию", IdeImg::star(), [=, this] { Default(); Sync(); });
+		bar.Add(b, "Поднять", IdeImg::arrow_up(), [=, this] { list.SwapUp(); Sync(); }).Key(K_CTRL_UP);
+		bar.Add(b, "Опустить", IdeImg::arrow_down(), [=, this] { list.SwapDown(); Sync(); }).Key(K_CTRL_DOWN);
 		bar.Separator();
-		bar.Add("Восстановить список по умолчанию", [=] {
+		bar.Add("Восстановить список по умолчанию", [=, this] {
 			if(PromptYesNo("Удалить текущий список и восстановить умолчания?")) {
 				SearchEnginesDefaultSetup();
 				Load();
@@ -102,12 +102,12 @@ WebSearchTab::WebSearchTab()
 	list.ColumnWidths("104 382 30");
 	list.AutoHideSb();
 
-	add.SetImage(IdeImg::add()) << [=] { Add(); };
-	edit.SetImage(IdeImg::pencil()) ^= [=] { Edit(); };
-	remove.SetImage(IdeImg::remove()) << [=] { list.DoRemove(); Sync(); };
-	setdef.SetImage(IdeImg::star()) << [=] { Default(); };
-	up.SetImage(IdeImg::arrow_up()) << [=] { list.SwapUp(); Sync(); };
-	down.SetImage(IdeImg::arrow_down()) << [=] { list.SwapDown(); Sync(); };
+	add.SetImage(IdeImg::add()) << [=, this] { Add(); };
+	edit.SetImage(IdeImg::pencil()) ^= [=, this] { Edit(); };
+	remove.SetImage(IdeImg::remove()) << [=, this] { list.DoRemove(); Sync(); };
+	setdef.SetImage(IdeImg::star()) << [=, this] { Default(); };
+	up.SetImage(IdeImg::arrow_up()) << [=, this] { list.SwapUp(); Sync(); };
+	down.SetImage(IdeImg::arrow_down()) << [=, this] { list.SwapDown(); Sync(); };
 }
 
 bool WebSearchTab::EditDlg(String& name, String& uri, String& ico)
@@ -212,7 +212,7 @@ void Ide::OnlineSearchMenu(Bar& menu)
 
 	bool b = editor.IsSelection() || IsAlNum(editor.GetChar()) || editor.GetChar() == '_';
 
-	auto OnlineSearch = [=](const String& url) {
+	auto OnlineSearch = [=, this](const String& url) {
 		String h = url;
 		h.Replace("%s", UrlEncode(Nvl(editor.GetSelection(), editor.GetWord())));
 		LaunchWebBrowser(h);
@@ -243,8 +243,8 @@ void Ide::OnlineSearchMenu(Bar& menu)
 
 	using namespace IdeKeys;
 
-	menu.Add(b, "Искать на " + name, Nvl(m, CtrlImg::Network()), [=] { OnlineSearch(uri); }).Key(AK_GOOGLE);
-	menu.Add(b, AK_GOOGLEUPP, IdeImg::GoogleUpp(), [=] {
+	menu.Add(b, "Искать на " + name, Nvl(m, CtrlImg::Network()), [=, this] { OnlineSearch(uri); }).Key(AK_GOOGLE);
+	menu.Add(b, AK_GOOGLEUPP, IdeImg::GoogleUpp(), [=, this] {
 		OnlineSearch("https://www.google.com/search?q=%s"
 		             "&domains=www.ultimatepp.org&sitesearch=www.ultimatepp.org");
 	});
@@ -252,11 +252,11 @@ void Ide::OnlineSearchMenu(Bar& menu)
 	if(!menu.IsMenuBar() || search_engines.GetCount() < 2)
 		return;
 
-	menu.Sub(b, "Искать на...", [=](Bar& menu) {
+	menu.Sub(b, "Искать на...", [=, this](Bar& menu) {
 		for(int i = 1; i < search_engines.GetCount(); i++) {
 			const String& name = search_engines[i]["Имя"];
 			const String& uri  = search_engines[i]["УИР"];
-			menu.Add(b, name, Nvl(Icon(i), CtrlImg::Network()), [=] { OnlineSearch(uri); });
+			menu.Add(b, name, Nvl(Icon(i), CtrlImg::Network()), [=, this] { OnlineSearch(uri); });
 		}
 	});
 }

@@ -26,7 +26,7 @@ thread_local СоРабота *СоРабота::текущ;
 {
 	LLOG("Пул::иницНити: " << nthreads);
 	for(цел i = 0; i < nthreads; i++)
-		CHECK(threads.добавь().выполниХорошо([=] { индекс_трудяги = i; пускНити(i); }, true));
+		CHECK(threads.добавь().выполниХорошо([=, this] { индекс_трудяги = i; пускНити(i); }, true));
 }
 
 проц СоРабота::Пул::покиньНити()
@@ -317,7 +317,7 @@ thread_local СоРабота *СоРабота::текущ;
 	q.добавьГолову(пикуй(фн));
 	if(!steprunning.по(stepi, false)) {
 		steprunning.по(stepi) = true;
-		*this & [=]() {
+		*this & [=, this]() {
 			LLOG("Starting step " << stepi << " processor");
 			stepmutex.войди();
 			for(;;) {

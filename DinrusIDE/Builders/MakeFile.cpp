@@ -131,7 +131,7 @@ void CppBuilder::AddMakeFile(MakeFile& makefile, String package,
 	libdep << makefile.output << ":";
 	if(is_shared)
 	{
-		libfiles = "c++ -shared -fPIC"; // -v";
+		libfiles = "c++ -fPIC"; // -v -shared";
 		Point p = ExtractVersion();
 		if(!IsNull(p.x)) {
 			libfiles << " -Xlinker --major-image-version -Xlinker " << p.x;
@@ -283,7 +283,7 @@ void MakeBuild::SaveMakeFile(const String& fn, bool exporting)
 	String makefile;
 
 	Vector<String> uppdirs = GetUppDirs();
-	String uppout = exporting ? GetVar("OUTPUT") : ".cache/upp.out";
+	String uppout = exporting ? GetVar("OUTPUT") : ".cache/DinrusIDE_output";
 	String inclist;
 
 	Index<String> allconfig = PackageConfig(GetIdeWorkspace(), 0, bm, mainconfigparam, host, *b);

@@ -232,7 +232,7 @@ struct ReduceBlock<Self, /*Vectorize=*/true, /*Parallel=*/true> {
                      16 * PacketSize * self.size(), true, PacketSize),
         // Make the shard size large enough that two neighboring threads
         // won't write to the same cacheline of `data`.
-        [=](Index blk_size) {
+        [=, this](Index blk_size) {
           return AdjustBlockSize(PacketSize * sizeof(Scalar), blk_size);
         },
         [&](Index first, Index last) {
@@ -247,7 +247,7 @@ struct ReduceBlock<Self, /*Vectorize=*/true, /*Parallel=*/true> {
         num_scalars, TensorOpCost(self.size(), self.size(), 16 * self.size()),
         // Make the shard size large enough that two neighboring threads
         // won't write to the same cacheline of `data`.
-        [=](Index blk_size) {
+        [=, this](Index blk_size) {
           return AdjustBlockSize(sizeof(Scalar), blk_size);
         },
         [&](Index first, Index last) {
@@ -268,7 +268,7 @@ struct ReduceBlock<Self, /*Vectorize=*/false, /*Parallel=*/true> {
         self.stride(), TensorOpCost(self.size(), self.size(), 16 * self.size()),
         // Make the shard size large enough that two neighboring threads
         // won't write to the same cacheline of `data`.
-        [=](Index blk_size) {
+        [=, this](Index blk_size) {
           return AdjustBlockSize(sizeof(Scalar), blk_size);
         },
         [&](Index first, Index last) {
@@ -305,7 +305,7 @@ struct ScanLauncher<Self, Reducer, ThreadPoolDevice, Vectorize> {
           TensorOpCost(inner_block_size, inner_block_size,
                        16 * PacketSize * inner_block_size, Vectorize,
                        PacketSize),
-          [=](Index blk_size) {
+          [=, this](Index blk_size) {
             return AdjustBlockSize(inner_block_size * sizeof(Scalar), blk_size);
           },
           [&](Index first, Index last) {

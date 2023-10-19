@@ -2244,7 +2244,7 @@ GTEST_API_ std::string TempDir();
 //         std::to_string(v).c_str(),
 //         __FILE__, __LINE__,
 //         // Important to use the fixture type as the return type here.
-//         [=]() -> MyFixture* { return new MyTest(v); });
+//         [=, this]() -> MyFixture* { return new MyTest(v); });
 //   }
 // }
 // ...

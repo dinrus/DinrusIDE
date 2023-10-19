@@ -2,7 +2,7 @@ description "Построитель пакета/сборки из команд�
 
 uses
 	DinrusIDE/Builders,
-	DRC/ocx;
+	Core;
 
 file
 	umake.h,

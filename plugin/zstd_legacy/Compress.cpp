@@ -51,7 +51,7 @@ void ZstdCompressStream::FlushOut()
 		int origsize = min((int)BLOCK_BYTES, int(ptr - s));
 #ifdef _MULTITHREADED
 		if(concurrent)
-			co & [=] {
+			co & [=, this] {
 				outsz[ii] = (int)ZSTD_compress(t, osz, s, origsize, level);
 			};
 		else

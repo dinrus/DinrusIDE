@@ -149,7 +149,7 @@ _[* GetKeys]()_[@(0.0.255) const]&]
 [s4; &]
 [s5;:SortedIndex`:`:SortedIndex`(const SortedIndex`&`,int`):%- [* SortedIndex]([@(0.0.255) c
 onst]_[* SortedIndex][@(0.0.255) `&]_[*@3 s], [@(0.0.255) int])&]
-[s2; Deep copy constructor.&]
+[s2; Конструктор глубокой копии.&]
 [s3; &]
 [s4; &]
 [s5;:SortedIndex`:`:Swap`(SortedIndex`&`):%- [@(0.0.255) void]_[* Swap]([_^SortedIndex^ Sor

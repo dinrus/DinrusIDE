@@ -638,7 +638,7 @@ void Ide::SyncClang()
 	auto AnimColor = [](int animator) {
 		return Blend(IsDarkTheme() ? GrayColor(70) : SColorLtFace(), Color(198, 170, 0), animator);
 	};
-	auto Animate = [=](int& animator, int& dir, bool animate) -> Color {
+	auto Animate = [=, this](int& animator, int& dir, bool animate) -> Color {
 		if(animator <= 0 && !animate) return Null;
 		if(animate)
 			animator = 20;

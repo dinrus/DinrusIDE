@@ -22,7 +22,7 @@
 	if(!sftp_session)
 		return;
 
-	пуск([=]() mutable {
+	пуск([=, this]() mutable {
 		if(WouldBlock(libssh2_sftp_shutdown(*sftp_session)))
 			return false;
 		ssh->init = false;
@@ -64,7 +64,7 @@ SFtpHandle SFtp::открой(const Ткст& path, бцел flags, long mode)
 	if(!handle)
 		return;
 
-	пуск([=] () mutable {
+	пуск([=, this] () mutable {
 		цел rc = libssh2_sftp_close_handle(handle);
 		if(!rc)	LLOG("Хэндл файла освобождён.");
 		return !rc;
@@ -73,7 +73,7 @@ SFtpHandle SFtp::открой(const Ткст& path, бцел flags, long mode)
 
 бул SFtp::Rename(const Ткст& oldpath, const Ткст& newpath)
 {
-	return пуск([=] () mutable {
+	return пуск([=, this] () mutable {
 		цел rc = libssh2_sftp_rename(*sftp_session, oldpath, newpath);
 		if(!WouldBlock(rc) && rc != 0)
 			выведиОш(rc);
@@ -85,7 +85,7 @@ SFtpHandle SFtp::открой(const Ткст& path, бцел flags, long mode)
 
 бул SFtp::Delete(const Ткст& path)
 {
-	return пуск([=] () mutable {
+	return пуск([=, this] () mutable {
 		цел rc = libssh2_sftp_unlink(*sftp_session, path);
 		if(!WouldBlock(rc) && rc != 0)
 			выведиОш(rc);
@@ -97,7 +97,7 @@ SFtpHandle SFtp::открой(const Ткст& path, бцел flags, long mode)
 
 бул SFtp::синх(SFtpHandle handle)
 {
-	return пуск([=] () mutable {
+	return пуск([=, this] () mutable {
 		цел rc = libssh2_sftp_fsync(handle);
 		if(!WouldBlock(rc) && rc != 0)
 			выведиОш(rc);
@@ -133,7 +133,7 @@ SFtp& SFtp::перейди(SFtpHandle handle, дол position)
 {
 	done = 0;
 
-	пуск([=]() mutable {
+	пуск([=, this]() mutable {
 		while(done < size && !таймаут_ли()) {
 			цел rc = static_cast<цел>(
 				libssh2_sftp_read(handle, (сим*) укз + done, мин(size - done, ssh->chunk_size))
@@ -162,7 +162,7 @@ SFtp& SFtp::перейди(SFtpHandle handle, дол position)
 {
 	done = 0;
 
-	пуск([=]() mutable {
+	пуск([=, this]() mutable {
 		while(done < size && !таймаут_ли()) {
 			цел rc = static_cast<цел>(
 				libssh2_sftp_write(handle, (const сим*) укз + done, мин(size - done, ssh->chunk_size))
@@ -262,7 +262,7 @@ SFtpHandle SFtp::OpenDir(const Ткст& path)
 
 бул SFtp::MakeDir(const Ткст& path, long mode)
 {
-	return пуск([=] () mutable {
+	return пуск([=, this] () mutable {
 		цел rc = libssh2_sftp_mkdir(*sftp_session, path, mode);
 		if(!WouldBlock(rc) && rc != 0)
 			выведиОш(rc);
@@ -274,7 +274,7 @@ SFtpHandle SFtp::OpenDir(const Ткст& path)
 
 бул SFtp::RemoveDir(const Ткст& path)
 {
-	return пуск([=] () mutable {
+	return пуск([=, this] () mutable {
 		цел rc = libssh2_sftp_rmdir(*sftp_session, path);
 		if(!WouldBlock(rc) && rc != 0)
 			выведиОш(rc);

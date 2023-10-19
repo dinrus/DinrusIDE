@@ -21,7 +21,7 @@ UrepoConsole::UrepoConsole()
 	list.SetLineCy(font.Info().GetHeight());
 	exit.Hide();
 	cancel.Hide();
-	cancel << [=] { canceled = true; };
+	cancel << [=, this] { canceled = true; };
 }
 
 void UrepoConsole::AddResult(const String& out)

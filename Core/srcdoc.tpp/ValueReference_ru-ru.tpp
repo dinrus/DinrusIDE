@@ -16,33 +16,40 @@ topic "Правила ссылки на элементы ValueArray, ValueMap и
 [{_}%RU-RU 
 [s10; [@5 Правила ссылки на элементы ValueArray, 
 ValueMap иValue]&]
-[s0; Value is originally designed as non`-mutable concrete Value 
-of different concrete types.&]
+[s0; Value изначально определено как неизменное 
+конкретное значение различных конкретных 
+типов.&]
 [s0; &]
-[s0; However, as Value is commonly used to store complex hierarchies 
-(using ValueArray/ValueMap), it is in the end very useful to 
-be able to reference ValueArray/ValueMap elements directly. Validity 
-of such references is restricted by following rule:&]
+[s0; Однако, поскольку Value широко используется 
+для хранения комплексных иерархий 
+(посредством ValueArray/ValueMap),в конечном 
+итоге очень удобно ссылаться напрямую 
+на элементы ValueArray/ValueMap. Полноценность 
+(Validity) таких ссылок ограничивается 
+следующим правилом:&]
 [s0; &]
-[s0; Reference obtained from Value/ValueArray/ValueMap (by Value`::At, 
-Value`::GetAdd, ValueArray`::At, ValueMap`::GetAdd and derivative 
-methods) are [* only valid until the next operation on originating 
-Value `- including just reading it.]&]
+[s0; Ссылка, полученная от Value/ValueArray/ValueMap 
+(посредством Value`::At, Value`::GetAdd, ValueArray`::At, 
+ValueMap`::GetAdd и производными методами) 
+[* полноценна только до следующей операции 
+над исходным Value `- включая просто 
+её чтение.]&]
 [s0; &]
-[s0; Examples of invalid code:&]
+[s0; Примеры неправильного кода:&]
 [s0; &]
 [s13; &]
 [s13; Value m;&]
 [s13; Value`& x `= m(`"key`");&]
-[s13; x `= m; // using m as source invalidates x&]
+[s13; x `= m; // использование m как источника 
+повреждает x&]
 [s13; ....&]
 [s13; Value m;&]
 [s13; Value`& x `= m(`"key`");&]
-[s13; Value`& y `= m(`"key2`"); // Invalidates x&]
-[s13; x `= 123; // undefined&]
+[s13; Value`& y `= m(`"key2`"); // Повреждает x&]
+[s13; x `= 123; // неопределённо&]
 [s13; ....&]
 [s13; Value m;&]
 [s13; Value`& x `= m.At(1);&]
-[s13; Value m2 `= m; // Invalidates x&]
-[s13; x `= `"fail`"; // undefined&]
+[s13; Value m2 `= m; // Повреждает x&]
+[s13; x `= `"fail`"; // неопределённо&]
 [s0; ]]

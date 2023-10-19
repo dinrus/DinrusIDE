@@ -106,7 +106,7 @@ public:
 	virtual void DrawEllipseOp(const Rect& r, Color color, int pen, Color pencolor);
 	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Font font,
 		                    Color ink, int n, const int *dx);
-	
+
 	virtual Size GetNativeDpi() const;
 	virtual void BeginNative();
 	virtual void EndNative();
@@ -174,7 +174,7 @@ public:
 	const Vector<Rect>& GetClipList() const   { return clip.Top(); }
 
 	SystemDraw(Drawable dw, GC gc, XftDraw *xftdraw, const Vector<Rect>& clip);
-	
+
 	bool CanSetSurface()                      { return true; }
 };
 
@@ -214,12 +214,12 @@ class ImageDraw : public SystemDraw {
 	Image Get(bool pm) const;
 
 public:
-	Draw& Alpha();                       
+	Draw& Alpha();
 
 	operator Image() const;
-	
+
 	Image GetStraight() const;
-	
+
 	ImageDraw(Size sz);
 	ImageDraw(int cx, int cy);
 	~ImageDraw();

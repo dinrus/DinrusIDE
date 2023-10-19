@@ -1,4 +1,4 @@
-topic "Thread";
+topic "Класс Thread";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,10 +10,10 @@ topic "Thread";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 Thread]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс Thread]]}}&]
 [s3;%- &]
 [s1;:Thread`:`:class:%- [@(0.0.255) class]_[* Thread]_:_[@(0.0.255) private]_[*@3 NoCopy]&]
-[s9; Encapsulation of thread.&]
+[s9; Инкапсуляция потока.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
@@ -23,7 +23,7 @@ topic "Thread";
 [s3; &]
 [s4;%- &]
 [s5;:Thread`:`:`~Thread`(`):%- [@(0.0.255) `~][* Thread]()&]
-[s2; Destructor. Performs Detach `- thread continues running.&]
+[s2; Деструктор. Performs Detach `- thread continues running.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
@@ -96,7 +96,7 @@ is running so far).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:IsMain`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsMain]()&]
-[s2; Возвращает  true, если current thread is main.&]
+[s2; Возвращает true, если current thread is main.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:IsUpp`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsUpp]()&]
@@ -110,11 +110,12 @@ thread returns false).&]
 [s4;%- &]
 [s5;:Thread`:`:ShutdownThreads`(`):%- [@(0.0.255) static] [@(0.0.255) void]_[* ShutdownThre
 ads]()&]
-[s2; Устанавливаетthe `"Shutdown`" flag on, waits before all threads started 
-without noshutdown true terminate, then sets flag off again. 
-It is meant to be used together with IsShutdownThreads to terminate 
-long running secondary service threads. Main thread calls ShutdownThreads, 
-secondary threads test IsShutdownThreads and if true, exit.&]
+[s2; Устанавливает the `"Shutdown`" flag on, waits before 
+all threads started without noshutdown true terminate, then sets 
+flag off again. It is meant to be used together with IsShutdownThreads 
+to terminate long running secondary service threads. Main thread 
+calls ShutdownThreads, secondary threads test IsShutdownThreads 
+and if true, exit.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:IsShutdownThreads`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsShutdown
@@ -126,9 +127,9 @@ by threads participating in shutdown system.&]
 [s5;:Thread`:`:AtExit:%- [@(0.0.255) static]_[@(0.0.255) void]_(`*[* AtExit]([@(0.0.255) void
 ]_(`*[*@3 exitfn])()))()&]
 [s2; Allow to install a function [%-*@3 exitfn] to be called at thread 
-exit. Возвращает the pointer to function already installed or NULL, 
-client code should call the already installed function (return 
-value is not null)&]
+exit. Возвращает the pointer to function already installed 
+or NULL, client code should call the already installed function 
+(return value is not null)&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:GetCurrentId`(`):%- [@(0.0.255) static] [_^Upp`:`:Thread`:`:Id^ Thr
@@ -138,18 +139,20 @@ ead`::Id]_[* GetCurrentId]()&]
 [s4;%- &]
 [s5;:Thread`:`:Priority`(int`):%- [@(0.0.255) bool]_[* Priority]([@(0.0.255) int]_[*@3 percen
 t])&]
-[s2; Устанавливаетthe treads priority to [%-*@3 percent ][%- (0 to 200)]. In 
-reality, current implementation supports only 5 levels, 25%, 
-75%, 125%, 175% and more than 175%; last two levels require root 
-privileges. Возвращает  true, если setting the priority was successful.&]
+[s2; Устанавливает the treads priority to [%-*@3 percent 
+][%- (0 to 200)]. In reality, current implementation supports only 
+5 levels, 25%, 75%, 125%, 175% and more than 175%; last two levels 
+require root privileges. Возвращает  true, если 
+setting the priority was successful.&]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:Nice`(`):%- [_^Upp`:`:Thread^ Thread][@(0.0.255) `&]_[* Nice]()&]
-[s2; Устанавливаетthe priority suitable for long running threads.&]
+[s2; Устанавливает the priority suitable for long running 
+threads.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:Critical`(`):%- [_^Upp`:`:Thread^ Thread][@(0.0.255) `&]_[* Critical](
 )&]
-[s2; Устанавливаетthe priority suitable for threads with critical latency 
-(like audio generators).&]
+[s2; Устанавливает the priority suitable for threads 
+with critical latency (like audio generators).&]
 [s3;%- &]
 [s0;%- ]]

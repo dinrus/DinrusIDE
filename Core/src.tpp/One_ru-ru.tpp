@@ -15,148 +15,175 @@ topic "Класс One";
 [s1;:noref: [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 T][@(0.0.255)3 >]&]
 [s1;:One`:`:class: [@(0.0.255) class]_[* One]_:_[@(0.0.255) private]_[*@3 MoveableAndDeepCopyO
 ption][@(0.0.255) <]_[* One][@(0.0.255) <][*@4 T][@(0.0.255) >]_>_&]
-[s8;%RU-RU [%-*C@4 T]-|Type or base class of element stored in One.&]
+[s8;%RU-RU [%-*C@4 T]-|Тип или класс`-основание 
+элемента, сохраняемого в One.&]
 [s0;%RU-RU &]
-[s9;%RU-RU One is a container capable of containing none or single 
-element of type specified as template argument or derived from 
-it.&]
-[s9;%RU-RU The container is similar to [^http`:`/`/en`.cppreference`.com`/w`/cpp`/memory`/unique`_ptr^ s
-td`::unique`_ptr]., but unlike it, it is treated more like container 
-than smart pointer. For example, it propagates constantness of 
-One to contained element.&]
-[s9;%RU-RU One is [*/^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ moveable][*/  
-]type with [*/^topic`:`/`/Core`/srcdoc`/pick`_`$en`-us^ pick and 
-optional clone] transfer semantics.&]
+[s9;%RU-RU One `- это контейнер, способный содержать 
+ноль или один элемент типа, заданного 
+как шаблонный аргумент или производного 
+от него.&]
+[s9;%RU-RU Этот контейнер похож на [^http`:`/`/en`.cppreference`.com`/w`/cpp`/memory`/unique`_ptr^ s
+td`::unique`_ptr], но в отличие от него, он 
+больше понимается как контейнер, 
+а не как смарт`-указатель. Например, 
+он распространяет константность 
+One на содержимый элемент.&]
+[s9;%RU-RU One является типом [*/^topic`:`/`/Core`/srcdoc`/Moveable`_ru`-ru^ m
+oveable][*/  ]с семантикой трансфера [*/^topic`:`/`/Core`/srcdoc`/pick`_`_ru`-ru^ p
+ick and optional clone] .&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Конструктор  List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Конструкторов]]}}&]
 [s0;0 &]
 [s5;:One`:`:One`(`): [* One]()&]
-[s2;%RU-RU Дефолтный конструктор. Constructs 
-empty One.&]
+[s2;%RU-RU Дефолтный конструктор. Конструирует 
+пустой One.&]
 [s3; &]
 [s4; &]
 [s5;:One`:`:One`(T`*`): [* One]([*@4 T]_`*[*@3 newt])&]
-[s2;%RU-RU Constructs One with content [%-*@3 newt]. Content is specified 
-by pointer to object created using operator new. One takes over 
-ownership of this this object.&]
+[s2;%RU-RU Конструирует One с контентом [%-*@3 newt]. 
+Контент определяется указателем 
+на объект, созданный оператором new. 
+One принимает этот объект во владение.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:One`:`:One`(Upp`:`:One`<TT`>`&`&`): [@(0.0.255) template]_<[@(0.0.255) class]_
 [*@4 TT]>_[* One]([* One]<[*@4 TT]>`&`&_[*@3 p])&]
-[s2;%RU-RU Pick constructor. [%-*@4 TT] must be the same as [%-*@4 T] 
-or derived from [%-*@4 T].&]
+[s2;%RU-RU Пик`-конструктор. [%-*@4 TT] должен 
+быть такой же, как [%-*@4 T], либо производным 
+от [%-*@4 T].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:One`:`:One`(const One`<T`>`&`,int`): [* One]([@(0.0.255) const]_[* One][@(0.0.255) <][*@4 T
 ][@(0.0.255) >`&]_[*@3 p], [@(0.0.255) int])&]
-[s6;%RU-RU Optional deep copy constructor.&]
-[s2;%RU-RU Requires T to have deep copy constructor or optional deep 
-copy constructor.&]
+[s6;%RU-RU Опционный конструктор глубокой 
+копии.&]
+[s2;%RU-RU У T должен быть конструктор глубокой 
+копии или опционный КГК.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:One`:`:`~One`(`): [@(0.0.255) `~][* One]()&]
 [s2;%RU-RU Дефолтный деструктор .&]
 [s3; &]
 [s1;%RU-RU &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Методов]]}}&]
 [s0;0 &]
 [s5;:One`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2; Removes the element stored in [* One].&]
+[s2; Удаляет элемент, хранимый в [* One].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:One`:`:IsPicked`(`)const: [@(0.0.255) bool]_[* IsPicked]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает [* true] if [* One] has been picked.&]
+[s2;%RU-RU Возвращает [* true], если [* One] был `"пикнут`".&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:One`:`:Attach`(T`*`): [@(0.0.255) void]_[* Attach]([*@4 T]_`*[*@3 data])&]
-[s2;%RU-RU Assigns element to One. (Note: if there is content in One 
-while calling this function, it is destroyed). [%-*C@3 data] must 
-be pointer to the new content created using operator new.&]
+[s2;%RU-RU Присваивает элемент к One. (Заметка:Если 
+в One при вызове этой функции есть контент, 
+то он разрушается). [%-*C@3 data] должен быть 
+указателем на новый контент, созданный 
+с помощью оператора new.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:One`:`:Detach`(`): [*@4 T]_`*[* Detach]()&]
-[s2;%RU-RU Removes content giving up ownership. Client is responsible 
-for deletion of content. If One is empty, return value is NULL, 
-otherwise the return value is pointer to the content allocated 
-on the heap.&]
+[s2;%RU-RU Удаляет контент, отвергая владение 
+им. Клиент ответственен за удаление 
+контента. Если One пустой, возвратное 
+значение равно NULL, иначе это указатель 
+на контент, размещённый на куче.&]
 [s3; &]
 [s4; &]
 [s5;:One`:`:operator`=`(T`*`): [@(0.0.255) void]_[* operator`=]([*@4 T]_`*[*@3 data])&]
-[s7;%RU-RU То же, что и Attach([%-*@3 data]) (operator version).&]
+[s7;%RU-RU То же, что и Attach([%-*@3 data]) (операторная 
+версия).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:One`:`:operator`=`(Upp`:`:One`<TT`>`&`&`): [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 TT]>_[@(0.0.255) void]_[* operator`=]([_^Upp`:`:One^ One]<[*@4 TT]>`&`&_[*@3 d])&]
-[s2;%RU-RU Pick assignment. [%-*@4 TT] must be the same as [%-*@4 T] 
-or derived from [%-*@4 T].&]
+[s2;%RU-RU Пик`-присваивание. [%-*@4 TT] должен 
+быть такой же, как [%-*@4 T], или производный 
+от [%-*@4 T].&]
 [s3; &]
 [s4; &]
 [s5;:One`:`:operator`-`>`(`)const: [@(0.0.255) const]_[*@4 T]_`*[* operator`->]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Constant content access operator. Illegal if there is 
-no content. Возвращает constant pointer to content.&]
+[s2;%RU-RU Константный оператор доступа 
+к контенту. Нелегален, если контент 
+отсутствует. Возвращает константный 
+указатель на контент.&]
 [s3; &]
 [s4; &]
 [s5;:One`:`:operator`-`>`(`): [*@4 T]_`*[* operator`->]()&]
-[s2;%RU-RU Content access operator. Illegal if there is no content. 
-Возвращает pointer to content.&]
+[s2;%RU-RU Оператор доступа к контенту. Нелегален, 
+если контент отсутствует. Возвращает 
+указатель на контент.&]
 [s3; &]
 [s4; &]
 [s5;:One`:`:operator`~`(`)const: [@(0.0.255) const]_[*@4 T]_`*[* operator`~]()_[@(0.0.255) co
 nst]&]
 [s5;:Upp`:`:One`:`:Get`(`)const: [@(0.0.255) const]_[*@4 T]_`*[* Get]()_[@(0.0.255) const]&]
-[s2;%RU-RU Constant content pointer access. Возвращает constant pointer 
-to content or NULL when there is no content.&]
+[s2;%RU-RU Константный доступ к указателю 
+на контент. Возвращает константный 
+указатель на контент или NULL, если 
+контент отсутствует.&]
 [s3; &]
 [s4; &]
 [s5;:One`:`:operator`~`(`): [*@4 T]_`*[* operator`~]()&]
 [s5;:Upp`:`:One`:`:Get`(`): [*@4 T]_`*[* Get]()&]
-[s2;%RU-RU Content pointer access. Возвращает pointer to content or 
-NULL when there is no content.&]
+[s2;%RU-RU Доступ к указателю на контент. 
+Возвращает указатель на контент или 
+NULL, если контент отсутствует.&]
 [s3; &]
 [s4; &]
 [s5;:One`:`:operator`*`(`)const: [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* operator`*]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Content constant reference access. Illegal if there is 
-no content. Возвращает constant reference to content.&]
+[s2;%RU-RU Константный доступ к ссылке на 
+контент. Нелегален, если контент отсутствует
+. Возвращает константную ссылку на 
+на контент.&]
 [s3; &]
 [s4; &]
 [s5;:One`:`:operator`*`(`): [*@4 T][@(0.0.255) `&]_[* operator`*]()&]
-[s2;%RU-RU Content reference access. Illegal if there is no content. 
-Возвращает reference to content.&]
+[s2;%RU-RU Доступ к ссылке на контент. Нелегален, 
+если контент отсутствует. Возвращает 
+ссылку на на контент.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:One`:`:Create`(Args`&`&`.`.`.args`): [@(0.0.255) template]_<[@(0.0.255) class
 ]_[*@4 TT], [@(0.0.255) class...]_[*@4 Args]>_[*@4 TT][@(0.0.255) `&]_[* Create]([*@4 Args][@(0.0.255) `&
 `&...]_args)&]
-[s2;%RU-RU Создаёт [%-*@4 TT] content in One. If there is content in 
-One while calling this function, it is destroyed. Additional 
-arguments can be specified for [%-*@4 TT ]constructor.&]
-[s3; &]
-[s4; &]
+[s2;%RU-RU Создаёт контент [%-*@4 TT] в One. Если 
+в One при вызове этой функции есть контент, 
+то он разрушается. Конструктору [%-*@4 TT 
+]могут задаваться дополнительные 
+аргументы.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:Upp`:`:One`:`:Create`(`): [*@4 T][@(0.0.255) `&]_[* Create]()&]
-[s2;%RU-RU Создаёт [%-*@4 T] content in One (default constructed).&]
+[s2;%RU-RU Создаёт контент [%-*@4 T] в One (конструируемый
+ дефолтно).&]
 [s3; &]
 [s4; &]
 [s5;:One`:`:Is`(`)const: [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 TT]>_[@(0.0.255) bool
 ]_[* Is]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если One contains object 
-of type [%-*@4 TT] or derived from [%-*@4 TT]. [%-*@4 T] must be polymorphic.&]
+[s2;%RU-RU Возвращает true, если One содержит 
+объект типа [%-*@4 TT] или производного 
+от [%-*@4 TT]. [%-*@4 T] должен быть полиморфным.&]
 [s3; &]
 [s4; &]
 [s5;:One`:`:IsEmpty`(`)const: [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает [* true] if there is no content.&]
+[s2;%RU-RU Возвращает [* true], если контента 
+нет.&]
 [s3; &]
 [s4; &]
 [s5;:One`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает [* true] if there is content.&]
+[s2;%RU-RU Возвращает [* true], если есть контент.&]
 [s0; &]
 [s0; &]
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 MakeOne]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Функция MakeOne]]}}&]
 [s0; &]
 [s5;:Upp`:`:MakeOne`(Args`.`.`.args`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T], 
 [@(0.0.255) class...]_[*@4 Args]>_[_^Upp`:`:One^ One]<[*@4 T]>_[* MakeOne]([*@4 Args][@(0.0.255) .
 ..]_args)&]
-[s2;%RU-RU This simple utility function creates One<T> instance.&]
+[s2;%RU-RU Эта простая утилитная функция 
+создаёт экземпляр One<T>.&]
 [s0; ]]

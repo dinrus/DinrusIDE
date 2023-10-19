@@ -84,7 +84,7 @@ void MessageBox::Set(Ctrl& c, const String& msg, bool animate, bool append, int 
 		ctrl.SetRect(0, 0, c.GetSize().cx, GetHeight());
 
 	if((msgtype == Type::INFORMATION || msgtype == Type::CUSTOM) && duration)
-		tcb.Set(duration, [=] { Discard(); });
+		tcb.Set(duration, [=, this] { Discard(); });
 }
 
 void MessageBox::SetButtonLayout(Button& b, int id, int& rpos)
@@ -98,7 +98,7 @@ void MessageBox::SetButtonLayout(Button& b, int id, int& rpos)
 
 	cx = max(2 * fcy + GetTextSize(b.GetLabel(), Draw::GetStdFont()).cx, cx);
 	Add(b.RightPosZ(rpos, cx).VCenterPosZ(20));
-	b << [=] { WhenAction(id); Discard(); };
+	b << [=, this] { WhenAction(id); Discard(); };
 	rpos += cx + gap;
 }
 
@@ -109,7 +109,7 @@ void MessageBox::SetCross(int& rpos)
 	btstyle  = CrossStyle();
 	bt1.SetStyle(btstyle);
 	Add(bt1.RightPosZ(rpos, cx).VCenterPosZ(cx));
-	bt1 << [=] { WhenAction(IDOK); Discard(); };
+	bt1 << [=, this] { WhenAction(IDOK); Discard(); };
 	rpos += cx + gap;
 }
 

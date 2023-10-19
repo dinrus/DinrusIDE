@@ -123,7 +123,7 @@ void Pdb::BTs()
 	bts.Clear();
 	bts.NoRoot();
 
-	bts.WhenOpen = [=](int id) {
+	bts.WhenOpen = [=, this](int id) {
 		if(bts.GetChildCount(id) == 0) {
 			String thid = ~bts.Get(id);
 			int ii = threads.Find(atoi(thid));
@@ -170,18 +170,18 @@ void Pdb::BTs()
 	bts.FindSetCursor(cursor);
 	bts.ScrollTo(sc);
 
-	bts.WhenBar = [=](Bar& bar) {
-		bar.Add("Открыть все", [=] {
+	bts.WhenBar = [=, this](Bar& bar) {
+		bar.Add("Открыть все", [=, this] {
 			for(int i = 0; i < bts.GetChildCount(0); i++)
 				bts.Open(bts.GetChild(0, i));
 		});
-		bar.Add("Закрыть все", [=] {
+		bar.Add("Закрыть все", [=, this] {
 			for(int i = 0; i < bts.GetChildCount(0); i++)
 				bts.Close(bts.GetChild(0, i));
 		});
 	};
 
-	bts.WhenSel = [=] {
+	bts.WhenSel = [=, this] {
 		String k = ~bts.Get();
 		if(*k == '#') {
 			int id = bts.GetParent(bts.GetCursor());

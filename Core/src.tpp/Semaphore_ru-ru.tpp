@@ -1,4 +1,4 @@
-topic "Semaphore";
+topic "Класс Semaphore";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,59 +10,74 @@ topic "Semaphore";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 StaticSemaphore]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс Semaphore]]}}&]
 [s3; &]
 [s1;:Semaphore`:`:class: [@(0.0.255)3 class][3 _][*3 Semaphore]&]
-[s9;%% Well known multithreading synchronization tool. In U`+`+, 
-it is primarily used to block and release thread execution. Semaphore 
-has an internal counter, initially initialized to zero. Wait 
-operation blocks thread execution as long as counter is zero, 
-then decreases it by one. Release operation increases counter 
-by 1.&]
+[s9;%RU-RU Хорошо знакомый инструмент многопоточно
+й синхронизации. В U`+`+, он впервую 
+очередь используется для блокирования/разбл
+окирования выполнения потоков. У 
+семафора есть внутренний счётчик, 
+изначально инициализированный в 
+ноль. Операция ожидания [%-* Wait] блокирует 
+выполнение потока, пока счётчик находится 
+на нуле, а затем уменьшает его на единицу. 
+Операция [%-* Release ]увеличивает счётчик 
+на 1.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:Semaphore`:`:Wait`(int`): [@(0.0.255) bool]_[* Wait]([@(0.0.255) int]_[*@3 timeou
 t`_ms]_`=_`-[@3 1])&]
-[s2;%% If internal semaphore counter is zero, waits (blocks calling 
-thread) until some other thread increases this counter by 1 calling 
-the Release method or until [%-*@3 timeout`_ms] milliseconds elapses. 
-Before returning, decreases counter by 1. Negative value for 
-[%-*@3 timeout`_ms] means the waiting time is unlimited.&]
-[s3;%% &]
+[s2;%RU-RU Если внутренний счётчик семафора 
+на нуле, ждёт (блокирует вызывающие 
+потоки) пока какой`-то другой поток 
+увеличит этот счётчик на 1, вызывая 
+метод Release, или пока не пройдёт [%-*@3 timeout`_ms] 
+миллисекунд. Перед возвратом, уменьшает 
+счётчик на 1. Отрицательное значение 
+для [%-*@3 timeout`_ms] означает, что время 
+ожидания не ограничено.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Semaphore`:`:Release`(`): [@(0.0.255) void]_[* Release]()&]
-[s2;%% Increases internal counter by 1.&]
+[s2;%RU-RU Увеличивает внутренний счётчик 
+на 1.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Semaphore`:`:Semaphore`(`): [* Semaphore]()&]
-[s2;%% Initializes internal counter to 0.&]
+[s2;%RU-RU Инициализует внутренний счётчик 
+в 0.&]
 [s3; &]
 [s0; &]
 [s0; &]
 [s0; &]
-[ {{10000@(113.42.0) [s0;%% [*@7;4 StaticSemaphore]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс StaticSemaphore]]}}&]
 [s3; &]
 [s1;:StaticSemaphore`:`:class: [@(0.0.255)3 class][3 _][*3 StaticSemaphore]&]
-[s9;%% Variant of Semaphore that can be used as static or global 
-variable without the need of initialization  `- it has no constructor 
-and correctly performs the first initialization when any of methods 
-is called. That avoids problems with initialization order or 
-multithreaded initialization issues.&]
+[s9;%RU-RU Вариант Semaphore, который может использоват
+ься ка статическая или глобальная 
+переменная без необходимости в инициализаци
+и  `- у него нет конструктора и он корректно 
+выполняет первую инициализацию, когда 
+вызывается любой из методов. Это решает 
+проблемы с порядком инициализации 
+и многопоточной инициализацией.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:StaticSemaphore`:`:Get`(`): [_^Semaphore^ Semaphore][@(0.0.255) `&]_[* Get]()&]
 [s0; [* operator_Semaphore`&]()&]
-[s2;%% Возвращает the Semaphore instance.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает экземпляр Semaphore.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:StaticSemaphore`:`:Wait`(`): [@(0.0.255) void]_[* Wait]()&]
 [s5;:StaticSemaphore`:`:Release`(`): [@(0.0.255) void]_[* Release]()&]
-[s2;%% Call respective methods of Semaphore instance.&]
+[s2;%RU-RU Вызывает соответствующий метод 
+экземпляра класса Semaphore.&]
 [s3; &]
 [s0; ]]

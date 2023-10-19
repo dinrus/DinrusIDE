@@ -798,7 +798,7 @@ void FileSel::SelectNet()
 		else {
 			NetNode n = netnode[q];
 			netstack.Add() = n;
-			ScanNetwork([=] {
+			ScanNetwork([=, this] {
 				return n.Enum();
 			});
 		}
@@ -813,7 +813,7 @@ bool FileSel::ScanNetwork(Function<Array<NetNode> ()> fn)
 	loading_network = true;
 	for(;;) {
 		Ptr<FileSel> fs = this;
-		if(CoWork::TrySchedule([=] {
+		if(CoWork::TrySchedule([=, this] {
 			Array<NetNode> n = fn();
 			GuiLock __;
 			if(fs) {

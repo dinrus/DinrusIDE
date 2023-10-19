@@ -11,7 +11,8 @@ topic "Язык сценариев Esc";
 [s0; &]
 [s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#1^ 1. Введение]&]
 [s0; [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2^ 2. Типы значений]&]
-[s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_1^ 2.1 Voids]&]
+[s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_1^ 2.1 Voids (пустые 
+значения)]&]
 [s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_2^ 2.2 Числа]&]
 [s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_3^ 2.3 Массивы]&]
 [s0;     [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru`#2`_4^ 2.4 Мапы]&]
@@ -29,174 +30,202 @@ topic "Язык сценариев Esc";
 Ultimate`+`+.&]
 [s4; Он безтипный, ориентированный на 
 значения, язык с простым кодом, имеющий 
-интерфес к C`+`+/U`+`+. Очень простой, но 
-дастаточно полноценный, язык.&]
+интерфейс к C`+`+/U`+`+. Очень простой, 
+но достаточно полноценный, язык.&]
 [s2;:2: 2. Типы значений&]
-[s1;:2`_1: 2.1 Voids&]
+[s1;:2`_1: 2.1 Voids(пустые значения)&]
 [s4; Все переменные имеют значение void 
-до присвоения им любого другого  значения. 
+до присвоения им любого другого значения. 
 У типа Void одно значение&]
 [s0; &]
 [s3; void&]
 [s0; &]
-[s4; и можно проверить выражение на voidness 
+[s4; и можно проверить выражение на void`-ность 
 с помощью функции [@(128.0.255) is`_void].&]
 [s1;:2`_2: 2.2 Числа&]
 [s4; Число `- это число с плавающей запятой 
-(соответствующее типу Си double). Примеры 
+(соответствующее типу в Си double). Примеры 
 числовых литералов:&]
 [s0; &]
 [s3; 1&]
 [s3; 1.123&]
 [s3; 1.123e`-96&]
-[s3; 0x123       [@4 // hexadecimal]&]
-[s3; 0123        [@4 // octal]&]
-[s3; 0b10100100  [@4 // binary]&]
-[s3; `'x`'         [@4 // character code]&]
+[s3; 0x123       [@4 // hexadecimal (16`-ричное)]&]
+[s3; 0123        [@4 // octal (8`-ричное)]&]
+[s3; 0b10100100  [@4 // binary (двоичное)]&]
+[s3; `'x`'         [@4 // character code (символьный код)]&]
 [s0; &]
 [s4; Esc поддерживает общие операции, наподобии 
 как в Си, для числовых значений.&]
 [s1;:2`_3: 2.3 Массивы&]
-[s4; Arrays are ordered random access sequences of other Esc values 
-(nested arrays included). Array values are specified using [@(128.0.255) `[`]] 
-brackets:&]
+[s4; Массивами являются упорядоченные 
+последовательности (с возможностью) 
+случайного доступа, содержащие прочие 
+значения Esc (включая `"гнездовые`" (`'nested`') 
+массивы). Значения массива определяются 
+с помощью [@(128.0.255) `[`]] (квадратных) скобок:&]
 [s0; &]
-[s3; `[`]                 [@4 // empty array]&]
+[s3; `[`]                 [@4 // пустой массив]&]
 [s3; `[ 1, 2, 3, 4, 5 `]&]
-[s3; `[ 1, `[2, 3`], 4 `]   [@4 // array contains nested array]&]
-[s3; `"Hello`"            [@4 // equivalent to `[`'H`', `'e`', `'l`', 
-`'l`', `'o`'`]]&]
-[s3; `[ 1, 2, 3 `* alfa `] [@4 // expressions can be used as well]&]
+[s3; `[ 1, `[2, 3`], 4 `]   [@4 // в массиве имеется 
+гнездовой массив]&]
+[s3; `"Hello`"            [@4 // эквивалентно `[`'H`', 
+`'e`', `'l`', `'l`', `'o`'`]]&]
+[s3; `[ 1, 2, 3 `* alfa `] [@4 // также могут использоваться 
+выражения]&]
 [s0; &]
-[s4; Number of elements in the array can be retrieved by standard 
-function [*C count].&]
-[s4; Accessing elements of arrays is provided by subscript [@(128.0.255) `[ 
-`]] operator:&]
+[s4; Число элементов, расположенных в 
+массиве, можно получить стандартной 
+функцией [*C count].&]
+[s4; Доступ к элементам массива предоставляется
+ оператором subscript [@(128.0.255) `[ `]]:&]
 [s0; &]
 [s3; a`[0`]&]
 [s3; a`[1`] `= 3&]
 [s0; &]
-[s4; First element of array corresponds to index [@(128.0.255) `[0`]].&]
-[s4; Negative indexes are allowed and designate elements from the 
-end of array: [@(128.0.255) `[`-1`]] is last element of array, [@(128.0.255) `[`-2`]] 
-last but one etc.&]
+[s4; Первый элемент массива соответствует 
+индексу [@(128.0.255) `[0`]].&]
+[s4; Допускаются отрицательные индексы 
+и определения элементов с конца массива: 
+[@(128.0.255) `[`-1`]] последний элемент массива, 
+[@(128.0.255) `[`-2`]] предпоследний и т.д.&]
 [s0; &]
 [s3; a`[`-1`]&]
 [s0; &]
-[s4; is equivalent to&]
+[s4; эквивалентно&]
 [s0; &]
 [s3; a`[count(a) `- 1`]&]
 [s0; &]
-[s4; When index is used for the r`-value (standing on the right side 
-of [@(128.0.255) `=]), index is range checked. For l`-value, if 
-non`-negative index designates element past the of the array, 
-array is expanded with void values to create this element.&]
-[s4; `"Empty`" index [@(128.0.255) `[`]] designates element past last 
-and can be used to add elements to the array:&]
+[s4; Когда индекс используется как r`-value 
+(значение, стоящее справа от [@(128.0.255) `=]), 
+у него проверяется диапазон. Если 
+как l`-value (значение, слева от `=), и какой`-либо 
+положительный индекс определяет 
+элемент после массива, то массив расширяется
+ на значения void, создавая этот элемент.&]
+[s4; `"Пустой`" индекс [@(128.0.255) `[`]] обозначает 
+элемент, находящийся после последнего, 
+и может использоваться для добавления 
+в массив элементов:&]
 [s0; &]
 [s3; x`[`] `= item&]
 [s0; &]
-[s4; is equivalent to&]
+[s4; равнозначно&]
 [s0; &]
 [s3; x`[count(x)`] `= item&]
 [s0; &]
-[s4; Range of element in array can be obtained or changed using slices:&]
+[s4; Диапазон элементов массива можно 
+получать или изменять, используя 
+срезы:&]
 [s0; &]
 [s3; array`[pos, count`]&]
 [s0; &]
-[s4; designates array slice of [/ count] elements starting with [/ pos] 
-element.&]
+[s4; определяет срез массива с [/ count] элементов, 
+начиная с элемента [/ pos].&]
 [s0; &]
 [s3; x`[start:end`]&]
 [s0; &]
-[s4; designates array slice of [/ end `- start] elements starting with 
-[/ start] .&]
-[s4; Parts of slices can be omitted&]
+[s4; обозначает срез массива из [/ end `- start] 
+элементов, начиная со [/ start] .&]
+[s4; Части срезов могут пропускаться&]
 [s0; &]
 [s3; array`[pos,`]&]
-[s4; or&]
+[s4; или&]
 [s3; array`[pos:`]&]
 [s0; &]
-[s4; is equivalent to&]
+[s4; эквивалентно&]
 [s0; &]
 [s3; array`[pos : count(array)`]&]
 [s0; &]
-[s4; and&]
+[s4; а&]
 [s0; &]
 [s3; array`[,count`]&]
-[s4; or&]
+[s4; или&]
 [s3; array`[:count`]&]
 [s0; &]
-[s4; is equivalent to&]
+[s4; эквивалентно&]
 [s0; &]
 [s3; array`[0, count`]&]
 [s0; &]
-[s4; When slices are used as l`-value, corresponding part of the 
-array is replaced:&]
+[s4; Когда срезы используются как l`-value,заменяетс
+я соответствующая часть массива:&]
 [s0; &]
 [s3; s `= `"1234`";&]
 [s3; s`[1: `-1`] `= `"xXx`"; [@4 // s is now `"1xXx4`"]&]
 [s0; &]
-[s4; Several operators can be applied to arrays&]
+[s4; К массивам могут применяться несколько 
+операторов&]
 [s0; &]
 [s3; array1 `+ array2&]
 [s0; &]
-[s4; concatenates two arrays,&]
+[s4; объединяет два массива (`"конкатенирует`"),&]
 [s0; &]
 [s3; array `* number&]
 [s3; number `* array&]
 [s0; &]
-[s4; repeats array number times.&]
+[s4; повторяет массив number раз.&]
 [s0; &]
 [s3; array `+`= array1&]
 [s0; &]
-[s4; is equivalent to&]
+[s4; эквивалентно&]
 [s0; &]
 [s3; array `= array `+ array1&]
 [s0; &]
-[s4; also&]
+[s4; также&]
 [s0; &]
 [s3; array << array1 << array2 << array3&]
 [s0; &]
-[s4; is equivalent to&]
+[s4; эквивалентно&]
 [s0; &]
 [s3; array `= array `+ array1 `+ array2 `+ array3&]
 [s0; &]
-[s4; Esc allows [/ void] value on the right side of array concatenation 
-expression `- in such cases, operator has no effect.&]
-[s1;:2`_4: 2.4 Мапы&]
-[s4; Maps contain key`-value pairs as entries. Normal subscripts 
-[@(128.0.255) `[`]] are used to access map entries:&]
+[s4; В Esc допустимо наличие [/ void] значения, 
+расположенного справа от выражения 
+конкатенации массива, `- в таких случаях 
+оператор не имеет никакого действия.&]
+[s1;:2`_4: 2.4 Мапы (`=`"соответствия`", `"карты`")&]
+[s4; В мапах в качестве записей содержатся 
+пары из ключей и значений. Как правило 
+для доступа к записям мапа используются 
+обычные субскрипты [@(128.0.255) `[`]]:&]
 [s0; &]
 [s3; map`[key`] `= value&]
 [s0; &]
-[s4; All entries in map that are not assigned a non`-void value have 
-void value. This way assigning void to the map key can be considered 
-as removing entry from the map&]
+[s4; Все записи мапа, которым не присвоено 
+не`-void значение, имеют значение void. 
+Подобное присваивание void ключу мапа 
+можно считать удалением из него записи&]
 [s0; &]
 [s3; map`[key`] `= void&]
 [s0; &]
-[s4; and testing entry for being void can be considered as test of 
-key presence in map:&]
+[s4; а проверку записи на void`-ность можно 
+считать проверкой на наличия ключа 
+в мапе:&]
 [s0;C &]
 [s3; if(is`_void(map`[key`])) `{ ... `}&]
 [s0; &]
-[s4; As the special exception, when a void value appears before an 
-l`-value [@(128.0.255) `[`]], it is changed to the empty map:&]
+[s4; В качестве особого исключения, когда 
+значение void находится перед l`-value 
+[@(128.0.255) `[`]], оно меняется на пустой 
+мап:&]
 [s0; &]
-[s3; x `= void;       [@4 // x is void]&]
-[s3; x`[key`] `= value; [@4 // x is now map]&]
+[s3; x `= void;       [@4 // x является void]&]
+[s3; x`[key`] `= value; [@4 // x теперь мап]&]
 [s0; &]
-[s4; Maps are also used to create compound data structures. To make 
-this job easier, special [/ .field] syntax is supported:&]
+[s4; Мапы также используются для создания 
+составных (неоднородных) структур 
+данных. Для облегчения этой задачи 
+используется специальный синтаксис 
+[/ .field]:&]
 [s0; &]
 [s3; x.field `= value;&]
 [s0; &]
-[s4; is equivalent to&]
+[s4; эквивалентно&]
 [s0; &]
 [s3; x`[`"field`"`] `= value;&]
 [s0; &]
-[s0; Map values can also be specified using `{`} braces:&]
+[s0; Значения мапов также можно определять 
+с помощью `{`} фигурных скобок:&]
 [s0; &]
 [s3; `{`}                                [@4 // empty map]&]
 [s3; `{ `"alfa`":10, `"beta`":20, 20:`"40`" `}&]
@@ -204,72 +233,91 @@ this job easier, special [/ .field] syntax is supported:&]
 expressions]&]
 [s0; &]
 [s1;:2`_5: 2.5 Лямбды&]
-[s4; Lambdas represent executable Esc code. Lambda values are introduced 
-using [@(128.0.255) `@] character:&]
+[s4; Лямбды представляют собой исполнимый 
+код на Esc. Лямбда`-значения вводят 
+с помощью символа [@(128.0.255) `@]:&]
 [s0; &]
 [s3; `@(x) `{ return 2 `* x; `}&]
 [s0; &]
-[s4; Assigning lambda value to variable is equivalent to defining 
-a function:&]
+[s4; Присвоение лямбда`-значения переменной 
+равносильно определению функции:&]
 [s0; &]
-[s3; :foo `= `@(x) `{ return 2 `* x; `};-|[@4 // defines global function 
-foo]&]
+[s3; :foo `= `@(x) `{ return 2 `* x; `};-|[@4 // определяет 
+глобальную функцию foo]&]
 [s0; &]
-[s4; If lambda argument is preceded with [@(128.0.255) `&] character, 
-it designates input`-output argument (other arguments are input 
-only).&]
-[s4; [@(128.0.255) ...] at the end of the argument list allows variable 
-number of arguments to be present. In that case, additional parameters 
-are passed in [/ argv] variable of type array.&]
+[s4; Если перед аругментом лямбды указан 
+символ [@(128.0.255) `&], он обозначает авгумент 
+ввода`-вывода (длугие аргументы только 
+вводные).&]
+[s4; [@(128.0.255) ...] в конце списка аргументов 
+разрешает предоставлять переменное 
+число аргументов. В таком случае, 
+дополнительные параметры передаются 
+в переменной [/ argv] из типового массива.&]
 [s0; &]
 [s3; :sum `= `@(...) `{ s `= 0; for(i in argv) s `+`= argv`[i`]; `}&]
 [s0; &]
-[s4; Parameters can have default values separated by [@(128.0.255) `=]:&]
+[s4; У параметров могут иметься дефолтные 
+значения, разделённые [@(128.0.255) `=]:&]
 [s0; &]
 [s3; :bar `= `@(x `= 0) `{ ... `}&]
 [s0; &]
-[s4; To make life easier, alternative form of function definition 
-is available:&]
+[s4; Для простоты доступна альтернативная 
+форма определения функции:&]
 [s0; &]
 [s3; #:foo(x) `{ return 2 `* x; `}&]
 [s0; &]
 [s2;i150;O9;:3: 3. Переменные и контексты&]
-[s4; Variable names in Esc follow C principles (are case sensitive, 
-start with alphabetic character or [@(128.0.255) `_] and can contain 
-alphabetic characters, [@(128.0.255) `_] and numbers).&]
-[s4; Esc distinguishes three types of variables contexts using [*@(128.0.255) .] 
-and [*@(128.0.255) :] characters:&]
+[s4; Имена переменных в Esc следуют принципам 
+языка Си (регистрочувствительны, 
+начинаются с алфавитного символа 
+или [@(128.0.255) `_] и могут содержать алфавитные 
+символы, [@(128.0.255) `_] и числа).&]
+[s4; Esc различает три типа контекстов 
+переменных, использующих символы 
+[*@(128.0.255) .] и [*@(128.0.255) :] :&]
 [s0; &]
-[s3; var-|-|[@4 // local]&]
-[s3; .var-|-|[@4 // instance]&]
-[s3; :var-|-|[@4 // global]&]
+[s3; var-|-|[@4 // локальная переменная]&]
+[s3; .var-|-|[@4 // переменная экземпляра]&]
+[s3; :var-|-|[@4 // глобальная переменная]&]
 [s0; &]
-[s4; Local variables are specific to function, global variables are 
-shared among all functions. Instance variables &]
-[s4; represent map values (keys designate variable names) of map 
-whose lambda value is invoked, or can be forced using binary 
-[@(128.0.255) !] bind operator:&]
+[s4; Локальные переменные специфичны 
+для функции, глобальные переменные 
+разделяются всеми функциями. Переменные 
+экземпляра &]
+[s4; представляют значения мапа (ключи 
+определяют имена переменных), лямбда`-значен
+ие которого вызывается, или может 
+формироваться, с помощью оператора 
+двоичного связывания ( binary) [@(128.0.255) !] 
+(bind operator):&]
 [s0; &]
 [s3; var.x `= 0;&]
 [s3; var.Next `= `@() `{ .x`+`+; `};&]
-[s3; var.Next();-|-|-|[@4 // var.x is now 1 ]&]
+[s3; var.Next();-|-|-|[@4 // var.x теперь равно 1 ]&]
 [s3; var1.x `= 0;&]
-[s3; var.Next()! var1;-|-|[@4 // var1.x is now 1]&]
+[s3; var.Next()! var1;-|-|[@4 // var1.x теперь равно 1]&]
 [s0; &]
-[s4; To make programmer`'s life easier, one exception applies concerning 
-context `- when invoking lambda from local variable and lambda 
-is not present in it, instance and global contexts (in this order) 
-are tried as well:&]
+[s4; Для облегчения жизни программиста 
+относительно контекста применено 
+одно исключение `- при вызове лямбды 
+из локальной переменной и её отсутствии, 
+также проверяется её наличие в контексте 
+экземплярном и глобальном (именно 
+в таком порядке):&]
 [s0; &]
 [s3; beta(x)&]
 [s0; &]
-[s4; Tries to get lambda form local [/ beta] variable first, then (if 
-no lambda found) from instance [/ beta ]variable and finally (if 
-still no lambda) from global [/ beta]. Of course, [*@(128.0.255) .] 
-and [*@(128.0.255) :] can still be used to designate context:&]
+[s4; Вначале пытается получить лямбду 
+из локальной переменной [/ beta], затем 
+(если ничего не обнаружено) из переменной 
+экземпляра [/ beta,]и, наконец (если лямбды 
+всё ещё нет) `- из глобальной [/ beta]. Конечно 
+же, [*@(128.0.255) .] и [*@(128.0.255) :] всё ещё могут 
+использоваться для разметки контекста:&]
 [s0; &]
-[s3; :beta(x) [@4 // calls global beta even if local or instance beta 
-is present]&]
+[s3; :beta(x) [@4 // вызывает глобальную beta, даже 
+если имеется локальная или экземпляра]&]
 [s0; &]
 [s2;:4: 4. Выражения&]
 [s4; When expressions are used as logical values, void, zero number 

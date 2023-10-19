@@ -10,219 +10,126 @@ topic "Реализация кучи";
 [b33;2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [s3; Реализация кучи&]
-[s0; Куча U`+`+ разделяется на 4 категории 
-по размеру блока: small, medium, huge и system 
-`- малая, средняя, большая и системная.&]
+[s0; U`+`+ heap is divided into 4 categories based on the block size 
+`- small, medium, huge and system.&]
 [s0; &]
-[s6; Малые (small) блоки&]
-[s0; Блоки <`= 992 байтов. Согласно нашему 
-исследованию, блоки <`= 992 обычно представляют
- большинство блоков, используемых 
-в типичных приложениях C`+`+/U`+`+ (>98% 
-всех блоков).&]
-[s0; Малые блоки размещаются в памяти 
-на страницах в 4 КБ, т.е. являются `"4 
-КБ aligned`" (`"разлинованными по 4 КБ`").&]
-[s0; Для малых блоков существует 18 возможных 
-размеров блока (32, 64, 96, 128, 160, 192, 224, 
-256, 288, 320, 352, 384, 448, 576, 672, 800, 992). Размеры 
-более больших блоков разработана 
-так, чтобы округлялись до 32 байт и 
-использовали большую часть памяти 
-на странице (4096 `- 32 `= 4064) (смотрите 
-ниже). Например, 4064 / 7 `= 580, что понижается 
-при настройке до 576, тем самым теряя 
-только 4064 `- 576 `* 7 `= 32 байта на страницу 
-в 4 КБ.&]
-[s0; Каждая страница в 4 КБ предназначается 
-для размера одного блока. Следовательно, 
-не нужно хранить никакой дополнительной 
-информации, касающейся блока; вместо 
-этого информация обо всём блоке хранится 
-в 32`-байтном заголовочнике, в начале 
-4 КБной страницы. Этот заголовочник 
-хранит указатель на список свободных 
-блоков страницы, double`-link указатели 
-для блока, так, чтобы он мог сохраняться 
-в структурах аллокатора (разместителя), 
-общее число блоков на странице в 4 
-КБ и число свободных блоков на ней.&]
-[s0; При том, что у блоков нет индивидуальных 
-заголовочников, критическая деталь 
-реализации заключается в том, как 
-процедура FreeMemory детектирует (находит) 
-малые блоки. Это решается помещением 
-данной информации прямо в указатель 
-на кучу: у малых блоков всегда есть 
-bit 5 of address one, в то время как у других 
-категорий блоков он равен нулю. Другими 
-словами, малые блоки являются `"32 bytes 
-misaligned`", а другие категории `- `"32 bytes 
-aligned`".&]
-[s0; Как только в MemoryFree обнаруживается 
-малый блок, нужная справочная информация 
-ищется в начале 4`-КБных блоков.&]
-[s0; Аллокатор отслеживает 4`-КБные страницы, 
-используемые целиком (без свободных 
-блоков), частично использованные 
-или пустые. Пустые страницы в любое 
-время могут преобразовываться в блок 
-другого размера.&]
-[s0; Также аллокатор использует кэш малых 
-блоков в качестве дополнительной 
-оптимизации. В этом кэше, до около 
-3.5 КБ малых блоков на размер малого 
-блока хранится свободно, без вызова 
-более сложной процедуры вымещения 
-(деаллокации).&]
-[s6; Средние (medium) блоки &]
-[s0; Блоки >256 и < 65504 байтов. Для этих блоков 
-используется `"approximate best`-fit allocator`" 
-(`"приблизительный разместитель наилучшего 
-соответствия`"). Память организована 
-в виде страниц по 64 КБ. У каждого блока 
-аллокатора есть `"заголовочник`" (header) 
-с его размером и размером предыдущего 
-блока, флагом free и указателем на кучу 
-(the Heap).&]
-[s0; Аллокатор хранит массив списков 
-свободных блоков конкретных размеров. 
-Распределение размера в основном 
-экспоненциально, блоки, меньшие 2048, 
-округляются до 32 байтов, между 2048 
-и около 35000 округление экспоненциально 
-наращивается до 2048, а затем останавливается 
-на этом значение. У каждого такого 
-размера есть индекс в массиве свободных 
-блоков.&]
-[s0; При размещении (аллокации), по размеру 
-подбирается индекс и производится 
-поиск по массиву, начиная с этого 
-индекса, находящий наименьший свободный 
-блок (best`-fit, `"наилучшего соответствия`"), 
-больший, чем требуемый размер. Более 
-большие блоки делятся, а остальные 
-помещаются в список свободных блоков.&]
-[s0; При освобождении, аллокатор `"маржует`" 
-(merges) освобождённые блоки с предыдущим 
-или следующим блоком, если он есть, 
-и меняет значения в списке свободных 
-блоков.&]
-[s0; Заметьте, что заголовочник`-мастер 
-(master header) из  64`-КБных блоков и все операции 
-разработаны так, что итоговые указатели 
-НЕ являются `"32 bytes aligned`" (смотрите 
-описание малых блоков).&]
-[s6; Большие (huge) блоки&]
-[s0; Существует разделяемая (между потоками`-`"ни
-тями`" (threads)) подкуча для блоков, меньших 
-16 МБ, с единицей размещения в 4 КБ. 
-Блоки, большие 65504 байтов и меньшие 
-16 МБ, размещаются прямо из неё. Единица 
-размещения равна 4 КБ. Малые и средние 
-страницы также размещаются из этой 
-подкучи.&]
-[s0; Эта категория решает две проблемы: 
-Размешение о освобождение системных 
-блоков на редкость затратная (ресурсоёмкая) 
-операция, поэтому данная подкуча 
-оптимизирует ситуацию. Она также 
-позвволяет преобразовывать память 
-между малыми, в 4 КБ, и средними, в 64 
-КБ, страницами.&]
-[s6; Системные блоки&]
-[s0; Блоки, большие 16 МБ, размещаются прямо 
-из системы.&]
+[s6; Small blocks&]
+[s0; Blocks <`= 992 bytes. According to our research, blocks <`= 
+992 usually represent the majority of blocks used in typical 
+C`+`+/U`+`+ applications (>98% of all blocks).&]
+[s0; Small blocks are allocated in 4KB pages that are 4KB aligned.&]
+[s0; There are 18 possible block sizes for small blocks (32, 64, 
+96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 448, 576, 672, 
+800, 992). Sizes of larger blocks are designed so that they are 
+32 bytes rounded and will use the most memory in (4096 `- 32 
+`= 4064) page (see bellow). E.g. 4064 / 7 `= 580, which is adjusted 
+down to 576, thus wasting just  4064 `- 576 `* 7 `= 32 bytes 
+per 4KB page.&]
+[s0; Each 4KB pages is dedicated to a single block size. Therefore 
+there is no need to store any per`-block information; instead 
+information about the whole block is stored in the 32 bytes header 
+at the beginning of 4KB page. This header stores pointer to the 
+list of free blocks in the page, double`-link pointers for the 
+block so that it can be stored in allocator structures, total 
+number of blocks in the 4KB page and a number of free blocks 
+in 4KB page.&]
+[s0; Given that blocks do no have individual headers, the critical 
+implementation details is how FreeMemory routine detects the 
+small blocks. This is solved by putting this information directly 
+into the pointer to heap: Small blocks always have bit 5 of address 
+one, while other block categories have it zero. In other words, 
+small blocks are 32 bytes misaligned while other categories are 
+32 bytes aligned.&]
+[s0; Once small block detected in MemoryFree, the necessary booking 
+information is found at the start of 4KB blocks.&]
+[s0; Allocator keeps the track of 4KB pages that are completely used 
+(no free blocks), partially used or empty. Empty pages can be 
+eventually converted to different block size.&]
+[s0; Allocator also uses cache of small blocks as additional optimization. 
+In this cache, up to about 3.5KB of small blocks per small block 
+size are stored on free, without really invoking more complex 
+deallocation routine.&]
+[s6; Medium blocks &]
+[s0; Blocks >256 and < 65504 bytes. Approximate best`-fit allocator 
+is used for these blocks. Memory is organized in 64KB pages. 
+Each allocated block has header with its size and the size of 
+previous block, free flag and pointer to the Heap.&]
+[s0; Allocator keeps an array of lists of free blocks of particular 
+sizes. Size distribution is mostly exponential, blocks lower 
+than 2048 are rounded up to 32 bytes, between 2048 and about 
+35000 rounding exponentially grows up to 2048 and then stays 
+at this value. Each such size has its index in the array of free 
+blocks.&]
+[s0; When allocating, index is decided based on the size and array 
+is searched starting with that index to obtain the smallest free 
+block (best`-fit) greater than required size. Bigger blocks are 
+divided and the rest of block is put to free block list.&]
+[s0; When freeing, allocator merges the freed block with previous 
+or next free block if any and reassigns in free block list.&]
+[s0; Note that master header of 64KB blocks and all operations are 
+designed so that resulting pointers are NOT 32 bytes aligned 
+(see description of small blocks).&]
+[s6; Huge blocks&]
+[s0; There is shared (between threads) subheap for blocks less than 
+16MB with allocation unit 4KB. Blocks bigger than 65504 bytes 
+and less than 16MB are directly allocated from this. The allocation 
+unit is 4KB. Small and medium pages are also allocated from this 
+subheap.&]
+[s0; This category solves two problems: Allocating and freeing system 
+blocks is surprisingly expensive operation, so this subheap optimizes 
+this situation. It also allows for converting memory between 
+small 4KB and medium 64KB pages.&]
+[s6; System blocks&]
+[s0; Blocks larger than 16MB are allocated directly from the system.&]
 [s0; &]
-[s6; Многопоточность (Multithreading)&]
-[s0; Каждый поток имеет свою собственную 
-кучу с малыми и средними блоками (реализован
-ную посредством TLS, т.е. по`-русски 
-НЛХ `= `"НитеЛокальное Хранилище`", 
-по другому выражаясь, `- `"частное хранилище 
-данного потока`"), а также имеется 
-вспомогательная `- `'aux`' `- куча, которая, 
-главным образом, используется для 
-отслеживания полностью свободных 
-страниц в 4 КБ или отрезков (`"чанков`") 
-в 64 КБ.&]
-[s0; Большинство размещений малых и средних 
-блоков происходит без запирания (lockless). 
-Единый стопор (mutex) для всего разместителя 
-(allocator) запирается в следующих, относительно 
-редких, ситуациях:&]
-[s0;i150;O0; При освобождении блока, размещённого 
-в другом потоке (имеющего иную кучу).Такие 
-блоки сначала буферируются, если 
-их общий размер не более 2000 байтов, 
-а затем запирается стопор и все блоки 
-поставляются в списки удалённого 
-освобождения (remote`_free) соответствующих 
-куч.&]
-[s0;i150;O0; При размещении малого блока, 
-когда нет доступного блока на частично 
-используемых страницах, и недоступна 
-`"резервная`" `-`'reserve`' `- пустая страница 
-(любого размерного класса) `- в таком 
-случае, запирается стопор и разруливается 
-ситуация, либо путём получения свободной 
-страницы из глобального хранилища, 
-путём переятия `"сиротливой`" частично 
-используемой страницы у вспомогательной 
-кучи, либо,`- если всё прочее не сработает,`- 
-путём получения страницы у системы. 
-Как часть этого процесса, проверяется 
-указатель на remote`_list (без блокировки`-запиран
-ия) ,а, если он не равен null, то стопор 
-запирается и обрабатываются страницы, 
-освобождаемые дистанционно.&]
-[s0;i150;O0; При освобождении малого блока, 
-приводящем к полностью свободной 
-странице, и когда куча уже имеет резервную 
-пустую страницу для данного размерного 
-класса. В таком случае, резервная 
-страница помещается в глобальный 
-список пустых страниц, а новая свободная 
-страница используется в качестве 
-новой резервной (потому что, по всей 
-вероятности, новая страница в кэше 
-наиболее `'горячая`').&]
-[s0;i150;O0; При освобождении большого блока, 
-размещённого в другом потоке. В этом 
-случае, стопор запирается и блок помещается 
-в кучу large`_remote`_free соответствующего 
-потока.&]
-[s0;i150;O0; При размещении большого блока 
-и при отсутствии доступного. В этом 
-случае, запирается стопор и соответствующим
- образом освобождаются блоки large`_remote`_free, 
-а затем следует очередная попытка 
-аллокации.&]
-[s0;i150;O0; При размещении из большой или 
-системной кучи, стопор (mutex) всегда 
-запирается.&]
-[s6; Специфичные фишки&]
-[s0; Помимо стандартного обычного интерфейса, 
-типа free/malloc, разместитель U`+`+ предоставляет 
-некоторые специфичные `"фичи`":&]
-[s0; MemoryAllocSz меняет размерный параметр 
-так, чтобы он действительно отражал 
-реально размещённое свободное пространство
- памяти.&]
-[s0; MemoryAlloc32 и MemoryFree32  `- это версии, оптимизирован
-ные на размещение ровно 32 байтов, 
-представляющих собой важный размер 
-для типа U`+`+ String `- зная точный размер, 
-разместитель может пропускать несколько 
-ветвлений (branches).&]
-[s0; Поскольку минимальный размер возвращаемого
- блока обычно равен 32 байтам, разместитель 
-U`+`+ может эффективно размещать даже 
-меньшего размера блоки, используя 
-интерфейс TinyAlloc / TinyFree: всего то нужно, 
-чтобы TinyFree получил размер блока, затребованн
-ого TinyAlloc, в качестве аргумента. Заметьте, 
-что эти блоки всё ещё малые, то есть 
-может находиться 508 блоков длиной 
-в 8 байтов на странице в 4 КБ.&]
+[s6; Multithreading&]
+[s0; Each thread has its own small and medium blocks heap (implemented 
+using TLS) and there is also `'aux`' heap, which is basically 
+used to keep track of completely free 4KB pages or 64KB chunks.&]
+[s0; Most small and medium block allocations are lockless. Single 
+mutex for the whole allocator is locked in following, relatively 
+rare, situations:&]
+[s0;i150;O0; When freeing the block that was allocated in different 
+thread (has different heap). Such blocks are first buffered until 
+their total size is more than 2000 bytes, then the mutex is locked 
+and all blocks are distributed to remote`_free lists of respective 
+heaps.&]
+[s0;i150;O0; When allocating the small block and there is no block 
+available in partially used pages and there is no `'reserve`' 
+empty page (of any size class) available `- in that case, mutex 
+is locked and and situation resolved, either by obtaining the 
+free page from global storage, by adopting orphaned partially 
+used page from auxiliary page, or if all else fails, by retrieving 
+page from the system. As part of this process, remote`_list pointer 
+is checked (without locking) and if not null, mutex is locked 
+and remotely freed pages are processed.&]
+[s0;i150;O0; When freeing the small block which results in completely 
+free page and when heap already has reserve empty page for given 
+size class. In that case, reserve page is put to global list 
+of empty pages and new free page is used as new reserve (this 
+is because new page is likely more `'hot`' in cache).&]
+[s0;i150;O0; When freeing the large block that was allocated in different 
+thread. In that case, mutex is locked and the block is put to 
+respective thread`'s heap large`_remote`_free.&]
+[s0;i150;O0; When allocating the large block and there is no block 
+available. In that case, mutex is locked and large`_remote`_free 
+blocks are properly freed, then the allocation is retried.&]
+[s0;i150;O0; When allocating from huge or system heap, mutex is always 
+locked.&]
+[s6; Specific features&]
+[s0; Beyond standard free/malloc like trivial interface, U`+`+ allocator 
+offers some specific features:&]
+[s0; MemoryAllocSz changes the size parameter to actually reflect 
+the actual free space allocated.&]
+[s0; MemoryAlloc32 and MemoryFree32 are version optimized to allocate 
+exactly 32 bytes, which is an important size for U`+`+ String 
+type `- by knowing the exact size, allocator can skip several 
+branches.&]
+[s0; While the minimal block size returned is normally 32 bytes, 
+U`+`+ allocator can effectively allocate even smaller blocks 
+when TinyAlloc / TinyFree interface is used `- the price to pay 
+is that TinyFree needs to pass the size of block that was requested 
+by TinyAlloc as the argument. Note that these blocks are still 
+small, which means there can be 508 8bytes long blocks in 4KB 
+page.&]
 [s0; ]]

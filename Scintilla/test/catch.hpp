@@ -4102,7 +4102,7 @@ namespace Generators {
 #define GENERATE_COPY( ... ) \
     Catch::Generators::generate( INTERNAL_CATCH_STRINGIZE(INTERNAL_CATCH_UNIQUE_NAME(generator)), \
                                  CATCH_INTERNAL_LINEINFO, \
-                                 [=]{ using namespace Catch::Generators; return makeGenerators( __VA_ARGS__ ); } ) //NOLINT(google-build-using-namespace)
+                                 [=, this]{ using namespace Catch::Generators; return makeGenerators( __VA_ARGS__ ); } ) //NOLINT(google-build-using-namespace)
 #define GENERATE_REF( ... ) \
     Catch::Generators::generate( INTERNAL_CATCH_STRINGIZE(INTERNAL_CATCH_UNIQUE_NAME(generator)), \
                                  CATCH_INTERNAL_LINEINFO, \
@@ -7814,9 +7814,9 @@ namespace Catch {
                 auto stddev = &standard_deviation;
 
 #if defined(CATCH_CONFIG_USE_ASYNC)
-                auto Estimate = [=](double(*f)(std::vector<double>::iterator, std::vector<double>::iterator)) {
+                auto Estimate = [=, this](double(*f)(std::vector<double>::iterator, std::vector<double>::iterator)) {
                     auto seed = entropy();
-                    return std::async(std::launch::async, [=] {
+                    return std::async(std::launch::async, [=, this] {
                         std::mt19937 rng(seed);
                         auto resampled = resample(rng, n_resamples, first, last, f);
                         return bootstrap(confidence_level, first, last, resampled, f);
@@ -7829,7 +7829,7 @@ namespace Catch {
                 auto mean_estimate = mean_future.get();
                 auto stddev_estimate = stddev_future.get();
 #else
-                auto Estimate = [=](double(*f)(std::vector<double>::iterator, std::vector<double>::iterator)) {
+                auto Estimate = [=, this](double(*f)(std::vector<double>::iterator, std::vector<double>::iterator)) {
                     auto seed = entropy();
                     std::mt19937 rng(seed);
                     auto resampled = resample(rng, n_resamples, first, last, f);

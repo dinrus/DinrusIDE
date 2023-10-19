@@ -8,7 +8,7 @@ namespace Upp {
 bool SFtp::Init()
 {
 	if(!ssh->session)
-		ThrowError(-1, "SSH session is invalid.");
+		ThrowError(-1, "Сессия SSH неполноценна.");
 	auto session = libssh2_sftp_init(ssh->session);
 	if(!session && !WouldBlock())
 		ThrowError(-1);
@@ -24,7 +24,7 @@ void SFtp::Exit()
 	if(!sftp_session)
 		return;
 
-	Run([=]() mutable {
+	Run([=, this]() mutable {
 		if(WouldBlock(libssh2_sftp_shutdown(*sftp_session)))
 			return false;
 		ssh->init = false;
@@ -55,7 +55,7 @@ SFtpHandle SFtp::Open(const String& path, dword flags, long mode)
 		if(!h && !WouldBlock())
 			ThrowError(-1);
 		if(h)
-			LLOG(Format("File '%s' is successfully opened.", path));
+			LLOG(Format("Файл '%s' успешно открыт.", path));
 		return h;
 	});
 	return h;
@@ -66,7 +66,7 @@ void SFtp::Close(SFtpHandle handle)
 	if(!handle)
 		return;
 
-	Run([=] () mutable {
+	Run([=, this] () mutable {
 		int rc = libssh2_sftp_close_handle(handle);
 		if(!rc)	LLOG("File handle freed.");
 		return !rc;
@@ -75,7 +75,7 @@ void SFtp::Close(SFtpHandle handle)
 
 bool SFtp::Rename(const String& oldpath, const String& newpath)
 {
-	return Run([=] () mutable {
+	return Run([=, this] () mutable {
 		int rc = libssh2_sftp_rename(*sftp_session, oldpath, newpath);
 		if(!WouldBlock(rc) && rc != 0)
 			ThrowError(rc);
@@ -87,7 +87,7 @@ bool SFtp::Rename(const String& oldpath, const String& newpath)
 
 bool SFtp::Delete(const String& path)
 {
-	return Run([=] () mutable {
+	return Run([=, this] () mutable {
 		int rc = libssh2_sftp_unlink(*sftp_session, path);
 		if(!WouldBlock(rc) && rc != 0)
 			ThrowError(rc);
@@ -99,7 +99,7 @@ bool SFtp::Delete(const String& path)
 
 bool SFtp::Sync(SFtpHandle handle)
 {
-	return Run([=] () mutable {
+	return Run([=, this] () mutable {
 		int rc = libssh2_sftp_fsync(handle);
 		if(!WouldBlock(rc) && rc != 0)
 			ThrowError(rc);
@@ -135,7 +135,7 @@ int SFtp::Get(SFtpHandle handle, void *ptr, int size)
 {
 	done = 0;
 
-	Run([=]() mutable {
+	Run([=, this]() mutable {
 		while(done < size && !IsTimeout()) {
 			int rc = static_cast<int>(
 				libssh2_sftp_read(handle, (char*) ptr + done, min(size - done, ssh->chunk_size))
@@ -164,7 +164,7 @@ int SFtp::Put(SFtpHandle handle, const void *ptr, int size)
 {
 	done = 0;
 
-	Run([=]() mutable {
+	Run([=, this]() mutable {
 		while(done < size && !IsTimeout()) {
 			int rc = static_cast<int>(
 				libssh2_sftp_write(handle, (const char*) ptr + done, min(size - done, ssh->chunk_size))
@@ -264,7 +264,7 @@ SFtpHandle SFtp::OpenDir(const String& path)
 
 bool SFtp::MakeDir(const String& path, long mode)
 {
-	return Run([=] () mutable {
+	return Run([=, this] () mutable {
 		int rc = libssh2_sftp_mkdir(*sftp_session, path, mode);
 		if(!WouldBlock(rc) && rc != 0)
 			ThrowError(rc);
@@ -276,7 +276,7 @@ bool SFtp::MakeDir(const String& path, long mode)
 
 bool SFtp::RemoveDir(const String& path)
 {
-	return Run([=] () mutable {
+	return Run([=, this] () mutable {
 		int rc = libssh2_sftp_rmdir(*sftp_session, path);
 		if(!WouldBlock(rc) && rc != 0)
 			ThrowError(rc);

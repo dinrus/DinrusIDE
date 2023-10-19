@@ -296,7 +296,7 @@ bool DlangBuilder::CreateLib(const String& product, const Vector<String>& obj,
 	bool is_shared = HasFlag("SO");
 	if(is_shared) {
 		lib = "gcc";
-		lib << " -shared -fPIC -fuse-cxa-atexit";
+		lib << "-fPIC -fuse-cxa-atexit"; //-shared исключён
 		if(HasFlag("GCC32"))
 			lib << " -m32";
 		Point p = ExtractVersion();
@@ -425,11 +425,11 @@ bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoption
 		if(GetFileTime(linkfile[i]) > targettime) {
 			Vector<String> lib;
 			String lnk = "gcc";
-//			if(IsVerbose())
-//				lnk << " -v";
+			if(IsVerbose())
+				lnk << " -v";
 			if(HasFlag("GCC32"))
 				lnk << " -m32";
-			if(HasFlag("DLL"))
+			if(HasFlag("DLL") || HasFlag("SO"))
 				lnk << " -shared";
 			if(!HasFlag("SHARED") && !HasFlag("SO"))
 				lnk << " -static";

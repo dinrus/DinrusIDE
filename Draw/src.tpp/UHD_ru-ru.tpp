@@ -12,7 +12,7 @@ topic "Ultra High Definition Displays support";
 [{_} 
 [ {{10000@(113.42.0) [s0;%% [*@7;4 Ultra High Definition Displays support]]}}&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Function List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Функций]]}}&]
 [s0;%% &]
 [s5;:Upp`:`:SetUHDMode`(bool`): [@(0.0.255) void]_[* SetUHDMode]([@(0.0.255) bool]_[*@3 b])&]
 [s2;%% Устанавливаетthe UHD mode.&]

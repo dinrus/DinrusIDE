@@ -464,7 +464,7 @@ bool RichEdit::GotoLabel(const String& lbl)
 		}
 	return false;
 
-	//return GotoLabel([=](const WString& data) { return data == WString(lbl); });
+	//return GotoLabel([=, this](const WString& data) { return data == WString(lbl); });
 }
 
 void RichEdit::BeginPara()

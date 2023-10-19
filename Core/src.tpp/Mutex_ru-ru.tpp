@@ -1,5 +1,4 @@
-topic "Mutex";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс Mutex";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,81 +8,102 @@ topic "Mutex";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 Mutex]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс Mutex (Стопор)]]}}&]
 [s3; &]
 [s1;:Mutex`:`:class: [@(0.0.255)3 class][3 _][*3 Mutex][3 _:_][@(0.0.255)3 private][3 _][*@3;3 NoCop
 y]&]
-[s9;%% This well know synchronization primitive is usually used to 
-serialize access to shared data or other shared resources. Only 
-single thread can execute the code between calls to Enter and 
-Leave. If any other thread attempts to Enter the protected section 
-while other thread is performing it, it is blocked until performing 
-thread indicates leaving the section by invoking Leave. Mutex 
-is reentrant (same thread can Enter the Mutex multiple times).&]
+[s9;%RU-RU Этот хорошо известный примитив 
+синхронизации обычно используется 
+для сериализации доступа к разделяемым 
+данным или другим совместным ресурсам. 
+Только единственный поток может выполнять 
+код между вызовами Enter и Leave. Если любой 
+другой поток пытается Enter (войти в) 
+защищённую секцию, в то время как 
+в ней работает другой, он блокируется, 
+до тех пор, пока выполняющий поток 
+не укажет на то, что он покинул эту 
+секцию, вызвав Leave. Mutex реэнтрантен, 
+т.е. в него можно входить повторно 
+(один и тот же поток может Enter этот 
+Mutex неоднократно).&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Mutex`:`:Enter`(`): [@(0.0.255) void]_[* Enter]()&]
-[s2;%% Enter the protected region of code. Only single thread can 
-enter the region, other threads block until Leave is invoked.&]
+[s2;%RU-RU Войти в защищённый регион кода. 
+В этот регион может войти только один 
+поток, другие потоки блокируются 
+до того, как будет вызван Leave.&]
 [s3; &]
 [s4; &]
 [s5;:Mutex`:`:TryEnter`(`): [@(0.0.255) bool]_[* TryEnter]()&]
-[s2;%% Attempts to enter the protected region of code. If other thread 
-owns the region, returns [*/ false], otherwise gains the ownership 
-of Mutex and returns [*/ true]. Never blocks.&]
+[s2;%RU-RU Пытается войти в защищённый регион 
+кода. Если им владеет другой поток, 
+возвращает [*/ false], иначе получает владение 
+стопором Mutex и возвращает [*/ true]. Никогда 
+не блокируется.&]
 [s3; &]
 [s4; &]
 [s5;:Mutex`:`:Leave`(`): [@(0.0.255) void]_[* Leave]()&]
-[s2;%% Leave the protected region of code. Only the same thread that 
-called Enter can invoke Leave.&]
+[s2;%RU-RU Покидает защищённый регион кода. 
+Только то же поток,, что вызвал Enter, 
+может вызывать Leave.&]
 [s3; &]
 [s0; &]
 [s0; &]
 [s0; &]
-[ {{10000@(113.42.0) [s0;%% [*@7;4 StaticMutex]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс StaticMutex]]}}&]
 [s3; &]
 [s1;:StaticMutex`:`:class: [@(0.0.255)3 class][3 _][*3 StaticMutex]&]
-[s9;%% Variant of Mutex that can be used as static or global variable 
-without the need of initialization  `- it has no constructor 
-and correctly performs the first initialization when any of methods 
-is called. That avoids problems with initialization order or 
-multithreaded initialization issues.&]
+[s9;%RU-RU Вариант Mutex, который может использоватьс
+я как статическая или глобальная 
+переменная, без необходимости в инициализац
+ии `- у него нет конструктора и первая 
+инициализация выполняется корректно, 
+когда вызывается любой из методов. 
+Этим убираются проблемы с порядком 
+инициализации или с многопоточной 
+инициализацией.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:StaticMutex`:`:Get`(`): [_^Mutex^ Mutex][@(0.0.255) `&]_[* Get]()&]
 [s5;:StaticMutex`:`:operator Mutex`&`(`): [* operator_Mutex`&]()&]
-[s2;%% Возвращает the initialized instance of Mutex.&]
+[s2;%RU-RU Возвращает инициализированный 
+экземпляр Mutex.&]
 [s3; &]
 [s4; &]
 [s5;:StaticMutex`:`:TryEnter`(`): [@(0.0.255) bool]_[* TryEnter]()&]
 [s5;:StaticMutex`:`:Enter`(`): [@(0.0.255) void]_[* Enter]()&]
 [s5;:StaticMutex`:`:Leave`(`): [@(0.0.255) void]_[* Leave]()&]
-[s2;%% Вызывает respective methods of Mutex instance.&]
-[s3;%% &]
+[s2;%RU-RU Вызывает соответствующие методы 
+экземпляра Mutex.&]
+[s3;%RU-RU &]
 [s0; &]
 [s0; &]
 [s0; &]
-[ {{10000t/25b/25@(113.42.0) [s0; [*@7;4 Mutex`::Lock]]}}&]
+[ {{10000t/25b/25@(113.42.0) [s0; [*@7;4 Класс Mutex`::Lock]]}}&]
 [s3; &]
 [s1;:Mutex`:`:Lock`:`:class: [@(0.0.255)3 class][3 _][*3 Mutex`::Lock]&]
-[s9;%% This nested class automates calls to Mutex`::Enter / Mutex`::Leave 
+[s9;%RU-RU This nested class automates calls to Mutex`::Enter / Mutex`::Leave 
 for block of code using C`+`+ constructor / destructor rules. 
 Using [* operator StaticMutex`::Mutex], it can be used with StaticMutex 
 as well.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  / Destructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора / Деструктора]]}}&]
 [s3; &]
 [s5;:Mutex`:`:Lock`:`:Lock`(Mutex`&`): [* Lock]([_^Mutex^ Mutex][@(0.0.255) `&]_[*@3 s])&]
-[s2;%% Performs [%-*@3 s].Enter().&]
-[s3;%% &]
+[s2;%RU-RU Выполняет [%-*@3 s].Enter().&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Mutex`:`:Lock`:`:`~Lock`(`): [@(0.0.255) `~][* Lock]()&]
-[s2; [%% Performs ][*@3 s].Leave() where [*@3 s] is the constructor parameter.&]
+[s2; [%RU-RU Выполняет ][*@3 s].Leave(), где [*@3 s] `- параметр 
+конструктора.&]
 [s3; &]
 [s0; ]]

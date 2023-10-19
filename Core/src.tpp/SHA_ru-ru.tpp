@@ -19,12 +19,14 @@ topic "Функции SHA-2";
 [s2;:Upp`:`:SHA256String`(const void`*`,Upp`:`:dword`): [_^Upp`:`:String^ String]_[* SHA2
 56String]([@(0.0.255) const]_[@(0.0.255) void]_`*[*@3 data], [_^Upp`:`:dword^ dword]_[*@3 s
 ize])&]
-[s3;%RU-RU Возвращает a String representing the 32 bytes (256 bits) 
-SHA`-2 hash of [%-*@3 size] bytes of [%-*@3 data].&]
+[s3;%RU-RU Возвращает строку, представляющую 
+собой 32`-байтный (256 битов) хэш SHA`-2 
+размером [%-*@3 size] байтов, данных [%-*@3 data].&]
 [s4;%RU-RU &]
 [s1;%RU-RU &]
 [s2;:SHA256String`(const String`&`):~~~288; [_^String^ String]_[* SHA256String]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s3; [%RU-RU Возвращает a String representing the 32 bytes (256 bits) 
-SHA`-2 hash of ][*@3 data.]&]
+[s3; [%RU-RU Возвращает строку, представляющую 
+собой 32`-байтный (256 битов) хэш SHA`-2 
+данных ][*@3 data.]&]
 [s4;%RU-RU ]]

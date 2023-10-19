@@ -119,7 +119,7 @@ class QueueInterface {
     m_prog.build_with_kernel_type<DeviceOrSelector>();
     auto f = [&](cl::sycl::handler &cgh) {
       cgh.single_task<DeviceOrSelector>(m_prog.get_kernel<DeviceOrSelector>(),
-                                        [=]() {})
+                                        [=, this]() {})
     };
     EIGEN_SYCL_TRY_CATCH(m_queue.submit(f));
 #endif
@@ -428,7 +428,7 @@ class QueueInterface {
                                                   Range thread_range,
                                                   Index scratchSize,
                                                   T... var) const {
-    auto kernel_functor = [=](cl::sycl::handler &cgh) {
+    auto kernel_functor = [=, this](cl::sycl::handler &cgh) {
       // binding the placeholder accessors to a commandgroup handler
       lhs.bind(cgh);
       rhs.bind(cgh);
@@ -457,7 +457,7 @@ class QueueInterface {
                                                  Range thread_range,
                                                  Index scratchSize,
                                                  T... var) const {
-    auto kernel_functor = [=](cl::sycl::handler &cgh) {
+    auto kernel_functor = [=, this](cl::sycl::handler &cgh) {
       // binding the placeholder accessors to a commandgroup handler
       inptr.bind(cgh);
       outptr.bind(cgh);
@@ -484,7 +484,7 @@ class QueueInterface {
                                                  Range thread_range,
                                                  Index scratchSize,
                                                  T... var) const {
-    auto kernel_functor = [=](cl::sycl::handler &cgh) {
+    auto kernel_functor = [=, this](cl::sycl::handler &cgh) {
       // binding the placeholder accessors to a commandgroup handler
       inptr.bind(cgh);
       typedef cl::sycl::accessor<OutScalar, 1,
@@ -748,7 +748,7 @@ class QueueInterface {
                                 const std::function<void()> &callback) const {
     set_latest_event(e);
     if (callback) {
-      auto callback_ = [=]() {
+      auto callback_ = [=, this]() {
 #ifdef EIGEN_EXCEPTIONS
         cl::sycl::event(e).wait_and_throw();
 #else

@@ -22,7 +22,7 @@
 
 бул Scp::OpenWrite(const Ткст& path, дол size, long mode)
 {
-	return пуск([=]() mutable {
+	return пуск([=, this]() mutable {
 		LIBSSH2_CHANNEL *ch = libssh2_scp_send64(ssh->session, path, mode, size, 0, 0);
 		if(!ch && !WouldBlock()) {
 			LLOG("Unable to open file " << path);

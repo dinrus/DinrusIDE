@@ -100,8 +100,8 @@ void Ide::File(Bar& menu)
 	menu.MenuSeparator();
 
 	menu.Add(AK_OPENFILEDIR, THISBACK(OpenFileFolder));
-	menu.Add("Копировать путь к файлу", [=] { WriteClipboardText(GetActiveFilePath()); });
-	menu.Sub("Свойства", [=](Bar& bar) { FilePropertiesMenu(bar); });
+	menu.Add("Копировать путь к файлу", [=, this] { WriteClipboardText(GetActiveFilePath()); });
+	menu.Sub("Свойства", [=, this](Bar& bar) { FilePropertiesMenu(bar); });
 	menu.MenuSeparator();
 
 	menu.Add(AK_STATISTICS, THISBACK(Statistics))
@@ -175,10 +175,10 @@ void Ide::EditSpecial(Bar& menu)
 		.Help("Откомментировать код");
 	menu.Add(b, AK_REFORMAT_COMMENT, THISBACK(ReformatComment))
 	    .Help("Реформатировать многострочный коммент в параграф");
-	menu.Add(b, "Удалить журналы отладки (DDUMP...)", [=] { RemoveDs(); });
+	menu.Add(b, "Удалить журналы отладки (DDUMP...)", [=, this] { RemoveDs(); });
 	menu.MenuSeparator();
-	menu.Add(AK_COPY_POSITION, [=] { CopyPosition(); });
-	menu.Add(AK_GOTO_POSITION, [=] { GotoPosition(); });
+	menu.Add(AK_COPY_POSITION, [=, this] { CopyPosition(); });
+	menu.Add(AK_GOTO_POSITION, [=, this] { GotoPosition(); });
 }
 
 void Ide::SearchMenu(Bar& menu)
@@ -390,7 +390,7 @@ void Ide::Setup(Bar& menu)
 #endif
 	menu.MenuSeparator();
 	menu.Add(HasGit(), "DinrusUppHub..", IdeImg::UppHub(), [] { UppHub(); });
-	menu.Add("Клонировать исходники U++ с GitHub..", [=] {
+	menu.Add("Клонировать исходники U++ с GitHub..", [=, this] {
 		if(SetupGITMaster()) {
 			IdeAgain = true;
 			Break();
@@ -402,9 +402,9 @@ void Ide::Setup(Bar& menu)
 	if(wspc[0] == "ide")
 		for(int i = 0; i < wspc.GetCount(); i++)
 		//	if(wspc[i] == "DinrusIDE2/Core")
-			//	menu.Add("Обновить ИСР РНЦП Динрус..", [=] { UpgradeDinrusIde(); });
+			//	menu.Add("Обновить ИСР РНЦП Динрус..", [=, this] { UpgradeDinrusIde(); });
 #ifdef PLATFORM_POSIX
-	menu.Add("Установить dinruside.desktop", [=] { InstallDesktop(); });
+	menu.Add("Установить dinruside.desktop", [=, this] { InstallDesktop(); });
 #endif
 #endif
 
@@ -476,7 +476,7 @@ void Ide::Project(Bar& menu)
 			String pp = GetActivePackagePath();
 			menu.AddMenu(FileExists(pp) && editfile_repo,
 			             (editfile_repo == SVN_DIR ? "Показать svn-историю " : "Показать git-историю ") + GetFileName(pp),
-			             IdeImg::SvnDiff(), [=] {
+			             IdeImg::SvnDiff(), [=, this] {
 				if(FileExists(pp))
 					RunRepoDiff(pp);
 			});
@@ -504,25 +504,25 @@ void Ide::FilePropertiesMenu(Bar& menu)
 	int i = filelist.GetCursor() + 1;
 	if(i >= 0 && i < fileindex.GetCount() && fileindex[i] < actual.file.GetCount())
 		path = SourcePath(actualpackage, actual.file[fileindex[i]]);
-	menu.Sub(candiff, "Сравнить с", [=](Bar& bar) {
+	menu.Sub(candiff, "Сравнить с", [=, this](Bar& bar) {
 		bar.AddMenu(candiff, AK_DIFF, IdeImg::Diff(), THISBACK(Diff))
 		    .Help("Показать разницу между текущим и выбранным файлами");
 		bar.AddMenu(candiff && FileExists(GetTargetLogPath()),
-		            AK_DIFFLOG, IdeImg::DiffLog(), [=] { DiffWith(GetTargetLogPath()); })
+		            AK_DIFFLOG, IdeImg::DiffLog(), [=, this] { DiffWith(GetTargetLogPath()); })
 		    .Help("Показать разницу между текущим файлом и логом");
 		if(FileExists(path))
 			bar.AddMenu(candiff && FileExists(path), path,
-			            IdeImg::DiffNext(), [=] { DiffWith(path); })
+			            IdeImg::DiffNext(), [=, this] { DiffWith(path); })
 			    .Help("Показать разницу между текущим и следующим файлами");
 		for(String p : difflru)
 			if(p != path)
 				bar.AddMenu(candiff && FileExists(p), p,
-				            IdeImg::DiffNext(), [=] { DiffWith(p); })
+				            IdeImg::DiffNext(), [=, this] { DiffWith(p); })
 				    .Help("Показать разницу между текущим и тем файлами");
 	});
 	if(editfile_repo) {
 		String txt = String("Показать ") + (editfile_repo == SVN_DIR ? "svn-" : "git-") + "историю ";
-		menu.AddMenu(candiff, AK_SVNDIFF, IdeImg::SvnDiff(), [=] {
+		menu.AddMenu(candiff, AK_SVNDIFF, IdeImg::SvnDiff(), [=, this] {
 			if(!IsNull(editfile))
 				RunRepoDiff(editfile);
 		}).Text(txt + "файла..");
@@ -580,27 +580,27 @@ void Ide::FilePropertiesMenu(Bar& menu)
 			}
 
 			if(mine.GetCount() || theirs.GetCount() || original.GetCount()) {
-				menu.Sub("Конфликт SVN", [=] (Bar& bar) {
+				menu.Sub("Конфликт SVN", [=, this] (Bar& bar) {
 					if(mine.GetCount() && theirs.GetCount())
-						bar.Add("Сравнить мой <-> их", [=] { DiffFiles("мой", mine, "их", theirs); });
+						bar.Add("Сравнить мой <-> их", [=, this] { DiffFiles("мой", mine, "их", theirs); });
 					if(mine.GetCount() && original.GetCount())
-						bar.Add("Сравнить мой <-> оригинал", [=] { DiffFiles("мой", mine, "оригинал", original); });
+						bar.Add("Сравнить мой <-> оригинал", [=, this] { DiffFiles("мой", mine, "оригинал", original); });
 					if(theirs.GetCount() && original.GetCount())
-						bar.Add("Сравнить их <-> оригинал", [=] { DiffFiles("их", theirs, "оригинал", original); });
+						bar.Add("Сравнить их <-> оригинал", [=, this] { DiffFiles("их", theirs, "оригинал", original); });
 					if(mine.GetCount())
-						bar.Add("Сравнить текущий <-> мой", [=] { DiffFiles("текущий", editfile, "мой", mine); });
+						bar.Add("Сравнить текущий <-> мой", [=, this] { DiffFiles("текущий", editfile, "мой", mine); });
 					if(theirs.GetCount())
-						bar.Add("Сравнить текущий <-> их", [=] { DiffFiles("текущий", editfile, "их", theirs); });
+						bar.Add("Сравнить текущий <-> их", [=, this] { DiffFiles("текущий", editfile, "их", theirs); });
 					if(original.GetCount())
-						bar.Add("Сравнить текущий <-> оригинал", [=] { DiffFiles("текущий", editfile, "оригинал", original); });
+						bar.Add("Сравнить текущий <-> оригинал", [=, this] { DiffFiles("текущий", editfile, "оригинал", original); });
 					bar.Separator();
-					bar.Add("Использовать мой", [=] {
+					bar.Add("Использовать мой", [=, this] {
 						if(PromptYesNo("Вы хотите переписать текущий в [* мой]?")) {
 							SaveFile();
 							Upp::SaveFile(editfile, LoadConflictFile(mine));
 						}
 					});
-					bar.Add("Использовать их", [=] {
+					bar.Add("Использовать их", [=, this] {
 						if(PromptYesNo("Вы хотите переписать текущий в [* их]?")) {
 							SaveFile();
 							Upp::SaveFile(editfile, LoadConflictFile(theirs));
@@ -657,7 +657,7 @@ void Ide::BuildMenu(Bar& menu)
 	b = b && idestate == EDITING;
 	menu.Add(b, AK_CLEAN, THISBACK(Clean))
 		.Help("Удалить все промежуточные файлы");
-//	menu.Add("Reset BLITZ", [=] { ResetBlitz(); })
+//	menu.Add("Reset BLITZ", [=, this] { ResetBlitz(); })
 //	    .Help("All files will be considered for BLITZ, regardless of time");
 	menu.Add(b, AK_REBUILDALL, IdeImg::build_rebuild_all(), THISBACK(RebuildAll))
 		.Help("Удалить все промежуточные файлы & построить");
@@ -693,10 +693,10 @@ void Ide::BuildMenu(Bar& menu)
 	menu.Add(ffb, AK_FINDPREVERROR, THISBACK(FindPrevError))
 		.Help("Найти предыдущую " + hh + "согласно панели консоли");
 	menu.MenuSeparator();
-	menu.Add(!IsNull(target), AK_OPENOUTDIR, [=] { ShellOpenFolder(GetFileFolder(target)); });
-	menu.Add(!IsNull(target), AK_COPYOUTDIR, [=] { WriteClipboardText(GetFileFolder(target)); });
-	menu.Add(!IsNull(target), AK_COPYTARGET, [=] { WriteClipboardText(target); });
-	menu.Add(!IsNull(target), AK_OUTDIRTERMINAL, [=] { LaunchTerminal(GetFileFolder(target)); });
+	menu.Add(!IsNull(target), AK_OPENOUTDIR, [=, this] { ShellOpenFolder(GetFileFolder(target)); });
+	menu.Add(!IsNull(target), AK_COPYOUTDIR, [=, this] { WriteClipboardText(GetFileFolder(target)); });
+	menu.Add(!IsNull(target), AK_COPYTARGET, [=, this] { WriteClipboardText(target); });
+	menu.Add(!IsNull(target), AK_OUTDIRTERMINAL, [=, this] { LaunchTerminal(GetFileFolder(target)); });
 }
 
 void Ide::DebugMenu(Bar& menu)
@@ -749,12 +749,12 @@ void Ide::DebugMenu(Bar& menu)
 
 void Ide::AssistMenu(Bar& menu)
 {
-	menu.Add(!designer, AK_ASSIST, [=] { editor.Assist(true); });
-	menu.Add(!designer, AK_JUMPS, [=] { ContextGoto(); });
+	menu.Add(!designer, AK_ASSIST, [=, this] { editor.Assist(true); });
+	menu.Add(!designer, AK_JUMPS, [=, this] { ContextGoto(); });
 	menu.Add(!designer, AK_SWAPS, THISBACK(SwapS));
 	menu.Add(!designer, AK_DCOPY, callback(&editor, &AssistEditor::DCopy));
 //	menu.Add(!designer, AK_IDUSAGE, THISBACK(IdUsage));
-//	menu.Add(!designer, AK_USAGE, [=] { Usage(); });
+//	menu.Add(!designer, AK_USAGE, [=, this] { Usage(); });
 	menu.Add(!designer, AK_VIRTUALS, callback(&editor, &AssistEditor::Virtuals));
 	menu.Add(!designer, AK_THISBACKS, callback(&editor, &AssistEditor::Events));
 	menu.Add(!designer, AK_COMPLETE, callback(&editor, &AssistEditor::Complete));
@@ -786,7 +786,7 @@ void Ide::BrowseMenu(Bar& menu)
 
 		if(menu.IsMenuBar()) {
 			menu.MenuSeparator();
-			menu.Add("Реиндексировать все исходники", [=] {
+			menu.Add("Реиндексировать все исходники", [=, this] {
 				PPInfo::RescanAll();
 				for(FileAnnotation& m : CodeIndex())
 					m.time = Null;
@@ -806,8 +806,8 @@ void Ide::BrowseMenu(Bar& menu)
 		menu.AddMenu(AK_QTF, IdeCommonImg::Qtf(), THISBACK(Qtf));
 		menu.AddMenu(!designer, AK_XML, IdeCommonImg::xml(), THISBACK(Xml));
 		menu.AddMenu(!designer, AK_JSON, IdeCommonImg::json(), THISBACK(Json));
-		menu.Add(AK_REFORMAT_JSON, [=] { FormatJSON_XML_File(false); });
-		menu.Add(AK_REFORMAT_XML, [=] { FormatJSON_XML_File(true); });
+		menu.Add(AK_REFORMAT_JSON, [=, this] { FormatJSON_XML_File(false); });
+		menu.Add(AK_REFORMAT_XML, [=, this] { FormatJSON_XML_File(true); });
 		menu.AddMenu(!designer, AK_ASERRORS, IdeImg::errors(), THISBACK(AsErrors));
 		menu.AddMenu(AK_DIRDIFF, DiffImg::DirDiff(), THISBACK(DoDirDiff));
 		menu.AddMenu(AK_PATCH, DiffImg::PatchDiff(), THISBACK(DoPatchDiff));
@@ -815,19 +815,19 @@ void Ide::BrowseMenu(Bar& menu)
 
 	if(AssistDiagnostics) {
 		menu.Separator();
-		menu.Add("Сделать дамп и показать текущий индекс", [=] {
+		menu.Add("Сделать дамп и показать текущий индекс", [=, this] {
 			String path = CacheFile("index_" + AsString(Random()) + AsString(Random()));
 			DumpIndex(path);
 			EditFile(path);
 		});
-		menu.Add("Сделать дамп и показать индекс текущего файла", [=] {
+		menu.Add("Сделать дамп и показать индекс текущего файла", [=, this] {
 			String path = CacheFile("index_" + AsString(Random()) + AsString(Random()));
 			DumpIndex(path, editfile);
 			EditFile(path);
 		});
-		menu.Add("Ошибки разбора текущего файла", [=] { EditFile(CacheFile("parse_errors")); });
-		menu.Add("Ошибки автозаполнения текущего файла", [=] { EditFile(CacheFile("autocomplete_errors")); });
-		menu.Add("Контент текущего парсированного файла", [=] {
+		menu.Add("Ошибки разбора текущего файла", [=, this] { EditFile(CacheFile("parse_errors")); });
+		menu.Add("Ошибки автозаполнения текущего файла", [=, this] { EditFile(CacheFile("autocomplete_errors")); });
+		menu.Add("Контент текущего парсированного файла", [=, this] {
 			String p = CacheFile("CurrentContext" + AsString(Random()) + AsString(Random()) + ".txt");
 			Upp::SaveFile(p, editor.CurrentContext().content);
 			EditFile(p);
@@ -935,7 +935,7 @@ void Ide::ConsoleMenu(Bar& menu)
 		.Key(K_CTRL_V)
 		.Help("Добавить выделение в системную консоль");
 	menu.Separator();
-	menu.Add(AK_FIND, [=] {
+	menu.Add(AK_FIND, [=, this] {
 		console.FindReplace(false, true, false);
 	});
 	menu.Separator();

@@ -1,5 +1,4 @@
-topic "Thread synchronization primitives";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Примитивы синхронизации потока";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,45 +9,56 @@ topic "Thread synchronization primitives";
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [*C1 $$10,10#39751211140134154172026758035355:code]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@2;4 Thread synchronization primitives]]}}&]
+[ {{10000@(113.42.0) [s0; [*@2;4 Примитивы синхронизации потока]]}}&]
 [s3; &]
-[ {{10000t/25b/25@1 [s0;%- [* Function List]]}}&]
+[ {{10000t/25b/25@1 [s0;%- [* Список Функций]]}}&]
 [s3;%- &]
 [s5;:AssertST`(`):%- [@(0.0.255) void]_[* AssertST]()&]
-[s2; This operation only has effect in DEBUG mode. If any Thread 
-was started prior to calling AssertST, it will stop the execution 
-with diagnostic message. The purpose is that some global initialization 
-routines are best performed before any multi`-threading starts. 
-AssertST can be used to assure this as runtime check.&]
+[s2; Эта операция срабатывает только 
+в режиме DEBUG. Если до вызова AssertST запущен 
+какой`-либо поток, выполнение будет 
+прервано с диагностическим сообщением. 
+Цель в том, что некоторые глобальные 
+процедуры инициализации выполняются 
+лучше до запуска многопоточности. 
+AssertST может использоваться для гарантии 
+этого, в качестве рантаймной проверки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Atomic`:`:typedef:%- [@(0.0.255) typedef]_[/ integer`_type]_[* Atomic]&]
-[s2; This is the integer type that can be used as argument of AtomicInc/AtomicDec 
-function. It is compatible with `'int`' `- it has the same value 
-range and it can be converted to `'int`'. Since C`+`+11, it is 
-in fact implemented using std`::atomic<int> and kept only because 
-of backward compatibility.&]
+[s2; Это интегральный тип, кторый может 
+использоваться в качестве аргумента 
+функции AtomicInc/AtomicDec. Он совместим с 
+`'int`' `- у него такой же диапазон значений 
+и его можно преобразовать в `'int`'. С 
+C`+`+11, он фактически реализуется посредством 
+std`::atomic<int> и сохранён только в целях 
+обратной совместимости.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AtomicInc`(volatile Atomic`&`):%- [@(0.0.255) int]_[* AtomicInc]([@(0.0.255) volatile]_
 [_^Atomic^ Atomic][@(0.0.255) `&]_[*@3 t])&]
-[s2; Increments t by one and returns the result (`"`+`+t`").&]
+[s2; Инкрементирует t на единицу и возвращает 
+итог (`"`+`+t`").&]
 [s3; &]
 [s4;%- &]
 [s5;:AtomicDec`(volatile Atomic`&`):%- [@(0.0.255) int]_[* AtomicDec]([@(0.0.255) volatile]_
 [_^Atomic^ Atomic][@(0.0.255) `&]_[*@3 t])&]
-[s2; Decrements t by one and returns the result (`"`-`-t`").&]
+[s2; Декрементирует t на единицу и возвращает 
+итог (`"`-`-t`").&]
 [s3;%- &]
 [s0;%- &]
-[ {{10000t/25b/25@1 [s0;%- [* Macro List]]}}&]
+[ {{10000t/25b/25@1 [s0;%- [* Список Макросов]]}}&]
 [s3;%- &]
 [s5;:INTERLOCKED:%- [* INTERLOCKED]&]
-[s2; This macro adds static Mutex to the block. For example:&]
+[s2; Этот макрос добавляет в блок статический 
+Mutex. Например:&]
 [s2; [C1 -|-|INTERLOCKED `{]&]
 [s2; [C1 -|-|-|Foo();]&]
 [s2; [C1 -|-|`}]&]
-[s2; -|is equivalent to&]
+[s2; эквивалентно&]
 [s2; [C1 -|-|`{-|static Mutex ][/C1 uniquename][C1 ;]&]
 [s2; [C1 -|-|-|][/C1 uniquename][C1 .Enter();]&]
 [s2; [C1 -|-|-|Foo();]&]
@@ -57,25 +67,30 @@ of backward compatibility.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:INTERLOCKED`_`(cs`):%- [* INTERLOCKED`_]([*@3 cs])&]
-[s2; Similar to INTERLOCKED, but instead of `'anonymous`' implicit 
-static Mutex it uses explicit Mutex [%-*@3 cs].&]
+[s2; Подобно INTERLOCKED, но вместо `'анонимного`' 
+неявного статического стопора используется
+ явный Mutex [%-*@3 cs].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ONCELOCK:%- [* ONCELOCK]&]
-[s2; Designates block that only gets performed at first run, taking 
-into account all multi`-threading issues. In single threaded 
-environment&]
+[s2; Определяет блок, который выполняется 
+только при первом запуске, принимая 
+во внимания все проблемы многопоточности. 
+В однопоточной среде&]
 [s2; -|-|[C1 ONCELOCK `{ Foo(); `}]&]
-[s2; -|is equivalent to&]
+[s2; -|эквивалентно&]
 [s2; [C1 -|-|`{ static bool x; if(!x) `{ x `= true; Foo(); `} `}.]&]
 [s3; &]
 [s4;%- &]
 [s5;:ONCELOCK`_`(o`_b`_`):%- [* ONCELOCK`_](o`_b`_)&]
-[s2; Similar to oncelock, but allows associating a flag variable, 
-which must be of type OnceFlag. Such variable has to initialized 
-to zero (preferably by static zero initialization of memory). 
-On the first run of for specific OnceFlag, ONCELOCK`_ performs 
-the block (and changes the variable so that it is not performed 
-on the next run).&]
+[s2; Подобно oncelock, но позволяет ассоциировать 
+переменную`-флаг, которая должна быть 
+типа OnceFlag. Такая переменная инициализируетс
+я в ноль (предпочтительно статической 
+инициализацией нулевой памяти). При 
+первом пуске, при указанном флаге 
+OnceFlag, ONCELOCK`_ выполняет блок (и меняет 
+переменную, так, чтобы он не выполнялся 
+при следующем пуске).&]
 [s3;%- &]
 [s0;%- ]]

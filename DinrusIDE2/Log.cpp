@@ -30,7 +30,7 @@ String Ide::GetTargetLogPath()
 		pp = GetEnv("XDG_CONFIG_HOME");
 	if(IsNull(pp) || !DirectoryExists(pp))
 		pp = GetHomeDirFile(".config");
-	pp << "/u++/" << title << '/' << title << ".log";
+	pp << "/DinrusIDE/" << title << '/' << title << ".log";
 	return FileExists(pp) ? pp : GetHomeDirFile(".upp/" + title + "/" + title + ".log");
 #endif
 }

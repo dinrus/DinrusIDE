@@ -52,7 +52,7 @@ onst]_[_^Upp`:`:dword^ dword]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
 ]_[_^Upp`:`:dword^ dword]_`*[*@3 s])&]
 [s5;:Upp`:`:Utf8Len`(const Upp`:`:Vector`<Upp`:`:dword`>`&`): [@(0.0.255) int]_[* Utf8Len
 ]([@(0.0.255) const]_[_^Upp`:`:Vector^ Vector]<[_^Upp`:`:dword^ dword]>`&_[*@3 s])&]
-[s2;%RU-RU Возвращает  размер в байтах текста 
+[s2;%RU-RU Возвращает размер в байтах текста 
 UTF`-32 Unicode в кодировке UTF`-8. Если источник 
 указан как указатель [%-*@3 s] без [%-*@3 len], 
 он должен завершаться нулём.&]
@@ -64,7 +64,7 @@ onst]_[_^Upp`:`:wchar^ wchar]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
 ]_[_^Upp`:`:wchar^ wchar]_`*[*@3 s])&]
 [s5;:Upp`:`:Utf8Len`(const Upp`:`:WString`&`): [@(0.0.255) int]_[* Utf8Len]([@(0.0.255) con
 st]_[_^Upp`:`:WString^ WString][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Возвращает  размер в байтах текста 
+[s2;%RU-RU Возвращает размер в байтах текста 
 UTF`-16 Unicode в кодировке UTF`-8. Если источник 
 указан как указатель [%-*@3 s] без [%-*@3 len], 
 он должен завершаться нулём.&]
@@ -72,7 +72,7 @@ UTF`-16 Unicode в кодировке UTF`-8. Если источник
 [s4; &]
 [s5;:Upp`:`:Utf8Len`(Upp`:`:dword`): [@(0.0.255) int]_[* Utf8Len]([_^Upp`:`:dword^ dword]_[*@3 c
 ode])&]
-[s2;%RU-RU Возвращает  размер в байтах единичного 
+[s2;%RU-RU Возвращает размер в байтах единичного 
 кодпойнта в UTF`-8.&]
 [s3;%RU-RU &]
 [s4; &]
@@ -125,15 +125,16 @@ onst]_[_^Upp`:`:dword^ dword]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
 st]_[_^Upp`:`:dword^ dword]_`*[*@3 s])&]
 [s5;:Upp`:`:Utf16Len`(const Upp`:`:Vector`<Upp`:`:dword`>`&`): [@(0.0.255) int]_[* Utf16L
 en]([@(0.0.255) const]_[_^Upp`:`:Vector^ Vector]<[_^Upp`:`:dword^ dword]>`&_[*@3 s])&]
-[s2;%RU-RU Возвращает the size in wchars of UTF`-32 Unicode text in 
-UTF`-16. Если источник указан как указатель 
-[%-*@3 s] без [%-*@3 len], то он должен завершаться 
-нулём.&]
+[s2;%RU-RU Возвращает the size in wchars of UTF`-32 Unicode 
+text in UTF`-16. Если источник указан как 
+указатель [%-*@3 s] без [%-*@3 len], то он должен 
+завершаться нулём.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Utf16Len`(Upp`:`:dword`): [@(0.0.255) int]_[* Utf16Len]([_^Upp`:`:dword^ dword]_
 [*@3 code])&]
-[s2;%RU-RU Возвращает the size in wchars of single codepoint in UTF`-16.&]
+[s2;%RU-RU Возвращает the size in wchars of single codepoint 
+in UTF`-16.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:Utf16Len`(const char`*`,int`): [@(0.0.255) int]_[* Utf16Len]([@(0.0.255) const]_
@@ -142,10 +143,10 @@ UTF`-16. Если источник указан как указатель
 har]_`*[*@3 s])&]
 [s5;:Upp`:`:Utf16Len`(const Upp`:`:String`&`): [@(0.0.255) int]_[* Utf16Len]([@(0.0.255) co
 nst]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Возвращает the size in wchars of UTF`-8 Unicode text in UTF`-16. 
-Если источник указан как указатель 
-[%-*@3 s] без [%-*@3 len], то он должен завершаться 
-нулём.&]
+[s2;%RU-RU Возвращает the size in wchars of UTF`-8 Unicode 
+text in UTF`-16. Если источник указан как 
+указатель [%-*@3 s] без [%-*@3 len], то он должен 
+завершаться нулём.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ToUtf16`(Upp`:`:wchar`*`,const Upp`:`:dword`*`,int`): [@(0.0.255) void]_[* To
@@ -191,9 +192,9 @@ onst]_[_^Upp`:`:wchar^ wchar]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
 st]_[_^Upp`:`:wchar^ wchar]_`*[*@3 s])&]
 [s5;:Upp`:`:Utf32Len`(const Upp`:`:WString`&`): [@(0.0.255) int]_[* Utf32Len]([@(0.0.255) c
 onst]_[_^Upp`:`:WString^ WString][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Возвращает the size in dwords of UTF`-16 Unicode text in 
-UTF`-32. Note that this is the same as the number of Unicode 
-codepoints in the text. Если источник указан 
+[s2;%RU-RU Возвращает the size in dwords of UTF`-16 Unicode 
+text in UTF`-32. Note that this is the same as the number of 
+Unicode codepoints in the text. Если источник указан 
 как указатель [%-*@3 s] без [%-*@3 len], то он 
 должен завершаться нулём.&]
 [s3;%RU-RU &]
@@ -204,11 +205,11 @@ codepoints in the text. Если источник указан
 har]_`*[*@3 s])&]
 [s5;:Upp`:`:Utf32Len`(const Upp`:`:String`&`): [@(0.0.255) int]_[* Utf32Len]([@(0.0.255) co
 nst]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Возвращает the size in dwords of UTF`-8 Unicode text in UTF`-32. 
-Note that this is the same as the number of Unicode codepoints 
-in the text.Если источник указан как указатель 
-[%-*@3 s] без [%-*@3 len], то он должен завершаться 
-нулём.&]
+[s2;%RU-RU Возвращает the size in dwords of UTF`-8 Unicode 
+text in UTF`-32. Note that this is the same as the number of 
+Unicode codepoints in the text.Если источник указан 
+как указатель [%-*@3 s] без [%-*@3 len], то он 
+должен завершаться нулём.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ReadSurrogatePair`(const Upp`:`:wchar`*`,const Upp`:`:wchar`*`): [_^Upp`:`:dword^ d

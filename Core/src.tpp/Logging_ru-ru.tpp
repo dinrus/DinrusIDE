@@ -1,4 +1,4 @@
-topic "Логгинг U++";
+topic "Логирование U++";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,130 +10,170 @@ topic "Логгинг U++";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 Логгинг U`+`+]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Логирование U`+`+]]}}&]
 [s0;i448;a25;kKO9;@(0.0.255)%- &]
-[s0; U`+`+ logging infrastructure is based on output stream, which 
-is capable of outputting log lines into decided output facilities 
-(files, console output, syslog).&]
+[s0; Инфраструктура логирования U`+`+ основана 
+на выводном потоке, способном выводить 
+строки лога (`"журнала`") в выбранные 
+средства вывода (файлы, консоль, системный 
+лог).&]
 [s0; &]
-[s0; Logging itself is then based on set o macros that output values 
-to this stream, usually using AsString or operator<<(Stream`&, 
-...) to convert values.&]
+[s0; Само логирование затем опирается 
+на набор макросов, которые выводят 
+значения в этот поток, обычно используя 
+AsString или оператор<<(Stream`&, ...), чтобы 
+преобразовывать значения.&]
 [s0; &]
-[s0; This stream is accessible through UppLog() function and its 
-default version is provided by U`+`+, however it can be replaced 
-(using SetUppLog).&]
+[s0; Этот поток доступен через функцию 
+UppLog() и её дефолтная версия предложена 
+U`+`+, однако, её можно заменить (посредством 
+SetUppLog).&]
 [s0; &]
-[s0; Multithreading note: Standard log stream handles serialization 
-of output in its implementation  (and any possible replacement 
-should do that too), so it is possible to use single output stream 
-in all threads.&]
+[s0; Заметка о многопоточности: Стандартный 
+поток логирования обрабатывает сериализаци
+ю вывода в своей реализации (и любая 
+вероятная замена тоже должна это 
+делать), поэтому можно использовать 
+единый поток вывода из всех потоков.&]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Сущностей]]}}&]
 [s0;%- &]
 [s5;:StdLogSetup`(dword`,const char`*`,int`):%- [@(0.0.255) void]_[* StdLogSetup]([_^dword^ d
 word]_[*@3 options], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 filepath]_`=_NULL, 
 [@(0.0.255) int]_[*@3 filesize`_limit]_`=_[@3 10]_`*_[@3 1024]_`*_[@3 1024])&]
-[s2; This function setups standard U`+`+ logging. [%-*@3 filepath] 
-is the path of .log file (if logging to file is active), [%-*@3 filesize`_limit] 
-is maximum size of log (if LOG`_FILE options is active), if achieved, 
-a new log file is created. [%-*@3 options] is a combination of 
-bit flags:&]
+[s2; Эта функция настраивает стандартное 
+логирование U`+`+. [%-*@3 filepath] `- путь к файлу 
+.log (если активно логирование в файл), 
+[%-*@3 filesize`_limit] `- максимальный размер 
+лога (если активны опции LOG`_FILE), если 
+настройка имела место, создаётся 
+новый файл лога. [%-*@3 options] `- это комбинация 
+бит`-флагов:&]
 [s2; &]
 [ {{2939:7061<288;^ [s0; LOG`_FILE ]
-:: [s0; Output log to file (this is default). The default path of file 
-is ConfigFile(`"[/ program`_name].log`").]
+:: [s0; Выводить лог в файл (это дефолт). Дефолтный 
+путь файла ConfigFile(`"имя`-программы.log`").]
 :: [s0; LOG`_COUT ]
-:: [s0; Output log to standard output, using plain putchar.]
+:: [s0; Выводить лог в стандартный вывод, 
+используя простой putchar.]
 :: [s0; LOG`_CERR ]
-:: [s0; Output log to error output, using plain putc.]
+:: [s0; Выводить лог в вывлд для ошибок, используя 
+простой putc.]
 :: [s0; LOG`_DBG ]
-:: [s0; Output log to debugger (Специфично для Win32).]
+:: [s0; Выводить лог в отладчик (Специфично 
+для Win32).]
 :: [s0; LOG`_SYS ]
-:: [s0; Output log to syslog (POSIX specific).]
+:: [s0; Выводить лог в syslog (Специфично для 
+POSIX).]
 :: [s0; LOG`_ELAPSED]
-:: [s0; Prepend a number of miliseconds to each log line since the previous 
-log line.]
+:: [s0; Предпоставлять число миллисекунд 
+к каждой строке лога, прошедшее от 
+появления предыдущей строки.]
 :: [s0; LOG`_TIMESTAMP ]
-:: [s0; Prepend local time timestamp to each log line (not with LOG`_SYS, 
-as syslog already does this).]
+:: [s0; Предпоставлять штамп локального 
+времени в каждой строке лога (не относится 
+к LOG`_SYS, так как syslog это делает сам).]
 :: [s0; LOG`_TIMESTAMP`_UTC]
-:: [s0; Prepend universal time timestamp to each log line (not with 
-LOG`_SYS).]
+:: [s0; Предпоставлять штамп универсального 
+времени в каждой строке лога (не относится 
+к LOG`_SYS).]
 :: [s0; LOG`_APPEND ]
-:: [s0; When starting a program, append log to existing file instead 
-of replacing it.]
+:: [s0; При старте программы, добавлять лог 
+в существующий файл, вместо его замены.]
 :: [s0; LOG`_ROTATE([*@3 x])]
-:: [s0; When starting a new log file, up to [*@3 x] older logs is preserved 
-(renamed with extension `'.1`', `'.2`' etc...).]
+:: [s0; При старте нового файла лога, сохранять 
+до [*@3 x] более старых логов (переименованных 
+с расширением `'.1`', `'.2`' и т.д.).]
 :: [s0; LOG`_ROTATE`_GZIP]
-:: [s0; Older preserved log files are compressed using gzip (except 
-the most recent log `'.1`'.]
+:: [s0; Старые сохранённые файлы сжимать 
+с помощью gzip (кроме самого нового 
+лога `'.1`'.]
 :: [s0; LOG`_COUTW]
-:: [s0; Output log to standard output, using Cout. This provides eventual 
-conversion of UTF8 characters, at the price of using heap (so 
-cannot be used to e.g. LOG inside heap routines).]
+:: [s0; Выводить лог на стандартный вывод, 
+используя Cout. Это предоставляет вероятное 
+преобразование символов UTF8, за счёт 
+использования кучи (поэтому не может 
+использоваться, напр., внутри процедур 
+кучи).]
 :: [s0; LOG`_CERRW]
-:: [s0; Output log to standard output, using Cerr. This provides eventual 
-conversion of UTF8 characters, at the price of using heap (so 
-cannot be used to e.g. LOG inside heap routines).]}}&]
+:: [s0; Выводить лог на стандартный вывод, 
+используя Cerr.Это предоставляет вероятное 
+преобразование символов UTF8, за счёт 
+использования кучи (поэтому не может 
+использоваться, напр., внутри процедур 
+кучи).]}}&]
 [s3; &]
 [s4;%- &]
 [s5;:StdLog`(`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* StdLog]()&]
-[s2; Возвращает a reference to standard log stream.&]
+[s2; Возвращает ссылку на стандартный 
+поток логирования.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:GetStdLogPath`(`):%- [_^Upp`:`:String^ String]_[* GetStdLogPath]()&]
-[s2; Возвращает the path of current log, if any.&]
+[s2; Возвращает путь к текущему логу, 
+если он имеется.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:LOG`_BEGIN:%- [@(0.0.255) const]_[@(0.0.255) char]_[* LOG`_BEGIN `= 
 `'`\x1e`';]&]
-[s2; Putting this character into standard log stream adds one tabulator 
-of indentation to all subsequent lines (moves text `"right`").&]
+[s2; Помещение этого символа в стандартный 
+поток логирования добавляет один 
+табулятор отступа во все последующие 
+строки (сдвигает текст `"вправо`").&]
 [s3;%- &]
 [s4;%- &]
 [s5;:LOG`_END:%- [@(0.0.255) const]_[@(0.0.255) char]_[* LOG`_END `= `'`\x1f`';]&]
-[s2; Putting this character into standard log stream removes one 
-tabulator of indentation to all subsequent lines (moves text 
-`"left`").&]
+[s2; Помещение этого символа в стандартный 
+поток логирования удаляет один табулятор 
+отступа во всех последующих строках 
+(сдвигает текст `"влево`").&]
 [s3;%- &]
 [s4;%- &]
 [s5;:UppLog`(`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* UppLog]()&]
-[s2; Возвращает a reference to [/ current] log stream.&]
+[s2; Возвращает ссылку на [/ текущий] поток 
+логирования.&]
 [s3; &]
 [s4;%- &]
 [s5;:SetUppLog`(Stream`&`):%- [@(0.0.255) void]_[* SetUppLog]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 log])&]
-[s2; Устанавливает the current log stream to [%-*@3 log] 
-(must be an object with global lifetime).&]
+[s2; Устанавливает текущий поток логирования 
+в [%-*@3 log] (должен быть объектом с глобальным 
+сроком существования).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SetUppLog`(Upp`:`:LogLineFn`):%- [_^Upp`:`:LogLineFn^ LogLineFn]_[* SetUppLog
 ]([_^Upp`:`:LogLineFn^ LogLineFn]_[*@3 log`_line])&]
-[s0;l288; Similar to SetUppLog with Stream parameter, but instead 
-of replacing the whole stream, it just replaces the final routine 
-to write the single line, while returning its previous definition 
-(as function pointer). LogLineFn is defined as&]
+[s0;l288; Подобно SetUppLog с параметром Stream, 
+но вместо замены всего потока, заменяется 
+только последняя процедура, чтобы 
+записать единственную строку, возвращая 
+её предыдущее определение (как указатель 
+на функцию). LogLineFn определена как&]
 [s0;l288; &]
 [s0;l288; [C typedef void (`*LogLineFn)(const char `*buffer, int len, 
 int depth);]&]
 [s2; &]
-[s2; where dept is incremented by LOG`_BEGIN character and decremented 
-by LOG`_END `- standard logging stream inserts equivalent number 
-of tabs at the beginning of line.&]
+[s2; где dept инкрементирован символом 
+LOG`_BEGIN и декрементирован LOG`_END `- стандартный 
+поток логирования вставляет эквивалентное 
+число табуляций в начале строки.&]
 [s3; &]
 [s0; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Макросы логгинга]]}}&]
 [s0; &]
-[s0; Standard logging macros come in 3 basic flavors. `"Normal`" 
-macros (LOG, DUMP, ...) only emit code in debug mode, `"Debugging`" 
-macros (DLOG, DDUMP, ..., first letter is `'D`') only [*/ compile] 
-in debug mode and their presence causes release mode compilation 
-to fail (this is to prevent any forgotten debugging macros in 
-code) and finally `"Release`" macros (RLOG, RDUMP, ..., first 
-letter is `'R`') produce output even in release mode.&]
+[s0; Стандартные макросы логирования 
+идут в 3`-х основных категориях. `"Нормальные`"
+ макросы (LOG, DUMP, ...) эмитируют код только 
+в отладочном режиме, `"Отладочные`" 
+макросы (DLOG, DDUMP, ..., первая буква `'D`') 
+[*/ компилируются] только в отладочном 
+режиме и в их присутствии невозможна 
+компиляция в режиме выпуска (что предотвраща
+ет в коде наличие забытых отладочных 
+макросов), и, наконец, `"Релизные`" макросы 
+(RLOG, RDUMP, ..., первая буква `'R`') производят 
+вывод даже в режиме выпуска.&]
 [s0; &]
 [ {{5000:5000^ [s0; LOG(x), DLOG(x), RLOG(x)]
 :: [s0; Outputs a single line to log.]

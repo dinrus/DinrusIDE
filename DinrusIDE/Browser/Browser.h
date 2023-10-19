@@ -1,5 +1,4 @@
 #ifndef _Browser_Browser_h
-// #include <DinrusIDE/Browser/Browser.h>
 #define _Browser_Browser_h
 
 #include <CtrlLib/CtrlLib.h>

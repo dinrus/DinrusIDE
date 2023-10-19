@@ -67,7 +67,7 @@ static проц slibssh2DebugCallback(LIBSSH2_SESSION *session, ук context, к
 	if(!session)
 		return;
 
-	пуск([=]() mutable {
+	пуск([=, this]() mutable {
 		if(!ssh->session)
 			return true;
 		цел rc = libssh2_session_disconnect(ssh->session, "Disconnecting...");
@@ -77,7 +77,7 @@ static проц slibssh2DebugCallback(LIBSSH2_SESSION *session, ук context, к
 		return true;
 	});
 
-	пуск([=]() mutable {
+	пуск([=, this]() mutable {
 		if(!ssh->session)
 			return true;
 		цел rc = libssh2_session_free(ssh->session);
@@ -147,7 +147,7 @@ static проц slibssh2DebugCallback(LIBSSH2_SESSION *session, ук context, к
 		})) goto Bailout;
 	}
 	else {
-		if(!пуск([=] () mutable {
+		if(!пуск([=, this] () mutable {
 			if(!WhenProxy())
 				выведиОш(-1, "Неудачная попытка подключения к прокси.");
 			LLOG("прокси connection to " << host << ":" << port << " is successful.");
@@ -155,7 +155,7 @@ static проц slibssh2DebugCallback(LIBSSH2_SESSION *session, ук context, к
 		})) goto Bailout;
 	}
 
-	if(!пуск([=] () mutable {
+	if(!пуск([=, this] () mutable {
 #ifdef КУЧА_РНЦП
 			LLOG("Using ДинрусРНЦП's memory managers.");
 			ssh->session = libssh2_session_init_ex((*ssh_malloc), (*ssh_free), (*ssh_realloc), this);
@@ -184,7 +184,7 @@ static проц slibssh2DebugCallback(LIBSSH2_SESSION *session, ук context, к
 	})) goto Bailout;
 
 	while(!session->iomethods.пустой()) {
-		if(!пуск([=] () mutable {
+		if(!пуск([=, this] () mutable {
 			цел    method = session->iomethods.дайКлюч(0);
 			Ткст mnames = GetMethodNames(method);
 			цел rc = libssh2_session_method_pref(ssh->session, method, ~mnames);
@@ -197,7 +197,7 @@ static проц slibssh2DebugCallback(LIBSSH2_SESSION *session, ук context, к
 		})) goto Bailout;
 	}
 
-	if(!пуск([=] () mutable {
+	if(!пуск([=, this] () mutable {
 			цел rc = libssh2_session_handshake(ssh->session, session->socket.GetSOCKET());
 			if(!WouldBlock(rc) && rc < 0) выведиОш(rc);
 			if(!rc) {
@@ -207,7 +207,7 @@ static проц slibssh2DebugCallback(LIBSSH2_SESSION *session, ук context, к
 			return !rc;
 	})) goto Bailout;
 
-	if(!пуск([=] () mutable {
+	if(!пуск([=, this] () mutable {
 			switch(session->hashtype) {  // TODO: удали this block along with the deprecated Hashtype()
 			case HASH_MD5:               //       and  GetFingerprint() methods, in the future versions.
 				session->fingerprint = GetMD5Fingerprint();
@@ -229,7 +229,7 @@ static проц slibssh2DebugCallback(LIBSSH2_SESSION *session, ук context, к
 			return true;
 	})) goto Bailout;
 
-	if(!пуск([=] () mutable {
+	if(!пуск([=, this] () mutable {
 			session->authmethods = libssh2_userauth_list(ssh->session, user, user.дайДлину());
 			if(пусто_ли(session->authmethods)) {
 				if(libssh2_userauth_authenticated(ssh->session)) {
@@ -251,7 +251,7 @@ static проц slibssh2DebugCallback(LIBSSH2_SESSION *session, ук context, к
 	if(session->connected)
 		goto Finalize;
 
-	if(!пуск([=] () mutable {
+	if(!пуск([=, this] () mutable {
 			цел rc = -1;
 			switch(session->authmethod) {
 				case PASSWORD:

@@ -1,5 +1,4 @@
-topic "Numeric Conversions";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Числовые Преобразования";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,50 +8,55 @@ topic "Numeric Conversions";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 Numeric Conversions]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Числовые Преобразования]]}}&]
 [s3; &]
 [s5;:Upp`:`:StrInt`(const char`*`): [@(0.0.255) int]_[* StrInt]([@(0.0.255) const]_[@(0.0.255) c
 har`*]_[*@3 s])&]
-[s2; Converts string [*@3 s] to integer. Возвращает Null if there is no 
-number in [*@3 s].&]
+[s2; Преобразует строку [*@3 s] в целое. Возвращает 
+Null, если в [*@3 s ]не содержится числа.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:IntStr`(int`): [_^Upp`:`:String^ String]_[* IntStr]([@(0.0.255) int]_[*@3 i])&]
-[s2; Converts integer [*@3 i] to String. If [*@3 i] is Null, returns 
-empty String.&]
+[s2; Преобразует целое [*@3 i] в String. Если 
+[*@3 i] равно Null, возвращает пустую String.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:StrDbl`(const char`*`): [@(0.0.255) double]_[* StrDbl]([@(0.0.255) const]_[@(0.0.255) c
 har`*]_[*@3 s])&]
-[s2; Converts string [*@3 s] to double. Возвращает Null if there is no 
-number in [*@3 s].&]
-[s3;%% &]
+[s2; Преобразует строку [*@3 s] в double. Возвращает 
+Null, если в [*@3 s ]не содержится числа.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DblStr`(double`): [_^Upp`:`:String^ String]_[* DblStr]([@(0.0.255) double]_[*@3 d
 ])&]
-[s2; Converts double [*@3 d] to String. If [*@3 d] is Null, returns empty 
-String.&]
+[s2; Преобразует double [*@3 d] в String. Если [*@3 d] 
+равно Null, возвращает пустую String.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:StrInt64`(Upp`:`:int64`): [_^Upp`:`:String^ String]_[* StrInt64]([_^Upp`:`:int64^ i
 nt64]_[*@3 i])&]
-[s2;%% [%- Converts string ][%-*@3 s][%-  to 64`-bit integer. Возвращает Null 
-if there is no number in ][%-*@3 s][%- .].&]
-[s3;%% &]
+[s2; Преобразует строку [*@3 s] в 64`-битное 
+челое. Возвращает Null, если в [*@3 s ]не 
+содержится числа.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:IntStr64`(Upp`:`:int64`): [_^Upp`:`:String^ String]_[* IntStr64]([_^Upp`:`:int64^ i
 nt64]_[*@3 i])&]
-[s2; Converts 64`-bit integer [*@3 i] to String. If [*@3 i] is Null, 
-returns empty String.&]
+[s2; Преобразует 64`-битное целое [*@3 i] в 
+String. Если [*@3 i] равно Null,возвращает пустую 
+String.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:IntDbl`(int`): [@(0.0.255) double]_[* IntDbl]([@(0.0.255) int]_[*@3 i])&]
-[s2;%% Converts integer to double. If [%-*@3 i] is Null, returns (double)Null, 
-otherwise performs simple cast.&]
-[s3;%% &]
+[s2;%RU-RU [%- Преобразует ]целое в double. Если 
+[%-*@3 i] равно Null, возвращает (double)Null, иначе 
+выполняет простой cast.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DblInt`(double`): [@(0.0.255) int]_[* DblInt]([@(0.0.255) double]_[*@3 d])&]
-[s2;%% Converts double to integer. If [%-*@3 d] is Null, returns (int)Null, 
-otherwise performs simple cast.&]
+[s2;%RU-RU [%- Преобразует ]double в целое. Если 
+[%-*@3 d] равно Null, возвращает (int)Null, иначе 
+выполняет простой cast.&]
 [s0; ]]

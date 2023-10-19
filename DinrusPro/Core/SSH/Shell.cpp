@@ -136,7 +136,7 @@
 	if(mode != CONSOLE)
 		return true;
 	
-	return Ssh::пуск([=]() mutable {
+	return Ssh::пуск([=, this]() mutable {
 #ifdef PLATFORM_WIN32
 		stdinput = GetStdHandle(STD_INPUT_HANDLE);
 		if(!stdinput)
@@ -259,7 +259,7 @@
 	if(!xenabled)
 		return true;
 
-	return Ssh::пуск([=]() mutable {
+	return Ssh::пуск([=, this]() mutable {
 #ifdef PLATFORM_POSIX
 		цел rc = libssh2_channel_x11_req(*channel, xscreen);
 		if(!WouldBlock(rc) && rc < 0)

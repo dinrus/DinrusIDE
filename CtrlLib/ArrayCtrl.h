@@ -121,9 +121,9 @@ public:
 
 // deprecated (due to overloading issues)
 		Column& Ctrls(Callback1<One<Ctrl>&> factory);
-		Column& Ctrls(void (*factory)(One<Ctrl>&)) { return Ctrls(Event<int, One<Ctrl>&>([=](int, One<Ctrl>& h) { factory(h); })); }
+		Column& Ctrls(void (*factory)(One<Ctrl>&)) { return Ctrls(Event<int, One<Ctrl>&>([=, this](int, One<Ctrl>& h) { factory(h); })); }
 		Column& Ctrls(Event<int, One<Ctrl>&> factory);
-		Column& Ctrls(void (*factory)(int, One<Ctrl>&)) { return Ctrls(Event<int, One<Ctrl>&>([=](int a, One<Ctrl>& b){ factory(a, b); })); }
+		Column& Ctrls(void (*factory)(int, One<Ctrl>&)) { return Ctrls(Event<int, One<Ctrl>&>([=, this](int a, One<Ctrl>& b){ factory(a, b); })); }
 		Column& Sorting(Gate<int, int> order) { return SortingLined(order); }
 		Column& Sorting(int (*c)(const Value& a, const Value& b)) { return SortingBy(c); }
 	};

@@ -23,7 +23,7 @@
 	if(!listener)
 		return;
 	
-	пуск([=]() mutable{
+	пуск([=, this]() mutable{
 		цел rc = libssh2_channel_forward_cancel(*listener);
 		if(!WouldBlock(rc) && rc < 0) выведиОш(rc);
 		if(rc == 0)	listener.очисть();
@@ -38,7 +38,7 @@
 	if(!пригоден())
 		return false;
 
-	return пуск([=]() mutable{
+	return пуск([=, this]() mutable{
 		LIBSSH2_CHANNEL *ch = libssh2_channel_direct_tcpip(ssh->session, host , port);
 		if(!ch && !WouldBlock()) выведиОш(-1);
 		if(ch) {
@@ -65,7 +65,7 @@
 	if(!пригоден())
 		return false;
 	
-	return пуск([=]() mutable {
+	return пуск([=, this]() mutable {
 		LIBSSH2_LISTENER *lsn = libssh2_channel_forward_listen_ex(
 			ssh->session,
 			host.пустой() ? nullptr : ~host,

@@ -55,8 +55,8 @@ public:
 
     wxAccelRefData(const wxAccelRefData& data)
         : wxObjectRefData()
+        , m_accels(data.m_accels)
     {
-        m_accels = data.m_accels;
     }
 
     virtual ~wxAccelRefData()
@@ -214,7 +214,7 @@ wxObjectRefData *wxAcceleratorTable::CreateRefData() const
 
 wxObjectRefData *wxAcceleratorTable::CloneRefData(const wxObjectRefData *data) const
 {
-    return new wxAccelRefData(*(wxAccelRefData *)data);
+    return new wxAccelRefData(*static_cast<const wxAccelRefData*>(data));
 }
 
 #endif // wxUSE_ACCEL

@@ -16,7 +16,7 @@ void AssistEditor::SyncMaster()
 
 	if(AssistDiagnostics) {
 		PutConsole("Исходник-мастер " << editfile << " -> " << master_source);
-		ppi.WhenBlitzBlock = [=](const String& inc, const String& path) {
+		ppi.WhenBlitzBlock = [=, this](const String& inc, const String& path) {
 			PutConsole(String() << inc << " бликирует БЛИЦ из " << path);
 		};
 		if(ppi.BlitzApproved(editfile))

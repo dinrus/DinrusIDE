@@ -69,7 +69,7 @@ void SshSession::Exit()
 	if(!session)
 		return;
 
-	Run([=]() mutable {
+	Run([=, this]() mutable {
 		if(!ssh->session)
 			return true;
 		int rc = libssh2_session_disconnect(ssh->session, "Disconnecting...");
@@ -79,7 +79,7 @@ void SshSession::Exit()
 		return true;
 	});
 
-	Run([=]() mutable {
+	Run([=, this]() mutable {
 		if(!ssh->session)
 			return true;
 		int rc = libssh2_session_free(ssh->session);
@@ -149,7 +149,7 @@ bool SshSession::Connect(const String& host, int port, const String& user, const
 		})) goto Bailout;
 	}
 	else {
-		if(!Run([=] () mutable {
+		if(!Run([=, this] () mutable {
 			if(!WhenProxy())
 				ThrowError(-1, "Proxy connection attempt failed.");
 			LLOG("Proxy connection to " << host << ":" << port << " is successful.");
@@ -157,7 +157,7 @@ bool SshSession::Connect(const String& host, int port, const String& user, const
 		})) goto Bailout;
 	}
 
-	if(!Run([=] () mutable {
+	if(!Run([=, this] () mutable {
 #ifdef UPP_HEAP
 			LLOG("Using Upp's memory managers.");
 			ssh->session = libssh2_session_init_ex((*ssh_malloc), (*ssh_free), (*ssh_realloc), this);
@@ -186,7 +186,7 @@ bool SshSession::Connect(const String& host, int port, const String& user, const
 	})) goto Bailout;
 
 	while(!session->iomethods.IsEmpty()) {
-		if(!Run([=] () mutable {
+		if(!Run([=, this] () mutable {
 			int    method = session->iomethods.GetKey(0);
 			String mnames = GetMethodNames(method);
 			int rc = libssh2_session_method_pref(ssh->session, method, ~mnames);
@@ -199,7 +199,7 @@ bool SshSession::Connect(const String& host, int port, const String& user, const
 		})) goto Bailout;
 	}
 
-	if(!Run([=] () mutable {
+	if(!Run([=, this] () mutable {
 			int rc = libssh2_session_handshake(ssh->session, session->socket.GetSOCKET());
 			if(!WouldBlock(rc) && rc < 0) ThrowError(rc);
 			if(!rc) {
@@ -211,7 +211,7 @@ bool SshSession::Connect(const String& host, int port, const String& user, const
 			return !rc;
 	})) goto Bailout;
 
-	if(!Run([=] () mutable {
+	if(!Run([=, this] () mutable {
 			session->authmethods = libssh2_userauth_list(ssh->session, user, user.GetLength());
 			if(IsNull(session->authmethods)) {
 				if(libssh2_userauth_authenticated(ssh->session)) {
@@ -233,7 +233,7 @@ bool SshSession::Connect(const String& host, int port, const String& user, const
 	if(session->connected)
 		goto Finalize;
 
-	if(!Run([=] () mutable {
+	if(!Run([=, this] () mutable {
 			int rc = -1;
 			switch(session->authmethod) {
 				case PASSWORD:

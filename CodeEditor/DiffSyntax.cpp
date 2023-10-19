@@ -7,7 +7,8 @@ DiffSyntax::DiffSyntax()
 	hout = NULL;
 }
 
-void DiffSyntax::Highlight(const wchar *start, const wchar *end, HighlightOutput& hls, CodeEditor *editor, int line, int64 pos)
+void DiffSyntax::Highlight(const wchar *start, const wchar *end, HighlightOutput& hls,
+                                                      CodeEditor *editor, int line, int64 pos)
 {
 	hout = &hls;
 	Do(start, end, editor, line, editor ? editor->GetTabSize() : 4, pos);
@@ -20,7 +21,8 @@ void DiffSyntax::Put(int ink, int n, int paper)
 		hout->Put(n, hl_style[ink], hl_style[paper]);
 }
 
-void DiffSyntax::Do(const wchar *ln, const wchar *end, CodeEditor *editor, int line, int tabsize, int64 pos)
+void DiffSyntax::Do(const wchar *ln, const wchar *end, CodeEditor *editor, int line,
+                                                                         int tabsize, int64 pos)
 {
 	const int lineLength = FindTheNumberOfCharsToLineEnd(ln, end);
 	

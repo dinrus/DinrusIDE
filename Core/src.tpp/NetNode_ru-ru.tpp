@@ -1,5 +1,4 @@
-topic "NetNode";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс NetNode";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,58 +8,63 @@ topic "NetNode";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 NetNode]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс NetNode]]}}&]
 [s3; &]
 [s1;:NetNode`:`:class: [@(0.0.255)3 class][3 _][*3 NetNode][3 _:_][@(0.0.255)3 private][3 _][*@3;3 M
 oveable][@(0.0.255)3 <][*3 NetNode][@(0.0.255)3 >][3 _]&]
-[s6;l0;%% WIN32 specific&]
-[s9;%% This class represents single network node (network resource). 
-It is [^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ moveable] and 
-has deep copy.&]
-[s3;%% &]
-[s0;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Детали Конструктора]]}}&]
+[s6;l0;%RU-RU WIN32 specific&]
+[s9;%RU-RU Этот класс представляет единичный 
+сетевой узел (сетевой ресурс). Он [^topic`:`/`/Core`/srcdoc`/Moveable`_ru`-ru^ m
+oveable] и имеет глубокую копию.&]
+[s3;%RU-RU &]
+[s0;%RU-RU &]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:NetNode`:`:NetNode`(`): [* NetNode]()&]
-[s2;%% Дефолтный конструктор.&]
+[s2;%RU-RU Дефолтный конструктор.&]
 [s3; &]
 [s4; &]
 [s5;:NetNode`:`:NetNode`(const NetNode`&`): [* NetNode]([@(0.0.255) const]_[* NetNode][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2;%% Deep copy constructor.&]
-[s3;%% &]
-[s0;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
+[s2;%RU-RU Конструктор глубокой копии.&]
+[s3;%RU-RU &]
+[s0;%RU-RU &]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:NetNode`:`:GetName`(`)const: [_^String^ String]_[* GetName]()_[@(0.0.255) const]&]
-[s2;%% Возвращает the name of network node (e.g. for displaying in GUI).&]
+[s2;%RU-RU Возвращает имя сетевого узла 
+(напр., для отображения в ГИП).&]
 [s3; &]
 [s4; &]
 [s5;:NetNode`:`:GetPath`(`)const: [_^String^ String]_[* GetPath]()_[@(0.0.255) const]&]
-[s2;%% If node represents a disk share, it returns a path to this 
-share (like `\`\SERVER`\DATA). FindFile can be used to retrieve 
-the list of files on this path (you have to add a file mask). 
-If this method returns empty String, node is not a disk share.&]
+[s2;%RU-RU Если узел представляет собой 
+disk share, возвращает путь к этой share (типа 
+`\`\SERVER`\DATA). FindFile можно использовать 
+для получения списка файлов по этому 
+пути (нужно добавить файловую маску). 
+Если этот метод возвращает пустую 
+строку, то узел не является disk share.&]
 [s3; &]
 [s4; &]
 [s5;:NetNode`:`:Enum`(`)const: [_^Array^ Array][@(0.0.255) <][_^NetNode^ NetNode][@(0.0.255) >
 ]_[* Enum]()_[@(0.0.255) const]&]
-[s2;%% Возвращает the array of subnodes.&]
+[s2;%RU-RU Возвращает массив подузлов.&]
 [s3; &]
 [s4; &]
 [s5;:NetNode`:`:Serialize`(Stream`&`): [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2;%% Serializes the Node.&]
+[s2;%RU-RU Сериализует этот узел.&]
 [s3; &]
 [s4; &]
 [s5;:NetNode`:`:EnumRoot`(`): [@(0.0.255) static] [_^Array^ Array][@(0.0.255) <][_^NetNode^ N
 etNode][@(0.0.255) >]_[* EnumRoot]()&]
-[s2;%% Enumerates root nodes.&]
+[s2;%RU-RU Перечисляет корневые узлы.&]
 [s3; &]
 [s4; &]
 [s5;:NetNode`:`:operator`=`(const NetNode`&`): [_^NetNode^ NetNode][@(0.0.255) `&]_[* opera
 tor`=]([@(0.0.255) const]_[_^NetNode^ NetNode][@(0.0.255) `&]_[*@3 s])&]
-[s2;%% Deep copy assignment.&]
+[s2;%RU-RU Присваивание глубокой копии.&]
 [s3; &]
-[s0; ]
+[s0; ]]

@@ -158,7 +158,8 @@ bool CSyntax::RawString(const wchar *p, int& n) {
 	return true;
 };
 //Подсвечивание
-void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls, CodeEditor *editor, int line, int64 pos)
+void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls,
+                                                  CodeEditor *editor, int line, int64 pos)
 {
 	ONCELOCK {
 		InitKeywords();

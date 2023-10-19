@@ -138,7 +138,7 @@ bool SshShell::ConsoleInit()
 	if(mode != CONSOLE)
 		return true;
 	
-	return Ssh::Run([=]() mutable {
+	return Ssh::Run([=, this]() mutable {
 #ifdef PLATFORM_WIN32
 		stdinput = GetStdHandle(STD_INPUT_HANDLE);
 		if(!stdinput)
@@ -261,7 +261,7 @@ bool SshShell::X11Init()
 	if(!xenabled)
 		return true;
 
-	return Ssh::Run([=]() mutable {
+	return Ssh::Run([=, this]() mutable {
 #ifdef PLATFORM_POSIX
 		int rc = libssh2_channel_x11_req(*channel, xscreen);
 		if(!WouldBlock(rc) && rc < 0)

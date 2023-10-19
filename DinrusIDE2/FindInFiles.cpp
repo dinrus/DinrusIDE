@@ -382,8 +382,8 @@ void Ide::FindStdDir()
 		pd.Add(PackageDirectory(wspc[i]));
 	for(String d : GetUppDirs())
 		if(!IsHubDir(d) || FindMatch(pd, [&](const String& q) { return q.StartsWith(d); }) >= 0)
-			menu.Add(d, [=] { FindSetStdDir(d); });
-	menu.Add(GetHubDir(), [=] { FindSetStdDir(GetHubDir()); });
+			menu.Add(d, [=, this] { FindSetStdDir(d); });
+	menu.Add(GetHubDir(), [=, this] { FindSetStdDir(GetHubDir()); });
 	menu.Execute(&ff.folder, ff.folder.GetPushScreenRect().BottomLeft());
 }
 

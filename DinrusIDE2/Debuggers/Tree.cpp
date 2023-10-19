@@ -367,12 +367,12 @@ void Pdb::GetTreeText(String& r, int id, int depth) {
 
 void Pdb::TreeMenu(Bar& bar)
 {
-	bar.Add(tree.IsCursor(), "Вотч", [=] { TreeWatch(); });
-	bar.Add(tree.IsCursor(), "Копировать", [=] {
+	bar.Add(tree.IsCursor(), "Вотч", [=, this] { TreeWatch(); });
+	bar.Add(tree.IsCursor(), "Копировать", [=, this] {
 		ClearClipboard();
 		AppendClipboardText(GetTreeText(tree.GetCursor()));
 	});
-	bar.Add(tree.GetLineCount(), "Копировать все", [=] {
+	bar.Add(tree.GetLineCount(), "Копировать все", [=, this] {
 		ClearClipboard();
 		String r;
 		GetTreeText(r, 0, 0);

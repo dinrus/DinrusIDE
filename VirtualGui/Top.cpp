@@ -42,7 +42,7 @@ void TopWindow::SyncCaption()
 	frame->sizeable = sizeable;
 	frame->RefreshLayout();
 	frame->Refresh();
-	frame->close ^= [=] { WhenClose(); };
+	frame->close ^= [=, this] { WhenClose(); };
 	frame->icon = icon;
 	frame->Enable(IsEnabled());
 }

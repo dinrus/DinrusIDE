@@ -21,7 +21,7 @@ void CodeEditor::InitFindReplace()
 	                 <<= findreplace.incremental <<= findreplace.regexp
 	                 <<= findreplace.ignorecase <<= THISBACK(IncrementalFind);
 	ff_start_pos = -1;
-	findreplace.find_all << [=] { FindAll(); };
+	findreplace.find_all << [=, this] { FindAll(); };
 }
 
 FindReplaceDlg::FindReplaceDlg()
@@ -726,7 +726,7 @@ void FindWildcardMenu(Callback1<const char *> cb, Point p, bool tablf, Ctrl *own
 	}
 	else {
 		menu.Add(t_("Один или более пробелов"), callback1(cb, "%"));
-		menu.Add(t_("Один или более любых символо"), callback1(cb, "*"));
+		menu.Add(t_("Один или более любых символов"), callback1(cb, "*"));
 		menu.Add(t_("Идентификатор C++"), callback1(cb, "$"));
 		menu.Add(t_("Число"), callback1(cb, "#"));
 		menu.Add(t_("Любой символ"), callback1(cb, "?"));

@@ -1,5 +1,4 @@
-topic "SocketWaitEvent";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс SocketWaitEvent";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,51 +8,61 @@ topic "SocketWaitEvent";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 SocketWaitEvent]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс SocketWaitEvent]]}}&]
 [s3; &]
 [s1;:SocketWaitEvent`:`:class: [@(0.0.255)3 class][3 _][*3 SocketWaitEvent]&]
-[s2;%% Encapsulates POSIX select call, allowing waiting on set of 
-sockets for specified events.&]
+[s2;%RU-RU Инкапсулирует вызов POSIX select, позволяющег
+о ожидать на наборе сокетов указанных 
+событий.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:SocketWaitEvent`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%% Clears the set of socket to wait on.&]
+[s2;%RU-RU Удаляет набор сокетов ожидания.&]
 [s3; &]
 [s4; &]
 [s5;:SocketWaitEvent`:`:Add`(SOCKET`,dword`): [@(0.0.255) void]_[* Add]([_^SOCKET^ SOCKET]_
 [*@3 s], [_^dword^ dword]_[*@3 events]_`=_WAIT`_ALL)&]
-[s2;%% Adds socket [%-*@3 s] to the set to be waited on specified [%-*@3 events]. 
-Note that SocketWaitEvent always waits for exceptions.&]
-[s3;%% &]
+[s2;%RU-RU Добавляет сокет [%-*@3 s] к набору 
+ожидания заданных событий [%-*@3 events]. 
+Заметьте, что SocketWaitEvent всегда ожидает 
+исключений.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:SocketWaitEvent`:`:Add`(TcpSocket`&`,dword`): [@(0.0.255) void]_[* Add]([_^TcpSocket^ T
 cpSocket][@(0.0.255) `&]_[*@3 s], [_^dword^ dword]_[*@3 events]_`=_WAIT`_ALL)&]
-[s2;%% Adds TcpSocket [%-*@3 s] to the list to be waited on specified 
-[%-*@3 events]. If [%-*@3 s] is not open, it is not used but its 
-index is reserved anyway (see Get).&]
-[s3;%% &]
+[s2;%RU-RU Добавляет TcpSocket [%-*@3 s] в список ожидающих 
+указанных событий [%-*@3 events]. Если [%-*@3 s] 
+не открыт, он не используется, но его 
+индекс всё равно резервируется (см. 
+Get).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:SocketWaitEvent`:`:Wait`(int`): [@(0.0.255) int]_[* Wait]([@(0.0.255) int]_[*@3 timeout])
 &]
-[s2;%% Waits for event for [%-*@3 timeout] ms. If [%-*@3 timeout] is 
-Null, call is blocking. Возвращает a number of sockets that signaled 
-an event.&]
-[s3;%% &]
+[s2;%RU-RU Ожидает события [%-*@3 timeout] мс. Если 
+[%-*@3 timeout] равен Null, вызов блокирующий. 
+Возвращает число сокетов, сигнализировавших
+ о каком`-либо событии.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:SocketWaitEvent`:`:Get`(int`)const: [_^dword^ dword]_[* Get]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) c
 onst]&]
 [s5;:SocketWaitEvent`:`:operator`[`]`(int`)const: [_^dword^ dword]_[* operator`[`]]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Возвращает events that triggered for socket at index [%-*@3 i] 
-(indicies are specified by order of Add calls) as binary or of 
-WAIT`_READ, WAIT`_WRITE, WAIT`_IS`_EXCEPTION (something bad happened, 
-like peer closing the connection). If there were none events 
-for requested socket (or it is not open), returns 0.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает события, триггированные 
+для сокета по индексу [%-*@3 i] (индексы 
+определяются в порядке вызова Add), 
+как бинарные или одно из WAIT`_READ, WAIT`_WRITE, 
+WAIT`_IS`_EXCEPTION (случилось что`-то нехорошее, 
+типа пир закрыл соединение). Если 
+для требуемого сокета не было событий 
+(или он не открыт), возвращает 0.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:SocketWaitEvent`:`:SocketWaitEvent`(`): [* SocketWaitEvent]()&]
-[s2;%% Конструктор .&]
+[s2;%RU-RU Конструктор .&]
 [s3; &]
-[s0;%% ]]
+[s0;%RU-RU ]]

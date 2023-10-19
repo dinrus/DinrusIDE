@@ -82,14 +82,14 @@ bool Pdb::PrettyVal(Pdb::Val val, int64 from, int count, Pretty& p)
 		pretty.Add("std::list", { 1, THISFN(PrettyStdList) });
 		pretty.Add("std::forward_list", { 1, THISFN(PrettyStdForwardList) });
 		pretty.Add("std::deque", { 1, THISFN(PrettyStdDeque) });
-		pretty.Add("std::set", { 1, [=](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdTree(val, true, tparam, from, count, p); }});
-		pretty.Add("std::multiset", { 1, [=](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdTree(val, true, tparam, from, count, p); }});
-		pretty.Add("std::map", { 2, [=](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdTree(val, false, tparam, from, count, p); }});
-		pretty.Add("std::multimap", { 2, [=](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdTree(val, false, tparam, from, count, p); }});
-		pretty.Add("std::unordered_set", { 1, [=](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdUnordered(val, true, tparam, from, count, p); }});
-		pretty.Add("std::unordered_multiset", { 1, [=](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdUnordered(val, true, tparam, from, count, p); }});
-		pretty.Add("std::unordered_map", { 2, [=](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdUnordered(val, false, tparam, from, count, p); }});
-		pretty.Add("std::unordered_multimap", { 2, [=](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdUnordered(val, false, tparam, from, count, p); }});
+		pretty.Add("std::set", { 1, [=, this](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdTree(val, true, tparam, from, count, p); }});
+		pretty.Add("std::multiset", { 1, [=, this](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdTree(val, true, tparam, from, count, p); }});
+		pretty.Add("std::map", { 2, [=, this](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdTree(val, false, tparam, from, count, p); }});
+		pretty.Add("std::multimap", { 2, [=, this](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdTree(val, false, tparam, from, count, p); }});
+		pretty.Add("std::unordered_set", { 1, [=, this](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdUnordered(val, true, tparam, from, count, p); }});
+		pretty.Add("std::unordered_multiset", { 1, [=, this](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdUnordered(val, true, tparam, from, count, p); }});
+		pretty.Add("std::unordered_map", { 2, [=, this](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdUnordered(val, false, tparam, from, count, p); }});
+		pretty.Add("std::unordered_multimap", { 2, [=, this](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdUnordered(val, false, tparam, from, count, p); }});
 	}
 
 	type = Filter(type, [](int c) { return c != ' ' ? c : 0; });

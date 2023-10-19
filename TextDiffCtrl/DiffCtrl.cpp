@@ -14,8 +14,8 @@ TextDiffCtrl::TextDiffCtrl()
 	prev.SetImage(DiffImg::Prev());
 	left.scroll.y.AddFrame(prev);
 	left.scroll.y.AddFrame(next);
-	next << [=] { FindDiff(true); };
-	prev << [=] { FindDiff(false); };
+	next << [=, this] { FindDiff(true); };
+	prev << [=, this] { FindDiff(false); };
 	right.NoGutter();
 	Horz(left, right);
 	left.WhenScroll = right.ScrollWhen(left);
@@ -246,7 +246,7 @@ DiffDlg::DiffDlg()
 	p.Add(remove.VSizePos().RightPosZ(74, 70));
 	p.Add(revert.VSizePos().RightPosZ(148, 70));
 
-	write << [=] { Write(); };
+	write << [=, this] { Write(); };
 	write.SetLabel("Копировать");
 	write.SetImage(DiffImg::CopyLeft());
 	write.Tip("F5");
@@ -254,7 +254,7 @@ DiffDlg::DiffDlg()
 	revert.Disable();
 	revert.SetLabel("Отменить");
 	revert.SetImage(CtrlImg::undo());
-	revert << [=] {
+	revert << [=, this] {
 		if(PromptYesNo("Отменить изменения?")) {
 			SaveFile(editfile, backup);
 			Refresh();
@@ -264,19 +264,19 @@ DiffDlg::DiffDlg()
 	remove.SetLabel("Удалить");
 	remove.SetImage(CtrlImg::remove());
 	remove.Tip("F8");
-	remove << [=] {
+	remove << [=, this] {
 		SaveFile(editfile, diff.left.RemoveSelected(HasCrs(editfile)));
 		Refresh();
 		revert.Enable();
 	};
 	
-	diff.left.WhenSel << [=] {
+	diff.left.WhenSel << [=, this] {
 		remove.Enable(diff.left.IsSelection());
 	};
 	
 	l.SetReadOnly();
 
-	diff.right.WhenHighlight = diff.left.WhenHighlight = [=](Vector<LineEdit::Highlight>& hl, const WString& ln) {
+	diff.right.WhenHighlight = diff.left.WhenHighlight = [=, this](Vector<LineEdit::Highlight>& hl, const WString& ln) {
 		DiffDlg::WhenHighlight(editfile, hl, ln);
 	};
 }

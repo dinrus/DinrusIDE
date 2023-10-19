@@ -11,7 +11,7 @@ String GetUmkFile(const char *fn)
 		return h;
 	String cfgdir = GetFileFolder(GetFileFolder(ConfigFile("x")));
 	ONCELOCK
-		PutVerbose("Пака конфигурации: " << cfgdir);
+		PutVerbose("Папка конфигурации: " << cfgdir);
 	return GetFileOnPath(fn,
 	                     cfgdir + "/umk" + ';' +
 	                     cfgdir + "/DinrusIDE" + ';' +

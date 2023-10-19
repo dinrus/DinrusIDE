@@ -14,21 +14,28 @@ topic "Поддержка JSON";
 [s3; &]
 [s5;:ParseJSON`(CParser`&`): [_^Value^ Value]_[* ParseJSON]([_^CParser^ CParser][@(0.0.255) `&
 ]_[*@3 p])&]
-[s2;%RU-RU Parses JSON represented from [%-*@3 p]. It is possible to 
-parse only part of whole text (e.g. when to parse just single 
-element of array `- parser then stops at the end of element. 
-Elements of JSON are parsed into corresponding Value types, JSON 
-objects are represented by ValueMap, JSON arrays by ValueArray. 
-If input JSON is invalid throws CParser`::Error. ParseJSON supports 
-Date/Time using .NET trick as `"`\/Date([/ miliseconds`_since`_1970`-1`-1])`\/`".&]
+[s2;%RU-RU Разбирает JSON, представленный 
+из [%-*@3 p]. Можно разобрать только часть 
+всего текста (напр., парсируя только 
+единичный элемент массива `- парсер 
+остановится в конце элемента. Элементы 
+JSON парсируются в соответствующие 
+типы значений, объекты JSON представляются 
+как ValueMap, массивы JSON как ValueArray. Если 
+вводный JSON неполноценен, выводится 
+CParser`::Error. ParseJSON поддерживает Date/Time, 
+используя трюк из .NET `- `"`\/Date([/ miliseconds`_since`_1970`-1`-
+1])`\/`".&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:ParseJSON`(const char`*`): [_^Value^ Value]_[* ParseJSON]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 s])&]
-[s2;%RU-RU Parses JSON text [%-*@3 s]. Elements of JSON are parsed 
-into corresponding Value types, JSON objects are represented 
-by ValueMap, JSON arrays by ValueArray. If input JSON is invalid 
-returns ErrorValue.&]
+[s2;%RU-RU Разбирает текст JSON [%-*@3 s]. Элементы 
+JSON парсируются в соответствующие 
+типы значений, объекты JSON представляются 
+как ValueMap, массивы JSON как ValueArray. Если 
+вводный JSON неполноценен, выводится 
+ErrorValue.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:AsJSON`(int`): [_^String^ String]_[* AsJSON]([@(0.0.255) int]_[*@3 i])&]
@@ -40,23 +47,26 @@ ring][@(0.0.255) `&]_[*@3 s])&]
 String][@(0.0.255) `&]_[*@3 s])&]
 [s5;:AsJSON`(const char`*`): [_^String^ String]_[* AsJSON]([@(0.0.255) const]_[@(0.0.255) cha
 r]_`*[*@3 s])&]
-[s2;%RU-RU Converts basic values to JSON representation.&]
+[s2;%RU-RU Преобразуют базовые значения 
+в представление JSON.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:AsJSON`(Time`): [_^String^ String]_[* AsJSON]([_^Time^ Time]_[*@3 tm])&]
 [s5;:AsJSON`(Date`): [_^String^ String]_[* AsJSON]([_^Date^ Date]_[*@3 dt])&]
-[s2;%RU-RU Converts Time/Date using .NET trick as `"`\/Date([/ miliseconds`_since`_1970
-`-1`-1])`\/`".&]
+[s2;%RU-RU Преобразует Time/Date, используя трюк 
+.NET `- `"`\/Date([/ miliseconds`_since`_1970`-1`-1])`\/`".&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:AsJSON`(const Value`&`,const String`&`,bool`): [_^String^ String]_[* AsJSON]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[*@3 indent], [@(0.0.255) bool]_[*@3 pretty])&]
-[s2;%RU-RU Encodes [%-*@3 v] as JSON, interpreting ValueMap as JSON 
-object, ValueArray as JSON array. [%-*@3 indent] is prepended to 
-each line. If [%-*@3 pretty] is true, JSON is encoded in lines, 
-indenting each level of embedding, if it is false, JSON is as 
-compact as possible.&]
+[s2;%RU-RU Кодирует [%-*@3 v] как JSON, интерпретируя 
+ValueMap как объект JSON, ValueArray как массив 
+JSON. [%-*@3 indent] приставляется в начале 
+каждой строки. Если [%-*@3 pretty] равен true, 
+JSON кодируется строками, с отступом 
+в начале каждого уровня внедрения, 
+если false, JSON максимально компактен.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:AsJSON`(const Value`&`,bool`): [_^String^ String]_[* AsJSON]([@(0.0.255) const]_[_^Value^ V
@@ -67,8 +77,9 @@ alue][@(0.0.255) `&]_[*@3 v], [@(0.0.255) bool]_[*@3 pretty]_`=_[@(0.0.255) fals
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс Json]]}}&]
 [s3; &]
 [s1;:Json`:`:class: [@(0.0.255)3 class][3 _][*3 Json]&]
-[s2;%RU-RU Simple helper class intended for composing JSON strings. 
-Json represents JSON object.&]
+[s2;%RU-RU Простой вспомогательный класс, 
+нацеленный на компонирование строк 
+JSON. Json представляет собой объект JSON.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора]]}}&]
@@ -81,8 +92,9 @@ Json represents JSON object.&]
 [s5;:Json`:`:CatRaw`(const char`*`,const String`&`): [_^Json^ Json][@(0.0.255) `&]_[* CatRa
 w]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 key], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[*@3 val])&]
-[s2;%RU-RU Appends raw text (which must be a valid JSON) [%-*@3 val] 
-and [%-*@3 key] as key`-value pair.&]
+[s2;%RU-RU Приставляет сырой текст (который 
+должен быть полноценным JSON) [%-*@3 val] 
+и [%-*@3 key] в виде пары ключ`-значение.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Json`:`:Json`(const char`*`,const Value`&`): [* Json]([@(0.0.255) const]_[@(0.0.255) c
@@ -107,9 +119,10 @@ ar]_`*[*@3 key], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s])&]
 ar]_`*[*@3 key], [@(0.0.255) const]_[* Json][@(0.0.255) `&]_[*@3 object])&]
 [s5;:Json`:`:Json`(const char`*`,const JsonArray`&`): [* Json]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 key], [@(0.0.255) const]_[_^JsonArray^ JsonArray][@(0.0.255) `&]_[*@3 array])&]
-[s2;%RU-RU Construct JSON object with single key`-value pair. Date/Time 
-is converted using .NET trick as `"`\/Date([/ miliseconds`_since`_1970`-1`-1])`\/`"
-.&]
+[s2;%RU-RU Конструирует объект JSON с единственной 
+парой ключ`-значение. Date/Time преобразуется 
+с применением трюка из .NET `- `"`\/Date([/ miliseconds`_since`_
+1970`-1`-1])`\/`".&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
@@ -117,12 +130,13 @@ is converted using .NET trick as `"`\/Date([/ miliseconds`_since`_1970`-1`-1])`\
 [s5;:Json`:`:ToString`(`)const: [_^String^ String]_[* ToString]()_[@(0.0.255) const]&]
 [s5;:Json`:`:operator`~`(`)const: [_^String^ String]_[* operator`~]()_[@(0.0.255) const]&]
 [s5;:Json`:`:operator String`(`)const: [* operator_String]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает current JSON formatted text.&]
+[s2;%RU-RU Возвращает текущий текст, форматированн
+ый как JSON.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Json`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает true, если any key`-value pairs 
-were added to this JSON object.&]
+[s2;%RU-RU Возвращает true, если к этому объекту 
+JSON была добавлена любая пара ключ`-значение.&]
 [s3; &]
 [s4; &]
 [s5;:Json`:`:operator`(`)`(const char`*`,const Value`&`): [_^Json^ Json][@(0.0.255) `&]_[* o
@@ -153,21 +167,24 @@ on][@(0.0.255) `&]_[*@3 object])&]
 [s5;:Json`:`:operator`(`)`(const char`*`,const JsonArray`&`): [_^Json^ Json][@(0.0.255) `&
 ]_[* operator()]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 key], [@(0.0.255) const]_[_^JsonArray^ J
 sonArray][@(0.0.255) `&]_[*@3 array])&]
-[s2;%RU-RU Adds key`-value pair to JSON object. Date/Time is converted 
-using .NET trick as `"`\/Date([/ miliseconds`_since`_1970`-1`-1])`\/`".&]
+[s2;%RU-RU Добавляет пару ключ`-значение 
+к объекту JSON. Date/Time преобразуется 
+с помощью трюка из .NET `- `"`\/Date([/ miliseconds`_since`_1970`-1`-
+1])`\/`".&]
 [s0;%RU-RU &]
 [s0;%RU-RU &]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс JsonArray]]}}&]
 [s0;%RU-RU &]
 [s1;:JsonArray`:`:class: [@(0.0.255)3 class][3 _][*3 JsonArray]&]
-[s2;%RU-RU Simple helper class intended for composing JSON strings, 
-representing JSON array.&]
+[s2;%RU-RU Простой вспомогательный класс, 
+нацеленный на компонирование строк 
+JSON, представляющих массив JSON.&]
 [s3; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора]]}}&]
 [s3;%RU-RU &]
 [s5;:JsonArray`:`:JsonArray`(`): [* JsonArray]()&]
-[s2;%RU-RU Создаёт empty JSON array.&]
+[s2;%RU-RU Создаёт пустой массив JSON.&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
@@ -176,18 +193,20 @@ representing JSON array.&]
 [s5;:JsonArray`:`:operator`~`(`)const: [_^String^ String]_[* operator`~]()_[@(0.0.255) cons
 t]&]
 [s5;:JsonArray`:`:operator String`(`)const: [* operator_String]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает current JSON formatted text.&]
+[s2;%RU-RU Возвращает текущий форматированный 
+текст JSON.&]
 [s3; &]
 [s4; &]
 [s5;:JsonArray`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если there were any elements 
-inserted JSON array.&]
+[s2;%RU-RU Возвращает true, если в массив JSON 
+вставлены какие`-либо элементы.&]
 [s3; &]
 [s4; &]
 [s5;:JsonArray`:`:CatRaw`(const String`&`): [_^JsonArray^ JsonArray][@(0.0.255) `&]_[* CatR
 aw]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 val])&]
-[s2;%RU-RU Appends raw text (which must be a valid JSON) as an array 
-element.&]
+[s2;%RU-RU Приставляет сырой текст (который 
+должен быть полноценным JSON) в виде 
+элемента массива.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:JsonArray`:`:operator`<`<`(const Value`&`): [_^JsonArray^ JsonArray][@(0.0.255) `&]_
@@ -212,7 +231,8 @@ perator<<]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s])&]
 perator<<]([@(0.0.255) const]_[_^Json^ Json][@(0.0.255) `&]_[*@3 object])&]
 [s5;:JsonArray`:`:operator`<`<`(const JsonArray`&`): [_^JsonArray^ JsonArray][@(0.0.255) `&
 ]_[* operator<<]([@(0.0.255) const]_[_^JsonArray^ JsonArray][@(0.0.255) `&]_[*@3 array])&]
-[s2;%RU-RU Adds an element to JSON array. Date/Time is converted 
-using .NET trick as `"`\/Date([/ miliseconds`_since`_1970`-1`-1])`\/`".&]
+[s2;%RU-RU Добавляет элемент в массив JSON. 
+Date/Time преобразуется с помощью трюка 
+.NET `- `"`\/Date([/ miliseconds`_since`_1970`-1`-1])`\/`".&]
 [s2;%RU-RU &]
 [s3;%RU-RU ]]

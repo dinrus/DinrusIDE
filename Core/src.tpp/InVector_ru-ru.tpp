@@ -14,72 +14,83 @@ topic "Класс InVector";
 [s1;%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 T][3 >]&]
 [s1;:InVector`:`:class:%- [@(0.0.255) class]_[* InVector]_:_[@(0.0.255) public]_[*@3 MoveableA
 ndDeepCopyOption]<_[* InVector]<[*@4 T]>_>_&]
-[s2; InVector is random access access container (with operator`[`]) 
-with very fast insertion times for large  numbers of elements. 
-O(n) complexity of insertions is relativaly hard to evaluate, 
-but it should be log(n) for any realistic numbers of elements. 
-Index retrieval complexity is log(n), but thanks to per`-thread 
-cache it is fast for simple range scans using increasing/decreasing 
-single index over single container and fast for any iterator 
-based scans.&]
-[s2; Generally, any method that changes the number of elements in 
-InVector (plus Shrink method) invalidate any iterators to InVector 
-and references to elements in InVector.&]
-[s2; InVector has default pick transfer semantics with optional deep`-copy. 
-It is [^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ Moveable].&]
-[s2; InVector requires elements to be [^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ Move
-able].&]
+[s2; InVector `- это контейнер случайного доступа 
+(с оператором`[`]), у которого очень 
+быстрое время вставки большого числа 
+элементов. Комплексность вставок 
+O(n) относительно сложно оценить, но 
+она должна составлять log(n) для любого 
+реалистичного числа элементов. Сложность 
+повторного получения индекса равна 
+log(n), но, благадаря поточным кэшам, 
+класс быстр при сканировании простых 
+диапазонов с использованием увеличения/умен
+ьшения единичного индекса в единчном 
+контейнере и быстр для любых сканирований, 
+основанных на итераторах.&]
+[s2; Как правило, любой метод, изменяющий 
+число элементов в InVector (плюс метод 
+Shrink) повреждает все итераторы в InVector 
+и ссылки на элементы в нём.&]
+[s2; InVector имеет дефолтную семантику пик`-трансфе
+ра с опциональной глубокой копией. 
+Он [^topic`:`/`/Core`/srcdoc`/Moveable`_ru`-ru^ Moveable].&]
+[s2; InVector требует, чтобы элементы были 
+[^topic`:`/`/Core`/srcdoc`/Moveable`_ru`-ru^ Moveable].&]
 [s0;i448;a25;kKO9;@(0.0.255)%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:InVector`:`:Insert`(int`):%- [*@4 T][@(0.0.255) `&]_[* Insert]([@(0.0.255) int]_[*@3 i])&]
-[s2; Inserts default constructed elementa at [%-*@3 i]. Invalidates 
-iterators and references to elements.&]
+[s2; Вставляет дефолтно сконструированный 
+элемент по [%-*@3 i]. Повреждает итераторы 
+и ссылки на элементы.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Insert`(int`,const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Insert]([@(0.0.255) in
 t]_[*@3 i], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2; Inserts a copy of [%-*@3 x] at [%-*@3 i]. Invalidates iterators 
-and references to elements.&]
+[s2; Вставляет копию [%-*@3 x] по [%-*@3 i]. Повреждает 
+итераторы и ссылки на элементы.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:InsertN`(int`,int`):%- [@(0.0.255) void]_[* InsertN]([@(0.0.255) int]_[*@3 i
 ], [@(0.0.255) int]_[*@3 count])&]
-[s2; Inserts [%-*@3 count] default constructed elements at [%-*@3 i]. 
-Invalidates iterators and references to elements.&]
+[s2; Вставляет [%-*@3 count] дефолтно сконструированны
+х элементов по [%-*@3 i]. Повреждает итераторы 
+и ссылки на элементы.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Remove`(int`,int`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_[*@3 i],
  [@(0.0.255) int]_[*@3 count]_`=_[@3 1])&]
-[s2; Removes [%-*@3 count] elements at [%-*@3 i]. Invalidates iterators 
-and references. Invalidates iterators and references to elements.&]
+[s2; Удаляет [%-*@3 count] элементов по [%-*@3 i]. 
+Повреждает итераторы и ссылки на 
+элементы.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:operator`[`]`(int`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* ope
 rator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
 [s5;:InVector`:`:operator`[`]`(int`):%- [*@4 T][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) i
 nt]_[*@3 i])&]
-[s2; Возвращает a reference to element at [%-*@3 i].&]
+[s2; Возвращает ссылку на элемент по [%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Add`(`):%- [*@4 T][@(0.0.255) `&]_[* Add]()&]
-[s2; То же, что и Insert(GetCount()). Invalidates iterators 
-and references to elements.&]
+[s2; То же, что и Insert(GetCount()).Повреждает 
+итераторы и ссылки на элементы.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Add`(const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Add]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 x])&]
-[s2; То же, что и Insert(GetCount(), [%-*@3 x]). Invalidates 
-iterators and references to elements.&]
+[s2; То же, что и Insert(GetCount(), [%-*@3 x]).Повреждает 
+итераторы и ссылки на элементы.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:AddN`(int`):%- [@(0.0.255) void]_[* AddN]([@(0.0.255) int]_[*@3 n])&]
-[s2; То же, что и InsertN(GetCount(), [%-*@3 n]). Invalidates 
-iterators and references to elements.&]
+[s2; То же, что и InsertN(GetCount(), [%-*@3 n]). Повреждает 
+итераторы и ссылки на элементы.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2; Возвращает a number of elements in InVector.&]
+[s2; Возвращает число элементов в InVector.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
@@ -87,63 +98,68 @@ iterators and references to elements.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Trim`(int`):%- [@(0.0.255) void]_[* Trim]([@(0.0.255) int]_[*@3 n])&]
-[s2; То же, что и Remove(n, GetCount() `- n). Invalidates 
-iterators and references to elements.&]
+[s2; То же, что и Remove(n, GetCount() `- n). Повреждает 
+итераторы и ссылки на элементы.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:SetCount`(int`):%- [@(0.0.255) void]_[* SetCount]([@(0.0.255) int]_[*@3 n])&]
-[s2; Устанавливаетthe number of elements to be [%-*@3 n] 
-either removing surplus elements or using AddN to extend the 
-InVector. Invalidates iterators and references to elements.&]
+[s2; Устанавливает число элементов в 
+[%-*@3 n], либо удаляя лишние элементы, 
+либо используя AddN, чтобы расширить 
+InVector. Повреждает итераторы и ссылки 
+на элементы.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; То же, что и Remove(0, GetCount()). Invalidates iterators 
-and references to elements.&]
+[s2; То же, что и Remove(0, GetCount()). Повреждает 
+итераторы и ссылки на элементы.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:At`(int`):%- [*@4 T][@(0.0.255) `&]_[* At]([@(0.0.255) int]_[*@3 i])&]
-[s2; If [%-*@3 i] >`= GetCount, performs SetCount(i `+ 1) to make sure 
-element at [%-*@3 i] exists. elements. In all cases, returns a 
-reference to element at [%-*@3 i]. Invalidates iterators and references 
-to elements.&]
+[s2; Если [%-*@3 i] >`= GetCount, выполняет SetCount(i 
+`+ 1), чтобы элемент по [%-*@3 i] гарантированно 
+существовал. В любом случае возвращает 
+ссылку на элемент по [%-*@3 i]. Повреждает 
+итераторы и ссылки на элементы.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Shrink`(`):%- [@(0.0.255) void]_[* Shrink]()&]
-[s2; Miminizes the heap memory allocated by InVector. Invalidates 
-iterators and references to elements.&]
+[s2; Минимизирует память кучи, размещённую 
+InVector`'ом. Повреждает итераторы и ссылки 
+на элементы.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Set`(int`,const T`&`,int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 i
 ], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x], [@(0.0.255) int]_[*@3 count])&]
-[s2; Устанавливаетthe value of [%-*@3 count] elements 
-starting at [%-*@3 i] to [%-*@3 x].&]
+[s2; Устанавливает значение [%-*@3 count] элементов, 
+начиная с [%-*@3 i], в [%-*@3 x].&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Set`(int`,const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Set]([@(0.0.255) int]_[*@3 i
 ], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2; Устанавливаетthe value of element at [%-*@3 i] to 
-[%-*@3 x].&]
+[s2; Устанавливает значение элемента 
+по [%-*@3 i] в [%-*@3 x].&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Swap`(int`,int`):%- [@(0.0.255) void]_[* Swap]([@(0.0.255) int]_[*@3 i1], 
 [@(0.0.255) int]_[*@3 i2])&]
-[s2; Swaps elements at position [%-*@3 i1] and [%-*@3 i2].&]
+[s2; Меняет местами элементы в позициях 
+[%-*@3 i1] и [%-*@3 i2].&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Drop`(int`):%- [@(0.0.255) void]_[* Drop]([@(0.0.255) int]_[*@3 n]_`=_[@3 1])&]
-[s2; Removes [%-*@3 n] elements at the end of InVector.&]
+[s2; Удаляет [%-*@3 n] элементов в конце InVector`'а.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Top`(`):%- [*@4 T][@(0.0.255) `&]_[* Top]()&]
 [s5;:InVector`:`:Top`(`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* Top]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает a reference to the last element.&]
+[s2; Возвращает ссылку на последний элемент.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Pop`(`):%- [*@4 T]_[* Pop]()&]
-[s2; Возвращает a copy to the last element and removes 
-it.&]
+[s2; Возвращает копию последнего элемента 
+и удаляет его.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:FindUpperBound`(const T`&`,const L`&`)const:%- [@(0.0.255) template]_<
@@ -151,9 +167,11 @@ it.&]
 ]_[*@3 val], [@(0.0.255) const]_[*@4 L][@(0.0.255) `&]_[*@3 less])_[@(0.0.255) const]&]
 [s5;:InVector`:`:FindUpperBound`(const T`&`)const:%- [@(0.0.255) int]_[* FindUpperBound](
 [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 val])_[@(0.0.255) const]&]
-[s2; Finds the upper bound for [%-*@3 val] using [%-*@3 less] / StdLess<T> 
-as comparison predicate. InVector should be sorted using the 
-same predicate.&]
+[s2; Находит верхнюю границу для [%-*@3 val] 
+посредством [%-*@3 less] / StdLess<T> в качестве 
+предиката сравнения. InVector должен 
+сортироваться с помощью такого же 
+предиката.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:FindLowerBound`(const T`&`,const L`&`)const:%- [@(0.0.255) template]_<
@@ -161,9 +179,11 @@ same predicate.&]
 ]_[*@3 val], [@(0.0.255) const]_[*@4 L][@(0.0.255) `&]_[*@3 less])_[@(0.0.255) const]&]
 [s5;:InVector`:`:FindLowerBound`(const T`&`)const:%- [@(0.0.255) int]_[* FindLowerBound](
 [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 val])_[@(0.0.255) const]&]
-[s2; Finds the lower bound for [%-*@3 val] using [%-*@3 less] / StdLess<T> 
-as comparison predicate. InVector must be sorted using the same 
-predicate.&]
+[s2; Находит нижнюю границу для [%-*@3 val] 
+посредством [%-*@3 less] / StdLess<T> в качестве 
+предиката сравнения. InVector должен 
+сортироваться с помощью такого же 
+предиката.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:InsertUpperBound`(const T`&`,const L`&`):%- [@(0.0.255) template]_<[@(0.0.255) c
@@ -171,9 +191,11 @@ lass]_[*@4 L]>_[@(0.0.255) int]_[* InsertUpperBound]([@(0.0.255) const]_[*@4 T][
 ]_[*@3 val], [@(0.0.255) const]_[*@4 L][@(0.0.255) `&]_[*@3 less])&]
 [s5;:InVector`:`:InsertUpperBound`(const T`&`):%- [@(0.0.255) int]_[* InsertUpperBound]([@(0.0.255) c
 onst]_[*@4 T][@(0.0.255) `&]_[*@3 val])&]
-[s2; Inserts the element at posiotion found using FindUpperBound 
-(but the whole operation is optimized relative to FindUpperBound/Insert 
-pair). InVector must be sorted using the same predicate.&]
+[s2; Вставляет элемент в позиции, найденной 
+посредством FindUpperBound (но вся операция 
+оптимизируется относительно пары 
+FindUpperBound/Insert). InVector должен сортироваться 
+с помощью такого же предиката.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Find`(const T`&`,const L`&`)const:%- [@(0.0.255) template]_<[@(0.0.255) c
@@ -181,8 +203,10 @@ lass]_[*@4 L]>_[@(0.0.255) int]_[* Find]([@(0.0.255) const]_[*@4 T][@(0.0.255) `
 [@(0.0.255) const]_[*@4 L][@(0.0.255) `&]_[*@3 less])_[@(0.0.255) const]&]
 [s5;:InVector`:`:Find`(const T`&`)const:%- [@(0.0.255) int]_[* Find]([@(0.0.255) const]_[*@4 T
 ][@(0.0.255) `&]_[*@3 val])_[@(0.0.255) const]&]
-[s2; Finds the position of [%-*@3 val] in InVector sorted using [%-*@3 less] 
-/ StdLess<T>. If not found, returns negative value.&]
+[s2; Нахрдит позицию [%-*@3 val] в InVector, отсортирванным
+ посредством [%-*@3 less] / StdLess<T>. Если не 
+найдена, возвращает отрицательное 
+число.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Begin`(`)const:%- [_^InVector`:`:ConstIterator^ ConstIterator]_[* Begin](
@@ -195,35 +219,38 @@ etIter]([@(0.0.255) int]_[*@3 pos])_[@(0.0.255) const]&]
 [s5;:InVector`:`:End`(`):%- [_^InVector`:`:Iterator^ Iterator]_[* End]()&]
 [s5;:InVector`:`:GetIter`(int`):%- [_^InVector`:`:Iterator^ Iterator]_[* GetIter]([@(0.0.255) i
 nt]_[*@3 pos])&]
-[s2; Возвращает constant/nonconstant iterator to the begin/end/[%-*@3 pos].&]
+[s2; Возвращает константный/неконстантный 
+итератор в begin/end/[%-*@3 pos].&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:InVector`(`):%- [* InVector]()&]
-[s2; Constructs empty InVector.&]
+[s2; конструирует пустой InVector.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:InVector`(const InVector`&`,int`):%- [* InVector]([@(0.0.255) const]_[* In
 Vector][@(0.0.255) `&]_[*@3 v], [@(0.0.255) int])&]
-[s2; Optional deep copy constructor.&]
+[s2; Опционный конструктор глубокой копии.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:InVector`:`:InVector`(std`:`:initializer`_list`<T`>`):%- [* InVector]([_^http`:`/`/en`.cppreference`.com`/w`/cpp`/utility`/initializer`_list^ s
 td`::initializer`_list]<[*@4 T]>_[*@3 init])&]
-[s2; C`+`+ 11 initialization.&]
+[s2; Инициализация C`+`+ 11.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Swap`(InVector`&`):%- [@(0.0.255) void]_[* Swap]([_^InVector^ InVector][@(0.0.255) `&
 ]_[*@3 b])&]
-[s2; Swap with another InVector.&]
+[s2; оменять местами с другим InVector.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Examples on InVector caching]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Примеры с кэшированием InVector]]}}&]
 [s3;%- &]
-[s0; Following examples demonstrate what is meant by `"simple scan`" 
-which are using cache to accelerate index retrieval vs more complex 
-non`-cached scans:&]
+[s0; Следующие примеры демонстрируют, 
+что подразумевает `"простое сканирование`", 
+использующее кэш для ускорения повторного 
+получения индекса, в сравнении с более 
+сложными безкэшевыми сканированиями:&]
 [s0; &]
-[s0; [4 Cached cases]&]
+[s0; [4 Кэшированные случаи]&]
 [s0; &]
 [ {{10000 [s0; [C int m `= 0;]&]
 [s0; [C for(int i `= 0; i < x.GetCount(); i`+`+)]&]
@@ -242,7 +269,8 @@ non`-cached scans:&]
 [s0; &]
 [s0; &]
 [s0; &]
-[s0; [4 Non`-Cached cases (about 8x times slower in this case)]&]
+[s0; [4 Безкэшевые случаи (здесь почти в 
+8 раз медленнее)]&]
 [s0; &]
 [ {{10000 [s0; [C int m `= 0;]&]
 [s0; [C for(int i `= 0; i < x.GetCount(); i`+`+)]&]

@@ -13,55 +13,71 @@ topic "Класс IpAddrInfo";
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс IpAddrInfo]]}}&]
 [s3; &]
 [s1;:IpAddrInfo`:`:class: [@(0.0.255)3 class][3 _][*3 IpAddrInfo]&]
-[s2;%RU-RU This class encapsulates [^http`:`/`/en`.wikipedia`.org`/wiki`/Getaddrinfo^ g
-etaddrinfo] API, also providing optional non`-blocking behavior 
-(using auxiliary threads). Note that there is currently no synchronization 
-available for this non`-blocking behavior (it is not possible 
-to e.g. select on IpAddrInfo). Also note that IpAddrInfo has 
-some maximum number (currently 256) of slots used to resolve 
-hosts simultaneously, however when this number is exceeded, it 
-only means that InProgress tries to put the request to the slot 
-(and returns true if non available or if request is not resolved 
-yet), so from the client view, this limit has little impact. 
-It also means that client should release the slot as soon as 
-possible, using Clear method or by destructing IpAddrInfo.&]
+[s2;%RU-RU Этот класс инкапсулирует [^http`:`/`/en`.wikipedia`.org`/wiki`/Getaddrinfo^ g
+etaddrinfo] API, также предоставляя опционное 
+неблокируемое поведение (с использованием 
+вспомогательных потоков). Заметьте, 
+что на данный момент нет доступной 
+синхронизации для такого неблокируемого 
+поведения (нет, напр., возможности 
+выполнить select над IpAddrInfo). Также заметьте, 
+что IpAddrInfo имеет некое максимальное 
+число (на данный момент 256) слотов, 
+используемых для одновременного 
+разрешения адресов хостов, однако, 
+когда это число превышено, это означает, 
+что InProgress пытается поместить в слот 
+запрос (и возвращает true, если недоступно, 
+или запрос ещё не разрешился), поэтому, 
+на стороне клиента у этого лимита 
+мало влияния; а также, что клиент должен, 
+как можно скорее, освободить слот, 
+используя метод Clear, или деструктируя 
+IpAddrInfo.&]
 [s3; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:IpAddrInfo`:`:Start`(const String`&`,int`,int`): [@(0.0.255) void]_[* Start]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 host], [@(0.0.255) int]_[*@3 port], 
 [@(0.0.255) int]_[*@3 family]_`=_FAMILY`_ANY)&]
-[s2;%RU-RU Starts resolving address of [%-*@3 host] (with [%-*@3 port]). 
-[%-*@3 family] can be used to narrow the scan to particular IP 
-protocol (FAMILY`_IPV4, FAMILY`_IPV6).&]
+[s2;%RU-RU Начинает разрешение адреса хоста 
+[%-*@3 host] (с портом [%-*@3 port]). [%-*@3 family] может 
+использоваться для сужения диапазона 
+сканирования до конкретного протокола 
+IP (FAMILY`_IPV4, FAMILY`_IPV6).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:IpAddrInfo`:`:InProgress`(`): [@(0.0.255) bool]_[* InProgress]()&]
-[s2;%RU-RU Возвращает  true, если resolving of address 
-is still in progress.&]
+[s2;%RU-RU Возвращает true, если разрешение 
+адреса всё ещё продолжается.&]
 [s3; &]
 [s4; &]
 [s5;:IpAddrInfo`:`:Execute`(const String`&`,int`,int`): [@(0.0.255) bool]_[* Execute]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 host], [@(0.0.255) int]_[*@3 port], 
 [@(0.0.255) int]_[*@3 family]_`=_FAMILY`_ANY)&]
-[s2;%RU-RU Resolves address [%-*@3 host] (with [%-*@3 port]). This is 
-blocking variant, returns after address is resolved. Возвращает 
- true, если address was found. [%-*@3 family] can be used to 
-narrow the scan to particular IP protocol (FAMILY`_IPV4, FAMILY`_IPV6).&]
+[s2;%RU-RU Разрешает адрес хоста [%-*@3 host] (с 
+портом [%-*@3 port]). Это блокируемый вариант, 
+возвращает после разрешения хоста. 
+Возвращает true, если адрес найден. 
+[%-*@3 family] может использоваться для сужения 
+диапазона сканирования до конкретного 
+протокола IP (FAMILY`_IPV4, FAMILY`_IPV6).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:IpAddrInfo`:`:GetResult`(`)const: addrinfo_`*[* GetResult]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает resulting [^http`:`/`/en`.wikipedia`.org`/wiki`/Getaddrinfo^ a
-ddrinfo] if address resolving was finished and successfull, NULL 
-otherwise.&]
+[s2;%RU-RU Возвращает итоговую [^http`:`/`/en`.wikipedia`.org`/wiki`/Getaddrinfo^ a
+ddrinfo], если разрешение адреса завершено, 
+и успешно, в противном случае `- NULL.&]
 [s3; &]
 [s4; &]
 [s5;:IpAddrInfo`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%RU-RU Resets IpAddrInfo to initial state. Not that this also 
-releases the slot used for resolving the request.&]
+[s2;%RU-RU Сбрасывает IpAddrInfo в исходное состояние. 
+Заметьте, что также освобождается 
+слот, использовавшийся для разрешения 
+запроса.&]
 [s3; &]
 [s4; &]
 [s5;:IpAddrInfo`:`:IpAddrInfo`(`): [* IpAddrInfo]()&]
 [s5;:IpAddrInfo`:`:`~IpAddrInfo`(`): [@(0.0.255) `~][* IpAddrInfo]()&]
-[s2;%RU-RU Конструктор , destructor.&]
+[s2;%RU-RU Конструктор , деструктор.&]
 [s3; ]]

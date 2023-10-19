@@ -153,7 +153,7 @@ void CreateBuildMethods()
 		SaveFile(bm, clang_bm);
 #else
 	bool openbsd = ToLower(Sys("uname")).Find("openbsd") >= 0;
-	auto Fix = [=](const char *s) {
+	auto Fix = [=, this](const char *s) {
 		String r = s;
 		if(openbsd) {
 			r.Replace("INCLUDE = \"\";", "INCLUDE = \"/usr/local/include\";");
@@ -187,7 +187,7 @@ String GetDefaultUppOut()
 		p = GetFileFolder(p);
 	}
 	
-	out = Nvl(out, GetHomeDirFile(".cache")) + "/upp.out";
+	out = Nvl(out, GetHomeDirFile(".cache")) + "/DinrusIDE_output";
 	
 	RealizeDirectory(out);
 	return out;

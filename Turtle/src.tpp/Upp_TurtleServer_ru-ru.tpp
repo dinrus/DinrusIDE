@@ -83,7 +83,7 @@ urtleServer]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 ip
 [s2;%% Конструктор  overload. Initializes the server bind adrress, 
 the host URL and the connection port number to provided values.&]
 [s3;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Function List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Функций]]}}&]
 [s3;%% &]
 [s5;:Upp`:`:RunTurtleGui`(Upp`:`:TurtleServer`&`,Upp`:`:Event`<`>`): [@(0.0.255) void]_
 [* RunTurtleGui]([_^Upp`:`:TurtleServer^ TurtleServer][@(0.0.255) `&]_[*@3 gui], 

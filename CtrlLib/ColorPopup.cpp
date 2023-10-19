@@ -418,7 +418,7 @@ ColorPopUp::ColorPopUp()
 	voidtext = t_("(отсутствует)");
 
 	settext.SetImage(CtrlImg::color_edit());
-	settext << [=] {
+	settext << [=, this] {
 		String text;
 		if(!IsNull(color) && color != VoidColor())
 			text = ColorToHtml(color);

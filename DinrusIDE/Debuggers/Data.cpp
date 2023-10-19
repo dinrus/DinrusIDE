@@ -226,11 +226,11 @@ void Pdb::CopyMenu(ArrayCtrl& array, Bar& bar)
 		return String() << array.Get(i, 0) << '=' << array.Get(i, 1).To<Visual>().GetString();
 	};
 	ArrayCtrl *ap = &array;
-	bar.Add(array.IsCursor(), "Копировать", [=] {
+	bar.Add(array.IsCursor(), "Копировать", [=, this] {
 		ClearClipboard();
 		AppendClipboardText(CopyLine(ap->GetCursor(), *ap));
 	});
-	bar.Add(array.GetCount(), "Копировать все", [=] {
+	bar.Add(array.GetCount(), "Копировать все", [=, this] {
 		ClearClipboard();
 		String s;
 		for(int i = 0; i < ap->GetCount(); i++)
@@ -238,8 +238,8 @@ void Pdb::CopyMenu(ArrayCtrl& array, Bar& bar)
 		AppendClipboardText(s);
 	});
 	bar.Separator();
-	bar.Add("Показать тип", [=] { show_type = !show_type; Data(); }).Check(show_type);
-	bar.Add("Без pretty-printing", [=] { raw = !raw; Data(); }).Check(raw);
+	bar.Add("Показать тип", [=, this] { show_type = !show_type; Data(); }).Check(show_type);
+	bar.Add("Без pretty-printing", [=, this] { raw = !raw; Data(); }).Check(raw);
 }
 
 void Pdb::MemMenu(ArrayCtrl& array, Bar& bar, const String& exp)
@@ -272,7 +272,7 @@ void Pdb::MemMenu(ArrayCtrl& array, Bar& bar, const String& exp)
 
 void Pdb::WatchMenu(Bar& bar, const String& exp)
 {
-	bar.Add(exp.GetCount(), "Вотч", [=] { AddWatch(exp); }).Key(IK_DBL_CLICK);
+	bar.Add(exp.GetCount(), "Вотч", [=, this] { AddWatch(exp); }).Key(IK_DBL_CLICK);
 }
 
 void Pdb::DataMenu(ArrayCtrl& array, Bar& bar)
@@ -320,14 +320,14 @@ void Pdb::WatchesMenu(Bar& bar)
 	bar.Separator();
 	CopyMenu(autos, bar);
 	bar.Separator();
-	bar.Add(AK_ADDWATCH, [=] { AddWatch(); });
+	bar.Add(AK_ADDWATCH, [=, this] { AddWatch(); });
 	bool b = watches.IsCursor();
 	bar.Add(b, "Редактировать вотч..", THISBACK(EditWatch));
-	bar.Add(b, "Удалить вотч..", [=] {
+	bar.Add(b, "Удалить вотч..", [=, this] {
 		watches.DoRemove();
 		Data();
 	});
-	bar.Add(b, "Удалить все вотчи..", [=] {
+	bar.Add(b, "Удалить все вотчи..", [=, this] {
 		if(PromptYesNo("Удалить все вотчи?")) { watches.Clear(); Data(); }
 	});
 	bar.Separator();

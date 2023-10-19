@@ -1,5 +1,4 @@
-topic "Zlib encapsulation";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Инкапсуляция Zlib";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,49 +8,58 @@ topic "Zlib encapsulation";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 Zlib]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс Zlib]]}}&]
 [s3; &]
 [s1;:Zlib`:`:class: [@(0.0.255)3 class][3 _][*3 Zlib]&]
-[s2;%% This class encapsulates zlib library to provide compression/decompression 
+[s2;%RU-RU This class encapsulates zlib library to provide compression/decompression 
 utility.&]
-[s2;%% Encapsulation is specifically designed to allow streaming 
+[s2;%RU-RU Encapsulation is specifically designed to allow streaming 
 mode of operations. Input data are fed using Put method and can 
 be either obtained at output as partial String, or through output 
 callback. If using String, it is also always possible to clear 
 this output partial String to conserve memory.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Zlib`:`:WhenOut: [_^Callback2^ Callback2]<[@(0.0.255) const]_[@(0.0.255) void]_`*, 
 [_^dword^ int]>_[* WhenOut]&]
-[s2;%% Output callback. Represents `"consumer function`": When there 
-are output data available, they are passed out using this callback. 
-Default value stores data into output String inside Zlib.&]
+[s2;%RU-RU Обрвызов вывода. Представляет 
+собой `"функцию`-потребителя`": Когда 
+достцупны выводные данные, они передаются 
+во вне посредством этого обратного 
+вызова. Дефолтно данные сохраняются 
+в строке вывода внутри Zlib.&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:Compress`(`): [@(0.0.255) void]_[* Compress]()&]
-[s2;%% УстанавливаетZlib into compression mode (`"deflate`" in zlib terminology).&]
+[s2;%RU-RU Устанавливает Zlib в режим сжатия 
+(`"deflate`" в терминологии zlib).&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:Decompress`(`): [@(0.0.255) void]_[* Decompress]()&]
-[s2;%% УстанавливаетZlib into decompression mode (`"inflate`" in zlib terminology).&]
+[s2;%RU-RU Устанавливает Zlib в режим расжатия 
+(`"inflate`" в терминологии zlib).&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:Put`(const void`*`,int`): [@(0.0.255) void]_[* Put]([@(0.0.255) const]_[@(0.0.255) v
 oid]_`*[*@3 ptr], [@(0.0.255) int]_[*@3 size])&]
 [s5;:Zlib`:`:Put`(const String`&`): [@(0.0.255) void]_[* Put]([@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 s])&]
-[s2;%% Puts a block of data to be processed (compressed or decompressed 
-based on mode) by Zlib.&]
-[s3;%% &]
+[s2;%RU-RU Помещает блок данных под обработку 
+(сжатых или расжатых, в зависимости 
+от режима) посредством Zlib.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Zlib`:`:End`(`): [@(0.0.255) void]_[* End]()&]
-[s2;%% Signals the end of input stream.&]
+[s2;%RU-RU Сигнализирует о конце вводного 
+потока.&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%% Resets Zlib to initial state (throws out data).&]
+[s2;%RU-RU Сбрасывает Zlib в начальное состояние 
+(отбрасывая данные).&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:Get`(`)const: [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[* Get]()_[@(0.0.255) c
@@ -60,79 +68,90 @@ onst]&]
 _[@(0.0.255) const]&]
 [s5;:Zlib`:`:operator`~`(`)const: [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[* ope
 rator`~]()_[@(0.0.255) const]&]
-[s2;%% Возвращает current output String (it only gets created if WhenOut 
-is not redirected somewhere else).&]
+[s2;%RU-RU Возвращает текущую строку вывода 
+(создаётся только, если WhenOut не перенаправляе
+тся куда`-либо ещё).&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:ClearOut`(`): [@(0.0.255) void]_[* ClearOut]()&]
-[s2;%% Clears output String. Can be called anytime.&]
+[s2;%RU-RU Очищает строку вывода. Может вызываться 
+в любое время.&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:GetCRC`(`)const: [_^dword^ dword]_[* GetCRC]()_[@(0.0.255) const]&]
-[s2;%% Возвращает CRC of uncompressed stream, if CRC mode is active.&]
+[s2;%RU-RU Возвращает CRC несжатого потока, 
+если активен режим CRC.&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:IsError`(`)const: [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
-[s2;%% Возвращает  true, если there was error processing input.&]
+[s2;%RU-RU Возвращает true, если при обработке 
+ввода имелись ошибки.&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:GetGZipName`(`)const: [_^String^ String]_[* GetGZipName]()_[@(0.0.255) const]&]
-[s2;%% If GZip mode is active and Gzip header is processed, returns 
-the name of file.&]
+[s2;%RU-RU Если режим GZip активен и заголовочник 
+Gzip обработан, возвращает имя файла.&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:GetGZipComment`(`)const: [_^String^ String]_[* GetGZipComment]()_[@(0.0.255) c
 onst]&]
-[s2;%% If GZip mode is active and Gzip header is processed, returns 
-the gzip comment.&]
+[s2;%RU-RU Если режим GZip активен и заголовочник 
+Gzip обработан, возвращает комментарий 
+gzip.&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:GZip`(bool`): [_^Zlib^ Zlib][@(0.0.255) `&]_[* GZip]([@(0.0.255) bool]_[*@3 gzip`_
 ]_`=_[@(0.0.255) true])&]
-[s2;%% Activates GZip mode. In this mode Zlib is able to directly 
-process .gzip file format.&]
-[s3;%% &]
+[s2;%RU-RU Активирует режим GZip. В этом режиме 
+Zlib может напрямую юобрабатывать формат 
+фала .gzip.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Zlib`:`:Header`(bool`): [_^Zlib^ Zlib][@(0.0.255) `&]_[* Header]([@(0.0.255) bool]_[*@3 hd
 r`_]_`=_[@(0.0.255) true])&]
-[s2;%% Activates zlib header (see zlib documentation for details).&]
-[s3;%% &]
+[s2;%RU-RU Активирует заголовочник zlib (смотрите 
+документацию к zlib для уточнения).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Zlib`:`:NoHeader`(`): [_^Zlib^ Zlib][@(0.0.255) `&]_[* NoHeader]()&]
-[s2;%% То же, что и Header(false).&]
+[s2;%RU-RU То же, что и Header(false).&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:CRC`(bool`): [_^Zlib^ Zlib][@(0.0.255) `&]_[* CRC]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
-[s2;%% Activates CRC mode. In this mode, Zlib gathers CRC of uncompressed 
-data that can be at the end obtained by GetCRC method.&]
-[s3;%% &]
+[s2;%RU-RU Активирует режим CRC. В этом режиме, 
+Zlib собирает CRC расжатых данных, который 
+может находиться в конце, и может 
+быть получен методом GetCRC.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Zlib`:`:NoCRC`(`): [_^Zlib^ Zlib][@(0.0.255) `&]_[* NoCRC]()&]
-[s2;%% То же, что и CRC(false).&]
+[s2;%RU-RU То же, что и CRC(false).&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:ChunkSize`(int`): [_^Zlib^ Zlib][@(0.0.255) `&]_[* ChunkSize]([@(0.0.255) int]_[*@3 n
 ])&]
-[s2;%% Устанавливаетthe maximum amount of input or output data to be processed 
-in single zlib call.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает максимальное количество 
+вводных или выводных данных, обрабатываемых
+ за один вызов zlib.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Zlib`:`:Level`(int`): [_^Zlib^ Zlib][@(0.0.255) `&]_[* Level]([@(0.0.255) int]_[*@3 compre
 ssion`_lvl])&]
-[s2;%% Устанавливаетthe compresison level. Must be 1..9. Default level is 
-6.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает уровень сжатия. 
+Должен быть 1..9. Дефолтный уровень 
+равен 6.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Zlib`:`:Zlib`(`): [* Zlib]()&]
-[s2;%% Конструктор .&]
+[s2;%RU-RU Конструктор .&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:`~Zlib`(`): [@(0.0.255) `~][* Zlib]()&]
-[s2;%% Destructor.&]
-[s3;%% &]
+[s2;%RU-RU Деструктор.&]
+[s3;%RU-RU &]
 [s0; &]
-[ {{10000@(113.42.0) [s0;%% [*@7;4 Compression / decompression functions]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Функции сжатия/расжатия]]}}&]
 [s3; &]
 [s5;:ZCompress`(Stream`&`,Stream`&`,int64`,Gate2`<int64`,int64`>`,bool`): [_^int64^ int
 64]_[* ZCompress]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 out], [_^Stream^ Stream][@(0.0.255) `&
@@ -148,7 +167,7 @@ ress]([@(0.0.255) const]_[@(0.0.255) void]_`*[*@3 data], [_^int64^ int64]_[*@3 l
 [s5;:ZCompress`(const String`&`,Gate2`<int64`,int64`>`): [_^String^ String]_[* ZCompress](
 [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 s], [_^Gate2^ Gate2]<[_^int64^ int6
 4], [_^int64^ int64]>_[*@3 progress]_`=_[@(0.0.255) false])&]
-[s2;%% Compresses raw data using zlib from input stream [%-*@3 in], 
+[s2;%RU-RU Compresses raw data using zlib from input stream [%-*@3 in], 
 memory [%-*@3 data][%- , ][%-*@3 len] or input string [%-*@3 s] to output 
 stream [%-*@3 out] (in this case returns a number of bytes written 
 or negative integer to signal error) or into String return value 
@@ -156,7 +175,7 @@ or negative integer to signal error) or into String return value
 to track progress of operation, returning true cancels operation. 
 Parameter [%-*@3 hdr] can be used to switch`-off zlib header (see 
 zlib documentation for details).&]
-[s3;%% &]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:ZDecompress`(Stream`&`,Stream`&`,int64`,Gate2`<int64`,int64`>`,bool`): [_^int64^ i
 nt64]_[* ZDecompress]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 out], [_^Stream^ Stream][@(0.0.255) `&
@@ -177,7 +196,7 @@ compress]([@(0.0.255) const]_[@(0.0.255) void]_`*[*@3 data], [_^int64^ int64]_[*
 [s5;:ZDecompress`(const String`&`,Gate2`<int64`,int64`>`): [_^String^ String]_[* ZDecompr
 ess]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 s], [_^Gate2^ Gate2]<[_^int64^ i
 nt64], [_^int64^ int64]>_[*@3 progress]_`=_[@(0.0.255) false])&]
-[s2;%% Decompresses raw data using zlib from input stream [%-*@3 in], 
+[s2;%RU-RU Decompresses raw data using zlib from input stream [%-*@3 in], 
 memory [%-*@3 data][%- , ][%-*@3 len] or input string [%-*@3 s] to output 
 stream [%-*@3 out] (in this case returns a number of bytes written 
 or negative integer to signal error) or into String return value 
@@ -185,8 +204,8 @@ or negative integer to signal error) or into String return value
 to track progress of operation, returning true cancels operation. 
 Parameter [%-*@3 hdr] can be used to switch`-off zlib header (see 
 zlib documentation for details).&]
-[s3;%% &]
-[s4;%% &]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:GZCompress`(Stream`&`,Stream`&`,int64`,Gate2`<int64`,int64`>`): [_^int64^ int64]_[* G
 ZCompress]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 out], [_^Stream^ Stream][@(0.0.255) `&]_[*@3 i
 n], [_^int64^ int64]_[*@3 size], [_^Gate2^ Gate2]<[_^int64^ int64], [_^int64^ int64]>_[*@3 pr
@@ -201,15 +220,15 @@ ress]([@(0.0.255) const]_[@(0.0.255) void]_`*[*@3 data], [@(0.0.255) int]_[*@3 l
 [s5;:GZCompress`(const String`&`,Gate2`<int64`,int64`>`): [_^String^ String]_[* GZCompres
 s]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 s], [_^Gate2^ Gate2]<[_^int64^ i
 nt64], [_^int64^ int64]>_[*@3 progress]_`=_[@(0.0.255) false])&]
-[s2;%% Compresses raw data into gzip file format from input stream 
+[s2;%RU-RU Compresses raw data into gzip file format from input stream 
 [%-*@3 in], memory [%-*@3 data][%- , ][%-*@3 len] or input string [%-*@3 s] 
 to output stream [%-*@3 out] (in this case returns a number of 
 bytes written or negative integer to signal error) or into String 
 return value (returns IsVoid String on error). [%-*@3 progress] 
 can be used to track progress of operation, returning true cancels 
 operation.&]
-[s3;%% &]
-[s4;%% &]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:GZDecompress`(Stream`&`,Stream`&`,int64`,Gate2`<int64`,int64`>`): [_^int64^ int64]_
 [* GZDecompress]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 out], [_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 in], [_^int64^ int64]_[*@3 size], [_^Gate2^ Gate2]<[_^int64^ int64], 
@@ -224,15 +243,15 @@ compress]([@(0.0.255) const]_[@(0.0.255) void]_`*[*@3 data], [@(0.0.255) int]_[*
 [s5;:GZDecompress`(const String`&`,Gate2`<int64`,int64`>`): [_^String^ String]_[* GZDecom
 press]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 s], 
 [_^Gate2^ Gate2]<[_^int64^ int64], [_^int64^ int64]>_[*@3 progress]_`=_[@(0.0.255) false])&]
-[s2;%% Decompresses raw data into gzip file format from input stream 
-[%-*@3 in], memory [%-*@3 data][%- , ][%-*@3 len] or input string [%-*@3 s] 
-to output stream [%-*@3 out] (in this case returns a number of 
-bytes written or negative integer to signal error) or into String 
-return value (returns IsVoid String on error). [%-*@3 progress] 
+[s2;%RU-RU Decompresses raw data into gzip file format from input 
+stream [%-*@3 in], memory [%-*@3 data][%- , ][%-*@3 len] or input string 
+[%-*@3 s] to output stream [%-*@3 out] (in this case returns a number 
+of bytes written or negative integer to signal error) or into 
+String return value (returns IsVoid String on error). [%-*@3 progress] 
 can be used to track progress of operation, returning true cancels 
 operation.&]
-[s3;%% &]
-[s4;%% &]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:GZCompressFile`(const char`*`,const char`*`,Gate2`<int64`,int64`>`): [@(0.0.255) b
 ool]_[* GZCompressFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 dstfile], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 srcfile], [_^Gate2^ Gate2]<[_^int64^ int64], 
@@ -240,11 +259,11 @@ ool]_[* GZCompressFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 dstfile],
 [s5;:GZCompressFile`(const char`*`,Gate2`<int64`,int64`>`): [@(0.0.255) bool]_[* GZCompre
 ssFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 srcfile], [_^Gate2^ Gate2]<[_^int64^ in
 t64], [_^int64^ int64]>_[*@3 progress]_`=_[@(0.0.255) false])&]
-[s2;%% Compresses file into gzip format. If [%-*@3 dstfile] is not 
-present, the name is created by appending .gz extension to [%-*@3 srcfile]. 
-Возвращает true on success.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Compresses file into gzip format. If [%-*@3 dstfile] is 
+not present, the name is created by appending .gz extension to 
+[%-*@3 srcfile]. Возвращает true on success.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:GZDecompressFile`(const char`*`,const char`*`,Gate2`<int64`,int64`>`): [@(0.0.255) b
 ool]_[* GZDecompressFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 dstfile], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 srcfile], [_^Gate2^ Gate2]<[_^int64^ int64], 
@@ -252,8 +271,9 @@ ool]_[* GZDecompressFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 dstfile],
 [s5;:GZDecompressFile`(const char`*`,Gate2`<int64`,int64`>`): [@(0.0.255) bool]_[* GZDeco
 mpressFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 srcfile], [_^Gate2^ Gate2]<[_^int64^ i
 nt64], [_^int64^ int64]>_[*@3 progress]_`=_[@(0.0.255) false])&]
-[s2;%% Decompresses file from gzip format. If [%-*@3 dstfile] is not 
-present, the name is created by removing .gz extension to [%-*@3 srcfile]. 
-If [%-*@3 srcfile] does not have .gz extension, function returns 
-false to signal error and does nothing. Возвращает true on success.&]
-[s0;%% ]]
+[s2;%RU-RU Decompresses file from gzip format. If [%-*@3 dstfile] is 
+not present, the name is created by removing .gz extension to 
+[%-*@3 srcfile]. If [%-*@3 srcfile] does not have .gz extension, 
+function returns false to signal error and does nothing. Возвращает 
+true on success.&]
+[s0;%RU-RU ]]

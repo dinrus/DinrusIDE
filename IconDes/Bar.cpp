@@ -107,10 +107,10 @@ void IconDes::SettingBar(Bar& bar)
 	bar.Add(c, AK_ZOOM_OUT,  IconDesImg::ZoomPlus(), THISBACK(ZoomIn))
 		.Enable(magnify < 27);
 	bar.Add(AK_PASTE_MODE, IconDesImg::PasteOpaque(),
-	        [=] { paste_mode = paste_mode == PASTE_OPAQUE ? PASTE_TRANSPARENT : PASTE_OPAQUE; MakePaste(); SetBar(); })
+	        [=,this] { paste_mode = paste_mode == PASTE_OPAQUE ? PASTE_TRANSPARENT : PASTE_OPAQUE; MakePaste(); SetBar(); })
 	   .Check(paste_mode == PASTE_OPAQUE);
 	bar.Add(AK_PASTE_BACK, IconDesImg::PasteBack(),
-	        [=] { paste_mode = paste_mode == PASTE_BACK ? PASTE_TRANSPARENT : PASTE_BACK; MakePaste(); SetBar(); })
+	        [=, this] { paste_mode = paste_mode == PASTE_BACK ? PASTE_TRANSPARENT : PASTE_BACK; MakePaste(); SetBar(); })
 	   .Check(paste_mode == PASTE_BACK);
 }
 
@@ -171,16 +171,16 @@ void IconDes::DrawBar(Bar& bar)
 	   .Check(tool == &IconDes::HotSpotTool);
 	bar.Add(AK_TEXT, IconDesImg::Text(), THISBACK(Text))
 	   .Check(textdlg.IsOpen());
-	bar.Add("Заполнить", fill_cursor, [=] { SetTool(&IconDes::FillTool); })
+	bar.Add("Заполнить", fill_cursor, [=, this] { SetTool(&IconDes::FillTool); })
 	   .Check(tool == &IconDes::FillTool && notpasting)
 	   .Tip("Заполнить (Shift+Click)");
-	bar.Add("Заполнить с малой толерантностью", fill_cursor2, [=] { SetTool(&IconDes::Fill2Tool); })
+	bar.Add("Заполнить с малой толерантностью", fill_cursor2, [=, this] { SetTool(&IconDes::Fill2Tool); })
 	   .Check(tool == &IconDes::Fill2Tool && notpasting)
 	   .Tip("Заполнить с малой толерантностью (Ctrl+Click)");
-	bar.Add("Заполнить с большой толерантностью", fill_cursor3, [=] { SetTool(&IconDes::Fill3Tool); })
+	bar.Add("Заполнить с большой толерантностью", fill_cursor3, [=, this] { SetTool(&IconDes::Fill3Tool); })
 	   .Check(tool == &IconDes::Fill3Tool && notpasting)
 	   .Tip("Заполнить с большой толерантностью (Alt+Click)");
-	bar.Add("Антизаполнение", antifill_cursor, [=] { SetTool(&IconDes::AntiFillTool); })
+	bar.Add("Антизаполнение", antifill_cursor, [=, this] { SetTool(&IconDes::AntiFillTool); })
 	   .Check(tool == &IconDes::AntiFillTool && notpasting)
 	   .Tip("Антизаполнение (Shift+Ctrl+Click)");
 	bar.Separator();
@@ -204,10 +204,10 @@ void IconDes::DrawBar(Bar& bar)
 	bar.Add(c, "Суперсэмпл 3x", IconDesImg::ResizeDown(), THISBACK(ResizeDown))
 	   .Key(AK_RESIZEDOWN3);
 	bar.Add("Показать синтетику UHD/Dark", IconDesImg::ShowOther(),
-	        [=] { show_other = !show_other; show_small = false; SyncShow(); SetBar(); })
+	        [=, this] { show_other = !show_other; show_small = false; SyncShow(); SetBar(); })
 	   .Check(show_other);
 	bar.Add("Показать уменьшенным", IconDesImg::ShowSmall(),
-	        [=] { show_small = !show_small; show_other = false; SyncShow(); SetBar(); })
+	        [=, this] { show_small = !show_small; show_other = false; SyncShow(); SetBar(); })
 	   .Check(show_small);
 	bar.Separator();
 	bar.Add(c, AK_SLICE, IconDesImg::Slice(), THISBACK(Slice));

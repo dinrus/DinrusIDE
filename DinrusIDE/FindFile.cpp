@@ -86,9 +86,9 @@ FindFileWindow::FindFileWindow(const Workspace& wspc, const String& actualPackag
 	mask.NullText("Поиск");
 	mask.SelectAll();
 	mask.SetFilter(CharFilterFindFileMask);
-	mask << [=] { Find(); };
-	searchInCurrentPackage << [=] { Find(); };
-	help << [=] { LaunchWebBrowser("https://www.ultimatepp.org/app$ide$FindFile$en-us.html"); };
+	mask << [=, this] { Find(); };
+	searchInCurrentPackage << [=, this] { Find(); };
+	help << [=, this] { LaunchWebBrowser("https://www.ultimatepp.org/app$ide$FindFile$en-us.html"); };
 }
 
 bool FindFileWindow::Key(dword key, int count)

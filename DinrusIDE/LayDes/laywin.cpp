@@ -198,7 +198,7 @@ void LayDes::OptionBar(Bar& bar)
 void LayDes::HelpBar(Bar& bar)
 {
 	bar.Add("Узнать больше о Дизайнере Выкладок..", IdeCommonImg::Help(),
-		[=] { LaunchWebBrowser("https://www.ultimatepp.org/app$ide$LayoutDes_en-us.html"); });
+		[=, this] { LaunchWebBrowser("https://www.ultimatepp.org/app$ide$LayoutDes_en-us.html"); });
 }
 
 void LayDes::MainToolBar(Bar& bar)

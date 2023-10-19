@@ -28,7 +28,7 @@ topic "Knob";
 [s0;%% Knob shows a knob handle&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:Knob`:`:Knob`(`): [* Knob]()&]
 [s2;%% Initializes Knob.&]

@@ -260,7 +260,7 @@ void Ide::InsertMenu(Bar& bar)
 			if(ext == ".iml") {
 				String c = GetFileTitle(fn);
 				c.Set(0, ToUpper(c[0]));
-				bar.Add(fn + " include", [=] { InsertIml(IdeWorkspace().GetPackage(pi), pp, c.EndsWith("Img") ? c : c + "Img"); });
+				bar.Add(fn + " include", [=, this] { InsertIml(IdeWorkspace().GetPackage(pi), pp, c.EndsWith("Img") ? c : c + "Img"); });
 				n++;
 			}
 			if(ext == ".tpp") {
@@ -274,7 +274,7 @@ void Ide::InsertMenu(Bar& bar)
 	}
 	bar.Add("Вставить путь к файлу..", THISBACK1(InsertFilePath, false));
 	bar.Add("Вставить путь к файлу как строку Си..", THISBACK1(InsertFilePath, true));
-	bar.Add("Вставить buffer обмена как..", [=] { InsertAs(); });
+	bar.Add("Вставить buffer обмена как..", [=, this] { InsertAs(); });
 	bar.Add("Вставить файл как..", THISBACK(InsertFileBase64));
 }
 
@@ -305,12 +305,12 @@ void Ide::ToggleWordwrap()
 
 void Ide::EditorMenu(Bar& bar)
 {
-	bar.Sub("Ассист", [=](Bar& bar) { AssistMenu(bar); });
+	bar.Sub("Ассист", [=, this](Bar& bar) { AssistMenu(bar); });
 	InsertAdvanced(bar);
 	bar.MenuSeparator();
 	OnlineSearchMenu(bar);
     bar.Add(IsClipboardAvailableText() && (editor.IsSelection() || editor.GetLength() < 1024*1024),
-            "Сравнить с буфером обмена..", [=]() {
+            "Сравнить с буфером обмена..", [=, this]() {
         DiffDlg dlg;
         dlg.diff.left.RemoveFrame(dlg.p);
         dlg.diff.Set(ReadClipboardText(), editor.IsSelection() ? editor.GetSelection()

@@ -450,7 +450,7 @@ void HexView::CharsetMenu(Bar& bar)
 
 void HexView::StdMenu(Bar& bar)
 {
-	bar.Add("Перейти к..", [=] { WhenGotoDlg(); })
+	bar.Add("Перейти к..", [=, this] { WhenGotoDlg(); })
 	   .Key(K_CTRL_G);
 	bar.Add("Колонки", THISBACK(ColumnsMenu));
 	bar.Add("Символ", THISBACK(CharsetMenu));

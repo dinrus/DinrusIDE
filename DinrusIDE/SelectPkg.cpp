@@ -9,14 +9,14 @@
 void SelectPackageDlg::PackageMenu(Bar& menu)
 {
 	bool b = GetCurrentName().GetCount();
-	menu.Add("Новый пакет..", [=] { OnNew(); });
+	menu.Add("Новый пакет..", [=, this] { OnNew(); });
 	menu.Separator();
-	menu.Add(b, "Дублировать пакет..", [=] { RenamePackage(true); });
-	menu.Add(b, "Переименовать пакет..", [=] { RenamePackage(false); });
-	menu.Add(b, "Копировать пакет в..", [=] { MovePackage(true); });
-	menu.Add(b, "Переместить пакет в..", [=] { MovePackage(false); });
-	menu.Add(b, "Удалить пакет..", [=] { DeletePackage(); });
-	menu.Add(b, "Изменить описание..", [=] { ChangeDescription(); });
+	menu.Add(b, "Дублировать пакет..", [=, this] { RenamePackage(true); });
+	menu.Add(b, "Переименовать пакет..", [=, this] { RenamePackage(false); });
+	menu.Add(b, "Копировать пакет в..", [=, this] { MovePackage(true); });
+	menu.Add(b, "Переместить пакет в..", [=, this] { MovePackage(false); });
+	menu.Add(b, "Удалить пакет..", [=, this] { DeletePackage(); });
+	menu.Add(b, "Изменить описание..", [=, this] { ChangeDescription(); });
 }
 
 bool RenamePackageFs(const String& upp, const String& npf, const String& nupp, bool copy)
@@ -200,18 +200,18 @@ SelectPackageDlg::SelectPackageDlg(const char *title, bool selectvars_, bool mai
 	if (!selectvars)
 		splitter.Hide();
 	
-	newu << [=] { OnNew(); };
+	newu << [=, this] { OnNew(); };
 	kind.Add(MAIN, "Главные пакеты");
 	kind.Add(NONMAIN, "Второстепенные пакеты");
 	kind.Add(ALL, "Все пакеты");
-	kind << [=] { OnFilter(); };
+	kind << [=, this] { OnFilter(); };
 	kind <<= main ? MAIN : NONMAIN;
-	nest << [=] { OnFilter(); };
+	nest << [=, this] { OnFilter(); };
 	OnFilter();
 	nest <<= main ? 0 : ALL;
 	brief <<= THISBACK(SyncBrief);
 	search.NullText("Поиск (Ctrl+K)", StdFont().Italic(), SColorDisabled());
-	search << [=] { SyncList(Null); };
+	search << [=, this] { SyncList(Null); };
 	search.SetFilter(CharFilterDefaultToUpperAscii);
 	SyncBrief();
 	ActiveFocus(brief ? (Ctrl&)clist : (Ctrl&)alist);
@@ -223,7 +223,7 @@ SelectPackageDlg::SelectPackageDlg(const char *title, bool selectvars_, bool mai
 	clist.WhenBar = alist.WhenBar = THISBACK(PackageMenu);
 	
 	upphub.SetImage(IdeImg::UppHub());
-	upphub << [=] {
+	upphub << [=, this] {
 		String p = UppHub();
 		OnBase();
 		if(p.GetCount()) {
@@ -480,7 +480,7 @@ void SelectPackageDlg::ToolBase(Bar& bar)
 	Vector<String> d = GetSvnDirs();
 	if(HasGit()) {
 		bar.Separator();
-		bar.Add("Клонировать исходники U++ с GitHub..", [=] {
+		bar.Add("Клонировать исходники U++ с GitHub..", [=, this] {
 			String vars = base.Get(0);
 			SetupGITMaster();
 			SyncBase(vars);

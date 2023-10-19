@@ -19,7 +19,7 @@ void IdeGotoCodeRef(const String& ref_id);
 
 void TopicEditor::JumpToDefinition()
 {
-	PostCallback([=] { IdeGotoCodeRef(editor.GetFormatInfo().label); });
+	PostCallback([=, this] { IdeGotoCodeRef(editor.GetFormatInfo().label); });
 }
 
 void TopicEditor::Label(String& label)

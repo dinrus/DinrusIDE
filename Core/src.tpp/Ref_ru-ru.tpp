@@ -14,48 +14,58 @@ topic "Класс Ref";
 [s1;@(0.0.255)3 &]
 [s1;:Ref`:`:class: [@(0.0.255)3 class][3 _][*3 Ref][3 _:_][@(0.0.255)3 private][3 _][*@3;3 Moveable][3 <
 ][*3 Ref][3 >_]&]
-[s2;%RU-RU Generic reference to rich Value types and Value. Конструктор  
-from various rich Value creates Ref, which then can be used to 
-assign values to original. Note that assigning Ref to Ref assigns 
-the reference, not the value (in this regard, it works more like 
-C`+`+ pointer than C`+`+ reference).&]
+[s2;%RU-RU Генерная ссылка на насыщенные 
+типы значений и Value. Конструктор из 
+разных насыщенных значений создаёт 
+Ref, который далее можно использовать 
+для присваивания значений оригиналу. 
+Заметьте, что присваивание Ref к Ref 
+присваивает ссылку, а не значение 
+(в этом смысле, это работает больше 
+похоже на указатель в C`+`+, чем на ссылку 
+C`+`+).&]
 [s3; &]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Ref`:`:GetType`(`)const: [_^dword^ dword]_[* GetType]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the type of referenced variable (same codes as 
-for Value, value itself has VALUE`_V type).&]
+[s2;%RU-RU Возвращает тип ссылочной переменной 
+(те же коды, что у Value, само значение 
+имеет тип VALUE`_V).&]
 [s3; &]
 [s4; &]
 [s5;:Ref`:`:IsNull`(`)const: [@(0.0.255) bool]_[* IsNull]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если referenced variable 
-contains Null.&]
+[s2;%RU-RU Возвращает true, если ссылочная 
+переменная содержит Null.&]
 [s3; &]
 [s4; &]
 [s5;:Ref`:`:Is`(`)const: [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) bool]_
 [* Is]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если referenced variable 
-is of type [%-*@4 T].&]
+[s2;%RU-RU Возвращает true, если ссылочная 
+переменная типа [%-*@4 T].&]
 [s3; &]
 [s4; &]
 [s5;:Ref`:`:Get`(`)const: [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T][@(0.0.255) `&
 ]_[* Get]()_[@(0.0.255) const]&]
-[s2; [%RU-RU Возвращает reference to referenced variable (Is<][*@4 T]> must 
-be true, otherwise undefined).&]
+[s2; [%RU-RU Возвращает ссылку на ссылочную 
+переменную (Is<][*@4 T]> должно быть true, 
+иначе неопределённо).&]
 [s3; &]
 [s4; &]
 [s5;:Ref`:`:SetNull`(`): [@(0.0.255) void]_[* SetNull]()&]
-[s2;%RU-RU УстанавливаетNull to referenced variable.&]
+[s2;%RU-RU Устанавливает Null в ссылочную 
+переменную.&]
 [s3; &]
 [s4; &]
 [s5;:Ref`:`:GetValue`(`)const: [_^Value^ Value]_[* GetValue]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the content of referenced variable as Value.&]
+[s2;%RU-RU Возвращает контент ссылочной 
+переменной как значение Value.&]
 [s3; &]
 [s4; &]
 [s5;:Ref`:`:SetValue`(const Value`&`): [@(0.0.255) void]_[* SetValue]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2;%RU-RU Устанавливаетthe content of referenced variable to [%-*@3 v].&]
+[s2;%RU-RU Устанавливает контент ссылочной 
+переменной в [%-*@3 v].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Ref`:`:operator Value`(`)const: [* operator_Value]()_[@(0.0.255) const]&]
@@ -80,10 +90,12 @@ onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
 [s5;:Ref`:`:Ref`(Date`&`): [* Ref]([_^Date^ Date][@(0.0.255) `&]_[*@3 d])&]
 [s5;:Ref`:`:Ref`(Time`&`): [* Ref]([_^Time^ Time][@(0.0.255) `&]_[*@3 t])&]
 [s5;:Ref`:`:Ref`(Value`&`): [* Ref]([_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2;%RU-RU Support for standard Value types and Value.&]
+[s2;%RU-RU Поддержка стандартных типов значения 
+и Value.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Ref`:`:Ref`(`): [* Ref]()&]
-[s2;%RU-RU Дефолтный конструктор, constructs 
-empty Ref (no variable referenced, no value can be assigned).&]
+[s2;%RU-RU Дефолтный конструктор, конструирует 
+пустой Ref (нет ссылочной переменной, 
+нельзя присвоить никакого значения).&]
 [s0;%RU-RU ]]

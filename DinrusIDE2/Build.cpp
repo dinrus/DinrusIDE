@@ -104,7 +104,7 @@ String Ide::GetOutputDir()
 
 String Ide::GetConfigDir()
 {
-	return GetHomeDirFile(".config/u++/" + GetFileTitle(target));
+	return GetHomeDirFile(".config/DinrusIDE/" + GetFileTitle(target));
 }
 
 void Ide::PackageClean()

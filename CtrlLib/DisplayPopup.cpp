@@ -218,7 +218,7 @@ void DisplayPopup::Set(Ctrl *ctrl, const Rect& item, const Value& v, const Displ
 	if(!popup) {
 		popup.Create();
 		popup->usedisplaystdsize = usedisplaystdsize;
-		popup->WhenClose << [=] { PostCallback([=] { popup.Clear(); }); };
+		popup->WhenClose << [=, this] { PostCallback([=, this] { popup.Clear(); }); };
 	}
 	popup->Set(ctrl, item, v, display, ink, paper, style, margin);
 }

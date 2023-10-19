@@ -70,7 +70,7 @@ void IdeIconDes::ToolEx(Bar& bar)
 	bar.Separator();
 	if(!IsSingleMode()) {
 		bar.Add("Свойства файла..", IconDesImg::FileProperties(), THISBACK(FileProperties));
-		bar.Add("Использование..", IdeCommonImg::Cpp(), [=] {
+		bar.Add("Использование..", IdeCommonImg::Cpp(), [=, this] {
 			String name = GetCurrentName();
 			DinrusIde()->FindDesignerItemReferences(name + "()", name);
 		});

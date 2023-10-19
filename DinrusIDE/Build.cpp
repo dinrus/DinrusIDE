@@ -51,7 +51,7 @@ void Ide::BeginBuilding(bool clear_console)
 	cmdout.Clear();
 	InvalidateIncludes();
 }
-//Завершмть построение
+//Завершить построение
 void Ide::EndBuilding(bool ok)
 {
 	console.EndGroup();
@@ -109,7 +109,7 @@ String Ide::GetOutputDir()
 //Получить директорию конфигурации
 String Ide::GetConfigDir()
 {
-	return GetHomeDirFile(".config/u++/" + GetFileTitle(target));
+	return GetHomeDirFile(".config/DinrusIDE/" + GetFileTitle(target));
 }
 //Очистить пакет
 void Ide::PackageClean()
@@ -121,7 +121,7 @@ void Ide::PackageClean()
 		CleanPackage(wspc, pi);
 	}
 }
-//Очистить вывод
+//Очистить вывод. Вначале выводит окно для подтверждения, затем удаляет все папки в UOTPUT.
 void Ide::CleanUppOut()
 {
 	String out = GetVar("OUTPUT");

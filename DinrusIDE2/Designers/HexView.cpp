@@ -95,7 +95,7 @@ FileHexView::~FileHexView()
 INITIALIZER(HexView)
 {
 	RegisterGlobalConfig("FileHexView");
-	RegisterGlobalSerialize("FileHexViewPos", [=](Stream& s) {
+	RegisterGlobalSerialize("FileHexViewPos", [=, this](Stream& s) {
 		int version = 0;
 		s / version;
 		s % FileHexView::pos;

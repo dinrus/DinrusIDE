@@ -25,7 +25,7 @@ void SshChannel::Exit()
 	if(!channel)
 		return;
 
-	Run([=]() mutable {
+	Run([=, this]() mutable {
 		int rc = libssh2_channel_free(*channel);
 		if(!WouldBlock(rc) && rc < 0)
 			ThrowError(rc);
@@ -42,12 +42,12 @@ bool SshChannel::Open()
 {
 	if(IsOpen())
 		Close();
-	return Run([=]() mutable { return Init(); });
+	return Run([=, this]() mutable { return Init(); });
 }
 
 bool SshChannel::Close()
 {
-	return Run([=]() mutable {
+	return Run([=, this]() mutable {
 		int rc = libssh2_channel_close(*channel);
 		if(!WouldBlock(rc) && rc < 0) ThrowError(rc);
 		if(!rc) LLOG("Channel close message is sent to the server.");
@@ -57,7 +57,7 @@ bool SshChannel::Close()
 
 bool SshChannel::WaitClose()
 {
-	return Run([=]() mutable {
+	return Run([=, this]() mutable {
 		int rc = libssh2_channel_wait_closed(*channel);
 		if(!WouldBlock(rc) && rc < 0) ThrowError(rc);
 		if(!rc)	LLOG("Channel close message is acknowledged by the server.");
@@ -67,7 +67,7 @@ bool SshChannel::WaitClose()
 
 bool SshChannel::Request(const String& request, const String& params)
 {
-	return Run([=]() mutable {
+	return Run([=, this]() mutable {
 		int rc = libssh2_channel_process_startup(
 			*channel,
 			request,
@@ -85,7 +85,7 @@ bool SshChannel::Request(const String& request, const String& params)
 
 bool SshChannel::RequestTerminal(const String& term, int width, int height, const String& modes)
 {
-	return Run([=]() mutable {
+	return Run([=, this]() mutable {
 		int rc = libssh2_channel_request_pty_ex(
 			*channel,
 			~term,
@@ -107,7 +107,7 @@ bool SshChannel::RequestTerminal(const String& term, int width, int height, cons
 
 bool SshChannel::SetEnv(const String& variable, const String& value)
 {
-	return Run([=]() mutable {
+	return Run([=, this]() mutable {
 		int rc = libssh2_channel_setenv(*channel, variable, value);
 		if(!WouldBlock(rc) && rc < 0) ThrowError(rc);
 		if(!rc)	LLOG("Environment variable '" << variable << "' set to " << value);
@@ -117,7 +117,7 @@ bool SshChannel::SetEnv(const String& variable, const String& value)
 
 bool SshChannel::PutEof()
 {
-	return Run([=]() mutable {
+	return Run([=, this]() mutable {
 		int rc = libssh2_channel_send_eof(*channel);
 		if(!WouldBlock(rc) && rc < 0) ThrowError(rc);
 		if(!rc)	LLOG("EOF message is sent to the server.");
@@ -127,7 +127,7 @@ bool SshChannel::PutEof()
 
 bool SshChannel::GetEof()
 {
-	return Run([=]() mutable {
+	return Run([=, this]() mutable {
 		int rc = libssh2_channel_wait_eof(*channel);
 		if(!WouldBlock(rc) && rc < 0) ThrowError(rc);
 		if(!rc) LLOG("EOF message is acknowledged by the server.");;
@@ -149,7 +149,7 @@ bool SshChannel::IsEof()
 
 bool SshChannel::SetTerminalSize(int width, int height)
 {
-	return Run([=]() mutable { return SetPtySz(width, height) >= 0; });
+	return Run([=, this]() mutable { return SetPtySz(width, height) >= 0; });
 }
 
 int SshChannel::SetPtySz(int w, int h)
@@ -163,7 +163,7 @@ int SshChannel::SetPtySz(int w, int h)
 
 bool SshChannel::SetReadWindowSize(uint32 size, bool force)
 {
-	return Run([=]() mutable { return SetWndSz(size, force); });
+	return Run([=, this]() mutable { return SetWndSz(size, force); });
 }
 
 bool SshChannel::SetWndSz(uint32 size, bool force)
@@ -202,7 +202,7 @@ String SshChannel::GetExitSignal()
 int SshChannel::Get(void *ptr, int size, int sid)
 {
 	done = 0;
-	Run([=]() mutable {
+	Run([=, this]() mutable {
 		while(done < size && !IsEof() && !IsTimeout()) {
 			int rc = Read(ptr, size, sid);
 			if(rc < 0) return false;
@@ -252,7 +252,7 @@ String SshChannel::GetLine(int maxlen, int sid)
 int SshChannel::Put(const void *ptr, int size, int sid)
 {
 	done = 0;
-	Run([=]() mutable {
+	Run([=, this]() mutable {
 		while(done < size && !IsEof() && !IsTimeout()) {
 			int rc = Write(ptr, size, sid);
 			if(rc < 0) return false;

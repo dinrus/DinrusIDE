@@ -57,7 +57,7 @@ LONG WINAPI CrashHandler::UnhandledHandler(EXCEPTION_POINTERS *exceptionPtrs) {
     return EXCEPTION_EXECUTE_HANDLER;
 }
 
-void __cdecl CrashHandler::SEHHandler(unsigned u, EXCEPTION_POINTERS* p) {
+void /*__cdecl*/ CrashHandler::SEHHandler(unsigned u, EXCEPTION_POINTERS* p) {
     switch(u) {
         case EXCEPTION_FLT_DIVIDE_BY_ZERO:
         case EXCEPTION_INT_DIVIDE_BY_ZERO:
@@ -69,19 +69,19 @@ void __cdecl CrashHandler::SEHHandler(unsigned u, EXCEPTION_POINTERS* p) {
 }
 #endif
 
-void __cdecl CrashHandler::TerminateHandler() {
+void /*__cdecl*/ CrashHandler::TerminateHandler() {
     Panic("Исключение Terminate");
 }
 
-void __cdecl CrashHandler::UnexpectedHandler() {
+void /*__cdecl*/ CrashHandler::UnexpectedHandler() {
     Panic("Неожиданное исключение");
 }
 
-void __cdecl CrashHandler::PureCallHandler() {
+void /*__cdecl*/ CrashHandler::PureCallHandler() {
     Panic("Вызов чисто виртуальной функции");
 }
 
-void __cdecl CrashHandler::InvalidParameterHandler(const wchar_t* expression, const wchar_t *function,
+void /*__cdecl*/ CrashHandler::InvalidParameterHandler(const wchar_t* expression, const wchar_t *function,
     const wchar_t* file, unsigned int line, uintptr_t) {
     if (line == 0)
         Panic("Неверный параметр");
@@ -90,7 +90,7 @@ void __cdecl CrashHandler::InvalidParameterHandler(const wchar_t* expression, co
             AsString(function), AsString(file), int(line)));
 }
 
-void __cdecl CrashHandler::NewHandler() {
+void /*__cdecl*/ CrashHandler::NewHandler() {
     Panic("Нехватка доступной памяти");
 }
 

@@ -45,7 +45,7 @@ void GLCanvas::ContextMenu(Bar& bar) {
 	bar.Add(t_("Изометрический вид XYZ"), 	[&]{View(true, true, true);});
 	bar.Separator();
 	bar.Add(t_("Копировать изо"),  GLCanvasImg::Copy(), [&]{ExecuteGL(THISFN(SaveToClipboard), true);}).Key(K_CTRL_C).Help(t_("Копировать рисунок в буфер обмена"));
-	bar.Add(t_("Сохранить изо"),  GLCanvasImg::Save(), [&]{ExecuteGL([=]{SaveToFile(Null);}, true);}).Key(K_CTRL_S).Help(t_("Сохранить рисунок в файл"));
+	bar.Add(t_("Сохранить изо"),  GLCanvasImg::Save(), [&]{ExecuteGL([=, this]{SaveToFile(Null);}, true);}).Key(K_CTRL_S).Help(t_("Сохранить рисунок в файл"));
 }
 
 bool GLCanvas::Key(dword key, int ) {

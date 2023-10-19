@@ -1,4 +1,4 @@
-#define GUIPLATFORM_KEYCODES 
+#define GUIPLATFORM_KEYCODES
 K_BACK       = 8,
 K_BACKSPACE  = 8,
 
@@ -51,7 +51,7 @@ K_PLUS       = XK_plus|K_DELTA,
 K_MINUS      = XK_minus|K_DELTA,
 K_COMMA      = 0x2c|K_DELTA,
 K_PERIOD     = XK_period|K_DELTA,
-K_SEMICOLON  = XK_semicolon|K_DELTA,	
+K_SEMICOLON  = XK_semicolon|K_DELTA,
 K_SLASH      = 0x5f|K_DELTA,
 K_GRAVE      = XK_grave|K_DELTA,
 K_LBRACKET   = XK_bracketleft|K_DELTA,

@@ -116,7 +116,7 @@ UsesDlg::UsesDlg()
 	CtrlLayoutOKCancel(*this, "Использования");
 	when.SetFilter(CondFilter);
 	text.SetDisplay(Single<UsesDisplay>());
-	text.WhenPush = [=] { New(); };
+	text.WhenPush = [=, this] { New(); };
 }
 
 void PackageEditor::SaveOptions() {
@@ -392,9 +392,9 @@ void PackageEditor::OptionMenu(Bar& bar)
 			bar.Add(b, "Добавка: " + opt_name[j] + "..", THISBACK1(AddOption, j));
 	bar.Separator();
 	b = option.IsCursor() && (int)option.Get(0) >= 0;
-	bar.Add(b, "Редактировать..", [=] { EditOption(false); })
+	bar.Add(b, "Редактировать..", [=, this] { EditOption(false); })
 		.Key(K_CTRL_ENTER);
-	bar.Add(b, "Дубликат..", [=] { EditOption(true); })
+	bar.Add(b, "Дубликат..", [=, this] { EditOption(true); })
 	   .Key(K_CTRL_D);
 	bar.Add(b, "Удалить", THISBACK(RemoveOption))
 	   .Key(K_DELETE);
@@ -662,7 +662,7 @@ PackageEditor::PackageEditor()
 	Init(option);
 	option.WhenCursor = THISBACK(AdjustPackageOptionCursor);
 	option.WhenBar = THISBACK(OptionMenu);
-	option.WhenLeftDouble << [=] { EditOption(false); };
+	option.WhenLeftDouble << [=, this] { EditOption(false); };
 
 	Init(fileoption);
 	fileoption.WhenCursor = THISBACK(AdjustFileOptionCursor);
@@ -674,7 +674,7 @@ PackageEditor::PackageEditor()
 	bold <<=
 	italic <<= THISBACK(SaveOptionsLoad);
 
-	merge << [=] {
+	merge << [=, this] {
 		const Workspace& wspc = GetIdeWorkspace();
 		if(wspc.GetCount() == 0)
 			return;

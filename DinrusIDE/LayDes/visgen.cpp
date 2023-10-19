@@ -82,7 +82,7 @@ void VisGenDlg::Refresh()
 			if(layout.item[i].type == "Button" && findarg(bn, "cancel", "ok", "exit") < 0) {
 				if(b2.GetCount() == 0)
 					b2 = "\n";
-				b2 << '\t' << bn << " << [=] { };\n";
+				b2 << '\t' << bn << " << [=, this] { };\n";
 			}
 		}
 	}
@@ -93,7 +93,7 @@ void VisGenDlg::Refresh()
 				String mn = IdInitCaps(bn);
 				mn.Replace("_", "");
 				b1 << '\t' << "void " << mn << "();\n";
-				b2 << '\t' << bn << " << [=] { " << mn << "(); };\n";
+				b2 << '\t' << bn << " << [=, this] { " << mn << "(); };\n";
 				b3 << '\n' << "void " << n << "::" << mn << "()\n{\n}\n";
 			}
 		}
@@ -160,13 +160,13 @@ void VisGenDlg::Refresh()
 			if(IsNull(id1) && (q != 4 || IsNull(id2)))
 				continue;
 			if(q == 5)
-				s << "\t" << id1 << " << [=] { };\n";
+				s << "\t" << id1 << " << [=, this] { };\n";
 			else
 			if(q == 6)
 				s << "\t" << IdInitCaps(id1) << "();\n";
 			else
 			if(q == 7)
-				s << "\t" << id1 << " << [=] { " << IdInitCaps(id1) << "(); };\n";
+				s << "\t" << id1 << " << [=, this] { " << IdInitCaps(id1) << "(); };\n";
 			else {
 				if((pars || brackets) && !(name1 || name2 || dname1 || dname2))
 					s << ~name;
@@ -256,19 +256,19 @@ VisGenDlg::VisGenDlg(LayoutData& layout, const Vector<int>& cursor)
 	type <<= THISBACK(Type);
 
 	// needs to be before Refresh to maintain the proper order of action
-	toupper1 << [=] { tolower1 <<= false; initcaps1 <<= false; };
-	tolower1 << [=] { toupper1 <<= false; initcaps1 <<= false; };
-	initcaps1 << [=] { toupper1 <<= false; tolower1 <<= false; };
+	toupper1 << [=, this] { tolower1 <<= false; initcaps1 <<= false; };
+	tolower1 << [=, this] { toupper1 <<= false; initcaps1 <<= false; };
+	initcaps1 << [=, this] { toupper1 <<= false; tolower1 <<= false; };
 
-	toupper2 << [=] { tolower2 <<= false; initcaps2 <<= false; };
-	tolower2 << [=] { toupper2 <<= false; initcaps2 <<= false; };
-	initcaps2 << [=] { toupper2 <<= false; tolower2 <<= false; };
+	toupper2 << [=, this] { tolower2 <<= false; initcaps2 <<= false; };
+	tolower2 << [=, this] { toupper2 <<= false; initcaps2 <<= false; };
+	initcaps2 << [=, this] { toupper2 <<= false; tolower2 <<= false; };
 
 	for(Ctrl *q = GetFirstChild(); q; q = q->GetNext())
 		if(dynamic_cast<Option *>(q))
-			*q << [=] { Refresh(); };
+			*q << [=, this] { Refresh(); };
 			
-	name << [=] { Refresh(); };
+	name << [=, this] { Refresh(); };
 	
 
 	Refresh();

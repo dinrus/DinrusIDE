@@ -1,4 +1,4 @@
-topic "Классы String и WString";
+topic "String и WString";
 [i448;a25;kKO9;*@(64)2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [a83;*R6 $$3,0#31310162474203024125188417583966:caption]
@@ -9,80 +9,51 @@ topic "Классы String и WString";
 [l288;i448;a25;kO9;*2 $$8,8#64691275497409617375831514634295:nested`-class]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s3; Классы String и WString&]
-[s0; Реализация в Core классов String и WString 
-полностью независимая.&]
+[s3; String и WString&]
+[s0; Core implementation of String and WString is totally independent.&]
 [s0; &]
-[s0; Реализация в Core представлена классами 
-String0 и WString0. Общие методы разделяются 
-обоими и далее добавляются в помощью 
-шаблона AString (который наследует либо 
-String0, либо WString0). Затем реализация 
-финализируется в классах String и WString 
-(final classes).&]
+[s0; Core implementation is represented by String0 and WString0 classes. 
+Common methods shared by both are then added using AString template 
+(which inherits either String0 or WString0). Implementation is 
+then finalized in String and WString final classes.&]
 [s0; &]
-[s6; Класс String&]
-[s0; String для увеличения производительности 
-использует трёх шаговую реализацию.&]
+[s6; String&]
+[s0; String uses three step implementation to maximize performance.&]
 [s0; &]
-[s0; String`'и длиной до 14 символов (байтов) 
-могут сохраняться с применением small`-string 
-оптимизации внутри значения String. 
-sizeof(String) равна 16; первые 14 байтов (0`- 
-13) в данном случае являются символьными 
-данными, байт 14 зарезервирован под 
-терминатор ноль (zero terminator) (и для этого 
-типа всегда равен нулю), байт 15 это 
-длина строки. Также, для этого первого 
-рода строк, все символы len ... 14 строго 
-хранят ноль `- это позволяет реализовать 
-очень быстрое сравнение на равенство.&]
+[s0; String'и up to 14 characters (bytes) can be stored using small`-string 
+optimization inside String value. sizeof(String) is 16; first 
+14 bytes (0`- 13) in this case are character data, byte 14 is 
+reserved for zero terminator (and is always zero for this kind), 
+byte 15 is the string len. Also, for this first kind of string, 
+all characters len ... 14 are strictly kept zero `- this allows 
+very fast implementation of equality comparison.&]
 [s0; &]
-[s0; Для строк длиною до 31 символа, байты 
-0`-7 используются под указатель на 
-символьные данные. Символьные данные 
-размещаются как блок в 32 байта (один 
-байт под терминатор ноль); реализация 
-String прямо соединена с разместителем 
-кучи, передавая ему обработку размера 
-и позволяя добиваться максимальной 
-производительности. Длина String хранится 
-в байтах 8`-11. Байт 14 в данном случае 
-становится 31 (`"MEDIUM`") `- это максимальное 
-число, которое можно сохранить в буфере. 
-Заметьте, что ненулевое значение 
-в байте 14 сигнализирует о том, что 
-эта строка не `"маленькая`". При копировании 
-строки типа String этого размера, всегда 
-размещается новый блок памяти, куда 
-копируются данные. С прямой связкой 
-с разместителем кучи, это почти так 
-же быстро, как использование подсчёта 
-ссылок в однопоточном режиме, и ещё 
-быстрее в многопоточном.&]
+[s0; For strings up to 31 characters, bytes 0`-7 are used for pointer 
+to character data. Character data are allocated as 32 bytes block 
+(one byte for zero terminator); String implementation is directly 
+connected with heap allocator to bypass size processing here 
+and achieve maximum performance. Length of String is stored in 
+the bytes 8`-11. Byte 14 is in this case 31 (`"MEDIUM`") `- it 
+is the maximum number allowed to be stored in the buffer. Note 
+that non`-zero value in byte 14 signals that string is not `"small`". 
+When copying String of this size, new memory block is always 
+allocated and data is copied. With direct link to heap allocator, 
+this is about as fast as using reference counting in single threaded 
+mode and faster in multithreaded.&]
 [s0; &]
-[s0; Наконец, если размер превышает 31 
-символ, в String используется подсчёт 
-ссылок (reference counting). Выкладка (Layout) 
-подобна `"MEDIUM`", но у блока памяти переменная 
-длина и вначале указывается счёт 
-ссылок и размер блока (`"alloc`") `- максимальное 
-число символов, которое может сохранить 
-данный блок. Заметьте, что в качестве 
-оптимизации, для блоков, меньших 255 
-символов, это число также сохраняется 
-в байте 14 для его ускоренного получения. 
-Если блок больше, 255 находится в байте 
-14, а размер `"alloc`"  нужно получать из 
-блока памяти.&]
+[s0; Finally, if size exceeds 31 characters, String uses reference 
+counting. Layout is similar to `"MEDIUM`", but memory block is 
+of variable length and preceded with reference count and the 
+size of block (`"alloc`") `- maximum number of characters the 
+block can store. Note that as an optimization, for blocks smaller 
+than 255 characters, this number is also stored in byte 14 for 
+faster retrieval. If block is larger, 255 is in byte 14 and the 
+`"alloc`" size has to be retrieved from the memory block.&]
 [s0; &]
-[s6; Класс WString&]
-[s0; В реализации WString не используется 
-оптимизация малой строки (small string 
-optimization), первым шагом сохраняется 
-23 wchar в блоке памяти размером в 48 байтов, 
-без подсчёта ссылок; для строк большего 
-размера, опять же, применяется подсчёт 
-ссылок. Размеры также прямо сохраняются 
-в переменных`-членах `"int`".&]
+[s6; WString&]
+[s0; WString implementation does not use small string optimization, 
+first step is 23 wchars stored in 48 bytes memory block without 
+reference counting, for larger string once again reference counting 
+is applied. Sizes are also directly stored in `"int`" member 
+variables.&]
 [s0; ]]

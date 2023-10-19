@@ -899,12 +899,12 @@ void WorkspaceWork::FileMenu(Bar& menu)
 	if(isaux)
 		InsertSpecialMenu(menu);
 	else {
-		menu.Add("Новый файл в пакете..", IdeCommonImg::PageAdd(), [=] { NewPackageFile(); });
+		menu.Add("Новый файл в пакете..", IdeCommonImg::PageAdd(), [=, this] { NewPackageFile(); });
 		menu.Add(!isaux, "Вставить файл(Ы) из папки пакета..", THISBACK1(AddFile, PACKAGE_FILE))
 			.Help("Вставить файл относительно текущего пакета");
 		menu.Add(!isaux, "Вставить группу topic++..", TopicImg::IGroup(), THISBACK(AddTopicGroup));
 	}
-	menu.Add("Вставить сепаратор..", IdeImg::Separator(), [=] { AddSeparator(); })
+	menu.Add("Вставить сепаратор..", IdeImg::Separator(), [=, this] { AddSeparator(); })
 		.Help("Добавить строку текста сепаратора");
 	if(!isaux) {
 		menu.Add("Особая вставка", THISBACK(SpecialFileMenu))
@@ -931,7 +931,7 @@ void WorkspaceWork::FileMenu(Bar& menu)
 	menu.Separator();
 	menu.Add("Открыть папку файла",THISBACK(OpenFileFolder));
 	menu.Add("Копировать путь файла", callback1(WriteClipboardText, GetActiveFilePath()));
-	menu.Add("Открыть терминал в папке файла", [=] { LaunchTerminal(GetFileDirectory(GetActiveFilePath())); });
+	menu.Add("Открыть терминал в папке файла", [=, this] { LaunchTerminal(GetFileDirectory(GetActiveFilePath())); });
 	menu.Separator();
 	menu.Add(filelist.GetCursor() > 0, "Поднять", THISBACK1(MoveFile, -1))
 		.Key(organizer ? K_CTRL_UP : K_ALT|K_CTRL_UP)
@@ -1110,7 +1110,7 @@ void WorkspaceWork::PackageMenu(Bar& menu)
 			menu.Separator();
 			BuildPackageMenu(menu);
 			menu.Add("Открыть папку пакета",THISBACK(OpenPackageFolder));
-			menu.Add("Открыть терминал в папке пакета", [=] { LaunchTerminal(GetFileDirectory(GetActivePackagePath())); });
+			menu.Add("Открыть терминал в папке пакета", [=, this] { LaunchTerminal(GetFileDirectory(GetActivePackagePath())); });
 		}
 	}
 }

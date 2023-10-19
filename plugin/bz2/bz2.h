@@ -1,11 +1,11 @@
 #ifndef __Plugin_BZ2__
 #define __Plugin_BZ2__
 
-#ifdef flagWIN32
+//#ifdef flagWIN32
 	#include "lib/bzlib.h"
-#else
-	#include <bzlib.h>
-#endif
+//#else
+//	#include <bzlib.h>
+//#endif
 
 namespace Upp {
 	
@@ -75,7 +75,7 @@ namespace bz2 {
 		Lib z;
 	
 	public:
-		void Open(Stream& in, bool all = true) { z.Decompress(all); Set(in, z); FilterEof = [=]() -> bool { return z.IsEOS(); }; }
+		void Open(Stream& in, bool all = true) { z.Decompress(all); Set(in, z); FilterEof = [=, this]() -> bool { return z.IsEOS(); }; }
 		Lib& ChunkSize(int n)                  { return z.ChunkSize(n); }
 	
 		DecompressStream()                             {}

@@ -86,7 +86,7 @@ for creating map.&]
 [s5;:SortedVectorMap`:`:SortedVectorMap`(const SortedVectorMap`&`,int`):%- [* SortedVec
 torMap]([@(0.0.255) const]_[* SortedVectorMap][@(0.0.255) `&]_[*@3 s], 
 [@(0.0.255) int])&]
-[s2; Deep copy constructor.&]
+[s2; Конструктор глубокой копии.&]
 [s4;%- &]
 [s5;:Upp`:`:SortedVectorMap`:`:SortedVectorMap`(std`:`:initializer`_list`<std`:`:pair`<K`,T`>`>`):%- [* S
 ortedVectorMap]([_^http`:`/`/en`.cppreference`.com`/w`/cpp`/utility`/initializer`_list^ s

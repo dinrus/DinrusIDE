@@ -596,7 +596,7 @@ void Ide::ErrorMenu(Bar& bar)
 	bar.Add(error.IsCursor(), "Копировать", THISBACK1(CopyError, false));
 	bar.Add("Копировать все", THISBACK1(CopyError, true));
 	bar.Separator();
-	bar.Add(error.IsCursor(), "Искать в сети..", IdeImg::Google(), [=] {
+	bar.Add(error.IsCursor(), "Искать в сети..", IdeImg::Google(), [=, this] {
 		LaunchWebBrowser("https://www.google.com/search?q=" + GetErrorsText(false, false));
 	});
 }

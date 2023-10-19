@@ -692,7 +692,7 @@ void Gdb::SerializeSession(Stream& s)
 Gdb::Gdb()
 	: gdb_utils(GdbUtilsFactory().Create())
 {
-	auto Mem = [=](Bar& bar, ArrayCtrl& h) {
+	auto Mem = [=, this](Bar& bar, ArrayCtrl& h) {
 		String s = h.GetKey();
 		if(s.GetCount()) {
 			if(!IsAlpha(*s))
@@ -705,26 +705,26 @@ Gdb::Gdb()
 	locals.AddColumn("", 6);
 	locals.EvenRowColor();
 	locals.WhenSel = THISBACK1(SetTree, &locals);
-	locals.WhenBar = [=](Bar& bar) { Mem(bar, locals); };
+	locals.WhenBar = [=, this](Bar& bar) { Mem(bar, locals); };
 	watches.NoHeader();
 	watches.AddColumn("", 1).Edit(watchedit);
 	watches.AddColumn("", 6);
 	watches.Inserting().Removing();
 	watches.EvenRowColor();
 	watches.WhenSel = THISBACK1(SetTree, &watches);
-	watches.WhenBar = [=](Bar& bar) { Mem(bar, watches); WatchMenu(bar); };
+	watches.WhenBar = [=, this](Bar& bar) { Mem(bar, watches); WatchMenu(bar); };
 	autos.NoHeader();
 	autos.AddColumn("", 1);
 	autos.AddColumn("", 6);
 	autos.EvenRowColor();
 	autos.WhenSel = THISBACK1(SetTree, &autos);
-	autos.WhenBar = [=](Bar& bar) { Mem(bar, autos); };
+	autos.WhenBar = [=, this](Bar& bar) { Mem(bar, autos); };
 	self.NoHeader();
 	self.AddColumn("", 1);
 	self.AddColumn("", 6);
 	self.EvenRowColor();
 	self.WhenSel = THISBACK1(SetTree, &self);
-	self.WhenBar = [=](Bar& bar) { Mem(bar, self); };
+	self.WhenBar = [=, this](Bar& bar) { Mem(bar, self); };
 	cpu.Columns(3);
 	cpu.ItemHeight(Courier(Ctrl::HorzLayoutZoom(12)).GetCy());
 
@@ -737,17 +737,17 @@ Gdb::Gdb()
 	tab.Add(memory.SizePos(), "Память");
 	pane.Add(threads.LeftPosZ(330, 150).TopPos(2));
 
-	memory.WhenGotoDlg = [=] { MemoryGoto(); };
+	memory.WhenGotoDlg = [=, this] { MemoryGoto(); };
 
 	int bcx = min(EditField::GetStdHeight(), DPI(16));
 	pane.Add(frame.HSizePos(Zx(484), 2 * bcx).TopPos(2));
 	pane.Add(frame_up.RightPos(bcx, bcx).TopPos(2, EditField::GetStdHeight()));
 	frame_up.SetImage(DbgImg::FrameUp());
-	frame_up << [=] { FrameUpDown(-1); };
+	frame_up << [=, this] { FrameUpDown(-1); };
 	frame_up.Tip("Предыдуший Фрейм");
 	pane.Add(frame_down.RightPos(0, bcx).TopPos(2, EditField::GetStdHeight()));
 	frame_down.SetImage(DbgImg::FrameDown());
-	frame_down << [=] { FrameUpDown(1); };
+	frame_down << [=, this] { FrameUpDown(1); };
 	frame_down.Tip("Следующий Фрейм");
 
 	split.Horz(pane, tree.SizePos());

@@ -88,10 +88,10 @@ bool Install(bool& hasvars)
 	#endif
 		Scan(GetExeFolder() + "/src");
 		Scan(GetExeFolder() + "/*");
-		Scan(GetHomeDirFile("upp.src/src"));
-		Scan(GetHomeDirFile("upp.src/*"));
-		Scan(GetHomeDirFile("upp/src"));
-		Scan(GetHomeDirFile("upp/*"));
+	//  Scan(GetHomeDirFile("upp.src/src"));
+	//	Scan(GetHomeDirFile("upp.src/*"));
+		Scan(GetHomeDirFile("dinrus/src"));
+		Scan(GetHomeDirFile("dinrus/*"));
 		Scan(GetHomeDirFile("*"));
 		for(FindFile ff(GetHomeDirFile("*")); ff; ff.Next())
 			if(ff.IsFolder())

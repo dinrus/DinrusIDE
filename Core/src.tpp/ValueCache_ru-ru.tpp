@@ -1,4 +1,4 @@
-topic "Global Value Cache";
+topic "Глобальный Кэш Значений";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,13 +10,13 @@ topic "Global Value Cache";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 Global Value Cache]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Глобальный Кэш Значений]]}}&]
 [s0; &]
 [s0; Global Value Cache is a centralized mechanism to cache data. 
 Items in the cache are of Value type. Global Value Cache adjusts 
 its size based on current system memory consumption.&]
 [s0;* &]
-[ {{10000F(128)G(128)@1 [s0; [* Function List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Функций]]}}&]
 [s3; &]
 [s5;:Upp`:`:MakeValue`(Upp`:`:ValueMaker`&`): [_^Upp`:`:Value^ Value]_[* MakeValue]([_^Upp`:`:ValueMaker^ V
 alueMaker][@(0.0.255) `&]_[*@3 m])&]
@@ -38,9 +38,9 @@ ValueMaker`::Make to obtain the Value and stores it to the cache.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:IsValueCacheActive`(`):%- [@(0.0.255) bool]_[* IsValueCacheActive]()&]
-[s2; Возвращает  true, если it is still possible to use Value Cache. This 
-special function is intended to solve destruction conflicts at 
-the program exit.&]
+[s2; Возвращает  true, если it is still possible to 
+use Value Cache. This special function is intended to solve destruction 
+conflicts at the program exit.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:AdjustValueCache`(`):%- [@(0.0.255) void]_[* AdjustValueCache]()&]

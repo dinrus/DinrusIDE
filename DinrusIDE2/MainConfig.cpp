@@ -106,10 +106,10 @@ MainConfigDlg::MainConfigDlg(const Workspace& wspc_) : wspc(wspc_) {
 	list.AddColumn("Опционное имя", 2).Edit(ce);
 	list.Appending().Removing().Moving().Duplicating();
 
-	list.WhenDrag = [=] {
+	list.WhenDrag = [=, this] {
 		list.DoDragAndDrop(InternalClip(list, "main_config-item"), list.GetDragSample(), DND_MOVE);
 	};
-	list.WhenDropInsert = [=](int line, PasteClip& d) {
+	list.WhenDropInsert = [=, this](int line, PasteClip& d) {
 		if(GetInternalPtr<ArrayCtrl>(d, "main_config-item") == &list && list.IsCursor() && d.Accept()) {
 			int q = list.GetCursor();
 			if(q == line)

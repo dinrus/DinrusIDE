@@ -52,10 +52,10 @@ protected:
 	void SetErrorMessage(String const &msg) { ErrorMessage = msg; }
 
 	virtual void State(int reason);
-	
-	Window   hwnd;	
+
+	Window   hwnd;
 	bool isInitialized;
-	
+
 public:
 	typedef DHCtrl CLASSNAME;
 

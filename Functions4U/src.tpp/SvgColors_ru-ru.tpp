@@ -15,7 +15,7 @@ topic "SVG Colors";
 [s0;a25;kKO9;%% Svg color functions include all color supported by 
 Scalable Vector Graphics format.&]
 [s0;i448;a25;kKO9;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Function List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Функций]]}}&]
 [s4; &]
 [s5;:GetSvgColor`(const char`*`): [_^Color^ Color]_[* GetSvgColor]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 color])&]

@@ -1785,7 +1785,7 @@ inline проц стройГлубКопию(T *t, const S *s, const S *end) {
 template <class Ук, class Класс, class Рез, class... ТипыАрг>
 Функция<Рез (ТипыАрг...)> памФн(Ук object, Рез (Класс::*method)(ТипыАрг...))
 {
-	return [=](ТипыАрг... арги) { return (object->*method)(арги...); };
+	return [=, this](ТипыАрг... арги) { return (object->*method)(арги...); };
 }
 
 #define THISFN(x)   памФн(this, &ИМЯ_КЛАССА::x)
@@ -2686,7 +2686,7 @@ template <class Обх, class Лямбда>
 		СоРабота co;
 		while(begin < end) {
 			Обх e = Обх(begin + мин(chunk, т_мера(end - begin)));
-			co & [=] {
+			co & [=, this] {
 				lambda(begin, e);
 			};
 			begin = e;
@@ -2706,7 +2706,7 @@ template <class Диапазон, class Лямбда>
 		auto end = r.end();
 		while(begin < end) {
 			auto e = begin + мин(chunk, т_мера(end - begin));
-			co & [=] {
+			co & [=, this] {
 				auto sr = СубДиапазон(begin, e); // we need l-значение
 				lambda(sr);
 			};

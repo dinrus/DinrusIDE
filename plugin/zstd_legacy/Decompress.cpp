@@ -158,7 +158,7 @@ void ZstdDecompressStream::Fetch()
 			}
 		}
 
-		auto decompress = [=] {
+		auto decompress = [=, this] {
 			Workblock& w = wb[i];
 			if(w.dlen == 0) { // decompressed size is not known
 				int n = 2*1024*1024;

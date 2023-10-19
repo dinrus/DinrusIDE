@@ -24,7 +24,7 @@ bool Scp::OpenRead(const String& path, ScpAttrs& attrs)
 
 bool Scp::OpenWrite(const String& path, int64 size, long mode)
 {
-	return Run([=]() mutable {
+	return Run([=, this]() mutable {
 		LIBSSH2_CHANNEL *ch = libssh2_scp_send64(ssh->session, path, mode, size, 0, 0);
 		if(!ch && !WouldBlock()) {
 			LLOG("Unable to open file " << path);

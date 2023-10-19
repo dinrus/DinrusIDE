@@ -1,5 +1,4 @@
-topic "SortedAMap";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс SortedAMap";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,8 +8,9 @@ topic "SortedAMap";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 SortedAMap]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс SortedAMap]]}}&]
 [s0;3%- &]
 [s1;:noref:%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 K][3 , 
 ][@(0.0.255)3 class][3 _][*@4;3 T][3 , ][@(0.0.255)3 class][3 _][*@4;3 Less][3 , 
@@ -33,18 +33,20 @@ are more important in derived concrete AMap flavors.&]
 [s3;%- &]
 [s5;:SortedAMap`:`:FindLowerBound`(const K`&`)const:%- [@(0.0.255) int]_[* FindLowerBound
 ]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2; Возвращает lower`-bound index of element with key [%-*@3 k].&]
+[s2; Возвращает lower`-bound index of element with key 
+[%-*@3 k].&]
 [s3; &]
 [s4; &]
 [s5;:SortedAMap`:`:FindUpperBound`(const K`&`)const:%- [@(0.0.255) int]_[* FindUpperBound
 ]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2; Возвращает upper bound index of element with key [%-*@3 k] .&]
+[s2; Возвращает upper bound index of element with key [%-*@3 k] 
+.&]
 [s3; &]
 [s4; &]
 [s5;:SortedAMap`:`:Find`(const K`&`)const:%- [@(0.0.255) int]_[* Find]([@(0.0.255) const]_[*@4 K
 ][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2; Возвращает the minimum index of element with key equal to [%-*@3 k] 
-or negative number if not found.&]
+[s2; Возвращает the minimum index of element with key equal 
+to [%-*@3 k] or negative number if not found.&]
 [s3; &]
 [s4; &]
 [s5;:SortedAMap`:`:FindNext`(int`)const:%- [@(0.0.255) int]_[* FindNext]([@(0.0.255) int]_[*@3 i
@@ -55,8 +57,8 @@ returns [%-*@3 i] `+ 1, otherwise returns negative number.&]
 [s4; &]
 [s5;:SortedAMap`:`:FindLast`(const K`&`)const:%- [@(0.0.255) int]_[* FindLast]([@(0.0.255) c
 onst]_[*@4 K][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2; Возвращает the meximum index of element with key equal to [%-*@3 k] 
-or negative number if not found.&]
+[s2; Возвращает the meximum index of element with key equal 
+to [%-*@3 k] or negative number if not found.&]
 [s3; &]
 [s4; &]
 [s5;:SortedAMap`:`:FindPrev`(int`)const:%- [@(0.0.255) int]_[* FindPrev]([@(0.0.255) int]_[*@3 i
@@ -69,23 +71,23 @@ or negative number if not found.&]
 ][@(0.0.255) `&]_[*@3 k])&]
 [s5;:SortedAMap`:`:Get`(const K`&`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* Get](
 [@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2; Возвращает the value of the first element with key [%-*@3 k]. If 
-not found, behaviour is undefined.&]
+[s2; Возвращает the value of the first element with key 
+[%-*@3 k]. If not found, behaviour is undefined.&]
 [s3; &]
 [s4; &]
 [s5;:SortedAMap`:`:Get`(const K`&`,const T`&`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[* Get]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 d])_[@(0.0.255) const]&]
-[s2; Возвращает the value of the first element with key [%-*@3 k]. If 
-not found, returns [%-*@3 d].&]
+[s2; Возвращает the value of the first element with key 
+[%-*@3 k]. If not found, returns [%-*@3 d].&]
 [s3; &]
 [s4; &]
 [s5;:SortedAMap`:`:FindPtr`(const K`&`):%- [*@4 T]_`*[* FindPtr]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&
 ]_[*@3 k])&]
 [s5;:SortedAMap`:`:FindPtr`(const K`&`)const:%- [@(0.0.255) const]_[*@4 T]_`*[* FindPtr]([@(0.0.255) c
 onst]_[*@4 K][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2; Возвращает to pointer to the value of the first element with key 
-[%-*@3 k]. If not found, returns NULL.&]
+[s2; Возвращает to pointer to the value of the first element 
+with key [%-*@3 k]. If not found, returns NULL.&]
 [s3; &]
 [s4; &]
 [s5;:SortedAMap`:`:GetKey`(int`)const:%- [@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[* GetKey](
@@ -146,12 +148,13 @@ AMap][@(0.0.255) `&]_[*@3 x])&]
 [s4; &]
 [s5;:SortedAMap`:`:GetKeys`(`)const:%- [@(0.0.255) const]_[_^InVector^ InVector]<[*@4 K]>`&
 _[* GetKeys]()_[@(0.0.255) const]&]
-[s2; Возвращает a reference to the internal InVector of keys.&]
+[s2; Возвращает a reference to the internal InVector of 
+keys.&]
 [s3; &]
 [s4; &]
 [s5;:SortedAMap`:`:SortedAMap`(const SortedAMap`&`,int`):%- [* SortedAMap]([@(0.0.255) co
 nst]_[* SortedAMap][@(0.0.255) `&]_[*@3 s], [@(0.0.255) int])&]
-[s2; Deep copy constructor.&]
+[s2; Конструктор глубокой копии.&]
 [s3; &]
 [s4; &]
 [s5;:SortedAMap`:`:KeyBegin`(`)const:%- [_^SortedAMap`:`:KeyConstIterator^ KeyConstIter

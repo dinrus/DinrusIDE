@@ -764,7 +764,7 @@ void CodeEditor::MouseMove(Point p, dword flags) {
 	SyncTip();
 	delayed_tip = false;
 	delayed_pos = Upp::GetMousePos();
-	delayed.KillSet(1000, [=] {
+	delayed.KillSet(1000, [=, this] {
 		delayed_tip = true;
 		SyncTip();
 	});

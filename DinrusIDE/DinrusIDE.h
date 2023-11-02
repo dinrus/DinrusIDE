@@ -1256,8 +1256,8 @@ inline void ShowConsole() { if(DinrusIde()) ((Ide *)DinrusIde())->ShowConsole();
 void InstantSetup();
 bool SetupGITMaster();
 
-String UppHub();
-void   UppHubAuto(const String& s);
+String DinrusHub();
+void   DinrusHubAuto(const String& s);
 
 struct SpecialFolders : WithSpecialFolders<StaticRect> {
 

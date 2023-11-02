@@ -1,6 +1,6 @@
 #include "DinrusIDE2.h"
 
-struct UppHubNest : Moveable<UppHubNest> {
+struct DinrusHubNest : Moveable<DinrusHubNest> {
 	int              tier = -1;
 	String           name;
 	Vector<String>   packages;
@@ -23,7 +23,7 @@ Color StatusPaper(const String& status)
 	                                           SColorPaper()), IsDarkTheme() ? 60 : 20);
 }
 
-void VerifyUppHubRequirements()
+void VerifyDinrusHubRequirements()
 {
 	if (HasGit())
 	{
@@ -32,20 +32,20 @@ void VerifyUppHubRequirements()
 
 	Loge() << UPP_FUNCTION_NAME << "(): Git недоступен!";
 	ErrorOK(
-		"Исполнимый файл Git не обнаружен. UppHub не сможет работать."
+		"Исполнимый файл Git не обнаружен. DinrusHub не сможет работать."
 		 "Эта программа обязательно должна иметься в вашей среде. "
 		"Дополнительную информацию о требованиях можно получить на "
-		"[^https`:`/`/www`.ultimatepp`.org`/app`$ide`$UppHub`_en`-us`.html`#2^ here].&&"
-		"Всё ещё можно использовать UppHub для просмотра доступных пакетов, но другие операции невозможны."
+		"[^https`:`/`/www`.ultimatepp`.org`/app`$ide`$DinrusHub`_en`-us`.html`#2^ here].&&"
+		"Всё ещё можно использовать DinrusHub для просмотра доступных пакетов, но другие операции невозможны."
 	);
 }
 
-class UppHubSettingsDlg final : public WithUppHubSettingsLayout<TopWindow> {
+class DinrusHubSettingsDlg final : public WithDinrusHubSettingsLayout<TopWindow> {
 public:
-	static constexpr auto GLOBAL_CONFIG_NAME = "UppHubDlgSettings";
+	static constexpr auto GLOBAL_CONFIG_NAME = "DinrusHubDlgSettings";
 
 public:
-	UppHubSettingsDlg();
+	DinrusHubSettingsDlg();
 
 	void LoadGlobalSettings();
 	void SaveGlobalSettings();
@@ -54,7 +54,7 @@ private:
 	void RefreshCtrls();
 };
 
-UppHubSettingsDlg::UppHubSettingsDlg()
+DinrusHubSettingsDlg::DinrusHubSettingsDlg()
 {
 	CtrlLayoutOKCancel(*this, "Settings");
 	FileSelectOpen(url, selfile);
@@ -63,30 +63,30 @@ UppHubSettingsDlg::UppHubSettingsDlg()
 	};
 }
 
-void UppHubSettingsDlg::LoadGlobalSettings()
+void DinrusHubSettingsDlg::LoadGlobalSettings()
 {
 	LoadFromGlobal(*this, GLOBAL_CONFIG_NAME);
 	RefreshCtrls();
 }
 
-void UppHubSettingsDlg::SaveGlobalSettings()
+void DinrusHubSettingsDlg::SaveGlobalSettings()
 {
 	StoreToGlobal(*this, GLOBAL_CONFIG_NAME);
 }
 
-void UppHubSettingsDlg::RefreshCtrls()
+void DinrusHubSettingsDlg::RefreshCtrls()
 {
 	auto enable = static_cast<bool>(seturl.Get());
 	url.Enable(enable);
 	selfile.Enable(enable);
 }
 
-struct UppHubDlg : WithUppHubLayout<TopWindow> {
+struct DinrusHubDlg : WithDinrusHubLayout<TopWindow> {
 	SplitterFrame splitter;
 	ArrayCtrl list;
 	RichTextView info;
 
-	VectorMap<String, UppHubNest> upv;
+	VectorMap<String, DinrusHubNest> upv;
 	Index<String> loaded;
 	Progress pi;
 	bool loading_stopped;
@@ -99,7 +99,7 @@ struct UppHubDlg : WithUppHubLayout<TopWindow> {
 	bool         loading = false;
 	HttpRequest  http;
 
-	UppHubSettingsDlg settings;
+	DinrusHubSettingsDlg settings;
 
 	Value LoadJson(const String& url);
 	void  Load(int tier, const String& url);
@@ -116,19 +116,19 @@ struct UppHubDlg : WithUppHubLayout<TopWindow> {
 	void  UrlLoading();
 	void  Menu(Bar& bar);
 
-	UppHubNest *Get(const String& name) { return upv.FindPtr(name); }
-	UppHubNest *Current()               { return list.IsCursor() ? Get(list.Get("NAME")) : NULL; }
+	DinrusHubNest *Get(const String& name) { return upv.FindPtr(name); }
+	DinrusHubNest *Current()               { return list.IsCursor() ? Get(list.Get("NAME")) : NULL; }
 
-	UppHubDlg();
+	DinrusHubDlg();
 
 	bool Key(dword key, int count) override;
 };
 
-#define METHOD_NAME "UppHubDlg::" << UPP_FUNCTION_NAME << "(): "
+#define METHOD_NAME "DinrusHubDlg::" << UPP_FUNCTION_NAME << "(): "
 
-UppHubDlg::UppHubDlg()
+DinrusHubDlg::DinrusHubDlg()
 {
-	CtrlLayoutCancel(*this, "UppHub");
+	CtrlLayoutCancel(*this, "DinrusHub");
 	Sizeable().Zoomable();
 
 	//parent->Add(list.SizePos());
@@ -140,7 +140,7 @@ UppHubDlg::UppHubDlg()
 
 	list.ColumnWidths("109 378");
 	list.WhenSel = [=, this] {
-		UppHubNest *n = Current();
+		DinrusHubNest *n = Current();
 		http.Abort();
 		http.Timeout(0);
 		http.New();
@@ -182,7 +182,7 @@ UppHubDlg::UppHubDlg()
 
 	update << [=, this] { Update(); };
 
-	help << [=, this] { LaunchWebBrowser("https://www.ultimatepp.org/app$ide$UppHub_en-us.html"); };
+	help << [=, this] { LaunchWebBrowser("https://www.ultimatepp.org/app$ide$DinrusHub_en-us.html"); };
 
 	search.NullText("Поиск (Ctrl+K)");
 	search.SetFilter([](int c) { return (int)ToUpper(ToAscii(c)); });
@@ -198,10 +198,10 @@ UppHubDlg::UppHubDlg()
 
 INITBLOCK
 {
-	RegisterGlobalConfig(UppHubSettingsDlg::GLOBAL_CONFIG_NAME);
+	RegisterGlobalConfig(DinrusHubSettingsDlg::GLOBAL_CONFIG_NAME);
 }
 
-bool UppHubDlg::Key(dword key, int count)
+bool DinrusHubDlg::Key(dword key, int count)
 {
 	if(key == K_CTRL_K) {
 		search.SetFocus();
@@ -210,12 +210,12 @@ bool UppHubDlg::Key(dword key, int count)
 	return TopWindow::Key(key, count);
 }
 
-void UppHubDlg::Menu(Bar& bar)
+void DinrusHubDlg::Menu(Bar& bar)
 {
 	Ide *ide = (Ide *)DinrusIde();
 	String hubdir = GetHubDir();
 	bool sep = false;
-	UppHubNest *n = Current();
+	DinrusHubNest *n = Current();
 	if(Installed()) {
 		String p = hubdir + "/" + n->name;
 		bar.Add("Открыть папку " + n->name, [=, this] { ShellOpenFolder(p); });
@@ -233,16 +233,16 @@ void UppHubDlg::Menu(Bar& bar)
 	if(sep)
 		bar.Separator();
 
-	bar.Add("Отрыть папку UppHub", [=, this] { ShellOpenFolder(hubdir); });
-	bar.Add("Копировать путь к папке UppHub", [=, this] { WriteClipboardText(hubdir); });
+	bar.Add("Отрыть папку DinrusHub", [=, this] { ShellOpenFolder(hubdir); });
+	bar.Add("Копировать путь к папке DinrusHub", [=, this] { WriteClipboardText(hubdir); });
 	if(ide)
-		bar.Add("Терминал в папке UppHub", [=, this] { ide->LaunchTerminal(hubdir); });
+		bar.Add("Терминал в папке DinrusHub", [=, this] { ide->LaunchTerminal(hubdir); });
 	bar.Separator();
 	bar.Add("Установить всё..", [=, this] {
 		if(!PromptYesNo("Установка всего займёт некоторое время и потребуется много свободного пространства.&[/ Точно установить?"))
 			return;
 		Index<String> names;
-		for(const UppHubNest& n : upv)
+		for(const DinrusHubNest& n : upv)
 			if(!DirectoryExists(hubdir + "/" + n.name))
 				names.Add(n.name);
 		if(names.GetCount() == 0) {
@@ -253,7 +253,7 @@ void UppHubDlg::Menu(Bar& bar)
 	});
 	bar.Add("Переустановить всё..", [=, this] {
 		Index<String> names;
-		for(const UppHubNest& n : upv)
+		for(const DinrusHubNest& n : upv)
 			if(DirectoryExists(hubdir + "/" + n.name))
 				names.Add(n.name);
 		if(names.GetCount() == 0) {
@@ -268,7 +268,7 @@ void UppHubDlg::Menu(Bar& bar)
 		Install(names);
 	});
 	bar.Add("Деинсталировать всё..", [=, this] {
-		if(!PromptYesNo("Это полностью удалит окальный контент UppHub.&Продолжить?"))
+		if(!PromptYesNo("Это полностью удалит окальный контент DinrusHub.&Продолжить?"))
 			return;
 		for(FindFile ff(hubdir + "/*"); ff; ff++) {
 			String p = ff.GetPath();
@@ -297,16 +297,16 @@ void UppHubDlg::Menu(Bar& bar)
 		SyncList();
 	});
 	bar.Separator();
-	bar.Add("Установить УЛР UppHub..", [=, this] { Settings(); });
+	bar.Add("Установить УЛР DinrusHub..", [=, this] { Settings(); });
 }
 
-bool UppHubDlg::Installed()
+bool DinrusHubDlg::Installed()
 {
-	UppHubNest *n = Current();
+	DinrusHubNest *n = Current();
 	return n && DirectoryExists(GetHubDir() + "/" + n->name);
 }
 
-void UppHubDlg::UrlLoading()
+void DinrusHubDlg::UrlLoading()
 {
 	if(http.Do())
 		delay.KillPost([=, this] { UrlLoading(); });
@@ -318,7 +318,7 @@ void UppHubDlg::UrlLoading()
 	}
 }
 
-void UppHubDlg::Sync()
+void DinrusHubDlg::Sync()
 {
 	action.Disable();
 	reinstall.Disable();
@@ -334,7 +334,7 @@ void UppHubDlg::Sync()
 			action ^= [=, this] { Install(); };
 		}
 	}
-	UppHubNest *n = Current();
+	DinrusHubNest *n = Current();
 	last_package = n && n->packages.GetCount() ? n->packages[0] : String();
 	if(!n) return;
 	String qtf;
@@ -365,7 +365,7 @@ void UppHubDlg::Sync()
 	info <<= qtf;
 }
 
-void UppHubDlg::Settings()
+void DinrusHubDlg::Settings()
 {
 	settings.LoadGlobalSettings();
 	if(settings.Execute() != IDOK) {
@@ -376,7 +376,7 @@ void UppHubDlg::Settings()
 	Load();
 }
 
-Value UppHubDlg::LoadJson(const String& url)
+Value DinrusHubDlg::LoadJson(const String& url)
 {
 	String s = LoadFile(url);
 	if(IsNull(s)) {
@@ -392,7 +392,7 @@ Value UppHubDlg::LoadJson(const String& url)
 
 		r.Execute();
 		if (!r.IsSuccess()) {
-			String msg = "Failed to execute UppHub download nests request with error code " + IntStr(r.GetStatusCode()) + ".";
+			String msg = "Failed to execute DinrusHub download nests request with error code " + IntStr(r.GetStatusCode()) + ".";
 			Loge() << METHOD_NAME << msg;
 			return ErrorValue(msg);
 		}
@@ -418,7 +418,7 @@ Value UppHubDlg::LoadJson(const String& url)
 	return v;
 }
 
-void UppHubDlg::Load(int tier, const String& url)
+void DinrusHubDlg::Load(int tier, const String& url)
 {
 	if(loaded.Find(url) >= 0)
 		return;
@@ -441,7 +441,7 @@ void UppHubDlg::Load(int tier, const String& url)
 			if(url.GetCount())
 				ns = LoadJson(url);
 			String name = ns["name"];
-			UppHubNest& n = upv.GetAdd(name);
+			DinrusHubNest& n = upv.GetAdd(name);
 			n.name = name;
 			bool tt = tier > n.tier;
 			if(tt || n.packages.GetCount() == 0)
@@ -472,12 +472,12 @@ void UppHubDlg::Load(int tier, const String& url)
 	catch(ValueTypeError) {}
 }
 
-void UppHubDlg::SyncList()
+void DinrusHubDlg::SyncList()
 {
 	int sc = list.GetScroll();
 	Value k = list.GetKey();
 	list.Clear();
-	for(const UppHubNest& n : upv) {
+	for(const DinrusHubNest& n : upv) {
 		String pkgs = Join(n.packages, " ");
 		auto AT = [&](const String& s) {
 			return AttrText(s).Bold(DirectoryExists(GetHubDir() + "/" + n.name)).NormalPaper(StatusPaper(n.status));
@@ -495,14 +495,14 @@ void UppHubDlg::SyncList()
 		list.GoBegin();
 }
 
-void UppHubDlg::Load()
+void DinrusHubDlg::Load()
 {
 	loading_stopped = false;
 	loaded.Clear();
 	upv.Clear();
 
 	String url = Nvl(LoadFile(ConfigFile("upphub_root")),
-	                 (String)"https://raw.githubusercontent.com/ultimatepp/UppHub/main/nests.json");
+	                 (String)"https://raw.githubusercontent.com/ultimatepp/DinrusHub/main/nests.json");
 
 	if(settings.seturl)
 		url = ~settings.url;
@@ -511,7 +511,7 @@ void UppHubDlg::Load()
 
 	category.ClearList();
 	Index<String> cat;
-	for(const UppHubNest& n : upv)
+	for(const DinrusHubNest& n : upv)
 		cat.FindAdd(n.category);
 	SortIndex(cat);
 	category.Add(Null, AttrText("Все категории").Italic());
@@ -524,19 +524,19 @@ void UppHubDlg::Load()
 	pi.Close();
 }
 
-void UppHubDlg::Update()
+void DinrusHubDlg::Update()
 {
 	if(!PromptYesNo("Полное обновление всех модулей?"))
 		return;
 	UrepoConsole console;
-	for(const UppHubNest& n : upv) {
+	for(const DinrusHubNest& n : upv) {
 		String dir = GetHubDir() + "/" + n.name;
 		if(DirectoryExists(dir))
 			console.Git(dir, "pull --ff-only");
 	}
 }
 
-void UppHubDlg::Install(const Index<String>& ii_)
+void DinrusHubDlg::Install(const Index<String>& ii_)
 {
 	Index<String> ii = clone(ii_);
 	UrepoConsole console;
@@ -544,7 +544,7 @@ void UppHubDlg::Install(const Index<String>& ii_)
 		int i = 0;
 		while(i < ii.GetCount()) {
 			String ns = ii[i++];
-			UppHubNest *n = Get(ns);
+			DinrusHubNest *n = Get(ns);
 			if(n) {
 				String dir = GetHubDir() + '/' + n->name;
 				if(!DirectoryExists(dir)) {
@@ -558,7 +558,7 @@ void UppHubDlg::Install(const Index<String>& ii_)
 						Package pkg;
 						pkg.Load(p);
 						for(const auto& u : pkg.uses)
-							for(const UppHubNest& n : upv)
+							for(const DinrusHubNest& n : upv)
 								for(const String& p : n.packages)
 									if(u.text == p) {
 										ii.FindAdd(n.name);
@@ -576,13 +576,13 @@ void UppHubDlg::Install(const Index<String>& ii_)
 	SyncList();
 }
 
-void UppHubDlg::Install(bool noprompt)
+void DinrusHubDlg::Install(bool noprompt)
 {
 	if(list.IsCursor() && (noprompt || PromptYesNo("Установить " + ~list.GetKey() + "?")))
 		Install(Index<String>{ ~list.GetKey() });
 }
 
-void UppHubDlg::Uninstall(bool noprompt)
+void DinrusHubDlg::Uninstall(bool noprompt)
 {
 	if(list.IsCursor() && (noprompt || PromptYesNo("Деинсталлировать " + ~list.GetKey() + "?"))) {
 		if(!DeleteFolderDeep(GetHubDir() + "/" + ~list.GetKey(), true))
@@ -591,7 +591,7 @@ void UppHubDlg::Uninstall(bool noprompt)
 	}
 }
 
-void UppHubDlg::Reinstall()
+void DinrusHubDlg::Reinstall()
 {
 	if(list.IsCursor() && PromptYesNo("Переустановить " + ~list.GetKey() + "?")) {
 		Uninstall(true);
@@ -599,17 +599,17 @@ void UppHubDlg::Reinstall()
 	}
 }
 
-String UppHub()
+String DinrusHub()
 {
-	VerifyUppHubRequirements();
+	VerifyDinrusHubRequirements();
 
-	UppHubDlg dlg;
+	DinrusHubDlg dlg;
 	dlg.Load();
 	dlg.Run();
 	return dlg.last_package;
 }
 
-void UppHubAuto(const String& main)
+void DinrusHubAuto(const String& main)
 {
 	bool noprompt = false;
 	Index<String> pmissing;
@@ -626,16 +626,16 @@ void UppHubAuto(const String& main)
 		if(missing.GetCount() == 0)
 			break;
 
-		UppHubDlg dlg;
+		DinrusHubDlg dlg;
 		dlg.Load();
 		Index<String> found;
-		for(const UppHubNest& n : dlg.upv)
+		for(const DinrusHubNest& n : dlg.upv)
 			for(const String& p : n.packages)
 				if(missing.Find(p) >= 0)
 					found.FindAdd(n.name);
 
 		if(found.GetCount() == missing.GetCount() && missing != pmissing &&
-		   (noprompt || PromptYesNo("В UppHub найдены недостающие пакеты. Установить?"))) {
+		   (noprompt || PromptYesNo("В DinrusHub найдены недостающие пакеты. Установить?"))) {
 			dlg.Install(found);
 			noprompt = true;
 			pmissing = clone(missing);

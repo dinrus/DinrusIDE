@@ -199,7 +199,7 @@ BaseSetupDlg::BaseSetupDlg()
 	upp << [=, this] { OnUpp(); };
 	
 	output_sel.Tip("Выбрать папку вывода...");
-	upv_sel.Tip("Выбрать папку UppHub...");
+	upv_sel.Tip("Выбрать папку DinrusHub...");
 	DirSelect(output, output_sel);
 	DirSelect(upv, upv_sel);
 	upv.NullText(GetHubDir());

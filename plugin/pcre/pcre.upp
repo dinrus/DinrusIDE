@@ -1,7 +1,5 @@
 description "Библиотека регулярных выражений PCRE\3770,128,128";
 
-noblitz;
-
 options(BUILDER_OPTION) NOWARNINGS;
 
 file

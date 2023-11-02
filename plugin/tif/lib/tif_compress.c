@@ -36,11 +36,11 @@ TIFFNoEncode(TIFF* tif, const char* method)
 
 	if (c) {
 		TIFFErrorExt(tif->tif_clientdata, tif->tif_name,
-			     "%s %s encoding is not implemented",
+			     "кодировка %s %s не реализована",
 			     c->name, method);
 	} else {
 		TIFFErrorExt(tif->tif_clientdata, tif->tif_name,
-			"Compression scheme %u %s encoding is not implemented",
+			"У схемы сжатия %u кодировка %s не реализована",
 			     tif->tif_dir.td_compression, method);
 	}
 	return (-1);
@@ -74,11 +74,11 @@ TIFFNoDecode(TIFF* tif, const char* method)
 
 	if (c)
 		TIFFErrorExt(tif->tif_clientdata, tif->tif_name,
-			     "%s %s decoding is not implemented",
+			     "%s %s декодирование не реализовано",
 			     c->name, method);
 	else
 		TIFFErrorExt(tif->tif_clientdata, tif->tif_name,
-			     "Compression scheme %u %s decoding is not implemented",
+			     "У схемы сжатия %u декодирование %s не реализовано",
 			     tif->tif_dir.td_compression, method);
 	return (0);
 }
@@ -116,7 +116,7 @@ _TIFFNoSeek(TIFF* tif, uint32 off)
 {
 	(void) off;
 	TIFFErrorExt(tif->tif_clientdata, tif->tif_name,
-		     "Compression algorithm does not support random access");
+		     "Алгоритм сжатия не поддерживает случайного доступа");
 	return (0);
 }
 
@@ -213,7 +213,7 @@ TIFFRegisterCODEC(uint16 scheme, const char* name, TIFFInitMethod init)
 		registeredCODECS = cd;
 	} else {
 		TIFFErrorExt(0, "TIFFRegisterCODEC",
-		    "No space to register compression scheme %s", name);
+		    "Нет места для регистрации схемы сжатия %s", name);
 		return NULL;
 	}
 	return (cd->info);
@@ -232,7 +232,7 @@ TIFFUnRegisterCODEC(TIFFCodec* c)
 			return;
 		}
 	TIFFErrorExt(0, "TIFFUnRegisterCODEC",
-	    "Cannot remove compression scheme %s; not registered", c->name);
+	    "Нельзя удалить схему сжатия %s; она не зарегистрирована", c->name);
 }
 
 /************************************************************************/

@@ -36,7 +36,7 @@ uint32
 _TIFFMultiply32(TIFF* tif, uint32 first, uint32 second, const char* where)
 {
 	if (second && first > TIFF_UINT32_MAX / second) {
-		TIFFErrorExt(tif->tif_clientdata, where, "Integer overflow in %s", where);
+		TIFFErrorExt(tif->tif_clientdata, where, "Целочисленное переполнение в %s", where);
 		return 0;
 	}
 
@@ -47,7 +47,7 @@ uint64
 _TIFFMultiply64(TIFF* tif, uint64 first, uint64 second, const char* where)
 {
 	if (second && first > TIFF_UINT64_MAX / second) {
-		TIFFErrorExt(tif->tif_clientdata, where, "Integer overflow in %s", where);
+		TIFFErrorExt(tif->tif_clientdata, where, "Целочисленное переполнение в %s", where);
 		return 0;
 	}
 
@@ -62,7 +62,7 @@ _TIFFMultiplySSize(TIFF* tif, tmsize_t first, tmsize_t second, const char* where
         if( tif != NULL && where != NULL )
         {
             TIFFErrorExt(tif->tif_clientdata, where,
-                        "Неверное argument to _TIFFMultiplySSize() in %s", where);
+                        "Неверный аргумент для _TIFFMultiplySSize() в %s", where);
         }
         return 0;
     }
@@ -72,7 +72,7 @@ _TIFFMultiplySSize(TIFF* tif, tmsize_t first, tmsize_t second, const char* where
         if( tif != NULL && where != NULL )
         {
             TIFFErrorExt(tif->tif_clientdata, where,
-                        "Integer overflow in %s", where);
+                        "Целочисленное переполнение в %s", where);
         }
         return 0;
     }
@@ -85,7 +85,7 @@ tmsize_t _TIFFCastUInt64ToSSize(TIFF* tif, uint64 val, const char* module)
     {
         if( tif != NULL && module != NULL )
         {
-            TIFFErrorExt(tif->tif_clientdata,module,"Integer overflow");
+            TIFFErrorExt(tif->tif_clientdata,module,"Целочисленное переполнение");
         }
         return 0;
     }
@@ -108,8 +108,8 @@ _TIFFCheckRealloc(TIFF* tif, void* buffer,
 
 	if (cp == NULL) {
 		TIFFErrorExt(tif->tif_clientdata, tif->tif_name,
-			     "Failed to allocate memory for %s "
-			     "(%ld elements of %ld bytes each)",
+			     "Не удалось разместить память для %s "
+			     "(%ld элементов по %ld байтов каждый)",
 			     what,(long) nmemb, (long) elem_size);
 	}
 
@@ -251,7 +251,7 @@ TIFFVGetFieldDefaulted(TIFF* tif, uint32 tag, va_list ap)
         if( sp == NULL )
         {
             TIFFErrorExt(tif->tif_clientdata, tif->tif_name,
-                         "Cannot get \"Predictor\" tag as plugin is not configured");
+                         "Не удаётся получить тэг \"Predictor\", т.к. плагин не сконфигурирован");
             *va_arg(ap, uint16*) = 0;
             return 0;
         }
@@ -318,7 +318,7 @@ TIFFVGetFieldDefaulted(TIFF* tif, uint32 tag, va_list ap)
 	case TIFFTAG_TRANSFERFUNCTION:
 		if (!td->td_transferfunction[0] &&
 		    !TIFFDefaultTransferFunction(td)) {
-			TIFFErrorExt(tif->tif_clientdata, tif->tif_name, "No space for \"TransferFunction\" tag");
+			TIFFErrorExt(tif->tif_clientdata, tif->tif_name, "Нет места для тэга \"TransferFunction\"");
 			return (0);
 		}
 		*va_arg(ap, uint16 **) = td->td_transferfunction[0];

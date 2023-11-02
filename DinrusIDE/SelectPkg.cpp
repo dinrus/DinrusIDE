@@ -224,7 +224,7 @@ SelectPackageDlg::SelectPackageDlg(const char *title, bool selectvars_, bool mai
 	
 	upphub.SetImage(IdeImg::UppHub());
 	upphub << [=, this] {
-		String p = UppHub();
+		String p = DinrusHub();
 		OnBase();
 		if(p.GetCount()) {
 			alist.FindSetCursor(p);
@@ -244,7 +244,7 @@ void SelectPackageDlg::SyncFilter()
 	bool hub = false;
 	for(int i = 0; i < upp.GetCount(); i++) {
 		if(upp[i].StartsWith(GetHubDir()) && !hub) {
-			nest.Add(UPPHUB|i, AttrText("UppHub").Italic().NormalInk(SBlue()));
+			nest.Add(UPPHUB|i, AttrText("DinrusHub").Italic().NormalInk(SBlue()));
 			hub = true;
 		}
 		String fn = GetFileName(upp[i]);
@@ -643,7 +643,7 @@ void SelectPackageDlg::ScanFolder(const String& path, ArrayMap<String, PkData>& 
 			PkData& d = nd.GetAdd(p);
 			d.package = prefix + ff.GetName();
 			d.nest = nest;
-			d.upphub = InUppHub(p);
+			d.upphub = InDinrusHub(p);
 			if(nw) { // No cached info available about the folder
 				d.ispackage = IsLetter(*d.package) && d.package.Find('.') < 0; // First heuristic guess
 				d.main = d.ispackage && prefix.GetCount() == 0; // Expect it is main

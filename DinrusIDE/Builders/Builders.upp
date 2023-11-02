@@ -1,7 +1,5 @@
 description "DinrusIDE - построители - процедуры для компиляции программ\377B255,0,0";
 
-noblitz;
-
 uses
 	DinrusIDE/Core,
 	DinrusIDE/Android,

@@ -1,7 +1,5 @@
 description "Код не-ГИП. Потоки, контейнеры  NTL, конкретные типы, Value, XML, разбор C и проч...\377B128,0,0";
 
-noblitz;
-
 acceptflags
 	USEMALLOC;
 

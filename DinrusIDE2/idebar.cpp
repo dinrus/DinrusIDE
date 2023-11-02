@@ -389,7 +389,7 @@ void Ide::Setup(Bar& menu)
 	    .Help("Устанавливает.исправляет методы построения и базовые сборки..");
 #endif
 	menu.MenuSeparator();
-	menu.Add(HasGit(), "DinrusUppHub..", IdeImg::UppHub(), [] { UppHub(); });
+	menu.Add(HasGit(), "DinrusHub..", IdeImg::DinrusHub(), [] { DinrusHub(); });
 	menu.Add("Клонировать исходники U++ с GitHub..", [=, this] {
 		if(SetupGITMaster()) {
 			IdeAgain = true;

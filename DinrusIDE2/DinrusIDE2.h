@@ -1231,8 +1231,8 @@ void InstantSetup();
 
 bool SetupGITMaster();
 
-String UppHub();
-void   UppHubAuto(const String& s);
+String DinrusHub();
+void   DinrusHubAuto(const String& s);
 
 #include "urepo.h"
 

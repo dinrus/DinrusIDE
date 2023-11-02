@@ -131,7 +131,7 @@ void CppBuilder::AddMakeFile(MakeFile& makefile, String package,
 	libdep << makefile.output << ":";
 	if(is_shared)
 	{
-		libfiles = "c++ -fPIC"; // -v -shared";
+		libfiles = "c++ -shared -fPIC"; // -v";
 		Point p = ExtractVersion();
 		if(!IsNull(p.x)) {
 			libfiles << " -Xlinker --major-image-version -Xlinker " << p.x;

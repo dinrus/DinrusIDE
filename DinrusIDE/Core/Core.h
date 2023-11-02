@@ -277,7 +277,7 @@ String DefaultHubFilePath();
 
 void   SetHubDir(const String& path);
 String GetHubDir();
-bool   InUppHub(const String& p);
+bool   InDinrusHub(const String& p);
 
 String VarFilePath();
 String VarFilePath(String name);

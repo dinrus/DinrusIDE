@@ -110,10 +110,10 @@ td`::string][@(0.0.255) `&]_[*@3 s])&]
 [s4;%- &]
 [s5;:String`:`:GetCharCount`(`)const:%- [@(0.0.255) int]_[* GetCharCount]()_[@(0.0.255) con
 st]&]
-[s2; Возвращает a number of characters contained in String. This is 
-equal GetCount() if default charset is not UTF`-8, but different 
-for UTF`-8 where it returns a number of unicode codepoints. It 
-is faster equivalent of ToWString().GetCount().&]
+[s2; Возвращает a number of characters contained in String. 
+This is equal GetCount() if default charset is not UTF`-8, but 
+different for UTF`-8 where it returns a number of unicode codepoints. 
+It is faster equivalent of ToWString().GetCount().&]
 [s3;%- &]
 [s4;%- &]
 [s5;:String`:`:ToWString`(`)const:%- [_^WString^ WString]_[* ToWString]()_[@(0.0.255) const
@@ -123,18 +123,18 @@ is faster equivalent of ToWString().GetCount().&]
 [s4;%- &]
 [s5;:String`:`:ToString`(`)const:%- [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[* T
 oString]()_[@(0.0.255) const]&]
-[s2; Возвращает `*this. Useful because ToString is standard method to 
-convert concrete type to text, used by AsString template (and 
-therefore by operator << as well).&]
+[s2; Возвращает `*this. Useful because ToString is standard 
+method to convert concrete type to text, used by AsString template 
+(and therefore by operator << as well).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:String`:`:GetVoid`(`):%- [@(0.0.255) static] [_^String^ String]_[* GetVoid]()&]
-[s2; Возвращает special Void value. This value is same as empty string, 
-but IsVoid method returns true for it. It can be used in special 
-scenarios where client code needs to distinguish between two 
-empty values (let us say Void is `"more empty`"...). For example, 
-LoadFile returns Void string if file failed to load, but normal 
-empty string if it is empty.&]
+[s2; Возвращает special Void value. This value is same 
+as empty string, but IsVoid method returns true for it. It can 
+be used in special scenarios where client code needs to distinguish 
+between two empty values (let us say Void is `"more empty`"...). 
+For example, LoadFile returns Void string if file failed to load, 
+but normal empty string if it is empty.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:String`:`:IsVoid`(`)const:%- [@(0.0.255) bool]_[* IsVoid]()_[@(0.0.255) const]&]
@@ -208,11 +208,11 @@ onst]&]
 [s4;%- &]
 [s5;:String0`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
 [s5;:String0`:`:GetLength`(`)const:%- [@(0.0.255) int]_[* GetLength]()_[@(0.0.255) const]&]
-[s2; Возвращает  число символов.&]
+[s2; Возвращает число символов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:String0`:`:GetAlloc`(`)const:%- [@(0.0.255) int]_[* GetAlloc]()_[@(0.0.255) const]&]
-[s2; Возвращает  число размещённых символов 
+[s2; Возвращает число размещённых символов 
 (maximum string length before it has to grow) &]
 [s3;%- &]
 [s4;%- &]
@@ -268,22 +268,22 @@ td`::string]_[* ToStd]()_[@(0.0.255) const]&]
 ]_[@(0.0.255) char]_`*()_[@(0.0.255) const]&]
 [s5;:String0`:`:operator`~`(`)const:%- [@(0.0.255) const]_[@(0.0.255) char]_`*[* operator`~
 ]()_[@(0.0.255) const]&]
-[s2; Возвращает  [* Begin]().&]
+[s2; Возвращает [* Begin]().&]
 [s3;%- &]
 [s4;%- &]
 [s5;:String0`:`:operator`[`]`(int`)const:%- [@(0.0.255) int]_[* operator`[`]]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%- [%RU-RU Возвращает  символ в позиции 
+[s2;%- [%RU-RU Возвращает символ в позиции 
 ][*@3 i.]&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:String`:`:Make`(int`,Maker`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 M
 aker]>_[@(0.0.255) static]_[_^Upp`:`:String^ String]_[* Make]([@(0.0.255) int]_[*@3 alloc],
  [*@4 Maker]_[*@3 m])&]
-[s2; Optimized static method for creating String'и. This method creates 
-internal buffer of at least [%-*@3 alloc] and then invokes lambda 
-[%-*@3 m] passing the char `* pointer to the internal buffer as 
-lambda parameter. Lambda is then supposed to fill the characters 
+[s2; Optimized static method for creating String`'и. This method 
+creates internal buffer of at least [%-*@3 alloc] and then invokes 
+lambda [%-*@3 m] passing the char `* pointer to the internal buffer 
+as lambda parameter. Lambda is then supposed to fill the characters 
 to this buffer and return the length of string (which must be 
 <`= [%-*@3 alloc]). For the best performance, [%-*@3 alloc] should 
 be constant.&]
@@ -390,37 +390,38 @@ and [* operator<<] templates).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString`:`:GetVoid`(`):%- [@(0.0.255) static] [_^WString^ WString]_[* GetVoid]()&]
-[s2; Возвращает special Void value. This value is same as empty string, 
-but IsVoid method returns true for it. It can be used in special 
-scenarios where client code needs to distinguish between two 
-empty values (let us say Void is `"more empty`"...). For example, 
-LoadFile returns Void string if file failed to load, but normal 
-empty string if it is empty.&]
+[s2; Возвращает special Void value. This value is same 
+as empty string, but IsVoid method returns true for it. It can 
+be used in special scenarios where client code needs to distinguish 
+between two empty values (let us say Void is `"more empty`"...). 
+For example, LoadFile returns Void string if file failed to load, 
+but normal empty string if it is empty.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString`:`:IsVoid`(`)const:%- [@(0.0.255) bool]_[* IsVoid]()_[@(0.0.255) const]&]
-[s2; Возвращает  true, если String is special value 
+[s2; Возвращает true, если String is special value 
 returned by [* GetVoid].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString0`:`:Begin`(`)const:%- [@(0.0.255) const]_[_^wchar^ wchar]_`*[* Begin]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает a pointer to the first character.&]
+[s2; Возвращает указатель на первый символ.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString0`:`:End`(`)const:%- [@(0.0.255) const]_[_^wchar^ wchar]_`*[* End]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает a pointer to ending zero.&]
+[s2; Возвращает указатель на завершающий 
+ноль.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString0`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
 [s5;:WString0`:`:GetLength`(`)const:%- [@(0.0.255) int]_[* GetLength]()_[@(0.0.255) const]&]
-[s2; Возвращает the number of characters.&]
+[s2; Возвращает число символов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString0`:`:GetAlloc`(`)const:%- [@(0.0.255) int]_[* GetAlloc]()_[@(0.0.255) const]&]
-[s2; Возвращает the number of allocated characters (maximum string length 
-before it has to grow) &]
+[s2; Возвращает число размещённых символов 
+(maximum string length before it has to grow) &]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString0`:`:Cat`(int`):%- [@(0.0.255) void]_[* Cat]([@(0.0.255) int]_[*@3 c])&]
@@ -459,68 +460,75 @@ are compared as unsigned integer values.&]
 [s4;%- &]
 [s5;:WString0`:`:Insert`(int`,const wchar`*`,int`):%- [@(0.0.255) void]_[* Insert]([@(0.0.255) i
 nt]_[*@3 pos], [@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) int]_[*@3 count])&]
-[s2; Inserts first [%-*@3 count] characters of [%-*@3 s] at position 
-[%-*@3 pos].&]
+[s2; Вставляет первые [%-*@3 count] символов 
+[%-*@3 s] в позиции [%-*@3 pos].&]
 [s3; &]
 [s4;%- &]
 [s5;:WString0`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; Empties the string.&]
+[s2; Опустошает строку.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString0`:`:Set`(int`,int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 pos], 
 [@(0.0.255) int]_[*@3 ch])&]
-[s2; Replace character at position [%-*@3 pos]  with [%-*@3 ch].&]
+[s2; Заменяет символ в позиции [%-*@3 pos] на 
+[%-*@3 ch].&]
 [s3; &]
 [s4;%- &]
 [s5;:WString0`:`:Trim`(int`):%- [@(0.0.255) void]_[* Trim]([@(0.0.255) int]_[*@3 pos])&]
-[s2; Устанавливаетthe number of characters (length) to [%-*@3 pos].&]
+[s2; Устанавливает число символов (длину) 
+в [%-*@3 pos].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString`:`:ToStd`(`)const:%- [_^http`:`/`/en`.cppreference`.com`/w`/cpp`/string`/basic`_string^ s
 td`::wstring]_[* ToStd]()_[@(0.0.255) const]&]
-[s2; Converts WString to std`::string.&]
+[s2; Преобразует WString в std`::string.&]
 [s0;%- &]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс AString]]}}&]
 [s3; &]
 [s1;:noref:%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@3;3 B][@(0.0.255)3 >]&]
 [s1;:AString`:`:class:%- [@(0.0.255) class]_[* AString]_:_[@(0.0.255) public]_[*@3 B]&]
-[s9; A class that implements behavior common to both String and WString.&]
+[s9; Класс, реализующий поведение, общее 
+для String и WString.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:AString`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; Clears the content of the string.&]
+[s2; Очищает контент строки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AString`:`:GetLength`(`)const:%- [@(0.0.255) int]_[* GetLength]()_[@(0.0.255) const]&]
-[s2; Возвращает the length of the string.&]
+[s2; Возвращает длину строки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AString`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2; Return true if the length of the string is zero.&]
+[s2; Возвращает true, если длина строки 
+равна нулю.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AString`:`:End`(`)const:%- [@(0.0.255) const]_[_^AString`:`:tchar^ tchar]_`*[* End]()_
 [@(0.0.255) const]&]
-[s2; Возвращает a pointer to the end of the string.&]
+[s2; Возвращает указатель на конец строки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AString`:`:Last`(`)const:%- [@(0.0.255) const]_[_^AString`:`:tchar^ tchar]_`*[* Last](
 )_[@(0.0.255) const]&]
-[s2; Возвращает a pointer to the last character in the string. If string 
-is empty, returns a pointer to the ending zero.&]
+[s2; Возвращает укзатель на последний 
+символ в строке. Если строка пустая, 
+возвращает указатель на завершающий 
+ноль.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AString`:`:GetIter`(int`)const:%- [@(0.0.255) const]_[_^AString`:`:tchar^ tchar]_`*[* G
 etIter]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Возвращает a pointer to character index [%-*@3 i] of the string.&]
+[s2; Возвращает указатель на символьный 
+индекс [%-*@3 i ]данной строки.&]
 [s3; &]
 [s4;%- &]
 [s5;:AString`:`:operator`[`]`(int`)const:%- [@(0.0.255) int]_[* operator`[`]]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Возвращает the character with index [%-*@3 i].&]
+[s2; Возвращает символ с индексом [%-*@3 i].&]
 [s3; &]
 [s4;%- &]
 [s5;:AString`:`:operator const tchar`*`(`)const:%- [@(0.0.255) operator]_[@(0.0.255) cons
@@ -544,37 +552,38 @@ rt]([@(0.0.255) int]_[*@3 pos], [@(0.0.255) const]_[_^AString`:`:tchar^ tchar]_`
 [*@3 s])&]
 [s5;:AString`:`:Insert`(int`,const char`*`):%- [@(0.0.255) void]_[* Insert]([@(0.0.255) int
 ]_[*@3 pos], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s])&]
-[s2; Inserts item [%-*@3 c]/[%-*@3 s] at position [%-*@3 pos] ([%-*@3 count] 
-times).&]
+[s2; Вставляет элемент [%-*@3 c]/[%-*@3 s] в позиции 
+[%-*@3 pos] ([%-*@3 count] раз).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:TrimLast`(int`):%- [@(0.0.255) void]_[* TrimLast]([@(0.0.255) int]_[*@3 c
 ount]_`=_[@3 1])&]
-[s2; Removes [%-*@3 count] characters from the end of String. Same 
-as Remove(GetCount() `- count).&]
+[s2; Удаляет [%-*@3 count] символов с конца String. 
+То же, что и Remove(GetCount() `- count).&]
 [s3; &]
 [s4;%- &]
 [s5;:AString`:`:Mid`(int`,int`)const:%- [_^AString`:`:String^ String]_[* Mid]([@(0.0.255) i
 nt]_[*@3 pos], [@(0.0.255) int]_[*@3 length])_[@(0.0.255) const]&]
-[s2; Возвращает a substring that begins from [%-*@3 pos] and with [%-*@3 length 
-]chars.&]
+[s2; Возвращает подстроку, начинающуюся 
+с [%-*@3 pos] и с [%-*@3 length ]символов.&]
 [s3; &]
 [s4;%- &]
 [s5;:AString`:`:Mid`(int`)const:%- [_^AString`:`:String^ String]_[* Mid]([@(0.0.255) int]_[*@3 p
 os])_[@(0.0.255) const]&]
-[s2; Возвращает a substring that begins from [%-*@3 pos].&]
+[s2; Возвращает подстроку, начинающуюся 
+с [%-*@3 pos].&]
 [s3; &]
 [s4;%- &]
 [s5;:AString`:`:Right`(int`)const:%- [_^AString`:`:String^ String]_[* Right]([@(0.0.255) in
 t]_[*@3 count])_[@(0.0.255) const]&]
-[s2; Возвращает a substring with [%-*@3 count ]chars beginning from the 
-ens of the string.&]
+[s2; Возвращает подстроку с [%-*@3 count ]символов, 
+начиная с конца строки.&]
 [s3; &]
 [s4;%- &]
 [s5;:AString`:`:Left`(int`)const:%- [_^AString`:`:String^ String]_[* Left]([@(0.0.255) int]_
 [*@3 count])_[@(0.0.255) const]&]
-[s2; Возвращает a substring with [%-*@3 count ]chars beginning from the 
-begin of the string.&]
+[s2; Возвращает подстроку с [%-*@3 count ]символов, 
+начиная с начала строки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:Find`(int`,const Upp`:`:AString`:`:tchar`*`,int`)const:%- [@(0.0.255) i
@@ -586,8 +595,9 @@ onst]&]
 [s5;:AString`:`:Find`(const AString`:`:String`&`,int`)const:%- [@(0.0.255) int]_[* Find](
 [@(0.0.255) const]_[_^AString`:`:String^ String][@(0.0.255) `&]_[*@3 s], 
 [@(0.0.255) int]_[*@3 from]_`=_[@3 0])_[@(0.0.255) const]&]
-[s2; Возвращает first position of substring [%-*@3 s] greater than or 
-equal to [%-*@3 from], or `-1 if [%-*@3 s] is not found.&]
+[s2; Возвращает первую позицию подстроки 
+[%-*@3 s], большую или равную [%-*@3 from], или 
+`-1, если [%-*@3 s] не обнаружена.&]
 [s3; &]
 [s4;%- &]
 [s5;:AString`:`:FindAfter`(const AString`:`:tchar`*`,int`)const:%- [@(0.0.255) int]_[* Fi
@@ -596,9 +606,12 @@ ndAfter]([@(0.0.255) const]_[_^AString`:`:tchar^ tchar]_`*[*@3 s],
 [s5;:AString`:`:FindAfter`(const AString`:`:String`&`,int`)const:%- [@(0.0.255) int]_[* F
 indAfter]([@(0.0.255) const]_[_^AString`:`:String^ String][@(0.0.255) `&]_[*@3 s], 
 [@(0.0.255) int]_[*@3 from]_`=_[@3 0])_[@(0.0.255) const]&]
-[s2; Similiar to Find, but if found, returns position [*/ after] the 
-substring found. In other words, if not found returns `-1, if 
-found, returns Find([%-*@3 s][%- , ][%-*@3 from]) `+ length of [%-*@3 s].&]
+[s2; Подобно Find, но, если найдено, возвращает 
+позицию [*/ после] найденной подстроки. 
+Другими словами, если не найдено, 
+то возвращает `-1, а если найдено, то 
+возвращает Find([%-*@3 s][%- , ][%-*@3 from]) `+ длина 
+[%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:ReverseFind`(int`,const Upp`:`:AString`:`:tchar`*`,int`)const:%- [@(0.0.255) i
@@ -616,8 +629,8 @@ onst]&]
 [s5;:Upp`:`:AString`:`:ReverseFind`(const Upp`:`:AString`:`:String`&`)const:%- [@(0.0.255) i
 nt]_[* ReverseFind]([@(0.0.255) const]_[_^Upp`:`:AString`:`:String^ String][@(0.0.255) `&
 ]_[*@3 s])_[@(0.0.255) const]&]
-[s2; Finds the [*/ last] position of [%-*@3 s] less than [%-*@3 from], 
-or `-1 if not found.&]
+[s2; Находит [*/ последнюю] позицию [%-*@3 s], 
+меньшую [%-*@3 from], или `-1, если не найдено.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:ReverseFindAfter`(int`,const Upp`:`:AString`:`:tchar`*`,int`)const:%- [@(0.0.255) i
@@ -635,9 +648,11 @@ _[@(0.0.255) const]&]
 [s5;:Upp`:`:AString`:`:ReverseFindAfter`(const Upp`:`:AString`:`:String`&`)const:%- [@(0.0.255) i
 nt]_[* ReverseFindAfter]([@(0.0.255) const]_[_^Upp`:`:AString`:`:String^ String][@(0.0.255) `&
 ]_[*@3 s])_[@(0.0.255) const]&]
-[s2; Similar to ReverseFind, but returns position [*/ after] the substring 
-found. In other words, if not found returns `-1, if found, returns 
-Find([%-*@3 s][%- , ][%-*@3 from]) `+ length of [%-*@3 s].&]
+[s2; Подобно ReverseFind,но возвращает позицию 
+[*/ после] найденной подстроки. Другими 
+словами, если не найдено, возвращает 
+`-1, а если найдено, то возвращает Find([%-*@3 s][%- , 
+][%-*@3 from]) `+ длина [%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:Replace`(const Upp`:`:AString`:`:tchar`*`,int`,const Upp`:`:AString`:`:tchar`*`,int`):%- [@(0.0.255) v
@@ -656,8 +671,9 @@ oid]_[* Replace]([@(0.0.255) const]_[_^AString`:`:String^ String][@(0.0.255) `&]
 [s5;:AString`:`:Replace`(const AString`:`:tchar`*`,const AString`:`:String`&`):%- [@(0.0.255) v
 oid]_[* Replace]([@(0.0.255) const]_[_^AString`:`:tchar^ tchar]_`*[*@3 find], 
 [@(0.0.255) const]_[_^AString`:`:String^ String][@(0.0.255) `&]_[*@3 replace])&]
-[s2; Replaces substring [%-*@3 find] with [%-*@3 replace ]string for 
-all times [%-*@3 find] string appears.&]
+[s2; Заменяет подстороку [%-*@3 find] на строку 
+[%-*@3 replace ]всякий раз, когда находит 
+[%-*@3 find].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:StartsWith`(const Upp`:`:AString`:`:tchar`*`,int`)const:%- [@(0.0.255) b
@@ -669,7 +685,8 @@ onst]&]
 [s5;:Upp`:`:AString`:`:StartsWith`(const Upp`:`:AString`:`:String`&`)const:%- [@(0.0.255) b
 ool]_[* StartsWith]([@(0.0.255) const]_[_^Upp`:`:AString`:`:String^ String][@(0.0.255) `&
 ]_[*@3 s])_[@(0.0.255) const]&]
-[s2; Возвращает  true, если string starts with [%-*@3 s].&]
+[s2; Возвращает true, если строка начинается 
+с [%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:TrimStart`(const Upp`:`:AString`:`:tchar`*`,int`):%- [@(0.0.255) b
@@ -680,8 +697,8 @@ ool]_[* TrimStart]([@(0.0.255) const]_[_^Upp`:`:AString`:`:tchar^ tchar]_`*[*@3 
 [s5;:Upp`:`:AString`:`:TrimStart`(const Upp`:`:AString`:`:String`&`):%- [@(0.0.255) boo
 l]_[* TrimStart]([@(0.0.255) const]_[_^Upp`:`:AString`:`:String^ String][@(0.0.255) `&]_[*@3 s
 ])&]
-[s2; If string starts with [%-*@3 s], trims the start to remove it 
-and returns true.&]
+[s2; Если строка начинается с [%-*@3 s], обрезает 
+начало, удаляя ее, и возвращает true.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:EndsWith`(const Upp`:`:AString`:`:tchar`*`,int`)const:%- [@(0.0.255) b
@@ -693,7 +710,8 @@ onst]&]
 [s5;:Upp`:`:AString`:`:EndsWith`(const Upp`:`:AString`:`:String`&`)const:%- [@(0.0.255) b
 ool]_[* EndsWith]([@(0.0.255) const]_[_^Upp`:`:AString`:`:String^ String][@(0.0.255) `&]_
 [*@3 s])_[@(0.0.255) const]&]
-[s2; Возвращает  true, если string ends with [%-*@3 s].&]
+[s2; Возвращает true, если строка оканчивается 
+на [%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:TrimEnd`(const Upp`:`:AString`:`:tchar`*`,int`):%- [@(0.0.255) b
@@ -704,30 +722,34 @@ ool]_[* TrimEnd]([@(0.0.255) const]_[_^Upp`:`:AString`:`:tchar^ tchar]_`*[*@3 s]
 [s5;:Upp`:`:AString`:`:TrimEnd`(const Upp`:`:AString`:`:String`&`):%- [@(0.0.255) bool]_
 [* TrimEnd]([@(0.0.255) const]_[_^Upp`:`:AString`:`:String^ String][@(0.0.255) `&]_[*@3 s])
 &]
-[s2; If string ends with [%-*@3 s], trims the end to remove it and 
-returns true.&]
+[s2; Если строка начинается с [%-*@3 s], обрезает 
+конец, удаляя ее, и возвращает true.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:FindFirstOf`(int`,const Upp`:`:AString`:`:tchar`*`,int`)const:%- [@(0.0.255) i
 nt]_[* FindFirstOf]([@(0.0.255) int]_[*@3 len], [@(0.0.255) const]_[_^Upp`:`:AString`:`:tchar^ t
 char]_`*[*@3 set], [@(0.0.255) int]_[*@3 from])_[@(0.0.255) const]&]
-[s2; Возвращает the first position of any character from [%-*@3 set] starting 
-at [%-*@3 from]. The number of characters in [%-*@3 set] is [%-*@3 len]. 
-Возвращает `-1 if not found.&]
+[s2; Возвращаетпервую позицию любого 
+символа из [%-*@3 set], начиная с [%-*@3 from]. 
+Число символов в [%-*@3 set] равно [%-*@3 len]. 
+Возвращает `-1, если не найдено.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:FindFirstOf`(const Upp`:`:AString`:`:tchar`*`,int`)const:%- [@(0.0.255) i
 nt]_[* FindFirstOf]([@(0.0.255) const]_[_^Upp`:`:AString`:`:tchar^ tchar]_`*[*@3 set], 
 [@(0.0.255) int]_[*@3 from]_`=_[@3 0])_[@(0.0.255) const]&]
-[s2; Возвращает the first position of any character from zero terminated 
-[%-*@3 set] starting at [%-*@3 from]. Возвращает `-1 if not found.&]
+[s2; Возвращает первую позицию любого 
+символа из [%-*@3 set] с нулевым окончанием, 
+начиная с [%-*@3 from]. Возвращает `-1, если 
+не найдено.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:FindFirstOf`(const Upp`:`:AString`:`:String`&`,int`)const:%- [@(0.0.255) i
 nt]_[* FindFirstOf]([@(0.0.255) const]_[_^Upp`:`:AString`:`:String^ String][@(0.0.255) `&
 ]_[*@3 set], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])_[@(0.0.255) const]&]
-[s2; Возвращает the first position of any character from [%-*@3 set] starting 
-at [%-*@3 from]. Возвращает `-1 if not found.&]
+[s2; Возвращает первую позицию любого 
+символа из [%-*@3 set], начиная с [%-*@3 from]. 
+Возвращает `-1, если не найдено.&]
 [s2; &]
 [s3; &]
 [s3; ]]

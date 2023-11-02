@@ -172,7 +172,7 @@ bool SaveVars(const char *name)
 
 String DefaultHubFilePath()
 {
-	return ConfigFile("UppHub.path");
+	return ConfigFile("DinrusHub.path");
 }
 
 bool hubdir_resolved;
@@ -193,7 +193,7 @@ String GetHubDir()
 	if(d.GetCount() == 0 || !DirectoryExists(d)) {
 		d = LoadFile(DefaultHubFilePath());
 		if(d.GetCount() == 0 || !DirectoryExists(d)) {
-			d = ConfigFile("UppHub");
+			d = ConfigFile("DinrusHub");
 			RealizeDirectory(d);
 		}
 	}
@@ -201,7 +201,7 @@ String GetHubDir()
 	return d;
 }
 
-bool InUppHub(const String& p)
+bool InDinrusHub(const String& p)
 {
 	return p.StartsWith(GetHubDir());
 }

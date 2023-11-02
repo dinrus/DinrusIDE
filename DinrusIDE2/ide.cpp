@@ -110,7 +110,7 @@ void Ide::SetMain(const String& package)
 	mainconfigname.Clear();
 	mainconfigparam.Clear();
 
-	UppHubAuto(main);
+	DinrusHubAuto(main);
 
 	ScanWorkspace();
 	editfile.Clear();

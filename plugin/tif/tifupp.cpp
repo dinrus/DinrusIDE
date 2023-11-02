@@ -279,7 +279,7 @@ static void BltPack22(byte *dest, const byte *src, byte bit_shift, unsigned coun
 	byte shift1, shift2;
 	byte sMask1, sMask2;
 	byte dMask1, dMask2;
-	
+
 	if(!bit_shift) // fast path
 	{
 		if(c2)
@@ -293,15 +293,15 @@ static void BltPack22(byte *dest, const byte *src, byte bit_shift, unsigned coun
 			default:
 			case 0:
 				break;
-				
+
 			case 1:
 				*dest = (*dest & 0x3f) | (*src & 0x3f);
 				break;
-				
+
 			case 2:
 				*dest = (*dest & 0x0f) | (*src & 0x0f);
 				break;
-			
+
 			case 3:
 				*dest = (*dest & 0x03) | (*src & 0x03);
 				break;
@@ -328,11 +328,11 @@ static void BltPack22(byte *dest, const byte *src, byte bit_shift, unsigned coun
 			case 0:
 			default:
 				break;
-				
+
 			case 1:
 				*dest = (*dest & ~(0xc0 >> bit_shift)) | ((*src & 0xc0) >> bit_shift);
 				break;
-			
+
 			case 2:
 				if(bit_shift <= 4)
 				{
@@ -345,7 +345,7 @@ static void BltPack22(byte *dest, const byte *src, byte bit_shift, unsigned coun
 					*dest = (*dest & 0x3f) | ((*src & 0x30) << 2);
 				}
 				break;
-				
+
 			case 3:
 				if(bit_shift <= 2)
 				{
@@ -823,7 +823,7 @@ void TIFRaster::Data::Warning(const char *fn, const char *fmt, va_list ap)
 		int addr = stou(fn + 5);
 		if(addr != -1 && addr != 0) {
 //			TIFRaster::Data& wrapper = *reinterpret_cast<TIFRaster::Data *>(addr);
-			LLOG("TIF warning: " << VFormat(fmt, ap));
+			LLOG("Предупреждение TIF: " << VFormat(fmt, ap));
 //			RLOG("TiffWrapper::Warning: " << wrapper.errors);
 		}
 	}
@@ -835,7 +835,7 @@ void TIFRaster::Data::Error(const char *fn, const char *fmt, va_list ap)
 		int addr = stou(fn + 5);
 		if(addr != -1 && addr != 0) {
 //			Data& wrapper = *reinterpret_cast<Data *>(addr);
-			LLOG("TIF error: " << VFormat(fmt, ap));
+			LLOG("Ошибка TIF: " << VFormat(fmt, ap));
 //			RLOG("TiffWrapper::Error: " << wrapper.errors);
 		}
 	}
@@ -911,7 +911,7 @@ bool TIFRaster::Data::SeekPage(int pgx)
 		TIFFRGBAImageEnd(this);
 		page_open = false;
 	}
-	
+
 	ASSERT(pgx >= 0 && pgx < pages.GetCount());
 	page_index = pgx;
 	page_error = false;
@@ -924,7 +924,7 @@ bool TIFRaster::Data::SeekPage(int pgx)
 		page_error = true;
 		return false;
 	}
-	
+
 	page_open = true;
 	const Page& page = pages[page_index];
 
@@ -1253,7 +1253,7 @@ void TIFEncoder::Data::Start(Size sz, Size dots, int bpp_, const RGBA *palette)
 	}
 //	TIFFSetField(tiff, TIFFTAG_REFERENCEBLACKWHITE, refblackwhite);
 //	TIFFSetField(tiff, TIFFTAG_TRANSFERFUNCTION, gray);
-	if (dots.cx && dots.cy) { 
+	if (dots.cx && dots.cy) {
 		TIFFSetField(tiff, TIFFTAG_RESOLUTIONUNIT, (uint16)RESUNIT_INCH);
 		float xres = float(sz.cx * 600.0 / dots.cx);
 		TIFFSetField(tiff, TIFFTAG_XRESOLUTION, xres);

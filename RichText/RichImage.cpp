@@ -154,7 +154,7 @@ void RichPNG::Paint(const Value& data, Draw& w, Size sz) const
 	if(IsString(data)) {
 		w.DrawRect(sz, SColorFace());
 		DrawFrame(w, sz, SColorText());
-		w.DrawText(2, 2, "plugin/png missing!");
+		w.DrawText(2, 2, "plugin/png отсутствует!");
 		return;
 	}
 	Image x = Image(data);

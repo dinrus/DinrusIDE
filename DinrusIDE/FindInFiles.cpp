@@ -431,7 +431,7 @@ FindInFilesDlg::FindInFilesDlg()
 	regexp <<= style <<= THISBACK(Sync);
 	readonly.Add(Null, "Все файлы");
 	readonly.Add(0, "Записываемый");
-	readonly.Add(1, "Только чтение");
+	readonly.Add(1, "Только для чтения");
 	readonly <<= Null;
 	recent <<= Null;
 	recent.Add(Null, "Все");

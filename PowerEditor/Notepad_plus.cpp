@@ -3829,7 +3829,7 @@ void Notepad_plus::updateStatusBar()
 		const int maxSelsToProcessLineCount = 99;  // limit the number of selections to process, for performance reasons
 		const std::pair<size_t, size_t> multipleSelCharsAndLines = _pEditView->getSelectedCharsAndLinesCount(maxSelsToProcessLineCount);
 
-		wsprintf(strSel, TEXT("Выд %s : %s | %s"),
+		wsprintf(strSel, TEXT("Выделено %s : %s | %s"),
 			commafyInt(numSelections).Begin(),
 			commafyInt(multipleSelCharsAndLines.first).Begin(),
 			numSelections <= maxSelsToProcessLineCount ?
@@ -3840,7 +3840,7 @@ void Notepad_plus::updateStatusBar()
 	char strLnColSel[128];
 	intptr_t curLN = _pEditView->getCurrentLineNumber();
 	intptr_t curCN = _pEditView->getCurrentColumnNumber();
-	wsprintf(strLnColSel, TEXT("Стр : %s    Кол : %s    %s"),
+	wsprintf(strLnColSel, TEXT("Строка : %s    Колонка : %s    %s"),
 		commafyInt(curLN + 1).Begin(),
 		commafyInt(curCN + 1).Begin(),
 		strSel);

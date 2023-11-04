@@ -216,7 +216,7 @@ png_push_read_chunk(png_structp png_ptr, png_infop info_ptr)
    if (!png_memcmp(png_ptr->chunk_name, png_IHDR, 4))
    {
       if (png_ptr->push_length != 13)
-         png_error(png_ptr, "Неверное IHDR length");
+         png_error(png_ptr, "Invalid IHDR length");
 
       if (png_ptr->push_length + 4 > png_ptr->buffer_size)
       {

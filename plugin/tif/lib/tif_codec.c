@@ -116,7 +116,7 @@ _notConfigured(TIFF* tif)
         
         sprintf(compression_code, "%d",tif->tif_dir.td_compression );
 	TIFFErrorExt(tif->tif_clientdata, tif->tif_name,
-                     "%s поддержка сжатия не сконфигурирована",
+                     "%s compression support is not configured", 
                      c ? c->name : compression_code );
 	return (0);
 }

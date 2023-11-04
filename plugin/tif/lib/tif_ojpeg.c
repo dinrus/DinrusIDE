@@ -1123,7 +1123,7 @@ OJPEGReadHeaderInfo(TIFF* tif)
 		if (((sp->subsampling_hor!=1) && (sp->subsampling_hor!=2) && (sp->subsampling_hor!=4)) ||
 		    ((sp->subsampling_ver!=1) && (sp->subsampling_ver!=2) && (sp->subsampling_ver!=4)))
 		{
-			TIFFErrorExt(tif->tif_clientdata,module,"Неверное subsampling values");
+			TIFFErrorExt(tif->tif_clientdata,module,"Invalid subsampling values");
 			return(0);
 		}
 		if (sp->strile_length%(sp->subsampling_ver*8)!=0)
@@ -1524,7 +1524,7 @@ static int
 OJPEGReadHeaderInfoSecStreamDht(TIFF* tif)
 {
 	/* this is a table marker, and it is to be saved as a whole for exact pushing on the jpeg stream later on */
-	/* СДЕЛАТЬ: the following assumes there is only one table in this marker... but i'm not quite sure that assumption is guaranteed correct */
+	/* TODO: the following assumes there is only one table in this marker... but i'm not quite sure that assumption is guaranteed correct */
 	static const char module[]="OJPEGReadHeaderInfoSecStreamDht";
 	OJPEGState* sp=(OJPEGState*)tif->tif_data;
 	uint16 m;
@@ -1688,7 +1688,7 @@ OJPEGReadHeaderInfoSecStreamSof(TIFF* tif, uint8 marker_id)
 		return(0);
 	}
 	/* per component stuff */
-	/* СДЕЛАТЬ: double-check that flow implies that n cannot be as big as to make us overflow sof_c, sof_hv and sof_tq arrays */
+	/* TODO: double-check that flow implies that n cannot be as big as to make us overflow sof_c, sof_hv and sof_tq arrays */
 	for (q=0; q<n; q++)
 	{
 		/* C: Component identifier */
@@ -1999,7 +1999,7 @@ OJPEGReadBufferFill(OJPEGState* sp)
 {
 	uint16 m;
 	tmsize_t n;
-	/* СДЕЛАТЬ: double-check: when subsamplingcorrect is set, no call to TIFFErrorExt or TIFFWarningExt should be made
+	/* TODO: double-check: when subsamplingcorrect is set, no call to TIFFErrorExt or TIFFWarningExt should be made
 	 * in any other case, seek or read errors should be passed through */
 	do
 	{

@@ -127,7 +127,7 @@ NeXTDecode(TIFF* tif, uint8* buf, tmsize_t occ, uint16 s)
 				if (npixels >= imagewidth)
 					break;
                 if (op_offset >= scanline ) {
-                    TIFFErrorExt(tif->tif_clientdata, module, "Неверное data for scanline %ld",
+                    TIFFErrorExt(tif->tif_clientdata, module, "Invalid data for scanline %ld",
                         (long) tif->tif_row);
                     return (0);
                 }

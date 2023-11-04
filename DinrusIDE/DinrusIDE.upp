@@ -31,6 +31,8 @@ uses
 link
 	"-DUNICODE -DCINDEX_NO_EXPORTS";
 
+link(ASTRA) -DASTRA;
+
 file
 	IDE readonly separator,
 	DinrusIDE.h options(BUILDER_OPTION) PCH,
@@ -138,7 +140,8 @@ mainconfig
 	"" = "GUI CHECKCLIPBOARD",
 	"" = "GUI PEAKMEM",
 	"" = "GUI HEAPLOG",
-	"" = "GUI X11";
+	"" = "GUI X11",
+	"" = "GUI ASTRA";
 
 custom(DINRUSIDEEXE) "",
 	"ASDFASDFASDF",

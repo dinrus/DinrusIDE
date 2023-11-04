@@ -284,7 +284,7 @@ exifFieldArray = { tfiatExif, 0, TIFFArrayCount(exifFields), (TIFFField*) exifFi
 
 /*
  *  We have our own local lfind() equivalent to avoid subtle differences
- *  in types passed to lfind() on different systems.
+ *  in types passed to lfind() on different systems. 
  */
 
 static void *
@@ -369,7 +369,7 @@ int
 _TIFFMergeFields(TIFF* tif, const TIFFField info[], uint32 n)
 {
 	static const char module[] = "_TIFFMergeFields";
-	static const char reason[] = "для массива полей";
+	static const char reason[] = "for fields array";
 	/* TIFFField** tp; */
 	uint32 i;
 
@@ -387,7 +387,7 @@ _TIFFMergeFields(TIFF* tif, const TIFFField info[], uint32 n)
 	}
 	if (!tif->tif_fields) {
 		TIFFErrorExt(tif->tif_clientdata, module,
-			     "Не удалось разместить массив полей");
+			     "Failed to allocate fields array");
 		return 0;
 	}
 
@@ -547,7 +547,7 @@ _TIFFFindFieldByName(TIFF* tif, const char *field_name, TIFFDataType dt)
 	key.field_name = (char *)field_name;
 	key.field_type = dt;
 
-	ret = (const TIFFField **)
+	ret = (const TIFFField **) 
             td_lfind(&pkey, tif->tif_fields, &tif->tif_nfields,
                      sizeof(TIFFField *), tagNameCompare);
 
@@ -560,7 +560,7 @@ TIFFFieldWithTag(TIFF* tif, uint32 tag)
 	const TIFFField* fip = TIFFFindField(tif, tag, TIFF_ANY);
 	if (!fip) {
 		TIFFErrorExt(tif->tif_clientdata, "TIFFFieldWithTag",
-			     "Внутренняя ошибка, неизвестный тэг 0x%x",
+			     "Internal error, unknown tag 0x%x",
 			     (unsigned int) tag);
 	}
 	return (fip);
@@ -573,7 +573,7 @@ TIFFFieldWithName(TIFF* tif, const char *field_name)
 		_TIFFFindFieldByName(tif, field_name, TIFF_ANY);
 	if (!fip) {
 		TIFFErrorExt(tif->tif_clientdata, "TIFFFieldWithName",
-			     "Внутренняя ошибка, неизвестный тэг %s", field_name);
+			     "Internal error, unknown tag %s", field_name);
 	}
 	return (fip);
 }
@@ -715,13 +715,13 @@ _TIFFCreateAnonField(TIFF *tif, uint32 tag, TIFFDataType field_type)
 	}
 	fld->field_subfields = NULL;
 
-	/*
+	/* 
 	 * note that this name is a special sign to TIFFClose() and
 	 * _TIFFSetupFields() to free the field
 	 */
 	(void) snprintf(fld->field_name, 32, "Tag %d", (int) tag);
 
-	return fld;
+	return fld;    
 }
 
 /****************************************************************************
@@ -888,7 +888,7 @@ int
 TIFFMergeFieldInfo(TIFF* tif, const TIFFFieldInfo info[], uint32 n)
 {
 	static const char module[] = "TIFFMergeFieldInfo";
-	static const char reason[] = "для массива полей";
+	static const char reason[] = "for fields array";
 	TIFFField *tp;
 	size_t nfields;
 	uint32 i;
@@ -905,7 +905,7 @@ TIFFMergeFieldInfo(TIFF* tif, const TIFFFieldInfo info[], uint32 n)
 	}
 	if (!tif->tif_fieldscompat) {
 		TIFFErrorExt(tif->tif_clientdata, module,
-			     "Не удалось разместить массив полей");
+			     "Failed to allocate fields array");
 		return -1;
 	}
 	nfields = tif->tif_nfieldscompat++;
@@ -918,7 +918,7 @@ TIFFMergeFieldInfo(TIFF* tif, const TIFFFieldInfo info[], uint32 n)
 					      reason);
 	if (!tif->tif_fieldscompat[nfields].fields) {
 		TIFFErrorExt(tif->tif_clientdata, module,
-			     "Не удалось разместить массив полей");
+			     "Failed to allocate fields array");
 		return -1;
 	}
 
@@ -947,7 +947,7 @@ TIFFMergeFieldInfo(TIFF* tif, const TIFFFieldInfo info[], uint32 n)
 
 	if (!_TIFFMergeFields(tif, tif->tif_fieldscompat[nfields].fields, n)) {
 		TIFFErrorExt(tif->tif_clientdata, module,
-			     "Не удалось установить инфу поля");
+			     "Setting up field info failed");
 		return -1;
 	}
 

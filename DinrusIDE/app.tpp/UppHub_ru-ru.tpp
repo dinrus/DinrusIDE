@@ -159,10 +159,14 @@ plugin/md)&]
 в [* test]&]
 [s5; &]
 [s3;:4: [@(128.0.255) 4. Информация для UppHub maintainer`'ов]&]
-[s5; This information is only important for maintainers of UppHub. 
-Module nests are listed in json files that are accessible through 
-http. JSON file specifies information about individual module 
-lists, but can also reference other lists of modules:&]
+[s5; Эта информация важная только для 
+тех, кто собирается поддерживать 
+DinrusHub.Гнёзда модулей представлены 
+в списке файлов json, к которым есть 
+доступ через http. В файле JSON приведена 
+информация об индивидуальных списках 
+модулей, но могут перечисляться также 
+и иные списки модулей:&]
 [s7; &]
 [s0;l321; [C@5+75 `{]&]
 [s7;   `"nests`": `[&]

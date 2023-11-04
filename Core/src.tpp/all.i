@@ -1,5 +1,17 @@
+TOPIC("AsyncWork_ru-ru")
+#include "AsyncWork_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("CParser_ru-ru")
 #include "CParser_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("Exc_ru-ru")
+#include "Exc_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("Format_ru-ru")
+#include "Format_ru-ru.tppi"
 END_TOPIC
 
 TOPIC("InArray_ru-ru")
@@ -138,12 +150,44 @@ TOPIC("SortedAMap_ru-ru")
 #include "SortedAMap_ru-ru.tppi"
 END_TOPIC
 
+TOPIC("SpinLock_ru-ru")
+#include "SpinLock_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("SplitMerge_ru-ru")
+#include "SplitMerge_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("StreamFn_ru-ru")
+#include "StreamFn_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("Stream_ru-ru")
+#include "Stream_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("StringBuffer_ru-ru")
+#include "StringBuffer_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("StringUtils_ru-ru")
+#include "StringUtils_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("String_ru-ru")
+#include "String_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("TcpSocket_ru-ru")
 #include "TcpSocket_ru-ru.tppi"
 END_TOPIC
 
 TOPIC("Thread_ru-ru")
 #include "Thread_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("UrlInfo_ru-ru")
+#include "UrlInfo_ru-ru.tppi"
 END_TOPIC
 
 TOPIC("Utf_ru-ru")
@@ -154,12 +198,44 @@ TOPIC("Util_ru-ru")
 #include "Util_ru-ru.tppi"
 END_TOPIC
 
+TOPIC("ValueArray_ru-ru")
+#include "ValueArray_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("ValueCache_ru-ru")
 #include "ValueCache_ru-ru.tppi"
 END_TOPIC
 
+TOPIC("ValueGen_ru-ru")
+#include "ValueGen_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("ValueMap_ru-ru")
+#include "ValueMap_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("Value_ru-ru")
 #include "Value_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("VectorMap_ru-ru")
+#include "VectorMap_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("WebSocket_ru-ru")
+#include "WebSocket_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("XmlIO_ru-ru")
+#include "XmlIO_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("XmlNode_ru-ru")
+#include "XmlNode_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("XmlOutput_ru-ru")
+#include "XmlOutput_ru-ru.tppi"
 END_TOPIC
 
 TOPIC("XmlParser_ru-ru")

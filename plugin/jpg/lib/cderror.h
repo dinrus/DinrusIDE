@@ -2,7 +2,7 @@
  * cderror.h
  *
  * Copyright (C) 1994-1997, Thomas G. Lane.
- * Modified 2009-2017 by Guido Vollbeding.
+ * Modified 2009-2020 by Guido Vollbeding.
  * This file is part of the Independent JPEG Group's software.
  * For conditions of distribution and use, see the accompanying README file.
  *
@@ -42,8 +42,8 @@ JMESSAGE(JMSG_FIRSTADDONCODE=1000, NULL) /* Must be first entry! */
 #ifdef BMP_SUPPORTED
 JMESSAGE(JERR_BMP_BADCMAP, "Unsupported BMP colormap format")
 JMESSAGE(JERR_BMP_BADDEPTH, "Only 8-, 24-, and 32-bit BMP files are supported")
-JMESSAGE(JERR_BMP_BADHEADER, "Неверное BMP file: bad header length")
-JMESSAGE(JERR_BMP_BADPLANES, "Неверное BMP file: biPlanes not equal to 1")
+JMESSAGE(JERR_BMP_BADHEADER, "Invalid BMP file: bad header length")
+JMESSAGE(JERR_BMP_BADPLANES, "Invalid BMP file: biPlanes not equal to 1")
 JMESSAGE(JERR_BMP_COLORSPACE, "BMP output must be grayscale or RGB")
 JMESSAGE(JERR_BMP_COMPRESSED, "Sorry, compressed BMPs not yet supported")
 JMESSAGE(JERR_BMP_NOT, "Not a BMP file - does not start with BM")
@@ -60,9 +60,10 @@ JMESSAGE(JERR_GIF_CODESIZE, "Bogus GIF codesize %d")
 JMESSAGE(JERR_GIF_COLORSPACE, "GIF output must be grayscale or RGB")
 JMESSAGE(JERR_GIF_IMAGENOTFOUND, "Too few images in GIF file")
 JMESSAGE(JERR_GIF_NOT, "Not a GIF file")
+JMESSAGE(JERR_GIF_OUTOFRANGE, "Numeric value out of range in GIF file")
 JMESSAGE(JTRC_GIF, "%ux%ux%d GIF image")
 JMESSAGE(JTRC_GIF_BADVERSION,
-	 "Предупреждение: unexpected GIF version number '%c%c%c'")
+	 "Warning: unexpected GIF version number '%c%c%c'")
 JMESSAGE(JTRC_GIF_EXTENSION, "Ignoring GIF extension block of type 0x%02x")
 JMESSAGE(JTRC_GIF_NONSQUARE, "Caution: nonsquare pixels in input")
 JMESSAGE(JWRN_GIF_BADDATA, "Corrupt data in GIF file")
@@ -101,7 +102,7 @@ JMESSAGE(JTRC_RLE_MAPPED, "%ux%u colormapped RLE file with map of length %d")
 
 #ifdef TARGA_SUPPORTED
 JMESSAGE(JERR_TGA_BADCMAP, "Unsupported Targa colormap format")
-JMESSAGE(JERR_TGA_BADPARMS, "Неверное or unsupported Targa file")
+JMESSAGE(JERR_TGA_BADPARMS, "Invalid or unsupported Targa file")
 JMESSAGE(JERR_TGA_COLORSPACE, "Targa output must be grayscale or RGB")
 JMESSAGE(JTRC_TGA, "%ux%u RGB Targa image")
 JMESSAGE(JTRC_TGA_GRAY, "%ux%u grayscale Targa image")

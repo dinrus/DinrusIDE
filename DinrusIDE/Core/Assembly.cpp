@@ -189,7 +189,7 @@ String GetHubDir()
 	if(hubdir_resolved)
 		return d;
 	hubdir_resolved = true;
-	d = GetVar("UPPHUB");
+	d = GetVar("DINRUSHUB");
 	if(d.GetCount() == 0 || !DirectoryExists(d)) {
 		d = LoadFile(DefaultHubFilePath());
 		if(d.GetCount() == 0 || !DirectoryExists(d)) {

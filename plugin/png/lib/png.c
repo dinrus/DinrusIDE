@@ -931,22 +931,22 @@ png_check_cHRM_fixed(png_structp png_ptr,
    }
    if (white_x > 100000L - white_y)
    {
-      png_warning(png_ptr, "Неверное cHRM white point");
+      png_warning(png_ptr, "Invalid cHRM white point");
       ret = 0;
    }
    if (red_x > 100000L - red_y)
    {
-      png_warning(png_ptr, "Неверное cHRM red point");
+      png_warning(png_ptr, "Invalid cHRM red point");
       ret = 0;
    }
    if (green_x > 100000L - green_y)
    {
-      png_warning(png_ptr, "Неверное cHRM green point");
+      png_warning(png_ptr, "Invalid cHRM green point");
       ret = 0;
    }
    if (blue_x > 100000L - blue_y)
    {
-      png_warning(png_ptr, "Неверное cHRM blue point");
+      png_warning(png_ptr, "Invalid cHRM blue point");
       ret = 0;
    }
 
@@ -1008,13 +1008,13 @@ png_check_IHDR(png_structp png_ptr,
 
    if (width > PNG_UINT_31_MAX)
    {
-      png_warning(png_ptr, "Неверное image width in IHDR");
+      png_warning(png_ptr, "Invalid image width in IHDR");
       error = 1;
    }
 
    if ( height > PNG_UINT_31_MAX)
    {
-      png_warning(png_ptr, "Неверное image height in IHDR");
+      png_warning(png_ptr, "Invalid image height in IHDR");
       error = 1;
    }
 
@@ -1022,14 +1022,14 @@ png_check_IHDR(png_structp png_ptr,
    if (bit_depth != 1 && bit_depth != 2 && bit_depth != 4 &&
        bit_depth != 8 && bit_depth != 16)
    {
-      png_warning(png_ptr, "Неверное bit depth in IHDR");
+      png_warning(png_ptr, "Invalid bit depth in IHDR");
       error = 1;
    }
 
    if (color_type < 0 || color_type == 1 ||
        color_type == 5 || color_type > 6)
    {
-      png_warning(png_ptr, "Неверное color type in IHDR");
+      png_warning(png_ptr, "Invalid color type in IHDR");
       error = 1;
    }
 
@@ -1038,7 +1038,7 @@ png_check_IHDR(png_structp png_ptr,
          color_type == PNG_COLOR_TYPE_GRAY_ALPHA ||
          color_type == PNG_COLOR_TYPE_RGB_ALPHA) && bit_depth < 8))
    {
-      png_warning(png_ptr, "Неверное color type/bit depth combination in IHDR");
+      png_warning(png_ptr, "Invalid color type/bit depth combination in IHDR");
       error = 1;
    }
 
@@ -1082,7 +1082,7 @@ png_check_IHDR(png_structp png_ptr,
 
       if (png_ptr->mode & PNG_HAVE_PNG_SIGNATURE)
       {
-         png_warning(png_ptr, "Неверное filter method in IHDR");
+         png_warning(png_ptr, "Invalid filter method in IHDR");
          error = 1;
       }
    }
@@ -1096,6 +1096,6 @@ png_check_IHDR(png_structp png_ptr,
 #endif
 
    if (error == 1)
-      png_error(png_ptr, "Неверное IHDR data");
+      png_error(png_ptr, "Invalid IHDR data");
 }
 #endif /* defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED) */

@@ -1185,17 +1185,17 @@ void CCommandLineInterpreter::ReportStatistics() {
 
 void CCommandLineInterpreter::Help() {
     // Print help message
-    printf("\nObject file converter version %.2f for x86 and x86-64 platforms.", OBJCONV_VERSION);
+    printf("\nКонвертер объектных файлов версии %.2f для платформ x86 и x86-64.", OBJCONV_VERSION);
     printf("\nCopyright (c) 2014 by Agner Fog. Gnu General Public License.");
-    printf("\n\nUsage: objconv options inputfile [outputfile]");
-    printf("\n\nOptions:");
-    printf("\n-fXXX[SS]  Output file format XXX, word size SS. Supported formats:");
+    printf("\n\nИспользование: oc опции вводн_файл [выводн_файл]");
+    printf("\n\nОпции:");
+    printf("\n-fXXX[SS]  Формат выводного файла XXX, размер слова SS. Поддерживаемые форматы:");
     printf("\n           PE, COFF, ELF, OMF, MACHO\n");
-    printf("\n-fasm      Disassemble file (-fmasm, -fnasm, -fyasm, -fgasm)\n");
-    printf("\n-dXXX      Dump file contents to console.");
-    printf("\n           Values of XXX (can be combined):");
-    printf("\n           f: File header, h: section Headers, s: Symbol table,");
-    printf("\n           r: Relocation table, n: string table.\n");
+    printf("\n-fasm      Дизассемблировать файл (-fmasm, -fnasm, -fyasm, -fgasm)\n");
+    printf("\n-dXXX      Сделать дамп содержимого файла в консоль.");
+    printf("\n           Значения XXX (можно комбинировать):");
+    printf("\n           f: Файл заголовочник, h: Заголовочники секций, s: Таблица символов,");
+    printf("\n           r: Таблица релокаций, n: Таблица строк.\n");
 
     printf("\n-nu        change symbol Name Underscores to the default for the target format.");
     printf("\n-nu-       remove Underscores from symbol Names.");

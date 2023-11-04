@@ -230,63 +230,74 @@ AsString для преобразования Value в текст
 [s0; [* Расширенные форматировщики реальных 
 чисел]&]
 [s0; &]
-[s0; These formatters are equivalent to regular %g, %f and %e, but 
-provide more options and are implemented by fast U`+`+ internal 
-conversion routine.&]
+[s0; Эти форматировщики эквивалентны 
+обычным %g, %f and %e, но предоставляют 
+дополнительные опции и реализованы 
+посредством быстрой процедуры внутреннего 
+преобразования U`+`+.&]
 [s0; &]
 [ {{2388:7612 [s0; [* m]]
-:: [s0; equivalent of %g]
+:: [s0; эквивалент %g]
 :: [s0; [* M]]
-:: [s0; equivalent of %G (with capital E in exponent)]
+:: [s0; эквивалент %G (с заглавной E в экспоненте)]
 :: [s0; [* me]]
-:: [s0; equivalent of %e]
+:: [s0; эквивалент %e]
 :: [s0; [* mE]]
-:: [s0; equivalent of %E]
+:: [s0; эквивалент %E]
 :: [s0; [* mf]]
-:: [s0; equivalent of %f]
+:: [s0; эквивалент  %f]
 ::^ [s0; [* ml, Ml, mle, mlE, mlf]]
-:: [s0; adding `'l`' after `'m`' activates locale customization based 
-on language. At the moment this replaces decimal point with local 
-version.]}}&]
+:: [s0; добавление `'l`' после `'m`' активирует 
+локальную кастомизацию, основанную 
+на языке. На данный момент decimal point 
+заменяется на локальную версию.]}}&]
 [s0; &]
-[s0; The format of [* options] of alternative real number formatters 
-is&]
+[s0; Формат [* опций] альтернативных форматировщик
+ов реальных чисел:&]
 [s0; &]
-[s0; [C@(0.0.255) `[][*C `+][C@(0.0.255) `|][/C@(0.0.255) <space>][C@(0.0.255) `]`[`[][C `-][C@(0.0.255) `]
-`[][*/C width][C@(0.0.255) `]`[][C ,][C@(0.0.255) `|][*C .][C@(0.0.255) `]`[][*/C precision][C@(0.0.255) `]
-`[][*C !][C@(0.0.255) `|][*C ?][C@(0.0.255) `|`|][*C `^][C@(0.0.255) `|][*C `&][C@(0.0.255) `|][*C #
-][C@(0.0.255) `]..]&]
+[s0; [C@(0.0.255) `[][*C `+][C@(0.0.255) `|][/C@(0.0.255) <пробел>][C@(0.0.255) `]`[`[][C `-
+][C@(0.0.255) `]`[][*/C ширина][C@(0.0.255) `]`[][C ,][C@(0.0.255) `|][*C .][C@(0.0.255) `]
+`[][*/C точность][C@(0.0.255) `]`[][*C !][C@(0.0.255) `|][*C ?][C@(0.0.255) `|`|][*C `^
+][C@(0.0.255) `|][*C `&][C@(0.0.255) `|][*C #][C@(0.0.255) `]..]&]
 [s0;C@(0.0.255) &]
 [s0;%- &]
 [ {{2388:7612 [s0; [* `+]]
-:: [s0; always prepend the number with sign]
+:: [s0; всегда приставляет перед числом 
+знак]
 :: [s0; [/C@(0.0.255) <space>]]
-:: [s0; if number is positive, prepend it with space]
-:: [s0; [C@(0.0.255) `[][C `-][C@(0.0.255) `]`[][*/C width][C@(0.0.255) `]]]
-:: [s0; requested minimal width. If the formatted number is smaller, 
-it is padded with spaces or with zeros when width starts with 
-zero. If width is negative, padding added is on the right (otherwise 
-left).]
+:: [s0; если число положительное, приставляет 
+перед ним пробел]
+:: [s0; [C@(0.0.255) `[][C `-][C@(0.0.255) `]`[][*/C ширина][C@(0.0.255) `]]]
+:: [s0; требуемая минимальная ширина. Если 
+форматированное число меньше, перед 
+ним ставятся пробелы или нули, если 
+ширина начинается с нуля. Если ширина 
+отрицательная, падинг добавляется 
+справа (иначе слева).]
 :: [s0; [C , ][*C .]]
-:: [s0; separates width from precision. `',`' sets decimal point to 
-`',`'.]
-:: [s0; [*/C precision]]
-:: [s0; number of valid digits for %m, number of places after decimal 
-point for %me and %mf.]
+:: [s0; отделяет ширину от точности. `',`' устанавлива
+ет десятичную точку в `',`'.]
+:: [s0; [*/C точность]]
+:: [s0; число полноценных цифр для %m, число 
+мест после десятичной точки для %me 
+и %mf.]
 :: [s0; [*C !]]
-:: [s0; preserve insignificant zeros in %m format]
+:: [s0; сохранять незначащие нули в формате 
+%m]
 :: [s0; [*C ?]]
-:: [s0; if number is inf or nan, do not print `"inf`" or `"nan`" and 
-leave the output empty]
+:: [s0; если число inf или nan, не выводить `"inf`" 
+или `"nan`" и оставить вывод пустым]
 :: [s0; [*C `_]]
-:: [s0; do not prepend `'`-`' for negative zero]
+:: [s0; не предпоставлять `'`-`' для отрицательного 
+нуля]
 :: [s0; [*C `^]]
-:: [s0; do not add plus sign to exponent]
+:: [s0; не добавлять знак плюс к экспоненте]
 :: [s0; [*C `&]]
-:: [s0; make exponent minimal `- 1e9 instead of 1e`+09]
+:: [s0; сделать экспоненту минимальной `- 
+1e9 вместо 1e`+09]
 :: [s0; [*C #]]
-:: [s0; preserve insignificant zeros and/or always print the decimal 
-point]}}&]
+:: [s0; сохранять незначащие нули и/или всегда 
+выводить десятичную точку]}}&]
 [s0;C@(0.0.255) &]
 [s0; &]
 [s0; [*/ Унаследованные форматировщики 
@@ -484,14 +495,16 @@ formatting ][*@(102) nl][@(102)  or ][*@(102) vl][@(102) )]]
 [s0; &]
 [s5;:Formatter`:`:typedef:%- typedef_[^String^ String]_(`*Formatter)([@(0.0.255) const][@(64) _
 ][^Formatting^@(64) Formatting][@(64) `&_fmt)]&]
-[s2; Formatter has to have form of function with single [^Formatting^ Formatting] 
-argument.&]
+[s2; Форматировщик должен иметь форму 
+функции с единственным аргументом 
+[^Formatting^ Formatting].&]
 [s1; &]
 [ {{10000F(128)G(128)@1 [s0; [* Форматирование]]}}&]
 [s0;%- &]
 [s1;:Formatting`:`:struct:%- [@(0.0.255) struct]_[* Formatting]&]
-[s2; This structure passes all informations to format Value argument 
-to the formatter.&]
+[s2; Эта структура передаёт всю информацию 
+для форматирования значения аргумента 
+форматировщику.&]
 [s3; &]
 [s4;%- &]
 [s5;:Formatting`:`:language:%- [@(0.0.255) int]_[* language]&]
@@ -503,51 +516,59 @@ to the formatter.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Formatting`:`:format:%- String_[* format]&]
-[s2; Formatting [*@(0.0.255) options].&]
+[s2; Опции форматирования.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Formatting`:`:id:%- String_[* id]&]
-[s2; Formatter`-id.&]
+[s2; Ид форматировщика.&]
 [s1; &]
 [ {{10000F(128)G(128)@1 [s0; [* Функции регистрации формата]]}}&]
 [s3;%- &]
 [s5;:RegisterFormatter`(int`,const char`*`,Formatter`)init`_:%- [@(0.0.255) void]_[* Regi
 sterFormatter]([@(0.0.255) int]_[*@3 type], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id],
  Formatter_[*@3 f])&]
-[s2; Registers formatter for specific Value [%-*@3 type]. If [%-*@3 type] 
-is VALUE`_V, formatter is applied to all Value types if no formatter 
-for specific type is specified.&]
+[s2; Регистрирует форматировщик для специфичног
+о типа значения [%-*@3 type]. Если [%-*@3 type] 
+равен VALUE`_V, форматировщик применяется 
+ко всем типам значений, если этим 
+типам ещё не присвоен специальный 
+форматировщик.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:RegisterNumberFormatter`(const char`*`,Formatter`)init`_:%- [@(0.0.255) void]_[* Reg
 isterNumberFormatter]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], 
 Formatter_[*@3 f])&]
-[s2; Registers formatter for bool, int, double and int64 types.&]
+[s2; Регистрирует форматировщик для типов 
+bool, int, double и int64.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:RegisterStringFormatter`(const char`*`,Formatter`)init`_:%- [@(0.0.255) void]_[* Reg
 isterStringFormatter]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], 
 Formatter_[*@3 f])&]
-[s2; Registers formatter for String and WString types.&]
+[s2; Регистрирует форматировщик для типов 
+String и WString.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:RegisterDateTimeFormatter`(const char`*`,Formatter`)init`_:%- [@(0.0.255) void]_[* R
 egisterDateTimeFormatter]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], 
 Formatter_[*@3 f])&]
-[s2; Registers formatter for Date and Time types.&]
+[s2; Регистрирует форматировщик для типов 
+Date и Time.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:RegisterValueFormatter`(const char`*`,Formatter`)init`_:%- [@(0.0.255) void]_[* Regi
 sterValueFormatter]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], 
 Formatter_[*@3 f])&]
-[s2; Registers formatter to be applied when no formatter for specific 
-type is specified.&]
+[s2; Регистрирует форматировщик, применяемый, 
+если для какого`-то типа ещё не присвоен 
+форматировщик.&]
 [s3; &]
 [s4;%- &]
 [s5;:RegisterNullFormatter`(const char`*`,Formatter`)init`_:%- [@(0.0.255) void]_[* Regis
 terNullFormatter]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], 
 Formatter_[*@3 f])&]
-[s2; Registers formatter [%-*@3 id] to be applied when the Value argument 
-is Void (Value()) or ErrorValue.&]
+[s2; Регистрирует форматировщик [%-*@3 id], 
+применяемый, когда аргумент значения 
+равен Void (Value()) или ErrorValue.&]
 [s3; &]
 [s0; ]]

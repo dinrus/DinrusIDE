@@ -254,8 +254,8 @@ TIFFWriteCustomDirectory(TIFF* tif, uint64* pdiroff)
  * Similar to TIFFWriteDirectory(), but if the directory has already
  * been written once, it is relocated to the end of the file, in case it
  * has changed in size.  Note that this will result in the loss of the
- * previously used directory space.
- */
+ * previously used directory space. 
+ */ 
 int
 TIFFRewriteDirectory( TIFF *tif )
 {
@@ -415,7 +415,7 @@ TIFFWriteDirectorySec(TIFF* tif, int isimage, int imagedone, uint64* pdiroff)
 		return (1);
 
         _TIFFFillStriles( tif );
-
+        
 	/*
 	 * Clear write state so that subsequent images with
 	 * different characteristics get the right buffers
@@ -441,7 +441,7 @@ TIFFWriteDirectorySec(TIFF* tif, int isimage, int imagedone, uint64* pdiroff)
                  * in the previous steps as the "rawcc" data may well be
                  * a previously read tile/strip in mixed read/write mode.
 		 */
-		if (tif->tif_rawcc > 0
+		if (tif->tif_rawcc > 0 
 		    && (tif->tif_flags & TIFF_BEENWRITING) != 0 )
 		{
 		    if( !TIFFFlushData1(tif) )
@@ -2820,7 +2820,7 @@ TIFFLinkDirectory(TIFF* tif)
 /************************************************************************/
 
 int
-_TIFFRewriteField(TIFF* tif, uint16 tag, TIFFDataType in_datatype,
+_TIFFRewriteField(TIFF* tif, uint16 tag, TIFFDataType in_datatype, 
                   tmsize_t count, void* data)
 {
     static const char module[] = "TIFFResetField";
@@ -2847,14 +2847,14 @@ _TIFFRewriteField(TIFF* tif, uint16 tag, TIFFDataType in_datatype,
 /* -------------------------------------------------------------------- */
     if( isMapped(tif) )
     {
-        TIFFErrorExt( tif->tif_clientdata, module,
+        TIFFErrorExt( tif->tif_clientdata, module, 
                       "Memory mapped files not currently supported for this operation." );
         return 0;
     }
 
     if( tif->tif_diroff == 0 )
     {
-        TIFFErrorExt( tif->tif_clientdata, module,
+        TIFFErrorExt( tif->tif_clientdata, module, 
                       "Attempt to reset field on directory not already on disk." );
         return 0;
     }
@@ -2938,7 +2938,7 @@ _TIFFRewriteField(TIFF* tif, uint16 tag, TIFFDataType in_datatype,
     if (!(tif->tif_flags&TIFF_BIGTIFF))
     {
         uint32 value;
-
+        
         memcpy( &value, direntry_raw + 4, sizeof(uint32) );
         if (tif->tif_flags&TIFF_SWAB)
             TIFFSwabLong( &value );
@@ -2967,7 +2967,7 @@ _TIFFRewriteField(TIFF* tif, uint16 tag, TIFFDataType in_datatype,
     {
         if( tag == TIFFTAG_TILEOFFSETS || tag == TIFFTAG_STRIPOFFSETS )
         {
-            entry_type = (tif->tif_flags&TIFF_BIGTIFF) ? TIFF_LONG8 : TIFF_LONG;
+            entry_type = (tif->tif_flags&TIFF_BIGTIFF) ? TIFF_LONG8 : TIFF_LONG; 
         }
         else
         {
@@ -3055,12 +3055,12 @@ _TIFFRewriteField(TIFF* tif, uint16 tag, TIFFDataType in_datatype,
 
         for( i = 0; i < count; i++ )
         {
-            ((int32 *) buf_to_write)[i] =
+            ((int32 *) buf_to_write)[i] = 
                 (int32) ((int64 *) data)[i];
             if( (int64) ((int32 *) buf_to_write)[i] != ((int64 *) data)[i] )
             {
                 _TIFFfree( buf_to_write );
-                TIFFErrorExt( tif->tif_clientdata, module,
+                TIFFErrorExt( tif->tif_clientdata, module, 
                               "Value exceeds 32bit range of output type." );
                 return 0;
             }
@@ -3073,12 +3073,12 @@ _TIFFRewriteField(TIFF* tif, uint16 tag, TIFFDataType in_datatype,
 
         for( i = 0; i < count; i++ )
         {
-            ((uint32 *) buf_to_write)[i] =
+            ((uint32 *) buf_to_write)[i] = 
                 (uint32) ((uint64 *) data)[i];
             if( (uint64) ((uint32 *) buf_to_write)[i] != ((uint64 *) data)[i] )
             {
                 _TIFFfree( buf_to_write );
-                TIFFErrorExt( tif->tif_clientdata, module,
+                TIFFErrorExt( tif->tif_clientdata, module, 
                               "Value exceeds 32bit range of output type." );
                 return 0;
             }
@@ -3186,7 +3186,7 @@ _TIFFRewriteField(TIFF* tif, uint16 tag, TIFFDataType in_datatype,
     if( !value_in_entry )
     {
         entry_offset = TIFFSeekFile(tif,0,SEEK_END);
-
+        
         if (!WriteOK(tif, buf_to_write, count*TIFFDataWidth(datatype))) {
             _TIFFfree( buf_to_write );
             TIFFErrorExt(tif->tif_clientdata, module,
@@ -3253,7 +3253,7 @@ _TIFFRewriteField(TIFF* tif, uint16 tag, TIFFDataType in_datatype,
                      tif->tif_name);
         return 0;
     }
-
+    
     return 1;
 }
 /* vim: set ts=8 sts=8 sw=8 noet: */

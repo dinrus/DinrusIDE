@@ -1,8 +1,8 @@
-//#if defined(flagWIN32) || defined(flagOSX) || defined(flagSTATIC_PNG)
+#if defined(flagWIN32) || defined(flagOSX) || defined(flagSTATIC_PNG)
 #include <plugin/png/lib/png.h>
-//#else
-//#include <png.h>
-//#endif
+#else
+#include <png.h>
+#endif
 
 #include <Draw/Draw.h>
 #include "png.h"
@@ -15,7 +15,7 @@ static void png_read_stream(png_structp png_ptr, png_bytep buffer, png_size_t le
 {
 	Stream& stream = *reinterpret_cast<Stream *>(png_get_io_ptr(png_ptr));
 	if(!stream.GetAll(buffer, (int)length))
-		png_error(png_ptr, "Ошибка при чтении вводного файла!");
+		png_error(png_ptr, "Error reading input file!");
 }
 
 static void png_write_stream(png_structp png_ptr, png_bytep buffer, png_size_t length)
@@ -32,13 +32,13 @@ static void png_flush_stream(png_structp png_ptr)
 
 static void png_user_error_fn(png_structp png_ptr, png_const_charp error_msg)
 {
-	LLOG("Ошибка PNG: " << error_msg);
+	LLOG("PNG error: " << error_msg);
 	longjmp(png_jmpbuf(png_ptr), 1);
 }
 
 static void png_user_warning_fn(png_structp png_ptr, png_const_charp warning_msg)
 {
-	LLOG("Предупреждение png: " << warning_msg);
+	LLOG("png warning: " << warning_msg);
 }
 
 NTL_MOVEABLE(png_color)
@@ -117,9 +117,9 @@ bool PNGRaster::Init()
 	if(!(data->info_ptr = png_create_info_struct(data->png_ptr)))
 		return false;
 	png_set_read_fn(data->png_ptr, &GetStream(), png_read_stream);
-
+	
 	png_read_info(data->png_ptr, data->info_ptr);
-
+	
 	return true;
 }
 

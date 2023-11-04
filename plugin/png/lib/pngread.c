@@ -725,7 +725,7 @@ png_read_row(png_structp png_ptr, png_bytep row, png_bytep dsp_row)
 #endif
 
    if (!(png_ptr->mode & PNG_HAVE_IDAT))
-      png_error(png_ptr, "Неверное attempt to read row data");
+      png_error(png_ptr, "Invalid attempt to read row data");
 
    png_ptr->zstream.next_out = png_ptr->row_buf;
    png_ptr->zstream.avail_out =

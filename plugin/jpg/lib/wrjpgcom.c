@@ -204,7 +204,7 @@ next_marker (void)
   } while (c == 0xFF);
 
   if (discarded_bytes != 0) {
-    fprintf(stderr, "Предупреждение: garbage data found in JPEG file\n");
+    fprintf(stderr, "Warning: garbage data found in JPEG file\n");
   }
 
   return c;

@@ -850,8 +850,8 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryArrayWithLimit(
 	}
         (void) desttypesize;
 
-        /*
-         * As a sanity check, make sure we have no more than a 2GB tag array
+        /* 
+         * As a sanity check, make sure we have no more than a 2GB tag array 
          * in either the current data type or the dest data type.  This also
          * avoids problems with overflow of tmsize_t on 32bit systems.
          */
@@ -1322,7 +1322,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryShortArray(TIFF* tif, TIFFDirEnt
 		case TIFF_SHORT:
 			*value=(uint16*)origdata;
 			if (tif->tif_flags&TIFF_SWAB)
-				TIFFSwabArrayOfShort(*value,count);
+				TIFFSwabArrayOfShort(*value,count);  
 			return(TIFFReadDirEntryErrOk);
 		case TIFF_SSHORT:
 			{
@@ -2316,7 +2316,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryFloatArray(TIFF* tif, TIFFDirEnt
 	{
 		case TIFF_FLOAT:
 			if (tif->tif_flags&TIFF_SWAB)
-				TIFFSwabArrayOfLong((uint32*)origdata,count);
+				TIFFSwabArrayOfLong((uint32*)origdata,count);  
 			TIFFCvtIEEEDoubleToNative(tif,count,(float*)origdata);
 			*value=(float*)origdata;
 			return(TIFFReadDirEntryErrOk);
@@ -2750,7 +2750,7 @@ TIFFReadDirEntryDoubleArray(TIFF* tif, TIFFDirEntry* direntry, double** value)
 				double* mb;
 				uint32 n;
 				if (tif->tif_flags&TIFF_SWAB)
-					TIFFSwabArrayOfLong((uint32*)origdata,count);
+					TIFFSwabArrayOfLong((uint32*)origdata,count);  
 				TIFFCvtIEEEFloatToNative(tif,count,(float*)origdata);
 				ma=(float*)origdata;
 				mb=data;
@@ -3413,27 +3413,27 @@ static void TIFFReadDirEntryOutputErr(TIFF* tif, enum TIFFReadDirEntryErr err, c
 		switch (err) {
 			case TIFFReadDirEntryErrCount:
 				TIFFErrorExt(tif->tif_clientdata, module,
-					     "Неверный счёт у \"%s\"",
+					     "Incorrect count for \"%s\"",
 					     tagname);
 				break;
 			case TIFFReadDirEntryErrType:
 				TIFFErrorExt(tif->tif_clientdata, module,
-					     "Несовместимый тип у \"%s\"",
+					     "Incompatible type for \"%s\"",
 					     tagname);
 				break;
 			case TIFFReadDirEntryErrIo:
 				TIFFErrorExt(tif->tif_clientdata, module,
-					     "Ошибка ВВ при чтении \"%s\"",
+					     "IO error during reading of \"%s\"",
 					     tagname);
 				break;
 			case TIFFReadDirEntryErrRange:
 				TIFFErrorExt(tif->tif_clientdata, module,
-					     "Неверное значение у \"%s\"",
+					     "Incorrect value for \"%s\"",
 					     tagname);
 				break;
 			case TIFFReadDirEntryErrPsdif:
 				TIFFErrorExt(tif->tif_clientdata, module,
-			"Не удаётся обработать разные значения на семпл у \"%s\"",
+			"Cannot handle different values per sample for \"%s\"",
 					     tagname);
 				break;
 			case TIFFReadDirEntryErrSizesan:
@@ -3618,7 +3618,7 @@ TIFFReadDirectory(TIFF* tif)
 			}
 		}
 	}
-
+        
 	tif->tif_flags &= ~TIFF_BEENWRITING;    /* reset before new dir */
 	tif->tif_flags &= ~TIFF_BUF4WRITE;      /* reset before new dir */
 	tif->tif_flags &= ~TIFF_CHOPPEDUPARRAYS;
@@ -3698,7 +3698,7 @@ TIFFReadDirectory(TIFF* tif)
 				TIFFWarningExt(tif->tif_clientdata, module,
 				    "Unknown field with tag %d (0x%x) encountered",
 				    dp->tdir_tag,dp->tdir_tag);
-				/* the following knowingly leaks the
+				/* the following knowingly leaks the 
 				   anonymous field structure */
 				if (!_TIFFMergeFields(tif,
 					_TIFFCreateAnonField(tif,
@@ -3792,7 +3792,7 @@ TIFFReadDirectory(TIFF* tif)
 	 * Setup appropriate structures (by strip or by tile)
 	 */
 	if (!TIFFFieldSet(tif, FIELD_TILEDIMENSIONS)) {
-		tif->tif_dir.td_nstrips = TIFFNumberOfStrips(tif);
+		tif->tif_dir.td_nstrips = TIFFNumberOfStrips(tif);  
 		tif->tif_dir.td_tilewidth = tif->tif_dir.td_imagewidth;
 		tif->tif_dir.td_tilelength = tif->tif_dir.td_rowsperstrip;
 		tif->tif_dir.td_tiledepth = tif->tif_dir.td_imagedepth;
@@ -3838,7 +3838,7 @@ TIFFReadDirectory(TIFF* tif)
 	for (di=0, dp=dir; di<dircount; di++, dp++)
 	{
 		if (!dp->tdir_ignore) {
-			switch (dp->tdir_tag)
+			switch (dp->tdir_tag) 
 			{
 				case TIFFTAG_MINSAMPLEVALUE:
 				case TIFFTAG_MAXSAMPLEVALUE:
@@ -4260,7 +4260,7 @@ TIFFReadDirectory(TIFF* tif)
 	 */
 	if ((tif->tif_dir.td_planarconfig==PLANARCONFIG_CONTIG)&&
 	    (tif->tif_dir.td_nstrips==1)&&
-	    (tif->tif_dir.td_compression==COMPRESSION_NONE)&&
+	    (tif->tif_dir.td_compression==COMPRESSION_NONE)&&  
 	    ((tif->tif_flags&(TIFF_STRIPCHOP|TIFF_ISTILED))==TIFF_STRIPCHOP))
         {
             ChopUpSingleUncompressedStrip(tif);
@@ -4278,7 +4278,7 @@ TIFFReadDirectory(TIFF* tif)
         }
 
         /*
-         * Clear the dirty directory flag.
+         * Clear the dirty directory flag. 
          */
 	tif->tif_flags &= ~TIFF_DIRTYDIRECT;
 	tif->tif_flags &= ~TIFF_DIRTYSTRIP;
@@ -4333,7 +4333,7 @@ TIFFReadDirectoryCheckOrder(TIFF* tif, TIFFDirEntry* dir, uint16 dircount)
 		if (o->tdir_tag<m)
 		{
 			TIFFWarningExt(tif->tif_clientdata,module,
-			    "Неверное TIFF directory; tags are not sorted in ascending order");
+			    "Invalid TIFF directory; tags are not sorted in ascending order");
 			break;
 		}
 		m=o->tdir_tag+1;
@@ -4476,7 +4476,7 @@ TIFFReadCustomDirectory(TIFF* tif, toff_t diroff,
 				}
 			}
 			if (!dp->tdir_ignore) {
-				switch (dp->tdir_tag)
+				switch (dp->tdir_tag) 
 				{
 					case EXIFTAG_SUBJECTDISTANCE:
 						(void)TIFFFetchSubjectDistance(tif, dp);
@@ -4502,7 +4502,7 @@ TIFFReadEXIFDirectory(TIFF* tif, toff_t diroff)
 {
 	const TIFFFieldArray* exifFieldArray;
 	exifFieldArray = _TIFFGetExifFields();
-	return TIFFReadCustomDirectory(tif, diroff, exifFieldArray);
+	return TIFFReadCustomDirectory(tif, diroff, exifFieldArray);  
 }
 
 static int
@@ -5654,7 +5654,7 @@ TIFFFetchStripThing(TIFF* tif, TIFFDirEntry* dir, uint32 nstrips, uint64** lpp)
 	err=TIFFReadDirEntryLong8ArrayWithLimit(tif,dir,&data,nstrips);
 	if (err!=TIFFReadDirEntryErrOk)
 	{
-		const TIFFField* fip = TIFFFieldWithTag(tif,dir->tdir_tag);
+		const TIFFField* fip = TIFFFieldWithTag(tif,dir->tdir_tag); 
 		TIFFReadDirEntryOutputErr(tif,err,module,fip ? fip->field_name : "unknown tagname",0);
 		return(0);
 	}
@@ -6037,7 +6037,7 @@ int _TIFFPartialReadStripArray( TIFF* tif, TIFFDirEntry* dirent,
     else
     {
         TIFFErrorExt(tif->tif_clientdata, module,
-                 "Неверное type for [Strip|Tile][Offset/ByteCount] tag");
+                 "Invalid type for [Strip|Tile][Offset/ByteCount] tag");
         panVals[strile] = 0;
         return 0;
     }

@@ -384,7 +384,7 @@ void RTFEncoder::PutHeader()
 		short ansicpg;
 		short fontcpg;
 	};
-	
+
 	static const CodePage ansicpg[] = {
 		{ CHARSET_WIN1250, 1250, 238 },
 		{ CHARSET_WIN1251, 1251, 204 },
@@ -468,7 +468,7 @@ void RTFEncoder::PutHeader()
 			End();
 		}
 	End();
-	
+
 	Command("paperw", DotTwips(dot_page_size.cx));
 	Command("paperh", DotTwips(dot_page_size.cy));
 	Command("margl", DotTwips(dot_margins.left));
@@ -626,7 +626,7 @@ void RTFEncoder::PutTable(const RichTable& table, int nesting, int dot_width)
 
 void RTFEncoder::PutBorder(StringBuffer& rowfmt, int wd, Color c, const char *clpar)
 {
-	if(wd > 0) { 
+	if(wd > 0) {
 		rowfmt << "\\" << clpar << "\\brdrs\\brdrw" << wd << "\\brdrcf"
 		<< phys_colors.Find(Nvl(c, Black())) << " ";
 	}

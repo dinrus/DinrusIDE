@@ -1,5 +1,4 @@
-topic "ValueMap";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс ValueMap";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,8 +8,9 @@ topic "ValueMap";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 ValueMap]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс ValueMap]]}}&]
 [s3;%- &]
 [s1;:ValueMap`:`:class:%- [@(0.0.255)3 class][3 _][*3 ValueMap]&]
 [s2; ValueMap is a map of key`-value pairs, where both key and value 
@@ -47,22 +47,22 @@ p][@(0.0.255) `&]_[*@3 v])&]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:ValueMap`(const Upp`:`:ValueArray`&`):%- [* ValueMap]([@(0.0.255) c
 onst]_[_^Upp`:`:ValueArray^ ValueArray][@(0.0.255) `&]_[*@3 va])&]
-[s2; Создаёт ValueMap from ValueArray. ValueArray elements become 
-values with keys equal to indices.&]
+[s2; Создаёт ValueMap from ValueArray. ValueArray elements 
+become values with keys equal to indices.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:ValueMap`(Upp`:`:Index`<Upp`:`:Value`>`&`&`,Upp`:`:Vector`<Upp`:`:Value`>`&`&`):%- [* V
 alueMap]([_^Upp`:`:Index^ Index]<[_^Upp`:`:Value^ Value]>`&`&_[*@3 k], 
 [_^Upp`:`:Vector^ Vector]<[_^Upp`:`:Value^ Value]>`&`&_[*@3 v])&]
-[s2; Создаёт ValueMap by picking Index a Vector of Values (efficient 
-but sources are destroyed).&]
+[s2; Создаёт ValueMap by picking Index a Vector of Values 
+(efficient but sources are destroyed).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:ValueMap`(Upp`:`:VectorMap`<Upp`:`:Value`,Upp`:`:Value`>`&`&`):%- [* V
 alueMap]([_^Upp`:`:VectorMap^ VectorMap]<[_^Upp`:`:Value^ Value], 
 [_^Upp`:`:Value^ Value]>`&`&_[*@3 m])&]
-[s2; Создаёт ValueMap by picking VectorMap (efficient but source 
-is destroyed).&]
+[s2; Создаёт ValueMap by picking VectorMap (efficient but 
+source is destroyed).&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:ValueMap`(const Index`<Value`>`&`,const Vector`<Value`>`&`,int`):%- [* V
@@ -144,13 +144,14 @@ etKey]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:Find`(const Upp`:`:Value`&`)const:%- [@(0.0.255) int]_[* Find]([@(0.0.255) c
 onst]_[_^Upp`:`:Value^ Value][@(0.0.255) `&]_[*@3 key])_[@(0.0.255) const]&]
-[s2; Возвращает the index of first [%-*@3 key] or `-1 if not present.&]
+[s2; Возвращает the index of first [%-*@3 key] or `-1 if 
+not present.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:FindNext`(int`)const:%- [@(0.0.255) int]_[* FindNext]([@(0.0.255) i
 nt]_[*@3 ii])_[@(0.0.255) const]&]
-[s2; Возвращает the index of next key with the same value as key at 
-index [%-*@3 ii] or `-1 if not present.&]
+[s2; Возвращает the index of next key with the same value 
+as key at index [%-*@3 ii] or `-1 if not present.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:Add`(const Value`&`,const Value`&`):%- [@(0.0.255) void]_[* Add]([@(0.0.255) c
@@ -186,7 +187,7 @@ alue][@(0.0.255) `&]_[*@3 value])&]
 [s5;:ValueMap`:`:operator`(`)`(Id`,const Value`&`):%- [_^ValueMap^ ValueMap][@(0.0.255) `&
 ]_[* operator()]([_^Id^ Id]_[*@3 key], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v
 alue])&]
-[s2;%- [%% То же, что и Add(][*@3 key], [*@3 value]).&]
+[s2;%- [%RU-RU То же, что и Add(][*@3 key], [*@3 value]).&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:Set`(const Value`&`,const Value`&`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) c
@@ -202,11 +203,12 @@ lue])&]
 ], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 value])&]
 [s5;:ValueMap`:`:Set`(Id`,const Value`&`):%- [@(0.0.255) void]_[* Set]([_^Id^ Id]_[*@3 id], 
 [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 value])&]
-[s2;%- [%% If there is ][*@3 key][%%  in ValueMap, its associated Value 
-is replaced by ][*@3 value][%% . If there is none such key, key`-value 
-is added. If there is more than single such key, only first one 
-(the one with lowest index) is replaced. ]Note: multiple overloads 
-are required to make Id and SqlId work with ValueMap.&]
+[s2;%- [%RU-RU If there is ][*@3 key][%RU-RU  in ValueMap, its associated 
+Value is replaced by ][*@3 value][%RU-RU . If there is none such 
+key, key`-value is added. If there is more than single such key, 
+only first one (the one with lowest index) is replaced. ]Note: 
+multiple overloads are required to make Id and SqlId work with 
+ValueMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:SetAt`(int`,const Value`&`):%- [@(0.0.255) void]_[* SetAt]([@(0.0.255) int
@@ -224,8 +226,8 @@ t]_[*@3 i], [@(0.0.255) const]_[@(0.0.255) char`*]_[*@3 key])&]
  [@(0.0.255) int]_[*@3 key])&]
 [s5;:ValueMap`:`:SetKey`(int`,Id`):%- [@(0.0.255) void]_[* SetKey]([@(0.0.255) int]_[*@3 i], 
 [_^Id^ Id]_[*@3 key])&]
-[s2;%- [%% Replaces key at given index. ]Note: multiple overloads are 
-required to make Id and SqlId work with ValueMap.&]
+[s2;%- [%RU-RU Replaces key at given index. ]Note: multiple overloads 
+are required to make Id and SqlId work with ValueMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:RemoveKey`(const Value`&`):%- [@(0.0.255) int]_[* RemoveKey]([@(0.0.255) c
@@ -276,16 +278,16 @@ e][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) const]_[_^String^ String][@(0.0.2
 ]_[* operator`[`]]([@(0.0.255) const]_[_^Id^ Id][@(0.0.255) `&]_[*@3 key])_[@(0.0.255) const]&]
 [s5;:ValueMap`:`:operator`[`]`(const int`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[* operator`[`]]([@(0.0.255) const]_[@(0.0.255) int]_[*@3 key])_[@(0.0.255) const]&]
-[s2;%- [%% Возвращает value for ][*@3 key][%% . If ][*@3 key][%%  is not present, 
-returns ErrorValue (which is also void and Null Value). ]Note: 
-multiple overloads are required to make Id and SqlId work with 
-ValueMap.&]
+[s2;%- [%RU-RU Возвращает value for ][*@3 key][%RU-RU . If ][*@3 key][%RU-RU  
+is not present, returns ErrorValue (which is also void and Null 
+Value). ]Note: multiple overloads are required to make Id and 
+SqlId work with ValueMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:GetAdd`(const Value`&`):%- [_^Value^ Value][@(0.0.255) `&]_[* GetAdd]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 key])&]
-[s2; Возвращает a reference of element at key [%-*@3 key], if there is 
-none, it is created as Void Value. [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ T
+[s2; Возвращает a reference of element at key [%-*@3 key], 
+if there is none, it is created as Void Value. [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ T
 he reference returned is invalidated by any further use of originating 
 Value].&]
 [s3; &]
@@ -304,9 +306,9 @@ r()]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 key])&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:At`(int`):%- [_^Value^ Value][@(0.0.255) `&]_[* At]([@(0.0.255) int]_[*@3 i])&]
-[s2; Возвращает a reference of value at index [%-*@3 i]. [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ T
-he reference returned is invalidated by any further use of originating 
-Value].&]
+[s2; Возвращает a reference of value at index [%-*@3 i]. 
+[^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ The reference 
+returned is invalidated by any further use of originating Value].&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:GetAndClear`(const Value`&`):%- [_^Value^ Value]_[* GetAndClear]([@(0.0.255) c

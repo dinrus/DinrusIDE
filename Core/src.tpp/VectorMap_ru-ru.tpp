@@ -1,4 +1,4 @@
-topic "VectorMap";
+topic "Класс VectorMap";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "VectorMap";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 VectorMap]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс VectorMap]]}}&]
 [s3; &]
 [s1;:noref:%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 K][3 , 
 ][@(0.0.255)3 class][3 _][*@4;3 T][3 , ][@(0.0.255)3 class][3 _][*@4;3 HashFn][3 _`=_StdHash][@(0.0.255)3 <
@@ -52,7 +52,8 @@ operator is implicitly defined by composition.&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:VectorMap`:`:VectorMap`(`):%- [* VectorMap]()&]
-[s2; Дефолтный конструктор. Constructs empty [* VectorMap].&]
+[s2; Дефолтный конструктор. Constructs empty 
+[* VectorMap].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:VectorMap`:`:VectorMap`(std`:`:initializer`_list`<std`:`:pair`<K`,T`>`>`):%- [* V
@@ -65,9 +66,9 @@ td`::pair]<[*@4 K], [*@4 T]>>_[*@3 init])&]
 [s5;:Upp`:`:VectorMap`:`:operator`(`)`(KK`&`&`,TT`&`&`):%- [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 KK], [@(0.0.255) class]_[*@4 TT]>_[_^Upp`:`:VectorMap^ VectorMap][@(0.0.255) `&]_
 [* operator()]([*@4 KK][@(0.0.255) `&`&]_[*@3 k], [*@4 TT][@(0.0.255) `&`&]_[*@3 v])&]
-[s2; То же, что и Add([%-*@3 k], [%-*@3 v]), returns `*this. Syntax sugar 
-for creating map. Note the use of universal reference that gets 
-resolved to correct Add variant.&]
+[s2; То же, что и Add([%-*@3 k], [%-*@3 v]), returns `*this. 
+Syntax sugar for creating map. Note the use of universal reference 
+that gets resolved to correct Add variant.&]
 [s3; &]
 [s4;%- &]
 [s5;:VectorMap`:`:VectorMap`(const VectorMap`&`,int`):%- [* VectorMap]([@(0.0.255) const]_

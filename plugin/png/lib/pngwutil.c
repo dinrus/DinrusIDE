@@ -414,12 +414,12 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
             case 8:
             case 16: png_ptr->channels = 1; break;
             default: png_error(png_ptr,
-                         "Неверное bit depth for grayscale image");
+                         "Invalid bit depth for grayscale image");
          }
          break;
       case PNG_COLOR_TYPE_RGB:
          if (bit_depth != 8 && bit_depth != 16)
-            png_error(png_ptr, "Неверное bit depth for RGB image");
+            png_error(png_ptr, "Invalid bit depth for RGB image");
          png_ptr->channels = 3;
          break;
       case PNG_COLOR_TYPE_PALETTE:
@@ -429,26 +429,26 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
             case 2:
             case 4:
             case 8: png_ptr->channels = 1; break;
-            default: png_error(png_ptr, "Неверное bit depth for paletted image");
+            default: png_error(png_ptr, "Invalid bit depth for paletted image");
          }
          break;
       case PNG_COLOR_TYPE_GRAY_ALPHA:
          if (bit_depth != 8 && bit_depth != 16)
-            png_error(png_ptr, "Неверное bit depth for grayscale+alpha image");
+            png_error(png_ptr, "Invalid bit depth for grayscale+alpha image");
          png_ptr->channels = 2;
          break;
       case PNG_COLOR_TYPE_RGB_ALPHA:
          if (bit_depth != 8 && bit_depth != 16)
-            png_error(png_ptr, "Неверное bit depth for RGBA image");
+            png_error(png_ptr, "Invalid bit depth for RGBA image");
          png_ptr->channels = 4;
          break;
       default:
-         png_error(png_ptr, "Неверное image color type specified");
+         png_error(png_ptr, "Invalid image color type specified");
    }
 
    if (compression_type != PNG_COMPRESSION_TYPE_BASE)
    {
-      png_warning(png_ptr, "Неверное compression type specified");
+      png_warning(png_ptr, "Invalid compression type specified");
       compression_type = PNG_COMPRESSION_TYPE_BASE;
    }
 
@@ -471,7 +471,7 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
 #endif
       filter_type != PNG_FILTER_TYPE_BASE)
    {
-      png_warning(png_ptr, "Неверное filter type specified");
+      png_warning(png_ptr, "Invalid filter type specified");
       filter_type = PNG_FILTER_TYPE_BASE;
    }
 
@@ -479,7 +479,7 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
    if (interlace_type != PNG_INTERLACE_NONE &&
       interlace_type != PNG_INTERLACE_ADAM7)
    {
-      png_warning(png_ptr, "Неверное interlace type specified");
+      png_warning(png_ptr, "Invalid interlace type specified");
       interlace_type = PNG_INTERLACE_ADAM7;
    }
 #else
@@ -592,11 +592,11 @@ png_write_PLTE(png_structp png_ptr, png_colorp palette, png_uint_32 num_pal)
    {
      if (png_ptr->color_type == PNG_COLOR_TYPE_PALETTE)
      {
-        png_error(png_ptr, "Неверное число цветов в палетке");
+        png_error(png_ptr, "Invalid number of colors in palette");
      }
      else
      {
-        png_warning(png_ptr, "Неверное число цветов в палетке");
+        png_warning(png_ptr, "Invalid number of colors in palette");
         return;
      }
    }
@@ -686,7 +686,7 @@ png_write_IDAT(png_structp png_ptr, png_bytep data, png_size_t length)
       }
       else
          png_error(png_ptr,
-            "Неверное zlib compression method or flags in IDAT");
+            "Invalid zlib compression method or flags in IDAT");
    }
 
    png_write_chunk(png_ptr, (png_bytep)png_IDAT, data, length);
@@ -760,7 +760,7 @@ png_write_sRGB(png_structp png_ptr, int srgb_intent)
 
    if (srgb_intent >= PNG_sRGB_INTENT_LAST)
          png_warning(png_ptr,
-            "Неверное sRGB rendering intent specified");
+            "Invalid sRGB rendering intent specified");
    buf[0]=(png_byte)srgb_intent;
    png_write_chunk(png_ptr, (png_bytep)png_sRGB, buf, (png_size_t)1);
 }
@@ -952,7 +952,7 @@ png_write_sBIT(png_structp png_ptr, png_color_8p sbit, int color_type)
           sbit->green == 0 || sbit->green > maxbits ||
           sbit->blue == 0 || sbit->blue > maxbits)
       {
-         png_warning(png_ptr, "Неверное sBIT depth specified");
+         png_warning(png_ptr, "Invalid sBIT depth specified");
          return;
       }
       buf[0] = sbit->red;
@@ -964,7 +964,7 @@ png_write_sBIT(png_structp png_ptr, png_color_8p sbit, int color_type)
    {
       if (sbit->gray == 0 || sbit->gray > png_ptr->usr_bit_depth)
       {
-         png_warning(png_ptr, "Неверное sBIT depth specified");
+         png_warning(png_ptr, "Invalid sBIT depth specified");
          return;
       }
       buf[0] = sbit->gray;
@@ -975,7 +975,7 @@ png_write_sBIT(png_structp png_ptr, png_color_8p sbit, int color_type)
    {
       if (sbit->alpha == 0 || sbit->alpha > png_ptr->usr_bit_depth)
       {
-         png_warning(png_ptr, "Неверное sBIT depth specified");
+         png_warning(png_ptr, "Invalid sBIT depth specified");
          return;
       }
       buf[size++] = sbit->alpha;
@@ -1090,7 +1090,7 @@ png_write_tRNS(png_structp png_ptr, png_bytep trans, png_color_16p tran,
    {
       if (num_trans <= 0 || num_trans > (int)png_ptr->num_palette)
       {
-         png_warning(png_ptr, "Указано неверное число прозрачных цветов");
+         png_warning(png_ptr, "Invalid number of transparent colors specified");
          return;
       }
       /* Write the chunk out as it is */
@@ -1151,7 +1151,7 @@ png_write_bKGD(png_structp png_ptr, png_color_16p back, int color_type)
 #endif
          back->index >= png_ptr->num_palette)
       {
-         png_warning(png_ptr, "Неверное background palette index");
+         png_warning(png_ptr, "Invalid background palette index");
          return;
       }
       buf[0] = back->index;
@@ -1201,7 +1201,7 @@ png_write_hIST(png_structp png_ptr, png_uint_16p hist, int num_hist)
    {
       png_debug2(3, "num_hist = %d, num_palette = %d", num_hist,
          png_ptr->num_palette);
-      png_warning(png_ptr, "Указано неверное число элементов гистограммы");
+      png_warning(png_ptr, "Invalid number of histogram entries specified");
       return;
    }
 
@@ -1610,7 +1610,7 @@ png_write_tIME(png_structp png_ptr, png_timep mod_time)
        mod_time->day    > 31 || mod_time->day    < 1 ||
        mod_time->hour   > 23 || mod_time->second > 60)
    {
-      png_warning(png_ptr, "Неверное time specified for tIME chunk");
+      png_warning(png_ptr, "Invalid time specified for tIME chunk");
       return;
    }
 

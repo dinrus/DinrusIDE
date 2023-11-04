@@ -154,7 +154,7 @@ CommonFontInfo GetFontInfoSys(Font font)
 			strcpy(fi.path, ~path);
 		else
 			*fi.path = 0;
-		
+
 		if(font.GetFaceInfo() & Font::COLORIMG) { // Experimental estimate for cairo results
 			fi.colorimg_cy = fi.ascent + fi.descent;
 			int h = 4 * font.GetHeight() / 3;
@@ -214,7 +214,7 @@ Vector<FaceInfo> GetAllFacesSys()
 		"sans-serif",
 		"monospace",
 	};
-	
+
 	VectorMap<String, FaceInfo> list;
 	for(int i = 0; i < __countof(basic_fonts); i++) {
 		String name = (const char *)basic_fonts[i];
@@ -227,7 +227,11 @@ Vector<FaceInfo> GetAllFacesSys()
 			fi.info |= Font::FIXEDPITCH;
 	}
 	FcPattern *p = FcPatternCreate();
-	FcObjectSet *os = FcObjectSetBuild(FC_FAMILY, FC_SPACING, FC_SCALABLE, FC_SYMBOL, FC_COLOR, (void *)0);
+	FcObjectSet *os = FcObjectSetBuild(FC_FAMILY, FC_SPACING, FC_SCALABLE,
+	                        #ifndef ASTRA
+	                                         FC_SYMBOL, FC_COLOR,
+	                        #endif
+	                                         (void *)0);
 	FcFontSet *fs = FcFontList(NULL, p, os);
 	FcPatternDestroy(p);
 	FcObjectSetDestroy(os);
@@ -242,10 +246,12 @@ Vector<FaceInfo> GetAllFacesSys()
 			FcBool bv;
 			if(FcPatternGetInteger(pt, FC_SPACING, 0, &iv) == 0 && iv == FC_MONO)
 				fi.info |= Font::FIXEDPITCH;
+			#ifndef ASTRA
 			if(FcPatternGetBool(pt, FC_SYMBOL, 0, &bv) == 0 && bv)
 				fi.info |= Font::SPECIAL;
 			if(FcPatternGetBool(pt, FC_COLOR, 0, &bv) == 0 && bv)
 				fi.info |= Font::COLORIMG;
+			#endif
 			if(FcPatternGetBool(pt, FC_SCALABLE, 0, &bv) == 0 && bv)
 				fi.info |= Font::SCALEABLE;
 			String h = ToLower(fi.name);
@@ -278,7 +284,7 @@ struct ConvertOutlinePoint {
 	bool sheer;
 	double xx;
 	double yy;
-	
+
 	Pointf operator()(int x, int y) {
 		double fy = ft_dbl(y);
 		return Pointf(ft_dbl(x) + xx + (sheer ? 0.2 * fy : 0), yy - fy);
@@ -291,7 +297,7 @@ bool RenderOutline(const FT_Outline& outline, FontGlyphConsumer& path, double xx
 	cp.xx = xx;
 	cp.yy = yy;
 	cp.sheer = sheer;
-	
+
 	FT_Vector   v_last;
 	FT_Vector   v_control;
 	FT_Vector   v_start;

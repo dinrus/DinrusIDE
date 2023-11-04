@@ -115,9 +115,9 @@ umk автоматически создаёт [* CLANG] и [* GCC]
 [s11; Примеры использования UMK расположены 
 ниже:&]
 [s0;*C@5+92 &]
-[s0;l128; [*C@5+92 umk uppsrc ide GCC `-br `+GUI,SSE2,SHARED `~/DinrusIDE]&]
-[s0;l128; [*C@5+92 umk uppsrc ide /usr/share/upp/GCC.bm `-br `+GUI,SSE2,SHARED 
-`~/DinrusIDE]&]
+[s0;l128; [*C@5+92 umk src DinrusIDE GCC `-br `+GUI,SSE2,SHARED `~/dinrus]&]
+[s0;l128; [*C@5+92 umk src DinrusIDE /usr/share/upp/GCC.bm `-br `+GUI,SSE2,SHARED 
+`~/dinrus]&]
 [s0;l128;*C@5+92 &]
 [s0;l128; [*C@5+92 umk examples Bombs GCC `-ab `+GUI,SHARED `~/bombs]&]
 [s0;l128; [*C@5+92 umk upp/examples,upp/uppsrc Bombs `~/GCC.bm `-rv 

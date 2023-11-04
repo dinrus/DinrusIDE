@@ -192,7 +192,7 @@ png_set_hIST(png_structp png_ptr, png_infop info_ptr, png_uint_16p hist)
        > PNG_MAX_PALETTE_LENGTH)
    {
       png_warning(png_ptr,
-         "Неверное palette size, hIST allocation skipped.");
+         "Invalid palette size, hIST allocation skipped.");
       return;
    }
 
@@ -462,10 +462,10 @@ png_set_PLTE(png_structp png_ptr, png_infop info_ptr,
    if (num_palette < 0 || num_palette > (int) max_palette_length)
    {
       if (info_ptr->color_type == PNG_COLOR_TYPE_PALETTE)
-         png_error(png_ptr, "Неверное palette length");
+         png_error(png_ptr, "Invalid palette length");
       else
       {
-         png_warning(png_ptr, "Неверное palette length");
+         png_warning(png_ptr, "Invalid palette length");
          return;
       }
    }

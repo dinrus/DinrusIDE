@@ -13,7 +13,8 @@ topic "Класс WebSocket";
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс WebSocket]]}}&]
 [s3; &]
 [s1;:WebSocket`:`:class: [@(0.0.255)3 class][3 _][*3 WebSocket]&]
-[s2;%RU-RU Provides the WebSocket protocol support. &]
+[s2;%RU-RU Предоставляет поддержку протокола 
+WebSocket. &]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
 [s3;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
@@ -53,30 +54,30 @@ request headers for Connect.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:GetHeaders`(`): [_^Upp`:`:String^ String]_[* GetHeaders]()&]
-[s2;%RU-RU Возвращает current HTTP request headers for 
-Connect.&]
+[s2;%RU-RU Возвращает текущие заголовочники 
+запроса HTTP для Connect.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:IsBlocking`(`)const: [@(0.0.255) bool]_[* IsBlocking]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает  true, если WebSocket is in the 
-blocking mode.&]
+[s2;%RU-RU Возвращает true, если WebSocket находится 
+в режиме blocking.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:IsError`(`)const: [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) cons
 t]&]
-[s2;%RU-RU Возвращает  true, если there was any error.&]
+[s2;%RU-RU Возвращает true, если имелись ошибки.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:GetError`(`)const: [_^Upp`:`:String^ String]_[* GetError]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает the description of error.&]
+[s2;%RU-RU Возвращает описание ошибки.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:Accept`(Upp`:`:TcpSocket`&`): [@(0.0.255) bool]_[* Accept]([_^Upp`:`:TcpSocket^ T
 cpSocket][@(0.0.255) `&]_[*@3 listen`_socket])&]
-[s2;%RU-RU Accepts connection from [%-*@3 listen`_socket]. Возвращает 
-true on success.&]
+[s2;%RU-RU Принимает подключение от [%-*@3 listen`_socket]. 
+Возвращает true при успехе.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:Connect`(const Upp`:`:String`&`,const Upp`:`:String`&`,bool`,int`): [@(0.0.255) b
@@ -111,12 +112,12 @@ calls Do, so there is no need to call it separately.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:IsFin`(`)const: [@(0.0.255) bool]_[* IsFin]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если the last received 
+[s2;%RU-RU Возвращает true, если the last received 
 message had flag FIN set.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:WebSocket`:`:IsText`(`)const: [@(0.0.255) bool]_[* IsText]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если the last received 
+[s2;%RU-RU Возвращает true, если the last received 
 message was text.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
@@ -176,17 +177,17 @@ from the server.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:IsOpen`(`)const: [@(0.0.255) bool]_[* IsOpen]()&]
-[s2;%RU-RU Возвращает  true, если the socket is open.&]
+[s2;%RU-RU Возвращает true, если сокет открыт.&]
 [s3; &]
 [s4;%RU-RU &]
 [s5;:WebSocket`:`:IsClosed`(`)const: [@(0.0.255) bool]_[* IsClosed]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если the socket is closed.&]
+[s2;%RU-RU Возвращает true, если сокет закрыт.&]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:GetWaitEvents`(`)const: [_^Upp`:`:dword^ dword]_[* GetWaitEvents
 ]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает a combination of WAIT`_READ and WAIT`_WRITE 
-flags to indicate what is blocking the operation of WebSocket. 
-Can be used with SocketWaitEvent.&]
+[s2;%RU-RU Возвращает комбинацию флагов 
+WAIT`_READ и WAIT`_WRITE, to indicate what is blocking the operation 
+of WebSocket. Can be used with SocketWaitEvent.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:GetSOCKET`(`)const: [_^SOCKET^ SOCKET]_[* GetSOCKET]()_[@(0.0.255) c

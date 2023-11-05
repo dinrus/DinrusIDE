@@ -75,14 +75,20 @@ ng]>_[* Split]([@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) int]_(
 [s5;:Split`(const wchar`*`,const wchar`*`,bool`): [_^Vector^ Vector]<[_^WString^ WString]>
 _[* Split]([@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) const]_[_^wchar^ wchar]_
 `*[*@3 text], [@(0.0.255) bool]_[*@3 ignoreempty]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU Splits text [%-*@3 s] into subtexts originating between 
-delimiters. Delimiter can be defined as single character [%-*@3 chr], 
-text filter function [%-*@3 text`_filter ](returns position after 
-delimiter or NULL if delimiter is not at current character), 
-character filter function [%-*@3 filter] (returns non`-zero for 
-delimiter character) or as string [%-*@3 text]. If [%-*@3 ignoreempty] 
-is true (default), empty subtexts are ignored. [%-*@3 maxcount] 
-can define upper limit of number of subtexts.&]
+[s2;%RU-RU Разбивает текст [%-*@3 s] на подтексты, 
+расположенные между разграничителями. 
+Разграничитель (Delimiter) может быть 
+определён как единичный символ [%-*@3 chr], 
+функция фильтрации текста [%-*@3 text`_filter 
+](возвращает позицию за разграничителем 
+или NULL, если разграничитель не на 
+текущем символе), функцию фильтрации 
+символов [%-*@3 filter] (возвращает всё, кроме 
+нуля, для символа`-разграничителя) 
+или как текст [%-*@3 text]. Если [%-*@3 ignoreempty] 
+равно true (дефолт), пустые подтексты 
+игнорируются. [%-*@3 maxcount] может определять 
+верхний предел числа подтекстов.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Join`(const Vector`<String`>`&`,const String`&`,bool`): [_^String^ String]_[* Join](
@@ -93,10 +99,12 @@ reempty]_`=_[@(0.0.255) false])&]
 in]([@(0.0.255) const]_[_^Vector^ Vector]<[_^WString^ WString]>`&_[*@3 im], 
 [@(0.0.255) const]_[_^WString^ WString][@(0.0.255) `&]_[*@3 delim], [@(0.0.255) bool]_[*@3 ig
 noreempty]_`=_[@(0.0.255) false])&]
-[s2;%RU-RU Joins texts from [%-*@3 im], inserting [%-*@3 delim] between 
-them. If [%-*@3 ignoreempty] is true, empty texts are ignored. 
-Note that the default value of [%-*@3 ignoreempty] is the opposite 
-of one in Split.&]
+[s2;%RU-RU Объединяет тексты из [%-*@3 im], вставляя 
+между ними разграничитель [%-*@3 delim]. 
+Если [%-*@3 ignoreempty] равно true, пустые тексты 
+игнорируются. Заметьте, что дефолтное 
+значение [%-*@3 ignoreempty] противоположно 
+тому, которое в Split.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:SplitTo`(const char`*`,int`,bool`,String`&`.`.`.`): [@(0.0.255) bool]_[* SplitTo]([@(0.0.255) c
@@ -132,14 +140,19 @@ nt]), WString[@(0.0.255) `&]_[*@3 p1][@(0.0.255) ...])&]
 [s5;:SplitTo`(const wchar`*`,const wchar`*`,WString`&`.`.`.`): [@(0.0.255) bool]_[* Split
 To]([@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 d
 elim], [_^WString^ WString][@(0.0.255) `&]_[*@3 p1][@(0.0.255) ...])&]
-[s2;%RU-RU Splits text into one or more targets substrings, inserting 
-them into string variables (current implementation supports up 
-to 8 output strings). Возвращает  true, если the 
-source text contains enough substrings. Delimiter can be defined 
-as single character [%-*@3 chr], character filter function [%-*@3 filter] 
-(returns non`-zero for delimiter character) or as string [%-*@3 text]. 
-If [%-*@3 ignoreempty] is true (default), empty subtexts are ignored. 
-[%-*@3 maxcount] can define upper limit of number of subtexts.&]
+[s2;%RU-RU Разбивает текст на одну или более 
+целевых подстрок, вставляя их в строчные 
+переменные (текущая реализация поддерживает
+ до 8 выводных строк). Возвращает true, 
+если исходный текст содержит достаточно 
+подстрок. Разграничитель может определяться
+ как единичный символ [%-*@3 chr], функция 
+фильтровки символов [%-*@3 filter] (возвращает 
+не ноль для символа`-разграничителя) 
+или как текст [%-*@3 text]. Если [%-*@3 ignoreempty] 
+равно true (дефолт), пустые подтексты 
+игнорируются. [%-*@3 maxcount] может определять 
+верхний предел числа подтекстов.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Merge`(const char`*`,String`&`.`.`.`): [_^String^ String]_[* Merge]([@(0.0.255) const]_
@@ -147,10 +160,12 @@ If [%-*@3 ignoreempty] is true (default), empty subtexts are ignored.
 [s5;:Merge`(const wchar`*`,WString`&`.`.`.`): [_^WString^ WString]_[* Merge]([@(0.0.255) co
 nst]_[_^wchar^ wchar]_`*[*@3 delim], [_^WString^ WString][@(0.0.255) `&]_[*@3 p1][@(0.0.255) .
 ..])&]
-[s2;%RU-RU Merges substrings. Возвращает source strings 
-concatenated with delimiter put between them, however empty strings 
-are ignored (means Merge(`";`", `"1`", `"`") results in `"1`", 
-not `"1;`").&]
+[s2;%RU-RU `"Маржирует`" подстроки. Возвращает 
+исходные строки, конкатенированные 
+с постановкой разграничителя между 
+ними, однако пустые строки игнорируются 
+(означает, что Merge(`";`", `"1`", `"`") приводит 
+к `"1`", а не к `"1;`").&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:MergeWith`(String`&`,const char`*`,String`&`.`.`.`): [@(0.0.255) void]_[* MergeWith](
@@ -159,7 +174,8 @@ im], [_^String^ String][@(0.0.255) `&]_[*@3 p1][@(0.0.255) ...])&]
 [s5;:MergeWith`(WString`&`,const wchar`*`,WString`&`.`.`.`): [@(0.0.255) void]_[* MergeWi
 th]([_^WString^ WString][@(0.0.255) `&]_[*@3 dest], [@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 d
 elim], [_^WString^ WString][@(0.0.255) `&]_[*@3 p1][@(0.0.255) ...])&]
-[s2;%RU-RU Merges substrings with dest. [%-*@3 dest] and source strings 
-concatenated with delimiter put between them are stored, however 
-empty strings are ignored.&]
+[s2;%RU-RU `"Маржирует`" подстроки с dest. [%-*@3 dest] 
+и исходные строки конкатенируются 
+с постановкой между ними разграничителя, 
+однако пустые строки игнорируются.&]
 [s3;%RU-RU ]]

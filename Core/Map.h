@@ -2,30 +2,30 @@ template <class K, class V>
 struct KeyValueRef {
 	const K& key;
 	V&       value;
-	
+
 	KeyValueRef(const K& key, V& value) : key(key), value(value) {}
 };
 
 template <class Map, class K, class V>
 struct MapKVRange {
 	Map& map;
-	
+
 	struct Iterator {
 		Map& map;
 		int  ii;
-		
+
 		void SkipUnlinked()               { while(ii < map.GetCount() && map.IsUnlinked(ii)) ii++; }
-		
+
 		void operator++()                 { ++ii; SkipUnlinked(); }
 		KeyValueRef<K, V> operator*()     { return KeyValueRef<K, V>(map.GetKey(ii), map[ii]); }
 		bool operator!=(Iterator b) const { return ii != b.ii; }
-		
+
 		Iterator(Map& map, int ii) : map(map), ii(ii) { SkipUnlinked(); }
 	};
 
 	Iterator begin() const             { return Iterator(map, 0); }
 	Iterator end() const               { return Iterator(map, map.GetCount()); }
-	
+
 	MapKVRange(Map& map) : map(map) {}
 };
 
@@ -34,7 +34,7 @@ class AMap {
 protected:
 	Index<K> key;
 	V        value;
-	
+
 	template <class KK>           int FindAdd_(KK&& k);
 	template <class KK, class TT> int FindAdd_(KK&& k, TT&& init);
 	template <class KK>           T&  Put_(KK&& k);
@@ -141,7 +141,7 @@ public:
 
 	void     Remove(const int *sl, int n)           { key.Remove(sl, n); value.Remove(sl, n); }
 	void     Remove(const Vector<int>& sl)          { Remove(sl, sl.GetCount()); }
-	template <typename P> void RemoveIf(P p)        { Remove(FindAlli(p)); }
+	template <typename P> void RemoveIf(P p)        { Remove(FindAlli(*this, p)); }
 
 	void     Serialize(Stream& s);
 	void     Xmlize(XmlIO& xio);
@@ -166,10 +166,10 @@ public:
 	const V&         GetValues() const              { return value; }
 	V&               GetValues()                    { return value; }
 	V                PickValues()                   { return pick(value); }
-	
+
 	MapKVRange<AMap, K, T> operator~()                   { return MapKVRange<AMap, K, T>(*this); }
 	MapKVRange<const AMap, K, const T> operator~() const { return MapKVRange<const AMap, K, const T>(*this); }
-	
+
 	AMap& operator()(const K& k, const T& v)        { Add(k, v); return *this; }
 
 	AMap()                                          {}

@@ -366,83 +366,98 @@ AString.&]
 g][@(0.0.255) `&]_[*@3 s], [@(0.0.255) int]_[*@3 n])&]
 [s2;%- [%RU-RU Конструирует строку, равную 
 первым ][*@3 n][%RU-RU  символам из ][%RU-RU* WString][%RU-RU  
-][*@3 s][%RU-RU  ]([*@3 s ]может содержать символю 
+][*@3 s][%RU-RU  ]([*@3 s ]может содержать символы 
 нуля).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString`:`:WString`(const wchar`*`,int`):%- [* WString]([@(0.0.255) const]_[_^wchar^ w
 char]_`*[*@3 s], [@(0.0.255) int]_[*@3 n])&]
-[s2;%- [%RU-RU Constructs a string equal to first ][*@3 n][%RU-RU  characters 
-of ][*@3 s ]([*@3 s ]can contain zero characters).&]
+[s2;%- [%RU-RU Конструирует строку, равную 
+первым ][*@3 n][%RU-RU  символам из ][*@3 s ]([*@3 s 
+]может содержать символы нуля).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString`:`:WString`(const wchar`*`,const wchar`*`):%- [* WString]([@(0.0.255) const]_
 [_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 lim])&]
-[s2;%- [%RU-RU Constructs a string equal to first ][*@3 lim][%RU-RU  `- 
-][*@3 s][%RU-RU  characters of ][*@3 s][%RU-RU  ]([*@3 s ]can contain zero 
-characters).&]
+[s2;%- [%RU-RU Конструирует строку, равную 
+первым ][*@3 lim][%RU-RU  `- ][*@3 s ][%RU-RU символам 
+][*@3 s][%RU-RU  ]([*@3 s ]может содержать символы 
+нуля).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString`:`:WString`(const char`*`,int`):%- [* WString]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 s], [@(0.0.255) int]_[*@3 n])&]
-[s2;%- [%RU-RU Constructs a string equal to first ][*@3 n][%RU-RU  characters 
-of zero terminated string ][*@3 s ]([*@3 s ]can contain zero characters).&]
+[s2;%- [%RU-RU Конструирует строку, равную 
+первым ][*@3 n][%RU-RU  символам строки с нулевым 
+окончанием ][*@3 s ]([*@3 s ]может содержать 
+символы нуля).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString`:`:WString`(const char`*`,const char`*`):%- [* WString]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 s], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 lim])&]
-[s2;%- [%RU-RU Constructs a string equal to first ][*@3 n][%RU-RU  characters 
-of zero terminated string ][*@3 s ]([*@3 s ]can contain zero characters).&]
+[s2;%- [%RU-RU Конструирует строку, равную 
+первым ][*@3 n][%RU-RU  символам строки с нулевым 
+окончанием ][*@3 s ]([*@3 s ]может содержать 
+символы нуля).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString`:`:WString`(int`,int`):%- [* WString]([@(0.0.255) int]_[*@3 chr], 
 [@(0.0.255) int]_[*@3 count])&]
-[s2; Constructs a string consisting of [%-*@3 count] characters equal 
-to [%-*@3 chr]. [%-*@3 chr] can be zero.&]
+[s2; Конструирует строку, состоящую из 
+[%-*@3 count] символов [%-*@3 chr]. [%-*@3 chr] может 
+быть нулём.&]
 [s3; &]
 [s4;%- &]
 [s5;:WString`:`:WString`(WStringBuffer`&`):%- [* WString]([_^WStringBuffer^ WStringBuffer
 ][@(0.0.255) `&]_[*@3 b])&]
-[s2; Constructs a string from [%-*@3 b]. [%-*@3 b] is emptied by this 
-operation.&]
+[s2; Конструирует строку из [%-*@3 b]. [%-*@3 b] 
+опустошается при этой операции.&]
 [s3; &]
 [s4;%- &]
 [s5;:WString`:`:WString`(const Nuller`&`):%- [* WString]([@(0.0.255) const]_[_^Nuller^ Null
 er][@(0.0.255) `&])&]
-[s2; Constructs empty [* WString]. This variant is important to allow 
-assigning [* Null] to [* WString] (which is same as assigning the 
-empty [* WString]).&]
+[s2; Конструирует пустую [* WString]. Этот вариант 
+позволяет присваивать [* Null]  [* WString] (что 
+равносильно присвоению пустой [* WString]).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString`:`:WString`(const wstring`&`):%- [* WString]([@(0.0.255) const]_std`::wstring
 [@(0.0.255) `&]_[*@3 s])&]
-[s2; Конструктор  to achieve minimal STL compatibility.&]
+[s2; Конструктор для минимальной совместимости 
+с STL.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:WString`:`:Shrink`(`):%- [@(0.0.255) void]_[* Shrink]()&]
-[s2; Reduces memory used by string to minimum (size optimization).&]
+[s2; Снижает до минимума память, используемую 
+строкой (оптимизация размера).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString`:`:ToString`(`)const:%- [_^String^ String]_[* ToString]()_[@(0.0.255) const]&]
-[s2; Converts [* WString ]to [* String ]using current default character 
-set. Also serves as standard text conversion (for [* AsString] 
-and [* operator<<] templates).&]
+[s2; Преобразует [* WString ]в [* String], используя 
+текущий дефолтный набор символов. 
+Также служит в качестве стандартного 
+преобразования текста (для шаблонов 
+[* AsString] и [* operator<<]).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString`:`:GetVoid`(`):%- [@(0.0.255) static] [_^WString^ WString]_[* GetVoid]()&]
-[s2; Возвращает special Void value. This value is same 
-as empty string, but IsVoid method returns true for it. It can 
-be used in special scenarios where client code needs to distinguish 
-between two empty values (let us say Void is `"more empty`"...). 
-For example, LoadFile returns Void string if file failed to load, 
-but normal empty string if it is empty.&]
+[s2; Возвращает особое значение Void. Это 
+значение то же, что и пустая строка, 
+но для него метод IsVoid возвращает true. 
+Используется в особых сценариях, 
+когда код`-клиент должен различать 
+два пустых значения (скажем, что Void 
+`"более пуст`"...). Например, LoadFile возвращает 
+строку Void, если не удалось загрузить 
+файл, а нормальную пустую строку, 
+если он пустой.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString`:`:IsVoid`(`)const:%- [@(0.0.255) bool]_[* IsVoid]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если String is special value 
-returned by [* GetVoid].&]
+[s2; Возвращает true, если String является 
+особым значением, возвращаемым [* GetVoid].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString0`:`:Begin`(`)const:%- [@(0.0.255) const]_[_^wchar^ wchar]_`*[* Begin]()_[@(0.0.255) c
@@ -463,41 +478,49 @@ onst]&]
 [s4;%- &]
 [s5;:WString0`:`:GetAlloc`(`)const:%- [@(0.0.255) int]_[* GetAlloc]()_[@(0.0.255) const]&]
 [s2; Возвращает число размещённых символов 
-(maximum string length before it has to grow) &]
+(максимальную длину строки до наращивания) 
+&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString0`:`:Cat`(int`):%- [@(0.0.255) void]_[* Cat]([@(0.0.255) int]_[*@3 c])&]
-[s2; Appends single character [%-*@3 c]. This operations has constant 
-amortized time (in other words, internal space used by implementation 
-grows exponentially, like with Vector or std`::vector).&]
+[s2; Приставляет единичный символ [%-*@3 c]. 
+У операции константное амортизированное 
+время (иначе говоря, внутреннее пространство
+, используемое реализацией, растёт 
+экпоненциально, как в случаях с Vector 
+или std`::vector).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString0`:`:Cat`(const wchar`*`,int`):%- [@(0.0.255) void]_[* Cat]([@(0.0.255) const]_
 [_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) int]_[*@3 length])&]
-[s2;%- [%RU-RU Appends ][*@3 len][%RU-RU  characters from string ][*@3 s] 
-([*@3 s ]can contain zero characters).&]
+[s2;%- [%RU-RU Приставляет ][*@3 len][%RU-RU  символов 
+из строки ][*@3 s] ([*@3 s ]может содержать 
+символы нуля).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString0`:`:GetHashValue`(`)const:%- [@(0.0.255) hash`_t]_[* GetHashValue]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает the hash value of the string.&]
+[s2; Возвращает хэш`-значение строки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString0`:`:IsEqual`(const WString0`&`)const:%- [@(0.0.255) bool]_[* IsEqual]([@(0.0.255) c
 onst]_[_^WString0^ WString][@(0.0.255) `&]_[*@3 s])_[@(0.0.255) const]&]
-[s2; Return true if string is equal to [%-*@3 s].&]
+[s2; Возвращает true, если строка равна 
+[%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:WString0`:`:Compare`(const WString0`&`)const:%- [@(0.0.255) int]_[* Compare]([@(0.0.255) c
 onst]_[_^WString0^ WString][@(0.0.255) `&]_[*@3 s])_[@(0.0.255) const]&]
-[s2; Lexicographic comparison, return `-1 if this string is lower, 
-0 for equality, 1 if this string is greater. Individual characters 
-are compared as unsigned integer values.&]
+[s2; Лексикографическое сравнение, возвращает 
+`-1, если эта строка меньше, 0 `- равна, 
+1 `- больше. Отдельные символы сравниваются 
+как беззначные целочисленные значения.&]
 [s3; &]
 [s4;%- &]
 [s5;:WString0`:`:Remove`(int`,int`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_[*@3 pos
 ], [@(0.0.255) int]_[*@3 count]_`=_[@3 1])&]
-[s2; Removes [%-*@3 count] element starting at position [%-*@3 pos].&]
+[s2; Удаляет [%-*@3 count] элементов, начиная 
+с позиции [%-*@3 pos].&]
 [s3; &]
 [s4;%- &]
 [s5;:WString0`:`:Insert`(int`,const wchar`*`,int`):%- [@(0.0.255) void]_[* Insert]([@(0.0.255) i

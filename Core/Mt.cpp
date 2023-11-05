@@ -258,18 +258,18 @@ void Thread::DumpDiagnostics()
 {
 #ifdef PLATFORM_LINUX
 	INTERLOCKED {
-		int s, i;
+		int i;
 		void *stkaddr;
 		pthread_attr_t attr[1];
-		
+
 		if(pthread_getattr_np(pthread_self(), attr))
 			return;
-		
+
 		if(pthread_attr_getinheritsched(attr, &i) == 0)
 			RLOG(decode(i, PTHREAD_INHERIT_SCHED, "PTHREAD_INHERIT_SCHED",
 			               PTHREAD_EXPLICIT_SCHED, "PTHREAD_EXPLICIT_SCHED",
 			               "UNKNOWN getinheritsched VALUE"));
-	
+
 		if(pthread_attr_getschedpolicy(attr, &i) == 0)
 			RLOG(decode(i, SCHED_OTHER, "SCHED_OTHER",
 			               SCHED_FIFO, "SCHED_FIFO",
@@ -277,15 +277,15 @@ void Thread::DumpDiagnostics()
 			               SCHED_IDLE, "SCHED_IDLE",
 			               SCHED_BATCH, "SCHED_BATCH",
 			               "UNKNOWN schedpolicy"));
-			
+
 		struct sched_param sp;
 		if(pthread_attr_getschedparam(attr, &sp) == 0)
 			RLOG("Scheduling priority " << sp.sched_priority);
-		
+
 		size_t v;
 		if(pthread_attr_getguardsize(attr, &v) == 0)
 			RLOG("Guard size " << v);
-			
+
 		if(pthread_attr_getstack(attr, &stkaddr, &v) == 0)
 			RLOG("Stack size " << v);
 	}
@@ -379,7 +379,7 @@ bool Thread::Priority(int percent)
 #ifdef PLATFORM_POSIX
 	int policy;
 	struct sched_param param;
-	
+
 	if(pthread_getschedparam(handle, &policy, &param))
 		return false;
 	int percent_min = 0, percent_max = 200;
@@ -441,7 +441,7 @@ bool Thread::Priority(int percent)
 		param.sched_priority = 0;
 	else
 		param.sched_priority = (sched_get_priority_max(policy) - sched_get_priority_min(policy))*(minmax(percent, percent_min, percent_max)-percent_min)/(percent_max - percent_min);
-	
+
 	if (pthread_setschedparam(handle, policy, &param)) {
 		if(percent > 75) {
 			// No privileges? Try maximum possible! Do not use EPERM as not all os support this one
@@ -706,7 +706,7 @@ bool ConditionVariable::Wait(Mutex& m, int timeout_ms)
 	}
 	::timespec until;
 	clock_gettime(CLOCK_REALTIME, &until);
-	
+
 	until.tv_sec += timeout_ms / 1000;
 	timeout_ms %= 1000;
 	until.tv_nsec += timeout_ms * 1000000;
@@ -754,13 +754,13 @@ bool Semaphore::Wait(int timeout_ms)
 	}
 	struct timespec until;
 	clock_gettime(CLOCK_REALTIME, &until);
-	
+
 	until.tv_sec += timeout_ms / 1000;
 	timeout_ms %= 1000;
 	until.tv_nsec += timeout_ms * 1000000;
 	until.tv_sec += until.tv_nsec / 1000000000;
 	until.tv_nsec %= 1000000000;
-	
+
 	return sem_timedwait(&sem,&until) != -1;
 }
 

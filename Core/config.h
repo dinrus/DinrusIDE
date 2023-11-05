@@ -10,14 +10,14 @@
 #if __GNUC__
 
 	#define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
-	
+
 	#define COMPILER_GCC 1
-	
+
 	#ifdef __clang__
 	#define COMPILER_CLANG 1
 	#endif
-	
-	
+
+
 	#if defined(__WIN32) || defined(_WIN32) || defined(WIN32)
 		#define COMPILER_MINGW 1
 		#define PLATFORM_WIN32 1
@@ -35,7 +35,7 @@
 
 	#if __unix || __unix__ || __APPLE__
 		#define PLATFORM_POSIX 1
-		
+
 		#if __linux
 			#define PLATFORM_LINUX 1
 			#if __ANDROID__
@@ -82,7 +82,7 @@
 			#endif
 		#endif
 	#endif
-	
+
 	#if  __x86_64
 		#define CPU_LE 1
 		#define CPU_LITTLE_ENDIAN 1
@@ -112,6 +112,9 @@
 		#define CPU_LE 1
 		#define CPU_LITTLE_ENDIAN 1
 		#define CPU_UNALIGNED 1
+		#ifdef __ARM_NEON
+			#define CPU_NEON 1
+		#endif
 	#elif __arm__
 		#define CPU_32 1
 		#define CPU_ARM 1
@@ -151,7 +154,7 @@
 	#endif
 	#pragma warning(disable: 4786)
 	#define _CRT_SECURE_NO_DEPRECATE 1 // we really need strcpy etc. to work with MSC 8.0
-	
+
 	#define PLATFORM_WIN32 1
 
 	#define CPU_LE 1

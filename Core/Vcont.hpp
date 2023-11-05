@@ -10,7 +10,7 @@ void StreamContainerRaw(Stream& s, T& cont)
 	if(s.IsLoading()) {
 		cont.Clear();
 		cont.Reserve(min(n, int(256*1024 / sizeof(T)))); // protect against invalid streams...
-		
+
 		while(n > 0) {
 			int count = min(n, 65536);
 			int q = cont.GetCount();
@@ -843,7 +843,7 @@ BiVector<T>::BiVector(std::initializer_list<T> init)
 		vector = NULL;
 		return;
 	}
-	vector = (T *) new byte[alloc * sizeof(T)];
+	vector = (T *) MemoryAlloc(alloc * sizeof(T));
 	T *t = vector;
 	for(const auto& q : init)
 		new (t++) T(q);
@@ -968,7 +968,7 @@ void Bits::SetN(int i, bool b, int count)
 	ASSERT(i >= 0);
 	if(!count) // note: this also avoids problem with (dword)-1 >> 32 being undefined
 		return;
-	
+
 	dword bits = (dword)0 - b;
 
 	int q = i >> 5;
@@ -982,7 +982,7 @@ void Bits::SetN(int i, bool b, int count)
 	count -= n;
 	if(!count)
 		return;
-	
+
 	int dw_count = count >> 5;
 	if(++q + dw_count >= alloc)
 		Expand(q + dw_count);
@@ -990,7 +990,7 @@ void Bits::SetN(int i, bool b, int count)
 		bp[q++] = bits;
 		dw_count--;
 	}
-	
+
 	count = count & 31; // remaining bits to set
 	if(!count)
 		return;

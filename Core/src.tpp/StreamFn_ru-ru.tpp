@@ -16,160 +16,187 @@ topic "Поточные утилиты";
 [s3; &]
 [s5;:LoadStream`(Stream`&`): [_^String^ String]_[* LoadStream]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 in])&]
-[s2;%RU-RU Reads the stream starting with the current position till 
-the end is reached and returns data in String.&]
-[s7;%RU-RU [%-*C@3 in]-|Stream.&]
-[s7;%RU-RU [*/ Возвратное значение]-|Content of stream.&]
+[s2;%RU-RU Читает поток, начиная с текущей 
+позиции, до достижения конца, и возвращает 
+данные в String.&]
+[s7;%RU-RU [%-*C@3 in]-|Поток.&]
+[s7;%RU-RU [*/ Возвратное значение]-|Контент 
+потока.&]
 [s3; &]
 [s4; &]
 [s5;:SaveStream`(Stream`&`,const String`&`): [@(0.0.255) bool]_[* SaveStream]([_^Stream^ St
 ream][@(0.0.255) `&]_[*@3 out], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 dat
 a])&]
-[s2;%RU-RU Writes data to stream.&]
-[s7;%RU-RU [%-*C@3 out]-|Output stream.&]
-[s7;%RU-RU [%-*C@3 data]-|Data to write.&]
-[s7;%RU-RU [*/ Возвратное значение]-|True if all data 
-were successfully written to the stream.&]
+[s2;%RU-RU Записывает данные в поток.&]
+[s7;%RU-RU [%-*C@3 out]-|Выводной поток.&]
+[s7;%RU-RU [%-*C@3 data]-|Записываемые данные.&]
+[s7;%RU-RU [*/ Возвратное значение]-|True, если 
+все данные удачно записаны в поток.&]
 [s3; &]
 [s4; &]
 [s5;:CopyStream`(Stream`&`,Stream`&`,int64`): [_^int64^ int64]_[* CopyStream]([_^Stream^ St
 ream][@(0.0.255) `&]_[*@3 dest], [_^Stream^ Stream][@(0.0.255) `&]_[*@3 src], 
 [_^int64^ int64]_[*@3 count] `= INT64`_MAX)&]
-[s2;%RU-RU Copies at most [%-*@3 count] bytes from source to destination 
-stream. Возвращает the actual number of bytes copied. 
-With default [%-*@3 count] value it copies all data from [%-*@3 src] 
-until EOF.&]
+[s2;%RU-RU Копирует максимум [%-*@3 count] байтов 
+из потока`-источника в поток`-приёмник. 
+Возвращает действительное число 
+скопированных байтов. При дефолтном 
+значении [%-*@3 count] копирует все данные 
+из [%-*@3 src] до EOF (КФ, конца файла).&]
 [s3; &]
 [s4; &]
 [s5;:Cout`(`): [_^Stream^ Stream][@(0.0.255) `&]_[* Cout]()&]
-[s2;%RU-RU Возвращает special output stream representing 
-console output. Data written to this stream are displayed as 
-characters in console.&]
+[s2;%RU-RU Возвращает особый выводной поток, 
+представляющий вывод консоли. Данные, 
+записанные в этот поток, отображаются 
+символьно в консоли.&]
 [s3; &]
 [s4; &]
 [s5;:Cerr`(`): [_^Stream^ Stream][@(0.0.255) `&]_[* Cerr]()&]
-[s2;%RU-RU Возвращает special output stream representing 
-console error output. Data written to this stream are displayed 
-as characters in console.&]
+[s2;%RU-RU Возвращает особый выводной поток, 
+представляющий вывод информации 
+об ошибках из консоли. Данные, записанные 
+в этот поток, отображаются символьно 
+в консоли.&]
 [s3; &]
 [s4; &]
 [s5;:ReadStdIn`(`): [_^String^ String]_[* ReadStdIn]()&]
-[s2;%RU-RU Reads one line of input data from the console.&]
-[s7;%RU-RU [*/ Возвратное значение]-|Console input.&]
+[s2;%RU-RU Читает одну строчку вводных данных 
+из консоли.&]
+[s7;%RU-RU [*/ Возвратное значение]-|Консольный 
+ввод.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ReadSecret`(`): [_^Upp`:`:String^ String]_[* ReadSecret]()&]
-[s2;%RU-RU Reads one line of input data from the console without 
-echoing. This function is useful for reading passwords, secret 
-phrases, etc. from the console.&]
-[s7;%RU-RU [*/ Возвратное значение]-|Console input.&]
+[s2;%RU-RU Считывает одну строку вводных 
+данных из консоли, не повторяя ее 
+(без `"эхо`"). Эта функция используется 
+для чтения паролей, секретных фраз, 
+и проч. из консоли.&]
+[s7;%RU-RU [*/ Возвратное значение]-|Консольный 
+ввод.&]
 [s3; &]
 [s4; &]
 [s5;:NilStream`(`): [_^Stream^ Stream][@(0.0.255) `&]_[* NilStream]()&]
-[s2;%RU-RU Возвращает special stream that is always in 
-IsEof state and simply discards all data written to it.&]
-[s7;%RU-RU [*/ Возвратное значение]-|`"Black hole`" 
-stream.&]
+[s2;%RU-RU Возвращает особый поток, который 
+находится всегда в состоянии IsEof и 
+просто сбрасывает все данные, записанные 
+в него.&]
+[s7;%RU-RU [*/ Возвратное значение]-|Поток`"чёрная 
+дыра`".&]
 [s3; &]
 [s4; &]
 [s5;:LoadFile`(const char`*`): [_^String^ String]_[* LoadFile]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 filename])&]
-[s2;%RU-RU Loads the content of specified file.&]
-[s7;%RU-RU [%-*C@3 filename]-|File name.&]
-[s7;%RU-RU [*/ Возвратное значение]-|Content of file.&]
+[s2;%RU-RU Загружает контент указанного 
+файла.&]
+[s7;%RU-RU [%-*C@3 filename]-|Имя файла.&]
+[s7;%RU-RU [*/ Возвратное значение]-|Контент 
+файла.&]
 [s3; &]
 [s4; &]
 [s5;:SaveFile`(const char`*`,const String`&`): [@(0.0.255) bool]_[* SaveFile]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 filename], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[*@3 data])&]
-[s2;%RU-RU Saves data as the file (overwrites existing).&]
-[s7;%RU-RU [%-*C@3 filename]-|File name.&]
-[s7;%RU-RU [%-*C@3 data]-|Data to write.&]
-[s7;%RU-RU [*/ Возвратное значение]-|true if file 
-was successfully written.&]
+[s2;%RU-RU Сохраняет данные в файл (переписывает 
+существующий).&]
+[s7;%RU-RU [%-*C@3 filename]-|Имя файла.&]
+[s7;%RU-RU [%-*C@3 data]-|Записываемые данные.&]
+[s7;%RU-RU [*/ Возвратное значение]-|true, если 
+файл записан успешно.&]
 [s3; &]
 [s4; &]
 [s5;:operator`%`(Stream`&`,T`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T][@(0.0.255) >
 ]_[_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 s], 
 [*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2;%RU-RU Serialization operator. Simply invokes x.Serialize(s);&]
-[s7;%RU-RU [*C@4 T]-|Type of variable to be serialized.&]
-[s7;%RU-RU [%-*C@3 s]-|Stream.&]
-[s7;%RU-RU [%-*C@3 x]-|Variable to be serialized.&]
-[s7;%RU-RU [*/ Возвратное значение]-|s for chaining.&]
+[s2;%RU-RU Оператор сериализации. Просто 
+вызывает x.Serialize(s);&]
+[s7;%RU-RU [*C@4 T]-|Тип сериализуемой переменной.&]
+[s7;%RU-RU [%-*C@3 s]-|Поток.&]
+[s7;%RU-RU [%-*C@3 x]-|Сериализуемая переменная.&]
+[s7;%RU-RU [*/ Возвратное значение]-|s для сцепки.&]
 [s3; &]
 [s4; &]
 [s5;:operator`<`<`(Stream`&`,const char`*`): [_^Stream^ Stream][@(0.0.255) `&]_[* operator<
 <]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 s], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 x])
 &]
-[s2;%RU-RU Overload of stream insertion operator to get simple case 
-work. Insertion operator uses formatted stream output (Putf).&]
-[s7;%RU-RU [%-*C@3 s]-|Output stream.&]
-[s7;%RU-RU [%-*C@3 x]-|Data to write `- all characters are written to 
-the stream.&]
-[s7;%RU-RU [*/ Возвратное значение]-|s for chaining.&]
+[s2;%RU-RU Перегрузка оператора вставки 
+в поток. Оператор вставки использует 
+форматированный поточный вывод (Putf).&]
+[s7;%RU-RU [%-*C@3 s]-|Поток вывода.&]
+[s7;%RU-RU [%-*C@3 x]-|Записываемые данные `- все 
+символы записываются в поток.&]
+[s7;%RU-RU [*/ Возвратное значение]-|s для сцепки.&]
 [s3; &]
 [s4; &]
 [s5;:operator`<`<`(Stream`&`,char`*`): [_^Stream^ Stream][@(0.0.255) `&]_[* operator<<]([_^Stream^ S
 tream][@(0.0.255) `&]_[*@3 s], [@(0.0.255) char]_`*[*@3 x])&]
-[s2;%RU-RU Overload of stream insertion operator to get simple case 
-work. Insertion operator uses formatted stream output (Putf).&]
-[s7;%RU-RU [%-*C@3 s]-|Output stream.&]
-[s7;%RU-RU [%-*C@3 x]-|Data to write `- all characters are written to 
-the stream.&]
-[s7;%RU-RU [*/ Возвратное значение]-|s for chaining.&]
+[s2;%RU-RU Перегрузка оператора вставки 
+в поток. Оператор вставки использует 
+форматированный поточный вывод (Putf).&]
+[s7;%RU-RU [%-*C@3 s]-|Поток вывода.&]
+[s7;%RU-RU [%-*C@3 x]-|Записываемые данные `- все 
+символы записываются в поток.&]
+[s7;%RU-RU [*/ Возвратное значение]-|s для сцепки.&]
 [s3; &]
 [s4; &]
 [s5;:operator`<`<`(Stream`&`,const String`&`): [_^Stream^ Stream][@(0.0.255) `&]_[* operato
 r<<]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 s], [@(0.0.255) const]_[_^String^ String]_`&[*@3 x
 ])&]
-[s2;%RU-RU Overload of stream insertion operator to get simple case 
-work. Insertion operator uses formatted stream output (Putf).&]
-[s7;%RU-RU [%-*C@3 s]-|Output stream.&]
-[s7;%RU-RU [%-*C@3 x]-|Data to write `- all characters are written to 
-the stream.&]
-[s7;%RU-RU [*/ Возвратное значение]-|s for chaining.&]
+[s2;%RU-RU Перегрузка оператора вставки 
+в поток. Оператор вставки использует 
+форматированный поточный вывод (Putf).&]
+[s7;%RU-RU [%-*C@3 s]-|Поток вывода.&]
+[s7;%RU-RU [%-*C@3 x]-|Записываемые данные `- все 
+символы записываются в поток.&]
+[s7;%RU-RU [*/ Возвратное значение]-|s для сцепки.&]
 [s3; &]
 [s4; &]
 [s5;:operator`<`<`(Stream`&`,char`): [_^Stream^ Stream][@(0.0.255) `&]_[* operator<<]([_^Stream^ S
 tream][@(0.0.255) `&]_[*@3 s], [@(0.0.255) char]_[*@3 x])&]
-[s2;%RU-RU Overload of stream insertion operator to get simple case 
-work. Insertion operator uses formatted stream output (Putf).&]
-[s7;%RU-RU [%-*C@3 s]-|Output stream.&]
-[s7;%RU-RU [%-*C@3 x]-|Data to write `- it is written as single character.&]
-[s7;%RU-RU [*/ Возвратное значение]-|s for chaining.&]
+[s2;%RU-RU Перегрузка оператора вставки 
+в поток. Оператор вставки использует 
+форматированный поточный вывод (Putf).&]
+[s7;%RU-RU [%-*C@3 s]-|Поток вывода.&]
+[s7;%RU-RU [%-*C@3 x]-|Записываемые данные `- все 
+символы записываются в поток.&]
+[s7;%RU-RU [*/ Возвратное значение]-|s для сцепки.&]
 [s3; &]
 [s4; &]
 [s5;:operator`<`<`(Stream`&`,const void`*`): [_^Stream^ Stream][@(0.0.255) `&]_[* operator<
 <]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 s], [@(0.0.255) const]_[@(0.0.255) void]_`*[*@3 x])
 &]
-[s2;%RU-RU Overload of stream insertion operator to get simple case 
-work. Insertion operator uses formatted stream output (Putf).&]
-[s7;%RU-RU [%-*C@3 s]-|Output stream.&]
-[s7;%RU-RU [%-*C@3 x]-|Data to write `- pointer is formatted as hexadecimal 
-value.&]
-[s7;%RU-RU [*/ Возвратное значение]-|s for chaining.&]
+[s2;%RU-RU Перегрузка оператора вставки 
+в поток. Оператор вставки использует 
+форматированный поточный вывод (Putf).&]
+[s7;%RU-RU [%-*C@3 s]-|Поток вывода.&]
+[s7;%RU-RU [%-*C@3 x]-|Записываемые данные `- все 
+символы записываются в поток.&]
+[s7;%RU-RU [*/ Возвратное значение]-|s для сцепки.&]
 [s3; &]
 [s4; &]
 [s5;:operator`<`<`(Stream`&`,void`*`): [_^Stream^ Stream][@(0.0.255) `&]_[* operator<<]([_^Stream^ S
 tream][@(0.0.255) `&]_[*@3 s], [@(0.0.255) void]_`*[*@3 x])&]
-[s2;%RU-RU Overload of stream insertion operator to get simple case 
-work. Insertion operator uses formatted stream output (Putf).&]
-[s7;%RU-RU [%-*C@3 s]-|Output stream.&]
-[s7;%RU-RU [%-*C@3 x]-|Data to write `- pointer is formatted as hexadecimal 
-value.&]
-[s7;%RU-RU [*/ Возвратное значение]-|s for chaining.&]
+[s2;%RU-RU Перегрузка оператора вставки 
+в поток. Оператор вставки использует 
+форматированный поточный вывод (Putf).&]
+[s7;%RU-RU [%-*C@3 s]-|Поток вывода.&]
+[s7;%RU-RU [%-*C@3 x]-|Записываемые данные `- все 
+символы записываются в поток.&]
+[s7;%RU-RU [*/ Возвратное значение]-|s для сцепки.&]
 [s3; &]
 [s4; &]
 [s5;:operator`<`<`(Stream`&`,const T`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T][@(0.0.255) >
 ]_[_^Stream^ Stream][@(0.0.255) `&]_[* operator<<]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 s],
  [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2;%RU-RU Global stream insertion operator. Вызывает AsString 
-for x and stores the result to the stream. Global AsString version 
-in turn calls ToString method of x.&]
-[s7;%RU-RU [*C@4 T]-|Type of data to write to the stream.&]
-[s7;%RU-RU [%-*C@3 s]-|Output stream.&]
-[s7;%RU-RU [%-*C@3 x]-|Data to write.&]
-[s7;%RU-RU [*/ Возвратное значение]-|s for chaining.&]
+[s2;%RU-RU Глобальный оператор вставки в 
+поток. Вызывает AsString для x и сохраняет 
+итог в поток. Глобальная версия AsString 
+в свою очередь вызывает метод ToString 
+у x.&]
+[s7;%RU-RU [*C@4 T]-|Тип записываемых в поток данных.&]
+[s7;%RU-RU [%-*C@3 s]-|Поток вывода.&]
+[s7;%RU-RU [%-*C@3 x]-|Записываемые данные.&]
+[s7;%RU-RU [*/ Возвратное значение]-|s для сцепки.&]
 [s3;%RU-RU &]
 [s0;%RU-RU ]]

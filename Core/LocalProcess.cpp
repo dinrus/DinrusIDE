@@ -231,7 +231,7 @@ bool LocalProcess::DoStart(const char *command, const Vector<String> *arg, bool 
 				*cmd_out++ = '\0';
 			}
 	}
-	
+
 	if(args.GetCount() == 0)
 		return false;
 
@@ -240,7 +240,7 @@ bool LocalProcess::DoStart(const char *command, const Vector<String> *arg, bool 
 	String app_full = GetFileOnPath(args[0], getenv("PATH"), true);
 	if(IsNull(app_full))
 		return false;
-	
+
 	Buffer<char> arg0(app_full.GetCount() + 1);
 	memcpy(~arg0, ~app_full, app_full.GetCount() + 1);
 	args[0] = ~arg0;
@@ -250,7 +250,7 @@ bool LocalProcess::DoStart(const char *command, const Vector<String> *arg, bool 
 
 	if(spliterr && pipe(epipe))
 		return false;
-	
+
 	LLOG("\nLocalProcess::Start");
 	LLOG("rpipe[" << rpipe[0] << ", " << rpipe[1] << "]");
 	LLOG("wpipe[" << wpipe[0] << ", " << wpipe[1] << "]");
@@ -265,7 +265,7 @@ bool LocalProcess::DoStart(const char *command, const Vector<String> *arg, bool 
 		}
 		env.Add(NULL);
 	}
-	
+
 	pid = fork();
 	// Warning: other threads are dead after this point, which means heap might be locked
 
@@ -345,7 +345,7 @@ bool LocalProcess::DoStart(const char *command, const Vector<String> *arg, bool 
 		execv(app_full, args.Begin());
 	LLOG("execve failed, errno = " << errno);
 //	printf("Error running '%s', error code %d\n", command, errno);
-	exit(-errno);
+	abort(); // do not use exit here: it calls global destructors...
 	return true;
 #endif
 }
@@ -430,6 +430,7 @@ bool LocalProcess::IsRunning() {
 		return false;
 	if(GetExitCodeProcess(hProcess, &exitcode) && exitcode == STILL_ACTIVE)
 		return true;
+	WaitForSingleObject(hProcess, 200); // this is needed to finish pushing the output to the pipe, 200ms instead of INFINITE just prudence
 	dword n;
 	if(PeekNamedPipe(hOutputRead, NULL, 0, NULL, &n, NULL) && n)
 		return true;
@@ -505,7 +506,7 @@ bool LocalProcess::Read2(String& reso, String& rese)
 		reso = FromOEMCharset(reso);
 		rese = FromOEMCharset(rese);
 	}
-	
+
 	return reso.GetCount() || rese.GetCount() || was_running;
 #endif
 #ifdef PLATFORM_POSIX

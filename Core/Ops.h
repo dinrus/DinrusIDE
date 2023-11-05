@@ -262,7 +262,6 @@ byte addc64(uint64& result, const uint64& value, byte carry) {
 force_inline
 byte addc64(uint64& r, uint64 a, byte carry)
 {
-	uint64_t r1 = r;
 	r += a + carry;
 	return carry ? r <= a : r < a;
 }
@@ -274,7 +273,7 @@ uint64 mul64(uint64 a, uint64 b, uint64& hi)
 	uint64 hi_lo = (a >> 32)        * (b & 0xFFFFFFFF);
 	uint64 lo_hi = (a & 0xFFFFFFFF) * (b >> 32);
 	uint64 hi_hi = (a >> 32)        * (b >> 32);
-	
+
 	uint64 cross = (lo_lo >> 32) + (hi_lo & 0xFFFFFFFF) + lo_hi;
 	hi = (hi_lo >> 32) + (cross >> 32)        + hi_hi;
 

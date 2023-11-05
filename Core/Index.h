@@ -6,13 +6,13 @@ struct IndexCommon {
 		dword hash;
 		int   prev;
 	};
-	
+
 	int         *map;
 	Hash        *hash;
 	dword        mask;
 	int          unlinked;
 
-	
+
 	static int empty[1];
 
 	static dword Smear(hash_t h)          { return FoldHash(h) | HIBIT; }
@@ -30,20 +30,20 @@ struct IndexCommon {
 	void Free();
 
 	void Set(int ii, dword h);
-	
+
 	Vector<int> GetUnlinked() const;
-	
+
 	void Clear();
 	void Trim(int n, int count);
 	void Sweep(int n);
 	void Reserve(int n);
 	void Shrink();
 	void AdjustMap(int count, int alloc);
-	
+
 	void Copy(const IndexCommon& b, int count);
 	void Pick(IndexCommon& b);
 	void Swap(IndexCommon& b);
-	
+
 	IndexCommon();
 	~IndexCommon();
 };
@@ -66,13 +66,13 @@ class Index : MoveableAndDeepCopyOption<Index<T>>, IndexCommon {
 	template <typename U> void AddS(U&& k, dword sh);
 
 	template <class OP, class U> int FindAdd(U&& k, OP add_op);
-	template <class U> int FindPut0(U&& k);
+	template <class U> int FindPut0(U&& k, bool& put);
 
 	template <typename U> int Put0(U&& k, dword sh);
 	template <typename U> void Set0(int i, U&& k);
 
 	template <typename, typename, typename> friend class AMap;
-	
+
 	void        FixHash(bool makemap = true);
 
 public:
@@ -85,14 +85,16 @@ public:
 	int         FindNext(int i) const;
 	int         FindLast(const T& k) const;
 	int         FindPrev(int i) const;
-	
+
 	int         FindAdd(const T& k)         { return FindAdd(k, []{}); }
 	int         FindAdd(T&& k)              { return FindAdd(pick(k), []{}); }
 
 	int         Put(const T& k)             { return Put0(k, Smear(k)); }
 	int         Put(T&& k)                  { return Put0(pick(k), Smear(k)); }
-	int         FindPut(const T& k)         { return FindPut0(k); }
-	int         FindPut(T&& k)              { return FindPut0(pick(k)); }
+	int         FindPut(const T& k, bool& p){ return FindPut0(k, p); }
+	int         FindPut(T&& k, bool& p)     { return FindPut0(pick(k), p); }
+	int         FindPut(const T& k)         { bool p; return FindPut0(k, p); }
+	int         FindPut(T&& k)              { bool p; return FindPut0(pick(k), p); }
 
 	void        Unlink(int i);
 	int         UnlinkKey(const T& k);
@@ -108,7 +110,7 @@ public:
 	const T&    operator[](int i) const      { return key[i]; }
 	int         GetCount() const             { return key.GetCount(); }
 	bool        IsEmpty() const              { return key.IsEmpty(); }
-	
+
 	void        Clear()                      { key.Clear(); IndexCommon::Clear(); }
 
 	void        Trim(int n = 0)              { IndexCommon::Trim(n, GetCount()); key.Trim(n); }
@@ -126,7 +128,7 @@ public:
 	void     Remove(const int *sorted_list, int count);
 	void     Remove(const Vector<int>& sorted_list)         { Remove(sorted_list, sorted_list.GetCount()); }
 	template <typename Pred> void RemoveIf(Pred p)          { Remove(FindAlli(key, p)); }
-	
+
 	Index()                                                 {}
 	Index(Index&& s) : key(pick(s.key))                     { IndexCommon::Pick(s); }
 	Index(const Index& s, int) : key(s.key, 0)              { ReallocHash(0); IndexCommon::Copy(s, key.GetCount()); } // TODO: Unlinked!

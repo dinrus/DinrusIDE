@@ -52,7 +52,7 @@ void AddStackTrace(char * str, int len)
 	int space = len - strlen(str);
 	strncat(str, msg, max(space, 0));
 	space -= sizeof(msg) - 1;
-	
+
     for (size_t i = 0; i < stack_depth && space > 0; i++) {
 
 		char * start = strchr(stack_strings[i], '(');
@@ -74,7 +74,7 @@ void AddStackTrace(char * str, int len)
 			space -= strlen(start);
 		}
 		if (demangled != NULL) free(demangled);
-		
+
 		strncat(str, "\n", max(space, 0));
 		space -= 1;
     }
@@ -115,6 +115,9 @@ void    Panic(const char *msg)
 #	endif
 #else
 #endif
+#ifdef PLATFORM_POSIX
+	raise(SIGTRAP);
+#endif
 #ifdef _DEBUG
 	__BREAK__;
 #endif
@@ -134,7 +137,7 @@ void    AssertFailed(const char *file, int line, const char *cond)
 		return;
 	PanicMode = true;
 	char s[2048];
-	sprintf(s, "Assertion failed in %s, line %d\n%s\n", file, line, cond);
+	snprintf(s, 2048, "Assertion failed in %s, line %d\n%s\n", file, line, cond);
 #if defined(PLATFORM_LINUX) && defined(COMPILER_GCC) && defined(flagSTACKTRACE)
 	AddStackTrace(s, sizeof(s));
 #endif
@@ -167,8 +170,12 @@ void    AssertFailed(const char *file, int line, const char *cond)
 #	endif
 #else
 #endif
-
+#ifdef PLATFORM_POSIX
+	raise(SIGTRAP);
+#endif
+#ifdef _DEBUG
 	__BREAK__;
+#endif
 	abort();
 }
 
@@ -276,7 +283,7 @@ Stream& Pack16(Stream& s, Size& sz) {
 	return Pack16(s, sz.cx, sz.cy);
 }
 
-Stream& Pack16(Stream& s, Upp::Rect& r) {
+Stream& Pack16(Stream& s, Rect& r) {
 	return Pack16(s, r.left, r.top, r.right, r.bottom);
 }
 

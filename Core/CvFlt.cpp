@@ -85,9 +85,9 @@ void sF128::MulPow10(int powi)
 	LTIMING("MulPow10");
 	ASSERT(l == 0); // we can only do F64xF128 multiplication
 	const auto& pow10 = ipow10table[powi + 350];
-	uint64 hh, midh, midl;
+	uint64 hh, midh;
 	l = mul64(h, pow10.h, hh);
-	midl = mul64(h, pow10.l, midh);
+	mul64(h, pow10.l, midh);
 	h = hh + addc64(l, midh, 0);
 	exponent += pow10.exponent;
 	if((h & ((uint64)1 << 63)) == 0) { // renormalize
@@ -299,7 +299,7 @@ char *FormatE(char *t, double x, int precision, dword flags)
 			do_point(t, flags);
 			tCat(t, '0', precision);
 		}
-		tCat(t, "e+00", 4);
+		FormatE10(t, 0, flags);
 	}
 	else {
 		char digits[32];
@@ -510,7 +510,7 @@ String FormatF(double x, int precision, dword flags)
 }
 
 template <typename CHAR, typename BYTE>
-const CHAR *ScanDbl(double& result, const CHAR *s, int alt_dp)
+const CHAR *ScanDbl(double& result, const CHAR *s, int alt_dp, bool E = true)
 {
 	SkipSpaces__<CHAR, BYTE>(s);
 
@@ -571,7 +571,7 @@ const CHAR *ScanDbl(double& result, const CHAR *s, int alt_dp)
 		ReadNumber();
 		exp += int(s0 - s) + ignored;
 	}
-	if(*s == 'e' || *s == 'E') {
+	if(E && (*s == 'e' || *s == 'E')) {
 		dword e = 0;
 		bool overflow = false;
 		s++;
@@ -671,6 +671,19 @@ double CParser::ReadDouble()
 	if(!t) ThrowError("отсутствует число");
 	if(!IsFin(n))
 		ThrowError("неверное число");
+	term = t;
+	DoSpaces();
+	return n;
+}
+
+double CParser::ReadDoubleNoE()
+{
+	LTIMING("ReadDouble No E");
+	double n;
+	const char *t = ScanDbl<char, byte>(n, term, '.', false);
+	if(!t) ThrowError("missing number");
+	if(!IsFin(n))
+		ThrowError("invalid number");
 	term = t;
 	DoSpaces();
 	return n;

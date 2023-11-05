@@ -63,7 +63,7 @@ struct Size_ : Moveable< Size_<T> > {
 	Size_() {}
 	Size_(T cx, T cy) : cx(cx), cy(cy) {}
 
-	Size_(const Size_<int>& sz)  : cx((T)sz.cx), cy((T)sz.cy) {}	
+	Size_(const Size_<int>& sz)  : cx((T)sz.cx), cy((T)sz.cy) {}
 	Size_(const Size_<int16>& sz)  : cx((T)sz.cx), cy((T)sz.cy) {}
 	Size_(const Size_<double>& sz)  : cx((T)sz.cx), cy((T)sz.cy) {}
 	Size_(const Size_<int64>& sz) : cx((T)sz.cx), cy((T)sz.cy) {}
@@ -80,7 +80,7 @@ struct Size_ : Moveable< Size_<T> > {
 	void Serialize(Stream& s)                  { s % cx % cy; }
 	void Jsonize(JsonIO& jio)                  { jio("cx", cx)("cy", cy); }
 	void Xmlize(XmlIO& xio)                    { xio.Attr("cx", cx).Attr("cy", cy); }
-	
+
 	int  Compare(const Size_&) const           { NEVER(); return 0; }
 	int  PolyCompare(const Value&) const       { NEVER(); return 0; }
 
@@ -583,12 +583,12 @@ const int RECT16_V = 77;
 const int RECTF_V  = 78;
 const int RECT64_V = 81;
 
-template<> inline dword ValueTypeNo(const Upp::Rect*)   { return RECT_V; }
+template<> inline dword ValueTypeNo(const Rect*)   { return RECT_V; }
 template<> inline dword ValueTypeNo(const Rect16*) { return RECT16_V; }
 template<> inline dword ValueTypeNo(const Rect64*) { return RECT64_V; }
 template<> inline dword ValueTypeNo(const Rectf*)  { return RECTF_V; }
 
-Upp::Rect    RectC(int x, int y, int cx, int cy);
+Rect    RectC(int x, int y, int cx, int cy);
 Rect16  Rect16C(int16 x, int16 y, int16 cx, int16 cy);
 Rectf   RectfC(double x, double y, double cx, double cy);
 
@@ -662,8 +662,8 @@ inline Sizef operator*(Size16 sz, Sizef a)  { return Sizef(sz.cx * a.cx, sz.cy *
 inline Sizef operator*(Sizef a, Size16 sz)  { return Sizef(sz.cx * a.cx, sz.cy * a.cy); }
 inline Sizef operator/(Size16 sz, Sizef a)  { return Sizef(sz.cx / a.cx, sz.cy / a.cy); }
 
-inline Upp::Rect RectC(int x, int y, int cx, int cy) {
-	return Upp::Rect(x, y, x + cx, y + cy);
+inline Rect RectC(int x, int y, int cx, int cy) {
+	return Rect(x, y, x + cx, y + cy);
 }
 
 inline Rect16  Rect16C(int16 x, int16 y, int16 cx, int16 cy) {
@@ -674,12 +674,12 @@ inline Rectf   RectfC(double x, double y, double cx, double cy) {
 	return Rectf(x, y, x + cx, y + cy);
 }
 
-inline Upp::Rect  RectSort(Point a, Point b)    { return Upp::Rect(min(a, b), max(a, b) + 1); }
+inline Rect  RectSort(Point a, Point b)    { return Rect(min(a, b), max(a, b) + 1); }
 inline Rectf RectfSort(Pointf a, Pointf b) { return Rectf(min(a, b), max(a, b)); }
 
 Stream& Pack16(Stream& s, Point& p);
 Stream& Pack16(Stream& s, Size& sz);
-Stream& Pack16(Stream& s, Upp::Rect& r);
+Stream& Pack16(Stream& s, Rect& r);
 
 Size iscale(Size a,  int b, int c);
 Size iscalefloor(Size a,  int b, int c);
@@ -722,5 +722,5 @@ Pointf Polar(const Pointf& p, double r, double a);
 
 
 // deprecated because of confusing name:
-	
+
 inline double Bearing(const Pointf& p) { return Direction(p); }

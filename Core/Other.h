@@ -21,7 +21,7 @@ int StaticTypeNo() {
 class Any : Moveable<Any> {
 	struct BaseData {
 		int      typeno;
-		
+
 		virtual ~BaseData() {}
 	};
 
@@ -50,7 +50,7 @@ public:
 
 	void operator=(Any&& s)                       { if(this != &s) { Clear(); Pick(pick(s)); } }
 	Any(Any&& s)                                  { Pick(pick(s)); }
-	
+
 	Any(const Any& s) = delete;
 	void operator=(const Any& s) = delete;
 
@@ -61,7 +61,7 @@ public:
 class Bits : Moveable<Bits> {
 	int         alloc;
 	dword      *bp;
-	
+
 	void Expand(int q);
 	void Realloc(int nalloc);
 	int  GetLast() const;
@@ -81,16 +81,16 @@ public:
 
 	void   SetN(int i, bool b, int count);
 	void   SetN(int i, int count)         { SetN(i, true, count); }
-	
+
 	void   Reserve(int nbits);
 	void   Shrink();
-	
+
 	String ToString() const;
 
 	dword       *CreateRaw(int n_dwords);
 	const dword *Raw(int& n_dwords) const { n_dwords = alloc; return bp; }
 	dword       *Raw(int& n_dwords)       { n_dwords = alloc; return bp; }
-	
+
 	void         Serialize(Stream& s);
 
 	Bits()                                { bp = NULL; alloc = 0; }
@@ -98,14 +98,14 @@ public:
 
 	Bits(Bits&& b)                        { alloc = b.alloc; bp = b.bp; b.bp = NULL; }
 	void operator=(Bits&& b)              { if(this != &b) { Clear(); alloc = b.alloc; bp = b.bp; b.bp = NULL; } }
-	
+
 	Bits(const Bits&) = delete;
 	void operator=(const Bits&) = delete;
 };
 
 class PackedData {
 	void *ptr = nullptr;
-	
+
 	template <class T>
 	T Get(int ii, T def) const;
 
@@ -117,13 +117,13 @@ public:
 
 	template <class F>
 	bool   GetData(int ii, F out) const;
-	
+
 	void   SetNull(int ii)                      { SetData(ii, NULL, 0); }
 
 	void   SetString(int ii, const char *s)     { SetData(ii, s, (int)strlen(s)); }
 	void   SetString(int ii, const String& s)   { SetData(ii, s, s.GetCount()); }
 	String GetString(int ii) const              { String r; GetData(ii, [&](const char *s, int n) { r = String(s, n); }); return r; }
-	
+
 	void   SetInt(int ii, int val)              { SetData(ii, &val, sizeof(int)); }
 	int    GetInt(int ii, int def) const        { return Get<int>(ii, def); }
 
@@ -135,7 +135,7 @@ public:
 
 	void   SetPtr(int ii, void *val)            { SetData(ii, &val, sizeof(void *)); }
 	void  *GetPtr(int ii) const                 { return Get<void *>(ii, nullptr); }
-	
+
 	void   Clear();
 
 	Vector<String> Unpack() const;
@@ -218,11 +218,11 @@ private:
 		One<T> data;
 		bool   flag;
 	};
-	
+
 	struct Key : Moveable<Key> {
 		K            key;
 		String       type;
-		
+
 		bool operator==(const Key& b) const { return key == b.key && type == b.type; }
 		hash_t GetHashValue() const { return CombineHash(key, type); }
 	};
@@ -237,7 +237,7 @@ private:
 	int  foundsize;
 	int  newsize;
 	bool flag = false;
-	
+
 	const int InternalSize = 3 * (sizeof(Item) + sizeof(Key) + 24) / 2;
 
 	void Unlink(int i);
@@ -258,7 +258,9 @@ public:
 	template <class P> int  Remove(P predicate);
 	template <class P> bool RemoveOne(P predicate);
 
-	T&   Get(const Maker& m);
+	template <class B, class A>
+	T&   Get(const Maker& m, B before_make, A after_make);
+	T&   Get(const Maker& m) { return Get(m, []{}, []{}); }
 
 	void Clear();
 

@@ -317,12 +317,12 @@ bool memeq8__(const void *p, const void *q, size_t count)
 	ASSERT(count >= 16);
 	const byte *t = (byte *)p;
 	const byte *s = (byte *)q;
-	
+
 	auto Cmp128 = [&](size_t at)        { return i16x8(s + at) == i16x8(t + at); };
-	
+
 	if(!AllTrue(Cmp128(count - 16) & Cmp128(0))) // tail & alignment, also <= 32
 		return false;
-	
+
 	if(count <= 32)
 		return true;
 
@@ -531,7 +531,7 @@ bool inline_memeq8_aligned(const void *p, const void *q, size_t count)
 		s += 2;
 		t += 2;
 	}
-	if(count & 2) {
+	if(count & 1) {
 		if(*t != *s)
 			return false;
 	}

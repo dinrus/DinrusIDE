@@ -11,7 +11,7 @@ bool Utf8BOM(Stream& in)
 	return false;
 }
 
-static void sLoadBom(Stream& in, String *t, WString *wt, byte def_charset) 
+static void sLoadBom(Stream& in, String *t, WString *wt, byte def_charset)
 {
 	if(in.IsOpen()) {
 		String s;
@@ -102,7 +102,7 @@ String LoadFileBOM(const char *path)
 }
 
 bool SaveStreamBOM(Stream& out, const WString& data) {
-	if(!out.IsOpen() || out.IsError()) 
+	if(!out.IsOpen() || out.IsError())
 		return false;
 	word w = 0xfeff;
 	out.Put(&w, 2);

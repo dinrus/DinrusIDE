@@ -16,13 +16,15 @@ topic "Структура SpinLock";
 oveable][3 <][*3 SpinLock][3 >_]&]
 [s2;%RU-RU Легковесный `"усердно ожидающий`" 
 замок синхронизации. В отличие от 
-Mutex, SpinLock ждёт в цикле до тоех пор пока 
-ресурс не станет доступен, thus avoiding 
-costs of contention system context switch at the price of active 
-waiting. SpinLock methods are also usually inlined (and trivial). 
-SpinLock is [* not] reentrant and also [* not] fair (if more threads 
-are waiting on the same SpinLock, the order of acquiring it is 
-not specified).&]
+Mutex, SpinLock ждёт в цикле до тех пор пока 
+ресурс не станет доступен, тем самым 
+избегая costs of contention system context switch ценой 
+активного ожидания. Методы SpinLock обычно 
+инлайнятся (и тривиальны). SpinLock [* не] 
+реэнтрантен, а также [* не] fair (если ещё 
+какие0то потоки ждут приобретения 
+одного и того же SpinLock, порядок его 
+приобретения неопределённый).&]
 [s3; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
@@ -49,12 +51,14 @@ true по его приобретению.&]
 [s3; &]
 [s1;:SpinLock`:`:Lock`:`:class: [@(0.0.255)3 class][3 _][*3 Lock][3 _:_][@(0.0.255)3 private][3 _][*@3;3 N
 oCopy]&]
-[s2;%RU-RU This nested class automates calls to Mutex`::Enter / Mutex`::Leave 
-for block of code using C`+`+ constructor / destructor rules. 
-Using [* operator StaticMutex`::Mutex], it can be used with StaticMutex 
-as well.&]
+[s2;%RU-RU Этот гнездовой класс автоматизирует 
+вызовы Mutex`::Enter / Mutex`::Leave для блоков 
+кода, используя правила конструктора/дестру
+ктора C`+`+. Посредством [* оператора 
+StaticMutex`::Mutex], также его можно использовать 
+с StaticMutex.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Конструктор  / Destructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора/Деструктора]]}}&]
 [s3; &]
 [s5;:SpinLock`:`:Lock`:`:Lock`(SpinLock`&`): [* Lock]([_^SpinLock^ SpinLock][@(0.0.255) `&]_
 [*@3 s])&]

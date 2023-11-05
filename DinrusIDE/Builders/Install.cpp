@@ -88,7 +88,7 @@ LIB = "";
 LINKMODE_LOCK = "0";)";
 
 #else
-
+//Дефолтные настройки для GCC
 const char *gcc_bm =
 R"(BUILDER = "GCC";
 COMPILER = "";
@@ -116,6 +116,7 @@ INCLUDE = "";
 LIB = "";
 LINKMODE_LOCK = "0";)";
 
+//Дефолтные настройки для Clang
 const char *clang_bm =
 R"(BUILDER = "CLANG";
 COMPILER = "clang++";

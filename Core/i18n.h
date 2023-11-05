@@ -17,31 +17,6 @@ const char *GetENUS(const char *id);
 // has to be included from file that is not part of package...
 #include "t_.h"
 
-/* t_.h:
-#ifdef t_
-#undef t_
-#endif
-
-#ifdef tt_
-#undef tt_
-#endif
-
-#define t_(x)          t_GetLngString(x)
-#define tt_(x)         x
-*/
-
-/* lt_.h:
-#ifdef t_
-#undef t_
-#endif
-
-#ifdef tt_
-#undef tt_
-#endif
-
-#define t_(x)          x
-#define tt_(x)         x
-*/
 
 String     GetLngString(const char *id); // Only works with string literals because of caching !
 

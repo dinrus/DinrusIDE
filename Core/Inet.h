@@ -41,7 +41,7 @@ class IpAddrInfo {
 		addrinfo   *addr;
 	};
 	static Entry     pool[COUNT];
-	
+
 	enum {
 		EMPTY = 0, WORKING, CANCELED, RESOLVED, FAILED
 	};
@@ -56,7 +56,7 @@ class IpAddrInfo {
 	static auxthread_t auxthread__ Thread(void *ptr);
 
 	void Start();
-	
+
 	IpAddrInfo(const IpAddrInfo&);
 
 public:
@@ -114,7 +114,7 @@ class TcpSocket : NoCopy {
 
 	int                     errorcode;
 	String                  errordesc;
-	
+
 	struct SSL {
 		virtual bool  Start() = 0;
 		virtual bool  Wait(dword flags, int end_time) = 0;
@@ -122,10 +122,10 @@ class TcpSocket : NoCopy {
 		virtual int   Recv(void *buffer, int maxlen) = 0;
 		virtual void  Close() = 0;
 		virtual dword Handshake() = 0;
-		
+
 		virtual ~SSL() {}
 	};
-	
+
 	One<SSL>                ssl;
 	One<SSLInfo>            sslinfo;
 	String                  cert, pkey, sni;
@@ -169,18 +169,18 @@ class TcpSocket : NoCopy {
 
 	static int              GetErrorCode();
 	static void             Init();
-	
+
 	TcpSocket(const TcpSocket&);
 
 public:
 	Event<>         WhenWait;
-	
+
 	void            SetSockError(const char *context, int code, const char *errdesc);
 
 	enum { ERROR_GLOBAL_TIMEOUT = -1000000, ERROR_SSLHANDSHAKE_TIMEOUT, ERROR_LAST };
 
 	static String   GetHostName();
-	
+
 	int             GetDone() const                          { return done; }
 
 	bool            IsOpen() const                           { return socket != INVALID_SOCKET; }
@@ -194,9 +194,9 @@ public:
 	void            Abort()                                  { is_abort = true; }
 	bool            IsAbort() const                          { return is_abort; }
 	void            ClearAbort()                             { is_abort = false; }
-	
+
 	bool            IsTimeout() const                        { return is_timeout; }
-	
+
 	SOCKET          GetSOCKET() const                        { return socket; }
 	String          GetPeerAddr() const;
 
@@ -213,7 +213,7 @@ public:
 	void            NoDelay();
 	void            Linger(int msecs);
 	void            NoLinger()                               { Linger(Null); }
-	
+
 	bool            Wait(dword events);
 	bool            WaitRead()                               { return Wait(WAIT_READ); }
 	bool            WaitWrite()                              { return Wait(WAIT_WRITE); }
@@ -233,14 +233,14 @@ public:
 
 	bool            PutAll(const void *s, int len);
 	bool            PutAll(const String& s);
-	
+
 	bool            StartSSL();
 	bool            IsSSL() const                            { return ssl; }
 	dword           SSLHandshake();
 	void            SSLCertificate(const String& cert, const String& pkey, bool asn1);
 	void            SSLServerNameIndication(const String& name);
 	const SSLInfo  *GetSSLInfo() const                       { return ~sslinfo; }
-	
+
 	void            Clear();
 
 	TcpSocket&      Timeout(int ms)                          { timeout = ms; return *this; }
@@ -268,7 +268,7 @@ public:
 	int   Wait(int timeout);
 	dword Get(int i) const;
 	dword operator[](int i) const                            { return Get(i); }
-	
+
 	SocketWaitEvent();
 };
 
@@ -292,7 +292,7 @@ struct UrlInfo {
 
 	String operator[](const char *id) const;
 	const Vector<String>& GetArray(const char *id) const;
-	
+
 	UrlInfo() {}
 	UrlInfo(const String& url)        { Parse(url); }
 };
@@ -314,17 +314,17 @@ struct HttpHeader {
 	VectorMap<String, String>     fields;
 	VectorMap<String, HttpCookie> cookies;
 	bool                          scgi;
-	
+
 	String operator[](const char *id) const                  { return fields.Get(id, Null); }
 	String GetCookie(const char *id) const;
 
 	bool   Response(String& protocol, int& code, String& reason) const;
 	bool   Request(String& method, String& uri, String& version) const;
-	
+
 	String GetProtocol() const                               { return f1; }
 	int    GetCode() const;
 	String GetReason() const                                 { return f3; }
-	
+
 	String GetMethod() const                                 { return f1; }
 	String GetURI() const                                    { return f2; }
 	String GetVersion() const                                { return f3; }
@@ -338,7 +338,7 @@ struct HttpHeader {
 	bool   ParseSCGI(const String& scgi_hdr);
 
 	bool   Read(TcpSocket& socket);
-	
+
 	HttpHeader()                                             { scgi = false; }
 
 private:
@@ -408,11 +408,11 @@ class HttpRequest : public TcpSocket {
 	String       protocol;
 	int          status_code;
 	String       reason_phrase;
-	
+
 	int          start_time;
 	int          retry_count;
 	int          redirect_count;
-	
+
 	int          chunk;
 
 	IpAddrInfo   addrinfo;
@@ -421,7 +421,7 @@ class HttpRequest : public TcpSocket {
 
 	Stream      *poststream;
 	int64        postlen;
-	
+
 	String       chunk_crlf;
 
 	void         Init();
@@ -516,7 +516,7 @@ public:
 	HttpRequest&  ClearHeaders()                          { return Headers(Null); }
 	HttpRequest&  AddHeaders(const String& h)             { request_headers.Cat(h); return *this; }
 	HttpRequest&  Header(const char *id, const String& data);
-	
+
 	HttpRequest&  Cookie(const HttpCookie& c);
 	HttpRequest&  Cookie(const String& id, const String& value,
 	                     const String& domain = Null, const String& path = Null);
@@ -536,7 +536,7 @@ public:
 
 	HttpRequest&  SSLProxy(const String& host, int port)         { ssl_proxy_host = host; ssl_proxy_port = port; return *this; }
 	HttpRequest&  SSLProxy(const char *p);
-	HttpRequest&  SSLProxyAuth(const String& u, const String& p) {  ssl_proxy_username = u; ssl_proxy_password = p; return *this; }
+	HttpRequest&  SSLProxyAuth(const String& u, const String& p) { ssl_proxy_username = u; ssl_proxy_password = p; return *this; }
 	HttpRequest&  SSLProxyGET(bool b = true)                     { ssl_get_proxy = b; return *this; }
 
 	HttpRequest&  CommonProxy(const String& host, int port)         { Proxy(host, port); return SSLProxy(host, port); }
@@ -589,7 +589,7 @@ public:
 
 	HttpRequest();
 	HttpRequest(const char *url);
-	
+
 	static void  Trace(bool b = true);
 	static void  TraceHeader(bool b = true);
 	static void  TraceBody(bool b = true);
@@ -607,7 +607,7 @@ class WebSocket {
 
 	TcpSocket  std_socket;
 	TcpSocket *socket;
-	
+
 	String     uri;
 	String     host;
 	IpAddrInfo addrinfo;
@@ -626,19 +626,19 @@ class WebSocket {
 		dword  opcode;
 		String data;
 	};
-	
+
 	BiVector<Input>  in_queue;
-	
+
 	BiVector<String> out_queue;
 	int              out_at;
-	
+
 	bool             close_sent;
 	bool             close_received;
-	
+
 	dword            current_opcode;
-	
+
 	bool             client;
-	
+
 	int              redirect = 0;
 
 	enum {
@@ -654,7 +654,7 @@ class WebSocket {
 		CLOSE = 0x8,
 		PING = 0x9,
 		PONG = 0xa,
-		
+
 		MASK = 0x80,
 	};
 
@@ -679,7 +679,7 @@ class WebSocket {
 
 	void   SendRaw(int hdr, const String& data, dword mask = 0);
 	void   Do0();
-	
+
 	static String FormatBlock(const String& s);
 
 public:
@@ -691,17 +691,17 @@ public:
 	WebSocket&  Header(const char *id, const String& data);
 
 	String      GetHeaders()                            { return request_headers; }
-	
+
 	bool   IsBlocking() const                           { return IsNull(socket->GetTimeout()); }
-	
+
 	bool   IsError() const                              { return socket->IsError() || error.GetCount(); }
 	String GetError() const                             { return Nvl(socket->GetErrorDesc(), error); }
-	
+
 	bool   Accept(TcpSocket& listener_socket);
 	bool   Connect(const String& uri, const String& host, bool ssl, int port);
 	bool   Connect(const String& uri, const String& host, bool ssl) { return Connect(uri, host, ssl, ssl ? 440 : 80); }
 	bool   Connect(const String& url);
-	
+
 	void   Do();
 
 	String Receive();

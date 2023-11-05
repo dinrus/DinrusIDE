@@ -13,18 +13,21 @@ topic "Класс TcpSocket";
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс TcpSocket]]}}&]
 [s3; &]
 [s1;:TcpSocket`:`:class: [@(0.0.255)3 class][3 _][*3 TcpSocket]&]
-[s2;%RU-RU This class represents an TCP/IP socket. It extends the 
-basic semantics of sockets to allow non`-blocking or time constrained 
-operations.&]
+[s2;%RU-RU Этот класс представляет сокет 
+TCP/IP. Он расширяет базовую семантику 
+сокетов, допуская неблокируемые или 
+ограниченные по времени операции.&]
 [s3; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:TcpSocket`:`:WhenWait: [_^topic`:`/`/Core`/src`/Callbacks`$en`-us`#Callback`:`:class^ C
 allback]_[* WhenWait]&]
-[s2;%RU-RU If this callback is defined, it is invoked periodically 
-while TcpSocket performs any operations, with the period set 
-by WaitStep (default 10ms / 100hz). This is intended to give 
-user feedback in interactive applications.&]
+[s2;%RU-RU Если этот обрвыз определён, он 
+периодически вызывается при выполнении 
+TcpSocket`'ом любых операций, с периобом, 
+установленным посредством WaitStep (дефолт 
+10 мс / 100 гц). Предназначен для интеракции 
+с пользователем в приложениях.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:GetHostName`(`): [@(0.0.255) static] [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
@@ -33,8 +36,9 @@ tring]_[* GetHostName]()&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:GetDone`(`)const: [@(0.0.255) int]_[* GetDone]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает number of bytes processed during 
-current operation; intended to be called from WhenWait routine&]
+[s2;%RU-RU Возвращает число байтов, обработанное 
+во время текущей операции; предназначен 
+для вызова из процедуры WhenWait&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsOpen`(`)const: [@(0.0.255) bool]_[* IsOpen]()_[@(0.0.255) const]&]
@@ -42,34 +46,40 @@ current operation; intended to be called from WhenWait routine&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsEof`(`)const: [@(0.0.255) bool]_[* IsEof]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если there are no more 
-input data to process. Also returns true if socket is not open, 
-if there was an error or if socket was aborted.&]
+[s2;%RU-RU Возвращает true, если вводных данных 
+для обработки больше не осталось. 
+Также возвращает true, если сокет не 
+открыт, имелась ошибка или сокет был 
+прерван.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsError`(`)const: [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает true, если some previous operations 
-reported error. In that case, all subsequent request are ignored.&]
+[s2;%RU-RU Возвращает true, если какая`-л. предыдущая 
+операция отчиталась об ошибке. В таком 
+случае, все последующие запросы игнорируютс
+я.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:ClearError`(`): [@(0.0.255) void]_[* ClearError]()&]
-[s2;%RU-RU Clears the error state.&]
+[s2;%RU-RU Очищает состояние ошибки.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:GetError`(`)const: [@(0.0.255) int]_[* GetError]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает errorcode. Errorcodes are either 
-defined by SOCKET API or it can be `-1 for other errors.&]
+[s2;%RU-RU Возвращает код ошибки. Эти коды 
+определены либо в SOCKET API, или это может 
+быть `-1 для прочих ошибок.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:GetErrorDesc`(`)const: [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* GetErrorDesc]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает description of error.&]
+[s2;%RU-RU Возвращает описание ошибки.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:Abort`(`): [@(0.0.255) void]_[* Abort]()&]
-[s2;%RU-RU УстанавливаетTcpSocket to aborted state. 
-In aborted state, all subsequent request are ignored. Intended 
-to be called from WhenWait routine.&]
+[s2;%RU-RU Устанавливает TcpSocket в прерванное 
+состояние, в котором ингнорируются 
+все последующие запросы. Может вызываться 
+из процедуры WhenWait.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsAbort`(`)const: [@(0.0.255) bool]_[* IsAbort]()_[@(0.0.255) const]&]
@@ -141,7 +151,7 @@ for ipv6`=`=true.&]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Accept`(TcpSocket`&`): [@(0.0.255) bool]_[* Accept]([_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
 cpSocket][@(0.0.255) `&]_[*@3 listen`_socket])&]
-[s2;%RU-RU Accepts a connection from [%-*@3 listen`_socket].&]
+[s2;%RU-RU Принимает подключение от [%-*@3 listen`_socket].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Close`(`): [@(0.0.255) void]_[* Close]()&]

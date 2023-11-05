@@ -647,7 +647,7 @@ INITBLOCK
 	sReg<Size>("Size");
 	sReg<Size64>("Size64");
 	sReg<Sizef>("Sizef");
-	Value::Register<Upp::Rect>("Upp::Rect");
+	Value::Register<Rect>("Rect");
 	Value::Register<Rect64>("Rect64");
 	Value::Register<Rectf>("Rectf");
 }

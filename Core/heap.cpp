@@ -37,7 +37,7 @@ const char *asString(int i)
 	static thread_local char h[4][1024];
 	static thread_local int ii;
 	ii = (ii + 1) & 3;
-	sprintf(h[ii], "%d", i);
+	snprintf(h[ii], 1024, "%d", i);
 	return h[ii];
 }
 
@@ -46,7 +46,7 @@ const char *asString(void *ptr)
 	static thread_local char h[4][1024];
 	static thread_local int ii;
 	ii = (ii + 1) & 3;
-	sprintf(h[ii], "%p", ptr);
+	snprintf(h[ii], 1024, "%p", ptr);
 	return h[ii];
 }
 

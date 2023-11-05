@@ -13,18 +13,24 @@ topic "Потоки";
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс Stream]]}}&]
 [s3; &]
 [s1;:Stream`:`:class:%- [@(0.0.255)3 class][3 _][*3 Stream]&]
-[s9; Stream is the base class of all U`+`+ streams.&]
-[s0; U`+`+ streams generally serve in two different roles:&]
-[s0;i150;O0; As basic raw binary streams, which includes text input 
-and output.&]
-[s0;i150;O0; As binary serialization target/source. This mainly needs 
-to store flag indicating serialization direction.&]
+[s9; Stream `- это базовый класс всех потоков 
+U`+`+.&]
+[s0; Потоки U`+`+, как правило, выполняют 
+две различные роли:&]
+[s0;i150;O0; Базовых сырых двоичных потоков, 
+в которые входит ввод и вывод текста.&]
+[s0;i150;O0; Цели/источника двоичной сериализации. 
+Для этого в основном нужно сохранять 
+флаг, указывающий направление сериализации.
+&]
 [s0; &]
-[s0; While Stream offers a basic interface for stream based operations, 
-more specific operations are handled by one of the following 
-classes derived from Stream:&]
+[s0; В то время как Stream предлагает базовый 
+интерфейс для операций на основе 
+потока, более специфичные операции 
+обрабатываются одним из следующих 
+классов, производных от Stream:&]
 [s0; &]
-[ {{993:993:993:993:995:996:987:1013:1016:1021f0;g33;GNl17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:Stream`:`:class Stream^1 Stream]]
+[ {{993:993:993:993:995:996:987:1013:1016:1021f0;g33;GNl17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#Stream`:`:class^1 Stream]]
 ::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
 :: [s0;%- ]
 ::r/4t/0b/0 [s0; ]
@@ -35,8 +41,7 @@ classes derived from Stream:&]
 :: [s0; ]
 :: [s0; ]
 :: [s0; ]
-::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:StringStream`:`:class StringStream^1 S
-tringStream]]
+::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#StringStream`:`:class^1 StringStream]]
 ::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
 :: [s0;%- ]
 ::r/4t/0b/0 [s0; ]
@@ -46,30 +51,7 @@ tringStream]]
 :: [s0; ]
 :: [s0; ]
 :: [s0; ]
-::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:MemStream`:`:class MemStream^1 MemStre
-am]]
-::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
-:: [s0;%- ]
-::r/4t/0b/0 [s0; ]
-:: [s0; ]
-:: [s0; ]
-:: [s0; ]
-:: [s0; ]
-:: [s0; ]
-:: [s0; ]
-:: [s0; ]
-::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:MemReadStream`:`:class MemReadStream^1 M
-emReadStream]]
-::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
-:: [s0;%- ]
-::r/4t/0b/0 [s0; ]
-:: [s0; ]
-:: [s0; ]
-:: [s0; ]
-:: [s0; ]
-:: [s0; ]
-::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BufferStream`:`:class BufferStream^1 B
-ufferStream]]
+::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#MemStream`:`:class^1 MemStream]]
 ::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
 :: [s0;%- ]
 ::r/4t/0b/0 [s0; ]
@@ -80,8 +62,17 @@ ufferStream]]
 :: [s0; ]
 :: [s0; ]
 :: [s0; ]
-::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BlockStream`:`:class BlockStream^1 Blo
-ckStream]]
+::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#MemReadStream`:`:class^1 MemReadStream]]
+::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
+:: [s0;%- ]
+::r/4t/0b/0 [s0; ]
+:: [s0; ]
+:: [s0; ]
+:: [s0; ]
+:: [s0; ]
+:: [s0; ]
+:: [s0; ]
+::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#BlockStream`:`:class^1 BlockStream]]
 ::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
 :: [s0;%- ]
 ::r/4t/0b/0 [s0; ]
@@ -92,8 +83,7 @@ ckStream]]
 :: [s0; ]
 :: [s0; ]
 :: [s0; ]
-::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:FileStream`:`:class FileStream^1 FileS
-tream]]
+::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#FileStream`:`:class^1 FileStream]]
 ::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
 :: [s0;%- ]
 ::r/4t/0b/0 [s0; ]
@@ -104,7 +94,7 @@ tream]]
 :: [s0; ]
 :: [s0; ]
 :: [s0; ]
-::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:FileIn`:`:class FileIn^1 FileIn]]
+::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#FileIn`:`:class^1 FileIn]]
 ::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
 :: [s0;%- ]
 ::r/4t/0b/0 [s0; ]
@@ -114,7 +104,7 @@ tream]]
 :: [s0; ]
 :: [s0; ]
 :: [s0; ]
-::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:FileOut`:`:class FileOut^1 FileOut]]
+::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#FileOut`:`:class^1 FileOut]]
 ::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
 :: [s0;%- ]
 ::r/4t/0b/0 [s0; ]
@@ -124,8 +114,7 @@ tream]]
 :: [s0; ]
 :: [s0; ]
 :: [s0; ]
-::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:FileAppend`:`:class FileAppend^1 FileA
-ppend]]
+::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#FileAppend`:`:class^1 FileAppend]]
 ::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
 :: [s0;%- ]
 ::r/4t/0b/0 [s0; ]
@@ -133,8 +122,7 @@ ppend]]
 :: [s0; ]
 :: [s0; ]
 :: [s0; ]
-::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:SizeStream`:`:class SizeStream^1 SizeS
-tream]]
+::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#SizeStream`:`:class^1 SizeStream]]
 ::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
 :: [s0;%- ]
 ::r/4t/0b/0 [s0; ]
@@ -144,8 +132,7 @@ tream]]
 :: [s0; ]
 :: [s0; ]
 :: [s0; ]
-::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:CompareStream`:`:class CompareStream^1 C
-ompareStream]]
+::l17/25r17/4t17/0b17/0@7-2 [s0; [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#CompareStream`:`:class^1 CompareStream]]
 ::l0/25r0/25t0/15b0/15@2-1 [s0;%- ]
 :: [s0;%- ]
 ::r/4t/0b/0 [s0; ]
@@ -155,12 +142,16 @@ ompareStream]]
 :: [s0; ]}}&]
 [s3; &]
 [s0; &]
-[s0; In order to achieve optimal performance of buffered stream operations, 
-the most frequent operations have a little bit more complicated 
-implementation that demands proper definition of virtual methods, 
-as they must correctly adjust some protected data members of 
-Stream. Therefore the implementation of some method can be considered 
-a part of interface definition:&]
+[s0; Чтобы достичь оптимальной производительнос
+ти от операций буферированного потока, 
+у наиболее частых операций несколько 
+более сложная реализация, требующая 
+надлежащего определения виртуальных 
+методов, так как они должны точно 
+отрегулировать некоторые протекционированн
+ые члены Stream. Следовательно, реализацию 
+некоего метода можно рассматривать 
+как часть определения интерфейса:&]
 [s0; &]
 [s0; [*C@5 void  Stream`::Put(int c)]&]
 [s0; [*C@5 `{]&]
@@ -186,148 +177,164 @@ a part of interface definition:&]
 [s0; [*C@5 `}]&]
 [s0; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Protected members]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Протекционированные члены]]}}&]
 [s3;%- &]
 [s5;:Stream`:`:pos:%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[* pos]&]
 [s6;%- Protected.&]
-[s2; Position of buffer in the stream.&]
+[s2; Позиция буфера в потоке.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:buffer:%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:byte`:`:typedef^ b
 yte]_`*[* buffer]&]
 [s6; Protected.&]
-[s2; Pointer to beginning of buffer.&]
+[s2; Указатель на начало буфера.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:ptr:%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:byte`:`:typedef^ b
 yte]_`*[* ptr]&]
 [s6; Protected.&]
-[s2; Pointer to current input/output byte.&]
+[s2; Указатель на текущий вводимый/выводимый 
+байт.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:rdlim:%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:byte`:`:typedef^ b
 yte]_`*[* rdlim]&]
 [s6; Protected.&]
-[s2; Read limit. [* Get] method returns values from buffer as long 
-as [* ptr < rdlim].&]
+[s2; Предел чтения. Метод [* Get] возвращает 
+значения из буфера, пока [* ptr < rdlim].&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:wrlim:%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:byte`:`:typedef^ b
 yte]_`*[* wrlim]&]
 [s6; Protected.&]
-[s2; Write limit. [* Put] method returns values from buffer as long 
-as [* ptr < wrlim].&]
+[s2; Предел записи. Метод [* Put] возвращает 
+значения из буфера, пока [* ptr < wrlim].&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:`_Put`(int`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* `_Put]([@(0.0.255) i
 nt]_[*@3 w])&]
-[s2; Called by [* Put] method in case that output byte cannot be stored 
-into buffer ([* ptr >`= wrlim]). If Stream wants to use buffering, 
-this method should adjust [* buffer], [* ptr] and [* wrlim].&]
-[s7; [%-*C@3 w]-|Byte to store.&]
+[s2; Вызывается методом [* Put] в случае, когда 
+выводимый байт не может быть сохранён 
+в буфере ([* ptr >`= wrlim]). Если Stream намерен 
+использовать буферирование, этим 
+методом следует настроить [* buffer], [* ptr] 
+и [* wrlim].&]
+[s7; [%-*C@3 w]-|Сохраняемый байт.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:`_Term`(`):%- [@(0.0.255) virtual] [@(0.0.255) int]_[* `_Term]()&]
-[s2; Called by [* Term] method in case that input byte is not in buffer 
-([* ptr >`= rdlim]). If Stream wants to use buffering, this method 
-should adjust [* buffer], [* ptr] and [* rdlim].&]
-[s7; [*/ Возвратное значение]-|Value at current position 
-in the stream. Current position is not advanced.&]
+[s2; Вызывается методом [* Term] в случае, 
+когда вводимого байта нет в буфере 
+([* ptr >`= rdlim]).Если Stream намерен использовать 
+буферирование, этим методом следует 
+настроить [* buffer], [* ptr] и [* rdlim].&]
+[s7; [*/ Возвратное значение]-|Значение в 
+текущей позиции в потоке. Текущая 
+позиция не продвигается.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:`_Get`(`):%- [@(0.0.255) virtual] [@(0.0.255) int]_[* `_Get]()&]
-[s2; Called by [* Get] method in case that input byte is not in buffer 
-([* ptr >`= rdlim]). If Stream wants to use buffering, this method 
-should adjust [* buffer], [* ptr] and [* rdlim].&]
-[s7; [*/ Возвратное значение]-|Value read from the 
-stream.&]
+[s2; Вызывается методом [* Get] в случае, когда 
+вводимого байта нет в буфере ([* ptr >`= 
+rdlim]). Если Stream намерен использовать 
+буферирование, этим методом следует 
+настроить [* buffer], [* ptr] и [* rdlim].&]
+[s7; [*/ Возвратное значение]-|Значение, считанное 
+из потока.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:`_Put`(const void`*`,dword`):%- [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* `_Put]([@(0.0.255) const]_[@(0.0.255) void]_`*[*@3 data], 
 [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ dword
 ]_[*@3 size])&]
-[s2; Directly called by [* Put] method. Writes a block of binary data.&]
-[s7; [%-*C@3 data]-|Pointer to data.&]
-[s7; [%-*C@3 size]-|Size.&]
+[s2; Прямо вызывается методом [* Put]. Записывает 
+блок двоичных данных.&]
+[s7; [%-*C@3 data]-|Указатель на данные.&]
+[s7; [%-*C@3 size]-|Размер.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:`_Get`(void`*`,dword`):%- [@(0.0.255) virtual] [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[* `_Get]([@(0.0.255) void]_`*[*@3 data], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 size])&]
-[s2; Directly called by [* Get] method. &]
-[s7; [%-*C@3 data]-|&]
-[s7; [%-*C@3 size]-|&]
-[s7; [*/ Возвратное значение]-|&]
-[s3; &]
-[s0; &]
+[s2; Прямо вызывается методом [* Get]. &]
+[s7; [%-*C@3 data]-|Указатель на данные.&]
+[s7; [%-*C@3 size]-|Размер.&]
+[s7; &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:Stream`:`:Stream`(`):%- [* Stream]()&]
-[s2; Дефолтный конструктор. Устанавливаетstream 
-into Loading serialization mode and zero level indentation. All 
-protected variables are set to 0 / NULL.&]
+[s2; Дефолтный конструктор. Устанавливает 
+поток в режим сериализации Loading и 
+отступы нулевого уровня (zero level indentation). 
+Все защищённые переменные устанавливаются 
+в 0 / NULL.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Stream`:`:Stream`(const Stream`&`):%- [* Stream]([@(0.0.255) const]_[* Stream][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2; Дефолтный копи-конструктор.&]
+[s2; Дефолтный копи`-конструктор.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:`~Stream`(`):%- [@(0.0.255) `~][* Stream]()&]
-[s2; Дефолтный деструктор .&]
+[s2; Дефолтный деструктор.&]
 [s3;%- &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов: Raw Operations]]}}&]
 [s3;%- &]
 [s5;:Stream`:`:Seek`(int64`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Seek]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 pos])&]
-[s2; Seeks to given position.&]
-[s7; [%-*C@3 pos]-|Position.&]
+[s2; Перемещает к указанной позиции.&]
+[s7; [%-*C@3 pos]-|Позиция.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:SetVersion`(int`):%- [@(0.0.255) void]_[* SetVersion]([@(0.0.255) int
 ]_[*@3 ver])&]
-[s2; Устанавливаетthe arbitrary number [%-*@3 ver] to 
-the stream. Client code can use it in any way it needs, but it 
-is designed to store the the version information during serialization.&]
+[s2; Устанавливает произвольное число 
+[%-*@3 ver] потоку. Код`-клиент может использовать 
+его любым образом, но основное назначение 
+`- сохранении информации о версии 
+при сериализации.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:GetVersion`(`)const:%- [@(0.0.255) int]_[* GetVersion]()_[@(0.0.255) c
 onst]&]
-[s2; Reads the number set by SetVersion.&]
+[s2; Считывает число, установленное SetVersion.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Stream`:`:GetSize`(`)const:%- [@(0.0.255) virtual] [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[* GetSize]()_[@(0.0.255) const]&]
-[s7; [* Возвратное значение]-|Size of stream.&]
+[s7; [* Возвратное значение]-|Размер потока.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:SetSize`(int64`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* SetSize]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 size])&]
-[s2; Alters the size of the stream.&]
-[s7; [%-*C@3 size]-|New size.&]
+[s2; Меняет размер потока.&]
+[s7; [%-*C@3 size]-|Новый размер.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Flush`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Flush]()&]
-[s2; If stream has any internal buffers (like [* FileStream]), writes 
-these buffers to OS.&]
+[s2; Если у потока имеются внутренние 
+буферы (как у [* FileStream]), записывает их 
+в OS.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Close`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Close]()&]
-[s2; Closes stream.&]
+[s2; Закрывает поток.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:IsOpen`(`)const:%- [@(0.0.255) virtual] [@(0.0.255) bool]_[* IsOpen]()_[@(0.0.255) c
 onst]_`=_[@3 0]&]
-[s7; [* Возвратное значение]-|true if stream is open.&]
+[s7; [* Возвратное значение]-|true, если поток 
+открыт.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:IsError`(`)const:%- [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
-[s7; [* Возвратное значение]-|true if error was encountered 
-during stream operations since opening it or last [* ClearError] 
-call `- error code is non`-zero.&]
+[s7; [* Возвратное значение]-|true, если с момента 
+открытия потока в течении операции 
+с ним имелись ошибки или с последнего 
+вызова [* ClearError] `- код ошибки не равен 
+нулю.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:IsOK`(`)const:%- [@(0.0.255) bool]_[* IsOK]()_[@(0.0.255) const]&]
@@ -336,214 +343,258 @@ call `- error code is non`-zero.&]
 [s4;%- &]
 [s5;:Stream`:`:SetError`(int`):%- [@(0.0.255) void]_[* SetError]([@(0.0.255) int]_[*@3 c]_`=_
 [@3 0])&]
-[s2; Устанавливаетstream error code.&]
-[s7; [%-*C@3 c]-|Error code.&]
+[s2; Устанавливает код ошибки потока.&]
+[s7; [%-*C@3 c]-|Код ошибки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:SetLastError`(`):%- [@(0.0.255) void]_[* SetLastError]()&]
-[s2; Устанавливаетstream error to last OS`-specific 
-error (obtained e.g. by GetLastError call in Win32 or in errno 
-in Posix). This error can be interpreted by GetErrorMessage function.&]
+[s2; Устанавливает ошибку потока в последнюю, 
+специфичную для ОС (получаемую, напр., 
+вызовом GetLastError в Win32 или в errno в Posix). 
+Эту ошибку может интерпретировать 
+функция GetErrorMessage.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:GetError`(`)const:%- [@(0.0.255) int]_[* GetError]()_[@(0.0.255) const]&]
-[s2; Возвращает current error`-code. Zero indicates no 
-error.&]
+[s2; Возвращает текущий код ошибки. Ноль 
+означает отсутствие ошибки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:GetErrorText`(`)const:%- [_^Upp`:`:String^ String]_[* GetErrorText](
 )_[@(0.0.255) const]&]
-[s2; Возвращает the text description of the last error.&]
+[s2; Возвращает текстовое описание последней 
+ошибки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Stream`:`:ClearError`(`):%- [@(0.0.255) void]_[* ClearError]()&]
-[s2; Clears error code.&]
+[s2; Очищает код ошибки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:GetPos`(`)const:%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[* GetPos]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|Current position in 
-the stream.&]
+[s7; [*/ Возвратное значение]-|Текущее положение 
+в потоке.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:GetLeft`(`)const:%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[* GetLeft]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|Bytes between current 
-position and the end of stream `- equivalent to GetSize() `- 
-GetPos().&]
+[s7; [*/ Возвратное значение]-|Байты между 
+текущей позицией и концом потока 
+`- эквивалентно GetSize() `- GetPos().&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:SeekEnd`(int64`):%- [@(0.0.255) void]_[* SeekEnd]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 rel]_`=_[@3 0])&]
-[s2; Устанавливаетcurrent position in the stream relative 
-to the end of stream. То же, что и Seek(GetSize() `+ 
-rel).&]
-[s7; [%-*C@3 rel]-|Position `- should be less or equal to zero.&]
+[s2; Устанавливает текущую позицию в 
+потоке относительно его конца. То 
+же, что и Seek(GetSize() `+ rel).&]
+[s7; [%-*C@3 rel]-|Позиция`- должна быть меньше 
+или равна нулю.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:SeekCur`(int64`):%- [@(0.0.255) void]_[* SeekCur]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 rel])&]
-[s2; Устанавливаетcurrent position in the stream relative 
-to the current position. То же, что и Seek(GetPos() `+ 
-rel).&]
-[s7; [%-*C@3 rel]-|Relative offset.&]
+[s2; Устанавливает текущую позицию в 
+потоке относительно текущей. То же, 
+что и Seek(GetPos() `+ rel).&]
+[s7; [%-*C@3 rel]-|Относительное смещение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:IsEof`(`):%- [@(0.0.255) bool]_[* IsEof]()&]
-[s2; There are no more byte to be read from the stream. Is also true 
-in case of error.&]
+[s2; Больше не осталось в потоке байтов 
+для чтения. Также равен true при ошибке.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Stream`:`:Put`(int`):%- [@(0.0.255) void]_[* Put]([@(0.0.255) int]_[*@3 c])&]
-[s2; Puts single byte into the output stream.&]
-[s7; [%-*C@3 c]-|Byte.&]
+[s2; Помещает в поток вывода единичный 
+байт.&]
+[s7; [%-*C@3 c]-|Байт.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Term`(`):%- [@(0.0.255) int]_[* Term]()&]
 [s5;:Stream`:`:Peek`(`):%- [@(0.0.255) int]_[* Peek]()&]
-[s2; Peeks byte from input stream not advancing current position. 
-If there are no more bytes in input stream or error occurred, 
-negative value is returned.&]
+[s2; Берёт байт из потока не изменяя текущего 
+положения. Если в вводном потоке уже 
+нет байтов или случилась ошибка, возвращаетс
+я отрицательное значение.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Stream`:`:Get`(`):%- [@(0.0.255) int]_[* Get]()&]
-[s2; Reads single byte from input stream, advancing current position. 
-If there are no more bytes in input stream or error occurred, 
-negative value is returned.&]
-[s7; [*/ Возвратное значение]-|Byte read from input 
-stream.&]
+[s2; Читает единичный байт из вводного 
+потока, перемещая текущее положение. 
+Если в вводном потоке уже нет байтов 
+или случилась ошибка, возвращается 
+отрицательное значение&]
+[s7; [*/ Возвратное значение]-|Байт, считанный 
+из вводного потока.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:PeekPtr`(int`):%- [@(0.0.255) const]_[_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:byte`:`:typedef^ b
 yte]_`*[* PeekPtr]([@(0.0.255) int]_[*@3 size]_`=_[@3 1])&]
-[s2; This is a special optimization method; it might return a pointer 
-to data of [%-*@3 size] bytes at current position in the stream, 
-but it is allowed to return NULL `- in that case you need to 
-use Get to load data. PeekPtr does not move the position forward, 
-you need to use some of Seek methods to do that.&]
+[s2; Это специальный оптимизационный 
+метод; может возвращать указатель 
+на данные [%-*@3 size] байтов в текущей позиции 
+в потоке, но может вернуть и NULL `- в 
+таком случае нужно использовать Get, 
+чтобы загрузить данные. PeekPtr не продвигает 
+вперёд позицию, для этого нужно использовать
+ один из методов Seek.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:GetPtr`(int`):%- [@(0.0.255) const]_[_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:byte`:`:typedef^ b
 yte]_`*[* GetPtr]([@(0.0.255) int]_[*@3 size]_`=_[@3 1])&]
-[s2; This is a special optimization method; it might return a pointer 
-to data of [%-*@3 size] bytes at current position in the stream, 
-but it is allowed to return NULL `- in that case you need to 
-use Get to load data. Unlike PeekPtr, it advances stream by [%-*@3 size].&]
+[s2; Это специальный оптимизационный 
+метод; может возвращать указатель 
+на данные [%-*@3 size] байтов в текущей позиции 
+в потоке, но может вернуть и NULL `- в 
+таком случае нужно использовать Get, 
+чтобы загрузить данные. В отличие 
+от PeekPtr, он продвигает поток на [%-*@3 size].&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:PutPtr`(int`):%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:byte`:`:typedef^ b
 yte]_`*[* PutPtr]([@(0.0.255) int]_[*@3 size]_`=_[@3 1])&]
-[s2; This is a special optimization method; it might return a writable 
-pointer where you can write output data of [%-*@3 size] bytes, 
-but it is allowed to return NULL `- in that case you need to 
-output data using Put. Advances stream by [%-*@3 size].&]
+[s2; Это специальный оптимизационный 
+метод; может возвращать записываемый 
+указатель, куда можно записать выводные 
+данные [%-*@3 size] байтов, но может вернуть 
+и NULL `- в таком случае данные нужно 
+выводить с помощью Put. Продвигает 
+поток на [%-*@3 size].&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:GetSzPtr`(int`&`):%- [@(0.0.255) const]_[_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:byte`:`:typedef^ b
 yte]_`*[* GetSzPtr]([@(0.0.255) int`&]_[*@3 size])&]
-[s2; This is a special optimization method, it returns a pointer 
-to data at current position of stream, sets [%-*@3 size] to the 
-maximal possible amount of bytes that can be read from this pointer 
-and advances stream by this size. [%-*@3 size] can be set to zero, 
-in that case stream has to be read by another means (e.g. Get).&]
+[s2; Это специальный оптимизационный 
+метод; возвращает указатель на данные 
+в текущей позиции потока, устанавливает 
+[%-*@3 size] в максимальное возможное количество 
+байтов, которое можно считать из этого 
+указателя, и продвигает поток на этот 
+размер. [%-*@3 size] можно установить в ноль, 
+в таком случае поток нужно читать 
+другим способом (напр., Get).&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put`(const void`*`,int`):%- [@(0.0.255) void]_[* Put]([@(0.0.255) const]_[@(0.0.255) v
 oid]_`*[*@3 data], [@(0.0.255) int]_[*@3 size])&]
-[s2; Writes a block of raw binary data to the output stream.&]
+[s2; Записывает блок сырых двоичных данных 
+в поток вывода.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get`(void`*`,int`):%- [@(0.0.255) int]_[* Get]([@(0.0.255) void]_`*[*@3 data],
  [@(0.0.255) int]_[*@3 size])&]
-[s2; Reads at most [%-*@3 size] bytes from the stream to [%-*@3 data]. 
-Возвращает the number of bytes actually read.&]
+[s2; Читает максимум [%-*@3 size] байтов из потока 
+в [%-*@3 data]. Возвращает число действительно 
+считанных байтов.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get`(int`):%- [_^String^ String]_[* Get]([@(0.0.255) int]_[*@3 size])&]
-[s2; Reads at most [%-*@3 size] bytes from the input stream and returns 
-result as String.&]
+[s2; Читает максимум [%-*@3 size] байтов из потока 
+ввода и возвращает итог как String.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:GetAll`(int`):%- [_^String^ String]_[* GetAll]([@(0.0.255) int]_[*@3 size])&]
-[s2; Reads exactly [%-*@3 size] bytes from the input stream and returns 
-result as String. If there is not enough bytes left, returns 
-String`::GetVoid(). Note that is [%-*@3 size] is large (currently 
-> 4MB), function reads result in chunks in order to avoid problems 
-with corrupted streams, e.g. situation where the [%-*@3 size] is 
-obtained from the stream, is corrupted and too big and allocating 
-that much memory would cause out`-of`-memory situation.&]
+[s2; Читает ровно [%-*@3 size] байтов из вводного 
+потока и возвращает итог как String. 
+Если осталось недостаточно байтов, 
+возвращает String`::GetVoid(). Заметьте, что 
+[%-*@3 size] is large (на данный момент > 4MB), функция 
+считывает результат порциями, чтобы 
+избежать проблем с повреждёнными 
+потоками, напр., в ситуациях, когда 
+[%-*@3 size], полученный из потока, повреждён 
+и слишком велик, а размещение такого 
+количества памяти вызовет ситуацию 
+нехватки памяти.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:Skip`(int`):%- [@(0.0.255) int]_[* Skip]([@(0.0.255) int]_[*@3 size])&]
-[s2; Skips [%-*@3 size] bytes in input Stream. This is similar to SeekCur([%-*@3 size]), 
-however it works with Streams that do not support seeking. Возвращает 
-a number of bytes actually skipped (can be less than required 
-because of EOF).&]
+[s2; [%- Пропускает ][%-*@3 size] байтов в вводном 
+потоке Stream. Похоже на SeekCur([%-*@3 size]), однако 
+работает с потоками, которые не поддерживают
+ перемещение в них (seeking). Возвращает 
+число реально пропущенных байтов 
+(может быть меньше, чем нужно, из`-за 
+КФ (EOF).&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:GetAll`(void`*`,int`):%- [@(0.0.255) bool]_[* GetAll]([@(0.0.255) void]_`*[*@3 d
 ata], [@(0.0.255) int]_[*@3 size])&]
-[s2; Reads [%-*@3 size] bytes from the stream to memory at [%-*@3 data]. 
-If there is not enough data in the stream, LoadError is invoked 
-(that in turn might throw an exception). Возвращает 
- true, если required number of bytes was read.&]
+[s2; Считывает [%-*@3 size] байтов из потока 
+в память по [%-*@3 data]. Если в потоке недостаточно
+ данных, вызывается LoadError (который, 
+в свою очередь, может выводить исключение). 
+Возвращает true, если было считано требуемое 
+число байтов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Stream`:`:Put64`(const void`*`,int64`):%- [@(0.0.255) void]_[* Put64]([@(0.0.255) cons
 t]_[@(0.0.255) void]_`*[*@3 data], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 size])&]
-[s2; Writes a block of raw binary data to the output stream, unlike 
-regular Put, block size can be greater than 2GB, if CPU is 64 
-bit.&]
+[s2; Записывает блок сырых двоичных данных 
+в поток вывода, в отличие от обычного 
+Put, размер блока болжен быть больше 
+2 ГБ, если ЦПБ (CPU) 64`-битный.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get64`(void`*`,int64`):%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[* Get64]([@(0.0.255) void]_`*[*@3 data], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 size])&]
-[s2; Reads at most [%-*@3 size] bytes from the stream to [%-*@3 data]. 
-Возвращает the number of bytes actually read. Unlike 
-regular Get, block size can be greater than 2GB, if CPU is 64 
-bit.&]
+[s2; Считывает максимиум [%-*@3 size] байтов 
+из потока в [%-*@3 data]. Возвращает число 
+действительно считанных байтов. В 
+отличие от обычного Get, размер блока 
+может быть больше чем 2 ГБ, iесли ЦПБ 
+(CPU) 64`-битный.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:GetAll64`(void`*`,int64`):%- [@(0.0.255) bool]_[* GetAll64]([@(0.0.255) void
 ]_`*[*@3 data], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 size])&]
-[s2; Reads [%-*@3 size] bytes from the stream to memory at [%-*@3 data]. 
-If there is not enough data in the stream, LoadError is invoked 
-(that in turn might throw an exception). Возвращает 
- true, если required number of bytes was read. Unlike regular 
-Get, block size can be greater than 2GB, if CPU is 64 bit.&]
+[s2; Считывает [%-*@3 size] байтов из потока 
+в память по [%-*@3 data]. Если в потоке недостаточно
+ данных, вызывается LoadError (который, 
+в свою очередь, может выводить исключение). 
+Возвращает true, еслибыло считано требуемое 
+число байтов. В отличие от обычного 
+Get, размер блока может быть больше 
+чем 2 ГБ, iесли ЦПБ (CPU) 64`-битный.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:Get`(Upp`:`:Huge`&`,size`_t`):%- [_^size`_t^ size`_t]_[* Get]([_^Upp`:`:Huge^ H
 uge][@(0.0.255) `&]_[*@3 h], [_^size`_t^ size`_t]_[*@3 size])&]
-[s2; Reads data into [%-*@3 h], returns the size read.&]
+[s2; Считывает данные в [%-*@3 h], возвращает 
+считанный размер.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:GetAll`(Upp`:`:Huge`&`,size`_t`):%- [@(0.0.255) bool]_[* GetAll]([_^Upp`:`:Huge^ H
 uge][@(0.0.255) `&]_[*@3 h], [_^size`_t^ size`_t]_[*@3 size])&]
-[s2; Reads data into [%-*@3 h], returns the size read. If there is 
-not enough data in the stream, LoadError is invoked (that in 
-turn might throw an exception).&]
+[s2; Считывает данные в [%-*@3 h], возвращает 
+считанный размер. Если в потоке недостаточно
+ данных, вызывается LoadError (это, в свою 
+очередь, может вывести исключение).&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:LoadThrowing`(`):%- [@(0.0.255) void]_[* LoadThrowing]()&]
-[s2; Устанавливаетstream into the mode that throws LoadingError 
-exception when LoadError is invoked. This mode is typical for 
-serialization usage of stream.&]
+[s2; Устанавливает поток в режим, который 
+выводит исключение LoadingError, когда 
+вызывается LoadError. Этот режим типичен 
+для потока при сериализации.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:LoadError`(`):%- [@(0.0.255) void]_[* LoadError]()&]
-[s2; Performs SetError(ERROR`_LOADING`_FAILED). If Stream set to 
-the LoadThrowing mode (by LoadThrowing() method), LoadingError 
-exception is thrown.&]
+[s2; Выполняет SetError(ERROR`_LOADING`_FAILED). Если 
+Stream установлен в режим LoadThrowing (методом 
+LoadThrowing()),то выводится исключение 
+LoadingError.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get8`(`):%- [@(0.0.255) int]_[* Get8]()&]
-[s2; Reads a single byte from the stream. If there is not enough 
-data in the stream, LoadError is invoked (that in turn might 
-throw an exception) `- this is the difference from Get() method.&]
+[s2; Считывает один байт из потока. If there 
+is not enough data in the stream, LoadError is invoked (that 
+in turn might throw an exception) `- this is the difference from 
+Get() method.&]
 [s7; [*/ Возвратное значение]-|Byte from stream or 
 `-1.&]
 [s3; &]
@@ -754,23 +805,27 @@ the end is written.&]
 [s7; [%-*C@3 click]-|Size of buffer used for copying.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов: Serialization 
-Support]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов: Поддержка 
+Сериализации]]}}&]
 [s3;%- &]
 [s5;:Stream`:`:SetLoading`(`):%- [@(0.0.255) void]_[* SetLoading]()&]
-[s2; Устанавливаетthe stream into the loading mode.&]
+[s2; Устанавливает поток в режим загрузки 
+(loading mode).&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:SetStoring`(`):%- [@(0.0.255) void]_[* SetStoring]()&]
-[s2; Устанавливаетthe stream into the storing mode.&]
+[s2; Устанавливает поток в режим сохранения 
+(storing mode).&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:IsLoading`(`)const:%- [@(0.0.255) bool]_[* IsLoading]()_[@(0.0.255) const]&]
-[s2; Возвращает  true, если stream is in loading mode.&]
+[s2; Возвращает true, если поток находится 
+в режиме загрузки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Stream`:`:IsStoring`(`)const:%- [@(0.0.255) bool]_[* IsStoring]()_[@(0.0.255) const]&]
-[s2; Возвращает  true, если stream is in storing mode.&]
+[s2; Возвращает true, если поток находится 
+в режиме сохранения.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:SerializeRaw`(Upp`:`:byte`*`,Upp`:`:int64`):%- [@(0.0.255) void]_
@@ -1021,7 +1076,7 @@ l`&]_[*@3 a], [@(0.0.255) bool`&]_[*@3 b], [@(0.0.255) bool`&]_[*@3 c])&]
 [s0;3 &]
 [s0;3 &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 StringStream]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс StringStream]]}}&]
 [s3; &]
 [s1;:StringStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 StringStream][3 _:_][@(0.0.255)3 publi
 c][3 _][*@3;3 Stream]&]
@@ -1086,7 +1141,7 @@ etResult]().&]
 [s0;3 &]
 [s0;3 &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 MemStream]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс MemStream]]}}&]
 [s3; &]
 [s1;:MemStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 MemStream][3 _:_][@(0.0.255)3 public][3 _][*@3;3 S
 tream]&]
@@ -1107,7 +1162,7 @@ tream]&]
 [s0;3 &]
 [s0;3 &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 MemReadStream]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс MemReadStream]]}}&]
 [s3;%- &]
 [s1;:MemReadStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 MemReadStream][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 MemStream]&]
@@ -1128,7 +1183,7 @@ onst]_[@(0.0.255) void]_`*[*@3 data], [@(0.0.255) int]_[*@3 size])&]
 [s0;3 &]
 [s0;3 &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 BlockStream]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс BlockStream]]}}&]
 [s3; &]
 [s1;:BlockStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 BlockStream][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Stream]&]
@@ -1227,7 +1282,7 @@ size.&]
 [s0;3 &]
 [s0;3 &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 FileStream]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс FileStream]]}}&]
 [s3; &]
 [s1;:FileStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 FileStream][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 BlockStream]&]
@@ -1323,7 +1378,7 @@ POSIX or WIN32.&]
 [s0;3 &]
 [s0;3 &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 FileIn]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс FileIn]]}}&]
 [s3; &]
 [s1;:FileIn`:`:class:%- [@(0.0.255)3 class][3 _][*3 FileIn][3 _:_][@(0.0.255)3 public][3 _][*@3;3 Fi
 leStream]&]
@@ -1356,7 +1411,7 @@ har]_`*[*@3 fn])&]
 [s0;3 &]
 [s0;3 &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 FileOut]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс FileOut]]}}&]
 [s3; &]
 [s1;:FileOut`:`:class:%- [@(0.0.255)3 class][3 _][*3 FileOut][3 _:_][@(0.0.255)3 public][3 _][*@3;3 F
 ileStream]&]
@@ -1398,7 +1453,7 @@ st]_[@(0.0.255) char]_`*[*@3 fn], mode`_t_[*@3 acm]_`=_[@3 0644])&]
 [s0; &]
 [s0;3 &]
 [s0;3 &]
-[ {{10000@(113.42.0) [s0; [*@7;4 FileAppend]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс FileAppend]]}}&]
 [s3; &]
 [s1;:FileAppend`:`:class:%- [@(0.0.255)3 class][3 _][*3 FileAppend][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 FileStream]&]
@@ -1433,7 +1488,7 @@ successful.&]
 [s0;3 &]
 [s0;3 &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 SizeStream]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс SizeStream]]}}&]
 [s3; &]
 [s1;:SizeStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 SizeStream][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Stream]&]
@@ -1462,7 +1517,7 @@ ufferStream]&]
 [s0; &]
 [s0;3 &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 CompareStream]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс CompareStream]]}}&]
 [s3; &]
 [s1;:CompareStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 CompareStream][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 Stream]&]

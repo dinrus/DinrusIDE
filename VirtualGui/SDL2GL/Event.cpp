@@ -217,7 +217,7 @@ bool SDL2GUI::IsWaitingEvent()
 SDL_TimerID waketimer_id = 0;
 Uint32 WakeCb(Uint32 interval, void *param)
 {
-	//wake up message que, ИСПРАВИТЬ maybe it can be done better?
+	//wake up message que, FIXME maybe it can be done better?
 	SDL_Event event;
 	event.type=SDL_USEREVENT;
 	SDL_PushEvent(&event);

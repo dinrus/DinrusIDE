@@ -97,8 +97,9 @@ tring]_[* GetErrorDesc]()_[@(0.0.255) const]&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:GetSOCKET`(`)const: SOCKET_[* GetSOCKET]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает хэндл сокета. Note that 
-all TcpSocket sockets are non`-blocking from host OS perspective.&]
+[s2;%RU-RU Возвращает хэндл сокета. Заметьте, 
+что все сокеты TcpSocket неблокируемые 
+с точки зрения хостовой ОС.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:GetPeerAddr`(`)const: [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
@@ -107,15 +108,18 @@ tring]_[* GetPeerAddr]()_[@(0.0.255) const]&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:Attach`(SOCKET`): [@(0.0.255) void]_[* Attach](SOCKET_[*@3 socket])&]
-[s2;%RU-RU Attaches [%-*@3 socket] to TcpSocket. [%-*@3 socket] must 
-be in non`-blocking state.&]
+[s2;%RU-RU Прикрепляет сокет [%-*@3 socket] к TcpSocket. 
+[%-*@3 socket] должен находиться в неблокируемом 
+состоянии.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Connect`(const char`*`,int`): [@(0.0.255) bool]_[* Connect]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 host], [@(0.0.255) int]_[*@3 port])&]
-[s2;%RU-RU Connects socket to server at [%-*@3 host]:[%-*@3 port]. This 
-operation is blocking with respect to resolving host name. Возвращает 
-true when connection process is successfully started.&]
+[s2;%RU-RU Подключает сокет к серверу по 
+адресу [%-*@3 host]:[%-*@3 port]. Это блокируемая 
+операция, так как связана с разрешением 
+имени хоста. Возвращает true when connection 
+process is successfully started.&]
 [s3; &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Connect`(IpAddrInfo`&`): [@(0.0.255) bool]_[* Connect]([_^topic`:`/`/Core`/src`/IpAddrInfo`$en`-us`#IpAddrInfo`:`:class^ I

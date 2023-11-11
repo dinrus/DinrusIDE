@@ -24,7 +24,7 @@ library(OPENBSD) "pthread execinfo";
 
 static_library(ANDROID) cpufeatures;
 
-link(GCC POSIX STACKTRACE) "-rdynamic /usr/lib64/libc.so.1.0";
+link(GCC POSIX STACKTRACE) -rdynamic;
 
 file
 	Core.h options(BUILDER_OPTION) PCH,

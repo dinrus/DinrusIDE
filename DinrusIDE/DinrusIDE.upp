@@ -29,7 +29,7 @@ uses
 	CtrlLib/MessageCtrl;
 
 link
-	"-DUNICODE -DCINDEX_NO_EXPORTS";
+	"-DUNICODE -DCINDEX_NO_EXPORTS -DDINRUSPRO";
 
 link(ASTRA) -DASTRA;
 

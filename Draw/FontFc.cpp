@@ -1,5 +1,7 @@
 #include "Draw.h"
 
+#define ASTRA
+
 #define LLOG(x)     //  LOG(x)
 #define LTIMING(x)  //  TIMING(x)
 

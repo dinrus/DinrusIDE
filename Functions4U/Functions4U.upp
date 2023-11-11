@@ -12,7 +12,8 @@ uses
 	plugin/lz4,
 	Painter,
 	plugin/bz2,
-	PdfDraw;
+	PdfDraw,
+	plugin/bz2;
 
 library(WIN32) oleaut32;
 

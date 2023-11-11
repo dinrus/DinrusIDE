@@ -139,9 +139,9 @@ RELEASE_LINK = "-Wl,--gc-sections";
 DEBUGGER = "gdb";
 ALLOW_PRECOMPILED_HEADERS = "0";
 DISABLE_BLITZ = "0";
-PATH = "";
-INCLUDE = "";
-LIB = "";
+PATH = "/home/vitas/dinrus/tools/llvm/bin";
+INCLUDE = "/home/vitas/dinrus/tools/llvm/include/c++/v1;/home/vitas/dinrus/tools/llvm/include/x86_64-unknown-linux-gnu/c++/v1;/home/vitas/dinrus/tools/llvm/include/x86_64-unknown-linux-gnu;/home/vitas/dinrus/tools/llvm/include;/home/vitas/dinrus/tools/llvm/include/x86_64-unknown-linux-gnu/gtk-3.0;/home/vitas/dinrus/tools/llvm/include/x86_64-unknown-linux-gnu/glib-2.0;/home/vitas/dinrus/tools/llvm/include/x86_64-unknown-linux-gnu/pango-1.0;/home/vitas/dinrus/tools/llvm/include/x86_64-unknown-linux-gnu/harfbuzz;/home/vitas/dinrus/tools/llvm/include/x86_64-unknown-linux-gnu/cairo;/home/vitas/dinrus/tools/llvm/include/x86_64-unknown-linux-gnu/gdk-pixbuf-2.0;/home/vitas/dinrus/tools/llvm/include/x86_64-unknown-linux-gnu/atk-1.0";
+LIB = "/home/vitas/dinrus/tools/llvm/lib;/home/vitas/dinrus/tools/llvm/lib/x86_64-unknown-linux-gnu;/usr/lib/x86_64-linux-gnu";
 LINKMODE_LOCK = "0";)";
 
 #endif

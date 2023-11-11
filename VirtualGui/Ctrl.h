@@ -25,7 +25,7 @@ private:
 
 	void DestroyWnd();
 
-	void NewTop()                       { top = new Top;  }
+	void NewTop()                       { SetTop(new Top); GetTop()->owner_window = NULL; }
 	void PutForeground();
 	static void MouseEventFB(Ptr<Ctrl> t, int event, Point p, int zdelta);
 
@@ -42,6 +42,8 @@ private:
 
 	static void DeleteDesktopTop();
 
+	static int    GetCaretBlinkTime()               { return 500; }
+	
 protected:
 	static int PaintLock;
 

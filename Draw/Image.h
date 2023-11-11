@@ -60,7 +60,7 @@ class ImageBuffer : NoCopy {
 	void         Set(Image& img);
 	void         DeepCopy(const ImageBuffer& img);
 
-	RGBA*        Line(int i) const      { ASSERT(i >= 0 && i < size.cy); return (RGBA *)~pixels + i * size.cx; }
+	RGBA*        Line(int i) const      { ASSERT(i >= 0 && i < size.cy); return (RGBA *)~pixels + i * (size_t)size.cx; }
 	friend void  DropPixels___(ImageBuffer& b) { b.pixels.Clear(); }
 	void         InitAttrs();
 
@@ -77,20 +77,20 @@ public:
 
 	void  Set2ndSpot(Point p)           { spot2 = p; }
 	Point Get2ndSpot() const            { return spot2; }
-	
+
 	void  SetHotSpots(const Image& src);
 
 	void  SetDots(Size sz)              { dots = sz; }
 	Size  GetDots() const               { return dots; }
 	void  SetDPI(Size sz);
 	Size  GetDPI();
-	
+
 	void  SetResolution(int i)          { resolution = i; }
 	int   GetResolution() const         { return resolution; }
 
 	void  CopyAttrs(const ImageBuffer& img);
 	void  CopyAttrs(const Image& img);
-	
+
 	Size  GetSize() const               { return size; }
 	int   GetWidth() const              { return size.cx; }
 	int   GetHeight() const             { return size.cy; }
@@ -144,10 +144,10 @@ private:
 
 		void   Retain()  { AtomicInc(refcount); }
 		void   Release() { if(AtomicDec(refcount) == 0) delete this; }
-		
+
 		ImageBuffer buffer;
 		bool        paintonly;
-		
+
 		int         GetKind();
 
 		Data(ImageBuffer& b);
@@ -208,7 +208,7 @@ public:
 
 	bool IsEmpty() const                { return IsNullInstance(); }
 	operator Value() const              { return RichToValue(*this); }
-	
+
 	bool IsPaintOnly() const            { return data && data->paintonly; }
 	bool IsPaintOnceHint() const        { return data && data->buffer.IsPaintOnceHint(); }
 
@@ -238,13 +238,13 @@ public:
 	static Image SizeBottomRight();
 	static Image Cross();
 	static Image Hand();
-	
+
 	// standard mouse cursor support
-	
+
 	uint64       GetAuxData() const;
 
 	// required by system image cache managemenent
-	
+
 	int GetRefCount() const         { return data ? (int)data->refcount : 0; }
 };
 
@@ -273,6 +273,8 @@ enum {
 	IML_IMAGE_FLAG_UHD          = 0x8,
 	IML_IMAGE_FLAG_DARK         = 0x10,
 };
+
+Image MakeImlImage(const String& id, Function<ImageIml (int, const String&)> GetRaw, dword global_flags);
 
 class Iml {
 	struct IImage : Moveable<IImage> {
@@ -312,7 +314,7 @@ public:
 	void AddId(int mode1, const char *name);
 	void Premultiplied()                   { premultiply = false; }
 	void GlobalFlag(dword f)               { global_flags |= f; }
-	
+
 	static void ResetAll(); // clears all .iml caches
 };
 

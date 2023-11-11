@@ -15,7 +15,7 @@ static Upp::Ptr<Upp::Ctrl> coco_capture;
 Upp::Ptr<Upp::Ctrl> Upp::Ctrl::lastActive;
 
 namespace Upp {
-
+	
 extern id menubar;
 
 
@@ -82,7 +82,7 @@ struct MMImp {
 		Flags(e);
 		if(!ctrl->IsEnabled())
 			return false;
-
+		
 		if(alt != GetAlt())
 			ctrl->DispatchKey(K_ALT_KEY|(alt * K_KEYUP), 1);
 		if(ctl != GetCtrl())
@@ -99,7 +99,7 @@ struct MMImp {
 	{
 		coco_flags = [e modifierFlags];
 	}
-
+	
 	static bool MouseEvent(CocoView *view, NSEvent *e, int event, double zd = 0)
 	{
 		if(!view->ctrl)
@@ -162,7 +162,7 @@ struct MMImp {
 	            view->ctrl->SetFocus();
 			view->ctrl->DispatchMouse(event, p, 120 * sgn(zd));
 		}
-
+		
 		sCurrentMouseEvent__ = NULL;
 		return false;
 	}
@@ -197,7 +197,7 @@ struct MMImp {
 		dbl_pos = np;
 		return b;
 	}
-
+	
 	static void Paint(Upp::Ctrl *ctrl, Upp::SystemDraw& w, const Rect& r)
 	{
 		if(!ctrl)
@@ -215,14 +215,14 @@ struct MMImp {
 		Upp::dword k = e.keyCode;
 		WString x = ToWString((CFStringRef)(e.charactersIgnoringModifiers));
 		if(x.GetCount() == 1)
-		#define KEY(x) case #x[0]: k = kVK_ANSI_##x; break;
 			switch(ToUpper(x[0])) {
+			#define KEY(c) case #c[0]: k = kVK_ANSI_##c; break;
 				KEY(A); KEY(B); KEY(C); KEY(D); KEY(E); KEY(F); KEY(G); KEY(H); KEY(I); KEY(J);
 				KEY(K); KEY(L); KEY(M); KEY(N); KEY(O); KEY(P); KEY(Q); KEY(R); KEY(S); KEY(T);
 				KEY(U); KEY(V); KEY(W); KEY(X); KEY(Y); KEY(Z);
 			}
 		#undef KEY
-
+		
 		k = decode(k, kVK_ANSI_KeypadEnter, K_ENTER, kVK_Tab, K_TAB, K_DELTA|k)|up;
 
 		if(GetCtrl())
@@ -233,7 +233,7 @@ struct MMImp {
 			k |= K_ALT;
 		if(GetOption())
 			k |= K_OPTION;
-
+		
 		if(e.keyCode == kVK_Help) // TODO: This is Insert key, but all this is dubious
 			ctrl->DispatchKey(k & ~K_KEYUP, 1);
 
@@ -242,6 +242,8 @@ struct MMImp {
 			WString x = ToWString((CFStringRef)(e.characters));
 			if(e.keyCode == kVK_ANSI_KeypadEnter && *x != 13)
 				ctrl->DispatchKey(13, 1);
+			if(e.keyCode == kVK_Space && !(k & K_SHIFT))
+				ctrl->DispatchKey(' ', 1);
 		}
 		return true;
 	}
@@ -271,7 +273,7 @@ struct MMImp {
 		ctrl->KillFocusWnd();
 		Upp::Ctrl::ReleaseCtrlCapture();
 	}
-
+	
 	static void DoClose(Upp::Ctrl *ctrl)
 	{
 		if(!ctrl)
@@ -300,30 +302,30 @@ struct MMImp {
 		                                                        : NSDragOperationCopy
 		                         : NSDragOperationNone;
 	}
-
+	
 	static void DnDLeave(Ctrl *ctrl)
 	{
 		ctrl->DnDLeave();
 	}
-
+	
 	static void DoCursorShape()
 	{
 		Ctrl::DoCursorShape();
 	}
-
+	
 	static void ShowPreedit(Ctrl *ctrl, const WString& text)
 	{
 		if(ctrl)
 			ctrl->GetTopCtrl()->ShowPreedit(text, INT_MAX);
 	}
-
+	
 	static NSRect PreeditRect(Ctrl *ctrl)
 	{
 		if(ctrl)
 			return DesktopRect(ctrl->GetTopCtrl()->GetPreeditScreenRect());
 		return NSRect();
 	}
-
+	
 	static void PreeditText(Ctrl *ctrl, const WString& s)
 	{
 		if(ctrl)
@@ -331,7 +333,7 @@ struct MMImp {
 				if(ch >= 32 && ch != 127 && ch != ' ')
 					ctrl->DispatchKey(ch, 1);
 	}
-
+	
 	static void CancelPreedit()
 	{
 		Ctrl::HidePreedit();

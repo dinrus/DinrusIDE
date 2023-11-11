@@ -18,7 +18,13 @@ int Splitter::ClientToPos(Point p) const
 
 int Splitter::PosToClient(int pos) const
 {
-	return (vert ? GetSize().cy : GetSize().cx) * pos / 10000;
+	Size sz = GetSize();
+	int sa = vert ? sz.cy : sz.cx;
+	int a = sa * pos / 10000;
+#ifdef PLATFORM_COCOA // workaround issue with splitter bar completely in "resize arrow" area
+	a = clamp(a, 0, sa - chstyle->width);
+#endif
+	return a;
 }
 
 void Splitter::Layout() {
@@ -50,7 +56,7 @@ void Splitter::Layout() {
 
 	int lw = chstyle->width >> 1;
 	int rw = chstyle->width - lw;
-	
+
 	int i = 0;
 	for(Ctrl *q = GetFirstChild(); q; q = q->GetNext()) {
 		if(!q->InFrame()) {
@@ -201,7 +207,7 @@ void Splitter::Insert(int ii, Ctrl& pane)
 {
 	if(ii >= GetCount())
 		Add(pane);
-	else {	
+	else {
 		Ctrl::AddChildBefore(&pane, GetIndexChild(ii));
 		pos.Clear();
 		Layout();

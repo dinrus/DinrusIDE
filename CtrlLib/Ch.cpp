@@ -49,7 +49,7 @@ void MakeDialogIcons()
 		w.Circle(r, r, r).Fill(Gray());
 		w.Circle(r, r, r - DPI(1)).Fill(White());
 		w.Circle(r, r, r - DPI(2)).Fill(Pointf(0.5 * r, 0.6 * r), Blend(White(), c), r, c);
-		
+
 		ssz *= sz;
 		Rectf sr = RectfC((sz - ssz) / 2, (sz - ssz) / 2, ssz, ssz);
 		Rectf br = GetSVGPathBoundingBox(sign);
@@ -58,7 +58,7 @@ void MakeDialogIcons()
 		w.Scale(scale);
 		w.Translate(-br.TopLeft());
 		w.Path(sign).Stroke(2, Black()).Fill(sc);
-		
+
 		return w;
 	};
 
@@ -98,7 +98,7 @@ void ChClassicSkin()
 
 	GUI_GlobalStyle_Write(GUISTYLE_CLASSIC);
 	GUI_PopUpEffect_Write(Ctrl::IsCompositedGui() ? GUIEFFECT_NONE : GUIEFFECT_SLIDE);
-	
+
 	Color grayface = Blend(SColorFace(), Gray());
 
 	Image edge = IsDarkTheme() ? MakeClassicButton(grayface, White(), Gray(), LtGray(), grayface)
@@ -124,7 +124,7 @@ void ChClassicSkin()
 		es.look[CTRL_HOT] = es.look[CTRL_NORMAL] = edge;
 		es.look[CTRL_PRESSED] = s.look[CTRL_PRESSED];
 		es.look[CTRL_DISABLED] = s.look[CTRL_DISABLED];
-		
+
 		for(int i = 0; i < 4; i++)
 			Button::StyleOk().Write().look[i] = Button::StyleLeftEdge().Write().look[i] = Button::StyleScroll().Write().look[i] = es.look[i];
 	}
@@ -138,7 +138,7 @@ void ChClassicSkin()
 			look[CTRL_PRESSED] = SColorText();
 			look[CTRL_DISABLED] = wc;
 		};
-		
+
 		SbWc(s.hupper);
 		SbWc(s.hlower);
 		SbWc(s.vupper);
@@ -162,7 +162,7 @@ void ChClassicSkin()
 		MenuBar::Style& s = MenuBar::StyleDefault().Write();
 		s.popupbody = SColorFace();
 	}
-	
+
 	int c = DPI(14);
 
 	for(int i = 0; i < 4; i++) {
@@ -222,7 +222,7 @@ void ChClassicSkin()
 			}
 		}
 	}
-	
+
 	MakeDialogIcons();
 }
 
@@ -240,7 +240,7 @@ void RoundedRect(Painter& w, double x, double y, double cx, double cy, double rx
 		w.Move(x + rx, y).Arc(x + rx, y + ry, rx, ry, -M_PI / 2, -M_PI / 2);
 	else
 		w.Move(x, y);
-	
+
 	if(corners & CORNER_BOTTOM_LEFT)
 		w.Line(x, y + cy - ry).Arc(x + rx, y + cy - ry, rx, ry, M_PI, -M_PI / 2);
 	else
@@ -250,7 +250,7 @@ void RoundedRect(Painter& w, double x, double y, double cx, double cy, double rx
 		w.Line(x + cx - rx, y + cy).Arc(x + cx - rx, y + cy - ry, rx, ry, M_PI / 2, -M_PI / 2);
 	else
 		w.Line(x + cx, y + cy);
-	
+
 	if(corners & CORNER_TOP_RIGHT)
 		w.Line(x + cx, y + ry).Arc(x + cx - rx, y + ry, rx, ry, 0, -M_PI / 2);
 	else
@@ -306,6 +306,32 @@ Image Hot3(const Image& m)
 Image ChHot(const Image& m, int n)
 {
 	return WithHotSpots(m, DPI(n), DPI(n), 0, 0);
+}
+
+Color AvgColor(const Image& m, RGBA bg, const Rect& rr)
+{
+	int r = 0;
+	int g = 0;
+	int b = 0;
+	int n = 0;
+	for(int y = rr.top; y < rr.bottom; y++)
+		for(int x = rr.left; x < rr.right; x++) {
+			RGBA c = m[y][x];
+			AlphaBlend(&c, &bg, 1);
+			Unmultiply(&c, &c, 1);
+			if(c.a > 20) {
+				r += c.r;
+				g += c.g;
+				b += c.b;
+				n++;
+			}
+		}
+	return n ? Color(r / n, g / n, b / n) : SWhite();
+}
+
+Color AvgColor(const Image& m, RGBA bg, int margin)
+{
+	return AvgColor(m, Rect(m.GetSize()).Deflated(margin));
 }
 
 Color AvgColor(const Image& m, const Rect& rr)
@@ -467,7 +493,7 @@ void ChSynthetic(Image *button100x100, Color *text, bool macos)
 			Set(Button::StyleEdge().Write());
 			Set(Button::StyleLeftEdge().Write());
 			ScrollBar::Style& s = ScrollBar::StyleDefault().Write();
-			
+
 			Set(s.up, CtrlsImg::UA(), k, c);
 			Set(s.down, CtrlsImg::DA(), k, c);
 			Set(s.left, CtrlsImg::LA(), k, c);
@@ -595,16 +621,16 @@ void ChMakeSkin(int roundness, Color button_face, Color thumb, int *adj)
 
 	for(int i = 0; i < 6; i++)
 		CtrlsImg::Set(CtrlsImg::I_DA + i, CtrlsImg::Get(CtrlsImg::I_kDA + i));
-		
+
 	int c = DPI(14);
 
 	Color text[4];
 	Image button[4], sbutton[4];
 
 	Color border = Gray();
-	
+
 	roundness = DPI(roundness);
-		
+
 	{
 		for(int pass = 0; pass < 2; pass++) {
 			Button::Style& s = pass ? Button::StyleOk().Write() : Button::StyleNormal().Write();
@@ -677,14 +703,14 @@ void ChMakeSkin(int roundness, Color button_face, Color thumb, int *adj)
 			s.hthumb[status] = s.vthumb[status] = AdjustColor(thumb, adj[status]);
 		}
 	}
-	
+
 	{
 		MenuBar::Style& s = MenuBar::StyleDefault().Write();
 		s.topitem[1] = Blend(SColorHighlight(), SColorPaper());
 		s.icheck = button[CTRL_PRESSED];
 	}
 	GUI_PopUpEffect_Write(Ctrl::IsCompositedGui() ? GUIEFFECT_NONE : GUIEFFECT_SLIDE);
-	
+
 	MakeDialogIcons();
 }
 

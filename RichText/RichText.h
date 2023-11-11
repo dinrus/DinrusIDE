@@ -37,7 +37,7 @@ struct Zoom {
 
 	bool operator==(Zoom a)      { return m == a.m && d == a.d; }
 	bool operator!=(Zoom a)      { return m != a.m || d != a.d; }
-	
+
 	String ToString() const      { return String() << m << "/" << d; }
 
 	friend int operator/(int x, Zoom z)  { return z.m ? iscale(x, z.d, z.m) : 0; }
@@ -123,9 +123,9 @@ struct RichTextLayoutTracer {
 
 struct PageDraw {
 	virtual Draw& Page(int i) = 0;
-	
+
 	RichTextLayoutTracer *tracer;
-	
+
 	PageDraw() { tracer = NULL; }
 
 	virtual ~PageDraw() {}
@@ -154,12 +154,12 @@ struct RichObjectType {
 	virtual void   Menu(Bar& bar, RichObject& ex, void *context) const;
 	virtual void   DefaultAction(RichObject& ex, void *context) const;
 	virtual String GetLink(const Value& data, Point pt, Size sz, void *context) const;
-	
+
 	Size           StdDefaultSize(const Value& data, Size maxsize, void *context) const;
 
 	RichObjectType();
 	virtual ~RichObjectType();
-	
+
 protected:
 	virtual Size   GetDefaultSize(const Value& data, Size maxsize) const;
 	virtual Size   GetPhysicalSize(const Value& data) const;
@@ -193,7 +193,7 @@ public:
 	static int    FindType(const String& name)   { return Map().Find(name); }
 	static RichObjectType& GetType(int i)        { return *Map()[i]; }
 	static String GetTypeName(int i)             { return Map().GetKey(i); }
-	
+
 	void   SetSize(int cx, int cy)               { size = Size(cx, cy); }
 	void   SetSize(Size sz)                      { SetSize(sz.cx, sz.cy); }
 	Size   GetSize() const                       { return size; }
@@ -231,7 +231,7 @@ public:
 	void   Clear();
 
 	int64  GetSerialId() const                   { return serial; }
-	
+
 	void   InitSize(int cx, int cy, void *context = NULL);
 
 	RichObject();
@@ -284,13 +284,14 @@ struct PaintInfo {
 	Color   showcodes;
 	Bits  (*spellingchecker)(const RichPara& para);
 	int     highlightpara;
+	Gate<const String&> WhenHighlight;
 	Color   highlight;
 	bool    darktheme;
 	void   *context;
 	bool    showlabels;
 	bool    shrink_oversized_objects;
 	void  (*DrawSelection)(Draw& w, int x, int y, int cx, int cy);
-	
+
 	Color   ResolveInk(Color ink) const;
 	Color   ResolvePaper(Color paper) const;
 
@@ -405,7 +406,7 @@ enum {
 	QTF_CRLF = 8,
 	QTF_NOCHARSET = 16,
 	QTF_NOLANG = 32,
-	
+
 	QTF_ALL = 0xffffffff
 };
 
@@ -496,7 +497,7 @@ class HtmlObjectSaver
 {
 public:
 	virtual ~HtmlObjectSaver() {}
-	
+
 	virtual String GetHtml(const RichObject& object)                     { return Null; }
 	virtual String GetHtml(const RichObject& object, const String& link) { return GetHtml(object); }
 };
@@ -522,6 +523,8 @@ String EncodeHtml(const RichText& text, Index<String>& css,
                   const String& path, const String& base = Null, Zoom z = Zoom(8, 40)) {
 	return EncodeHtml(text, css, links, VectorMap<String, String>(), path, base, z);
 }
+
+RichText ParseTrivialHtml(const char *html, Font base_font = Serif(int(15 * 600 / 96.0)));
 
 struct SimplePageDraw : PageDraw {
 	Draw& w;

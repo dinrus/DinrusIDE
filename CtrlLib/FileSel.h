@@ -229,6 +229,9 @@ protected:
 	Ctrl       *file_ctrl = NULL;
 	int         file_ctrl_cx;
 
+	bool          force_ext = true; // -> false if there is wildcard mask allowing set of exts
+	Index<String> allowed_ext; // allowed extensions typed by user if force_ext
+
 	static StaticMutex li_mutex;
 	static void      (*li_current)(const String& path, Image& result);
 	static String      li_path;
@@ -238,7 +241,7 @@ protected:
 	TimeCallback       li_tm;
 
 	bool        loading_network = false;
-	
+
 	static void LIThread();
 	String      LIPath();
 	void        StartLI();

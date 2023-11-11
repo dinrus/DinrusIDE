@@ -53,8 +53,8 @@ PaintInfo::PaintInfo()
 	showcodes = Null;
 	spellingchecker = NULL;
 	highlightpara = -1;
-	highlight = Yellow();
-	indexentry = LtGreen();
+	highlight = SYellow();
+	indexentry = SLtGreen();
 	indexentrybg = false;
 	darktheme = false;
 	context = NULL;
@@ -347,7 +347,7 @@ String RichPara::Pack(const RichPara::Format& style, Array<RichObject>& obj) con
 	if(format.rulerstyle != style.rulerstyle)   pattr |= 0x40000;
 	if(format.newhdrftr != style.newhdrftr)     pattr |= 0x80000;
 	if(format.firstonpage != style.firstonpage) pattr |= 0x100000;
-	
+
 	out.Put32(pattr);
 	if(pattr & 1)      out.Put16(format.align);
 	if(pattr & 2)      out.Put16(format.before);
@@ -575,7 +575,7 @@ void RichPara::Unpack(const String& data, const Array<RichObject>& obj,
 {
 	part.Clear();
 	format = style;
-	
+
 	if(cacheid) {
 		Mutex::Lock __(cache_lock);
 		Array<RichPara>& cache = Cache();
@@ -796,7 +796,7 @@ void RichPara::Dump()
 	for(i = 0; i < format.tab.GetCount(); i++)
 		LOG("TAB " << format.tab[i].pos << " : " << format.tab[i].align);
 	for(i = 0; i < part.GetCount(); i++)
-		LOG("Part[" << i << "] = \"" << part[i].text << "\" "
+		LOG("Part[" << i << "] = " << AsCString(part[i].text.ToString()) << " "
 		    << part[i].format);
 	LOG(LOG_END << "---------");
 }

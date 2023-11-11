@@ -1,3 +1,7 @@
+#define IMAGECLASS DrawImg
+#define IMAGEFILE <Draw/DrawImg.iml>
+#include <Draw/iml_header.h>
+
 class Display {
 public:
 	enum {
@@ -31,7 +35,7 @@ struct AttrText : public ValueType<AttrText, 151, Moveable<AttrText> > {
 
 	AttrText& Set(const Value& v);
 	AttrText& operator=(const Value& v)             { Set(v); return *this; }
-	
+
 	AttrText& Text(const String& txt)               { text = txt.ToWString(); return *this; }
 	AttrText& Text(const WString& txt)              { text = txt; return *this; }
 	AttrText& Text(const char *txt)                 { text = String(txt).ToWString(); return *this; }
@@ -107,11 +111,11 @@ public:
 	virtual void Paint(Draw& w, const Rect& r, const Value& q,
 		               Color ink, Color paper, dword style) const;
 	virtual Size GetStdSize(const Value& q) const;
-	
+
 	void SetIcon(const Image& img, int spc = 4)             { icon = img; lspc = spc; }
 	void SetDisplay(const Display& d)                       { display = &d; }
 	void Set(const Display& d, const Image& m, int spc = 4) { SetIcon(m, spc); SetDisplay(d); }
-	
+
 	DisplayWithIcon();
 };
 

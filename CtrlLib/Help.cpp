@@ -320,7 +320,7 @@ HelpWindow::HelpWindow()
 	Add(tree_view.SizePos());
 	tree_view.Zoom(1);
 	Sizeable().Zoomable();
-	Title(t_("Help"));
+	Title(t_("Справочник"));
 	BackPaint();
 	view.WhenLink = [=, this](const String& h) { GoTo(h); };
 	AddFrame(toolbar);

@@ -167,7 +167,7 @@ void Ctrl::WndShow(bool b)
 	LLOG("WndShow " << Name() << ", " << b);
 	Top *top = GetTop();
 	if(IsOpen() && top) {
-		
+
 		if(b)
 			gtk_widget_show_now(top->window);
 		else
@@ -189,16 +189,7 @@ void Ctrl::SetAlpha(byte alpha)
 
 Rect Ctrl::GetWorkArea() const
 {
-	GuiLock __;
-	static Array<Rect> rc;
-	if(rc.IsEmpty())
-		GetWorkArea(rc);
-	
-	Point pt = GetScreenRect().TopLeft();
-	for (int i = 0; i < rc.GetCount(); i++)
-		if(rc[i].Contains(pt))
-			return rc[i];
-	return GetPrimaryWorkArea();
+	return StdGetWorkArea();
 }
 
 void Ctrl::GetWorkArea(Array<Rect>& rc)
@@ -479,7 +470,7 @@ Rect Ctrl::GetDefaultWindowRect()
 	GuiLock __;
 	Rect r  = GetPrimaryWorkArea();
 	Size sz = r.GetSize();
-	
+
 	static int pos = min(sz.cx / 10, 50);
 	pos += 10;
 	int cx = sz.cx * 2 / 3;

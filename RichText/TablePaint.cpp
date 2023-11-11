@@ -138,7 +138,7 @@ void RichTable::Paint(PageDraw& pw, RichContext rc, const PaintInfo& _pi, bool b
 		}
 		hrc.Page();
 	}
-	
+
 	bool allsel = false;
 	if(pi.sell < 0 && pi.selh >= 0) {
 		pi.sell = pi.selh = 0;
@@ -197,14 +197,14 @@ int RichTable::GetWidth(const RichStyles& st) const
 {
 	Size sz = GetSize();
 	Buffer<int> col(sz.cx, 0);
-	
+
 	for(int x = 0; x < sz.cx; x++)
 		for(int y = 0; y < sz.cy; y++) {
 			const RichCell::Format& fmt = GetFormat(y, x);
 			col[x] = max(col[x], Get(y, x).GetWidth(st)
 			         + fmt.border.left + fmt.border.right + fmt.margin.left + fmt.margin.right);
 		}
-	
+
 	int sum = 0;
 	for(int i = 0; i < sz.cx; i++)
 		sum += format.column[i];
@@ -212,7 +212,7 @@ int RichTable::GetWidth(const RichStyles& st) const
 	int maxcx = 0;
 	for(int i = 0; i < sz.cx; i++)
 		maxcx = max(maxcx, (col[i] * sum + format.column[i] - 1) / format.column[i]);
-	
+
 	return maxcx + (sz.cx + 1) * format.grid + format.lm + format.rm;
 }
 
@@ -240,7 +240,6 @@ RichCaret RichTable::GetCaret(int pos, RichContext rc) const
 	ASSERT(pos >= 0);
 	int nx = format.column.GetCount();
 	int ny = cell.GetCount();
-	int ti = 0;
 	const TabLayout& tab = Realize(rc);
 	for(int i = 0; i < ny; i++) {
 		const PaintRow& pr = tab[i];
@@ -252,7 +251,6 @@ RichCaret RichTable::GetCaret(int pos, RichContext rc) const
 				int l = cl.text.GetLength() + 1;
 				if(pos < l)
 					return cl.GetCaret(pos, pr[j].MakeRichContext(MakeRichContext(rc, pr.py)), pyy);
-				ti += cl.text.GetTableCount();
 				pos -= l;
 			}
 		}

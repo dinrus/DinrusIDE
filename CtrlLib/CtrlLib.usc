@@ -27,6 +27,11 @@ fn IsUHD()
 	return GetTextSize("X", StdFont()).cy > 24;
 }
 
+fn DPI(n)
+{
+	return IsUHD() ? 2 * n : n;
+}
+
 fn DeflateRect(&r)
 {
 	r.top++;

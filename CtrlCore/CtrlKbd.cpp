@@ -180,7 +180,7 @@ void Ctrl::DoSetFocus(Ptr<Ctrl> pfocusCtrl, Ptr<Ctrl> nfocusCtrl, bool activate)
 	if(focusCtrl == nfocusCtrl && nfocusCtrl && nfocusCtrl->GetParent() &&
 	   !nfocusCtrl->GetParent()->destroying)
 		nfocusCtrl->GetParent()->ChildGotFocus();
-	
+
 	SyncCaret();
 }
 

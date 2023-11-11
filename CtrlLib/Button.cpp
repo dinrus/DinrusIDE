@@ -612,10 +612,10 @@ Size Option::GetMinSize() const {
 
 void Option::Paint(Draw& w) {
 	Size sz = GetSize();
-	
+
 	if(!IsTransparent())
 		w.DrawRect(0, 0, sz.cx, sz.cy, SColorFace);
-	
+
 	Size isz = CtrlsImg::O0().GetSize();
 	Size tsz = GetSmartTextSize(label, font);
 	int ix = 0;
@@ -639,16 +639,16 @@ void Option::Paint(Draw& w) {
 		ix = (sz.cx - isz.cx) / 2;
 		iy = (sz.cy - isz.cy) / 2;
 	}
-	
+
 	int q = GetVisualState();
 	int g = (!notnull || threestate) && IsNull(option) ? CtrlsImg::I_O2
 	                                                   : option == 1 ? CtrlsImg::I_O1
 	                                                                 : CtrlsImg::I_O0;
 	if(switchimage)
 		g = option ? CtrlsImg::I_S1 : CtrlsImg::I_S0;
-	
+
 	w.DrawImage(ix, iy, CtrlsImg::Get(g + q));
-	
+
 	if(showlabel) {
 		bool ds = !IsShowEnabled();
 		DrawSmartText(w, ix + isz.cx + DPI(2), ty, tsz.cx, label, font,
@@ -657,7 +657,7 @@ void Option::Paint(Draw& w) {
 		if(HasFocus())
 			DrawFocus(w, RectC(ix + isz.cx + DPI(2), ty - DPI(1), tsz.cx + DPI(3), tsz.cy + DPI(2)) & sz);
 	}
-	
+
 	if(box) {
 		w.Begin();
 		w.ExcludeClip(ix - DPI(3), 0, isz.cx + DPI(8) + tsz.cx, tsz.cy);
@@ -691,6 +691,7 @@ void  Option::PerformAction() {
 
 Option& Option::Set(int b)
 {
+	b = IsNull(b) ? Null : (int)(bool)b;
 	if(b != option) {
 		option = b;
 		Update();
@@ -779,7 +780,7 @@ CH_STYLE(ButtonOption, Style, StyleFlat)
 	}
 	drawfocus = false;
 }
-	
+
 void  ButtonOption::LeftDown(Point, dword) {
 	if(IsReadOnly())
 		return;

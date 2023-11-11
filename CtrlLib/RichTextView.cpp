@@ -53,12 +53,11 @@ void  RichTextView::Paint(Draw& w)
 	}
 	pi.indexentry = Null;
 	pi.highlightpara = highlight;
-	//pi.WhenHighlight = WhenHighlight;
+	pi.WhenHighlight = WhenHighlight;
 	pi.highlight = highlight_color;
 	pi.zoom = GetZoom();
 	pi.textcolor = textcolor;
 	int q = sb * pi.zoom;
-	scroller.Set(q);
 	w.Offset(0, -q);
 	SimplePageDraw pw(w);
 	pi.top = PageY(0, sb);
@@ -91,7 +90,8 @@ bool  RichTextView::Key(dword key, int count)
 
 void  RichTextView::MouseWheel(Point p, int zdelta, dword keyflags)
 {
-	sb.Wheel(zdelta);
+	if(!WhenMouseWheel(zdelta, keyflags))
+		sb.Wheel(zdelta);
 }
 
 Image RichTextView::CursorImage(Point p, dword keyflags)
@@ -107,9 +107,9 @@ Image RichTextView::CursorImage(Point p, dword keyflags)
 WString RichTextView::GetSelText() const
 {
 	if(anchor == cursor)
-		return text.GetPlainText();
+		return text.GetPlainText(true, copy_with_tabs);
 	else {
-		WString h = text.GetPlainText(false).Mid(sell, selh - sell);
+		WString h = text.GetPlainText(false, copy_with_tabs).Mid(sell, selh - sell);
 		WString r;
 		for(const wchar *s = ~h; s < h.End(); s++) {
 			if(*s == '\n')
@@ -316,7 +316,7 @@ void  RichTextView::SetData(const Value& v)
 
 void  RichTextView::Scroll()
 {
-	scroller.Scroll(*this, Rect(GetSize()).Deflated(margin), sb * GetZoom());
+	Refresh();
 }
 
 bool RichTextView::GotoLabel(Gate<const WString&> match, bool dohighlight, bool find_last)
@@ -324,17 +324,16 @@ bool RichTextView::GotoLabel(Gate<const WString&> match, bool dohighlight, bool 
 	Vector<RichValPos> f = text.GetValPos(GetPage(), RichText::LABELS);
 	highlight = Null;
 	bool ret = false;
-	for(int i = 0; i < f.GetCount(); i++) {
+	for(int i = 0; i < f.GetCount(); i++)
 		if(match(f[i].data)) {
 			sb = f[i].py.y;
 			if(dohighlight)
 				highlight = f[i].pos;
 			Refresh();
-		//	if(!find_last)
-			//	return true;
+			if(!find_last)
+				return true;
 			ret = true;
 		}
-	}
 	return ret;
 }
 
@@ -343,7 +342,6 @@ bool RichTextView::GotoLabel(const String& lbl, bool dohighlight, bool find_last
 	WString lw = lbl.ToWString();
 	return GotoLabel([&](const WString& data) { return data == lw; }, dohighlight, find_last);
 }
-
 
 void  RichTextView::Clear()
 {

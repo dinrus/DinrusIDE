@@ -441,7 +441,7 @@ void Ctrl::InitX11(const char *display)
 	}
 
 	Csizeinit();
-	
+
 	EnterGuiMutex();
 }
 
@@ -463,7 +463,7 @@ Vector<Rect> FindScreensResolutions()
 {
 	Vector<Rect> screensResolutions;
 	int event, error;
-	
+
 	if(XineramaQueryExtension(Xdisplay, &event, &error)) {
 		if(XineramaIsActive(Xdisplay)) {
 			int screensNumber = 0;
@@ -479,7 +479,7 @@ Vector<Rect> FindScreensResolutions()
 Vector<Rect> FindScreensStruts()
 {
 	Vector<Rect> struts;
-	
+
 	Vector<int> clients = GetPropertyInts(Xroot, XAtom("_NET_CLIENT_LIST"));
 	for (int i = 0; i < clients.GetCount(); i++) {
 		Vector<int> strut = GetPropertyInts(clients[i], XAtom("_NET_WM_STRUT"));
@@ -509,7 +509,7 @@ Rect Ctrl::GetDefaultWindowRect()
 			height = Xheight;
 		}
 	}
-	
+
 	static int pos = min(width / 10, 50);
 	pos += 10;
 	int cx = width * 2 / 3;
@@ -539,16 +539,7 @@ void Ctrl::GetWorkArea(Array<Rect>& out)
 Rect Ctrl::GetWorkArea() const
 {
 	GuiLock __;
-	
-	static Array<Rect> rc;
-	if (rc.IsEmpty())
-		GetWorkArea(rc);
-	
-	Point pt = GetScreenRect().TopLeft();
-	for (int i = 0; i < rc.GetCount(); i++)
-		if(rc[i].Contains(pt))
-			return rc[i];
-	return GetPrimaryWorkArea();
+	return StdGetWorkArea();
 }
 
 Rect Ctrl::GetVirtualWorkArea()

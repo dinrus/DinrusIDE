@@ -32,6 +32,8 @@
 #define ITEM(clss, var, param)    UNTYPED(var, param);
 #define END_LAYOUT             }
 
+#include LAYOUTFILE
+
 #undef  LAYOUT
 #undef  UNTYPED
 #undef  ITEM

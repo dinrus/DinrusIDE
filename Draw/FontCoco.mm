@@ -3,7 +3,7 @@
 #define LLOG(x)     //  LOG(x)
 #define LTIMING(x)  //  TIMING(x)
 
-#if !defined(CUSTOM_FONTSYS) && defined(PLATFORM_COCOA)
+#if !defined(CUSTOM_FONTSYS) && defined(PLATFORM_COCOA) && !defined(flagNOMM)
 
 #define Point NS_Point
 #define Rect  NS_Rect
@@ -84,9 +84,9 @@ CTFontRef CT_Font(Font fnt, bool& synth)
 		Font      font;
 		CTFontRef ctfont = NULL;
 		bool      synth = false;
-		
+
 		void Free() { if(ctfont) CFRelease(ctfont); ctfont = NULL; }
-		
+
 		Entry() { font.Height(-22222); }
 		~Entry() { Free(); }
 	};
@@ -165,22 +165,22 @@ CommonFontInfo GetFontInfoSys(Font font)
 		fi.descent = ceil(CTFontGetDescent(ctfont));
 		fi.ascent = ceil(CTFontGetAscent(ctfont));
 		fi.external = ceil(CTFontGetLeading(ctfont));
-		
+
 		// Some MacOS fonts have really weird ascent/descents (namely stadard GUI font...)
 		// let us fix it by testing typical charactes bounding boxes
-		
+
 		static WString descent_test = "yjgp";
 		CGRect bb;
 		for(int i = 0; i < descent_test.GetCount(); i++)
 			if(GetGlyphInfoSys(ctfont, descent_test[i], synth && font.IsBold(), &bb).IsNormal())
 				fi.descent = max(fi.descent, (int)ceil(-bb.origin.y));
-		
+
 		int ascent = fi.ascent;
 		static WString ascent_test = "ÀÁÂÃÄË";
 		for(int i = 0; i < ascent_test.GetCount(); i++)
 			if(GetGlyphInfoSys(ctfont, ascent_test[i], synth && font.IsBold(), &bb).IsNormal())
 				ascent = max(ascent, (int)ceil(bb.origin.y + bb.size.height));
-		
+
 		fi.ascent = ascent;
 
 		fi.internal = 0;

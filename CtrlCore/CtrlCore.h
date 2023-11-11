@@ -82,7 +82,7 @@ typedef ImageDraw SystemImageDraw;
 void SetSurface(Draw& w, const Rect& dest, const RGBA *pixels, Size srcsz, Point poff);
 void SetSurface(Draw& w, int x, int y, int cx, int cy, const RGBA *pixels);
 
-enum CtrlCoreFlags {
+enum CtrlCoreFlags : dword {
 	K_DELTA        = 0x200000,
 	K_CHAR_LIM     = 0x200000, // lower that this, key in Key is Unicode codepoint
 
@@ -689,7 +689,6 @@ private:
 	void    RemoveFullRefresh();
 	bool    PaintOpaqueAreas(SystemDraw& w, const Rect& r, const Rect& clip, bool nochild = false);
 	void    GatherTransparentAreas(Vector<Rect>& area, SystemDraw& w, Rect r, const Rect& clip);
-	Ctrl   *FindBestOpaque(const Rect& clip);
 	void    ExcludeDHCtrls(SystemDraw& w, const Rect& r, const Rect& clip);
 	void    UpdateArea0(SystemDraw& draw, const Rect& clip, int backpaint);
 	void    UpdateArea(SystemDraw& draw, const Rect& clip);
@@ -821,6 +820,8 @@ protected:
 
 			Ctrl&   Unicode()                         { unicode = true; return *this; }
 
+	Rect StdGetWorkArea() const;
+
 	enum {
 		ATTR_LAYOUT_ID,
 		ATTR_TIP,
@@ -850,13 +851,13 @@ protected:
 	void  *GetVoidPtrAttr(int ii) const;
 
 	template <class T>
-	T&    CreateAttr(int ii)      { T *q = new T; SetVoidPtrAttr(ii, q); return *q; }
+	void  DeleteAttr(int ii)      { void *p = GetVoidPtrAttr(ii); if(p) { delete (T *)p; SetVoidPtrAttr(ii, nullptr); }; }
+
+	template <class T>
+	T&    CreateAttr(int ii)      { DeleteAttr<T>(ii); T *q = new T; SetVoidPtrAttr(ii, q); return *q; }
 
 	template <class T>
 	T     GetAttr(int ii) const   { void *p = GetVoidPtrAttr(ii); return p ? *(T *)p : T(); }
-
-	template <class T>
-	void  DeleteAttr(int ii)      { void *p = GetVoidPtrAttr(ii); if(p) { delete (T *)p; SetVoidPtrAttr(ii, nullptr); }; }
 
 public:
 	enum StateReason {
@@ -1278,9 +1279,8 @@ public:
 	void    UpdateActionRefresh();
 
 	Ctrl&   BackPaint(int bp = FULLBACKPAINT)  { backpaint = bp; return *this; }
-	Ctrl&   TransparentBackPaint()             { backpaint = TRANSPARENTBACKPAINT; return *this; }
+	Ctrl&   BackPaintHint()                    { return BackPaint(); }
 	Ctrl&   NoBackPaint()                      { return BackPaint(NOBACKPAINT); }
-	Ctrl&   BackPaintHint();
 	int     GetBackPaint() const               { return backpaint; }
 	Ctrl&   Transparent(bool bp = true)        { transparent = bp; return *this; }
 	Ctrl&   NoTransparent()                    { return Transparent(false); }

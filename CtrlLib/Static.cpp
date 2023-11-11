@@ -28,6 +28,13 @@ StaticText& StaticText::SetAlign(int align)
 	return *this;
 }
 
+StaticText& StaticText::SetVAlign(int align)
+{
+	SetIntAttr(ATTR_VALIGN, align);
+	Refresh();
+	return *this;
+}
+
 StaticText& StaticText::SetImage(const Image& img, int spc)
 {
 	CreateAttr<Image>(ATTR_IMAGE) = img;
@@ -50,6 +57,7 @@ void StaticText::MakeDrawLabel(DrawLabel& l) const
 	l.font = GetFont();
 	l.ink = GetInk();
 	l.align = GetAlign();
+	l.valign = GetVAlign();
 	l.limg = GetImage();
 	l.lspc = Nvl(GetIntAttr(ATTR_IMAGE_SPC), 0);
 	l.disabled = !IsShowEnabled();
@@ -197,16 +205,16 @@ void PaintLabelBox(Draw& w, Size sz, Color color, int d)
 				w.DrawRect(sz.cx - 1, d + 2, 1, sz.cy - d - 4, c);
 				w.DrawRect(2, sz.cy - 1, sz.cx - 4, 1, c);
 				w.DrawRect(2, d, sz.cx - 4, 1, c);
-	
+
 				w.DrawRect(1, d + 1, 2, 1, c);
 				w.DrawRect(1, d + 2, 1, 1, c);
-	
+
 				w.DrawRect(sz.cx - 3, d + 1, 2, 1, c);
 				w.DrawRect(sz.cx - 2, d + 2, 1, 1, c);
-	
+
 				w.DrawRect(1, sz.cy - 2, 2, 1, c);
 				w.DrawRect(1, sz.cy - 3, 1, 1, c);
-	
+
 				w.DrawRect(sz.cx - 3, sz.cy - 2, 2, 1, c);
 				w.DrawRect(sz.cx - 2, sz.cy - 3, 1, 1, c);
 			}
@@ -323,6 +331,14 @@ Size ImageCtrl::GetMinSize() const
 	return img.GetSize();
 }
 
+ImageCtrl& ImageCtrl::SetImage(const Image& _img)
+{
+	if(img.IsSame(_img))
+		return *this;
+	img = _img;
+	Refresh();
+	return *this;
+}
 
 DrawingCtrl& DrawingCtrl::Background(Color color)
 {

@@ -92,7 +92,7 @@ LRESULT Ctrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
 	cancel_preedit = DoCancelPreedit; // We really need this just once, but whatever..
 
 	is_pen_event = (GetMessageExtraInfo() & 0xFFFFFF00) == 0xFF515700;
-	
+
 	POINT p;
 	if(::GetCursorPos(&p))
 		CurrentMousePos = p;
@@ -103,7 +103,7 @@ LRESULT Ctrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
 		::ClientToScreen(hwnd, CurrentMousePos);
 		return p;
 	};
-	
+
 	bool has_preedit = HasFocusDeep() && focusCtrl && !IsNull(focusCtrl->GetPreedit());
 
 	auto StopPreedit = [&] {
@@ -111,7 +111,7 @@ LRESULT Ctrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
 		if(HasFocusDeep())
 			CancelPreedit();
 	};
-	
+
 	auto ClickActivate = [&] {
 		ClickActivateWnd();
 		StopPreedit();
@@ -124,7 +124,7 @@ LRESULT Ctrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
 			POINT p = Point((LONG)lParam);
 			CurrentMousePos = p;
 			ScreenToClient(hwnd, &p);
-			
+
 			pen.action = 0;
 			pen.pressure = pen.rotation = Null;
 			pen.tilt = Null;
@@ -134,14 +134,14 @@ LRESULT Ctrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
 			static BOOL (WINAPI *GetPointerInfo)(UINT32 pointerId, POINTER_INFO *pointerInfo);
 			static BOOL (WINAPI *GetPointerPenInfo)(UINT32 pointerId, POINTER_PEN_INFO *penInfo);
 			static BOOL (WINAPI *GetPointerPenInfoHistory)(UINT32 pointerId, UINT32 *entriesCount, POINTER_PEN_INFO *penInfo);
-		
+
 			ONCELOCK {
 				DllFn(GetPointerType, "User32.dll", "GetPointerType");
 				DllFn(GetPointerInfo, "User32.dll", "GetPointerInfo");
 				DllFn(GetPointerPenInfo, "User32.dll", "GetPointerPenInfo");
 				DllFn(GetPointerPenInfoHistory, "User32.dll", "GetPointerPenInfoHistory");
 			};
-		
+
 			if(!(GetPointerType && GetPointerInfo && GetPointerPenInfo && GetPointerPenInfoHistory))
 				break;
 
@@ -163,7 +163,7 @@ LRESULT Ctrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
 				if(ppi.penMask & PEN_MASK_TILT_Y)
 					pen.tilt.y = ppi.tiltY * M_2PI / 360;
 			};
-			
+
 			auto DoPen = [&](Point p) {
 				GuiLock __;
 				eventCtrl = this;
@@ -174,7 +174,7 @@ LRESULT Ctrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
 				}
 				else
 					for(Ctrl *t = q; t; t=q->ChildFromPoint(p)) q = t;
-				
+
 				q->Pen(p, pen, GetMouseFlags());
 				SyncCaret();
 				Image m = CursorOverride();
@@ -465,7 +465,7 @@ LRESULT Ctrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
 			::CreateCaret(hwnd, NULL, 1, pr.Height());
 			::ShowCaret(hwnd);
 			::SetCaretPos(p.x, p.y);
-		*/	
+		*/
 			auto ReadString = [&](int type) -> WString {
 				int len = ImmGetCompositionStringW (himc, type, NULL, 0);
 				if(len > 0) {
@@ -605,8 +605,8 @@ LRESULT Ctrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
 			}
 			else {
 				if(focusCtrlWnd && focusCtrlWnd->IsEnabled()) {
-					if(!IsEnabled())
-						MessageBeep(MB_OK);
+//					if(!IsEnabled())
+//						MessageBeep(MB_OK);
 					LLOG("WM_SETFOCUS -> ::SetFocus for " << UPP::Name(focusCtrlWnd) << ", this: " << UPP::Name(this));
 					::SetFocus(focusCtrlWnd->GetHWND());
 				}

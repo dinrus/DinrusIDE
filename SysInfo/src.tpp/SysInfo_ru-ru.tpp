@@ -82,9 +82,10 @@ Array_<Value>_`&[*@3 state])&]
 [s2;%- [*@3 version]&]
 [s2;%- [*@3 vendor]&]
 [s2;%- [*@3 installDate]&]
-[s2; [%-*@3 caption] is a summary of the software description&]
+[s2; [%-*@3 caption]     суммарное описание ПО&]
 [s2;%- [*@3 description]&]
-[s2; [%-*@3 state] is the status of the software. Values are:&]
+[s2; [%-*@3 state         ] состояние ПО. Значениями 
+могут быть:&]
 [s0;l640; `- `"Bad Configuration`"&]
 [s0;l640; `- `"Invalid Argument`"&]
 [s0;l640; `- `"Unknown Package`"&]
@@ -95,21 +96,26 @@ Array_<Value>_`&[*@3 state])&]
 [s3; &]
 [s4;%- &]
 [s5;:GetCpuTemperature`(`):%- [@(0.0.255) double]_[* GetCpuTemperature]()&]
-[s2; Возвращает CPU temperature in degrees Celsius.&]
-[s6; It does not work in all computers.&]
+[s2; Возвращает температуру ЦПБ (центрального 
+процессорного блока,CPU) в градусах 
+Цельсия.&]
+[s6; Работает не на всех компьютерах.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:GetNetworkInfo`(String`&`,String`&`,String`&`,String`&`):%- [@(0.0.255) bool]_[* Get
 NetworkInfo]([_^String^ String]_`&[*@3 name], [_^String^ String]_`&[*@3 domain], 
 [_^String^ String]_`&[*@3 ip4], [_^String^ String]_`&[*@3 ip6])&]
-[s2; Возвращает the local computer network [%-*@3 name], 
-[%-*@3 domain], [%-*@3 ip4] and [%-*@3 ip6].&]
+[s2; Возвращает локальное сетевое имя 
+[%-*@3 name], домен [%-*@3 domain], адреса [%-*@3 ip4] и 
+[%-*@3 ip6 ]компьютера.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetMacAddress`(`):%- [@(0.0.255) String]_[* GetMacAddress]()&]
-[s2; Возвращает the [%-@3 MAC ]address in uppercase hexadecimal 
-formated like `"0A:0B:0C:0C:0D:0E`" or Null.&]
-[s0;l288; This function is deprecated by GetAdapterInfo().&]
+[s2; Возвращает адрес [%-@3 MAC ]aзаглавными 
+16`-ричными, форматированный наподобие 
+`"0A:0B:0C:0C:0D:0E`" илил Null.&]
+[s0;l288; Эта функция депрекирована с появлением 
+GetAdapterInfo().&]
 [s3; &]
 [s4;%- &]
 [s5;:GetAdapterInfo`(`):%- [_^Array^ Array]_<[_^NetAdapter^ NetAdapter]>_[* GetAdapterInfo](

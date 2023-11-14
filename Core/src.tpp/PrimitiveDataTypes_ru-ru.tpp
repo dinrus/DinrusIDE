@@ -62,7 +62,7 @@ topic "Примитивные Типы Данных";
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:wchar`:`:typedef: [* wchar]&]
-[s2;%RU-RU Wide character.&]
+[s2;%RU-RU Широкий символ.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:int64`:`:typedef: [* int64]&]

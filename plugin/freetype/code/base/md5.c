@@ -34,6 +34,9 @@
  * optimizations are not included to reduce source code size and avoid
  * compile-time configuration.
  */
+ 
+ //Этот флаг дезактивирует данный модуль в пользу библиотеки OpenSSL
+#define HAVE_OPENSSL 1
 
 #ifndef HAVE_OPENSSL
 

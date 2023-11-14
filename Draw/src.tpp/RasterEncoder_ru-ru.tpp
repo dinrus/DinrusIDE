@@ -1,5 +1,4 @@
-topic "RasterEncoder";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс RasterEncoder";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,8 +8,9 @@ topic "RasterEncoder";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 RasterEncoder]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс RasterEncoder]]}}&]
 [s3;%- &]
 [s1;:RasterEncoder`:`:class:%- [@(0.0.255)3 class][3 _][*3 RasterEncoder]&]
 [s9; RasterEncoder serves as consumer of RGBA scanline data. Typical 
@@ -51,7 +51,8 @@ data to direct targets..&]
 [s3; &]
 [s5;:RasterEncoder`:`:GetPaletteCount`(`):%- [@(0.0.255) virtual] [@(0.0.255) int]_[* GetPa
 letteCount]()&]
-[s2; Возвращает the number of colors in the palette (or zero).&]
+[s2; Возвращает the number of colors in the palette (or 
+zero).&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:Start`(Size`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Start]([_^Size^ S
@@ -92,8 +93,8 @@ etPaletteCv]()&]
 [s4; &]
 [s5;:RasterEncoder`:`:operator RGBA`*`(`):%- [@(0.0.255) operator]_[_^RGBA^ RGBA]_`*()&]
 [s5;:RasterEncoder`:`:operator`~`(`):%- [_^RGBA^ RGBA]_`*[* operator`~]()&]
-[s2; Возвращает the pointer to scanline buffer that is used in parameterless 
-WriteLine.&]
+[s2; Возвращает the pointer to scanline buffer that is 
+used in parameterless WriteLine.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:GetSize`(`)const:%- [_^Size^ Size]_[* GetSize]()_[@(0.0.255) const]&]
@@ -112,10 +113,10 @@ nst]&]
 [s4; &]
 [s5;:RasterEncoder`:`:SetHotSpot`(Point`):%- [@(0.0.255) void]_[* SetHotSpot]([_^Point^ Poi
 nt]_[*@3 p])&]
-[s2; Устанавливаетhotspot. This is useful for defining screen cursors (.ico 
-or .cur files in Win32). The derived encoder might need the hotspot 
-information (it reads it by calling GetHotSpot in to store it 
-into the output file in Start).&]
+[s2; Устанавливаетhotspot. This is useful for defining 
+screen cursors (.ico or .cur files in Win32). The derived encoder 
+might need the hotspot information (it reads it by calling GetHotSpot 
+in to store it into the output file in Start).&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:GetHotSpot`(`)const:%- [_^Point^ Point]_[* GetHotSpot]()_[@(0.0.255) c
@@ -125,9 +126,10 @@ onst]&]
 [s4; &]
 [s5;:RasterEncoder`:`:SetDots`(Size`):%- [@(0.0.255) void]_[* SetDots]([_^Size^ Size]_[*@3 `_
 dots])&]
-[s2; Устанавливаетthe physical size of output image, in 1/600 of inch. The 
-derived encoder might read this information in Start and store 
-it into output file, if given format supports any related information.&]
+[s2; Устанавливаетthe physical size of output image, 
+in 1/600 of inch. The derived encoder might read this information 
+in Start and store it into output file, if given format supports 
+any related information.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:GetDots`(`)const:%- [_^Size^ Size]_[* GetDots]()_[@(0.0.255) const]&]
@@ -136,7 +138,8 @@ it into output file, if given format supports any related information.&]
 [s4; &]
 [s5;:RasterEncoder`:`:SetPalette`(const RGBA`*`):%- [@(0.0.255) void]_[* SetPalette]([@(0.0.255) c
 onst]_[_^RGBA^ RGBA]_`*[*@3 palette])&]
-[s2; Устанавливаетthe [%-*@3 palette] to be used with raster.&]
+[s2; Устанавливаетthe [%-*@3 palette] to be used with 
+raster.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:SetPalette`(Raster`&`):%- [@(0.0.255) void]_[* SetPalette]([_^Raster^ R
@@ -161,4 +164,4 @@ nt]_[*@3 cx], [@(0.0.255) int]_[*@3 cy], [_^Raster^ Raster][@(0.0.255) `&]_[*@3 
 [s2; Initializes encoder for output of image of specified size, optionally 
 setting the palette.&]
 [s3; &]
-[s0; ]
+[s0; ]]

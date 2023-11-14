@@ -1,5 +1,4 @@
-topic "Iml and image list class methods";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс Iml и методы класса для списка изображений";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,11 +8,13 @@ topic "Iml and image list class methods";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s0; [*@3+150 Iml and image list class methods]&]
+[s0; [*@3+150 Класс Iml и методы класса для списка 
+изображений]&]
 [s3; &]
 [s0; &]
-[ {{10000@(113.42.0) [s0; [*@7;4 Iml]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс Iml]]}}&]
 [s3; &]
 [s1;K:`:`:Iml`:`:class:%- [@(0.0.255) class][@(64) _]Iml&]
 [s9; Single global instance of Iml class is associated with each 
@@ -34,7 +35,7 @@ class, call its Iml class method.&]
 [s3; &]
 [s4;%- &]
 [s5;:Iml`:`:GetId`(int`):%- [_^String^ String]_[* GetId]([@(0.0.255) int]_[*@3 i])&]
-[s2;%- [%% Возвращает the identifier of Image at ][*@3 i].&]
+[s2;%- [%RU-RU Возвращает the identifier of Image at ][*@3 i].&]
 [s3; &]
 [s4;%- &]
 [s5;:Iml`:`:Get`(int`):%- [_^Image^ Image]_[* Get]([@(0.0.255) int]_[*@3 i])&]
@@ -43,13 +44,13 @@ class, call its Iml class method.&]
 [s4;%- &]
 [s5;:Iml`:`:Find`(const String`&`)const:%- [@(0.0.255) int]_[* Find]([@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 s])_[@(0.0.255) const]&]
-[s2; Finds the position of Image with given [%-*@3 id]. Возвращает negative 
-value if not found.&]
+[s2; Finds the position of Image with given [%-*@3 id]. Возвращает 
+negative value if not found.&]
 [s3; &]
 [s4;%- &]
 [s5;:Iml`:`:Set`(int`,const Image`&`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 i], 
 [@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]
-[s2;%- [%% Overwrites the Image at ][*@3 i].&]
+[s2;%- [%RU-RU Overwrites the Image at ][*@3 i].&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Image list class methods]]}}&]
@@ -83,8 +84,8 @@ value if not found.&]
 `*][@3 id][@(64) )]&]
 [s5; static [^`:`:Image^ Image] Get[@(64) (][@(0.0.255) const][@(64)  ][^`:`:String^@(64) Strin
 g][@(64) `& ][@3 id][@(64) )]&]
-[s2; То же, что и Iml().Get(Find([*@3 id])). Image with required [*@3 id ]must 
-exist in image list.&]
+[s2; То же, что и Iml().Get(Find([*@3 id])). Image with required 
+[*@3 id ]must exist in image list.&]
 [s3; &]
 [s4; &]
 [s5; static [@(0.0.255) void][@(64)  ]Set[@(64) (][@(0.0.255) int][@(64)  ][@3 i][@(64) , 
@@ -101,4 +102,4 @@ exist in image list.&]
 [s5; static [@(0.0.255) void][@(64)  ]Reset[@(64) ()]&]
 [s2; То же, что и Iml().Reset.&]
 [s3; &]
-[s0; ]
+[s0; ]]

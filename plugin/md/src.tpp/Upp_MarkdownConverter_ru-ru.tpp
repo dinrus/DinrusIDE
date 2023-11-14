@@ -68,7 +68,7 @@ ue])&]
 downConverter][@(0.0.255) `&]_[* NoHtmlSpans]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true
 ])&]
 [s2;%RU-RU Disables [/ inline] raw html text. Возвращает 
-`*this for method chaining.&]
+`*this для сцепки методов.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:NoHtml`(bool`): [_^Upp`:`:MarkdownConverter^ MarkdownC
@@ -122,7 +122,7 @@ rkdownConverter][@(0.0.255) `&]_[* CommonMarkDialect]()&]
 [s5;:Upp`:`:MarkdownConverter`:`:GitHubDialect`(`): [_^Upp`:`:MarkdownConverter^ Markdo
 wnConverter][@(0.0.255) `&]_[* GitHubDialect]()&]
 [s2;%RU-RU Enables GitHub`'s markdown dialect. Возвращает 
-`*this for method chaining.&]
+`*this для сцепки методов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:ToQtf`(const Upp`:`:String`&`): [_^Upp`:`:String^ Stri

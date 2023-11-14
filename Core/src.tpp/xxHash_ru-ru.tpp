@@ -14,8 +14,9 @@ topic "Класс xxHash";
 [s3; &]
 [s1;:Upp`:`:xxHashStream`:`:class: [@(0.0.255)3 class][3 _][*3 xxHashStream][3 _:_][@(0.0.255)3 p
 ublic][3 _][*@3;3 OutStream]&]
-[s2;%RU-RU Provides non`-cryptographic good quality hash with close 
-to memory bandwidth speed, by Yann Collet.&]
+[s2;%RU-RU Предоставляет некриптографический 
+хэш со скоростью, близкой к memory bandwidth 
+speed, разработанный Янном Коле (Yann Collet).&]
 [s3;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
@@ -35,8 +36,9 @@ word]_[*@3 seed]_`=_[@3 0])&]
 [s3; &]
 [s1;:Upp`:`:xxHash64Stream`:`:class: [@(0.0.255)3 class][3 _][*3 xxHash64Stream][3 _:_][@(0.0.255)3 p
 ublic][3 _][*@3;3 OutStream]&]
-[s2;%RU-RU Provides non`-cryptographic good quality hash with close 
-to memory bandwidth speed, by Yann Collet.&]
+[s2;%RU-RU Предоставляет некриптографический 
+хэш со скоростью, близкой к memory bandwidth 
+speed, разработанный Янном Коле (Yann Collet).&]
 [s3;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
@@ -49,7 +51,7 @@ word]_[*@3 seed]_`=_[@3 0])&]
 [s5;:Upp`:`:xxHash64Stream`:`:xxHash64Stream`(Upp`:`:dword`): [* xxHash64Stream]([_^Upp`:`:dword^ d
 word]_[*@3 seed]_`=_[@3 0])&]
 [s2;%RU-RU (Пере) запускает хэширование, 
-с [%-*@3 seed].&]
+с семенем [%-*@3 seed].&]
 [s3;%RU-RU &]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Функции xxHash]]}}&]

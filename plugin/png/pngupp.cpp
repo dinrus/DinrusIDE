@@ -15,7 +15,7 @@ static void png_read_stream(png_structp png_ptr, png_bytep buffer, png_size_t le
 {
 	Stream& stream = *reinterpret_cast<Stream *>(png_get_io_ptr(png_ptr));
 	if(!stream.GetAll(buffer, (int)length))
-		png_error(png_ptr, "Error reading input file!");
+		png_error(png_ptr, "Ошибка при чтении вводимого файла!");
 }
 
 static void png_write_stream(png_structp png_ptr, png_bytep buffer, png_size_t length)

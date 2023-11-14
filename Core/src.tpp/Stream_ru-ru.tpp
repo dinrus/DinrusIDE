@@ -559,7 +559,7 @@ nt64]_[*@3 size])&]
 Возвращает true, еслибыло считано требуемое 
 число байтов. В отличие от обычного 
 Get, размер блока может быть больше 
-чем 2 ГБ, iесли ЦПБ (CPU) 64`-битный.&]
+чем 2 ГБ, если ЦПБ (CPU) 64`-битный.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:Get`(Upp`:`:Huge`&`,size`_t`):%- [_^size`_t^ size`_t]_[* Get]([_^Upp`:`:Huge^ H
@@ -591,205 +591,252 @@ LoadingError.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get8`(`):%- [@(0.0.255) int]_[* Get8]()&]
-[s2; Считывает один байт из потока. If there 
-is not enough data in the stream, LoadError is invoked (that 
-in turn might throw an exception) `- this is the difference from 
-Get() method.&]
-[s7; [*/ Возвратное значение]-|Byte from stream or 
-`-1.&]
+[s2; Считывает один байт из потока. Если 
+в потоке недостаточно данных, вызывается 
+LoadError (который, в свою очередь, может 
+вывести исключение) `- в этом отличие 
+от метода Get().&]
+[s7; [*/ Возвратное значение]-|Байт из потока 
+или `-1.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get16`(`):%- [@(0.0.255) int]_[* Get16]()&]
-[s2; Reads 16`-bit value from the stream in platform specific format 
-(either little`-endian or big`-endian). If there is not enough 
-data in the stream, LoadError is invoked (that in turn might 
-throw an exception) and `-1 returned.&]
-[s7; [*/ Возвратное значение]-|16`-bit value.&]
+[s2; Читает из потока 16`-битное значение 
+в специфичном для платформы формате 
+(либо в little`-endian, либо в big`-endian). Если 
+в потоке недостаточно данных, вызывается 
+LoadError (который, в свою очередь, может 
+вывести исключение) и возвращает 
+`-1.&]
+[s7; [*/ Возвратное значение]-|16`-битное значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get32`(`):%- [@(0.0.255) int]_[* Get32]()&]
-[s2; Reads 32`-bit value from the stream in platform specific format 
-(either little`-endian or big`-endian). If there is not enough 
-data in the stream, LoadError is invoked (that in turn might 
-throw an exception) and `-1 returned (but that is a valid return 
-value as well).&]
-[s7; [*/ Возвратное значение]-|32`-bit value.&]
+[s2; Читает из потока 32`-битное значение 
+в специфичном для платформы формате 
+(либо в little`-endian, либо в big`-endian). Если 
+в потоке недостаточно данных, вызывается 
+LoadError (который, в свою очередь, может 
+вывести исключение) и возвращает 
+`-1 (но это такое же полноценное возвратное 
+значение).&]
+[s7; [*/ Возвратное значение]-|32`-битное значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get64`(`):%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[* Get64]()&]
-[s2; Reads 64`-bit value from the stream in platform specific format 
-(either little`-endian or big`-endian). If there is not enough 
-data in the stream, LoadError is invoked (that in turn might 
-throw an exception) and `-1 returned (but that is a valid return 
-value as well).&]
-[s7; [*/ Возвратное значение]-|64`-bit value.&]
+[s2; Читает из потока 64`-битное значение 
+в специфичном для платформы формате 
+(либо в little`-endian, либо в big`-endian). Если 
+в потоке недостаточно данных, вызывается 
+LoadError (который, в свою очередь, может 
+вывести исключение) и возвращает 
+`-1 (но это такое же полноценное возвратное 
+значение).&]
+[s7; [*/ Возвратное значение]-|64`-битное значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get16le`(`):%- [@(0.0.255) int]_[* Get16le]()&]
-[s2; Reads 16`-bit value from the stream in the little`-endian mode. 
-If there is not enough data in the stream, LoadError is invoked 
-(that in turn might throw an exception) and `-1 returned.&]
-[s7; [*/ Возвратное значение]-|16`-bit value.&]
+[s2; Читает из потока 16`-битное значение 
+в режиме little`-endian. Если в потоке недостаточно
+ данных, вызывается LoadError (который, 
+в свою очередь, может вывести исключение) 
+и возвращает `-1.&]
+[s7; [*/ Возвратное значение]-|16`-битное значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get32le`(`):%- [@(0.0.255) int]_[* Get32le]()&]
-[s2; Reads 32`-bit value from the stream in the little`-endian mode. 
-If there is not enough data in the stream, LoadError is invoked 
-(that in turn might throw an exception) and `-1 returned (but 
-that is a valid return value as well).&]
-[s7; [*/ Возвратное значение]-|32`-bit value.&]
+[s2; Читает из потока 32`-битное значение 
+в режиме little`-endian. Если в потоке недостаточно
+ данных, вызывается LoadError (который, 
+в свою очередь, может вывести исключение) 
+и возвращает `-1 (но это такое же полноценное 
+возвратное значение).&]
+[s7; [*/ Возвратное значение]-|32`-битное значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get64le`(`):%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[* Get64le]()&]
-[s2; Reads 64`-bit value from the stream in the little`-endian mode. 
-If there is not enough data in the stream, LoadError is invoked 
-(that in turn might throw an exception) and `-1 returned (but 
-that is a valid value return as well).&]
-[s7; [*/ Возвратное значение]-|64`-bit value.&]
+[s2; Читает из потока 64`-битное значение 
+в режиме little`-endian. Если в потоке недостаточно
+ данных, вызывается LoadError (который, 
+в свою очередь, может вывести исключение) 
+и возвращает `-1 (но это такое же полноценное 
+возвратное значение).&]
+[s7; [*/ Возвратное значение]-|64`-битное значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get16be`(`):%- [@(0.0.255) int]_[* Get16be]()&]
-[s2; Reads 16`-bit value from the stream in the big`-endian mode. 
-If there is not enough data in the stream, LoadError is invoked 
-(that in turn might throw an exception) and `-1 is returned.&]
-[s7; [*/ Возвратное значение]-|16`-bit value.&]
+[s2; Читает из потока 16`-битное значение 
+в режиме big`-endian. Если в потоке недостаточно 
+данных, вызывается LoadError (который, 
+в свою очередь, может вывести исключение) 
+и возвращает `-1.&]
+[s7; [*/ Возвратное значение]-|16`-битное значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get32be`(`):%- [@(0.0.255) int]_[* Get32be]()&]
-[s2; Reads 32`-bit value from the stream in the big`-endian mode. 
-If there is not enough data in the stream, LoadError is invoked 
-(that in turn might throw an exception) and `-1 returned (but 
-that is a valid value return as well).&]
-[s7; [*/ Возвратное значение]-|32`-bit value.&]
+[s2; Читает из потока 32`-битное значение 
+в режиме big`-endian. Если в потоке недостаточно 
+данных, вызывается LoadError (который, 
+в свою очередь, может вывести исключение) 
+и возвращает `-1 (но это такое же полноценное 
+возвратное значение).&]
+[s7; [*/ Возвратное значение]-|32`-битное значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get64be`(`):%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[* Get64be]()&]
-[s2; Reads 64`-bit value from the stream in the big`-endian mode. 
-If there is not enough data in the stream, LoadError is invoked 
-(that in turn might throw an exception) and `-1 returned (but 
-that is a valid value return as well).&]
-[s7; [*/ Возвратное значение]-|64`-bit value.&]
+[s2; Читает из потока 64`-битное значение 
+в режиме big`-endian. Если в потоке недостаточно 
+данных, вызывается LoadError (который, 
+в свою очередь, может вывести исключение) 
+и возвращает `-1 (но это такое же полноценное 
+возвратное значение).&]
+[s7; [*/ Возвратное значение]-|64`-битное значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:GetLine`(`):%- [_^String^ String]_[* GetLine]()&]
-[s2; Reads single line from the stream. Line is delimited by `'`\n`' 
-character or the end of file (or error). `'`\r`' characters are 
-ignored.&]
-[s7; [*/ Возвратное значение]-|Line from the stream.&]
+[s2; Читает из потока одну строку. Строка 
+разграничивается символом `'`\n`' или 
+концом файла (или ошибкой). Символы 
+`'`\r`' игнорируются.&]
+[s7; [*/ Возвратное значение]-|Строка из потока.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:GetUtf8`(`):%- [@(0.0.255) int]_[* GetUtf8]()&]
-[s2; Reads single Utf8 encoded value from the stream.&]
-[s7; [*/ Возвратное значение]-|Utf`-8 value.&]
+[s2; Читает из потока единичное значение 
+в кодировке Utf8.&]
+[s7; [*/ Возвратное значение]-|Значение в 
+Utf`-8.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put16`(word`):%- [@(0.0.255) void]_[* Put16]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:word`:`:typedef^ w
 ord]_[*@3 q])&]
-[s2; Writes 16`-bit value [%-*@3 q ]in platform specific format (either 
-little`-endian or big`-endian).&]
+[s2; Записывает 16`-битное значение [%- q в 
+специфичном для платформы формате 
+(либо в] little`-endian, либо в big`-endian).&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put32`(dword`):%- [@(0.0.255) void]_[* Put32]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 q])&]
-[s2; Writes 32`-bit value [%-*@3 q ]in platform specific format (either 
-little`-endian or big`-endian).&]
+[s2; Записывает 32`-битное значение [%- q в 
+специфичном для платформы формате 
+(либо в] little`-endian, либо в big`-endian).&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put64`(int64`):%- [@(0.0.255) void]_[* Put64]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 q])&]
-[s2; Writes 64`-bit value [%-*@3 q ]in platform specific format (either 
-little`-endian or big`-endian).&]
+[s2; Записывает 64`-битное значение [%- q в 
+специфичном для платформы формате 
+(либо в] little`-endian, либо в big`-endian).&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put16le`(word`):%- [@(0.0.255) void]_[* Put16le]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:word`:`:typedef^ w
 ord]_[*@3 q])&]
-[s2; Writes 16`-bit value [%-*@3 q ]in little`-endian mode.&]
+[s2; Записывает 16`-битное значение [%-*@3 q 
+]в режиме little`-endian.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put32le`(dword`):%- [@(0.0.255) void]_[* Put32le]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 q])&]
-[s2; Writes 32`-bit value [%-*@3 q ]in little`-endian mode.&]
+[s2; Записывает 32`-битное значение [%-*@3 q 
+]в режиме little`-endian.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put64le`(int64`):%- [@(0.0.255) void]_[* Put64le]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 q])&]
-[s2; Writes 64`-bit value [%-*@3 q ]in little`-endian mode.&]
+[s2; Записывает 64`-битное значение [%-*@3 q 
+]в режиме little`-endian.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put16be`(word`):%- [@(0.0.255) void]_[* Put16be]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:word`:`:typedef^ w
 ord]_[*@3 q])&]
-[s2; Writes 16`-bit value [%-*@3 q ]in big`-endian mode.&]
+[s2; Записывает 16`-битное значение [%-*@3 q 
+]в режиме big`-endian.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put32be`(dword`):%- [@(0.0.255) void]_[* Put32be]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dowrd`:`:typedef^ d
 word]_[*@3 q])&]
-[s2; Writes 32`-bit value [%-*@3 q ]in big`-endian mode.&]
+[s2; Записывает 32`-битное значение [%-*@3 q 
+]в режиме big`-endian.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put64be`(int64`):%- [@(0.0.255) void]_[* Put64be]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 q])&]
-[s2; Writes 64`-bit value [%-*@3 q ]in big`-endian mode.&]
+[s2; Записывает 64`-битное значение [%-*@3 q 
+]в режиме big`-endian.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:PutUtf8`(int`):%- [@(0.0.255) void]_[* PutUtf8]([@(0.0.255) int]_[*@3 c])&]
-[s2; Puts a single Utf8 value to the stream.&]
-[s7; [%-*C@3 c]-|Value.&]
+[s2; Помещает в поток единичное значение 
+в Utf8.&]
+[s7; [%-*C@3 c]-|Значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put`(const char`*`):%- [@(0.0.255) void]_[* Put]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 s])&]
-[s2; Writes zero terminated string to the stream (zero is not written).&]
-[s7; [%-*C@3 s]-|String to write.&]
+[s2; Записывает в поток строку с нулевым 
+окончанием (ноль не записывается).&]
+[s7; [%-*C@3 s]-|Записываемая строка.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put`(const String`&`):%- [@(0.0.255) void]_[* Put]([@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 s])&]
-[s2; Writes String to the the stream. String can contain zero characters.&]
-[s7; [%-*C@3 s]-|String to write.&]
+[s2; Записывает в поток String. String иожет 
+содержать символы нулей.&]
+[s7; [%-*C@3 s]-|Записываемая строка.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put`(int`,int`):%- [@(0.0.255) void]_[* Put]([@(0.0.255) int]_[*@3 c], 
 [@(0.0.255) int]_[*@3 count])&]
-[s2; Writes single byte to the stream requested number of times.&]
-[s7; [%-*C@3 c]-|Byte to write.&]
-[s7; [%-*C@3 count]-|Repeat count.&]
+[s2; Записывает единичный байт в поток 
+требуемое количество раз.&]
+[s7; [%-*C@3 c]-|Записываемый байт.&]
+[s7; [%-*C@3 count]-|Число повторов.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Put0`(int`):%- [@(0.0.255) void]_[* Put0]([@(0.0.255) int]_[*@3 count])&]
-[s2; Writes zero byte to the stream requested number of times. This 
-variation is mainly provided because Put(0, count) causes ambiguity 
-as 0 is considered as NULL pointer too...&]
-[s7; [%-*C@3 count]-|Repeat count.&]
+[s2; Записывает в поток нулевой байт требуемое 
+количество раз. Эта вариация предоставляетс
+я главным образом из`-за того, что 
+Put(0, count) вызывает неоднозначность, 
+так как 0 рассматривается также и 
+как указатель NULL.&]
+[s7; [%-*C@3 count]-|Число повторов.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:PutCrLf`(`):%- [@(0.0.255) void]_[* PutCrLf]()&]
-[s2; Writes CR`-LF pair to the stream. &]
+[s2; Записывает в поток пару CR`-LF.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:PutEol`(`):%- [@(0.0.255) void]_[* PutEol]()&]
-[s2; Writes platform specific `"end of line`" to the stream. It is 
-CR`-LF pair on Win32 platform or single LF on Posix platform.&]
+[s2; Записывает в поток специфичный для 
+платформы `"конец строки`" Это пара 
+CR`-LF на платформе Win32, либо LF на платформе 
+Posix.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`<`<`(EOLenum`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator<<](
 EOLenum)&]
-[s2; This is the same as PutEol. EOLenum contains single value, EOL. 
-This is operator allows more convenient way to express PutEol 
-in the chain of << operators.&]
+[s2; Аналогично PutEol. EOLenum содержит единственное 
+значение, EOL (КС, конец строки). Этот 
+оператор даёт более удобный способ 
+выразить PutEol в цепочке операторов 
+<<.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:PutLine`(const char`*`):%- [@(0.0.255) void]_[* PutLine]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 s])&]
-[s2; Writes a line to stream `- equivalent of Put(s); PutEol();&]
-[s7; [%-*C@3 s]-|Zero`-terminated string.&]
+[s2; Записывает в поток строку `- эквивалентно 
+Put(s); PutEol();&]
+[s7; [%-*C@3 s]-|Строка с нулевым окончанием.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:PutLine`(const String`&`):%- [@(0.0.255) void]_[* PutLine]([@(0.0.255) const
 ]_[_^String^ String][@(0.0.255) `&]_[*@3 s])&]
-[s2; Writes a line to stream `- equivalent of Put(s); PutEol();&]
+[s2; Записывает строчку в поток `- эквивалентно 
+Put(s); PutEol();&]
 [s7; [%-*C@3 s]-|String.&]
 [s3; &]
 [s4;%- &]
@@ -797,25 +844,26 @@ in the chain of << operators.&]
 ][@(0.0.255) `&]_[*@3 s], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 size]_`=_INT64`_MAX, [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 click]_`=_[@3 4096])&]
-[s2; Writes a content of specified stream to the stream.&]
-[s7; [%-*C@3 s]-|Input stream.&]
-[s7; [%-*C@3 size]-|Maximum number of bytes to write. Default value 
-INT64`_MAX means whole input stream from current position to 
-the end is written.&]
-[s7; [%-*C@3 click]-|Size of buffer used for copying.&]
+[s2; Записывает контент из указанного 
+потока в этот поток.&]
+[s7; [%-*C@3 s]-|Вводный поток.&]
+[s7; [%-*C@3 size]-|Максимальное число записываемых 
+байтов. Дефолтное значение INT64`_MAX 
+означает,что записывается весь вводный 
+поток, от текущей позиции до конца.&]
+[s7; [%-*C@3 click]-|Размер буфера, используемого 
+для копирования.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов: Поддержка 
 Сериализации]]}}&]
 [s3;%- &]
 [s5;:Stream`:`:SetLoading`(`):%- [@(0.0.255) void]_[* SetLoading]()&]
-[s2; Устанавливает поток в режим загрузки 
-(loading mode).&]
+[s2; Устанавливает поток в режим загрузки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:SetStoring`(`):%- [@(0.0.255) void]_[* SetStoring]()&]
-[s2; Устанавливает поток в режим сохранения 
-(storing mode).&]
+[s2; Устанавливает поток в режим сохранения.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:IsLoading`(`)const:%- [@(0.0.255) bool]_[* IsLoading]()_[@(0.0.255) const]&]
@@ -832,273 +880,325 @@ the end is written.&]
 [* SerializeRaw]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:byte`:`:typedef^ b
 yte]_`*[*@3 data], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 count])&]
-[s2; Serializes raw 8`-bit data. Might invoke LoadError if there 
-is not enough data to load. Data are always stored in little`-endian 
-mode (conversion performed on BE systems as necessary).&]
+[s2; Сериализует сырые 8`-битные данные. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно. Данные 
+всегда сохраняются в режиме little`-endian 
+(на системах BE при необходимости выполняется
+ преобразование).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:SerializeRaw`(Upp`:`:word`*`,Upp`:`:int64`):%- [@(0.0.255) void]_
 [* SerializeRaw]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:word`:`:typedef^ w
 ord]_`*[*@3 data], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 count])&]
-[s2; Serializes raw 16`-bit data. Might invoke LoadError if there 
-is not enough data to load. Data are always stored in little`-endian 
-mode (conversion performed on BE systems as necessary).&]
+[s2; Сериализует сырые 16`-битные данные. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно. Данные 
+всегда сохраняются в режиме little`-endian 
+(на системах BE при необходимости выполняется
+ преобразование).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:SerializeRaw`(Upp`:`:dword`*`,Upp`:`:int64`):%- [@(0.0.255) void]_
 [* SerializeRaw]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_`*[*@3 data], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 count])&]
-[s2; Serializes raw 32`-bit data. Might invoke LoadError if there 
-is not enough data to load. Data are always stored in little`-endian 
-mode (conversion performed on BE systems as necessary).&]
+[s2; Сериализует сырые 32`-битные данные. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно. Данные 
+всегда сохраняются в режиме little`-endian 
+(на системах BE при необходимости выполняется
+ преобразование).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:SerializeRaw`(Upp`:`:uint64`*`,Upp`:`:int64`):%- [@(0.0.255) void
 ]_[* SerializeRaw]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:uint64`:`:typedef^ u
 int64]_`*[*@3 data], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 count])&]
-[s2; Serializes raw 64`-bit data. Might invoke LoadError if there 
-is not enough data to load. Data are always stored in little`-endian 
-mode (conversion performed on BE systems as necessary).&]
+[s2; Сериализует сырые 64`-битные данные. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно. Данные 
+всегда сохраняются в режиме little`-endian 
+(на системах BE при необходимости выполняется
+ преобразование).&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:SerializeRLE`(byte`*`,int`):%- [@(0.0.255) void]_[* SerializeRLE]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:byte`:`:typedef^ b
 yte]_`*[*@3 data], [@(0.0.255) int]_[*@3 count])&]
-[s2; Serializes raw data, using simple RLE compression.&]
+[s2; Сериализует сырые данные, используя 
+простое сжатие RLE.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(bool`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) b
 ool`&]_[*@3 d])&]
-[s2; Serializes bool variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует булеву переменную [%-*@3 d]. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно. Возвращает 
+[* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(char`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) c
 har`&]_[*@3 d])&]
-[s2; Serializes char variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует переменную типа char [%-*@3 d]. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно. Возвращает 
+[* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(signed char`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator
 %]([@(0.0.255) signed]_[@(0.0.255) char`&]_[*@3 d])&]
-[s2; Serializes signed char variable [%-*@3 d]. Might invoke LoadError 
-if there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует переменную типа signed 
+char [%-*@3 d]. Может вызывать LoadError, если 
+данных для загрузки недостаточно. 
+Возвращает [* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(unsigned char`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operat
 or%]([@(0.0.255) unsigned]_[@(0.0.255) char`&]_[*@3 d])&]
-[s2; Serializes unsigned char variable [%-*@3 d]. Might invoke LoadError 
-if there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует переменную типа unsigned 
+char [%-*@3 d]. Может вызывать LoadError, если 
+данных для загрузки недостаточно. 
+Возвращает [* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(short`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) s
 hort`&]_[*@3 d])&]
-[s2; Serializes short variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует переменную типа short [%-*@3 d]. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно. Возвращает 
+[* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(unsigned short`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* opera
 tor%]([@(0.0.255) unsigned]_[@(0.0.255) short`&]_[*@3 d])&]
-[s2; Serializes unsigned short variable [%-*@3 d]. Might invoke LoadError 
-if there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует переменную типа unsigned 
+short [%-*@3 d]. Может вызывать LoadError, если 
+данных для загрузки недостаточно. 
+Возвращает [* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(int`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) i
 nt`&]_[*@3 d])&]
-[s2; Serializes int variable [%-*@3 d]. Might invoke LoadError if there 
-is not enough data to load. Возвращает [* `*this] for 
-chaining.&]
+[s2; Сериализует переменную типа int [%-*@3 d]. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно. Возвращает 
+[* `*this]для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(unsigned int`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operato
 r%]([@(0.0.255) unsigned]_[@(0.0.255) int`&]_[*@3 d])&]
-[s2; Serializes unsigned int variable [%-*@3 d]. Might invoke LoadError 
-if there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует переменную типа unsigned 
+int [%-*@3 d]. Может вызывать LoadError, если 
+данных для загрузки недостаточно. 
+Возвращает [* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(long`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) l
 ong`&]_[*@3 d])&]
-[s2; Serializes long variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует переменную типа long [%-*@3 d]. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно. Возвращает 
+[* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(unsigned long`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operat
 or%]([@(0.0.255) unsigned]_[@(0.0.255) long`&]_[*@3 d])&]
-[s2; Serializes unsigned long variable [%-*@3 d]. Might invoke LoadError 
-if there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует переменную типа unsigned 
+long [%-*@3 d]. Может вызывать LoadError, если 
+данных для загрузки недостаточно. 
+Возвращает [* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(float`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) f
 loat`&]_[*@3 d])&]
-[s2; Serializes float variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует переменную типа float [%-*@3 d]. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно. Возвращает 
+[* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(double`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) d
 ouble`&]_[*@3 d])&]
-[s2; Serializes double variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует переменную типа double 
+[%-*@3 d]. Might invoke LoadError if there is not enough data to 
+load. Возвращает [* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(int64`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64][@(0.0.255) `&]_[*@3 d])&]
-[s2; Serializes int64 variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует переменную типа int64 [%-*@3 d]. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно. Возвращает 
+[* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(uint64`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:uint64`:`:typedef^ u
 int64][@(0.0.255) `&]_[*@3 d])&]
-[s2; Serializes uint64 variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Возвращает [* `*this] 
-for chaining.&]
+[s2; Сериализует переменную типа uint64 
+[%-*@3 d]. Может вызывать LoadError, если данных 
+для загрузки недостаточно. Возвращает 
+[* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(String`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([_^String^ S
 tring][@(0.0.255) `&]_[*@3 s])&]
-[s2; Serializes String variable [%-*@3 s]. Might invoke LoadError if 
-there is not enough data to load or input data are invalid. Возвращает 
-[* `*this] for chaining.&]
+[s2; Сериализует переменную типа String 
+[%-*@3 s]. Может вызывать LoadError, если данных 
+для загрузки недостаточно или вводимые 
+данные повреждены. Возвращает [* `*this] 
+для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`/`(String`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator/]([_^String^ S
 tring][@(0.0.255) `&]_[*@3 s])&]
-[s2; Serializes String variable [%-*@3 s ]using RLE compression and 
-packed format for length. Might invoke LoadError if there is 
-not enough data to load or input data are invalid. Возвращает 
-[* `*this] for chaining.&]
+[s2; Сериализует переменную типа String 
+[%-*@3 s ]using RLE compression and packed format for length. Может 
+вызывать LoadError, если данных для загрузки 
+недостаточно или вводимые данные 
+повреждены. Возвращает [* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(WString`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([_^WString^ W
 String][@(0.0.255) `&]_[*@3 s])&]
-[s2; Serializes WString variable. Might invoke LoadError if there 
-is not enough data to load or input data are invalid. Возвращает 
-[* `*this] for chaining.&]
+[s2; Сериализует переменную типа WString. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно или вводимые 
+данные повреждены. Возвращает [* `*this] 
+для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`/`(WString`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator/]([_^WString^ W
 String][@(0.0.255) `&]_[*@3 s])&]
-[s2; Serializes String variable using RLE compression and packed 
-format for length. Might invoke LoadError if there is not enough 
-data to load or input data are invalid. Возвращает 
-[* `*this] for chaining.&]
+[s2; Сериализует переменную типа String, 
+используя сжатие RLE и упакованный 
+формат для длины. Может вызывать LoadError, 
+если данных для загрузки недостаточно 
+или вводимые данные повреждены. Возвращает 
+[* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Pack`(dword`&`):%- [@(0.0.255) void]_[* Pack]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word][@(0.0.255) `&]_[*@3 i])&]
-[s2; Serializes dword value using format optimized for storing small 
-values. Values 0..254 are stored as serializes as single byte, 
-other values result in 5 bytes. Might invoke LoadError if there 
-is not enough data to load or input data are invalid.&]
-[s7; [%-*C@3 i]-|Variable to serialize.&]
+[s2; Сериализует значение типа dword, используя 
+формат, оптимизированный для хранения 
+небольших значений. Значения 0..254 
+сохраняются при сериализации в одном 
+байте, другие значения передаются 
+5`-ю байтами. Может вызывать LoadError, 
+если данных для загрузки недостаточно 
+или вводимые данные повреждены.&]
+[s7; [%-*C@3 i]-|Сериализуемая переменная.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`/`(int`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator/]([@(0.0.255) i
 nt`&]_[*@3 i])&]
-[s2; Serializes int value using format optimized for storing small 
-values. Might invoke LoadError if there is not enough data to 
-load or input data are invalid.&]
-[s7; [%-*C@3 i]-|Variable to serialize.&]
+[s2; Сериализует значение типа int, используя 
+формат, оптимизированный для хранения 
+небольших значений. Может вызывать 
+LoadError, если данных для загрузки недостаточно
+ или вводимые данные повреждены.&]
+[s7; [%-*C@3 i]-|Сериализуемая переменная.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`/`(unsigned int`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operato
 r/]([@(0.0.255) unsigned]_[@(0.0.255) int`&]_[*@3 i])&]
-[s2; Serializes unsigned int value using format optimized for storing 
-small values. Might invoke LoadError if there is not enough data 
-to load or input data are invalid.&]
-[s7; [%-*C@3 i]-|Variable to serialize.&]
+[s2; Сериализует значение типа unsigned int, 
+используя формат, оптимизированный 
+для хранения небольших значений. 
+Может вызывать LoadError, если данных 
+для загрузки недостаточно или вводимые 
+данные повреждены.&]
+[s7; [%-*C@3 i]-|Сериализуемая переменная.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Magic`(dword`):%- [@(0.0.255) void]_[* Magic]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 magic]_`=_[@3 0]x7d674d7b)&]
-[s2; Serializes `"magic value`" to ensure stream integrity. When 
-loading, this value is loaded and checked `- mismatch results 
-in invoking LoadError.&]
-[s7; [%-*C@3 magic]-|Magic value.&]
+[s2; Сериализует `"магическое значение`", 
+гарантирующее целостность потока. 
+При загрузке это значение загружается 
+и проверяется `- несовпадение приводит 
+к вызову LoadError.&]
+[s7; [%-*C@3 magic]-|Магическое значенеи.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Pack`(bool`&`,bool`&`,bool`&`,bool`&`,bool`&`,bool`&`,bool`&`,bool`&`):%- [@(0.0.255) v
 oid]_[* Pack]([@(0.0.255) bool`&]_[*@3 a], [@(0.0.255) bool`&]_[*@3 b], 
 [@(0.0.255) bool`&]_[*@3 c], [@(0.0.255) bool`&]_[*@3 d], [@(0.0.255) bool`&]_[*@3 e], 
 [@(0.0.255) bool`&]_[*@3 f], [@(0.0.255) bool`&]_[*@3 g], [@(0.0.255) bool`&]_[*@3 h])&]
-[s2; Serializes a set of boolean values compressed into single byte.&]
+[s2; Сериализует набор булевых значений, 
+сжатый в одном байте.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Pack`(bool`&`,bool`&`,bool`&`,bool`&`,bool`&`,bool`&`,bool`&`):%- [@(0.0.255) v
 oid]_[* Pack]([@(0.0.255) bool`&]_[*@3 a], [@(0.0.255) bool`&]_[*@3 b], 
 [@(0.0.255) bool`&]_[*@3 c], [@(0.0.255) bool`&]_[*@3 d], [@(0.0.255) bool`&]_[*@3 e], 
 [@(0.0.255) bool`&]_[*@3 f], [@(0.0.255) bool`&]_[*@3 g])&]
-[s2; Serializes a set of boolean values compressed into single byte.&]
+[s2; Сериализует набор булевых значений, 
+сжатый в одном байте.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Pack`(bool`&`,bool`&`,bool`&`,bool`&`,bool`&`,bool`&`):%- [@(0.0.255) vo
 id]_[* Pack]([@(0.0.255) bool`&]_[*@3 a], [@(0.0.255) bool`&]_[*@3 b], 
 [@(0.0.255) bool`&]_[*@3 c], [@(0.0.255) bool`&]_[*@3 d], [@(0.0.255) bool`&]_[*@3 e], 
 [@(0.0.255) bool`&]_[*@3 f])&]
-[s2; Serializes a set of boolean values compressed into single byte.&]
+[s2; Сериализует набор булевых значений, 
+сжатый в одном байте.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Pack`(bool`&`,bool`&`,bool`&`,bool`&`,bool`&`):%- [@(0.0.255) void]_[* Pac
 k]([@(0.0.255) bool`&]_[*@3 a], [@(0.0.255) bool`&]_[*@3 b], [@(0.0.255) bool`&]_[*@3 c], 
 [@(0.0.255) bool`&]_[*@3 d], [@(0.0.255) bool`&]_[*@3 e])&]
-[s2; Serializes a set of boolean values compressed into single byte.&]
+[s2; Сериализует набор булевых значений, 
+сжатый в одном байте.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Pack`(bool`&`,bool`&`,bool`&`,bool`&`):%- [@(0.0.255) void]_[* Pack]([@(0.0.255) b
 ool`&]_[*@3 a], [@(0.0.255) bool`&]_[*@3 b], [@(0.0.255) bool`&]_[*@3 c], 
 [@(0.0.255) bool`&]_[*@3 d])&]
-[s2; Serializes a set of boolean values compressed into single byte.&]
+[s2; Сериализует набор булевых значений, 
+сжатый в одном байте.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Pack`(bool`&`,bool`&`,bool`&`):%- [@(0.0.255) void]_[* Pack]([@(0.0.255) boo
 l`&]_[*@3 a], [@(0.0.255) bool`&]_[*@3 b], [@(0.0.255) bool`&]_[*@3 c])&]
-[s2; Serializes a set of boolean values compressed into single byte.&]
+[s2; Сериализует набор булевых значений, 
+сжатый в одном байте.&]
 [s4;%- &]
 [s5;:Stream`:`:Pack`(bool`&`,bool`&`):%- [@(0.0.255) void]_[* Pack]([@(0.0.255) bool`&]_[*@3 a
 ], [@(0.0.255) bool`&]_[*@3 b])&]
-[s2; Serializes a set of boolean values compressed into single byte.&]
-[s3; &]
-[s0;3 &]
-[s0;3 &]
+[s2; Сериализует набор булевых значений, 
+сжатый в одном байте.&]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс StringStream]]}}&]
 [s3; &]
 [s1;:StringStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 StringStream][3 _:_][@(0.0.255)3 publi
 c][3 _][*@3;3 Stream]&]
-[s9; StringStream is stream that uses String as storage medium. The 
-maximum output size is limited to 2GB (maximum String size limit).&]
+[s9; StringStream `- поток, использующий в качестве 
+средства хранения String. Максимальный 
+размер вывода ограничен до 2 ГБ (максимальны 
+предер размера String).&]
 [s2; &]
-[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:Stream`:`:class Stream^ S
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`_ru`-ru`#Stream`:`:class^ S
 tream]&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:StringStream`:`:StringStream`(`):%- [* StringStream]()&]
-[s2; Consructs empty stream and sets it into Storing serialization 
-mode (like [* Create]).&]
+[s2; Конструирует пустой поток и устанавливает 
+его в режим сериализации Storing (сохранение) 
+(подобно [* Create]).&]
 [s3; &]
 [s4;%- &]
 [s5;:StringStream`:`:StringStream`(const String`&`):%- [* StringStream]([@(0.0.255) const
 ]_[_^String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2; Constructs stream with specified content and sets it into Loading 
-serialization mode (like [* Open]).&]
-[s7; [%-*C@3 data]-|Content of stream.&]
+[s2; Конструирует поток с заданным контентом 
+и устанавливает его в режим сериализации 
+Loading (загрузка) (подобно [* Open]).&]
+[s7; [%-*C@3 data]-|Контент потока.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов: Serialization 
@@ -1106,48 +1206,51 @@ Support]]}}&]
 [s3;%- &]
 [s5;:StringStream`:`:Open`(const String`&`):%- [@(0.0.255) void]_[* Open]([@(0.0.255) const
 ]_[_^String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%- Устанавливаетthe content of stream to specified 
-String and sets it into the Loading serialization mode.&]
-[s7; [%-*C@3 data]-|Content of stream.&]
+[s2;%- Устанавливает контент потока в 
+указанный String и включает режим сериализации
+ Loading (загрузка).&]
+[s7; [%-*C@3 data]-|Контент потока.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:StringStream`:`:Limit`(int`):%- [@(0.0.255) void]_[* Limit]([@(0.0.255) int]_[*@3 s
 z])&]
-[s2; Устанавливаетthe output size limit. Exception StringStream`::LimitEx
-c is thrown if this the output size reaches this limit.&]
+[s2; Устанавливает предел размера вывода. 
+Выводится исключение StringStream`::LimitExc, 
+когда размер вывода достигает его.&]
 [s3; &]
 [s4;%- &]
 [s5;:StringStream`:`:Create`(`):%- [@(0.0.255) void]_[* Create]()&]
-[s2; Создаёт empty StringStream and sets it into Storing serialization 
-mode.&]
+[s2; Создаёт пустой поток StringStream и устанавливает
+ его в режим сериализации Storing (сохранение).&]
 [s3; &]
 [s4;%- &]
 [s5;:StringStream`:`:Reserve`(int`):%- [@(0.0.255) void]_[* Reserve]([@(0.0.255) int]_[*@3 n])
 &]
-[s2; Reserves additional [%-*@3 n] bytes of internal storage as optimization 
-hint. This might speedup the operation in certain cases if you 
-know how much data approximately will be put into StringStream.&]
+[s2; Резервирует дополнительно [%-*@3 n] байтов 
+внутреннего хранилища в качестве 
+optimization hint. Это в некоторых случаях 
+ускоряет работу, если известно, сколько 
+приблизительно данных будет помещено 
+в поток StringStream.&]
 [s3; &]
 [s4;%- &]
 [s5;:StringStream`:`:GetResult`(`):%- [_^String^ String]_[* GetResult]()&]
-[s2; Возвращает resulting String.&]
-[s7; [*/ Возвратное значение]-|Result.&]
+[s2; Возвращает итоговый String.&]
+[s7; [*/ Возвратное значение]-|Итог.&]
 [s3; &]
 [s4;%- &]
 [s5;:StringStream`:`:operator String`(`):%- [* operator_String]()&]
-[s7; [*/ Возвратное значение]-|[^topic`:`/`/Core`/src`/Stream`$en`-us`#StringStream`:`:GetResult`(`)^ G
+[s7; [*/ Возвратное значение]-|[^topic`:`/`/Core`/src`/Stream`_ru`-ru`#StringStream`:`:GetResult`(`)^ G
 etResult]().&]
-[s0;3 &]
-[s0;3 &]
-[s0;3 &]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс MemStream]]}}&]
 [s3; &]
 [s1;:MemStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 MemStream][3 _:_][@(0.0.255)3 public][3 _][*@3;3 S
 tream]&]
-[s9; Stream that is using raw memory as its content.&]
+[s9; Поток, использующий в качестве контента 
+сырую память.&]
 [s2; &]
-[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:Stream`:`:class Stream^ S
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`_ru`-ru`#Stream`:`:class^ S
 tream]&]
 [s3; &]
 [s0; &]
@@ -1155,20 +1258,19 @@ tream]&]
 [s3;%- &]
 [s5;:MemStream`:`:MemStream`(void`*`,int`):%- [* MemStream]([@(0.0.255) void]_`*[*@3 data],
  [@(0.0.255) int]_[*@3 size])&]
-[s2; Constructs [* MemStream] at specified memory buffer.&]
-[s7; [%-*C@3 data]-|Pointer to the stream content.&]
-[s7; [%-*C@3 size]-|Size.&]
-[s0;3 &]
-[s0;3 &]
-[s0;3 &]
+[s2; Конструирует [* MemStream] в заданном буфере 
+памяти.&]
+[s7; [%-*C@3 data]-|Указатель на контент потока.&]
+[s7; [%-*C@3 size]-|Размер.&]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс MemReadStream]]}}&]
 [s3;%- &]
 [s1;:MemReadStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 MemReadStream][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 MemStream]&]
-[s9; Read`-only stream using raw memory as content.&]
+[s9; Поток только для чтения, использующий 
+в качестве контента сырую память.&]
 [s2; &]
-[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:MemStream`:`:class MemStream^ M
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`_ru`-ru`#MemStream`:`:class^ M
 emStream]&]
 [s3; &]
 [s0;%- &]
@@ -1176,119 +1278,134 @@ emStream]&]
 [s3; &]
 [s5;:MemReadStream`:`:MemReadStream`(const void`*`,int`):%- [* MemReadStream]([@(0.0.255) c
 onst]_[@(0.0.255) void]_`*[*@3 data], [@(0.0.255) int]_[*@3 size])&]
-[s2; Constructs [* MemStream] at specified memory buffer.&]
-[s7; [%-*C@3 data]-|Pointer to the stream content.&]
-[s7; [%-*C@3 size]-|Size.&]
-[s3; &]
-[s0;3 &]
-[s0;3 &]
+[s2; Конструирует [* MemStream] в заданном буфере 
+памяти.&]
+[s7; [%-*C@3 data]-|Указатель на контент потока.&]
+[s7; [%-*C@3 size]-|Размер.&]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс BlockStream]]}}&]
 [s3; &]
 [s1;:BlockStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 BlockStream][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Stream]&]
-[s9; BlockStream implements operations needed to manage streams that 
-are able to read or write a block of data at random positon. 
-BlockStream provides buffered implementation of such stream. 
-It implements all virtual methods of Stream, with exception of 
-[* IsOpen] and [* Close], using new virtual methods [* Read], [* Write] 
-and [* SetStreamSize].&]
+[s9; BlockStream реализует операции, необходимые 
+для управления потоками, которые 
+могут читать или записывать блок 
+данных в случайной позиции. BlockStream 
+предоставляет буферную реализацию 
+такого потока. Он реализует все виртуальные 
+методы класса Stream, за исключением 
+[* IsOpen] и [* Close], применяя новые виртуальные 
+методы [* Read], [* Write] и [* SetStreamSize].&]
 [s2; &]
-[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BufferStream`:`:class BufferStream^ B
-ufferStream]&]
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`_ru`-ru`#Stream`:`:class^ S
+tream]&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s0;%- [@(0.0.255) enum]_`{_[*@3 READ], [*@3 CREATE], [*@3 APPEND], [*@3 READWRITE], 
 [*@3 NOWRITESHARE], [*@3 DELETESHARE], [*@3 NOREADSHARE], [*@3 SHAREMASK]_`}&]
-[s2; This enum defines basic operation modes of BlockStream (used 
-combined with binary or).&]
-[s7;:`:`:BlockStream`:`:READ: [%-*C@3 READ]-|Read mode.&]
-[s7;:`:`:BlockStream`:`:CREATE: [%-*C@3 CREATE]-|Write mode.&]
-[s7;:`:`:BlockStream`:`:APPEND: [%-*C@3 APPEND]-|Append mode `- means 
-that initial position in the stream is at the end of it.&]
-[s7;:`:`:BlockStream`:`:READWRITE: [%-*C@3 READWRITE]-|Enables subsequent 
-streams full access to stream.&]
-[s7;:`:`:BlockStream`:`:NOWRITESHARE: [%-*C@3 NOWRITESHARE]-|Disables 
-subsequent streams to write to the stream.&]
-[s7;:`:`:BlockStream`:`:DELETESHARE: [%-*C@3 DELETESHARE]-|Enables subsequent 
-streams to delete the stream.&]
-[s7;:`:`:BlockStream`:`:NOREADSHARE: [%-*C@3 NOREADSHARE]-|Disables 
-subsequent streams to read the stream.&]
+[s2; Этот перечень определяет основные 
+режимы работы класса BlockStream (используемые 
+в сочитании с двоичным Или).&]
+[s7;:`:`:BlockStream`:`:READ: [%-*C@3 READ]-|Режим чтения.&]
+[s7;:`:`:BlockStream`:`:CREATE: [%-*C@3 CREATE]-|Режим записи.&]
+[s7;:`:`:BlockStream`:`:APPEND: [%-*C@3 APPEND]-|Режим приставки 
+`-т.е. начальная позиция в конце потока.&]
+[s7;:`:`:BlockStream`:`:READWRITE: [%-*C@3 READWRITE]-|Даёт последующим 
+потокам полный доступ к себе.&]
+[s7;:`:`:BlockStream`:`:NOWRITESHARE: [%-*C@3 NOWRITESHARE]-|Отключает 
+у последующих потоков возможность 
+записывать в себя.&]
+[s7;:`:`:BlockStream`:`:DELETESHARE: [%-*C@3 DELETESHARE]-|Даёт 
+последующим потокам возможность 
+удалять себя.&]
+[s7;:`:`:BlockStream`:`:NOREADSHARE: [%-*C@3 NOREADSHARE]-|Отключает 
+у последующих потоков возможность 
+читать из этого потока.&]
 [s3; &]
 [s4;%- &]
 [s5;:BlockStream`:`:SetBufferSize`(dword`):%- [@(0.0.255) void]_[* SetBufferSize]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 newsize])&]
-[s2; Устанавливаетa new size of internal buffer.&]
-[s7; [%-*C@3 newsize]-|The new size of buffer.&]
+[s2; Устанавливает новый размер внутреннего 
+буфера.&]
+[s7; [%-*C@3 newsize]-|Новый размер буфера.&]
 [s3; &]
 [s4;%- &]
 [s5;:BlockStream`:`:GetBufferSize`(`)const:%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[* GetBufferSize]()_[@(0.0.255) const]&]
-[s2; [*/ Возвратное значение]-|Size of buffer.&]
+[s2; [*/ Возвратное значение  ]Размер буфера.&]
 [s3;%- &]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Protected Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Защищённых Членов]]}}&]
 [s3; &]
 [s5;:BlockStream`:`:Read`(int64`,void`*`,dword`):%- [@(0.0.255) virtual] 
 [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ dword
 ]_[* Read]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 at], [@(0.0.255) void]_`*[*@3 ptr], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 size])&]
-[s2; Implementation of this virtual method in derived class should 
-read a block of data at specified position in media.&]
-[s7; [%-*C@3 at]-|Position in media.&]
-[s7; [%-*C@3 ptr]-|Pointer to buffer to receive data.&]
-[s7; [%-*C@3 size]-|Requested size of data.&]
-[s7; [*/ Возвратное значение]-|Size of data read.&]
+[s2; Реализация этого виртуального метода 
+в производном классе должна читать 
+блок данных в указанной позиции средства 
+хранения.&]
+[s7; [%-*C@3 at]-|Позиция в средстве хранения.&]
+[s7; [%-*C@3 ptr]-|Указатель на буфер для получения 
+данных.&]
+[s7; [%-*C@3 size]-|Требуемый размер данных.&]
+[s7; [*/ Возвратное значение]-|Размер прочитанных 
+данных.&]
 [s3; &]
 [s4;%- &]
 [s5;:BlockStream`:`:Write`(int64`,const void`*`,dword`):%- [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* Write]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 at], [@(0.0.255) const]_[@(0.0.255) void]_`*[*@3 data], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 size])&]
-[s2; Implementation of this virtual method in derived method should 
-write a block of data at specified position in media.&]
-[s7; [%-*C@3 at]-|Position in media.&]
-[s7; [%-*C@3 data]-|Pointer to  data.&]
-[s7; [%-*C@3 size]-|Size of data.&]
+[s2; Реализация этого виртуального метода 
+в производном классе должна записывать 
+блок данных в указанной позиции средства 
+хранения.&]
+[s7; [%-*C@3 at]-|Позиция в средстве хранения.&]
+[s7; [%-*C@3 data]-|Указатель на данные.&]
+[s7; [%-*C@3 size]-|Размер данных.&]
 [s3; &]
 [s4;%- &]
 [s5;:BlockStream`:`:SetStreamSize`(int64`):%- [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* SetStreamSize]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 size])&]
-[s2; Implementation of this virtual method in derived class should 
-adjust the size of media.&]
-[s7; [%-*C@3 size]-|Requested new size of media.&]
+[s2; Реализация этого виртуального метода 
+в производном классе должна регулировать 
+размер средства хранения.&]
+[s7; [%-*C@3 size]-|Требуемый новый размер средства 
+хранения.&]
 [s3; &]
 [s4;%- &]
 [s5;:BlockStream`:`:GetStreamSize`(`)const:%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[* GetStreamSize]()_[@(0.0.255) const]&]
-[s2; Возвращает current media size. Note that this might 
-be different from current GetSize() `- media size adjustment 
-can be deffered to flushing the buffer.&]
-[s7; [*/ Возвратное значение]-|Current media size.&]
+[s2; Возвращает текущий размер средства 
+хранения. Заметьте, что он может отличаться 
+от текущего GetSize() `- Настройка размера 
+средства хранения обычно изменяется 
+при сливе буфера.&]
+[s7; [*/ Возвратное значение]-|Текущий размер 
+средства хранения.&]
 [s3; &]
 [s4;%- &]
 [s5;:BlockStream`:`:OpenInit`(dword`,int64`):%- [@(0.0.255) void]_[* OpenInit]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 mode], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 file`_size])&]
-[s2; Initializes the BlockStream to specified mode and actual media 
-size.&]
-[s7; [%-*C@3 mode]-|Mode.&]
-[s7; [%-*C@3 file`_size]-|Actual media size.&]
-[s3; &]
-[s0;3 &]
-[s0;3 &]
+[s2; Инициализует поток BlockStream в указанном 
+режиме и с реальным размером средства 
+хранения (носителя).&]
+[s7; [%-*C@3 mode]-|Режим.&]
+[s7; [%-*C@3 file`_size]-|Реальный размер носителя.&]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс FileStream]]}}&]
 [s3; &]
 [s1;:FileStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 FileStream][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 BlockStream]&]
-[s9; Classical file stream.&]
+[s9; Классический файловый поток.&]
 [s9; &]
-[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BlockStream`:`:class BlockStream^ B
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`_ru`-ru`#BlockStream`:`:class^ B
 lockStream]&]
 [s3; &]
 [s0; &]
@@ -1297,92 +1414,106 @@ lockStream]&]
 [s5;:FileStream`:`:FileStream`(const char`*`,dword`):%- [* FileStream]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 filename], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 mode])&]
-[s2; Opens file stream in specified mode (as defined in BlockStream).&]
-[s7; [%-*C@3 filename]-|The name of the file.&]
-[s7; [%-*C@3 mode]-|Open mode.&]
+[s2; Открывает файловый поток в указанном 
+режиме (определённом в BlockStream).&]
+[s7; [%-*C@3 filename]-|Имя файла.&]
+[s7; [%-*C@3 mode]-|Режим открытия.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileStream`:`:FileStream`(const char`*`,dword`,mode`_t`):%- [* FileStream]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 filename], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 mode], mode`_t_[*@3 acm]_`=_[@3 0644])&]
-[s6;%- Posix specific.&]
-[s2; Opens file stream in specified mode (as defined in BlockStream) 
-and specific POSIX access rights.&]
-[s7; [%-*C@3 filename]-|The name of the file.&]
-[s7; [%-*C@3 mode]-|Open mode.&]
-[s7; [%-*C@3 acm]-|Access rights.&]
+[s6;%- Специфичен для Posix.&]
+[s2; Открывает файловый поток в указанном 
+режиме (определённом в BlockStream) и со 
+специфичными правами доступа POSIX.&]
+[s7; [%-*C@3 filename]-|Имя файла.&]
+[s7; [%-*C@3 mode]-|Режим открытия.&]
+[s7; [%-*C@3 acm]-|Права доступа.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileStream`:`:FileStream`(int`):%- [* FileStream]([@(0.0.255) int]_[*@3 std`_handle])&]
-[s6; Posix specific.&]
-[s2; Assigns existing file handle to FileStream.&]
-[s7; [%-*C@3 std`_handle]-|File handle of open file. FileStream takes 
-ownership of this handle.&]
+[s6;%- Специфичен для Posix.&]
+[s2; Присваивает существующий файловый 
+хэндл потоку FileStream.&]
+[s7; [%-*C@3 std`_handle]-|Файловый хэндл открытого 
+файла. FileStream берёт его во владение.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileStream`:`:FileStream`(`):%- [* FileStream]()&]
-[s2; Создаёт empty unopened FileStream.&]
+[s2; Создаёт пустой неоткрытый FileStream.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:FileStream`:`:operator bool`(`)const:%- [* operator_bool]()_[@(0.0.255) const]&]
-[s2; [*/ Возвратное значение]-|True if stream is open.&]
+[s2; [*/ Возвратное значение]-|   True, если поток 
+открыт.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileStream`:`:GetTime`(`)const:%- [_^FileTime^ FileTime]_[* GetTime]()_[@(0.0.255) con
 st]&]
-[s2; Возвращает last`-write time of stream.&]
-[s7; [*/ Возвратное значение]-|FileTime structure.&]
+[s2; Возвращает время последней записи 
+в поток.&]
+[s7; [*/ Возвратное значение]-|Структура 
+FileTime.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileStream`:`:SetTime`(const FileTime`&`):%- [@(0.0.255) void]_[* SetTime]([@(0.0.255) c
 onst]_[_^FileTime^ FileTime][@(0.0.255) `&]_[*@3 tm])&]
-[s2; Устанавливаетthe last modification time of stream.&]
-[s7; [%-*C@3 tm]-|FileTime structure.&]
+[s2; Устанавливает время последнего изменения 
+потока.&]
+[s7; [%-*C@3 tm]-|Структура FileTime.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileStream`:`:Open`(const char`*`,dword`):%- [@(0.0.255) bool]_[* Open]([@(0.0.255) co
 nst]_[@(0.0.255) char]_`*[*@3 filename], [_^dword^ dword]_[*@3 mode])&]
-[s6;%- Posix specific.&]
-[s2; Opens file stream in specified mode (as defined in BlockStream) 
-and specific POSIX access rights. [%-*@3 mode] can be one of READ, 
-CREATE, APPEND, READWRITE possibly combined (using `'`|`') with 
-flag NOWRITESHARE. This enforces exclusive write access to the 
-file.&]
-[s7; [%-*C@3 filename]-|The name of the file.&]
-[s7; [%-*C@3 mode]-|Open mode.&]
+[s6;%- Специфичен для Posix.&]
+[s2; Открывает файловый поток в указанном 
+режиме (определённом в классе BlockStream), 
+со специфичными для POSIX правами доступа. 
+[%-*@3 mode] может быть одним из: READ, CREATE, 
+APPEND, READWRITE, возможно, в сочетании (с 
+применением `'`|`') с флагом NOWRITESHARE. 
+Это укрепляет эксклюзивность права 
+доступа к файлу.&]
+[s7; [%-*C@3 filename]-|Имя файла.&]
+[s7; [%-*C@3 mode]-|Режим открытия.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileStream`:`:Open`(const char`*`,dword`,mode`_t`):%- [@(0.0.255) bool]_[* Open]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 filename], [_^dword^ dword]_[*@3 mode], 
 mode`_t_[*@3 acm]_`=_[@3 0644])&]
-[s6;%- Posix specific.&]
-[s2; Opens file stream in specified mode (as defined in BlockStream) 
-and specific POSIX access rights. [%-*@3 mode] can be one of READ, 
-CREATE, APPEND, READWRITE possibly combined (using `'`|`') with 
-flag NOWRITESHARE. This flag uses flock system call to enforce 
-exclusive write access to the file. In READ, if file does not 
-exist, function fails. In CREATE mode, files is always created 
-empty. In APPEND and READWRITE modes, file is created if it does 
-not already exist.&]
-[s7; [%-*C@3 filename]-|The name of the file.&]
-[s7; [%-*C@3 mode]-|Open mode.&]
-[s7; [%-*C@3 acm]-|Access rights.&]
+[s6;%- Специфичен для Posix.&]
+[s2; Отрывает файловый поток в указанном 
+режиме (определённом в классе BlockStream) 
+со специфичными для POSIX правами доступа. 
+[%-*@3 mode] может быть одним из: READ, CREATE, 
+APPEND, READWRITE, возможно, в сочетании (с 
+применением `'`|`') с флагом  NOWRITESHARE. 
+Этот флаг использует системный вызов 
+flock, укрепляя эксклюзивность права 
+доступа к файлу. При READ, если файла 
+не существует, функция завершается 
+провалом. При режиме CREATE файл всегда 
+создаётся пустым. При режимах APPEND 
+и READWRITE файл создаётся, если его ещё 
+не существует.&]
+[s7; [%-*C@3 filename]-|Имя файла.&]
+[s7; [%-*C@3 mode]-|Режим открытия.&]
+[s7; [%-*C@3 acm]-|Права доступа.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileStream`:`:GetHandle`(`)const:%- HANDLE_[* GetHandle]()_[@(0.0.255) const]&]
-[s2; [*/ Возвратное значение]-|File handle, either 
-POSIX or WIN32.&]
-[s3; &]
-[s0;3 &]
-[s0;3 &]
+[s2; [*/ Возвратное значение]-|   Файловый 
+хэндл, либо POSIX, либо WIN32.&]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс FileIn]]}}&]
 [s3; &]
 [s1;:FileIn`:`:class:%- [@(0.0.255)3 class][3 _][*3 FileIn][3 _:_][@(0.0.255)3 public][3 _][*@3;3 Fi
 leStream]&]
-[s9; Simple helper class that represents FileStream in read mode.&]
+[s9; Простой вспомогательный класс, представляю
+щий собой FileStream в режиме чтения.&]
 [s0; &]
 [s9;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:FileStream`:`:class FileStream^ F
 ileStream]&]
@@ -1392,32 +1523,32 @@ ileStream]&]
 [s3; &]
 [s5;:FileIn`:`:FileIn`(const char`*`):%- [* FileIn]([@(0.0.255) const]_[@(0.0.255) char]_`*
 [*@3 fn])&]
-[s2; Opens file for reading.&]
-[s7; [%-*C@3 fn]-|File name.&]
+[s2; Открывает файл для чтения.&]
+[s7; [%-*C@3 fn]-|Имя файла.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileIn`:`:FileIn`(`):%- [* FileIn]()&]
-[s2; Constructs empty FileStream.&]
+[s2; Конструирует пустой FileStream.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:FileIn`:`:Open`(const char`*`):%- [@(0.0.255) bool]_[* Open]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 fn])&]
-[s2; Opens file for reading.&]
-[s7; [%-*C@3 fn]-|File name.&]
-[s7; [*/ Возвратное значение]-|True if open was successful.&]
-[s3; &]
-[s0;3 &]
-[s0;3 &]
+[s2; Открывает файл для чтения.&]
+[s7; [%-*C@3 fn]-|Имя файла.&]
+[s7; [*/ Возвратное значение]-|True, если открыт 
+удачно.&]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс FileOut]]}}&]
 [s3; &]
 [s1;:FileOut`:`:class:%- [@(0.0.255)3 class][3 _][*3 FileOut][3 _:_][@(0.0.255)3 public][3 _][*@3;3 F
 ileStream]&]
-[s9; Simple helper class that represents FileStream in write mode.&]
+[s9; Простой воспомогательный класс, 
+представляющи собой FileStream в режиме 
+записи.&]
 [s2; &]
-[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:FileStream`:`:class FileStream^ F
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`_ru`-ru`#FileStream`:`:class^ F
 ileStream]&]
 [s3; &]
 [s0; &]
@@ -1425,78 +1556,78 @@ ileStream]&]
 [s3;%- &]
 [s5;:FileOut`:`:FileOut`(const char`*`):%- [* FileOut]([@(0.0.255) const]_[@(0.0.255) char]_
 `*[*@3 fn])&]
-[s2; Opens file for writing.&]
-[s7; [%-*C@3 fn]-|File name.&]
+[s2; Открывает файл для записи.&]
+[s7; [%-*C@3 fn]-|Имя файла.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileOut`:`:FileOut`(`):%- [* FileOut]()&]
-[s2;%- Constructs non`-opened FileStream.&]
+[s2;%- Конструирует неоткрытый FileStream.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:FileOut`:`:Open`(const char`*`):%- [@(0.0.255) bool]_[* Open]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 fn])&]
-[s2; Opens file for writing.&]
-[s7; [%-*C@3 fn]-|File name.&]
-[s7; [*/ Возвратное значение]-|True if open was successful.&]
+[s2; Открывает файл для записи.&]
+[s7; [%-*C@3 fn]-|Имя файла.&]
+[s7; [*/ Возвратное значение]-|True, если открыт 
+удачно.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileOut`:`:Open`(const char`*`,mode`_t`):%- [@(0.0.255) bool]_[* Open]([@(0.0.255) con
 st]_[@(0.0.255) char]_`*[*@3 fn], mode`_t_[*@3 acm]_`=_[@3 0644])&]
-[s2; Opens file for writing.&]
-[s6; POSIX specific&]
-[s7; [%-*C@3 fn]-|File name.&]
-[s7;%- [*@3 acm][@3 -|]File mode&]
-[s2; [*/ Возвратное значение]-|True if open was successful.&]
-[s3; &]
-[s0; &]
-[s0;3 &]
+[s2; Открывает файл для записи.&]
+[s6; Специфика POSIX&]
+[s7; [%-*C@3 fn]-|Имя файла.&]
+[s7;%- [*@3 acm][@3 -|]Режим файла&]
+[s2; [*/ Возвратное значение]-|True, если открыт 
+удачно.&]
 [s0;3 &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс FileAppend]]}}&]
 [s3; &]
 [s1;:FileAppend`:`:class:%- [@(0.0.255)3 class][3 _][*3 FileAppend][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 FileStream]&]
-[s9; Simple helper class that represents FileStream in append mode 
-`- that in fact means in write mode with current position at 
-the end of the file.&]
+[s9; Простой вспомогательный класс, представляю
+щий собой FileStream в режиме приставки 
+`- что фактически означает режим записи 
+с текущей позицией в конце файла.&]
 [s2; &]
-[s0;%- [%RU-RU/ Производный от][%RU-RU  ]FileStream&]
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`_ru`-ru`#FileStream`:`:class^ F
+ileStream]&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:FileAppend`:`:FileAppend`(const char`*`):%- [* FileAppend]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 fn])&]
-[s2; Opens file in append mode.&]
-[s7; [%-*C@3 fn]-|File name.&]
+[s2; Открывает файл в режиме приставки.&]
+[s7; [%-*C@3 fn]-|Имя файла.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileAppend`:`:FileAppend`(`):%- [* FileAppend]()&]
-[s2; Constructs empty FileStream.&]
+[s2; Конструирует пустой FileStream.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:FileAppend`:`:Open`(const char`*`):%- [@(0.0.255) bool]_[* Open]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 fn])&]
-[s2; Opens file in append mode.&]
-[s7; [%-*C@3 fn]-|File name.&]
-[s7; [*/ Возвратное значение]-|true when Open was 
-successful.&]
-[s3; &]
-[s0;3 &]
-[s0;3 &]
+[s2; Открывает файл в режиме приставки.&]
+[s7; [%-*C@3 fn]-|Имя файла.&]
+[s7; [*/ Возвратное значение]-|true, когда открыт 
+удачно.&]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс SizeStream]]}}&]
 [s3; &]
 [s1;:SizeStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 SizeStream][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Stream]&]
-[s9; Special output stream that in fact does not store output data, 
-only counts the total number of bytes written.&]
+[s9; Специальный выводной поток, который 
+фактически не сохраняет выводимые 
+данные, а только считает общее число 
+записанных байтов.&]
 [s2; &]
-[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BufferStream`:`:class BufferStream^ B
-ufferStream]&]
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`_ru`-ru`#Stream`:`:class^ S
+tream]&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
@@ -1508,50 +1639,52 @@ ufferStream]&]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:SizeStream`:`:Open`(`):%- [@(0.0.255) void]_[* Open]()&]
-[s2; Reopens data `- resets the counter of output bytes.&]
+[s2; Повторно открывает данные `- сбрасывает 
+счётчик выведенных байтов.&]
 [s3; &]
 [s4;%- &]
 [s5;:SizeStream`:`:operator int64`(`)const:%- [* operator_int64]()_[@(0.0.255) const]&]
-[s2; Возвращает current number of bytes written.&]
-[s3;%- &]
-[s0; &]
-[s0;3 &]
+[s2; Возвращает текущее число записанных 
+байтов.&]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс CompareStream]]}}&]
 [s3; &]
 [s1;:CompareStream`:`:class:%- [@(0.0.255)3 class][3 _][*3 CompareStream][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 Stream]&]
-[s9; Special output stream that instead of storing data performs 
-their comparison to the data of another stream.&]
+[s9; Особый выводящий поток, который вместо 
+сохранения данных, выполняет их сравнение 
+с данными другого потока.&]
 [s2; &]
-[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BufferStream`:`:class BufferStream^ B
-ufferStream]&]
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Stream`_ru`-ru`#Stream`:`:class^ S
+tream]&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s0;:CompareStream`:`:CompareStream`(`):%- [* CompareStream]()&]
-[s2; Constructs closed CompareStream.&]
+[s2; Конструирует закрытый CompareStream.&]
 [s3; &]
 [s4;%- &]
 [s5;:CompareStream`:`:CompareStream`(Stream`&`):%- [* CompareStream]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 aStream])&]
-[s2; Конструктор s CompareStream opened for comparison 
-with specified stream.&]
-[s7; [%-*C@3 aStream]-|Stream to compare with.&]
+[s2; Конструирует CompareStream, открытый для 
+сравнения с другим указанным потоком.&]
+[s7; [%-*C@3 aStream]-|Поток для сравнения.&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:CompareStream`:`:Open`(Stream`&`):%- [@(0.0.255) void]_[* Open]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 aStream])&]
-[s2; Opens CompareStream for comparison with the specified stream.&]
-[s7; [%-*C@3 aStream]-|Stream to compare with.&]
+[s2; Открывает CompareStream для сравнения с 
+указанным потоком.&]
+[s7; [%-*C@3 aStream]-|Поток для сравнения.&]
 [s3; &]
 [s4;%- &]
 [s5;:CompareStream`:`:IsEqual`(`):%- [@(0.0.255) bool]_[* IsEqual]()&]
-[s7; Возвратное значение-|true if all bytes written 
-so far match those in comparison stream.&]
+[s7; Возвратное значение-|true, если все 
+записанные байты совпадают с байтами 
+в сравниваемом потоке.&]
 [s3; &]
 [s4;%- &]
 [s5;:CompareStream`:`:operator bool`(`):%- [* operator_bool]()&]

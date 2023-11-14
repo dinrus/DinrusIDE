@@ -1,4 +1,4 @@
-description "Отчасти эвристический (неточный) парсер  C++ для Assist++ (intellisense)\377";
+description "Отчасти эвристический (неточный) парсер  C++ для Assist++ (intellisense)\3770,128,128";
 
 file
 	CppBase.h options(BUILDER_OPTION) PCH,

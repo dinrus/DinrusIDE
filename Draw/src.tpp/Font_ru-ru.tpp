@@ -54,8 +54,8 @@ nt]_[@3 index])&]
 [s4; &]
 [s5;:Font`:`:GetFaceInfo`(int`): [@(0.0.255) static] [_^dword^ dword]_[* GetFaceInfo]([@(0.0.255) i
 nt]_[@3 index])&]
-[s2;%RU-RU Возвращает the information about face [%-*@3 index] 
-as combination of binary flags:&]
+[s2;%RU-RU Возвращает информацию о фасе 
+[%-*@3 index] как комбинацию двоичных флагов:&]
 [ {{2587:7413<256;^ [s0; [* Font`::FIXEDPITCH]]
 ::= [s0;%RU-RU Font`-face is monospaced.]
 ::^ [s0; [* Font`::SCALEABLE]]
@@ -68,26 +68,27 @@ fonts).]}}&]
 [s4; &]
 [s5;:Font`:`:SetDefaultFont`(Font`): [@(0.0.255) static] [@(0.0.255) void]_[* SetDefaultFon
 t]([_^Font^ Font]_[*@3 font])&]
-[s2;%RU-RU Устанавливаетthe standard font, unless SetStdFont 
-was used. This variant is used by Chameleon skin to set font 
-matching platform setting, while SetStdFont can be used by client 
-code to override this setting (and thus has higher priority).&]
+[s2;%RU-RU Устанавливает стандартный шрифт, 
+unless SetStdFont was used. This variant is used by Chameleon 
+skin to set font matching platform setting, while SetStdFont 
+can be used by client code to override this setting (and thus 
+has higher priority).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:SetStdFont`(Font`): [@(0.0.255) static] [@(0.0.255) void]_[* SetStdFont]([_^Font^ F
 ont]_[@3 font])&]
-[s2;%RU-RU Устанавливаетthe standard font. U`+`+ sets 
-the standard font to match host platform standard. This method 
-can be used to change this default setting.&]
+[s2;%RU-RU Устанавливает стандартный шрифт. 
+U`+`+ sets the standard font to match host platform standard. 
+This method can be used to change this default setting.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:GetStdFont`(`): [@(0.0.255) static] [_^Font^ Font]_[* GetStdFont]()&]
-[s2;%RU-RU Возвращает the standard font.&]
+[s2;%RU-RU Возвращает стандартный шрифт.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetStdFontSize`(`): [@(0.0.255) static] [_^Size^ Size]_[* GetStdFontSize]()&]
-[s2;%RU-RU Возвращает metrics of standard font `- height 
-and average width of glyphs.&]
+[s2;%RU-RU Возвращает метрику стандартного 
+шрифта `- высоту и среднюю ширину глифов.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetFace`(`)const: [@(0.0.255) int]_[* GetFace]()_[@(0.0.255) const]&]
@@ -95,7 +96,7 @@ and average width of glyphs.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetHeight`(`)const: [@(0.0.255) int]_[* GetHeight]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the requested height of font.&]
+[s2;%RU-RU Возвращает требуемую высоту шрифта.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetWidth`(`)const: [@(0.0.255) int]_[* GetWidth]()_[@(0.0.255) const]&]
@@ -120,8 +121,9 @@ st]&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:AsInt64`(`)const: [_^int64^ int64]_[* AsInt64]()[@(64) _][@(0.0.255) const]&]
-[s2;%RU-RU Возвращает 64`-bit number representing the font. 
-All font attributes are expressed as bitfields of this number.&]
+[s2;%RU-RU Возвращает 64`-битное число, представляющ
+ее шрифт. Все атрибуты шрифта выражаются 
+как бит`-поля этого числа.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:RealizeStd`(`): [@(0.0.255) void]_[* RealizeStd]()&]
@@ -134,16 +136,18 @@ font height.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Face`(int`): [_^Font^ Font][@(0.0.255) `&]_[* Face]([@(0.0.255) int]_[@3 n])&]
-[s2;%RU-RU Устанавливаетthe face index.&]
+[s2;%RU-RU Устанавливает индекс фаса.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Height`(int`): [_^Font^ Font][@(0.0.255) `&]_[* Height]([@(0.0.255) int]_[@3 n])&]
-[s2;%RU-RU Устанавливаетthe font height (in pixels/dots).&]
+[s2;%RU-RU Устанавливает высоту шрифта (в 
+пиксели/точки).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Width`(int`): [_^Font^ Font][@(0.0.255) `&]_[* Width]([@(0.0.255) int]_[@3 n])&]
-[s2;%RU-RU Устанавливаетthe font width. Use 0 for default 
-width (in pixels/dots).&]
+[s2;%RU-RU Устанавливает ширину шрифта. 
+Для дефолтной ширины используется 
+0 (в пиксели/точки).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Bold`(`): [_^Font^ Font][@(0.0.255) `&]_[* Bold]()&]
@@ -188,7 +192,7 @@ onst]&]
 [s4; &]
 [s5;:Font`:`:FaceName`(const String`&`): [_^Font^ Font][@(0.0.255) `&]_[* FaceName]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[@3 name])&]
-[s2;%RU-RU Устанавливаетthe face to [%-*@3 name]. If name 
+[s2;%RU-RU Устанавливае фас в [%-*@3 name]. If name 
 is not valid face`-name, Font is set to Null. Method is able 
 to recognize generic names `"serif`", `"sansserif`", `"monospace`" 
 and `"STDFONT`".&]
@@ -196,7 +200,7 @@ and `"STDFONT`".&]
 [s4; &]
 [s5;:Font`:`:operator`(`)`(`)const: [_^Font^ Font][@(64) _][@(0.0.255) operator]()()[@(64) _][@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает a copy of Font. Useful to simplify 
+[s2;%RU-RU Возвращает копию Font. Useful to simplify 
 notation when altering existing Font values.&]
 [s3; &]
 [s4; &]
@@ -241,7 +245,7 @@ IsNull template).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:SetNull`(`): [@(0.0.255) void]_[* SetNull]()&]
-[s2;%RU-RU Устанавливаетthe Font to Null.&]
+[s2;%RU-RU Устанавливает Font в Null.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetAscent`(`)const: [@(0.0.255) int]_[* GetAscent]()_[@(0.0.255) const]&]

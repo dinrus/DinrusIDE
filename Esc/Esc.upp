@@ -1,4 +1,4 @@
-description "Интерпретатор скриптового языка Esc\377";
+description "Интерпретатор скриптового языка Esc\3770,128,128";
 
 file
 	Esc.h options(BUILDER_OPTION) PCH,

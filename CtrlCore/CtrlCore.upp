@@ -1,14 +1,15 @@
-description "Система ядра ГИП\377B0,0,255";
+description "Система ядра ГИП\377B0,128,128";
 
 uses
 	Draw,
 	plugin\bmp,
 	RichText,
-	Painter;
+	Painter,
+	plugin/freetype;
 
 library(WIN32) "advapi32 comdlg32 comctl32 imm32";
 
-pkg_config(POSIX !OSX !VIRTUALGUI) "freetype2 x11 xinerama xrender xft xdmcp fontconfig xcb xext";
+pkg_config(POSIX !OSX !VIRTUALGUI) "x11 xinerama xrender xft xdmcp fontconfig xcb xext";
 
 pkg_config(POSIX !X11 !OSX !VIRTUALGUI) "gtk+-3.0 libnotify";
 

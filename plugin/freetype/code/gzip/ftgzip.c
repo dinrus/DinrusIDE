@@ -40,9 +40,11 @@
 
 #ifdef FT_CONFIG_OPTION_USE_ZLIB
 
-#ifdef FT_CONFIG_OPTION_SYSTEM_ZLIB
+#ifndef FT_CONFIG_OPTION_SYSTEM_ZLIB
+#define FT_CONFIG_OPTION_SYSTEM_ZLIB
 
-#include <zlib.h>
+#include <plugin/z/lib/zlib.h>
+#include <plugin/z/lib/zconf.h>
 
 #else /* !FT_CONFIG_OPTION_SYSTEM_ZLIB */
 
@@ -101,12 +103,14 @@
 #pragma GCC diagnostic ignored "-Wredundant-decls"
 #endif
 
+/*
 #include "zutil.c"
 #include "inffast.c"
 #include "inflate.c"
 #include "inftrees.c"
 #include "adler32.c"
 #include "crc32.c"
+*/
 
 #if defined( __GNUC__ )
 #pragma GCC diagnostic pop

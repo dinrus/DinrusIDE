@@ -64,5 +64,4 @@ WAIT`_IS`_EXCEPTION (случилось что`-то нехорошее,
 [s4; &]
 [s5;:SocketWaitEvent`:`:SocketWaitEvent`(`): [* SocketWaitEvent]()&]
 [s2;%RU-RU Конструктор .&]
-[s3; &]
 [s0;%RU-RU ]]

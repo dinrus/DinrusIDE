@@ -1,7 +1,3 @@
-#define IMAGECLASS DrawImg
-#define IMAGEFILE <Draw/DrawImg.iml>
-#include <Draw/iml_header.h>
-
 class Display {
 public:
 	enum {

@@ -4,7 +4,7 @@ uses
 	VirtualGui,
 	GLDraw;
 
-library(POSIX) "SDL2 SDL2main GL";
+library(POSIX) "SDL2 SDL2main";
 
 library(WIN32 MSC) "SDL2.lib SDL2main.lib OpenGL32.lib";
 

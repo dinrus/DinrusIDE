@@ -118,19 +118,22 @@ onst]_[@(0.0.255) char]_`*[*@3 host], [@(0.0.255) int]_[*@3 port])&]
 [s2;%RU-RU Подключает сокет к серверу по 
 адресу [%-*@3 host]:[%-*@3 port]. Это блокируемая 
 операция, так как связана с разрешением 
-имени хоста. Возвращает true when connection 
-process is successfully started.&]
+имени хоста. Возвращает true, если процесс 
+подключения стартовал успешно.&]
 [s3; &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Connect`(IpAddrInfo`&`): [@(0.0.255) bool]_[* Connect]([_^topic`:`/`/Core`/src`/IpAddrInfo`$en`-us`#IpAddrInfo`:`:class^ I
 pAddrInfo][@(0.0.255) `&]_[*@3 info])&]
-[s2;%RU-RU Connects socket to server found at [%-*@3 info]. Non`-blocking.&]
+[s2;%RU-RU Подключает сокет к серверу, найденному 
+по [%-*@3 info]. Неблокируемо.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TcpSocket`:`:WaitConnect`(`): [@(0.0.255) bool]_[* WaitConnect]()&]
-[s2;%RU-RU After Connect returns true, WaitConnect waits for connection 
-to be established. Note that it is only necessary to use WaitConnect 
-if you want to intercept errors before sending/recieving data.&]
+[s2;%RU-RU После того как Connect возвратит 
+true, WaitConnect ждёт пока подключение установится
+. Заметьте, что WaitConnect нужно использовать 
+только тогда, если нужно перехвачивать 
+ошибки до отправки/получения данных.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TcpSocket`:`:Listen`(int`,int`,bool`,bool`,void`*`): [@(0.0.255) bool]_[* Listen]([@(0.0.255) i
@@ -142,15 +145,20 @@ nt]_[*@3 port], [@(0.0.255) int]_[*@3 listen`_count]_`=_[@3 5], [@(0.0.255) bool
 pAddrInfo][@(0.0.255) `&]_[*@3 addr], [@(0.0.255) int]_[*@3 port], [@(0.0.255) int]_[*@3 list
 en`_count]_`=_[@3 5], [@(0.0.255) bool]_[*@3 ipv6]_`=_[@(0.0.255) false], 
 [@(0.0.255) bool]_[*@3 reuse]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU Starts a listening server socket at [%-*@3 port] with input 
-queue [%-*@3 listen`_count]. [%-*@3 ipv6] sets the socket to IPv6 
-mode, [%-*@3 reuse] sets [^http`:`/`/www`.kernel`.org`/doc`/man`-pages`/online`/pages`/man7`/socket`.7`.html^ S
-O`_REUSEADDR] socket option. [%-*@3 addr] can be used to specify 
-on what interface to listen on. As last void`* parameter, it 
-has to be pointer to uint32 that is dereferenced and assigned 
-to sockaddr`_in`::sin`_addr.s`_addr for ipv6`=`=true and/or in6`_addr 
-to be dereferenced and assigned to sockaddr`_in6`::sin6`_addr 
-for ipv6`=`=true.&]
+[s2;%RU-RU Стартует ожидающий (listening) сокет 
+сервера по порту [%-*@3 port] с очередью 
+ввода [%-*@3 listen`_count]. [%-*@3 ipv6] устанавливает 
+сокет  режим IPv6, [%-*@3 reuse] устанавливает 
+опцию сокета [^http`:`/`/www`.kernel`.org`/doc`/man`-pages`/online`/pages`/man7`/socket`.7`.html^ S
+O`_REUSEADDR]. [%-*@3 addr] может использоваться 
+для указания прослушивания на каком`-либо 
+(конкретном) интерфейсе. Последний 
+параметр, void`*, должен быть указателем 
+на uint32, который разреферируется (dereferenced) 
+и присваивается sockaddr`_in`::sin`_addr.s`_addr 
+при ipv6`=`=true, и/или in6`_addr, разреферируемый 
+и присваиваемый sockaddr`_in6`::sin6`_addr при 
+ipv6`=`=true.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Accept`(TcpSocket`&`): [@(0.0.255) bool]_[* Accept]([_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
@@ -163,7 +171,8 @@ cpSocket][@(0.0.255) `&]_[*@3 listen`_socket])&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Shutdown`(`): [@(0.0.255) void]_[* Shutdown]()&]
-[s2;%RU-RU Performs shutdown for write operations. Normally not needed.&]
+[s2;%RU-RU Выполняет shutdown для операций записи. 
+Как правило, не требуется.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:NoDelay`(`): [@(0.0.255) void]_[* NoDelay]()&]
@@ -181,12 +190,16 @@ cpSocket][@(0.0.255) `&]_[*@3 listen`_socket])&]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Wait`(dword`): [@(0.0.255) bool]_[* Wait]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 events])&]
-[s2;%RU-RU Waits for at most timeout for [%-*@3 events], which can 
-be a combination of WAIT`_READ (wait for more input bytes available), 
-WAIT`_WRITE (wait till it is possible to write something to socket). 
-Wait also always returns when socket exception happens. Возвращает 
-true if wait was successful (data can be written/read after the 
-wait), false on timeout.&]
+[s2;%RU-RU Ждёт в течении срока до таймаута 
+событий [%-*@3 events], которые могут быть 
+комбинацией WAIT`_READ (ждать ещё поступления 
+вводных байтов), WAIT`_WRITE (ждать, пока 
+запись в сокет станет возможной). 
+Wait также всегда возвращает при ошибках 
+сокета. Он возвращает true, если ожидание 
+прошло удачно (данные могут записываться/чит
+аться после ожидания), false `- когда 
+наступает таймаут.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:WaitRead`(`): [@(0.0.255) bool]_[* WaitRead]()&]
@@ -199,84 +212,100 @@ wait), false on timeout.&]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Peek`(`): [@(0.0.255) int]_[* Peek]()&]
 [s5;:TcpSocket`:`:Term`(`): [@(0.0.255) int]_[* Term]()&]
-[s2;%RU-RU Возвращает the next input byte without actually 
-removing it from input queue. It at most waits for specified 
-timeout for it, if there is still none, returns `-1.&]
+[s2;%RU-RU Возвращает следующий вводимый 
+байт без действительного его удаления 
+из очереди ввода. Ожидание протекает 
+в течение указанного таймаута, если 
+он не поступил до этого срока, возвращает 
+`-1.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Get`(`): [@(0.0.255) int]_[* Get]()&]
-[s2;%RU-RU Reads the next input byte. It at most waits for specified 
-timeout for it, if there is still none, returns `-1.&]
+[s2;%RU-RU Читает следующий вводимый байт. 
+Ожидание протекает в течение указанного 
+таймаута, если он не поступил до этого 
+срока, возвращает `-1.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Get`(void`*`,int`): [@(0.0.255) int]_[* Get]([@(0.0.255) void]_`*[*@3 buffe
 r], [@(0.0.255) int]_[*@3 len])&]
-[s2;%RU-RU Reads at most [%-*@3 len] bytes into [%-*@3 buffer], trying 
-to do so at most for specified timeout. Возвращает 
-the number of bytes actually read.&]
+[s2;%RU-RU Считывает [%-*@3 len] байтов в буфер 
+[%-*@3 buffer], пытаясь проделать это за период 
+до таймаута. Возвращает число действительно
+ считаных байтов.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Get`(int`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* Get]([@(0.0.255) int]_[*@3 len])&]
-[s2;%RU-RU Reads at most [%-*@3 len] bytes, trying to do so at most 
-for specified timeout. Возвращает a String with read 
-data.&]
+[s2;%RU-RU Считывает максимум [%-*@3 len] байтов, 
+пытаясь проделать это за период до 
+таймаута. Возвращает String с прочитанными 
+данными.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TcpSocket`:`:Put`(const void`*`,int`): [@(0.0.255) int]_[* Put]([@(0.0.255) const]_[@(0.0.255) v
 oid]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
-[s2;%RU-RU Writes at most [%-*@3 len] bytes from [%-*@3 buffer], trying 
-to do so at most for specified timeout. Возвращает 
-the number of bytes actually written.&]
+[s2;%RU-RU Записывает максимум [%-*@3 len] байтов 
+из буфера [%-*@3 buffer], пытаясь проделать 
+это за период до таймаута. Возвращает 
+число действительно записанных байтов.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Put`(const String`&`): [@(0.0.255) int]_[* Put]([@(0.0.255) const]_[_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Writes [%-*@3 s], trying to do so at most for specified 
-timeout. Возвращает the number of bytes actually written.&]
+[s2;%RU-RU Записывает [%-*@3 s], пытаясь проделать 
+это за период до таймаута. Возвращает 
+число действительно записанных байтов.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:GetAll`(void`*`,int`): [@(0.0.255) bool]_[* GetAll]([@(0.0.255) void]_`*[*@3 b
 uffer], [@(0.0.255) int]_[*@3 len])&]
-[s2;%RU-RU Reads exactly [%-*@3 len] bytes into [%-*@3 buffer]. If such 
-number of bytes cannot be read until timeout, returns false and 
-sets timeout error for TcpSocket.&]
+[s2;%RU-RU Считывает ровно [%-*@3 len] байтов в 
+буфер [%-*@3 buffer]. Если считывание не удаётся 
+до таймаута, возвращает false и устанавливает 
+ошибку таймаута для TcpSocket.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:GetAll`(int`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* GetAll]([@(0.0.255) int]_[*@3 len])&]
-[s2;%RU-RU Reads exactly [%-*@3 len] bytes. If such number of bytes 
-cannot be read until timeout, returns String`::GetVoid() and sets 
-timeout error for TcpSocket.&]
+[s2;%RU-RU Считывает ровно [%-*@3 len] байтов.Если 
+считывание не удаётся до таймаута, 
+возвращает String`::GetVoid() и устанавливает 
+ошибку таймаута для  TcpSocket.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:GetLine`(int`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* GetLine]([@(0.0.255) int]_[*@3 maxlen]_`=_[@3 65536])&]
-[s2;%RU-RU Reads single line (ended with `'`\n`', `'`\r`' is ignored). 
-If the whole line cannot be read within timeout or line length 
-is longer than [%-*@3 maxlen] sets error and returns String`::GetVoid().&]
+[s2;%RU-RU Считывает одну строку (заканчивающуюся 
+на `'`\n`', `'`\r`' игнорируется). Если всю 
+строку не удаётся прочесть до таймаута 
+или её длина больше [%-*@3 maxlen], устанавливается 
+ошибка и возвращается String`::GetVoid().&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TcpSocket`:`:PutAll`(const void`*`,int`): [@(0.0.255) bool]_[* PutAll]([@(0.0.255) con
 st]_[@(0.0.255) void]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
-[s2;%RU-RU Outputs exactly [%-*@3 len] bytes. If such number of bytes 
-cannot be written in time specified by timeout, sets error and 
-returns false.&]
+[s2;%RU-RU Выводит ровно [%-*@3 len] байтов. Если 
+за время до таймаута запись не удаётся, 
+устанавливается ошибка и возвращается 
+false.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:PutAll`(const String`&`): [@(0.0.255) bool]_[* PutAll]([@(0.0.255) const]_
 [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ String][@(0.0.255) `&]_[*@3 s
 ])&]
-[s2;%RU-RU Outputs the whole String. If such number of bytes cannot 
-be written in time specified by timeout, sets error and returns 
-false.&]
+[s2;%RU-RU Выводит всю String. Если за время 
+до таймаута запись не удаётся, устанавливает
+ся ошибка и возвращается false.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:StartSSL`(`): [@(0.0.255) bool]_[* StartSSL]()&]
-[s2;%RU-RU Устанавливает TcpSocket to SSL mode and starts 
-SSL handshake. Core/SSL must be present in project. Возвращает 
- true, если SSL could have been started. Handshake is not 
-finished until SSLHandshake returns false.&]
+[s2;%RU-RU Устанавливает TcpSocket в режим SSL 
+и стартует рукопожатие SSL. Core/SSL должно 
+присутствовать в проекте. Возвращает 
+true, если SSL удалось стартовать. Рукопожатие 
+не закончено то тех пор, пока SSLHandshake 
+не вернёт false.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:IsSSL`(`)const: [@(0.0.255) bool]_[* IsSSL]()_[@(0.0.255) const]&]
@@ -310,9 +339,9 @@ NI] для подключения SSL.&]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:GetSSLInfo`(`)const: [@(0.0.255) const]_[_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#SSLInfo`:`:struct^ S
 SLInfo]_`*[* GetSSLInfo]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает information about established (after 
-handshake) SSL connection or NULL if such information is not 
-available.&]
+[s2;%RU-RU Возвращает информацию об установленном 
+(после рукопожатия) подключении SSL 
+или NULL, если такая информация недоступна.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:Timeout`(int`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
@@ -329,7 +358,7 @@ Default value is Null, which means TcpSocket is blocking.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:GetTimeout`(`)const: [@(0.0.255) int]_[* GetTimeout]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает current timeout.&]
+[s2;%RU-RU Возвращает текущий таймаут.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TcpSocket`:`:GlobalTimeout`(int`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
@@ -350,7 +379,7 @@ cpSocket][@(0.0.255) `&]_[* NoGlobalTimeout]()&]
 [s5;:TcpSocket`:`:Blocking`(`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
 cpSocket][@(0.0.255) `&]_[* Blocking]()&]
 [s2;%RU-RU То же, что и Timeout(Null). Возвращает 
-`*this. This is the default value.&]
+`*this. Это дефолтное значение.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TcpSocket`:`:IsBlocking`(`): [@(0.0.255) bool]_[* IsBlocking]()&]
@@ -359,8 +388,8 @@ cpSocket][@(0.0.255) `&]_[* Blocking]()&]
 [s4; &]
 [s5;:TcpSocket`:`:WaitStep`(int`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
 cpSocket][@(0.0.255) `&]_[* WaitStep]([@(0.0.255) int]_[*@3 ms])&]
-[s2;%RU-RU Устанавливаетthe periodicity of calling WhenWait 
-in millisecond between calls. Default is 10ms (100hz).&]
+[s2;%RU-RU Устанавливает the periodicity of calling 
+WhenWait in millisecond between calls. Default is 10ms (100hz).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TcpSocket`:`:GetWaitStep`(`)const: [@(0.0.255) int]_[* GetWaitStep]()_[@(0.0.255) cons

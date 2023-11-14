@@ -10,100 +10,112 @@ topic "Класс XmlNode";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 XmlNode `- Hierarchical representation of XML]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс XmlNode `- Иерархическое 
+представление XML]]}}&]
 [s3; &]
 [s1;:XmlNode`:`:class: [@(0.0.255)3 class][3 _][*3 XmlNode]&]
-[s9;%RU-RU This class represent the whole XML document as recursive 
-hierarchic structure `- each XmlNode can contain any number of 
-child XmlNodes. XmlNode is mutable and U`+`+ provides function 
-to parse XML and store it to XmlNode and also to take XmlNode 
-and create corresponding XML document.&]
-[s9;%RU-RU XmlNode is [*/^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ moveable][*/  
-]type with [*/^topic`:`/`/Core`/srcdoc`/pick`_`$en`-us^ pick and 
-optional deep copy] transfer semantics&]
+[s9;%RU-RU Этот класс представляет весь 
+документ XML в форме рекурсивной иерархическо
+й структуры `- каждый XmlNode может содержать 
+любое число XmlNodes`-отпрысков. XmlNode является 
+mutable, и U`+`+ предоставляет функцию для 
+разбора XML и сохраняет его в XmlNode, а 
+также для того, чтобы брать XmlNode и 
+создавать соответствующий документ 
+XML.&]
+[s9;%RU-RU XmlNode типа [*/^topic`:`/`/Core`/srcdoc`/Moveable`_ru`-ru^ moveable][*/  
+]с семантикой трансфера [*/^topic`:`/`/Core`/srcdoc`/pick`_`_ru`-ru^ p
+ick and optional deep copy]&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:XmlNode`:`:Void`(`): [@(0.0.255) static] [@(0.0.255) const]_[_^XmlNode^ XmlNode][@(0.0.255) `&
 ]_[* Void]()&]
-[s2;%RU-RU Возвращает a constant reference to XmlNode representing 
-`"nothing`". This reference is used as return value in cases 
-where there are missing requested elements.&]
+[s2;%RU-RU Возвращает константную ссылку 
+на XmlNode, представляющий `"ничто`". Эта 
+ссылка используется как возвратное 
+значение в тех случаях, когда отсутствуют 
+требуемые элементы.&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:IsVoid`(`)const: [@(0.0.255) bool]_[* IsVoid]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если XmlNode is Void.&]
+[s2;%RU-RU Возвращает true, если XmlNode является 
+Void.&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:GetType`(`)const: [@(0.0.255) int]_[* GetType]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the type of node. Possible types 
-are: XML`_PI, XML`_DECL, XML`_COMMENT, XML`_DOC, XML`_TEXT, XML`_TAG.&]
+[s2;%RU-RU Возвращает тип узла. Возможные 
+типы: XML`_PI, XML`_DECL, XML`_COMMENT, XML`_DOC, XML`_TEXT, 
+XML`_TAG.&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:GetText`(`)const: [_^String^ String]_[* GetText]()_[@(0.0.255) const]&]
 [s5;:XmlNode`:`:GetTag`(`)const: [_^String^ String]_[* GetTag]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the text associated with node. If 
-the node is XML`_TAG, the text is tag`-id. If the node is XML`_TEXT, 
-the text is ... the text. In other cases, like XML`_PI, the text 
-is the copy of element content.&]
+[s2;%RU-RU Возвращает текст, ассоциированный 
+с узлом. Если узел XML`_TAG, то текст является 
+идентификатором тэга. Если узел XML`_TEXT, 
+то текст ... текст. В иных случаях, типа 
+XML`_PI, текст является копией контента 
+элемента.&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:IsTag`(`)const: [@(0.0.255) bool]_[* IsTag]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если node is XML`_TAG.&]
+[s2;%RU-RU Возвращает true, если узел XML`_TAG.&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:IsTag`(const char`*`)const: [@(0.0.255) bool]_[* IsTag]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 tag])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если node is XML`_TAG 
-and is equal to [%-*@3 tag].&]
+[s2;%RU-RU Возвращает true, если узел XML`_TAG 
+и равен [%-*@3 tag].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:IsText`(`)const: [@(0.0.255) bool]_[* IsText]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если node is&]
+[s2;%RU-RU Возвращает true, если узел текст.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%RU-RU Clears all content.&]
+[s2;%RU-RU Очищает весь контент.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:CreateTag`(const char`*`): [@(0.0.255) void]_[* CreateTag]([@(0.0.255) cons
 t]_[@(0.0.255) char]_`*[*@3 tag])&]
-[s2;%RU-RU Устанавливаетthis XmlNode to represent XML 
-tag with id [%-*@3 tag].&]
+[s2;%RU-RU Устанавливает этот XmlNode на представление
+ тэга XML с идентификатором [%-*@3 tag].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:CreateText`(const String`&`): [@(0.0.255) void]_[* CreateText]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 txt])&]
-[s2;%RU-RU Устанавливаетthis XmlNode to represent text 
-with content [%-*@3 txt].&]
+[s2;%RU-RU Устанавливает этот XmlNode на представление
+ текста с контентом [%-*@3 txt].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:CreatePI`(const String`&`): [@(0.0.255) void]_[* CreatePI]([@(0.0.255) cons
 t]_[_^String^ String][@(0.0.255) `&]_[*@3 pi])&]
-[s2;%RU-RU Устанавливаетthis XmlNode to represent processing 
-info [%-*@3 pi].&]
+[s2;%RU-RU Устанавливает этот XmlNode на представление
+ информации об обработке [%-*@3 pi].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:CreateDecl`(const String`&`): [@(0.0.255) void]_[* CreateDecl]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 decl])&]
-[s2;%RU-RU Устанавливаетthis XmlNode to represent XML 
-declaration [%-*@3 decl].&]
+[s2;%RU-RU Устанавливает этот XmlNode на представление
+ декларации XML [%-*@3 decl].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:CreateComment`(const String`&`): [@(0.0.255) void]_[* CreateComment]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 comment])&]
-[s2;%RU-RU Устанавливаетthis XmlNode to represent XML 
+[s2;%RU-RU Устанавливает this XmlNode to represent XML 
 [%-*@3 comment].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:CreateDocument`(`): [@(0.0.255) void]_[* CreateDocument]()&]
-[s2;%RU-RU Set this XmlNode to be the top`-level document node.&]
+[s2;%RU-RU Установить этот XmlNode узлом верхнеуровнев
+ого документа.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:IsEmpty`(`)const: [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если this XmlNode represents 
-XML`_DOC and contains no content.&]
+[s2;%RU-RU Возвращает true, если этот XmlNode представляе
+т XML`_DOC и не содержит контента.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
@@ -111,160 +123,179 @@ XML`_DOC and contains no content.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает a number of contained XmlNode sub`-nodes.&]
+[s2;%RU-RU Возвращает число содержимых подузлов 
+XmlNode.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:At`(int`): [_^XmlNode^ XmlNode][@(0.0.255) `&]_[* At]([@(0.0.255) int]_[*@3 i])
 &]
-[s2;%RU-RU Возвращает sub`-node at index [%-*@3 i]. If there 
-is no such node (number of sub`-nodes is less than i `+ 1), number 
-of nodes is extended to i `+ 1 with empty nodes.&]
+[s2;%RU-RU Возвращает подузел по индексу 
+[%-*@3 i]. Если такого узла нет (число подузлов 
+меньше i `+ 1), число узлов расширяется 
+до i `+ 1 с пустыми узлами.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:Node`(int`)const: [@(0.0.255) const]_[_^XmlNode^ XmlNode][@(0.0.255) `&]_[* N
 ode]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает node at index [%-*@3 i]. If there is 
-none, behavior is undefined. This function is possibly slightly 
-faster than either At or operator`[`].&]
+[s2;%RU-RU Возвращает узел по индексу [%-*@3 i]. 
+Если такого нет, поведение неопределённое. 
+Эта функция, возможно, немного быстрее 
+At или operator`[`].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:operator`[`]`(int`)const: [@(0.0.255) const]_[_^XmlNode^ XmlNode][@(0.0.255) `&
 ]_[* operator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  [%-*@3 i].&]
+[s2;%RU-RU Возвращает [%-*@3 i].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:operator`[`]`(const char`*`)const: [@(0.0.255) const]_[_^XmlNode^ XmlNode
 ][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 tag])_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Finds a XML`_TAG sub`-node with id [%-*@3 tag] and returns 
-it. If no such node is found, returns Void().&]
+[s2;%RU-RU Находит подузел XML`_TAG с идентификатором 
+[%-*@3 tag] и возвращает его. Если такой 
+узел не найден, возвращает Void().&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:Add`(`): [_^XmlNode^ XmlNode][@(0.0.255) `&]_[* Add]()&]
-[s2;%RU-RU Adds a new sub`-node.&]
+[s2;%RU-RU Добавляет новый подузел.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:XmlNode`:`:Remove`(int`): [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_[*@3 i])&]
-[s2;%RU-RU Removes subnode at [%-*@3 i].&]
+[s2;%RU-RU Удаляет подузел по [%-*@3 i].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:AddText`(const String`&`): [@(0.0.255) void]_[* AddText]([@(0.0.255) const]_
 [_^String^ String][@(0.0.255) `&]_[*@3 txt])&]
-[s2;%RU-RU Adds a new text sub`-node (XML`_TEXT) and assigns it a 
-text [%-*@3 txt].&]
+[s2;%RU-RU Добавляет новый текстовый подузел 
+(XML`_TEXT) и присваивает ему текст [%-*@3 txt].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:FindTag`(const char`*`)const: [@(0.0.255) int]_[* FindTag]([@(0.0.255) cons
 t]_[@(0.0.255) char]_`*[*@3 tag])_[@(0.0.255) const]&]
-[s2;%RU-RU Finds a XML`_TAG sub`-node with id [%-*@3 tag] and returns 
-its index. If no such sub`-node exists, returns negative number.&]
+[s2;%RU-RU Находит подузел XML`_TAG с идентификатором 
+[%-*@3 tag] и возвращает его индекс. Если 
+такого подузла нет, возвращает отрицательно
+е число.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:Add`(const char`*`): [_^XmlNode^ XmlNode][@(0.0.255) `&]_[* Add]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 tag])&]
-[s2;%RU-RU Adds a new XML`_TAG node with id [%-*@3 tag] and returns 
-a reference to it.&]
+[s2;%RU-RU Добавляет новый узел XML`_TAG с идентификато
+ром [%-*@3 tag] и возвращает ссылку на него.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:GetAdd`(const char`*`): [_^XmlNode^ XmlNode][@(0.0.255) `&]_[* GetAdd]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 tag])&]
 [s5;:XmlNode`:`:operator`(`)`(const char`*`): [_^XmlNode^ XmlNode][@(0.0.255) `&]_[* operat
 or()]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 tag])&]
-[s2;%RU-RU Возвращает a reference to XML`_TAG subnode with 
-id [%-*@3 tag]. If no such node exists, adds it.&]
+[s2;%RU-RU Возвращает ссылку на подузел 
+XML`_TAG с идентификатором [%-*@3 tag]. Если 
+такого узла нет, он добавляется.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:Remove`(const char`*`): [@(0.0.255) void]_[* Remove]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 tag])&]
-[s2;%RU-RU Removes XML`_TAG sub`-node with [%-*@3 tag ]id. If there 
-is no such sub`-node, nothing happens.&]
+[s2;%RU-RU Удаляет подузел XML`_TAG с идентификатором 
+[%-*@3 tag]. Емсли такого подузла нет, ничего 
+не происходит.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:GatherText`(`)const: [_^String^ String]_[* GatherText]()_[@(0.0.255) const]&]
 [s5;:XmlNode`:`:operator`~`(`)const: [_^String^ String]_[* operator`~]()_[@(0.0.255) const]&]
-[s2;%RU-RU Concatenates all XML`_TEXT sub`-nodes in order of increasing 
-indicies.&]
+[s2;%RU-RU Конкатенирует все подузлы XML`_TEXT 
+в целях увеличения индексов.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:XmlNode`:`:HasTags`(`)const: [@(0.0.255) bool]_[* HasTags]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если the node has subtags.&]
+[s2;%RU-RU Возвращает true, если у узла есть 
+субтэги.&]
 [s3; &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:GetAttrCount`(`)const: [@(0.0.255) int]_[* GetAttrCount]()_[@(0.0.255) cons
 t]&]
-[s2;%RU-RU Возвращает the number of attributes of current 
-node (it has to be XML`_TAG to have any attributes `- nonzero 
-returned).&]
+[s2;%RU-RU Возвращает число атрибутов у 
+текущего узла (он должен быть XML`_TAG, 
+чтобы иметь какие`-либо атрибуты, 
+`- возвращается не ноль).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:AttrId`(int`)const: [_^String^ String]_[* AttrId]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает id of attribute [%-*@3 i].&]
+[s2;%RU-RU Возвращает идентификатор атрибута 
+[%-*@3 i].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:Attr`(int`)const: [_^String^ String]_[* Attr]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает the value of attribute [%-*@3 i].&]
+[s2;%RU-RU Возвращает значение атрибута 
+[%-*@3 i].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:Attr`(const char`*`)const: [_^String^ String]_[* Attr]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the value of attribute [%-*@3 id]. 
-If no such attribute exists, returns empty String.&]
+[s2;%RU-RU Возвращает значение атрибута 
+[%-*@3 id]. Если такого атрибута не существует, 
+возвращает пустой String.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:SetAttr`(const char`*`,const String`&`): [_^XmlNode^ XmlNode][@(0.0.255) `&
 ]_[* SetAttr]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], [@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 val])&]
-[s2;%RU-RU Устанавливаетthe attribute [%-*@3 id] to have 
-value [%-*@3 val]. Attribute does not have exist yet.&]
+[s2;%RU-RU Устанавливает атрибут [%-*@3 id], у 
+которого значение [%-*@3 val]. Его ещё не 
+должно существовать.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:AttrInt`(const char`*`,int`)const: [@(0.0.255) int]_[* AttrInt]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 id], [@(0.0.255) int]_[*@3 def]_`=_Null)_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the value of attribute [%-*@3 id] converted 
-to integer. If no such attribute exists, returns [%-*@3 def].&]
+[s2;%RU-RU Возвращает значение атрибута 
+[%-*@3 id], преобразованное в целое. Если 
+такого атрибута не существует, возвращает 
+[%-*@3 def].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:SetAttr`(const char`*`,int`): [_^XmlNode^ XmlNode][@(0.0.255) `&]_[* SetAtt
 r]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], [@(0.0.255) int]_[*@3 val])&]
-[s2;%RU-RU Устанавливаетthe attribute [%-*@3 id] to have 
-integer value [%-*@3 val].&]
+[s2;%RU-RU Устанавливает атрибут [%-*@3 id], у 
+которого целочисленное значение 
+[%-*@3 val].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:XmlNode`:`:SetAttrs`(Upp`:`:VectorMap`<Upp`:`:String`,Upp`:`:String`>`&`&`): [@(0.0.255) v
 oid]_[* SetAttrs]([_^Upp`:`:VectorMap^ VectorMap]<[_^Upp`:`:String^ String], 
 [_^Upp`:`:String^ String]>`&`&_[*@3 a])&]
-[s2;%RU-RU Replaces all attributes with picked [%-*@3 a].&]
+[s2;%RU-RU Заменяет все атрибуты `"пикнутым`" 
+[%-*@3 a].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:SetAttrsPick`(pick`_ VectorMap`<String`,String`>`&`): [@(0.0.255) void]_
 [* SetAttrsPick]([@(0.128.128) pick`_]_[_^VectorMap^ VectorMap]<[_^String^ String], 
 [_^String^ String]>`&_[*@3 a])&]
-[s2;%RU-RU Replaces all attributes to [%-*@3 a] using pick operation 
-([%-*@3 a] is destroyed in operation).&]
+[s2;%RU-RU Заменяет все атрибуты к [%-*@3 a], используя 
+операцию pick ([%-*@3 a] при ней разрушается).&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:Shrink`(`): [@(0.0.255) void]_[* Shrink]()&]
-[s2;%RU-RU Attempts to minimize memory footprint.&]
+[s2;%RU-RU Пытается уменьшить потребляемую 
+память.&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:IsPicked`(`)const: [@(0.0.255) bool]_[* IsPicked]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если picked&]
+[s2;%RU-RU Возвращает true, если `"пикнут`".&]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Конструктор  detail]]}}&]
 [s3;%RU-RU &]
 [s0; [* XmlNode]()&]
-[s2;%RU-RU Construct an empty XmlNode.&]
+[s2;%RU-RU Конструирует пустой XmlNode.&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:XmlNode`(const XmlNode`&`,int`): [* XmlNode]([@(0.0.255) const]_[* XmlNode][@(0.0.255) `&
 ]_[*@3 n], [@(0.0.255) int])&]
-[s2;%RU-RU Deep copy constructor.&]
+[s2;%RU-RU Конструктор глубокой копии.&]
 [s3;%RU-RU &]
 [s0; &]
 [s0; &]
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 XmlNode `- parse and output functions]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 XmlNode `- функции разбора и вывода]]}}&]
 [s3;%RU-RU &]
 [s4;H0; &]
 [s5;:ParseXML`(XmlParser`&`,dword`): [_^XmlNode^ XmlNode]_[* ParseXML]([_^XmlParser^ XmlPar
@@ -296,20 +327,24 @@ XMLFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path], [_^ParseXmlFilter^ P
 lter][@(0.0.255) `&]_[*@3 filter], [_^dword^ dword]_[*@3 style]_`=_XML`_IGNORE`_DECLS[@(0.0.255) `|
 ]XML`_IGNORE`_PIS[@(0.0.255) `|]XML`_IGNORE`_COMMENTS)&]
 [s0; &]
-[s2;%RU-RU Создаёт XmlNode parsing XML document supplied either 
-as XmlParser, string, input stream or file path. [%-*@3 style] 
-can be a combination of&]
+[s2;%RU-RU Создаёт XmlNode, разбирая документ 
+XML, предоставленный как XmlParser, строку, 
+поток ввода или путь к файлу. [%-*@3 style] 
+может быть комбинацией из&]
 [s2;%RU-RU &]
 [ {{3581:6419<288;^ [s2;l32;%RU-RU XML`_IGNORE`_DECLS]
-::= [s2;l64;%RU-RU Declaration elements are ignored.]
+::= [s2;l64;%RU-RU Элементы декларации игнорируются.]
 ::^ [s2;l32;%RU-RU XML`_IGNORE`_PIS]
-::= [s2;l64;%RU-RU Processing info elements are ignored.]
+::= [s2;l64;%RU-RU Элементы информации об обработке 
+игнорируются.]
 ::^ [s2;l32;%RU-RU XML`_IGNORE`_COMMENTS]
-::= [s2;l64;%RU-RU Comments are ignored.]}}&]
+::= [s2;l64;%RU-RU Комментарии игнорируются.]}}&]
 [s3;%RU-RU &]
-[s2;%RU-RU Variants with [%-*@3 filter] allow to speficy a [^topic`:`/`/Core`/src`/ParseXmlFilter`$en`-us`#ParseXmlFilter`:`:struct^ f
-ilter class] to exclude some parts of XML, usually to preserve 
-memory. Can throw XmlError.&]
+[s2;%RU-RU Варианты с [%-*@3 filter] позволяют указать 
+[^topic`:`/`/Core`/src`/ParseXmlFilter`_ru`-ru`#ParseXmlFilter`:`:struct^ класс
+`-фильтр], чтобы исключить некоторые 
+части XML, обычно, для сохранения памяти. 
+Может выводить XmlError.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:AsXML`(Stream`&`,const XmlNode`&`,dword`): [@(0.0.255) void]_[* AsXML]([_^Stream^ Stre
@@ -324,8 +359,8 @@ onst]_[@(0.0.255) char]_`*[*@3 path], [@(0.0.255) const]_[_^XmlNode^ XmlNode][@(
 ]_[*@3 n], [_^dword^ dword]_[*@3 style]_`=_XML`_HEADER[@(0.0.255) `|]XML`_DOCTYPE[@(0.0.255) `|
 ]XML`_PRETTY)&]
 [s0; &]
-[s2;%RU-RU Создаёт a XML document from XmlNode [%-*@3 n]. [%-*@3 style] 
-can be a combination of&]
+[s2;%RU-RU Создаёт документ XML из XmlNode [%-*@3 n]. 
+[%-*@3 style] может быть комбинацией из&]
 [s2;%RU-RU &]
 [ {{3581:6419<288;^ [s2;l32; XML`_HEADER]
 ::= [s2;l64;%RU-RU Adds standard XML header at the beginning of the document.]

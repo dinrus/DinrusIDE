@@ -7,9 +7,7 @@
 
 #include "zutil.h"
 
-#ifndef Z_FREETYPE
 local uLong adler32_combine_ OF((uLong adler1, uLong adler2, z_off64_t len2));
-#endif
 
 #define BASE 65521U     /* largest prime smaller than 65536 */
 #define NMAX 5552
@@ -62,10 +60,10 @@ local uLong adler32_combine_ OF((uLong adler1, uLong adler2, z_off64_t len2));
 #endif
 
 /* ========================================================================= */
-uLong ZEXPORT adler32_z(
-    uLong adler,
-    const Bytef *buf,
-    z_size_t len)
+uLong ZEXPORT adler32_z(adler, buf, len)
+    uLong adler;
+    const Bytef *buf;
+    z_size_t len;
 {
     unsigned long sum2;
     unsigned n;
@@ -133,21 +131,19 @@ uLong ZEXPORT adler32_z(
 }
 
 /* ========================================================================= */
-uLong ZEXPORT adler32(
-    uLong adler,
-    const Bytef *buf,
-    uInt len)
+uLong ZEXPORT adler32(adler, buf, len)
+    uLong adler;
+    const Bytef *buf;
+    uInt len;
 {
     return adler32_z(adler, buf, len);
 }
 
-#ifndef Z_FREETYPE
-
 /* ========================================================================= */
-local uLong adler32_combine_(
-    uLong adler1,
-    uLong adler2,
-    z_off64_t len2)
+local uLong adler32_combine_(adler1, adler2, len2)
+    uLong adler1;
+    uLong adler2;
+    z_off64_t len2;
 {
     unsigned long sum1;
     unsigned long sum2;
@@ -173,20 +169,18 @@ local uLong adler32_combine_(
 }
 
 /* ========================================================================= */
-uLong ZEXPORT adler32_combine(
-    uLong adler1,
-    uLong adler2,
-    z_off_t len2)
+uLong ZEXPORT adler32_combine(adler1, adler2, len2)
+    uLong adler1;
+    uLong adler2;
+    z_off_t len2;
 {
     return adler32_combine_(adler1, adler2, len2);
 }
 
-uLong ZEXPORT adler32_combine64(
-    uLong adler1,
-    uLong adler2,
-    z_off64_t len2)
+uLong ZEXPORT adler32_combine64(adler1, adler2, len2)
+    uLong adler1;
+    uLong adler2;
+    z_off64_t len2;
 {
     return adler32_combine_(adler1, adler2, len2);
 }
-
-#endif  /* !Z_FREETYPE */

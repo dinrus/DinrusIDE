@@ -1,4 +1,4 @@
-description "DropGrid\377";
+description "DropGrid\377128,0,255";
 
 uses
 	CtrlLib,

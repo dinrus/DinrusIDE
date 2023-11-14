@@ -13,7 +13,7 @@ topic "Класс Thread";
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс Thread]]}}&]
 [s3;%- &]
 [s1;:Thread`:`:class:%- [@(0.0.255) class]_[* Thread]_:_[@(0.0.255) private]_[*@3 NoCopy]&]
-[s9; Инкапсуляция потока.&]
+[s9; Инкапсуляция потока выполнения.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
@@ -23,7 +23,8 @@ topic "Класс Thread";
 [s3; &]
 [s4;%- &]
 [s5;:Thread`:`:`~Thread`(`):%- [@(0.0.255) `~][* Thread]()&]
-[s2; Деструктор. Performs Detach `- thread continues running.&]
+[s2; Деструктор. Выполняет открепление 
+Detach `- поток продолжает выполняться.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
@@ -31,128 +32,155 @@ topic "Класс Thread";
 [s5;:Upp`:`:Thread`:`:Run`(Upp`:`:Function`<void`(`)`>`,bool`):%- [@(0.0.255) bool]_[* Ru
 n]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>_[*@3 cb], [@(0.0.255) bool]_[*@3 nos
 hutdown]_`=_[@(0.0.255) false])&]
-[s2; Starts a new thread. If [%-*@3 noshutdown] is true, started thread 
-is not meant to be aware of Shutdown system `- basically it means 
-that it does not affect thread counter.&]
+[s2; Стартует новый поток. Если [%-*@3 noshutdown] 
+равно true, стартовавший поток ничего 
+не знает о системе Shutdown `- в основном 
+это означает, что эта система не влияет 
+на счётчик потоков.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:Start`(Upp`:`:Function`<void`(`)`>`,bool`):%- [@(0.0.255) static] 
 [@(0.0.255) void]_[* Start]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>_[*@3 cb], 
 [@(0.0.255) bool]_[*@3 noshutdown]_`=_[@(0.0.255) false])&]
-[s2; Starts a thread and returns immediately (you cannot Wait for 
-the thread to finish in this case). If [%-*@3 noshutdown] is true, 
-started thread is not meant to be aware of Shutdown system `- 
-basically it means that it does not affect thread counter.&]
+[s2; Стартует поток и производит немедленный 
+возврат (в этом случае не получится 
+`"ждать`" финиша потока методом Wait). 
+Если [%-*@3 noshutdown] равно true, стартовавший 
+поток ничего не знает о системе Shutdown 
+`- в основном это означает, что эта 
+система не влияет на счётчик потоков.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:StartNice`(Upp`:`:Function`<void`(`)`>`,bool`):%- [@(0.0.255) sta
 tic] [@(0.0.255) void]_[* StartNice]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>_
 [*@3 cb], [@(0.0.255) bool]_[*@3 noshutdown]_`=_[@(0.0.255) false])&]
-[s2; То же, что и [%-* Start] but adjusts priority to [* Nice].&]
+[s2; То же, что и [%-* Start], но устанавливает 
+приоритет в [* Nice].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:StartCritical`(Upp`:`:Function`<void`(`)`>`,bool`):%- [@(0.0.255) s
 tatic] [@(0.0.255) void]_[* StartCritical]([_^Upp`:`:Function^ Function]<[@(0.0.255) void
 ]_()>_[*@3 cb], [@(0.0.255) bool]_[*@3 noshutdown]_`=_[@(0.0.255) false])&]
-[s2; То же, что и [%-* Start] but adjusts priority to [* Critical].&]
+[s2; То же, что и [%-* Start], но устанавливает 
+приоритет в [* Critical].&]
 [s3; &]
 [s4;%- &]
 [s5;:Thread`:`:Detach`(`):%- [@(0.0.255) void]_[* Detach]()&]
-[s2; Detaches running thread from the Thread object. It means that 
-thread continues running but is no longer controlled by Thread 
-instance.&]
+[s2; Открепляет выполняемый поток от 
+объекта Thread,`- то есть поток продолжает 
+выполняться, но более не контролируется 
+экземпляром Thread.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:Wait`(`):%- [@(0.0.255) int]_[* Wait]()&]
-[s2; Waits for started thread to finish. (`"join`").&]
+[s2; Ждёт окончания стартовавшего потока. 
+(`"join`").&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:IsOpen`(`)const:%- [@(0.0.255) bool]_[* IsOpen]()_[@(0.0.255) const]&]
-[s2; Thread represents an existing thread. Note that the thread can 
-be already finished and not running anymore (calling to Wait 
-in that case returns immediately).&]
+[s2; Thread представляет существующий поток. 
+Заметьте, что этот поток может быть 
+уже завершённым и более не выполняющимся 
+(вызов Wait в этом случае даёт немедленный 
+возврат).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:GetId`(`)const:%- [_^Upp`:`:Thread`:`:Id^ Thread`::Id]_[* GetId]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает the system`-unique id of thread.&]
+[s2; Возвращает системно`-уникальный 
+идентификатор потока.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:GetHandle`(`)const:%- HANDLE_[* GetHandle]()_[@(0.0.255) const 
 ][*C `[WIN32`]]&]
 [s5;:Thread`:`:GetHandle`(`)const:%- pthread`_t_[* GetHandle]()_[@(0.0.255) const 
 ][*C `[POSIX`]]&]
-[s2; Возвращает platform specific handle of thread.&]
+[s2; Возвращает специфичный для платформы 
+хэндл потока.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:Sleep`(int`):%- [@(0.0.255) static] [@(0.0.255) void]_[* Sleep]([@(0.0.255) in
 t]_[*@3 ms])&]
-[s2; Sleep for a given number of milliseconds.&]
+[s2; Сон в течении указанного количества 
+миллисекунд.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:IsST`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsST]()&]
-[s2; No additional U`+`+ Thread was started yet (only the main thread 
-is running so far).&]
+[s2; Никаких дополнительных U`+`+ Thread не 
+стартовало (пока выполняется только 
+главный поток).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:IsMain`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsMain]()&]
-[s2; Возвращает true, если current thread is main.&]
+[s2; Возвращает true, если текущий поток 
+является главным.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:IsUpp`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsUpp]()&]
-[s2; Calling thread was started using U`+`+ Thread class (for main 
-thread returns false).&]
+[s2; Вызываемый поток стартован из класса 
+U`+`+ Thread (для главного потока возвращает 
+false).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:GetCount`(`):%- [@(0.0.255) static] [@(0.0.255) int]_[* GetCount]()&]
-[s2; Number of running threads (started using Thread class).&]
+[s2; Число выполняемых потоков (стартованных 
+через класс Thread).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:ShutdownThreads`(`):%- [@(0.0.255) static] [@(0.0.255) void]_[* ShutdownThre
 ads]()&]
-[s2; Устанавливает the `"Shutdown`" flag on, waits before 
-all threads started without noshutdown true terminate, then sets 
-flag off again. It is meant to be used together with IsShutdownThreads 
-to terminate long running secondary service threads. Main thread 
-calls ShutdownThreads, secondary threads test IsShutdownThreads 
-and if true, exit.&]
+[s2; Устанавливает флаг `"Shutdown`", ждёт окончания 
+всех потоков, стартованных без noshutdown 
+true, затем снова сбрасывает флаг. Подразумева
+ется использование вместе с IsShutdownThreads 
+в целях терминации длительных вторичных 
+сервисных потоков. Главный поток 
+вызывает ShutdownThreads, вторичные тестируют 
+IsShutdownThreads и, если true, завершаются.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:IsShutdownThreads`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsShutdown
 Threads]()&]
-[s2; True if ShutdownThreads is active. This is supposed to be tested 
-by threads participating in shutdown system.&]
+[s2; True, если ShutdownThreads активен. Предполагается 
+их тестирование потоками, участвующими 
+в системе shutdown.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:AtExit:%- [@(0.0.255) static]_[@(0.0.255) void]_(`*[* AtExit]([@(0.0.255) void
 ]_(`*[*@3 exitfn])()))()&]
-[s2; Allow to install a function [%-*@3 exitfn] to be called at thread 
-exit. Возвращает the pointer to function already installed 
-or NULL, client code should call the already installed function 
-(return value is not null)&]
+[s2; Позволяет установить функцию [%-*@3 exitfn], 
+вызываемую при выходе потока. Возвращает 
+указатель на уже установленную функцию 
+или NULL, код`-клиент должен вызывать 
+эту функцию (значение возврата не 
+равно null)&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:GetCurrentId`(`):%- [@(0.0.255) static] [_^Upp`:`:Thread`:`:Id^ Thr
 ead`::Id]_[* GetCurrentId]()&]
-[s2; Возвращает the system`-unique id of calling thread.&]
+[s2; Возвращает системно`-уникальный 
+идентификатор вызываемого потока.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:Priority`(int`):%- [@(0.0.255) bool]_[* Priority]([@(0.0.255) int]_[*@3 percen
 t])&]
-[s2; Устанавливает the treads priority to [%-*@3 percent 
-][%- (0 to 200)]. In reality, current implementation supports only 
-5 levels, 25%, 75%, 125%, 175% and more than 175%; last two levels 
-require root privileges. Возвращает  true, если 
-setting the priority was successful.&]
+[s2; Устанавливает приоритет потока в 
+[%-*@3 percent ][%- (от 0 до 200)]. В реальности, 
+текущая реализация поддерживает 
+только 5 уровней, 25%, 75%, 125%, 175% и более 
+чем 175%; последние два уровня требуют 
+привилегий root. Возвращает true, если 
+установка приоритета прошла успешно.&]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:Nice`(`):%- [_^Upp`:`:Thread^ Thread][@(0.0.255) `&]_[* Nice]()&]
-[s2; Устанавливает the priority suitable for long running 
-threads.&]
+[s2; Устанавливает приоритет, подходящий 
+для длительно протекающих потоков.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:Critical`(`):%- [_^Upp`:`:Thread^ Thread][@(0.0.255) `&]_[* Critical](
 )&]
-[s2; Устанавливает the priority suitable for threads 
-with critical latency (like audio generators).&]
+[s2; Устанавливает приоритет, подходящий 
+для потоков с критической латентностью 
+(наподрбии аудиогенераторов).&]
 [s3;%- &]
 [s0;%- ]]

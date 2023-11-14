@@ -128,10 +128,19 @@ const wchar *CSyntax::DoComment(HighlightOutput& hls, const wchar *p, const wcha
 	hls.SetFlags(n, flags);
 	static WString todo = "СДЕЛАТЬ";
 	static WString fixme = "ИСПРАВИТЬ";
-	if(w.GetCount() >= 4 && w.GetCount() <= 5 && findarg(w, todo, fixme) >= 0)
+	static WString todo2 = "TODO";
+	static WString fixme2 = "FIXME";
+	
+	if(w.GetCount() >= 7 && w.GetCount() <= 9 && findarg(w, todo, fixme) >= 0)
 		hls.Put(n, hl_style[INK_COMMENT_WORD], hl_style[PAPER_COMMENT_WORD]);
 	else
 		hls.Put(n, hl_style[INK_COMMENT]);
+	
+	if(w.GetCount() >= 4 && w.GetCount() <= 5 && findarg(w, todo2, fixme2) >= 0)
+		hls.Put(n, hl_style[INK_COMMENT_WORD], hl_style[PAPER_COMMENT_WORD]);
+	else
+		hls.Put(n, hl_style[INK_COMMENT]);
+	
 	return p + n;
 }
 //"Сырая" строка

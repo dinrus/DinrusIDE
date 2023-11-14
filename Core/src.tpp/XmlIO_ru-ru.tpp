@@ -193,7 +193,7 @@ this new tag is constructed.&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
 [s0; &]
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Xmlize Store/Load functions]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Функции Xmlize Store/Load]]}}&]
 [s3; &]
 [s5;:StoreAsXML`(const T`&`,const char`*`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T
 ]>_[_^String^ String]_[* StoreAsXML]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 data], 
@@ -244,7 +244,8 @@ path of file. If [%-*@3 file] is NULL, ConfigFile(GetExeTitle()
 returns false. In case of error, throws XmlError.&]
 [s3;%RU-RU &]
 [s0; &]
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Standard Xmlize template specializations]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Стандартные шаблонные специализации 
+Xmlize]]}}&]
 [s3; &]
 [s5;:XmlAttrLoad`(String`&`,const String`&`): [@(0.0.255) template]_<>_[@(0.0.255) void]_
 [* XmlAttrLoad]([_^String^ String][@(0.0.255) `&]_[*@3 var], [@(0.0.255) const]_[_^String^ St
@@ -331,7 +332,7 @@ mlIO][@(0.0.255) `&]_[*@3 xml], [_^byte^ byte][@(0.0.255) `&]_[*@3 var])&]
 data types.&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Special Xmlize variants]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Особые варианты Xmlize]]}}&]
 [s3; &]
 [s5;:XmlizeLangAttr`(XmlIO`&`,int`&`,const char`*`): [@(0.0.255) void]_[* XmlizeLangAttr](
 [_^XmlIO^ XmlIO][@(0.0.255) `&]_[*@3 xml], [@(0.0.255) int`&]_[*@3 lang], 

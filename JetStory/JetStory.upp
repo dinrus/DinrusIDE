@@ -5,11 +5,13 @@ uses
 	VirtualGui/SDL2GL,
 	plugin/jpg;
 
-library(POSIX) "SDL2 GL GLU";
+library(POSIX) "SDL2 ";
 
-library(WIN32) "SDL2.lib SDL2main.lib";
+library(WIN32 MSC) "SDL2.lib SDL2main.lib";
 
-library(CLANG) "glu32 opengl32";
+library(WIN32 CLANG) "glu32 opengl32";
+
+pkg_config(POSIX) "gl glu";
 
 file
 	JetStory.h,

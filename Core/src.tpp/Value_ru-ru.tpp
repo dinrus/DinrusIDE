@@ -487,20 +487,20 @@ alue][@(0.0.255) `&]_[*@3 v])&]
 [s4;%- &]
 [s5;:IsString`(const Value`&`):%- [@(0.0.255) bool]_[* IsString]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Возвращает  true, если [%-*@3 v] contains String, 
+[s2; Возвращает true, если [%-*@3 v] contains String, 
 WString or Null value.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsNumber`(const Value`&`):%- [@(0.0.255) bool]_[* IsNumber]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Возвращает  true, если [%-*@3 v] contains bool, 
-int, int64, double or Null value.&]
+[s2; Возвращает true, если [%-*@3 v] contains bool, int, 
+int64, double or Null value.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsDateTime`(const Value`&`):%- [@(0.0.255) bool]_[* IsDateTime]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Возвращает  true, если [%-*@3 v] contains Date, 
-Time or Null value.&]
+[s2; Возвращает true, если [%-*@3 v] contains Date, Time 
+or Null value.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsValueArray`(const Value`&`):%- [@(0.0.255) bool]_[* IsValueArray]([@(0.0.255) const]_

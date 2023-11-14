@@ -1,5 +1,4 @@
-topic "StreamRasterEncoder";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс StreamRasterEncoder";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,8 +8,9 @@ topic "StreamRasterEncoder";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 StreamRasterEncoder]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс StreamRasterEncoder]]}}&]
 [s3;%- &]
 [s1;:StreamRasterEncoder`:`:class:%- [@(0.0.255)3 class][3 _][*3 StreamRasterEncoder][3 _:_][@(0.0.255)3 p
 ublic][3 _][*@3;3 RasterEncoder]&]
@@ -22,8 +22,9 @@ to RasterEncoder.&]
 [s3;%- &]
 [s5;:StreamRasterEncoder`:`:SetStream`(Stream`&`):%- [@(0.0.255) void]_[* SetStream]([_^Stream^ S
 tream][@(0.0.255) `&]_[*@3 `_s])&]
-[s2; Устанавливаетthe Stream to be used as source of image data. Derived 
-class can query this stream using GetStream method.&]
+[s2; Устанавливаетthe Stream to be used as source of 
+image data. Derived class can query this stream using GetStream 
+method.&]
 [s3; &]
 [s4;%- &]
 [s5;:StreamRasterEncoder`:`:GetStream`(`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* GetStream
@@ -65,4 +66,4 @@ ng]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]
 [s2; Stores [%-*@3 img] to memory and returns resulting binary data 
 as String.&]
 [s3; &]
-[s0; ]
+[s0; ]]

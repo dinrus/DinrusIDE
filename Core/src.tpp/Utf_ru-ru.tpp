@@ -28,7 +28,7 @@ UTF`-32 из строки UTF`-8 [%-*@3 s] с окончанием
 на [%-*@3 lim]. [%-*@3 s] должна быть меньше [%-*@3 lim]. 
 [%-*@3 s] продвигается соответственно. 
 [%-*@3 ok] установлен в false, если UTF`-8 неверен 
-`- в таких случаях возврашается error`-escape 
+`- в таких случаях возвращается error`-escape 
 единичного байта (но он НЕ устанавливается 
 в true, если считывается полноценный 
 символ UTF`-8).&]
@@ -55,7 +55,7 @@ onst]_[_^Upp`:`:dword^ dword]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
 [s2;%RU-RU Возвращает размер в байтах текста 
 UTF`-32 Unicode в кодировке UTF`-8. Если источник 
 указан как указатель [%-*@3 s] без [%-*@3 len], 
-он должен завершаться нулём.&]
+то он должен завершаться нулём.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Utf8Len`(const Upp`:`:wchar`*`,int`): [@(0.0.255) int]_[* Utf8Len]([@(0.0.255) c
@@ -67,7 +67,7 @@ st]_[_^Upp`:`:WString^ WString][@(0.0.255) `&]_[*@3 s])&]
 [s2;%RU-RU Возвращает размер в байтах текста 
 UTF`-16 Unicode в кодировке UTF`-8. Если источник 
 указан как указатель [%-*@3 s] без [%-*@3 len], 
-он должен завершаться нулём.&]
+то он должен завершаться нулём.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:Utf8Len`(Upp`:`:dword`): [@(0.0.255) int]_[* Utf8Len]([_^Upp`:`:dword^ dword]_[*@3 c
@@ -104,7 +104,7 @@ onst]_[_^Upp`:`:dword^ dword]_`*[*@3 s])&]
 [s5;:Upp`:`:ToUtf8`(const Upp`:`:Vector`<Upp`:`:dword`>`&`): [_^Upp`:`:String^ String]_
 [* ToUtf8]([@(0.0.255) const]_[_^Upp`:`:Vector^ Vector]<[_^Upp`:`:dword^ dword]>`&_[*@3 s])
 &]
-[s2;%RU-RU Преобразование UTF`-32 в UTF`-8.Если 
+[s2;%RU-RU Преобразование UTF`-32 в UTF`-8. Если 
 цель (приёмник) указан как указатель 
 на буфер [%-*@3 t], этот буфер должен содержать 
 достаточно места для вывода. Если 
@@ -125,16 +125,16 @@ onst]_[_^Upp`:`:dword^ dword]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
 st]_[_^Upp`:`:dword^ dword]_`*[*@3 s])&]
 [s5;:Upp`:`:Utf16Len`(const Upp`:`:Vector`<Upp`:`:dword`>`&`): [@(0.0.255) int]_[* Utf16L
 en]([@(0.0.255) const]_[_^Upp`:`:Vector^ Vector]<[_^Upp`:`:dword^ dword]>`&_[*@3 s])&]
-[s2;%RU-RU Возвращает the size in wchars of UTF`-32 Unicode 
-text in UTF`-16. Если источник указан как 
-указатель [%-*@3 s] без [%-*@3 len], то он должен 
-завершаться нулём.&]
+[s2;%RU-RU Возвращает размер в широких символов 
+текста UTF`-32 Unicode в UTF`-16. Если источник 
+указан как указатель [%-*@3 s] без [%-*@3 len], 
+то он должен завершаться нулём.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Utf16Len`(Upp`:`:dword`): [@(0.0.255) int]_[* Utf16Len]([_^Upp`:`:dword^ dword]_
 [*@3 code])&]
-[s2;%RU-RU Возвращает the size in wchars of single codepoint 
-in UTF`-16.&]
+[s2;%RU-RU Возвращает размер в широких символах 
+единичной кодточки в UTF`-16.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:Utf16Len`(const char`*`,int`): [@(0.0.255) int]_[* Utf16Len]([@(0.0.255) const]_
@@ -143,10 +143,10 @@ in UTF`-16.&]
 har]_`*[*@3 s])&]
 [s5;:Upp`:`:Utf16Len`(const Upp`:`:String`&`): [@(0.0.255) int]_[* Utf16Len]([@(0.0.255) co
 nst]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Возвращает the size in wchars of UTF`-8 Unicode 
-text in UTF`-16. Если источник указан как 
-указатель [%-*@3 s] без [%-*@3 len], то он должен 
-завершаться нулём.&]
+[s2;%RU-RU Возвращает размер в широких символах 
+текста UTF`-8 Unicode в UTF`-16. Если источник 
+указан как указатель [%-*@3 s] без [%-*@3 len], 
+то он должен завершаться нулём.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ToUtf16`(Upp`:`:wchar`*`,const Upp`:`:dword`*`,int`): [@(0.0.255) void]_[* To
@@ -159,16 +159,19 @@ onst]_[_^Upp`:`:dword^ dword]_`*[*@3 s])&]
 [s5;:Upp`:`:ToUtf16`(const Upp`:`:Vector`<Upp`:`:dword`>`&`): [_^Upp`:`:WString^ WStrin
 g]_[* ToUtf16]([@(0.0.255) const]_[_^Upp`:`:Vector^ Vector]<[_^Upp`:`:dword^ dword]>`&_[*@3 s
 ])&]
-[s2;%RU-RU [%- UTF`-32 to UTF`-16 conversion.] If target is specified 
-as pointer to buffer [%-*@3 t], the buffer must contain enough 
-space for the output. Если источник указан 
-как указатель [%-*@3 s] без [%-*@3 len], то он 
-должен завершаться нулём.&]
+[s2;%RU-RU [%- Преобразование UTF`-32 в UTF`-16.] Если 
+цель задана как указатель на буфер 
+[%-*@3 t], то этот буфер должен содержать 
+достаточно пространства для вывода. 
+Если источник указан как указатель 
+[%-*@3 s] без [%-*@3 len], то он должен завершаться 
+нулём.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ToUtf16`(Upp`:`:dword`): [_^Upp`:`:WString^ WString]_[* ToUtf16]([_^Upp`:`:dword^ d
 word]_[*@3 code])&]
-[s2;%RU-RU Converts single codepoint to UTF`-16.&]
+[s2;%RU-RU Преобразует единичную кодточку 
+в UTF`-16.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ToUtf16`(Upp`:`:wchar`*`,const char`*`,int`): [@(0.0.255) void]_[* ToUtf16]([_^Upp`:`:wchar^ w
@@ -179,11 +182,13 @@ onst]_[@(0.0.255) char]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
 nst]_[@(0.0.255) char]_`*[*@3 s])&]
 [s5;:Upp`:`:ToUtf16`(const Upp`:`:String`&`): [_^Upp`:`:WString^ WString]_[* ToUtf16]([@(0.0.255) c
 onst]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU UTF`-8 to UTF`-16 conversion. If target is specified as 
-pointer to buffer [%-*@3 t], the buffer must contain enough space 
-for the output. Если источник указан как 
-указатель [%-*@3 s] без [%-*@3 len], то он должен 
-завершаться нулём.&]
+[s2;%RU-RU Преобразование UTF`-8 в UTF`-16. Если 
+цель задана как указатель на буфер 
+[%-*@3 t], то этот буфер должен содержать 
+достаточно пространства для вывода. 
+Если источник указан как указатель 
+[%-*@3 s] без [%-*@3 len], то он должен завершаться 
+нулём.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:Utf32Len`(const Upp`:`:wchar`*`,int`): [@(0.0.255) int]_[* Utf32Len]([@(0.0.255) c
@@ -192,11 +197,12 @@ onst]_[_^Upp`:`:wchar^ wchar]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
 st]_[_^Upp`:`:wchar^ wchar]_`*[*@3 s])&]
 [s5;:Upp`:`:Utf32Len`(const Upp`:`:WString`&`): [@(0.0.255) int]_[* Utf32Len]([@(0.0.255) c
 onst]_[_^Upp`:`:WString^ WString][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Возвращает the size in dwords of UTF`-16 Unicode 
-text in UTF`-32. Note that this is the same as the number of 
-Unicode codepoints in the text. Если источник указан 
-как указатель [%-*@3 s] без [%-*@3 len], то он 
-должен завершаться нулём.&]
+[s2;%RU-RU Возвращает размер в dword`'ах текста 
+UTF`-16 Unicode в UTF`-32. Заметьте, что это то 
+же, что и число кодточек Unicode  в этом 
+тексте. Если источник указан как указатель 
+[%-*@3 s] без [%-*@3 len], то он должен завершаться 
+нулём.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:Utf32Len`(const char`*`,int`): [@(0.0.255) int]_[* Utf32Len]([@(0.0.255) const]_
@@ -205,18 +211,20 @@ Unicode codepoints in the text. Если источник указан
 har]_`*[*@3 s])&]
 [s5;:Upp`:`:Utf32Len`(const Upp`:`:String`&`): [@(0.0.255) int]_[* Utf32Len]([@(0.0.255) co
 nst]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Возвращает the size in dwords of UTF`-8 Unicode 
-text in UTF`-32. Note that this is the same as the number of 
-Unicode codepoints in the text.Если источник указан 
-как указатель [%-*@3 s] без [%-*@3 len], то он 
-должен завершаться нулём.&]
+[s2;%RU-RU Возвращает размер в dword`'ах текста 
+UTF`-8 Unicode в UTF`-32. Заметьте, что это то 
+же, что и число кодточек Unicode  в этом 
+тексте. Если источник указан как указатель 
+[%-*@3 s] без [%-*@3 len], то он должен завершаться 
+нулём.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ReadSurrogatePair`(const Upp`:`:wchar`*`,const Upp`:`:wchar`*`): [_^Upp`:`:dword^ d
 word]_[* ReadSurrogatePair]([@(0.0.255) const]_[_^Upp`:`:wchar^ wchar]_`*[*@3 s], 
 [@(0.0.255) const]_[_^Upp`:`:wchar^ wchar]_`*[*@3 lim])&]
-[s2;%RU-RU Reads single utf32 codepoint from [%-*@3 s], [%-*@3 lim]. 
-Возвращает 0 if there is no surrogate pair at [%-*@3 s].&]
+[s2;%RU-RU Считывает единичный кодпойнт 
+utf32 из [%-*@3 s], [%-*@3 lim]. Возвращает 0, если 
+в [%-*@3 s ]нет суррогатной пары.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ToUtf32`(Upp`:`:dword`*`,const Upp`:`:wchar`*`,int`): [@(0.0.255) void]_[* To
@@ -229,11 +237,13 @@ word]>_[* ToUtf32]([@(0.0.255) const]_[_^Upp`:`:wchar^ wchar]_`*[*@3 s],
 word]>_[* ToUtf32]([@(0.0.255) const]_[_^Upp`:`:wchar^ wchar]_`*[*@3 s])&]
 [s5;:Upp`:`:ToUtf32`(const Upp`:`:WString`&`): [_^Upp`:`:Vector^ Vector]<[_^Upp`:`:dword^ d
 word]>_[* ToUtf32]([@(0.0.255) const]_[_^Upp`:`:WString^ WString][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU UTF`-16 to UTF`-32 conversion. If target is specified 
-as pointer to buffer [%-*@3 t], the buffer must contain enough 
-space for the output. Если источник указан 
-как указатель [%-*@3 s] без [%-*@3 len], то он 
-должен завершаться нулём.&]
+[s2;%RU-RU Преобразование UTF`-16 в UTF`-32. Если 
+цель задана как указатель на буфер 
+[%-*@3 t], то этот буфер должен содержать 
+достаточно пространства для вывода. 
+Если источник указан как указатель 
+[%-*@3 s] без [%-*@3 len], то он должен завершаться 
+нулём.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ToUtf32`(Upp`:`:dword`*`,const char`*`,int`): [@(0.0.255) void]_[* ToUtf32]([_^Upp`:`:dword^ d
@@ -244,11 +254,13 @@ d]>_[* ToUtf32]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s], [@(0.0.255) int]
 oUtf32]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s])&]
 [s5;:Upp`:`:ToUtf32`(const Upp`:`:String`&`): [_^Upp`:`:Vector^ Vector]<[_^Upp`:`:dword^ d
 word]>_[* ToUtf32]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU UTF`-8 to UTF`-32 conversion. If target is specified as 
-pointer to buffer [%-*@3 t], the buffer must contain enough space 
-for the output.Если источник указан как 
-указатель [%-*@3 s] без [%-*@3 len], то он должен 
-завершаться нулём.&]
+[s2;%RU-RU Преобразование UTF`-8 в UTF`-32. Если 
+цель задана как указатель на буфер 
+[%-*@3 t], то этот буфер должен содержать 
+достаточно пространства для вывода. 
+Если источник указан как указатель 
+[%-*@3 s] без [%-*@3 len], то он должен завершаться 
+нулём.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:UnicodeDecompose`(Upp`:`:dword`,Upp`:`:dword`[MAX`_DECOMPOSED`]`,bool`): [@(0.0.255) i

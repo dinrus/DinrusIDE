@@ -1,4 +1,4 @@
-description "A passive message ctrl and manager for U++\377";
+description "A passive message ctrl and manager for U++\3770,128,128";
 
 uses
 	Core,

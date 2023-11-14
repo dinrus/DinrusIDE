@@ -383,7 +383,7 @@ String IngameGui(bool esc)
 			text <<= GetTopic("topic://JetStory/app/info_en-us").text;
 			sg.Execute();
 		});*/
-		auto vol = [=, this]()->String { return "5. Sound volume " + AsString(volume) + " / 10"; };
+		auto vol = [=]()->String { return "5. Sound volume " + AsString(volume) + " / 10"; };
 		Button *b = &h.Add(vol(), [&] {
 			volume = volume + 1;
 			if(volume > 10)

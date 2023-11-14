@@ -150,7 +150,7 @@ st]_[*@4 K][@(0.0.255) `&]_[*@3 k])&]
 [s4; &]
 [s5;:SortedAMap`:`:Swap`(SortedAMap`&`):%- [@(0.0.255) void]_[* Swap]([_^SortedAMap^ Sorted
 AMap][@(0.0.255) `&]_[*@3 x])&]
-[s2; Меняет месиами этот SortedAMap с другим.&]
+[s2; Меняет местами этот SortedAMap с другим.&]
 [s3; &]
 [s4; &]
 [s5;:SortedAMap`:`:IsPicked`(`)const:%- [@(0.0.255) bool]_[* IsPicked]()_[@(0.0.255) const]&]

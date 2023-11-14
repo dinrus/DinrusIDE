@@ -47,7 +47,7 @@ private:
 	int           tabpos;
 	int           tabsize;
 	int           newtabalign;
-	
+
 public:
 	Event<>       WhenLeftDouble;
 	Event<>       WhenLeftDown;
@@ -116,7 +116,7 @@ public:
 
 struct FontHeight : public WithDropChoice<EditDouble> {
 	virtual bool Key(dword key, int);
-	
+
 	FontHeight()   { MinMax(1, 72); }
 };
 
@@ -191,7 +191,7 @@ public:
 	void     Get(RichText& text);
 	RichText Get();
 	String   GetQTF();
-	
+
 	void     Setup(const Vector<int>& faces, int aunit = UNIT_DOT);
 
 	StyleManager();
@@ -295,11 +295,11 @@ private:
 
 	int                      undoserial;
 	bool                     incundoserial;
-	
+
 	Vector<int>              ffs;
-	
+
 	int                      bullet_indent;
-	
+
 	PaintInfo                paint_info;
 	bool                     ignore_physical_size;
 
@@ -427,7 +427,7 @@ private:
 
 		UndoTable(const RichText& txt, int table);
 	};
-	
+
 	struct UndoBegSelFix : UndoRec {
 		virtual void         Apply(RichText& txt);
 		virtual One<UndoRec> GetRedo(const RichText& txt);
@@ -442,7 +442,7 @@ private:
 	Array<UndoRec>   redo;
 
 	FileSel          imagefs;
-	
+
 	struct StyleKey {
 		Uuid   styleid;
 		String stylename;
@@ -450,14 +450,14 @@ private:
 		int    height;
 		Color  ink;
 		Color  paper;
-		
+
 		StyleKey();
 	};
-	
+
 	StyleKey   stylekey[20];
-	
+
 	Zoom       clipzoom;
-	
+
 	double     floating_zoom;
 
 	Rect       GetTextRect() const;
@@ -620,12 +620,12 @@ private:
 	bool     InSelection(int& c) const;
 	void     RefreshDropCaret();
 	void     ZoomClip(RichText& text) const;
-	
+
 	void     InsertImage();
-	
+
 	void     StyleKeys();
 	void     ApplyStyleKey(int i);
-	
+
 	void     HeaderFooter();
 	bool     EditHeaderFooter(String& header_qtf, String& footer_qtf);
 
@@ -754,6 +754,7 @@ public:
 	void   CutTool(Bar& bar, dword key = K_CTRL_X);
 	void   CopyTool(Bar& bar, dword key = K_CTRL_C);
 	void   PasteTool(Bar& bar, dword key = K_CTRL_V);
+	void   PastePlainTextTool(Bar& bar, dword key = K_CTRL_V|K_SHIFT);
 	void   ObjectTool(Bar& bar, dword key = 0);
 	void   LoadImageTool(Bar& bar, dword key = 0);
 	void   FindReplaceTool(Bar& bar, dword key = K_CTRL_F);
@@ -776,7 +777,7 @@ public:
 
 	void   InsertImageTool(Bar& bar);
 	void   StyleKeysTool(Bar& bar);
-	
+
 	void   HeaderFooterTool(Bar& bar);
 
 	void   DefaultBar(Bar& bar, bool extended = true);
@@ -824,7 +825,7 @@ public:
 		int              undoserial;
 		BiArray<UndoRec> undo;
 		Array<UndoRec>   redo;
-		
+
 		void Clear()     { undo.Clear(); redo.Clear(); undoserial = 0; }
 	};
 

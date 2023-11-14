@@ -626,9 +626,10 @@ nst]&]
 [s4; &]
 [s5;:Upp`:`:HttpRequest`:`:GetWaitEvents`(`): [_^Upp`:`:dword^ dword]_[* GetWaitEvents]()
 &]
-[s2;%RU-RU Возвращает a combination of WAIT`_READ and WAIT`_WRITE 
-flags to indicate what is blocking the progress of HTTP request. 
-Can be used with SocketWaitEvent.&]
+[s2;%RU-RU Возвращает комбинацию флагов 
+WAIT`_READ и WAIT`_WRITE, указывая на причину 
+блокировки прогрессирования запроса 
+HTTP. Может использоваться с SocketWaitEvent.&]
 [s3; &]
 [s4;%RU-RU &]
 [s5;:HttpRequest`:`:GetPhase`(`)const: [@(0.0.255) int]_[* GetPhase]()_[@(0.0.255) const]&]
@@ -661,9 +662,10 @@ st]&]
 [s5;:HttpRequest`:`:IsSuccess`(`)const: [@(0.0.255) bool]_[* IsSuccess]()_[@(0.0.255) const
 ]&]
 [s2;%RU-RU Удачный запрос, завершённый кодом 
-2xx. Not that IsSuccess is not complementary to IsFailure (request 
-can e.g. end with 404 code, which means that both IsFailure() 
-[/ and] IsSuccess() are false.&]
+2xx. Заметьте, что IsSuccess не комплементарен 
+с IsFailure (запрос может, напр., заканчиваться 
+кодом 404, который означает, что как 
+IsFailure(), [/ так и] IsSuccess() , равны false.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:HttpRequest`:`:Execute`(`): [_^String^ String]_[* Execute]()&]

@@ -1,9 +1,33 @@
+TOPIC("AProcess_ru-ru")
+#include "AProcess_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("Any_ru-ru")
+#include "Any_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("AsyncWork_ru-ru")
 #include "AsyncWork_ru-ru.tppi"
 END_TOPIC
 
+TOPIC("Bits_ru-ru")
+#include "Bits_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("CParser_ru-ru")
 #include "CParser_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("ConditionVariable_ru-ru")
+#include "ConditionVariable_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("Convert_ru-ru")
+#include "Convert_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("DateTime_ru-ru")
+#include "DateTime_ru-ru.tppi"
 END_TOPIC
 
 TOPIC("Exc_ru-ru")
@@ -12,6 +36,10 @@ END_TOPIC
 
 TOPIC("Format_ru-ru")
 #include "Format_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("HttpRequest_ru-ru")
+#include "HttpRequest_ru-ru.tppi"
 END_TOPIC
 
 TOPIC("InArray_ru-ru")
@@ -244,6 +272,14 @@ END_TOPIC
 
 TOPIC("Zlib_ru-ru")
 #include "Zlib_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("algo_cosort_ru-ru")
+#include "algo_cosort_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("algo_ru-ru")
+#include "algo_ru-ru.tppi"
 END_TOPIC
 
 TOPIC("xxHash_ru-ru")

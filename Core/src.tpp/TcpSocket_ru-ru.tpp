@@ -314,11 +314,14 @@ true, если SSL удалось стартовать. Рукопожатие
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:SSLHandshake`(`): [@(0.0.255) dword]_[* SSLHandshake]()&]
-[s2;%RU-RU Attempts the progress on SSL handshake for at most timeout 
-period. Возвращает a combination of WAIT`_READ and 
-WAIT`_WRITE if SSL handshake is (still) in progress, indicating 
-whether the process needs to read or write more bytes from the 
-socket. Возвращает 0 if handshake is finished.&]
+[s2;%RU-RU Выполняет попытку получить прогресс 
+с рукопожатием SSL в дотаймаутный период. 
+Возвращает комбинацию WAIT`_READ и WAIT`_WRITE, 
+если рукопожатие SSL (всё ещё) в прогрессе, 
+указывающую на то, что процкссу нужно 
+прочесть или записать из сокета ещё 
+что`-либо. Возвращает 0, если рукопожатие 
+окончено.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:SSLCertificate`(const String`&`,const String`&`,bool`): [@(0.0.255) v
@@ -326,8 +329,10 @@ oid]_[* SSLCertificate]([@(0.0.255) const]_[_^topic`:`/`/Core`/src`/String`$en`-
 tring][@(0.0.255) `&]_[*@3 cert], [@(0.0.255) const]_[_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring][@(0.0.255) `&]_[*@3 pkey], [@(0.0.255) bool]_[*@3 asn1])&]
 [s2;%RU-RU Устанавливает сертификат SSL. Должен 
-вызываться до StartSSL. (Note that clients usually 
-do not need certificates, this is usually used on accepting sockets.)&]
+вызываться до StartSSL. (Заметьте, что 
+клиентам, как правило, сертификаты 
+не требуются, они обычто используются 
+на принимающих сокетах.)&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TcpSocket`:`:SSLServerNameIndication`(const Upp`:`:String`&`): [@(0.0.255) v
@@ -347,14 +352,20 @@ SLInfo]_`*[* GetSSLInfo]()_[@(0.0.255) const]&]
 [s5;:TcpSocket`:`:Timeout`(int`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
 cpSocket][@(0.0.255) `&]_[* Timeout]([@(0.0.255) int]_[*@3 ms])&]
 [s2;%RU-RU Устанавливает таймаут для всех 
-операций. Zero means that all operations return immediately 
-(in that case it is usually a good idea to perform some sort 
-of external blocking on socket or socket group using e.g. SocketWaitEvent). 
-Null means operations are blocking (but they still can invoke 
-WhenProgress periodically if defined). Other values specify a 
-number of milliseconds. Note: It is possible to adjust timeout 
-before any single TcpSocket operation. Возвращает `*this. 
-Default value is Null, which means TcpSocket is blocking.&]
+операций. Null означает, что все операции 
+возвращают немедленно (в этом случае 
+неплохо бы выполнить некоторого рода 
+внешнюю блокировку сокета или группы 
+сокетов, напр.,. SocketWaitEvent). Null означает, 
+что операции блокируемые (но всё же 
+могут вызывать периодически WhenProgress, 
+если он определён). Другие значения 
+указывают количество миллисекунд. 
+Заметка: таймаут можно настроить перед 
+всякой единичной операцией с TcpSocket. 
+Возвращает `*this. Дефолтное значение 
+равно Null, что означает, что TcpSocket блокируемый
+.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:GetTimeout`(`)const: [@(0.0.255) int]_[* GetTimeout]()_[@(0.0.255) const]&]
@@ -364,11 +375,14 @@ Default value is Null, which means TcpSocket is blocking.&]
 [s5;:TcpSocket`:`:GlobalTimeout`(int`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
 cpSocket][@(0.0.255) `&]_[* GlobalTimeout]([@(0.0.255) int]_[*@3 ms])&]
 [s2;%RU-RU Устанавливает `"глобальный таймаут`". 
-This timeout is in effect over a whole range of operations, until 
-it is canceled by calling this method with Null parameter or 
-by setting a new global timeout. If global timeout is exceeded, 
-operation during which it happened fails and socket error code 
-is set to ERROR`_GLOBAL`_TIMEOUT.&]
+Этот таймаут действует над всем диапазоном 
+операций, пока его не отменит повторный 
+вызов этого метода с параметром Null 
+или не будет установлен новый глобальный 
+таймаут. Если глобальный таймаут 
+превышен, операция, при которой это 
+происходит, не удаётся, а код ошибки 
+сокета устанавливается в ERROR`_GLOBAL`_TIMEOUT.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TcpSocket`:`:NoGlobalTimeout`(`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
@@ -388,13 +402,15 @@ cpSocket][@(0.0.255) `&]_[* Blocking]()&]
 [s4; &]
 [s5;:TcpSocket`:`:WaitStep`(int`): [_^topic`:`/`/Core`/src`/TcpSocket`$en`-us`#TcpSocket`:`:class^ T
 cpSocket][@(0.0.255) `&]_[* WaitStep]([@(0.0.255) int]_[*@3 ms])&]
-[s2;%RU-RU Устанавливает the periodicity of calling 
-WhenWait in millisecond between calls. Default is 10ms (100hz).&]
+[s2;%RU-RU Устанавливает периодичность 
+вызова WhenWait в миллисекундах между 
+вызовами. Дефолт равен 10 мс (100 гц).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TcpSocket`:`:GetWaitStep`(`)const: [@(0.0.255) int]_[* GetWaitStep]()_[@(0.0.255) cons
 t]&]
-[s2;%RU-RU Retruns current periodicity of calling WhenWait.&]
+[s2;%RU-RU Возвращает текущую периодичность 
+вызова WhenWait.&]
 [s3; &]
 [s4;%RU-RU &]
 [s5;:TcpSocket`:`:TcpSocket`(`): [* TcpSocket]()&]

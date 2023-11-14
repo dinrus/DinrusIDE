@@ -12,9 +12,12 @@ topic "Глобальный Кэш Значений";
 [{_}%RU-RU 
 [ {{10000@(113.42.0) [s0; [*@7;4 Глобальный Кэш Значений]]}}&]
 [s0; &]
-[s0; Global Value Cache is a centralized mechanism to cache data. 
-Items in the cache are of Value type. Global Value Cache adjusts 
-its size based on current system memory consumption.&]
+[s0; Глобальный Кэш Значений `- это централизован
+ный механизм для кэширования данных. 
+Элементы в кэше имеют тип Value. Глобальный 
+Кэш Значений настраивает свой размер, 
+основываясь на текущем потреблении 
+памяти системой.&]
 [s0;* &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Функций]]}}&]
 [s3; &]

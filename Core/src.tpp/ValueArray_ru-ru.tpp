@@ -110,7 +110,7 @@ Null).&]
 [s5;:ValueArray`:`:SetCount`(int`,const Value`&`): [@(0.0.255) void]_[* SetCount]([@(0.0.255) i
 nt]_[*@3 n], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
 [s2;%RU-RU Устанавливает счёт элементов 
-в [%-*@3 n].Если число элементов возрастает, 
+в [%-*@3 n]. Если число элементов возрастает, 
 то новые элементы устанавливаются 
 в [%-*@3 v] .&]
 [s3;%RU-RU &]
@@ -150,11 +150,13 @@ alue][@(0.0.255) `&]_[*@3 v])&]
 [s4; &]
 [s5;:ValueArray`:`:GetAndClear`(int`): [_^Value^ Value]_[* GetAndClear]([@(0.0.255) int]_[*@3 i
 ])&]
-[s2;%RU-RU Assigns empty Value at [%-*@3 i] and returns Value that 
-was in this element before. This special method is intended as 
-optimization in certain situation, as it can void expensive cloning 
-of Value in situation where keeping original Value in ValueArray 
-is not required.&]
+[s2;%RU-RU Присваивает пустое значение Value 
+по [%-*@3 i] и возвращает Value, которое находилось 
+в этом элементе ранее. Этот особый 
+метод предназначен для оптимизации 
+в некоторых ситуациях, as it can void expensive 
+cloning of Value in situation where keeping original Value in 
+ValueArray is not required.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:ValueArray`:`:Get`(`)const: [@(0.0.255) const]_[_^Vector^ Vector]<[_^Value^ Value]>`&_

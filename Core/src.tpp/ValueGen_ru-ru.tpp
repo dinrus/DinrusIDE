@@ -13,12 +13,14 @@ topic "Класс ValueGen";
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс ValueGen]]}}&]
 [s1;@(0.0.255)3 &]
 [s1;:ValueGen`:`:class: [@(0.0.255)3 class][3 _][*3 ValueGen]&]
-[s2;%RU-RU Simple abstract base class intended as `"Value generator`".&]
+[s2;%RU-RU Простой абстрактный класс`-основа, 
+`"генератор зачений`".&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:ValueGen`:`:Get`(`): [@(0.0.255) virtual] [_^Value^ Value]_[* Get]()_`=_[@3 0]&]
-[s2;%RU-RU Supposed to return next Value in generator sequence.&]
+[s2;%RU-RU Предполагает возврат следующего 
+значения в последовательности генерации.&]
 [s3; &]
 [s4; &]
 [s5;:ValueGen`:`:operator`+`+`(`): [_^Value^ Value]_[* operator`+`+]()&]
@@ -26,5 +28,5 @@ topic "Класс ValueGen";
 [s3; &]
 [s4; &]
 [s5;:ValueGen`:`:`~ValueGen`(`): [@(0.0.255) `~][* ValueGen]()&]
-[s2;%RU-RU Virtual destructor.&]
+[s2;%RU-RU Виртуальный деструктор.&]
 [s0;%RU-RU ]]

@@ -49,9 +49,6 @@ topic "Класс ConditionVariable";
 [s5;:ConditionVariable`:`:Broadcast`(`): [@(0.0.255) void]_[* Broadcast]()&]
 [s2;%RU-RU Возобновляет выполнение всех 
 в данный момент ожидающих нитей.&]
-[s3;%RU-RU &]
-[s0;3 &]
-[s0;3 &]
 [s0;3 &]
 [ {{10000t/25b/25@(113.42.0) [s0; [*@7;4 Класс StaticConditionVariable]]}}&]
 [s3;%RU-RU &]

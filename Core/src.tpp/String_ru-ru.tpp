@@ -794,7 +794,7 @@ ool]_[* TrimEnd]([@(0.0.255) const]_[_^Upp`:`:AString`:`:tchar^ tchar]_`*[*@3 s]
 [s5;:Upp`:`:AString`:`:FindFirstOf`(int`,const Upp`:`:AString`:`:tchar`*`,int`)const:%- [@(0.0.255) i
 nt]_[* FindFirstOf]([@(0.0.255) int]_[*@3 len], [@(0.0.255) const]_[_^Upp`:`:AString`:`:tchar^ t
 char]_`*[*@3 set], [@(0.0.255) int]_[*@3 from])_[@(0.0.255) const]&]
-[s2; Возвращаетпервую позицию любого 
+[s2; Возвращает первую позицию любого 
 символа из [%-*@3 set], начиная с [%-*@3 from]. 
 Число символов в [%-*@3 set] равно [%-*@3 len]. 
 Возвращает `-1, если не найдено.&]

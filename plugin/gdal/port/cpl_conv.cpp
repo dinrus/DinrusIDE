@@ -91,7 +91,7 @@ void *CPLCalloc( size_t nCount, size_t nSize )
 
     if( nSize * nCount == 0 )
         return NULL;
-    
+
     pReturn = CPLMalloc( nCount * nSize );
     memset( pReturn, 0, nCount * nSize );
     return pReturn;
@@ -133,7 +133,7 @@ void *CPLMalloc( size_t nSize )
                   (long) nSize );
         return NULL;
     }
-    
+
     pReturn = VSIMalloc( nSize );
     if( pReturn == NULL )
     {
@@ -141,10 +141,10 @@ void *CPLMalloc( size_t nSize )
         {
             char szSmallMsg[60];
 
-            sprintf( szSmallMsg, 
-                     "CPLMalloc(): Out of memory allocating %ld bytes.", 
+            sprintf( szSmallMsg,
+                     "CPLMalloc(): Out of memory allocating %ld bytes.",
                      (long) nSize );
-            CPLEmergencyError( szSmallMsg ); 
+            CPLEmergencyError( szSmallMsg );
         }
         else
             CPLError( CE_Fatal, CPLE_OutOfMemory,
@@ -197,22 +197,22 @@ void * CPLRealloc( void * pData, size_t nNewSize )
                   (long) nNewSize );
         return NULL;
     }
-    
+
     if( pData == NULL )
         pReturn = VSIMalloc( nNewSize );
     else
         pReturn = VSIRealloc( pData, nNewSize );
-    
+
     if( pReturn == NULL )
     {
         if( nNewSize > 0 && nNewSize < 2000 )
         {
             char szSmallMsg[60];
 
-            sprintf( szSmallMsg, 
-                     "CPLRealloc(): Out of memory allocating %ld bytes.", 
+            sprintf( szSmallMsg,
+                     "CPLRealloc(): Out of memory allocating %ld bytes.",
                      (long) nNewSize );
-            CPLEmergencyError( szSmallMsg ); 
+            CPLEmergencyError( szSmallMsg );
         }
         else
             CPLError( CE_Fatal, CPLE_OutOfMemory,
@@ -259,7 +259,7 @@ char *CPLStrdup( const char * pszString )
         CPLError( CE_Fatal, CPLE_OutOfMemory,
                   "CPLStrdup(): Out of memory allocating %ld bytes.\n",
                   (long) strlen(pszString) );
-        
+
     }
 
     strcpy( pszReturn, pszString );
@@ -339,7 +339,7 @@ char *CPLFGets( char *pszBuffer, int nBufferSize, FILE * fp )
     nOriginalOffset = VSIFTell( fp );
     if( VSIFGets( pszBuffer, nBufferSize, fp ) == NULL )
         return NULL;
-    
+
     nActuallyRead = strlen(pszBuffer);
     if ( nActuallyRead == 0 )
         return NULL;
@@ -364,13 +364,13 @@ char *CPLFGets( char *pszBuffer, int nBufferSize, FILE * fp )
 /*      Trim off \n, \r or \r\n if it appears at the end.  We don't     */
 /*      need to do any "seeking" since we want the newline eaten.       */
 /* -------------------------------------------------------------------- */
-    if( nActuallyRead > 1 
-        && pszBuffer[nActuallyRead-1] == 10 
+    if( nActuallyRead > 1
+        && pszBuffer[nActuallyRead-1] == 10
         && pszBuffer[nActuallyRead-2] == 13 )
     {
         pszBuffer[nActuallyRead-2] = '\0';
     }
-    else if( pszBuffer[nActuallyRead-1] == 10 
+    else if( pszBuffer[nActuallyRead-1] == 10
              || pszBuffer[nActuallyRead-1] == 13 )
     {
         pszBuffer[nActuallyRead-1] = '\0';
@@ -382,23 +382,23 @@ char *CPLFGets( char *pszBuffer, int nBufferSize, FILE * fp )
 /*      and seek back.                                                  */
 /* -------------------------------------------------------------------- */
     char *pszExtraNewline = strchr( pszBuffer, 13 );
-    
+
     if( pszExtraNewline != NULL )
     {
         int chCheck;
 
         nActuallyRead = pszExtraNewline - pszBuffer + 1;
-        
+
         *pszExtraNewline = '\0';
         VSIFSeek( fp, nOriginalOffset + nActuallyRead - 1, SEEK_SET );
 
-        /* 
+        /*
          * This hackery is necessary to try and find our correct
-         * spot on win32 systems with text mode line translation going 
+         * spot on win32 systems with text mode line translation going
          * on.  Sometimes the fseek back overshoots, but it doesn't
          * "realize it" till a character has been read. Try to read till
-         * we get to the right spot and get our CR. 
-         */ 
+         * we get to the right spot and get our CR.
+         */
         chCheck = fgetc( fp );
         while( (chCheck != 13 && chCheck != EOF)
                || VSIFTell(fp) < nOriginalOffset + nActuallyRead )
@@ -430,7 +430,7 @@ char *CPLFGets( char *pszBuffer, int nBufferSize, FILE * fp )
 static char *CPLReadLineBuffer( int nRequiredSize )
 
 {
-    
+
 /* -------------------------------------------------------------------- */
 /*      A required size of -1 means the buffer should be freed.         */
 /* -------------------------------------------------------------------- */
@@ -482,7 +482,7 @@ static char *CPLReadLineBuffer( int nRequiredSize )
             return NULL;
         }
         pnAlloc = pnAllocNew;
-            
+
         *pnAlloc = nNewSize - 4;
         CPLSetTLS( CTLS_RLBUFFERINFO, pnAlloc, TRUE );
     }
@@ -496,18 +496,18 @@ static char *CPLReadLineBuffer( int nRequiredSize )
 
 /**
  * Simplified line reading from text file.
- * 
+ *
  * Read a line of text from the given file handle, taking care
  * to capture CR and/or LF and strip off ... equivelent of
  * DKReadLine().  Pointer to an internal buffer is returned.
  * The application shouldn't free it, or depend on it's value
  * past the next call to CPLReadLine().
- * 
+ *
  * Note that CPLReadLine() uses VSIFGets(), so any hooking of VSI file
  * services should apply to CPLReadLine() as well.
  *
- * CPLReadLine() maintains an internal buffer, which will appear as a 
- * single block memory leak in some circumstances.  CPLReadLine() may 
+ * CPLReadLine() maintains an internal buffer, which will appear as a
+ * single block memory leak in some circumstances.  CPLReadLine() may
  * be called with a NULL FILE * at any time to free this working buffer.
  *
  * @param fp file pointer opened with VSIFOpen().
@@ -552,7 +552,7 @@ const char *CPLReadLine( FILE * fp )
 /* -------------------------------------------------------------------- */
 /*      Do the actual read.                                             */
 /* -------------------------------------------------------------------- */
-        if( CPLFGets( pszRLBuffer+nReadSoFar, 128, fp ) == NULL 
+        if( CPLFGets( pszRLBuffer+nReadSoFar, 128, fp ) == NULL
             && nReadSoFar == 0 )
             return NULL;
 
@@ -572,7 +572,7 @@ const char *CPLReadLine( FILE * fp )
 
 /**
  * Simplified line reading from text file.
- * 
+ *
  * Similar to CPLReadLine(), but reading from a large file API handle.
  *
  * @param fp file pointer opened with VSIFOpenL().
@@ -592,7 +592,7 @@ const char *CPLReadLineL( VSILFILE * fp )
 
 /**
  * Simplified line reading from text file.
- * 
+ *
  * Similar to CPLReadLine(), but reading from a large file API handle.
  *
  * @param fp file pointer opened with VSIFOpenL().
@@ -671,7 +671,7 @@ const char *CPLReadLine2L( VSILFILE * fp, int nMaxCars, char** papszOptions )
                     break;
             }
         }
-        
+
 /* -------------------------------------------------------------------- */
 /*      copy over characters watching for end-of-line.                  */
 /* -------------------------------------------------------------------- */
@@ -712,7 +712,7 @@ const char *CPLReadLine2L( VSILFILE * fp, int nMaxCars, char** papszOptions )
 /*      consume it.  If it is a newline, but we are clearly at the      */
 /*      end of the file then consume it.                                */
 /* -------------------------------------------------------------------- */
-        if( nChunkBytesConsumed == nChunkBytesRead-1 
+        if( nChunkBytesConsumed == nChunkBytesRead-1
             && nChunkBytesRead < nChunkSize )
         {
             if( szChunk[nChunkBytesConsumed] == 10
@@ -734,7 +734,7 @@ const char *CPLReadLine2L( VSILFILE * fp, int nMaxCars, char** papszOptions )
     if( nChunkBytesConsumed < nChunkBytesRead )
     {
         size_t nBytesToPush = nChunkBytesRead - nChunkBytesConsumed;
-        
+
         VSIFSeekL( fp, VSIFTellL( fp ) - nBytesToPush, SEEK_SET );
     }
 
@@ -762,7 +762,7 @@ const char *CPLReadLine2L( VSILFILE * fp, int nMaxCars, char** papszOptions )
  *
  * @param bNormalize If TRUE, replace ':' symbol with the '_'. It is needed if
  * resulting string will be used in CPL dictionaries.
- * 
+ *
  * @return Pointer to the resulting string buffer. Caller responsible to free
  * this buffer with CPLFree().
  */
@@ -819,7 +819,7 @@ char *CPLScanString( const char *pszString, int nMaxLength,
  * @param nMaxLength The maximum number of character to consider as part
  * of the number. Less characters will be considered if a null character
  * is encountered.
- * 
+ *
  * @return Long value, converted from its ASCII form.
  */
 
@@ -858,7 +858,7 @@ long CPLScanLong( const char *pszString, int nMaxLength )
  * @param nMaxLength The maximum number of character to consider as part
  * of the number. Less characters will be considered if a null character
  * is encountered.
- * 
+ *
  * @return Unsigned long value, converted from its ASCII form.
  */
 
@@ -890,7 +890,7 @@ unsigned long CPLScanULong( const char *pszString, int nMaxLength )
  * Extract big integer from string.
  *
  * Scan up to a maximum number of characters from a string and convert
- * the result to a GUIntBig. 
+ * the result to a GUIntBig.
  *
  * @param pszString String containing characters to be scanned. It may be
  * terminated with a null character.
@@ -898,7 +898,7 @@ unsigned long CPLScanULong( const char *pszString, int nMaxLength )
  * @param nMaxLength The maximum number of character to consider as part
  * of the number. Less characters will be considered if a null character
  * is encountered.
- * 
+ *
  * @return GUIntBig value, converted from its ASCII form.
  */
 
@@ -934,7 +934,7 @@ GUIntBig CPLScanUIntBig( const char *pszString, int nMaxLength )
 
 /**
  * Convert a string to a 64 bit signed integer.
- * 
+ *
  * @param pszString String containing 64 bit signed integer.
  * @return 64 bit signed integer.
  * @since GDAL 2.0
@@ -975,7 +975,7 @@ int CPLAtoGIntBigExHasOverflow(const char* pszString, GIntBig nVal)
 
 /**
  * Convert a string to a 64 bit signed integer.
- * 
+ *
  * @param pszString String containing 64 bit signed integer.
  * @param bWarn Issue a warning if an overflow occurs during conversion
  * @param pbOverflow Pointer to an integer to store if an overflow occured, or NULL
@@ -1023,7 +1023,7 @@ GIntBig CPLAtoGIntBigEx( const char* pszString, int bWarn, int *pbOverflow )
  * Extract pointer from string.
  *
  * Scan up to a maximum number of characters from a string and convert
- * the result to a pointer. 
+ * the result to a pointer.
  *
  * @param pszString String containing characters to be scanned. It may be
  * terminated with a null character.
@@ -1031,7 +1031,7 @@ GIntBig CPLAtoGIntBigEx( const char* pszString, int bWarn, int *pbOverflow )
  * @param nMaxLength The maximum number of character to consider as part
  * of the number. Less characters will be considered if a null character
  * is encountered.
- * 
+ *
  * @return pointer value, converted from its ASCII form.
  */
 
@@ -1069,7 +1069,7 @@ void *CPLScanPointer( const char *pszString, int nMaxLength )
         }
 #endif
     }
-    
+
     else
     {
 #if SIZEOF_VOIDP == 8
@@ -1099,7 +1099,7 @@ void *CPLScanPointer( const char *pszString, int nMaxLength )
  * @param nMaxLength The maximum number of character to consider as part
  * of the number. Less characters will be considered if a null character
  * is encountered.
- * 
+ *
  * @return Double value, converted from its ASCII form.
  */
 
@@ -1143,10 +1143,10 @@ double CPLScanDouble( const char *pszString, int nMaxLength )
  * large enough to hold the resulting string.
  *
  * @param pszSrc Pointer to the source buffer.
- * 
+ *
  * @param nMaxLen Maximum length of the resulting string. If string length
  * is greater than nMaxLen, it will be truncated.
- * 
+ *
  * @return Number of characters printed.
  */
 
@@ -1187,10 +1187,10 @@ int CPLPrintString( char *pszDest, const char *pszSrc, int nMaxLen )
  * large enough to hold the resulting string.
  *
  * @param pszSrc Pointer to the source buffer.
- * 
+ *
  * @param nMaxLen Maximum length of the resulting string. If string length
  * is greater than nMaxLen, it will be truncated.
- * 
+ *
  * @return Number of characters printed.
  */
 
@@ -1232,10 +1232,10 @@ int CPLPrintStringFill( char *pszDest, const char *pszSrc, int nMaxLen )
  * not be NULL-terminated, so user should do this himself, if needed.
  *
  * @param iValue Numerical value to print.
- * 
+ *
  * @param nMaxLen Maximum length of the resulting string. If string length
  * is greater than nMaxLen, it will be truncated.
- * 
+ *
  * @return Number of characters printed.
  */
 
@@ -1271,10 +1271,10 @@ int CPLPrintInt32( char *pszBuffer, GInt32 iValue, int nMaxLen )
  * not be NULL-terminated, so user should do this himself, if needed.
  *
  * @param iValue Numerical value to print.
- * 
+ *
  * @param nMaxLen Maximum length of the resulting string. If string length
  * is greater than nMaxLen, it will be truncated.
- * 
+ *
  * @return Number of characters printed.
  */
 
@@ -1310,10 +1310,10 @@ int CPLPrintUIntBig( char *pszBuffer, GUIntBig iValue, int nMaxLen )
  * not be NULL-terminated, so user should do this himself, if needed.
  *
  * @param pValue Pointer to ASCII encode.
- * 
+ *
  * @param nMaxLen Maximum length of the resulting string. If string length
  * is greater than nMaxLen, it will be truncated.
- * 
+ *
  * @return Number of characters printed.
  */
 
@@ -1331,7 +1331,7 @@ int CPLPrintPointer( char *pszBuffer, void *pValue, int nMaxLen )
 
     // On windows, and possibly some other platforms the sprintf("%p")
     // does not prefix things with 0x so it is hard to know later if the
-    // value is hex encoded.  Fix this up here. 
+    // value is hex encoded.  Fix this up here.
 
     if( !EQUALN(szTemp,"0x",2) )
         sprintf( szTemp, "0x%p", pValue );
@@ -1355,7 +1355,7 @@ int CPLPrintPointer( char *pszBuffer, void *pValue, int nMaxLen )
  * @param pszFormat Format specifier (for example, "%16.9E").
  *
  * @param dfValue Numerical value to print.
- * 
+ *
  * @param pszLocale Pointer to a character string containing locale name
  * ("C", "POSIX", "us_US", "ru_RU.KOI8-R" etc.). If NULL we will not
  * manipulate with locale settings and current process locale will be used for
@@ -1398,19 +1398,19 @@ int CPLPrintDouble( char *pszBuffer, const char *pszFormat,
 /**
  * Print specified time value accordingly to the format options and
  * specified locale name. This function does following:
- * 
+ *
  *  - if locale parameter is not NULL, the current locale setting will be
  *  stored and replaced with the specified one;
  *  - format time value with the strftime(3) function;
  *  - restore back current locale, if was saved.
- * 
+ *
  * @param pszBuffer Pointer to the destination string buffer. Should be
  * large enough to hold the resulting string. Note, that the string will
  * not be NULL-terminated, so user should do this himself, if needed.
  *
  * @param nMaxLen Maximum length of the resulting string. If string length is
  * greater than nMaxLen, it will be truncated.
- * 
+ *
  * @param pszFormat Controls the output format. Options are the same as
  * for strftime(3) function.
  *
@@ -1449,7 +1449,7 @@ int CPLPrintTime( char *pszBuffer, int nMaxLen, const char *pszFormat,
 #else
     (void) pszLocale;
 #endif
-    
+
     if ( !strftime( pszTemp, nMaxLen + 1, pszFormat, poBrokenTime ) )
         memset( pszTemp, 0, nMaxLen + 1);
 
@@ -1483,8 +1483,8 @@ void CPLVerifyConfiguration()
     CPLAssert( sizeof(GByte) == 1 );
 
     if( sizeof(GInt32) != 4 )
-        CPLError( CE_Fatal, CPLE_AppDefined, 
-                  "sizeof(GInt32) == %d ... yow!\n", 
+        CPLError( CE_Fatal, CPLE_AppDefined,
+                  "sizeof(GInt32) == %d ... yow!\n",
                   (int) sizeof(GInt32) );
 
 /* -------------------------------------------------------------------- */
@@ -1499,8 +1499,8 @@ void CPLVerifyConfiguration()
 #endif
 #ifdef CPL_MSB
     if( ((GByte *) &nTest)[3] != 1 )
-#endif    
-        CPLError( CE_Fatal, CPLE_AppDefined, 
+#endif
+        CPLError( CE_Fatal, CPLE_AppDefined,
                   "CPLVerifyConfiguration(): byte order set wrong.\n" );
 }
 
@@ -1573,7 +1573,7 @@ static void CPLAccessConfigOption(const char* pszKey, int bGet)
 
 /**
   * Get the value of a configuration option.
-  * 
+  *
   * The value is the value of a (key, value) option set with CPLSetConfigOption().
   * If the given option was no defined with CPLSetConfigOption(), it tries to find
   * it in environment variables.
@@ -1623,11 +1623,11 @@ CPLGetConfigOption( const char *pszKey, const char *pszDefault )
         pszResult = CSLFetchNameValue( (char **) papszConfigOptions, pszKey );
     }
 
-#if !defined(WIN32CE) 
+#if !defined(WIN32CE)
     if( pszResult == NULL )
         pszResult = getenv( pszKey );
 #endif
-    
+
     if( pszResult == NULL )
         return pszDefault;
     else
@@ -1661,10 +1661,10 @@ CPLGetConfigOption( const char *pszKey, const char *pszDefault )
   *
   * @param pszKey the key of the option
   * @param pszValue the value of the option, or NULL to clear a setting.
-  * 
+  *
   * @see http://trac.osgeo.org/gdal/wiki/ConfigOptions
   */
-void CPL_STDCALL 
+void CPL_STDCALL
 CPLSetConfigOption( const char *pszKey, const char *pszValue )
 
 {
@@ -1673,7 +1673,7 @@ CPLSetConfigOption( const char *pszKey, const char *pszValue )
 #endif
     CPLMutexHolderD( &hConfigMutex );
 
-    papszConfigOptions = (volatile char **) 
+    papszConfigOptions = (volatile char **)
         CSLSetNameValue( (char **) papszConfigOptions, pszKey, pszValue );
 }
 
@@ -1695,7 +1695,7 @@ static void CPLSetThreadLocalTLSFreeFunc( void* pData )
   * Set a configuration option for GDAL/OGR use.
   *
   * Those options are defined as a (key, value) couple. The value corresponding
-  * to a key can be got later with the CPLGetConfigOption() method.  
+  * to a key can be got later with the CPLGetConfigOption() method.
   *
   * This function sets the configuration option that only applies in the
   * current thread, as opposed to CPLSetConfigOption() which sets an option
@@ -1709,7 +1709,7 @@ static void CPLSetThreadLocalTLSFreeFunc( void* pData )
   * @param pszValue the value of the option, or NULL to clear a setting.
   */
 
-void CPL_STDCALL 
+void CPL_STDCALL
 CPLSetThreadLocalConfigOption( const char *pszKey, const char *pszValue )
 
 {
@@ -1719,7 +1719,7 @@ CPLSetThreadLocalConfigOption( const char *pszKey, const char *pszValue )
 
     char **papszTLConfigOptions = (char **) CPLGetTLS( CTLS_CONFIGOPTIONS );
 
-    papszTLConfigOptions = 
+    papszTLConfigOptions =
         CSLSetNameValue( papszTLConfigOptions, pszKey, pszValue );
 
     CPLSetTLSWithFreeFunc( CTLS_CONFIGOPTIONS, papszTLConfigOptions,
@@ -1738,7 +1738,7 @@ void CPL_STDCALL CPLFreeConfig()
 
         CSLDestroy( (char **) papszConfigOptions);
         papszConfigOptions = NULL;
-        
+
         char **papszTLConfigOptions = (char **) CPLGetTLS( CTLS_CONFIGOPTIONS );
         if( papszTLConfigOptions != NULL )
         {
@@ -1763,7 +1763,7 @@ int CPLStat( const char *pszPath, VSIStatBuf *psStatBuf )
     if( strlen(pszPath) == 2 && pszPath[1] == ':' )
     {
         char    szAltPath[4];
-        
+
         szAltPath[0] = pszPath[0];
         szAltPath[1] = pszPath[1];
         szAltPath[2] = '\\';
@@ -1778,7 +1778,7 @@ int CPLStat( const char *pszPath, VSIStatBuf *psStatBuf )
 /*                            proj_strtod()                             */
 /************************************************************************/
 static double
-proj_strtod(char *nptr, char **endptr) 
+proj_strtod(char *nptr, char **endptr)
 
 {
     char c, *cp = nptr;
@@ -1890,8 +1890,8 @@ const char *CPLDecToDMS( double dfAngle, const char * pszAxis,
     char        szFormat[30];
     const char  *pszHemisphere;
     static CPL_THREADLOCAL char szBuffer[50] = { 0 };
-    
-    
+
+
     dfEpsilon = (0.5/3600.0) * pow(0.1,nPrecision);
 
     dfABSAngle = ABS(dfAngle) + dfEpsilon;
@@ -1928,7 +1928,7 @@ const char *CPLDecToDMS( double dfAngle, const char * pszAxis,
 
 /**
  * Convert a packed DMS value (DDDMMMSSS.SS) into decimal degrees.
- * 
+ *
  * This function converts a packed DMS angle to seconds. The standard
  * packed DMS format is:
  *
@@ -1938,7 +1938,7 @@ const char *CPLDecToDMS( double dfAngle, const char * pszAxis,
  *              deg = 120
  *              min = 25
  *              sec = 45.25
- * 
+ *
  * The algorithm used for the conversion is as follows:
  *
  * 1.  The absolute value of the angle is used.
@@ -1966,7 +1966,7 @@ const char *CPLDecToDMS( double dfAngle, const char * pszAxis,
  * @param dfPacked Angle in packed DMS format.
  *
  * @return Angle in decimal degrees.
- * 
+ *
  */
 
 double CPLPackedDMSToDec( double dfPacked )
@@ -1974,7 +1974,7 @@ double CPLPackedDMSToDec( double dfPacked )
     double  dfDegrees, dfMinutes, dfSeconds, dfSign;
 
     dfSign = ( dfPacked < 0.0 )? -1 : 1;
-        
+
     dfSeconds = ABS( dfPacked );
     dfDegrees = floor(dfSeconds / 1000000.0);
     dfSeconds = dfSeconds - dfDegrees * 1000000.0;
@@ -1991,7 +1991,7 @@ double CPLPackedDMSToDec( double dfPacked )
 /************************************************************************/
 /**
  * Convert decimal degrees into packed DMS value (DDDMMMSSS.SS).
- * 
+ *
  * This function converts a value, specified in decimal degrees into
  * packed DMS angle. The standard packed DMS format is:
  *
@@ -2002,7 +2002,7 @@ double CPLPackedDMSToDec( double dfPacked )
  * @param dfDec Angle in decimal degrees.
  *
  * @return Angle in packed DMS format.
- * 
+ *
  */
 
 double CPLDecToPackedDMS( double dfDec )
@@ -2023,7 +2023,7 @@ double CPLDecToPackedDMS( double dfDec )
 /*                         CPLStringToComplex()                         */
 /************************************************************************/
 
-void CPL_DLL CPLStringToComplex( const char *pszString, 
+void CPL_DLL CPLStringToComplex( const char *pszString,
                                  double *pdfReal, double *pdfImag )
 
 {
@@ -2059,28 +2059,28 @@ void CPL_DLL CPLStringToComplex( const char *pszString,
 /************************************************************************/
 
 /**
- * Open a shared file handle. 
+ * Open a shared file handle.
  *
  * Some operating systems have limits on the number of file handles that can
  * be open at one time.  This function attempts to maintain a registry of
  * already open file handles, and reuse existing ones if the same file
- * is requested by another part of the application. 
+ * is requested by another part of the application.
  *
- * Note that access is only shared for access types "r", "rb", "r+" and 
+ * Note that access is only shared for access types "r", "rb", "r+" and
  * "rb+".  All others will just result in direct VSIOpen() calls.  Keep in
- * mind that a file is only reused if the file name is exactly the same. 
- * Different names referring to the same file will result in different 
- * handles.  
+ * mind that a file is only reused if the file name is exactly the same.
+ * Different names referring to the same file will result in different
+ * handles.
  *
- * The VSIFOpen() or VSIFOpenL() function is used to actually open the file, 
- * when an existing file handle can't be shared. 
+ * The VSIFOpen() or VSIFOpenL() function is used to actually open the file,
+ * when an existing file handle can't be shared.
  *
  * @param pszFilename the name of the file to open.
  * @param pszAccess the normal fopen()/VSIFOpen() style access string.
  * @param bLarge If TRUE VSIFOpenL() (for large files) will be used instead of
- * VSIFOpen(). 
+ * VSIFOpen().
  *
- * @return a file handle or NULL if opening fails. 
+ * @return a file handle or NULL if opening fails.
  */
 
 FILE *CPLOpenShared( const char *pszFilename, const char *pszAccess,
@@ -2099,7 +2099,7 @@ FILE *CPLOpenShared( const char *pszFilename, const char *pszAccess,
 
     for( i = 0; bReuse && i < nSharedFileCount; i++ )
     {
-        if( strcmp(pasSharedFileList[i].pszFilename,pszFilename) == 0 
+        if( strcmp(pasSharedFileList[i].pszFilename,pszFilename) == 0
             && !bLarge == !pasSharedFileList[i].bLarge
             && EQUAL(pasSharedFileList[i].pszAccess,pszAccess)
             && nPID == pasSharedFileListExtra[i].nPID)
@@ -2128,10 +2128,10 @@ FILE *CPLOpenShared( const char *pszFilename, const char *pszAccess,
     nSharedFileCount++;
 
     pasSharedFileList = (CPLSharedFileInfo *)
-        CPLRealloc( (void *) pasSharedFileList, 
+        CPLRealloc( (void *) pasSharedFileList,
                     sizeof(CPLSharedFileInfo) * nSharedFileCount );
     pasSharedFileListExtra = (CPLSharedFileInfoExtra *)
-        CPLRealloc( (void *) pasSharedFileListExtra, 
+        CPLRealloc( (void *) pasSharedFileListExtra,
                     sizeof(CPLSharedFileInfoExtra) * nSharedFileCount );
 
     pasSharedFileList[nSharedFileCount-1].fp = fp;
@@ -2171,7 +2171,7 @@ void CPLCloseShared( FILE * fp )
 
     if( i == nSharedFileCount )
     {
-        CPLError( CE_Failure, CPLE_AppDefined, 
+        CPLError( CE_Failure, CPLE_AppDefined,
                   "Unable to find file handle %p in CPLCloseShared().",
                   fp );
         return;
@@ -2195,11 +2195,11 @@ void CPLCloseShared( FILE * fp )
     CPLFree( pasSharedFileList[i].pszAccess );
 
     nSharedFileCount --;
-    memmove( (void *) (pasSharedFileList + i), 
-             (void *) (pasSharedFileList + nSharedFileCount), 
+    memmove( (void *) (pasSharedFileList + i),
+             (void *) (pasSharedFileList + nSharedFileCount),
              sizeof(CPLSharedFileInfo) );
-    memmove( (void *) (pasSharedFileListExtra + i), 
-             (void *) (pasSharedFileListExtra + nSharedFileCount), 
+    memmove( (void *) (pasSharedFileListExtra + i),
+             (void *) (pasSharedFileListExtra + nSharedFileCount),
              sizeof(CPLSharedFileInfoExtra) );
 
     if( nSharedFileCount == 0 )
@@ -2232,9 +2232,9 @@ void CPLCleanupSharedFileMutex()
 /**
  * Fetch list of open shared files.
  *
- * @param pnCount place to put the count of entries. 
+ * @param pnCount place to put the count of entries.
  *
- * @return the pointer to the first in the array of shared file info 
+ * @return the pointer to the first in the array of shared file info
  * structures.
  */
 
@@ -2243,7 +2243,7 @@ CPLSharedFileInfo *CPLGetSharedList( int *pnCount )
 {
     if( pnCount != NULL )
         *pnCount = nSharedFileCount;
-        
+
     return (CPLSharedFileInfo *) pasSharedFileList;
 }
 
@@ -2255,7 +2255,7 @@ CPLSharedFileInfo *CPLGetSharedList( int *pnCount )
  * Report open shared files.
  *
  * Dumps all open shared files to the indicated file handle.  If the
- * file handle is NULL information is sent via the CPLDebug() call. 
+ * file handle is NULL information is sent via the CPLDebug() call.
  *
  * @param fp File handle to write to.
  */
@@ -2276,15 +2276,15 @@ void CPLDumpSharedList( FILE *fp )
     for( i = 0; i < nSharedFileCount; i++ )
     {
         if( fp == NULL )
-            CPLDebug( "CPL", 
-                      "%2d %d %4s %s", 
-                      pasSharedFileList[i].nRefCount, 
+            CPLDebug( "CPL",
+                      "%2d %d %4s %s",
+                      pasSharedFileList[i].nRefCount,
                       pasSharedFileList[i].bLarge,
                       pasSharedFileList[i].pszAccess,
                       pasSharedFileList[i].pszFilename );
         else
-            fprintf( fp, "%2d %d %4s %s", 
-                     pasSharedFileList[i].nRefCount, 
+            fprintf( fp, "%2d %d %4s %s",
+                     pasSharedFileList[i].nRefCount,
                      pasSharedFileList[i].bLarge,
                      pasSharedFileList[i].pszAccess,
                      pasSharedFileList[i].pszFilename );
@@ -2309,7 +2309,7 @@ int CPLUnlinkTree( const char *pszPath )
 
     if( VSIStatL( pszPath, &sStatBuf ) != 0 )
     {
-        CPLError( CE_Failure, CPLE_AppDefined, 
+        CPLError( CE_Failure, CPLE_AppDefined,
                   "It seems no file system object called '%s' exists.",
                   pszPath );
 
@@ -2323,7 +2323,7 @@ int CPLUnlinkTree( const char *pszPath )
     {
         if( VSIUnlink( pszPath ) != 0 )
         {
-            CPLError( CE_Failure, CPLE_AppDefined, "Failed to unlink %s.", 
+            CPLError( CE_Failure, CPLE_AppDefined, "Failed to unlink %s.",
                       pszPath );
 
             return -1;
@@ -2360,12 +2360,12 @@ int CPLUnlinkTree( const char *pszPath )
                 return nErr;
             }
         }
-        
+
         CSLDestroy( papszItems );
 
         if( VSIRmdir( pszPath ) != 0 )
         {
-            CPLError( CE_Failure, CPLE_AppDefined, "Failed to unlink %s.", 
+            CPLError( CE_Failure, CPLE_AppDefined, "Failed to unlink %s.",
                       pszPath );
 
             return -1;
@@ -2379,7 +2379,7 @@ int CPLUnlinkTree( const char *pszPath )
 /* -------------------------------------------------------------------- */
     else
     {
-        CPLError( CE_Failure, CPLE_AppDefined, 
+        CPLError( CE_Failure, CPLE_AppDefined,
                   "Failed to unlink %s.\nUnrecognised filesystem object.",
                   pszPath );
         return 1000;
@@ -2422,7 +2422,7 @@ int CPLCopyFile( const char *pszNewPath, const char *pszOldPath )
 /* -------------------------------------------------------------------- */
 /*      Copy file over till we run out of stuff.                        */
 /* -------------------------------------------------------------------- */
-    do { 
+    do {
         nBytesRead = VSIFReadL( pabyBuffer, 1, nBufferSize, fpOld );
         if( long(nBytesRead) < 0 )
             nRet = -1;
@@ -2454,7 +2454,7 @@ int CPLCopyTree( const char *pszNewPath, const char *pszOldPath )
 
     if( VSIStatL( pszOldPath, &sStatBuf ) != 0 )
     {
-        CPLError( CE_Failure, CPLE_AppDefined, 
+        CPLError( CE_Failure, CPLE_AppDefined,
                   "It seems no file system object called '%s' exists.",
                   pszOldPath );
 
@@ -2462,7 +2462,7 @@ int CPLCopyTree( const char *pszNewPath, const char *pszOldPath )
     }
     if( VSIStatL( pszNewPath, &sStatBuf ) == 0 )
     {
-        CPLError( CE_Failure, CPLE_AppDefined, 
+        CPLError( CE_Failure, CPLE_AppDefined,
                   "It seems that a file system object called '%s' already exists.",
                   pszNewPath );
 
@@ -2473,7 +2473,7 @@ int CPLCopyTree( const char *pszNewPath, const char *pszOldPath )
     {
         if( VSIMkdir( pszNewPath, 0755 ) != 0 )
         {
-            CPLError( CE_Failure, CPLE_AppDefined, 
+            CPLError( CE_Failure, CPLE_AppDefined,
                     "Cannot create directory '%s'.",
                     pszNewPath );
 
@@ -2518,7 +2518,7 @@ int CPLCopyTree( const char *pszNewPath, const char *pszOldPath )
     }
     else
     {
-        CPLError( CE_Failure, CPLE_AppDefined, 
+        CPLError( CE_Failure, CPLE_AppDefined,
                   "Unrecognised filesystem object : '%s'.",
                   pszOldPath );
         return -1;
@@ -2539,7 +2539,7 @@ int CPLMoveFile( const char *pszNewPath, const char *pszOldPath )
 
     if( nRet == 0 )
         VSIUnlink( pszOldPath );
-    
+
     return nRet;
 }
 
@@ -2597,7 +2597,7 @@ CPLLocaleC::~CPLLocaleC()
 /**
  * Prevents parallel executions of setlocale().
  *
- * Calling setlocale() concurrently from two or more threads is a 
+ * Calling setlocale() concurrently from two or more threads is a
  * potential data race. A mutex is used to provide a critical region so
  * that only one thread at a time can be executing setlocale().
  *
@@ -2640,18 +2640,18 @@ void CPLCleanupSetlocaleMutex(void)
  * The function checks if a named file exists in the filesystem, hopefully
  * in an efficient fashion if a sibling file list is available.   It exists
  * primarily to do faster file checking for functions like GDAL open methods
- * that get a list of files from the target directory. 
+ * that get a list of files from the target directory.
  *
  * If the sibling file list exists (is not NULL) it is assumed to be a list
  * of files in the same directory as the target file, and it will be checked
  * (case insensitively) for a match.  If a match is found, pszFilename is
- * updated with the correct case and TRUE is returned. 
+ * updated with the correct case and TRUE is returned.
  *
  * If papszSiblingFiles is NULL, a VSIStatL() is used to test for the files
- * existance, and no case insensitive testing is done. 
+ * existance, and no case insensitive testing is done.
  *
  * @param pszFilename name of file to check for - filename case updated in some cases.
- * @param papszSiblingFiles a list of files in the same directory as 
+ * @param papszSiblingFiles a list of files in the same directory as
  * pszFilename if available, or NULL. This list should have no path components.
  *
  * @return TRUE if a match is found, or FALSE if not.
@@ -2681,7 +2681,7 @@ int CPLCheckForFile( char *pszFilename, char **papszSiblingFiles )
     {
         if( EQUAL(papszSiblingFiles[i],osFileOnly) )
         {
-            strcpy( pszFilename + strlen(pszFilename) - strlen(osFileOnly), 
+            strcpy( pszFilename + strlen(pszFilename) - strlen(osFileOnly),
                     papszSiblingFiles[i] );
             return TRUE;
         }
@@ -2704,7 +2704,7 @@ void *CPLCreateZip( const char *pszZipFilename, char **papszOptions )
     return NULL;
 }
 
-CPLErr CPLCreateFileInZip( void *hZip, const char *pszFilename, 
+CPLErr CPLCreateFileInZip( void *hZip, const char *pszFilename,
                            char **papszOptions )
 
 {

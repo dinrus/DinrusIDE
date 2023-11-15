@@ -13,20 +13,25 @@ topic "Класс ValueArray";
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс ValueArray]]}}&]
 [s1;@(0.0.255)3 &]
 [s1;:ValueArray`:`:class: [@(0.0.255)3 class][3 _][*3 ValueArray][3 _]&]
-[s2;%RU-RU ValueArray is an array of Value elements. It is fully 
-Rich Value compatible.&]
+[s2;%RU-RU ValueArray `- массив из элементов Value 
+(Значение). Он полностью совместим 
+с Rich Value (Обогащённым Значением).&]
 [s2;%RU-RU &]
-[s2;%RU-RU ValueArray is also compatible with ValueMap (in the similar 
-way how Date is compatible with Time). Assigning Value containing 
-ValueMap to ValueArray assigns it a ValueArray representing values 
-of ValueMap. Assigning ValueArray to ValueMap creates map where 
-keys are number 0, 1, ... GetCount() `- 1 and values contain 
-elements with corresponding indices.&]
+[s2;%RU-RU ValueArray совместим также с ValueMap (так 
+же, как Date (Дата) совместима с Time (Временем)). 
+При присваивании Value, содержащего 
+ValueMap, к ValueArray, ему присваивается ValueArray, 
+представляющий значения из ValueMap. 
+При присваивании ValueArray`'я к ValueMap`'у, 
+создаётся мап, с числовыми ключами 
+0, 1, ... GetCount() `- 1 и значениями, содержащими 
+элементы с соответствующими индексами.&]
 [s2;%RU-RU &]
-[s2;%RU-RU Note that Value also provides methods (GetCount() and 
-operator`[`]) to directly access ValueArray elements contained 
-in Value (if Value does not contain ValueArray, GetCount() returns 
-0).&]
+[s2;%RU-RU Заметьте, что Value предоставляет 
+также методы (GetCount() и оператор `[`]) 
+для прямого доступа к элементам ValueArray`'я, 
+содержимого в Value (если Value не содержит 
+ValueArray, GetCount() возвращает 0).&]
 [s3; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
@@ -42,15 +47,16 @@ alueArray][@(0.0.255) `&]_[*@3 v])&]
 [s5;:Upp`:`:ValueArray`:`:ValueArray`(Upp`:`:Vector`<Upp`:`:Value`>`&`&`): [* ValueArra
 y]([_^Upp`:`:Vector^ Vector]<[_^Upp`:`:Value^ Value]>`&`&_[*@3 values])&]
 [s2;%RU-RU Создаёт ValueArray, пикуя значения 
-[%-*@3 values] `- источник разрушается.&]
+[%-*@3 values],`- источник разрушается.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:ValueArray`:`:ValueArray`(const Vector`<Value`>`&`,int`): [@(0.0.255) explicit]_[* V
 alueArray]([@(0.0.255) const]_[_^Vector^ Vector]<[_^Value^ Value]>`&_[*@3 values], 
 [@(0.0.255) int]_[*@3 deep])&]
 [s2;%RU-RU Создаёт ValueArray как глубокую копию 
-значений [%-*@3 values] ([%-*@3 deep] is dummy parameter 
-to make the signature different from picking version).&]
+значений [%-*@3 values] ([%-*@3 deep] `- это `"огульный`" 
+параметр, который делает сигнатуру 
+отличной от версии с пикингом).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:ValueArray`:`:`~ValueArray`(`): [@(0.0.255) `~][* ValueArray]()&]
@@ -80,9 +86,10 @@ td`::initializer`_list]<[_^Upp`:`:Value^ Value]>_[*@3 init])&]
 [s4; &]
 [s5;:ValueArray`:`:ValueArray`(const Value`&`): [* ValueArray]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 src])&]
-[s2;%RU-RU Gets ValueArray from Value [%-*@3 src]. Note that this also 
-works if Value contains ValueMap (vector of values, of key`-value 
-pairs, is returned).&]
+[s2;%RU-RU Получает ValueArray из Value [%-*@3 src]. Заметьте, 
+что это работает, даже если Value содержит 
+ValueMap (возвращается вектор значений, 
+состоящий из пар ключ`-значение).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:ValueArray`:`:ValueArray`(const Nuller`&`): [* ValueArray]([@(0.0.255) const]_[_^Nuller^ N
@@ -154,9 +161,10 @@ alue][@(0.0.255) `&]_[*@3 v])&]
 по [%-*@3 i] и возвращает Value, которое находилось 
 в этом элементе ранее. Этот особый 
 метод предназначен для оптимизации 
-в некоторых ситуациях, as it can void expensive 
-cloning of Value in situation where keeping original Value in 
-ValueArray is not required.&]
+в некоторых ситуациях, когда он не 
+делает излишнего клонирования Value, 
+так как не требуется сохранять исходное 
+Value в ValueArray`'е.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:ValueArray`:`:Get`(`)const: [@(0.0.255) const]_[_^Vector^ Vector]<[_^Value^ Value]>`&_
@@ -202,9 +210,10 @@ onst]_[_^ValueArray^ ValueArray][@(0.0.255) `&]_[*@3 va])&]
 [s2;%RU-RU Возвращает ссылку на элемент 
 по индексу [%-*@3 i] , если его нет, добавляет 
 в массив значения Void, так чтобы этот 
-элемент появился. [^topic`:`/`/Core`/srcdoc`/ValueReference`_ru`-ru^ T
-he reference returned is invalidated by any further use of originating 
-Value]. &]
+элемент появился.  [^topic`:`/`/Core`/srcdoc`/ValueReference`_ru`-ru^ В
+озвращённая ссылка повреждается 
+при любом дальнейшем использовании 
+исходного Value].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:ValueArray`:`:GetHashValue`(`)const: [@(0.0.255) unsigned]_[* GetHashValue]()_[@(0.0.255) c
@@ -240,9 +249,10 @@ st]&]
 [s5;:ValueArray`:`:operator`!`=`(const ValueArray`&`)const: [@(0.0.255) bool]_[* operator
 !`=]([@(0.0.255) const]_[_^ValueArray^ ValueArray][@(0.0.255) `&]_[*@3 v])_[@(0.0.255) cons
 t]&]
-[s2;%RU-RU (In)Equality comparison. Two ValueArrays are equal if 
-they have the same number of elements and all elements at the 
-same position are equal.&]
+[s2;%RU-RU Сравнение на равенство. Два ValueArray`'я 
+равны, если у них одинаковое число 
+элементов и все элементы, расположенные 
+в одинаковых позициях, равны.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:ValueArray`:`:Compare`(const ValueArray`&`)const: [@(0.0.255) int]_[* Compare]([@(0.0.255) c

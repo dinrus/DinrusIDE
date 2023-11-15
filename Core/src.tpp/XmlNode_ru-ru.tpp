@@ -104,8 +104,8 @@ onst]_[_^String^ String][@(0.0.255) `&]_[*@3 decl])&]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:CreateComment`(const String`&`): [@(0.0.255) void]_[* CreateComment]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 comment])&]
-[s2;%RU-RU Устанавливает this XmlNode to represent XML 
-[%-*@3 comment].&]
+[s2;%RU-RU Устанавливает этот XmlNode на представление
+ комментария XML [%-*@3 comment].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlNode`:`:CreateDocument`(`): [@(0.0.255) void]_[* CreateDocument]()&]
@@ -292,8 +292,6 @@ oid]_[* SetAttrs]([_^Upp`:`:VectorMap^ VectorMap]<[_^Upp`:`:String^ String],
 [s5;:XmlNode`:`:XmlNode`(const XmlNode`&`,int`): [* XmlNode]([@(0.0.255) const]_[* XmlNode][@(0.0.255) `&
 ]_[*@3 n], [@(0.0.255) int])&]
 [s2;%RU-RU Конструктор глубокой копии.&]
-[s3;%RU-RU &]
-[s0; &]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 XmlNode `- функции разбора и вывода]]}}&]
 [s3;%RU-RU &]
@@ -363,17 +361,21 @@ onst]_[@(0.0.255) char]_`*[*@3 path], [@(0.0.255) const]_[_^XmlNode^ XmlNode][@(
 [%-*@3 style] может быть комбинацией из&]
 [s2;%RU-RU &]
 [ {{3581:6419<288;^ [s2;l32; XML`_HEADER]
-::= [s2;l64;%RU-RU Adds standard XML header at the beginning of the document.]
+::= [s2;l64;%RU-RU Добавляет стандаотный `"заголовочник`"
+ XML в ачале документа.]
 ::^ [s2;l32; XML`_DOCTYPE]
-::= [s2;l64;%RU-RU Adds DOCTYPE declaration at the beginning of the document 
-with type taken as id of first XML`_TAG sub`-node (which represents 
-the root element).]
+::= [s2;l64;%RU-RU Добавляет декларацию DOCTYPE в 
+начале документа,  с типом, взятым 
+как идентификатор первого подузла 
+XML`_TAG (представляющего корневой элемент).]
 ::^ [s2;l32; XML`_PRETTY]
-::= [s2;l64;%RU-RU XML document is formatted as multiline document with 
-nice indentation. If not active, everything is in sigle line 
-with no identantion.]}}&]
+::= [s2;l64;%RU-RU Документ XML форматирован как 
+многострочный документ с соблюдением 
+отступов. Если не активен, всё в одну 
+строку, без отступов.]}}&]
 [s2; &]
-[s2; Output is stored to Stream, returned as String or (with AsXMLFile) 
-stored to file. AsXMLFile returns true if output file was successfully 
-created.&]
+[s2; Вывод сохраняется в поток Stream, возвращается
+ как String или (через AsXMLFile) сохраняется 
+в файле. AsXMLFile возвращает true, если 
+файл вывода создан успешно.&]
 [s2; ]]

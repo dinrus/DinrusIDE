@@ -13,47 +13,55 @@ topic "Класс XmlIO и фреймворк Xmlize";
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс XmlIO и фреймворк Xmlize]]}}&]
 [s3; &]
 [s1;:XmlIO`:`:class: [@(0.0.255)3 class][3 _][*3 XmlIO]&]
-[s2;%RU-RU XmlIO represents a single XmlNode in Jsonize framework. 
-It is used as parameter for Xmlize and XmlAttrLoad/XmlAttrStore 
-global functions. These functions have default templated definitions 
-that in turn call similary named methods of object. However, 
-when implementation using method is not possible (e.g. for supported 
-primitive types), global templated specializations can be used.&]
+[s2;%RU-RU XmlIO представляет единичный XmlNode 
+в фреймворке Jsonize. Он используется 
+как параметр для глобальных функций 
+Xmlize и XmlAttrLoad/XmlAttrStore. Эти функции имеют 
+дефолтные шаблонные определения, 
+которые, в свою очередь, вызывают 
+одноимённые методы объекта. Однако, 
+когда нельзя использовать метод в 
+реализации (напр., для поддерживаемых 
+примитивных типов), могут использоваться 
+глобальные шаблонные специализации.&]
 [s2;%RU-RU &]
 [s3; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:XmlIO`:`:IsLoading`(`)const: [@(0.0.255) bool]_[* IsLoading]()_[@(0.0.255) const]&]
-[s2;%RU-RU True if actual operation is retrieving data from XML to 
-C`+`+ variables.&]
+[s2;%RU-RU True, если протекающая операция 
+получает данные из XML в переменные 
+C`+`+.&]
 [s3; &]
 [s4; &]
 [s5;:XmlIO`:`:IsStoring`(`)const: [@(0.0.255) bool]_[* IsStoring]()_[@(0.0.255) const]&]
-[s2;%RU-RU True if actual operation is storing data from C`+`+ variables 
-to XML.&]
+[s2;%RU-RU True, если протекающая операция 
+сохраняет данные из переменных C`+`+ 
+в XML.&]
 [s3; &]
 [s4; &]
 [s5;:XmlIO`:`:Node`(`): [_^XmlNode^ XmlNode][@(0.0.255) `&]_[* Node]()&]
 [s5;:XmlIO`:`:Node`(`)const: [@(0.0.255) const]_[_^XmlNode^ XmlNode][@(0.0.255) `&]_[* Node](
 )_[@(0.0.255) const]&]
 [s5;:XmlIO`:`:operator`-`>`(`): [_^XmlNode^ XmlNode]_`*[* operator`->]()&]
-[s2;%RU-RU Возвращает current XmlNode represented by this 
-XmlIO.&]
+[s2;%RU-RU Возвращает текущий XmlNode, представленный 
+этим XmlIO.&]
 [s3; &]
 [s4; &]
 [s5;:XmlIO`:`:GetAttr`(const char`*`): [_^String^ String]_[* GetAttr]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 id])&]
-[s2;%RU-RU То же, что и Node().GetAttr([%-*@3 id]) `- returns 
-the value of attribute of current XmlNode (used when retrieving 
-data from XML).&]
+[s2;%RU-RU То же, что и Node().GetAttr([%-*@3 id]) `- возвращает 
+значение атрибута текущего XmlNode (используемо
+е при получение данных из XML).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlIO`:`:SetAttr`(const char`*`,const String`&`): [@(0.0.255) void]_[* SetAttr]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 id], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 v
 al])&]
 [s2;%RU-RU То же, что и Node().SetAttr([%-*@3 id], [%-*@3 val]) 
-`- sets the value of attribute of current XmlNode (used when 
-storing data to XML).&]
+`- устанавливает значение атрибута 
+текущего XmlNode (используется при сохранении 
+данных в XML).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlIO`:`:operator`(`)`(const char`*`,T`&`): [@(0.0.255) template]_<[@(0.0.255) class
@@ -63,16 +71,23 @@ storing data to XML).&]
 ]_<[@(0.0.255) class]_[*@4 T], [@(0.0.255) class]_[*@4 D]>_[_^Upp`:`:XmlIO^ XmlIO]_[* operato
 r()]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 tag], [*@4 T][@(0.0.255) `&]_[*@3 var], 
 [@(0.0.255) const]_[*@4 D][@(0.0.255) `&]_[*@3 def])&]
-[s2;%RU-RU Создаёт subtag of current XmlNode [%-*@3 tag], forms 
-a new XmlIO for it and calls global [* Xmlize ]function with this 
-new XmlIO and [%-*@3 var] as parameters. Common global [* Xmlize 
-]is a template function that calls [* Xmlize ]method for [%-*@3 var] 
-with new XmlIO as parameter `- that way the [* Xmlize ]can be defined 
-either as global template function specializastion for [%-*@4 T] 
-or as method of [%-*@4 T] (usually easier, but not always possible). 
-[%-*@3 def] parameter can be used to provide default value when 
-there is no corresponding tag on loading. Variant without [%-*@3 def] 
-leaves [%-*@3 var] unchanged in this case.&]
+[s2;%RU-RU Создаёт субтэг текущего тэга 
+XmlNode [%-*@3 tag], формирует новый XmlIO для 
+него и вызывает глобальную функцию 
+[* Xmlize ]с этим новым XmlIO и [%-*@3 var] в качестве 
+параметров. Общая глобальная [* Xmlize 
+`- ]это шаблонная функция вызывающая 
+метод [* Xmlize ]для [%-*@3 var] с новым XmlIO в качестве 
+параметра `- таким образом [* Xmlize ]может 
+быть определён либо как глобальная 
+шаблонная функция для [%-*@4 T], либо как 
+метод у [%-*@4 T] (это обычно легче, но не 
+всегда возможно). Параметр [%-*@3 def] может 
+использоваться для предоставления 
+дефолтного значения, когда при загрузке 
+нет соответствующего тэга. Вариант 
+без [%-*@3 def] оставляет [%-*@3 var] неизменённой 
+в этом случае.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:XmlIO`:`:List`(const char`*`,const char`*`,T`&`,const D`&`): [@(0.0.255) te
@@ -83,28 +98,39 @@ ef])&]
 [s5;:Upp`:`:XmlIO`:`:List`(const char`*`,const char`*`,T`&`): [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[_^Upp`:`:XmlIO^ XmlIO]_[* List]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 t
 ag], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 itemtag], [*@4 T][@(0.0.255) `&]_[*@3 var])&]
-[s2;%RU-RU Создаёт subtag of current XmlNode [%-*@3 tag], forms 
-a new XmlIO for it and calls global [* Xmlize ]function with this 
-new XmlIO, [%-*@3 itemtag] and [%-*@3 var] as parameters. Common 
-global [* Xmlize ]is a template function that calls [* Xmlize ]method 
-for [%-*@3 var] with new XmlIO as parameter (but not [%-*@3 itemtag]) 
-`- that way the [* Xmlize ]can be defined either as global template 
-function specialization for [%-*@4 T] or as method of [%-*@4 T] (usually 
-easier, but not always possible). [%-*@3 itemtag] is additional 
-parameter that can be used as name of embeded tags when collections 
-of items are Xmlized. [%-*@3 def] parameter can be used to provide 
-default value when there is no corresponding tag on loading. 
-Variant without [%-*@3 def] leaves [%-*@3 var] unchanged in this 
-case.&]
+[s2;%RU-RU Создаёт субтэг текущего тэга 
+XmlNode [%-*@3 tag], формирует новый XmlIO для 
+него и вызывает глобальную функцию 
+[* Xmlize ]с этим новым XmlIO, [%-*@3 itemtag] и [%-*@3 var] 
+в качестве параметров. Общая глобальная 
+[* Xmlize `- ]это шаблонная функция вызывающая 
+метод [* Xmlize ]для [%-*@3 var] с новым XmlIO в качестве 
+параметра  (но не [%-*@3 itemtag]) `- таким образом 
+[* Xmlize ]может быть определён либо как 
+глобальная шаблонная функция для 
+[%-*@4 T], либо как метод у [%-*@4 T] (это обычно 
+легче, но не всегда возможно). [%-*@3 itemtag] 
+`- дополнительный параметр, который 
+можно использовать как имя внедрённых 
+тэгов, когда коллекции элементов 
+Xml`'изируются. Параметр [%-*@3 def] может 
+использоваться для предоставления 
+дефолтного значения, когда при загрузке 
+нет соответствующего тэга. Вариант 
+без [%-*@3 def] оставляет [%-*@3 var] неизменённой 
+в этом случае.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:XmlIO`:`:Var`(const char`*`,T`&`,X`): [@(0.0.255) template]_<[@(0.0.255) clas
 s]_[*@4 T], [@(0.0.255) class]_[*@4 X]>_[_^Upp`:`:XmlIO^ XmlIO]_[* Var]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 tag], [*@4 T][@(0.0.255) `&]_[*@3 var], [*@4 X]_[*@3 var`_xmlize])&]
-[s2;%RU-RU Создаёт subtag of current XmlNode [%-*@3 tag], forms 
-a new XmlIO for it and calls global [%-*@3 item`_xmlize][*  ]callable 
-with this new XmlIO and [%-*@3 var] as parameters. This allows 
-for in`-place definition of XML structure used to represent [%-*@3 var].&]
+[s2;%RU-RU Создаёт субтэг текущего тэга 
+XmlNode [%-*@3 tag], формирует новый XmlIO для 
+него и вызывает глобальный [%-*@3 item`_xmlize]c, 
+с этим новым XmlIO и [%-*@3 var] в качестве 
+параметров. Это позволяет на месте 
+определять структуру XML, используемую 
+для представления [%-*@3 var].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:XmlIO`:`:Array`(const char`*`,T`&`,X`,const char`*`): [@(0.0.255) template]_
@@ -112,9 +138,11 @@ for in`-place definition of XML structure used to represent [%-*@3 var].&]
 onst]_[@(0.0.255) char]_`*[*@3 tag], [*@4 T][@(0.0.255) `&]_[*@3 var], 
 [*@4 X]_[*@3 item`_xmlize], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 itemtag] 
 `=[*@3  `"item`"])&]
-[s2;%RU-RU Xmlizes array container (must have GetCount, Add and operator`[`] 
-methods), using [%-*@3 item`_xmlize] to define the structure of 
-elements. [%-*@3 itemtag] provides the tags of individual elements.&]
+[s2;%RU-RU Xml`'изирует контейнер массива 
+(должен иметь методы GetCount, Add и оператор 
+`[`]), используя [%-*@3 item`_xmlize] для определения 
+структуры элементов. [%-*@3 itemtag] предоставляет 
+тэги индивидуальных элементов.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlIO`:`:Attr`(const char`*`,T`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>
@@ -124,55 +152,65 @@ _[_^XmlIO^ XmlIO]_[* Attr]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id],
 ], [@(0.0.255) class]_[*@4 D]>_[_^Upp`:`:XmlIO^ XmlIO]_[* Attr]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 id], [*@4 T][@(0.0.255) `&]_[*@3 var], [@(0.0.255) const]_[*@4 D][@(0.0.255) `&]_[*@3 d
 ef])&]
-[s2;%RU-RU When retrieving data, calls global function [@(0.0.255) void 
-][* XmlAttrLoad]([%-*@4 T][%-@(0.0.255) `&][%- _][%-*@3 var], const String`& 
-[* text]) with [* text] set to the value of attribute [%-*@3 id] of 
-current XmlNode. Common global Xmlize is a template function 
-that calls [@(0.0.255) void ][* XmlAttrLoad](const String`& [* text]) 
-method for [%-*@3 var]. When storing data, sets the attribute [%-*@3 id] 
-of current XmlNode to the result of global function call String 
-[* XmlAttrStore]([@(0.0.255) const ][%-*@4 T]`& var). Common global 
-Xmlize is a template function that calls [@(0.0.255) void ][* XmlAttrLoad](const 
-String`& [* text]) method for [%-*@3 var]. [%-*@3 def] parameter can 
-be used to provide default value when retrieving data from XML 
-fails. Возвращает `*this.&]
+[s2;%RU-RU При подучении данных, вызывает 
+глобальную функцию [@(0.0.255) void ][* XmlAttrLoad]([%-*@4 T][%-@(0.0.255) `&
+][%- _][%-*@3 var], const String`& [* text]), где [* text] устанавливаетс
+я в значение атрибута [%-*@3 id] текущего 
+XmlNode. Общий глобальный Xmlize `- это шаблонная 
+функция, которая вызывает метод [@(0.0.255) void 
+][* XmlAttrLoad](const String`& [* text]) для [%-*@3 var]. При 
+сохранении данных, устанавливает 
+атрибут [%-*@3 id] текущего XmlNode в итог 
+вызова глобальной функции String [* XmlAttrStore]([@(0.0.255) c
+onst ][%-*@4 T]`& var).Параметр  [%-*@3 def] может использоват
+ься для предоставления дефолтного 
+значения при получении данных из 
+XML. Возвращает `*this.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlIO`:`:At`(int`): [_^XmlIO^ XmlIO]_[* At]([@(0.0.255) int]_[*@3 i])&]
-[s2;%RU-RU Создаёт a new subnode with index [%-*@3 i] of current 
-XmlNode and returns a new XmlIO for it. Node type and properties 
-are to be set through created XmlIO.&]
+[s2;%RU-RU Создаёт новый подузел с индексом 
+[%-*@3 i] текущего XmlNode и возвращает новый 
+XmlIO для него. Тип узла и свойства устанавлива
+ются через созданный XmlIO.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlIO`:`:Add`(`): [_^XmlIO^ XmlIO]_[* Add]()&]
-[s2;%RU-RU Adds a new subnode to current XmlNode and returns a new 
-XmlIO for it. Node type and properties are to be set through 
-created XmlIO.&]
+[s2;%RU-RU Добавляет новый подузел к текущему 
+XmlNode и возвращает новый XmlIO для него. 
+Тип узла и свойства устанавливаются 
+через созданный XmlIO.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlIO`:`:Add`(const char`*`): [_^XmlIO^ XmlIO]_[* Add]([@(0.0.255) const]_[@(0.0.255) ch
 ar]_`*[*@3 id])&]
-[s2;%RU-RU Adds a new subtag [%-*@3 id] to current XmlNode and returns 
-XmlIO for it. Node properties are to be set through created XmlIO.&]
+[s2;%RU-RU Добавляет новый субтэг [%-*@3 id] к 
+текущему XmlNode и возвращает XmlIO для 
+него. Свойства узла устанавливаются 
+через созданный XmlIO.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlIO`:`:GetAdd`(const char`*`): [_^XmlIO^ XmlIO]_[* GetAdd]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 id])&]
-[s2;%RU-RU If there already exists subtag [%-*@3 id] in current XmlNode, 
-returns XmlIO for it, if not, it is created and XmlIO for this 
-new tag is returned. Node properties are to be set through returned 
+[s2;%RU-RU Если уже есть субтэг [%-*@3 id] в текущем 
+XmlNode, возвращает XmlIO для него, Если 
+нет, он создаётся и возвращается XmlIO 
+для этого нового тэга. Свойства узла 
+устанавливаются через возвращённый 
 XmlIO.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlIO`:`:SetUserData`(const Value`&`): [@(0.0.255) void]_[* SetUserData]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2;%RU-RU Associates some client code value with current XmlIO. 
-This value is propagated to any new XmlIO created by current 
-XmlIO..&]
+[s2;%RU-RU Ассоциирует некоторое значение 
+кода`-клиента с текущим XmlIO. Это значение 
+прередаётся любому новому XmlIO, созданному 
+текущим XmlIO.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlIO`:`:GetUserData`(`)const: [_^Value^ Value]_[* GetUserData]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает value set by SetUserData.&]
+[s2;%RU-RU Возвращает значение, установленное 
+SetUserData.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlIO`:`:XmlIO`(XmlNode`&`,bool`,const Value`&`): [* XmlIO]([_^XmlNode^ XmlNode][@(0.0.255) `&
@@ -180,18 +218,19 @@ XmlIO..&]
 ]_[*@3 userdata])&]
 [s5;:XmlIO`:`:XmlIO`(XmlNode`&`,bool`): [* XmlIO]([_^XmlNode^ XmlNode][@(0.0.255) `&]_[*@3 xm
 l], [@(0.0.255) bool]_[*@3 loading])&]
-[s2;%RU-RU Создаёт XmlIO for given XmlNode and sets the direction 
-mode based on [%-*@3 loading]. If [%-*@3 userdata] are present, calls 
-SetUserData([%-*@3 userdata]).&]
+[s2;%RU-RU Создаёт XmlIO для данного XmlNode и 
+устанавливает режим направления, 
+на основе [%-*@3 loading]. Если присутствует 
+[%-*@3 userdata], вызывает SetUserData([%-*@3 userdata]).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlIO`:`:XmlIO`(XmlIO`,const char`*`): [* XmlIO]([* XmlIO]_[*@3 xml], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id])&]
-[s2;%RU-RU If there already exists subtag [%-*@3 id] in current XmlNode, 
-constructs XmlIO for it, if not, tag is created and XmlIO for 
-this new tag is constructed.&]
-[s3;%RU-RU &]
-[s0;%RU-RU &]
+[s2;%RU-RU Если уже существует субтэг [%-*@3 id] 
+в текущем XmlNode, то конструирует XmlIO 
+для него, если нет, то тэг создаётся 
+и конструируется XmlIO для этого нового 
+тэга.&]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Функции Xmlize Store/Load]]}}&]
 [s3; &]

@@ -14,44 +14,65 @@ topic "Класс Value";
 [s1;@(0.0.255)3%- &]
 [s1;:Value`:`:class:%- [@(0.0.255)3 class][3 _][*3 Value][3 _:_][@(0.0.255)3 private][3 _][*@3;3 Mov
 eable][3 <][*3 Value][3 >_]&]
-[s2; Value is a concrete value type (with normal deep copy semantics) 
-that is designed to store other concrete types in unified way, 
-but in fact can store almost any other data type.&]
+[s2; Value `- это тип конкретного значения 
+(с нормальной семантикой глубокой 
+копии), который предназначен для хранения 
+других конкретных типов одним общим 
+способом, но фактически может хранить 
+почти любой иной тип данных.&]
 [s2; &]
-[s2; There are two basic levels of Value compatibility. Data can 
-be stored to Value as `"raw`" `- that means that only working 
-operations for such Value are test that Value contains value 
-of such type and extracting a constant reference to the stored 
-Value.&]
+[s2; Есть два основных уровня совместимости 
+Value. Данные могут сохраняться в Value 
+`"сырыми`" (`"raw`") `- т.е. только рабочие 
+операции такого значения могут проверять, 
+содержится ли в нём значение этого 
+типа, и извлекать константную ссылку 
+на сохраняемое значение.&]
 [s2; &]
-[s2; `"Rich`" Value types provide more unified functionality: Comparison, 
-hashing, serialization, jsonization, xmlization, Null testing, 
-conversion to text etc. Rich type also provide some level of 
-conversion compatibility: e.g. Value containing integer can be 
-extracted to double. Note that Value containing Null can be (usually) 
-extracted to any compatible type (e.g. Null Date can be assigned 
-to integer).&]
+[s2; Типы `"Rich`" Value предоставляют более 
+унифицированный функционал: сравнение, 
+хэширование, сериализацию, json`'изацию, 
+xml`'изацию, проверку на Null, преобразование 
+в текст и проч. Типы Rich также предоставляют 
+некий уровень совместимости преобразований
+: напр., Value, содержащее integer, может извлекаться
+ в double. Заметьте, что Value, содержащее 
+Null, может (обычно) извлекаться в любой 
+совместимый тип (напр., Null Date можно 
+присвоить integer`'у).&]
 [s2; &]
-[s2; For optimization purposes, there are two subgroups of `"Rich`" 
-types `- normal ones, and `"SVO`" (as in `"Small Value Optimization`"). 
-SVO types have some restrictions: they have to be PODs and they 
-have to fit to 8 bytes; such types are stored more efficiently 
-(they are stored directly in Value body, whereas other values 
-are stored indirectly using reference counted pointer).&]
+[s2; В целях оптимизации имеется две подгруппы 
+типов `"Rich`" `- нормальные и `"SVO`" (`"Small 
+Value Optimization`" `- оптимизация небольших 
+значений). Типы SVO имеют больше ограничений: 
+они должны быть POD`'ами и умещаться 
+в 8 байтов; такие типы сохраняются 
+более эффективно (они сохраняются 
+прямо в тело Value, в то время как иные 
+значения сохраняются косвенно, используя 
+указатель со счётчиком ссылок).&]
 [s2; &]
-[s2; Basic Value class provides support for some fundamental types 
-and `"standard Value`" types: bool, int, int64, double, String, 
-WString, Date and Time. There are also special types Void (for 
-empty Value) and ErrorValue (represents error). Important feature 
-is that ErrorValue is considered to be Void and Void is considered 
-to be Null (but not vice verse).&]
+[s2; Базовый класс Value обеспечивает поддержку 
+некоторых фундаментальных типов 
+и типов `"стандартного значения`": bool, 
+int, int64, double, String, WString, Date и Time. Есть также 
+особые типы Void (для пустого Value) и ErrorValue 
+(представляет ошибку). Важная черта 
+состоит в том, что ErrorValue рассматривается 
+как Void, а Void рассматривается как Null 
+(а не наоборот).&]
 [s2; &]
-[s2; To make some concrete type Value compatible, the standard way 
-is to derive it from helper class ValueType, which assigns value 
-type number constant and defines `"empty`" methods for rich value 
-features. It is also required to Register (or SvoRegister) the 
-Value so that it can be successfully deserialized from stream 
-or decoded from JSON or XML.&]
+[s2; Чтобы сделать какой`-либо тип Value 
+совместимым, стандартный способ `- 
+произвести его от вспомогательного 
+класса ValueType, который присваивает 
+константу номера типа значения и 
+в котором определены `"пустые`" методы 
+для фич rich value. Также требуется зарегистриров
+ать через Register (или SvoRegister) это Value, 
+чтобы оно могло быть успешно десериализован
+о из потока или декодировано из JSON 
+или XML.&]
 [s3;%- &]
 [s0;i448;a25;kKO9;@(0.0.255)%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
@@ -59,58 +80,65 @@ or decoded from JSON or XML.&]
 [s5;:Value`:`:Register`(const char`*`):%- [@(0.0.255) static] [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[@(0.0.255) void]_[* Register]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 nam
 e]_`=_NULL)&]
-[s2; Registers the type [%-*@4 T] as Rich Value type. [%-*@3 name] is 
-the name to be used with JSON or XML.&]
+[s2; Регистрирует тип [%-*@4 T] как тип Rich Value. 
+[%-*@3 name] `- имя, которое будет использовано 
+с JSON или XML.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:SvoRegister`(const char`*`):%- [@(0.0.255) static] [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[@(0.0.255) void]_[* SvoRegister]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 n
 ame]_`=_NULL)&]
-[s2; Registers the type [%-*@4 T] as SVO Rich Value type. [%-*@3 name] 
-is the name to be used with JSON or XML.&]
+[s2; Регистрирует тип [%-*@4 T] как тип SVO Rich 
+Value. [%-*@3 name ]`- имя, которое будет использовано 
+с JSON или XML.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:GetType`(`)const:%- [_^dword^ dword]_[* GetType]()_[@(0.0.255) const]&]
-[s2; Возвращает the type number (assigned by derivation 
-from ValueType).&]
+[s2; Возвращает номер типа (присваиваемый 
+при деривации от ValueType).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:IsError`(`)const:%- [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
-[s2; Возвращает  true, если Value contains ErrorValue.&]
+[s2; Возвращает true, если Value содержит ErrorValue.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:IsVoid`(`)const:%- [@(0.0.255) bool]_[* IsVoid]()_[@(0.0.255) const]&]
-[s2; Возвращает  true, если Value is void (default 
-constructed Value is void). IsError implies IsVoid.&]
+[s2; Возвращает true, если Value является void 
+(дефолтно сконструированное Value `- 
+это void). IsError implies IsVoid.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:IsNull`(`)const:%- [@(0.0.255) bool]_[* IsNull]()_[@(0.0.255) const]&]
-[s2; Возвращает  true, если Value is Null. IsVoid implies 
-IsNull.&]
+[s2; Возвращает true, если Value равно Null. IsVoid 
+implies IsNull.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:Is`(`)const:%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) b
 ool]_[* Is]()_[@(0.0.255) const]&]
-[s2; Возвращает  true, если Value contains exactly 
-type [%-*@4 T].&]
+[s2; Возвращает true, если Value точно содержит 
+тип [%-*@4 T].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:To`(`)const:%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) c
 onst]_[*@4 T][@(0.0.255) `&]_[* To]()_[@(0.0.255) const]&]
-[s2; Возвращает constant reference to data contained in 
-Value if Is<T> is true, otherwise throws ValueTypeError exception. 
-Undefined if Value contains ValueArray or ValueMap (technical 
-and performance reasons).&]
+[s2; Возвращает константную ссылку на 
+данные, содержимые в Value, если Is<T> равно 
+true, иначе выводит исключение ValueTypeError. 
+Неопределённо, если Value содержит ValueArray 
+или ValueMap (по техническим и производительным 
+причинам).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:Get`(`)const:%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) c
 onst]_[*@4 T][@(0.0.255) `&]_[* Get]()_[@(0.0.255) const]&]
-[s2; Возвращает constant reference to data contained in 
-Value. Unlike To, it also works if Value contains Null of any 
-type, in that case it returns a reference to Null of type T. 
-If Value does not contain T, throws ValueTypeError. Undefined 
-if Value contains ValueArray or ValueMap (technical and performance 
-reasons).&]
+[s2; Возвращает константную ссылку на 
+данные, содержимые в Value. В отличие 
+от To, работает также, если Value содержит 
+Null любого типа,`- в такое случае возвращается
+ ссылка на Null типа T. Если Value не содержит 
+T, выводится ValueTypeError. Неопределённо, 
+если Value содержит ValueArray или ValueMap (по 
+техническим и производительным причинам).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:operator String`(`)const:%- [* operator_String]()_[@(0.0.255) const]&]
@@ -141,45 +169,58 @@ onst]&]
 td`::string][@(0.0.255) `&]_[*@3 s])&]
 [s5;:Upp`:`:Value`:`:Value`(const std`:`:wstring`&`):%- [* Value]([@(0.0.255) const]_[_^std`:`:wstring^ s
 td`::wstring][@(0.0.255) `&]_[*@3 s])&]
-[s2; Support of direct T`->Value and Value`->T conversions of standard 
-Value types. If conversion is not possible, throws ValueTypeError.&]
+[s2; Поддержка прямых преобразований 
+T`->Value и Value`->T стандартных типов Value. 
+Если преобразование невозможно, выводится 
+ValueTypeError.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:Value`(const Nuller`&`):%- [* Value]([@(0.0.255) const]_[_^Nuller^ Nuller][@(0.0.255) `&
 ])&]
-[s2; Support for assignment from Null (e.g. Value v `= Null). Создаёт 
-Value containing (int)Null.&]
+[s2; Поддержка присваивания из Null (напр., 
+Value v `= Null). Создаёт Value, содержащее 
+(int)Null.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:operator`=`=`(const Value`&`)const:%- [@(0.0.255) bool]_[* operator`=`=]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])_[@(0.0.255) const]&]
 [s5;:Value`:`:operator`!`=`(const Value`&`)const:%- [@(0.0.255) bool]_[* operator!`=]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])_[@(0.0.255) const]&]
-[s2; Equality comparison for supporting rich types. Note that by 
-defining IsPolyEqual function for the type, it is possible to 
-compare Value containing different concrete types, e.g. double 
-with int (U`+`+ types, viable IsPolyEqual functions are already 
-defined).&]
+[s2; Сравнение на равенство для поддерживаемых 
+типов rich. Заметьте, что, определив 
+функцию IsPolyEqual для этого типа, можно 
+сравнивать Value, содержащее различные 
+конкретные типы, напр., double с int (типы 
+U`+`+ уже имеют определения функций 
+IsPolyEqual).&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:IsSame`(const Value`&`)const:%- [@(0.0.255) bool]_[* IsSame]([@(0.0.255) cons
 t]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])_[@(0.0.255) const]&]
-[s2; ValueMap is ordered and is compared as such, which means that 
-even if values of keys are the same, if order is different, ValueMaps 
-or Values containing them are not considered equal (as with operator`=`=). 
-This method provides and alternative comparison of Values which 
-treats contained ValueMaps as unordered. It goes recursively 
-through any contained ValueMaps and ValueArrays too, for other 
-Value types than ValueMap it uses the normal operator`=`=.&]
+[s2; ValueMap упорядочивается и сравнивается, 
+т.е. даже если значения ключей одинаковые, 
+при разном порядке, ValueMap`'ы или Value`'и, 
+содержащие их, считаются неравными 
+(как с оператором `=`=). Этот метод предоставля
+ет альтернативное сравнение Value`'в, 
+которое предполагает, что содержимые 
+ValueMap`'ы неупорядочены. Он рекурсивно 
+обходит любые содержимые ValueMap`'ы, 
+а также ValueArray`'и. Для иных типов Value, 
+не являющихся ValueMap`'ом, используется 
+обычный оператор сравнения `=`=.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:Compare`(const Value`&`)const:%- [@(0.0.255) int]_[* Compare]([@(0.0.255) con
 st]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])_[@(0.0.255) const]&]
-[s2; Compares value with another value [%-*@3 v]. Types of values must 
-be comparable (e.g. it is possible to compare texts with texts, 
-numbers with numbers etc...). If types are not comparable, returns 
-0. If values are equal, returns 0, `-1 if Value is lesser than 
-[%-*@3 v], 1 if Value if it is greater.&]
+[s2; Сравнивает значение с другим значением 
+[%-*@3 v]. Типы значений должны быть сравнительны
+ми (напр., можно сравнивать тексты 
+с текстами, числа с числами и т.д.). 
+Если типы несравниваемые, возвращает 
+0. Если значения равны, возвращает 
+0; `-1, если Value меньше [%-*@3 v]; 1, если Value 
+больше.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:operator`<`=`(const Value`&`)const:%- [@(0.0.255) bool]_[* operator<`=]([@(0.0.255) c
@@ -203,7 +244,8 @@ onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 x])_[@(0.0.255) const]&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:ToString`(`)const:%- [_^String^ String]_[* ToString]()_[@(0.0.255) const]&]
-[s2; Conversion to text for supporting rich types.&]
+[s2; Преобразование в текст для поддержки 
+типов rich.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:operator`~`(`)const:%- [_^String^ String]_[@(0.0.255) operator]_`~()_[@(0.0.255) c
@@ -213,39 +255,47 @@ onst]&]
 [s4;%- &]
 [s5;:Value`:`:GetTypeName`(`)const:%- [_^String^ String]_[* GetTypeName]()_[@(0.0.255) cons
 t]&]
-[s2; Возвращает the text with typename for debugging purposes.&]
+[s2; Возвращает текст с именем типа  для 
+отладочных нужд.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:Serialize`(Stream`&`):%- [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2; Serialization for supporting rich types.&]
+[s2; Сериализация для поддержки типов 
+rich.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:Xmlize`(XmlIO`&`):%- [@(0.0.255) void]_[* Xmlize]([_^XmlIO^ XmlIO][@(0.0.255) `&
 ]_[*@3 xio])&]
-[s2; Conversion to/from XML for supporting rich types.&]
+[s2; Преобразование из/в XML для поддержки 
+типов rich.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:Jsonize`(JsonIO`&`):%- [@(0.0.255) void]_[* Jsonize]([_^JsonIO^ JsonIO][@(0.0.255) `&
 ]_[*@3 jio])&]
-[s2; Conversion for/from JSON for supporting rich types.&]
+[s2; Преобразование из/в JSON для поддержки 
+типов rich.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:GetHashValue`(`)const:%- [@(0.0.255) unsigned]_[* GetHashValue]()_[@(0.0.255) c
 onst]&]
-[s2; Hashing for supporting rich types.&]
+[s2; Хэширование для поддержки типов 
+rich.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2; If Value contains ValueArray or ValueMap, returns a number of 
-elements in it, otherwise 0.&]
+[s2; Если Value содержит ValueArray или ValueMap, 
+возвращает число элементов в нём, 
+иначе `- 0.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:operator`[`]`(int`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[* operator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; If Value contains ValueArray or ValueMap, returns an element 
-at position i. If no such element exists or there is no ValueArray/ValueMap, 
-behaviour is runtime error.&]
+[s2; Если Value содержит ValueArray или ValueMap, 
+возвращает элемент в позиции i.Если 
+такого элемента не существует или 
+нет ValueArray/ValueMap`'а, возникает ошибка 
+времени выполнения (рантайма).&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:operator`[`]`(const String`&`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
@@ -255,20 +305,29 @@ onst]&]
 ]_[* operator`[`]]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 key])_[@(0.0.255) const]&]
 [s5;:Value`:`:operator`[`]`(const Id`&`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[* operator`[`]]([@(0.0.255) const]_[_^Id^ Id][@(0.0.255) `&]_[*@3 key])_[@(0.0.255) const]&]
-[s2; If Value contains ValueMap and there is element with String 
-[%-*@3 key], returns its value. If not, returns void Value.&]
+[s2; Если Value содержит ValueMap и в нём есть 
+элемент с String [%-*@3 key], возвращает его 
+значение. Если нет, возвращает void 
+Value.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:At`(int`):%- [_^Value^ Value][@(0.0.255) `&]_[* At]([@(0.0.255) int]_[*@3 i])&]
-[s2; If Value is Null, sets it to ValueArray. If Value is ValueArray 
-or was Null, returns a reference of element at [%-*@3 i] , if there 
-is none, adds as much Void Values to array as necessarry to have 
-it. If Value is ValueMap, returns a reference to map value at 
-[%-*@3 i] , if there is none, behaviour is undefined (ASSERT in 
-debug mode fails). [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ The 
-reference returned is invalidated by any further use of originating 
-Value]. If Value is neither ValueArray, Null or ValueMap, behaviour 
-is undefined (ASSERT in debug mode fails).&]
+[s2; Если Value равно Null, устанавливает его 
+в ValueArray. Если Value является ValueArray или 
+было Null, возвращает ссылку на элемент 
+по [%-*@3 i]. При его отсутствии добавляет 
+столько Void Value`'ев в массив, сколько 
+не хватает. Если Value является ValueMap, 
+возвращает ссылку на зачение мапа 
+по [%-*@3 i]. При его отсутствии поведение 
+неопределённое (ASSERT в отладочном 
+режиме не удаётся). [^topic`:`/`/Core`/srcdoc`/ValueReference`_ru`-ru^ В
+озвращённая ссылка повреждается 
+при любом дальнейшем использовании 
+исходного Value]. Если Value не является 
+ни ValueArray, ни Null, ни ValueMap, то поведение 
+неопределённое (ASSERT в отладочном 
+режиме не удаётся).&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:operator`(`)`(int`):%- [_^Value^ Value][@(0.0.255) `&]_[* operator()]([@(0.0.255) i
@@ -278,10 +337,12 @@ nt]_[*@3 i])&]
 [s4;%- &]
 [s5;:Value`:`:Add`(const Value`&`):%- [@(0.0.255) void]_[* Add]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 src])&]
-[s2; If Value is Null, sets it to ValueArray. If Value is ValueArray 
-or was Null, appends [%-*@3 src] at the end of ArrayValue. If Value 
-is neither ValueArray or Null, behaviour is undefined (ASSERT 
-in debug mode fails).&]
+[s2; Если Value равно Null, то оно устанавливается 
+в ValueArray. Если Value является ValueArray или 
+было Null, то [%-*@3 src] приставляется в конце 
+ValueArray`'я. Если Value не является ни ValueArray`'ем, 
+ни Null, то поведение неопределённое 
+(ASSERT в отладочном режиме не удаётся).&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:operator`<`<`(const T`&`):%- [@(0.0.255) template]_<[@(0.0.255) typename]_[*@4 T
@@ -292,14 +353,20 @@ rc])&]
 [s4;%- &]
 [s5;:Value`:`:GetAdd`(const Value`&`):%- [_^Value^ Value][@(0.0.255) `&]_[* GetAdd]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 key])&]
-[s2; If Value is Null, sets it to ValueMap. If Value is ValueArray, 
-sets it to standard conversion of ValueMap to ValueArray (indicies 
-become keys). If Value is ValueMap or was Null, returns a reference 
-of element at key [%-*@3 key], if there is none, it is created 
-as Void Value. [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ The 
-reference returned is invalidated by any further use of originating 
-Value]. If Value is neither ValueArray, Null or ValueMap, behaviour 
-is undefined (ASSERT in debug mode fails).&]
+[s2; Если Value является Null, то оно устанавливается
+ в ValueMap. Если Value является ValueArray`'ем, 
+то оно устанавливается в стандартное 
+преобразование ValueMap`'а в ValueArray (индексы 
+становятся ключами). Если Value является 
+ValueMap`'ом или было Null, возвращает ссылку 
+на элемент по ключу [%-*@3 key], если элемента 
+нет, он создаётся как Void Value. [^topic`:`/`/Core`/srcdoc`/ValueReference`_ru`-ru^ В
+озвращённая ссылка повреждается 
+при любом дальнейшем использовании 
+исходного Value]. Если Value не является 
+ни ValueArray, ни Null, ни ValueMap, то поведение 
+неопределённое (ASSERT в отладочном 
+режиме не удаётся).&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:operator`(`)`(const String`&`):%- [_^Value^ Value][@(0.0.255) `&]_[* operator
@@ -309,30 +376,31 @@ is undefined (ASSERT in debug mode fails).&]
 [s4;%- &]
 [s5;:Value`:`:operator`(`)`(const char`*`):%- [_^Value^ Value][@(0.0.255) `&]_[* operator()
 ]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 key])&]
-[s2; Save as GetAdd([%-*@3 key]).&]
+[s2; Сохранить как GetAdd([%-*@3 key]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:operator`(`)`(const Id`&`):%- [_^Value^ Value][@(0.0.255) `&]_[* operator()](
 [@(0.0.255) const]_[_^Id^ Id][@(0.0.255) `&]_[*@3 key])&]
-[s2; Save as GetAdd([%-*@3 key]).&]
+[s2; Сохранить как GetAdd([%-*@3 key]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:operator`=`(const Value`&`):%- [_^Value^ Value][@(0.0.255) `&]_[* operator`=](
 [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2; Assignment.&]
+[s2; Присваивание.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:Value`(const Value`&`):%- [* Value]([@(0.0.255) const]_[* Value][@(0.0.255) `&]_
 [*@3 v])&]
-[s2; Copy constructor.&]
+[s2; Копи`-конструктор.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:Value`(`):%- [* Value]()&]
-[s2; Дефолтный конструктор, creates void Value.&]
+[s2; Дефолтный конструктор, создаёт void 
+Value.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:`~Value`(`):%- [@(0.0.255) `~][* Value]()&]
-[s2; Destructor.&]
+[s2; Деструктор.&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс ValueType]]}}&]
@@ -340,73 +408,86 @@ is undefined (ASSERT in debug mode fails).&]
 [s1;:noref:%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T], dword_[*@4 type], 
 [@(0.0.255) class]_[*@3 B]_`=_EmptyClass>&]
 [s1;:ValueType`:`:class:%- [@(0.0.255) class]_[* ValueType]_:_[@(0.0.255) public]_[*@3 B]&]
-[s2; ValueType is a helper class intended for creation of client 
-code custom Value rich compatible concrete types. Such types 
-should derive from this class, which serves to&]
+[s2; ValueType `- это вспомогательный класс, 
+предназначенный для создания в коде`-клиенте
+ конкретных кастомных типов, совместимых 
+с Value rich. Такие типы должны быть производными
+ от этого класса, который служит для&]
 [s2; &]
-[s2;i150;O0; assign Value type number to the concrete class (parameter 
-[%-*@4 type])&]
-[s2;i150;O0; predefines some rich specific methods as `'empty`' for 
-the class. Derived type thus can only implement methods it needs 
-(e.g. that required for client code).&]
-[s2;i150;O0; adds conversion operator to implement Ref (generic reference) 
-compatibility&]
+[s2;i150;O0; присваивания номера типа Value 
+конкретному классу (параметр [%-*@4 type])&]
+[s2;i150;O0; предопределяет некоторые методы, 
+спечицифные для rich, как `'empty`' для этого 
+класса. Производный класс, таким образом, 
+реализует только необходимые методы 
+(напр., требуемый кодом`-клиентом).&]
+[s2;i150;O0; добавления оператора присваивания 
+для реализации совместимости с Ref 
+(генерная ссылка)&]
 [s2; &]
-[s2; The list of `'empty`' methods of ValueType thus also serves 
-as list of methods that Value compatible concrete type might 
-define to gain support of certain operations with Value: &]
+[s2; Список методов `'empty`' ValueType`'а служит 
+также как список методов, которые 
+конкретный тип, совместимый с Value, 
+может определять для получения поддержки 
+некоторых операций с Value.&]
 [s3;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:ValueType`:`:IsNullInstance`(`)const:%- [@(0.0.255) bool]_[* IsNullInstance]()_[@(0.0.255) c
 onst]&]
-[s2; True if concrete type contains Null value. ValueType returns 
-false.&]
+[s2; True, если конкретный тип содержит 
+значение Null. ValueType возвращает false.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueType`:`:Serialize`(Stream`&`):%- [@(0.0.255) void]_[* Serialize]([_^Stream^ Strea
 m][@(0.0.255) `&]_[*@3 s])&]
-[s2; Serialization support. ValueType invokes runtime error.&]
+[s2; Поддержка сериализации. ValueType вызывает 
+ошибку времени выполнения.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueType`:`:Xmlize`(XmlIO`&`):%- [@(0.0.255) void]_[* Xmlize]([_^XmlIO^ XmlIO][@(0.0.255) `&
 ]_[*@3 xio])&]
-[s2; XML support. ValueType invokes runtime error.&]
+[s2; Поддержка XML. ValueTypeвызывает ошибку 
+времени выполнения.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueType`:`:Jsonize`(JsonIO`&`):%- [@(0.0.255) void]_[* Jsonize]([_^JsonIO^ JsonIO][@(0.0.255) `&
 ]_[*@3 jio])&]
-[s2; JSON support. ValueType invokes runtime error.&]
+[s2; Поддержка JSON. ValueType вызывает ошибку 
+времени выполнения.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueType`:`:GetHashValue`(`)const:%- [@(0.0.255) unsigned]_[* GetHashValue]()_[@(0.0.255) c
 onst]&]
-[s2; Hash value of contained data. ValueType return 0.&]
+[s2; Хэш`-значение содержимых данных. 
+ValueType возвращает 0.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueType`:`:operator`=`=`(const T`&`)const:%- [@(0.0.255) bool]_[* operator`=`=]([@(0.0.255) c
 onst]_[*@4 T][@(0.0.255) `&])_[@(0.0.255) const]&]
-[s2; Equality of data. ValueType invokes runtime error.&]
+[s2; Равенство данных. ValueType вызывает 
+ошибку времени выполнения.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueType`:`:ToString`(`)const:%- [_^String^ String]_[* ToString]()_[@(0.0.255) const]&]
-[s2; Conversion to text. ValueType returns empty String.&]
+[s2; Преобразование в текст. ValueType возвращает 
+пустую String.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueType`:`:Compare`(const T`&`)const:%- [@(0.0.255) int]_[* Compare]([@(0.0.255) con
 st]_[*@4 T][@(0.0.255) `&])_[@(0.0.255) const]&]
-[s2; Comparison with another value of the same type. Возвращает 
-should return `-1, 0, 1.&]
+[s2; Сравнение с другом значением такого 
+же типа. Возвращает `-1, 0, 1.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueType`:`:PolyCompare`(const Value`&`)const:%- [@(0.0.255) int]_[* PolyCompare]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&])_[@(0.0.255) const]&]
-[s2; Polymorphic comparison with different type.&]
+[s2; Полиморфное сравнение с другим типом.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueType`:`:operator Ref`(`):%- [* operator_Ref]()&]
-[s2; Возвращает a Ref (generic reference) to the instance 
-of T.&]
+[s2; Возвращает Ref (генерную ссылку) на 
+экземпляр T.&]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Функции поддержки Value]]}}&]
 [s0;%- &]
@@ -414,63 +495,72 @@ of T.&]
 [s3;%- &]
 [s5;:FitsSvoValue`(`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) bool]_
 [* FitsSvoValue]()&]
-[s2; Возвращает  true, если sizeof(T) fits into SVO 
-Value optimization.&]
+[s2; Возвращает true, если sizeof(T) умещается 
+в оптимизацию SVO Value.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:SvoToValue`(const T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Value^ V
 alue]_[* SvoToValue]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2; Создаёт SVO Value from [%-*@3 x]. T has to have defined 
-all that is required for Value compatibility (derivation from 
-ValueType takes care of this). Unlike RawToValue, SvoToValue 
-should only be used in client`'s type operator Value() `- to 
-avoid casting issues between Rich and Svo kinds.&]
+[s2; Создаёт SVO Value из [%-*@3 x]. У T должно быть 
+определено всё, что требуется для 
+совместимости с Value (произведение 
+от типа ValueType об этом позаботится). 
+В отличие от RawToValue, SvoToValue используется 
+только операторе типа клиента Value() 
+`- во избежании проблем с кастингом 
+между Rich и Svo видами.&]
 [s3; &]
 [s4;%- &]
 [s5;:RichToValue`(const T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Value^ V
 alue]_[* RichToValue]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 data])&]
-[s2; Создаёт Rich Value from [%-*@3 data]. T has to have defined 
-all that is required for Value compatibility (derivation from 
-ValueType takes care of this). Unlike RawToValue, RichToValue 
-should only be used in client`'s type operator Value() `- to 
-avoid casting issues between Rich and Svo kinds.&]
+[s2; Создаёт Rich Value from [%-*@3 data]. У T должно 
+быть определено всё, что требуется 
+для совместимости с Value (произведение 
+от типа ValueType об этом позаботится). 
+В отличие от RawToValue, RichToValue используется 
+только операторе типа клиента Value() 
+`- во избежании проблем с кастингом 
+между Rich и Svo видами.&]
 [s3; &]
 [s4;%- &]
 [s5;:RawToValue`(const T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Value^ V
 alue]_[* RawToValue]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 data])&]
-[s2; Создаёт Raw Value from [%-*@3 data]. T has to have deep 
-copy constructor.&]
+[s2; Создаёт Raw Value из [%-*@3 data]. У T должен 
+иметься конструктор глубокой копии.&]
 [s3; &]
 [s4;%- &]
 [s5;:RawPickToValue`(pick`_ T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Value^ V
 alue]_[* RawPickToValue]([@(0.128.128) pick`_]_[*@4 T][@(0.0.255) `&]_[*@3 data])&]
-[s2; Создаёт Raw Value by picking [%-*@3 data] (data is destroyed 
-in the process). T has to have pick copy semantics.&]
+[s2; Создаёт Raw Value, пикуя [%-*@3 data] (в процессе 
+данные разрушаются). У T должна быть 
+семантика пик`-копии.&]
 [s3; &]
 [s4;%- &]
 [s5;:RawDeepToValue`(const T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Value^ V
 alue]_[* RawDeepToValue]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 data])&]
-[s2; Создаёт Raw Value by using [* optional deep copy] constructor 
-(T(const T`&, int)) [%-*@3 data].&]
+[s2; Создаёт Raw Value, используя конструктор 
+[* необязательной глубокой копии] (T(const 
+T`&, int)) [%-*@3 data].&]
 [s3; &]
 [s4;%- &]
 [s5;:CreateRawValue`(Value`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T][@(0.0.255) `&
 ]_[* CreateRawValue]([_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2; Создаёт Raw Value of type T in [%-*@3 v]. T is created 
-using default constructor and reference to created instance is 
-returned. Client code should setup this instance before v is 
-passed elsewhere.&]
+[s2; Создаёт Raw Value типа T в [%-*@3 v]. T создаётся 
+дефолтным конструктором, возвращается 
+ссылка на созданный экземпляр. Код`-клиент 
+должен установить этот экземпляр 
+перед передачей куда`-либо v.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ErrorValue`(const char`*`):%- [_^Value^ Value]_[* ErrorValue]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 s])&]
 [s5;:ErrorValue`(const String`&`):%- [^Value^ Value]_[* ErrorValue]([@(0.0.255) const]_[^String^ S
 tring][@(0.0.255) `&]_[*@3 s])&]
-[s2; Возвращает Error Value with description [%-*@3 s].&]
+[s2; Возвращает Error Value с описанием [%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:ErrorValue`(`):%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[* ErrorValue]()&]
-[s2; Возвращает ErrorValue with empty description.&]
+[s2; Возвращает ErrorValue с пустым описанием.&]
 [s3; &]
 [s0;i448;a25;kKO9;@(0.0.255)%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Проверки типа Value]]}}&]
@@ -487,36 +577,38 @@ alue][@(0.0.255) `&]_[*@3 v])&]
 [s4;%- &]
 [s5;:IsString`(const Value`&`):%- [@(0.0.255) bool]_[* IsString]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Возвращает true, если [%-*@3 v] contains String, 
-WString or Null value.&]
+[s2; Возвращает true, если [%-*@3 v] содержит 
+значение String, WString или Null.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsNumber`(const Value`&`):%- [@(0.0.255) bool]_[* IsNumber]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Возвращает true, если [%-*@3 v] contains bool, int, 
-int64, double or Null value.&]
+[s2; Возвращает true, если [%-*@3 v] содержит 
+значение bool, int, int64, double или Null.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsDateTime`(const Value`&`):%- [@(0.0.255) bool]_[* IsDateTime]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Возвращает true, если [%-*@3 v] contains Date, Time 
-or Null value.&]
+[s2; Возвращает true, если [%-*@3 v] содержит 
+значение Date, Time или Null.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsValueArray`(const Value`&`):%- [@(0.0.255) bool]_[* IsValueArray]([@(0.0.255) const]_
 [_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2; Возвращает true [%-*@3 v] contains ValueArray or ValueMap.&]
+[s2; Возвращает true, если [%-*@3 v] содержит 
+ValueArray.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsValueMap`(const Value`&`):%- [@(0.0.255) bool]_[* IsValueMap]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Возвращает true [%-*@3 v] contains ValueArray or ValueMap.&]
+[s2; Возвращает true, если [%-*@3 v] содержит 
+ValueMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetErrorText`(const Value`&`):%- [_^String^ String]_[* GetErrorText]([@(0.0.255) const
 ]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2; If [%-*@3 v] is Error Value, returns error description, otherwise 
-empty String.&]
+[s2; Если [%-*@3 v] является Error Value, возвращает 
+описание ошибки, иначе `- пустую String.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsNull`(const Value`&`):%- [@(0.0.255) bool]_[* IsNull]([@(0.0.255) const]_[_^Value^ Val
@@ -527,6 +619,6 @@ ue][@(0.0.255) `&]_[*@3 v])&]
 [s5;:Nvl`(const Value`&`,const Value`&`):%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[* Nvl]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 a], [@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 b])&]
-[s2; If [%-*@3 a].IsNull(), returns [%-*@3 b], otherwise (a not null) 
-returns a.&]
+[s2; Если [%-*@3 a].IsNull(), возвращает [%-*@3 b], иначе 
+(не null) возвращает a.&]
 [s3;%- ]]

@@ -9,6 +9,7 @@ file
 	Copying,
 	ft2build.h,
 	freetype.h,
+	config/ftheader.h,
 	code readonly separator,
 	code\autofit\autofit.c,
 	code\base\ftadvanc.c,

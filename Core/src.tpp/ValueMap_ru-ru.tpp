@@ -13,18 +13,22 @@ topic "Класс ValueMap";
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс ValueMap]]}}&]
 [s3;%- &]
 [s1;:ValueMap`:`:class:%- [@(0.0.255)3 class][3 _][*3 ValueMap]&]
-[s2; ValueMap is a map of key`-value pairs, where both key and value 
-are of Value type. Key has to be rich Value type with operator`=`= 
-and GetHashValue defined (actually, GetHashValue does not have 
-to be defined if performance is not critical). It is fully Rich 
-Value compatible.&]
+[s2; ValueMap `- это мап с парами ключ`-значение, 
+где как ключ, так и значение имеют 
+тип Value. Ключ должен быть типа rich Value 
+м оператором `=`= и определением GetHashValue 
+(в действительности, GetHashValue не нужно 
+определять, если производительность 
+некритична). Он полностью совместим 
+с Rich Value.&]
 [s2; &]
-[s2; All key`-value pairs added to ValueMap are also assigned indices 
-in order of Adding them to ValueMap and elements are also accessible 
-using these indices.&]
+[s2; Всем парам ключ`-значение, добавленным 
+в ValueMap, присваиваются индексы, в порядке 
+их добавления, а элементы доступны 
+через эти индексы.&]
 [s2; &]
-[s2; ValueMap is also compatible with ValueArray (in the similar 
-way how Time is compatible with Date). Assigning Value containing 
+[s2; ValueMap совместим с ValueArray (также как 
+Time совместимо с Date). Assigning Value containing 
 ValueMap to ValueArray assigns it a ValueArray representing values 
 of ValueMap. Assigning ValueArray to ValueMap creates map where 
 keys are number 0, 1, ... GetCount() `- 1 and values contain 
@@ -42,77 +46,81 @@ does not contain ValueMap or requested key, Void Value is returned).&]
 [s4;%- &]
 [s5;:ValueMap`:`:ValueMap`(const ValueMap`&`):%- [* ValueMap]([@(0.0.255) const]_[* ValueMa
 p][@(0.0.255) `&]_[*@3 v])&]
-[s2; Copy constructor.&]
+[s2; Копи`-конструктор.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:ValueMap`(const Upp`:`:ValueArray`&`):%- [* ValueMap]([@(0.0.255) c
 onst]_[_^Upp`:`:ValueArray^ ValueArray][@(0.0.255) `&]_[*@3 va])&]
-[s2; Создаёт ValueMap from ValueArray. ValueArray elements 
-become values with keys equal to indices.&]
+[s2; Создаёт ValueMap из ValueArray`'я. Элементы 
+ValueArray`'я становятся значениями с ключами, 
+равными индексам.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:ValueMap`(Upp`:`:Index`<Upp`:`:Value`>`&`&`,Upp`:`:Vector`<Upp`:`:Value`>`&`&`):%- [* V
 alueMap]([_^Upp`:`:Index^ Index]<[_^Upp`:`:Value^ Value]>`&`&_[*@3 k], 
 [_^Upp`:`:Vector^ Vector]<[_^Upp`:`:Value^ Value]>`&`&_[*@3 v])&]
-[s2; Создаёт ValueMap by picking Index a Vector of Values 
-(efficient but sources are destroyed).&]
+[s2; Создаёт ValueMap, пикуя Index и Vector Value`'ев 
+(эффективно, но источник разрушается).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:ValueMap`(Upp`:`:VectorMap`<Upp`:`:Value`,Upp`:`:Value`>`&`&`):%- [* V
 alueMap]([_^Upp`:`:VectorMap^ VectorMap]<[_^Upp`:`:Value^ Value], 
 [_^Upp`:`:Value^ Value]>`&`&_[*@3 m])&]
-[s2; Создаёт ValueMap by picking VectorMap (efficient but 
-source is destroyed).&]
+[s2; Создаёт ValueMap, пикуя VectorMap (эффективно, 
+но источник разрушается).&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:ValueMap`(const Index`<Value`>`&`,const Vector`<Value`>`&`,int`):%- [* V
 alueMap]([@(0.0.255) const]_[_^Index^ Index]<[_^Value^ Value]>`&_[*@3 k], 
 [@(0.0.255) const]_[_^Vector^ Vector]<[_^Value^ Value]>`&_[*@3 v], [@(0.0.255) int]_[*@3 deep
 ])&]
-[s2; Создаёт ValueMap by deep copying Index a Vector of Values.&]
+[s2; Создаёт ValueMap, глубоко копируя Index 
+и Vector Value`'в.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:ValueMap`(const VectorMap`<Value`,Value`>`&`,int`):%- [* ValueMap]([@(0.0.255) c
 onst]_[_^VectorMap^ VectorMap]<[_^Value^ Value], [_^Value^ Value]>`&_[*@3 m], 
 [@(0.0.255) int]_[*@3 deep])&]
-[s2; Создаёт ValueMap by deep copying VectorMap.&]
+[s2; Создаёт ValueMap путём глубокого копирования 
+VectorMap`'а.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:`~ValueMap`(`):%- [@(0.0.255) `~][* ValueMap]()&]
-[s2; Destructor.&]
+[s2; Деструктор.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:ValueMap`(std`:`:initializer`_list`<std`:`:pair`<Upp`:`:Value`,Upp`:`:Value`>`>`):%- [* V
 alueMap]([_^http`:`/`/en`.cppreference`.com`/w`/cpp`/utility`/initializer`_list^ st
 d`::initializer`_list]<[_^http`:`/`/en`.cppreference`.com`/w`/cpp`/utility`/pair^ st
 d`::pair]<[_^Upp`:`:Value^ Value], [_^Upp`:`:Value^ Value]>>_[*@3 init])&]
-[s2; C`+`+11 initialization.&]
+[s2; Инициализация C`+`+11.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:operator`=`(const ValueMap`&`):%- [_^ValueMap^ ValueMap][@(0.0.255) `&]_
 [* operator`=]([@(0.0.255) const]_[_^ValueMap^ ValueMap][@(0.0.255) `&]_[*@3 v])&]
-[s2; Assignment.&]
+[s2; Присваивание.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:operator`=`(VectorMap`<Value`,Value`>rval`_`):%- [_^ValueMap^ ValueMap
 ][@(0.0.255) `&]_[* operator`=]([_^VectorMap^ VectorMap]<[_^Value^ Value], 
 [_^Value^ Value]>_[@(0.0.255) rval`_]_[*@3 m])&]
-[s2; Pick assignment `- efficient, destroying the source.&]
+[s2; Пик`-присваивание `- эффективно, источник 
+разрушается.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:operator Value`(`)const:%- [* operator_Value]()_[@(0.0.255) const]&]
-[s2; Conversion to Value.&]
+[s2; Преобразование в Value.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:ValueMap`(const Value`&`):%- [* ValueMap]([@(0.0.255) const]_[_^Value^ Val
 ue][@(0.0.255) `&]_[*@3 src])&]
-[s2; Conversion from Value.&]
+[s2; Преобразование из Value.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:ValueMap`(const Nuller`&`):%- [* ValueMap]([@(0.0.255) const]_[_^Nuller^ N
 uller][@(0.0.255) `&])&]
-[s2; Null assignment. ValueMap is considered Null if it contains 
-no elements.&]
+[s2; Присваивание Null. ValueMap считается Null, 
+если в нём нет элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:IsNullInstance`(`)const:%- [@(0.0.255) bool]_[* IsNullInstance]()_[@(0.0.255) c
@@ -121,11 +129,11 @@ onst]&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; Removes all elements from ValueMap.&]
+[s2; Удаляет все элементы из ValueMap`'а.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2; Возвращает number of elements in ValueMap.&]
+[s2; Возвращает число элементов в ValueMap`'е.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
@@ -134,24 +142,25 @@ onst]&]
 [s4;%- &]
 [s5;:ValueMap`:`:GetKey`(int`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[* G
 etKey]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Возвращает key at index [%-*@3 i].&]
+[s2; Возвращает ключ по индексу [%-*@3 i].&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:GetValue`(int`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_
 [* GetValue]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Возвращает value at index [%-*@3 i].&]
+[s2; Возвращает значение по индексу [%-*@3 i].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:Find`(const Upp`:`:Value`&`)const:%- [@(0.0.255) int]_[* Find]([@(0.0.255) c
 onst]_[_^Upp`:`:Value^ Value][@(0.0.255) `&]_[*@3 key])_[@(0.0.255) const]&]
-[s2; Возвращает the index of first [%-*@3 key] or `-1 if 
-not present.&]
+[s2; Возвращает индекс первого ключа 
+[%-*@3 key], или `-1, если он отсутствует.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:FindNext`(int`)const:%- [@(0.0.255) int]_[* FindNext]([@(0.0.255) i
 nt]_[*@3 ii])_[@(0.0.255) const]&]
-[s2; Возвращает the index of next key with the same value 
-as key at index [%-*@3 ii] or `-1 if not present.&]
+[s2; Возвращает индекс следующего ключа 
+с таким же значением, как у ключа по 
+индексу [%-*@3 ii], или `-1, если он отсутствует.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:Add`(const Value`&`,const Value`&`):%- [@(0.0.255) void]_[* Add]([@(0.0.255) c
@@ -167,9 +176,11 @@ alue])&]
 ey], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 value])&]
 [s5;:ValueMap`:`:Add`(Id`,const Value`&`):%- [@(0.0.255) void]_[* Add]([_^Id^ Id]_[*@3 key], 
 [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 value])&]
-[s2;%- Adds a new key`-value pair to ValueMap. ValueMap can contain 
-multiple same keys. Note: multiple overloads are required to make 
-Id and SqlId work with ValueMap.&]
+[s2;%- Добавляет новую пару ключ`-значение 
+в ValueMap. ValueMap может содержать несколько 
+одинаковых ключей. Примечание: требуется 
+несколько перегрузок, чтобы Id и SqlId 
+смогли работать с ValueMap`'ом.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:operator`(`)`(const Value`&`,const Value`&`):%- [_^ValueMap^ ValueMap][@(0.0.255) `&
@@ -206,14 +217,15 @@ lue])&]
 [s2;%- [%RU-RU If there is ][*@3 key][%RU-RU  in ValueMap, its associated 
 Value is replaced by ][*@3 value][%RU-RU . If there is none such 
 key, key`-value is added. If there is more than single such key, 
-only first one (the one with lowest index) is replaced. ]Note: 
-multiple overloads are required to make Id and SqlId work with 
-ValueMap.&]
+only first one (the one with lowest index) is replaced. ]Примечание: 
+требуется несколько перегрузок, чтобы 
+Id и SqlId смогли работать с ValueMap`'ом.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:SetAt`(int`,const Value`&`):%- [@(0.0.255) void]_[* SetAt]([@(0.0.255) int
 ]_[*@3 i], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2; Replaces value at given index.&]
+[s2; Заменяет значение по указанному 
+индексу.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:SetKey`(int`,const Value`&`):%- [@(0.0.255) void]_[* SetKey]([@(0.0.255) i
@@ -226,8 +238,9 @@ t]_[*@3 i], [@(0.0.255) const]_[@(0.0.255) char`*]_[*@3 key])&]
  [@(0.0.255) int]_[*@3 key])&]
 [s5;:ValueMap`:`:SetKey`(int`,Id`):%- [@(0.0.255) void]_[* SetKey]([@(0.0.255) int]_[*@3 i], 
 [_^Id^ Id]_[*@3 key])&]
-[s2;%- [%RU-RU Replaces key at given index. ]Note: multiple overloads 
-are required to make Id and SqlId work with ValueMap.&]
+[s2;%- [%RU-RU Replaces key at given index. ]Примечание: требуется 
+несколько перегрузок, чтобы Id и SqlId 
+смогли работать с ValueMap`'ом.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:RemoveKey`(const Value`&`):%- [@(0.0.255) int]_[* RemoveKey]([@(0.0.255) c
@@ -243,17 +256,18 @@ nst]_[@(0.0.255) char`*]_[*@3 key])&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:Remove`(int`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_[*@3 i])&]
-[s2; Removes key`-value pair at index [%-*@3 i].&]
+[s2; Удаляет пару ключ`-значение по индексу 
+[%-*@3 i].&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:GetKeys`(`)const:%- [@(0.0.255) const]_[_^Index^ Index]<[_^Value^ Value]>`&
 _[* GetKeys]()_[@(0.0.255) const]&]
-[s2; Возвращает keys.&]
+[s2; Возвращает ключи.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:GetValues`(`)const:%- [_^ValueArray^ ValueArray]_[* GetValues]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает values.&]
+[s2; Возвращает значения.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:operator ValueArray`(`)const:%- [* operator_ValueArray]()_[@(0.0.255) co
@@ -263,7 +277,7 @@ nst]&]
 [s4;%- &]
 [s5;:ValueMap`:`:Pick`(`):%- [_^VectorMap^ VectorMap]<[_^Value^ Value], 
 [_^Value^ Value]>_[* Pick]()&]
-[s2; Picks the content `- fast, ValueMap is cleared.&]
+[s2; Пикует контент `- быстро, ValueMap очищается.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:operator`[`]`(const Value`&`)const:%- [@(0.0.255) const]_[_^Value^ Value
@@ -278,17 +292,20 @@ e][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) const]_[_^String^ String][@(0.0.2
 ]_[* operator`[`]]([@(0.0.255) const]_[_^Id^ Id][@(0.0.255) `&]_[*@3 key])_[@(0.0.255) const]&]
 [s5;:ValueMap`:`:operator`[`]`(const int`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[* operator`[`]]([@(0.0.255) const]_[@(0.0.255) int]_[*@3 key])_[@(0.0.255) const]&]
-[s2;%- [%RU-RU Возвращает value for ][*@3 key][%RU-RU . If ][*@3 key][%RU-RU  
-is not present, returns ErrorValue (which is also void and Null 
-Value). ]Note: multiple overloads are required to make Id and 
-SqlId work with ValueMap.&]
+[s2;%- [%RU-RU Возвращает значение ключа ][*@3 key][%RU-RU . 
+Если ][*@3 key][%RU-RU  отсутствует, возвращает 
+ErrorValue (которое также void и Null Value). ]Примечание: 
+требуется несколько перегрузок, чтобы 
+Id и SqlId смогли работать с ValueMap`'ом.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:GetAdd`(const Value`&`):%- [_^Value^ Value][@(0.0.255) `&]_[* GetAdd]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 key])&]
-[s2; Возвращает a reference of element at key [%-*@3 key], 
-if there is none, it is created as Void Value. [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ T
-he reference returned is invalidated by any further use of originating 
+[s2; Возвращает ссылку на элемент по ключу 
+[%-*@3 key], а если он отсутствует, создаёт 
+Void Value.  [^topic`:`/`/Core`/srcdoc`/ValueReference`_ru`-ru^ Возвращённ
+ая ссылка повреждается при любом 
+дальнейшем использовании исходного 
 Value].&]
 [s3; &]
 [s4;%- &]
@@ -306,50 +323,55 @@ r()]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 key])&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:At`(int`):%- [_^Value^ Value][@(0.0.255) `&]_[* At]([@(0.0.255) int]_[*@3 i])&]
-[s2; Возвращает a reference of value at index [%-*@3 i]. 
-[^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ The reference 
-returned is invalidated by any further use of originating Value].&]
+[s2; Возвращает ссылку на значение по 
+индексу [%-*@3 i].  [^topic`:`/`/Core`/srcdoc`/ValueReference`_ru`-ru^ Возв
+ращённая ссылка повреждается при 
+любом дальнейшем использовании исходного 
+Value].&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:GetAndClear`(const Value`&`):%- [_^Value^ Value]_[* GetAndClear]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 key])&]
-[s2; If [%-*@3 key] is not present, returns ErrorValue (which is Void 
-and Null), otherwise returns value for [%-*@3 key] and sets it 
-to void Value. The purpose of this processing is to optimize 
-copying in situation when complex value (e.g. ValueArray) is 
-about to be changed after retrieval, without clearing it in ValueMap 
-the deep copy of complex structure would have to be performed 
-when changing it.&]
+[s2; Если [%-*@3 key] отсутствует, возвращает 
+ErrorValue (которое Void и Null), иначе возвращает 
+значение для ключа [%-*@3 key] и устанавливает 
+его в void Value. Цель `- оптимизировать 
+копирование в ситациях, когда комплексное 
+значение (напр., ValueArray) предстоит изменить 
+после его получения, не очищая его 
+вValueMap`'е, и при его изменении нужно 
+сделать глубокую копию.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:GetHashValue`(`)const:%- [@(0.0.255) unsigned]_[* GetHashValue]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает hashing value.&]
+[s2; Возвращает хэшированное значение.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:Serialize`(Stream`&`):%- [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream
 ][@(0.0.255) `&]_[*@3 s])&]
-[s2; Binary serialization.&]
+[s2; Двоичная сериализация.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:Jsonize`(JsonIO`&`):%- [@(0.0.255) void]_[* Jsonize]([_^JsonIO^ JsonIO][@(0.0.255) `&
 ]_[*@3 jio])&]
-[s2; JSON serialization support.&]
+[s2; Поддержка JSON`-сериализации.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:Xmlize`(XmlIO`&`):%- [@(0.0.255) void]_[* Xmlize]([_^XmlIO^ XmlIO][@(0.0.255) `&
 ]_[*@3 xio])&]
-[s2; XML serialization support.&]
+[s2; Поддержка XML`-сериализации.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:ToString`(`)const:%- [_^String^ String]_[* ToString]()_[@(0.0.255) const]&]
-[s2; Conversion to text.&]
+[s2; Преобразование в текст.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:operator`=`=`(const ValueMap`&`)const:%- [@(0.0.255) bool]_[* operator`=
 `=]([@(0.0.255) const]_[_^ValueMap^ ValueMap][@(0.0.255) `&]_[*@3 v])_[@(0.0.255) const]&]
-[s2; Equality comparison, two ValueMap are equal when they contain 
-same key`-value pairs [*/ in the same order].&]
+[s2; Сравнение на равенство, дваValueMap равны, 
+если содержат одинаковые пары ключ`-значение
+, расположенные [*/ в одинаковом порядке].&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:operator`!`=`(const ValueMap`&`)const:%- [@(0.0.255) bool]_[* operator!`=
@@ -367,19 +389,26 @@ onst]_[_^ValueMap^ ValueMap][@(0.0.255) `&]_[*@3 b])_[@(0.0.255) const]&]
 onst]_[_^ValueMap^ ValueMap][@(0.0.255) `&]_[*@3 x])_[@(0.0.255) const]&]
 [s5;:ValueMap`:`:operator`>`(const ValueMap`&`)const:%- [@(0.0.255) bool]_[* operator>]([@(0.0.255) c
 onst]_[_^ValueMap^ ValueMap][@(0.0.255) `&]_[*@3 x])_[@(0.0.255) const]&]
-[s2; Compares two ValueMaps. Performs ordered (as ValueMap has order 
-of key`-value pairs) comparison of key`-value pairs.&]
+[s2; Сравнивает два ValueMap`'а. Выполняет 
+упорядоченное (т.к. у ValueMap порядок 
+пар ключ`-значение) сравнение пар 
+ключ`-значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:IsSame`(const Upp`:`:ValueMap`&`)const:%- [@(0.0.255) bool]_[* Is
 Same]([@(0.0.255) const]_[_^Upp`:`:ValueMap^ ValueMap][@(0.0.255) `&]_[*@3 b])_[@(0.0.255) c
 onst]&]
-[s2; ValueMap is ordered and is compared as such, which means that 
-even if values of keys are the same, if order is different, ValueMaps 
-or Values containing them are not considered equal (as with operator`=`=). 
-This method provides and alternative comparison of Values which 
-treats contained ValueMaps as unordered. It goes recursively 
-through any contained ValueMaps and ValueArrays too, for other 
-Value types than ValueMap it uses the normal operator`=`=.&]
+[s2; ValueMap упорядочивается и сравнивается, 
+т.е., даже если значения ключей одинаковы, 
+а порядок отличается, то ValueMap`'ы или 
+Value`'и, содержащие их, считаются неравными 
+(как с оператором `=`=). Этот метод предоставля
+ет альтернативное сравнение Value`'в, 
+которое предполагает, что содержимые 
+ValueMap`'ы неупорядочены. Он рекурсивно 
+обходит любые содержимые ValueMap`'ы, 
+а также ValueArray`'и. Для иных типов Value, 
+не являющихся ValueMap`'ом, используется 
+обычный оператор сравнения `=`=.&]
 [s3; &]
 [s0; ]]

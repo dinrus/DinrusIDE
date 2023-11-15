@@ -11,7 +11,9 @@ library(WIN32 MSC) "SDL2.lib SDL2main.lib";
 
 library(WIN32 CLANG) "glu32 opengl32";
 
-pkg_config(POSIX) "gl glu";
+link(POSIX) "-shared -rdynamic /usr/lib64/libGL.so";
+
+pkg_config(POSIX) glu;
 
 file
 	JetStory.h,

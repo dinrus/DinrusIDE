@@ -23,68 +23,92 @@ topic "Глобальный Кэш Значений";
 [s3; &]
 [s5;:Upp`:`:MakeValue`(Upp`:`:ValueMaker`&`): [_^Upp`:`:Value^ Value]_[* MakeValue]([_^Upp`:`:ValueMaker^ V
 alueMaker][@(0.0.255) `&]_[*@3 m])&]
-[s2; Requests a Value. The Value is defined by instance of class 
-derived from ValueMaker, which is class with two virtual methods:&]
+[s2; Запрашивает Value. Это Value определяется 
+экземпляром класса, производного 
+от ValueMaker, который имеет два виртуальных 
+метода:&]
 [s2; &]
 [s2; virtual String [* Key]() const;&]
 [s2; virtual int [* Make](T`& object) const;&]
 [s2; &]
-[s2; [* Key] should return unique identifier for Value requested with 
-ValueMaker derived class. Note that the type of ValueMaker derived 
-class becomes a part of the key, so it is not necessary to add 
-any info about the ValueMaker into the key. [* Make] then creates 
-the corresponding Value and returns the approximate memory consumption 
-needed to store that Value. [* MakeValue] first checks whether 
-Value corresponding to given ValueMaker and Key are in the cache, 
-if yes then it returns Value from the cache, otherwise calls 
-ValueMaker`::Make to obtain the Value and stores it to the cache.&]
+[s2; [* Key] должен вернуть для Value уникальный 
+идентификатор, затребованный у производного
+ от ValueMaker класса. Заметьте, что тип 
+производного от ValueMaker класса становится 
+частью ключа,поэтому не приходится 
+добавлять никакой информации о ValueMaker`'е 
+в этот ключ. [* Make] далее создаёт соответствующ
+ее Value и возвращает приблизительное 
+потребление памяти, требуемое для 
+хранеия этого Value. [* MakeValue] сначала проверяет, 
+соответствует ли Value указанному ValueMaker 
+и находится лм Key в кэше, если да, то 
+возвращается Value из кэша, иначе вызывается 
+ValueMaker`::Make, чтобы получить Value и сохранить 
+его в кэше.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:IsValueCacheActive`(`):%- [@(0.0.255) bool]_[* IsValueCacheActive]()&]
-[s2; Возвращает  true, если it is still possible to 
-use Value Cache. This special function is intended to solve destruction 
-conflicts at the program exit.&]
+[s2; Возвращает true, если всё ещё можно 
+пользоваться Кэшем Значений. Эта 
+особая функция рещает конфликты при 
+деструкции в конце работы программы 
+(при выходе).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:AdjustValueCache`(`):%- [@(0.0.255) void]_[* AdjustValueCache]()&]
-[s2; Adjusts the size of cache based on system memory available. 
-The process is driven by parameters that can be set by SetupValueCache. 
-Note that CtrlCore (U`+`+ GUI) normally calls this function after 
-processing every GUI event.&]
+[s2; Регулирует размер кэша, опираясь 
+на доступную системную память. Этот 
+прочесс управляется параметрами, 
+устанавливаемыми SetupValueCache. Заметьте, 
+что CtrlCore (U`+`+ GUI) обычно вызывает эту 
+фунцию после обработки каждого события 
+ГИП (GUI).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:ShrinkValueCache`(`):%- [@(0.0.255) void]_[* ShrinkValueCache]()&]
-[s2; Maintains the size of cache based on limit computed in the last 
-AdjustValueCache call.&]
+[s2; Поддерживает размер кэша, основываясь 
+на лимите, вычисленном при последнем 
+вызове AdjustValueCache.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SetupValueCache`(int`,int`,double`):%- [@(0.0.255) void]_[* SetupValueCache](
 [@(0.0.255) int]_[*@3 limit`_low], [@(0.0.255) int]_[*@3 limit`_high], 
 [@(0.0.255) double]_[*@3 ratio])&]
-[s2; Setups parameters that govern the cache size. [%-*@3 limit`_low] 
-is low limit `- cache will never be reduced if its consumption 
-is bellow this limit (default is 4MB). [%-*@3 limit`_high] is upper 
-limit `- cache size will never grow beyond this limit (default 
-is 2GB). [%-*@3 ratio] defines how much available system physical 
-memory can be dedicated to the cache, default is 12.5%.&]
+[s2; Устанавливает параметры, управляющие 
+размером кэша. [%-*@3 limit`_low] `- нижний предел 
+`- кэш никогда не понижается, если 
+его потребление ниже этого предела 
+(дефолт равен 4 МБ). [%-*@3 limit`_high] `= верхний 
+предел `- кэш никогда не перерастает 
+за этот предел (дефолт равен 2 ГБ). 
+[%-*@3 ratio] определяет, сколько доступной 
+физической системной памяти можно 
+определить для кэша, дефолт равен 
+12.5%.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueCacheRemove`(P`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 P]>_[@(0.0.255) i
 nt]_[* ValueCacheRemove]([*@4 P]_[*@3 what])&]
-[s2; Removes all Values from the cache that satisfy [%-*@3 what] predicate.&]
+[s2; Удаляет все Value`'и из кэша, удовлетворяющие 
+предикат [%-*@3 what].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueCacheRemoveOne`(P`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 P]>_
 [@(0.0.255) int]_[* ValueCacheRemoveOne]([*@4 P]_[*@3 what])&]
-[s2; Removes one Value from the cache that satisfy [%-*@3 what] predicate 
-(simply removes the first one that it finds).&]
+[s2; Удаляет одно Value из кэша, удовлетворяющее 
+предикат [%-*@3 what] (просто удаляет первый 
+найденный).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueCacheAdjustSize`(P`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 P]>
 _[@(0.0.255) void]_[* ValueCacheAdjustSize]([*@4 P]_[*@3 getsize])&]
-[s2; Adjusts size information. [%-*@3 getsize] should return the memory 
-size needed to store Value passed as parameter or it can return 
-negative number to signal that the size has not changed. This 
-is very specific function basically only needed to support PaintOnly 
-Images.&]
+[s2; Регулирует информацию о размере. 
+[%-*@3 getsize] должен вернуть размер памяти, 
+необходимый для хранения Value, переданного 
+как параметр, или может вернуть отрицательно
+е число, сигнализирующее о том, что 
+размер не изменился. Эта довольно 
+специфичная функция нужна для поддержки 
+PaintOnly Image`'ей.&]
 [s0; ]]

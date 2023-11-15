@@ -93,9 +93,9 @@ XmlError, если парсер не в расслабленном
 на соответствующем конечном тэге, 
 и продвигает позицию. При наличии 
 непарных тэгов вызывается XmlError, если 
-парсер не в расслабленном режиме 
-relaxed.]at encountering non`-matching tags throws XmlError, 
-unless the parser is in relaxed mode.&]
+парсер не в расслабленном режиме, 
+при наличии непарных тэгов выводит] 
+XmlError.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlParser`:`:PassEnd`(`): [@(0.0.255) void]_[* PassEnd]()&]

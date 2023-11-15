@@ -14,16 +14,18 @@ topic "Утилиты";
 [s3; &]
 [s5;:CsvString`(const String`&`): [_^String^ String]_[* CsvString]([@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 text])&]
-[s2;%RU-RU Formats [%-*@3 text] for inclusion in [^http`:`/`/en`.wikipedia`.org`/wiki`/Comma`-separated`_values^ C
-SV].&]
+[s2;%RU-RU Форматирует текст [%-*@3 text] для включения 
+в [^http`:`/`/en`.wikipedia`.org`/wiki`/Comma`-separated`_values^ CSV].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:GetCsvLine`(Stream`&`,int`,byte`): [_^Vector^ Vector]<[_^String^ String]>_[* GetCsvLin
 e]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 s], [@(0.0.255) int]_[*@3 separator], 
 [_^byte^ byte]_[*@3 charset])&]
-[s2;%RU-RU Parses a line from [^http`:`/`/en`.wikipedia`.org`/wiki`/Comma`-separated`_values^ C
-SV] input stream, using [%-*@3 separator] and converting from [%-*@3 charset] 
-to application default charset.&]
+[s2;%RU-RU Разбирает строку из вводного 
+потока [^http`:`/`/en`.wikipedia`.org`/wiki`/Comma`-separated`_values^ CSV], 
+используя разделитель [%-*@3 separator] и 
+преобразуя из набсима [%-*@3 charset] в дефолтный 
+набсим приложения.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Replace`(const String`&`,const Vector`<String`>`&`,const Vector`<String`>`&`): [_^String^ S
@@ -42,12 +44,15 @@ String]_[* Replace]([@(0.0.255) const]_[_^WString^ WString][@(0.0.255) `&]_[*@3 
 ring]_[* Replace]([@(0.0.255) const]_[_^WString^ WString][@(0.0.255) `&]_[*@3 s], 
 [@(0.0.255) const]_[_^VectorMap^ VectorMap]<[_^WString^ WString], [_^WString^ WString]>`&
 _[*@3 fr])&]
-[s2;%RU-RU Replaces multiple patterns with replace texts. When patterns 
-and replaces are specified by VectorMap, keys are patterns. Text 
-replaced is not searched for more instances of patterns. Longest 
-pattern is always used (if patterns:replaces are `"hell`":`"hello`" 
-and `"hello`":`"hell`", then replacing within `"hell hello`" produces 
-`"hello hell`").&]
+[s2;%RU-RU Заменяет несколько образцов текстами 
+замены. Когда образцы и замены определены 
+в VectorMap`'е, образцами являются ключи. 
+Заменённый текст не просматривается 
+на наличие других экземпляров образцов. 
+Используется всегда самый длинный 
+образец (если образцы:замены `- это 
+`"hell`":`"hello`" и `"hello`":`"hell`", тогда замена 
+в `"hell hello`" даёт `"hello hell`").&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:GetP7Signature`(const void`*`,int`,const Upp`:`:String`&`,const Upp`:`:String`&`): [_^Upp`:`:String^ S
@@ -59,10 +64,12 @@ tring]_[* GetP7Signature]([@(0.0.255) const]_[@(0.0.255) void]_`*[*@3 data],
 tring]_[* GetP7Signature]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 d
 ata], [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 cert`_pem], 
 [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 pkey`_pem])&]
-[s2;%RU-RU Computes P7S signature in binary format of [%-*@3 data] 
-bytes. [%-*@3 cert`_pem] (X509 public key) and [%-*@3 pkey`_pem] 
-(X509 private key) should be in [^https`:`/`/en`.wikipedia`.org`/wiki`/Privacy`-enhanced`_Electronic`_Mail`.^ P
-EM] format. Requires Core/SSL. Возвращает signature 
-in binary format (e.g. needs to be base64 encoded for SMIME emails). 
-Возвращает Null in case of error.&]
+[s2;%RU-RU Вычисляет сигнатуру P7S в двоичном 
+формате байтов данных [%-*@3 data]. [%-*@3 cert`_pem] 
+(публичный ключ X509) и [%-*@3 pkey`_pem] (приватный 
+ключ X509) должны быть в формате [^https`:`/`/en`.wikipedia`.org`/wiki`/Privacy`-enhanced`_Electronic`_Mail`.^ P
+EM]. Требуется пакет Core/SSL. Возвращает 
+сигнатуру в двоичном формате (напр., 
+требуется кодировка в base64 для имейлов 
+SMIME). Возвращает Null в случае ошибки.&]
 [s3;%RU-RU ]]

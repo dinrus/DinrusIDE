@@ -60,7 +60,7 @@ encapsulated, nothing special is required from calling thread.&]
 tream][@(0.0.255) `&]_[*@3 in])&]
 [s5;:Upp`:`:ZstdDecompressStream`:`:ZstdDecompressStream`(Upp`:`:Stream`&`): [* ZstdDec
 ompressStream]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 in])&]
-[s2;%RU-RU Устанавливаетthe input stream from where 
+[s2;%RU-RU Устанавливает the input stream from where 
 compressed data are read.&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]

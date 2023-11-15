@@ -270,9 +270,11 @@ l])&]
 [s5;:Upp`:`:UnicodeDecompose`(Upp`:`:dword`,bool`): [_^Upp`:`:Vector^ Vector]<[_^Upp`:`:dword^ d
 word]>_[* UnicodeDecompose]([_^Upp`:`:dword^ dword]_[*@3 codepoint], 
 [@(0.0.255) bool]_[*@3 only`_canonical])&]
-[s2;%RU-RU Возвращает UNICODE decomposition of given [%-*@3 codepoint] 
-into base and combining characters. If [%-*@3 only`_canonical] 
-is true, only canonical decomposition is allowed.&]
+[s2;%RU-RU Возвращает UNICODE`-декомпозицию 
+заданной кодточки [%-*@3 codepoint] на базовые 
+и комбинирующие символы. Если [%-*@3 only`_canonical] 
+равно true, то допускается только каноническая
+ декомпозиция.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:UnicodeCompose`(const Upp`:`:dword`*`,int`): [_^Upp`:`:dword^ dword]_[* Unico
@@ -281,8 +283,9 @@ t])&]
 [s5;:Upp`:`:UnicodeCompose`(const Upp`:`:Vector`<Upp`:`:dword`>`&`): [_^Upp`:`:dword^ d
 word]_[* UnicodeCompose]([@(0.0.255) const]_[_^Upp`:`:Vector^ Vector]<[_^Upp`:`:dword^ dw
 ord]>`&_[*@3 t])&]
-[s2;%RU-RU Tries to compose multi`-codepoint grapheme into single 
-codepoint if it exists. If such codepoint does not exist, returns 
-0.&]
+[s2;%RU-RU Потается скомпонировать мультикодточеч
+ную графему в одну кодточку, если 
+она существует. Если такой кодточки 
+нет, возвращает 0.&]
 [s3;%RU-RU &]
 [s0;%RU-RU ]]

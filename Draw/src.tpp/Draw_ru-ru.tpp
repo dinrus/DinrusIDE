@@ -13,36 +13,60 @@ topic "Класс Draw";
 [ {{10000t/25b/25@3 [s0; [*@(229)4 Класс Draw]]}}&]
 [s3; &]
 [s1;:Draw`:`:class: [@(0.0.255)3 class][3 _][*3 Draw][3 _:_][@(0.0.255)3 private][3 _][*@3;3 NoCopy]&]
-[s9;%RU-RU The class provides an abstract interface to basic graphical 
-output, possibly HW accelerated. Whenever you need to paint something 
-in a window, you need a Draw object for it. The standard Paint 
-method of the Ctrl class takes a Draw`& parameter as well. In 
-that case the underlying mechanism passes a derived SystemDraw 
-which is already initialized for output into the respective control, 
-knows about the current clipping, resolution etc. In a similar 
-manner you can create your own Draw objects to draw onto Images, 
-Drawings (vector metafiles used for serialization of graphical 
-operations) or to perform printer output. You can also use a 
-Draw to query some graphics`-related properties, like the size 
-of output area or native resolution.&]
-[s9;%RU-RU When Draw represents screen output, all metrics are always 
-in pixels. If Draw represents any physical device (like printer), 
-it uses artificial unit, `"dot`", by default, which is equivalent 
-to 1/600 of inch. In other words, it is the same as pixels size 
-of 600dpi printer (standard printer resolution).&]
-[s9;%RU-RU However, it is also possible to switch to `"Native`" mode 
-in some cases. In that case, Draw works in `"native`" pixels, 
-for example 1/720 inch for some printers. Draw provides necessary 
-metrics information to adjust graphic output.&]
-[s9;%RU-RU Some methods have several overloaded variants, for example 
-DrawRect has variants that specify the rectangle using Rect type 
-or x, y, cx, cy coordinates. In that case, implementation is 
-provided by single abstract virtual backend method ending with 
-Op (DrawRectOp) and non`-virtual frontend methods are then used 
-to provide overloading (via parameter translation to backend 
-method parameters).&]
-[s9;%RU-RU Painting outside the output size is always legal `- necessary 
-clipping is performed in that case.&]
+[s9;%RU-RU Класс предоставляет абстрактный 
+интерфейс к базовому графическому 
+выводу, возможно, с ускорением HW. Когда 
+нужно что`-либо нарисовать в окне, 
+для этого требуется объект Draw. Стандартный 
+метод Paint класса Ctrl также принимает 
+параметр Draw`&. В этом случае `"низлежащий`" 
+(глубиный) механизм передаёт производный 
+SystemDraw, который уже инициализирован 
+на вывод в соответствующий контрол, 
+имеет данные о текущем клиппинге, 
+разрешении и проч. Таким же образом 
+можно создавать собственные объекты 
+Draw, чтобы рисовать на Image`'ах, Drawing`'ах 
+(векторных метафайлах, используемых 
+для сериализации графических операций) 
+или же выполнять вывод на принтер. 
+Можно также использовать Draw для запроса 
+о свойствах, связанных с графикой, 
+напр., о размере области вывода или 
+о нативном разрешении.&]
+[s9;%RU-RU Когда Draw представляет собой вывод 
+на экран, все метрики всегда в пикселях. 
+Если Draw представляет какой`-либо физическое 
+устройство (типа принтера), то он использует 
+искусственную единицу, `"dot`" (`"точку`"), 
+по умолчанию, которая эквивалента 
+1/600 дюйма. Другими словами, то же самое, 
+что и пиксельный размер принтера 
+`- 600 dpi (точек на дюйм) (стандартное 
+разрешение принтера).&]
+[s9;%RU-RU Однако, в некоторых случаях можно 
+просто переключиться в нативный режим 
+`"Native`". Тогда Draw работает в `"нативных`" 
+пикселях, например, 1/720 дюйма для некоторых 
+принтеров. Draw предоставляет необходимую 
+информацию о метрике, что позволяет 
+настроить графический вывод.&]
+[s9;%RU-RU У некоторых методов имеется несколько 
+перегруженных вариантов, например, 
+DrawRect имеет варианты, которые определяют 
+прямоугольник посредством типа Rect 
+или координат x, y, cx, cy. В этом случае, 
+реализация предоставляет абстрактный 
+виртуальный бэкэндный метод, с окончанием 
+на Op (DrawRectOp), а невиртуальные фронтэндные 
+методы затем используются, чтобы 
+обеспечить перегрузку (посредством 
+трансляции параметров в параметры 
+бэкэндного метода).&]
+[s9;%RU-RU Рисование внутри размера вывода 
+всегда `"легально`" `- в этом случае 
+выполняется необходимая обрезка 
+(clipping).&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
@@ -54,126 +78,157 @@ onst]_`=_[@3 0]&]
 флагов:&]
 [s2;%RU-RU &]
 [ {{3735:6265<256;^ [s2;l64;%RU-RU [* Draw`::DOTS_`=_0x001]]
-:: [s2;l96;%RU-RU Draw possibly represent physical device (printer, 
-PDF output etc...).]
+:: [s2;l96;%RU-RU Draw, возможно, представляет собой 
+физическое устройство (принтер, вывод 
+в PDF и проч.).]
 :: [s2;l64;%RU-RU [* Draw`::GUI_`=_0x002]]
-:: [s2;l96;%RU-RU Draw encapsulates main host platform GUI graphical 
-output (e.g. GDI in Win32).]
+:: [s2;l96;%RU-RU Draw инкапсулирует графический 
+вывод ГИП главной хостовой платформы 
+(напр., GDI на Win32).]
 :: [s2;l64;%RU-RU [* Draw`::PRINTER_`=_0x004]]
-:: [s2;l96;%RU-RU Draw represents printer.]
+:: [s2;l96;%RU-RU Draw представляет принтер.]
 :: [s2;l64;%RU-RU [* Draw`::NATIVE_`=_0x008]]
-:: [s2;l96;%RU-RU Draw is in native mode.]
+:: [s2;l96;%RU-RU Draw в нативном режиме.]
 :: [s2;l64; [* Draw`::DATABANDS_`=_0x010]]
-:: [s2;l96;%RU-RU Draw can use banding to rescale images or for DrawData 
-operation to reduce memory consumption.]}}&]
+:: [s2;l96;%RU-RU Draw может использовать banding для 
+ремасштабирования изображений или 
+для операции DrawData, чтобы понизить 
+потребление памяти.]}}&]
 [s3; &]
 [s4; &]
 [s5;:Draw`:`:GetPageSize`(`)const: [@(0.0.255) virtual] [_^Size^ Size]_[* GetPageSize]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает the size of actual output (size of 
-window in pixels, size of printable area). If native mode is 
-active and has different dpi, value is adjusted accordingly.&]
+[s2;%RU-RU Возвращает размер действительного 
+вывода (размер окна в пикселях, размер 
+печатаемой области). Если активен 
+нативный режим и имеется иной dpi, значение 
+соответственно регулируется.&]
 [s3; &]
 [s4; &]
 [s5;:Draw`:`:StartPage`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* StartPage]()&]
-[s2;%RU-RU For printer output, starts a new page.&]
+[s2;%RU-RU При выводе на принтер, начинает 
+новую страницу.&]
 [s3; &]
 [s4; &]
 [s5;:Draw`:`:EndPage`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* EndPage]()&]
-[s2;%RU-RU For printer output, ends page.&]
+[s2;%RU-RU При выводе на принтер, завершает 
+страницу.&]
 [s3; &]
 [s4; &]
 [s5;:Draw`:`:BeginOp`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* BeginOp]()_`=_[@3 0]&]
-[s2;%RU-RU Implements Begin operation: Pushes current offset and clipping 
-settings on Draw`'s internal stack.&]
+[s2;%RU-RU Реализует операцию Begin: Вталкивает 
+текущие настройки обрезки и смещения 
+на внутренний стэк Draw.&]
 [s3; &]
 [s4; &]
 [s5;:Draw`:`:EndOp`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* EndOp]()_`=_[@3 0]&]
-[s2;%RU-RU Implements End operation: Pops offset and clipping settings, 
-restoring the status before pairing BeginOp, OffsetOp, ClipOp, 
-ExcludeClipOp or IntersectClipOp.&]
+[s2;%RU-RU Реализует операцию End: Вынимает 
+со стэка настройки смещения и обрезки, 
+восстанавливая статус перед спариванием 
+BeginOp, OffsetOp, ClipOp, ExcludeClipOp или IntersectClipOp.&]
 [s3; &]
 [s4; &]
 [s5;:Draw`:`:OffsetOp`(Point`): [@(0.0.255) virtual] [@(0.0.255) void]_[* OffsetOp]([_^Point^ P
 oint]_[*@3 p])_`=_[@3 0]&]
-[s2;%RU-RU Implements Offset operation: Вызывает Begin and 
-then offsets coordinates so that [%-*@3 p] becomes Point(0, 0).&]
+[s2;%RU-RU Реализует операцию Offset: Вызывает 
+Begin и затем смещает координаты так, 
+что [%-*@3 p] становится Point(0, 0).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:ClipOp`(const Rect`&`): [@(0.0.255) virtual] [@(0.0.255) bool]_[* ClipOp]([@(0.0.255) c
 onst]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r])_`=_[@3 0]&]
-[s2;%RU-RU Implements Clip operation: Вызывает Begin and then 
-restricts all painting operations to [%-*@3 r] `- nothing is painted 
-outside this rectangle.&]
+[s2;%RU-RU Реализует операцию Clip: Вызывает 
+Begin и затем ограничивает все операции 
+рисования до [%-*@3 r] `- ничего вне этого 
+прямоугольника не отрисовывается.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:ClipoffOp`(const Rect`&`): [@(0.0.255) virtual] [@(0.0.255) bool]_[* ClipoffOp
 ]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r])_`=_[@3 0]&]
-[s2;%RU-RU Implements ClipOff operation: Вызывает begin, then 
-restricts all painting operations to[%-  ][%-*@3 r] and offsets coordinates 
-so that to left point of [%-*@3 r] becomes Point(0, 0).&]
+[s2;%RU-RU Реализует операцию ClipOff: Вызывает 
+begin, затем ограничивает все операции 
+рисования до[%-  ][%-*@3 r] и смещает координаты 
+так, что левая точка [%-*@3 r] становится 
+Point(0, 0).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:ExcludeClipOp`(const Rect`&`): [@(0.0.255) virtual] [@(0.0.255) bool]_[* Exclu
 deClipOp]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r])_`=_[@3 0]&]
-[s2;%RU-RU Implements ExcludeClip operation: Excludes [%-*@3 r] from 
-the output `- nothing is painted in this area. Does not affect 
-the offset/clipping stack. This operation is only guaranteed 
-to work in SystemDraw.&]
+[s2;%RU-RU Реализует операцию ExcludeClip: Исключает 
+[%-*@3 r] из вывода `- в этой области ничего 
+не отрисовывается. Не влияет на стэк 
+смещение/обрезка. Эта операция гарантирован
+но работает только в SystemDraw.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:IntersectClipOp`(const Rect`&`): [@(0.0.255) virtual] 
 [@(0.0.255) bool]_[* IntersectClipOp]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r
 ])_`=_[@3 0]&]
-[s2;%RU-RU Implements IntersectClip operation: Intersects current 
-clipping area with [%-*@3 r]. Does not affect the offset/clipping 
-stack. This operation is only guaranteed to work in SystemDraw.&]
+[s2;%RU-RU Реализует операцию IntersectClip: Пересекает 
+текущую область обрезки с [%-*@3 r]. Не 
+влияет на стэк смещение/обрезка. Эта 
+операция гарантированно работает 
+только в SystemDraw.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:IsPaintingOp`(const Rect`&`)const: [@(0.0.255) virtual] 
 [@(0.0.255) bool]_[* IsPaintingOp]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r])_
 [@(0.0.255) const]_`=_[@3 0]&]
-[s2;%RU-RU Implements IsPainting operation: Tests whether that should 
-any painting happen in [%-*@3 r]. For example, if Draw represents 
-graphics output to window in Ctrl`::Paint, not all areas are always 
-required to be repainted.&]
+[s2;%RU-RU Реализует операцию IsPainting: Тестирует, 
+должно ли происходить какое`-либо 
+рисование в [%-*@3 r]. Например, если Draw 
+представляет собой графический вывод 
+в окно в Ctrl`::Paint, то не все области нужно 
+постоянно перерисовывать.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:GetPaintRect`(`)const: [@(0.0.255) virtual] [_^Rect^ Rect]_[* GetPaintRect]()_
 [@(0.0.255) const]&]
-[s2;%RU-RU Provides bounding rectangle for painted areas (areas where 
-IsPaintingOp returns true). Дефолтная реализация 
-возвращает very rectangle.&]
+[s2;%RU-RU Предоставляет ограничивающий 
+прямоугольник для отрисовываемых 
+областей, где IsPaintingOp возвращает true. 
+Дефолтная реализация возвращает 
+тот самый прямоугольник.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawRectOp`(int`,int`,int`,int`,Color`): [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* DrawRectOp]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], 
 [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy], [_^Color^ Color]_[*@3 color])_`=_[@3 0]&]
-[s2;%RU-RU Implements DrawRect operation: Fills rectangle [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 c
-y] using [%-*@3 color]. As special addition, if Draw represents 
-screen output in Ctrl`::Paint, [%-*@3 color] can be assigned special 
-value InvertColor() causing invertion of all pixels in target 
-area. Note: On some platform, using InvertColor might results 
-in suboptimal performance.&]
+[s2;%RU-RU Реализует операцию DrawRect: Заполняет 
+прямоугольник [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy], 
+используя цвет [%-*@3 color]. Как специальное 
+дополнение, если Draw представляет 
+собой вывод на экран в Ctrl`::Paint, цвету 
+[%-*@3 color] можно присваивать особое значение 
+InvertColor(), вызывающее инверсию всех 
+пикселей в целевой области. Заметка: 
+На некоторых платформах использование 
+InvertColor может приводить к неудовлетворительн
+ой производительности.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Draw`:`:SysDrawImageOp`(int`,int`,const Image`&`,Color`): [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* SysDrawImageOp]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], 
 [@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img], [_^Color^ Color]_[*@3 color])&]
-[s2;%RU-RU Low`-level draw of Image. It depends on second variant 
-of SysDrawImageOp to support [%-*@3 src] parameter using Offset 
-and Clip.&]
+[s2;%RU-RU Низкоуровневая отрисовка изображения 
+класса Image. Зависит от второго варианта 
+SysDrawImageOp, чтобы поддерживать параметр 
+[%-*@3 src], используя Offset и Clip.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Draw`:`:SysDrawImageOp`(int`,int`,const Image`&`,const Rect`&`,Color`): [@(0.0.255) v
 irtual] [@(0.0.255) void]_[* SysDrawImageOp]([@(0.0.255) int]_[*@3 x], 
 [@(0.0.255) int]_[*@3 y], [@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img], 
 [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 src], [_^Color^ Color]_[*@3 color])&]
-[s2;%RU-RU Low(er)`-level draw of Image, called by DrawImageOp. Draw 
-derived class can either override this method and depend on DrawImageOp 
-to do rescaling and printer banding or override DrawImageOp directly. 
-Default implementation uses Offset and Clip to provide support 
-for [%-*@3 src] parameter.&]
+[s2;%RU-RU (Ещё более) низкоуровневая операция 
+отрисовки изо класса Image, вызываемая 
+DrawImageOp. В производном от Draw классе 
+можно либо переписать (override) этот 
+метод и зависить от DrawImageOp в плане 
+выполнения ремасштабирования и banding`'а 
+принтера, либо прямо переписать DrawImageOp. 
+В дефолтной реализации  Offset и Clip используютс
+я для поддержки параметра [%-*@3 src].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawImageOp`(int`,int`,int`,int`,const Image`&`,const Rect`&`,Color`): [@(0.0.255) v
@@ -181,50 +236,67 @@ irtual] [@(0.0.255) void]_[* DrawImageOp]([@(0.0.255) int]_[*@3 x], [@(0.0.255) 
  [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy], [@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&
 ]_[*@3 img], [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 src], 
 [_^Color^ Color]_[*@3 color])_`=_[@3 0]&]
-[s2;%RU-RU Implements DrawImageOp: Draws [%-*@3 src] part of Image [%-*@3 img] 
-at [%-*@3 x], [%-*@3 y] rescaling it to [%-*@3 cx], [%-*@3 cy] (if they 
-are equal to original Image size, no rescaling is performed). 
-If [%-*@3 color] is not null, only alpha information of Image is 
-used and color pixels are painted using [%-*@3 color]. Default 
-implementation performs rescaling operation in software, including 
-banding support for printer, then calls SysDrawImageOp.&]
+[s2;%RU-RU Реализует DrawImageOp: Рисует часть 
+[%-*@3 src] изо Image [%-*@3 img] по [%-*@3 x], [%-*@3 y], ремасштабируя
+ его до [%-*@3 cx], [%-*@3 cy] (если они равны исходному 
+размеру Image, то никакого ремасштабирования 
+не выполняется). Если [%-*@3 color] не равен 
+нулю, тспллдьзуется только информация 
+об альфе изображения, а цветные пиксели 
+отрисовываются цветом [%-*@3 color]. Дефолтная 
+реализация выполняет операцию ремасштабиро
+вания на ПО (software), включая поддержку 
+banding`'а для принтера, а затем вызывает 
+SysDrawImageOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawDataOp`(int`,int`,int`,int`,const String`&`,const char`*`): [@(0.0.255) v
 irtual] [@(0.0.255) void]_[* DrawDataOp]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], 
 [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[*@3 data], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id])&]
-[s2;%RU-RU Implements DrawData operation. Draws arbitrary [%-*@3 data] 
-of type [%-*@3 id] to rectangular area [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. 
-This can be used for example to print compressed bitmaps (e.g. 
-in png format) directly, without the need of loading them to 
-Image, this possibly saving memory requirements, as banding can 
-be used to send the image to printer part by part. Actual painting 
-process is implemented in [^DataDrawer^ DataDrawer] and [%-*@3 id] 
-has to be registered using DataDrawer`::Register.&]
+[s2;%RU-RU Реализует операцию DrawData. Рисует 
+произвольные данные [%-*@3 data] типа [%-*@3 id] 
+в прямоугольную область [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. 
+Может использоваться, например, для 
+прямой печати сжатых битмапов (напр., 
+в формате png), без необходимости их 
+загрузки в Image, возможно, это сохраняет 
+память, т.к. banding может исползоваться 
+для отправки изображения на принтер 
+по частям. Действительный процесс 
+отрисовки реализован в [^DataDrawer^ DataDrawer], 
+а [%-*@3 id] нужно зарегистрировать посредством 
+DataDrawer`::Register.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawLineOp`(int`,int`,int`,int`,int`,Color`): [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* DrawLineOp]([@(0.0.255) int]_[*@3 x1], [@(0.0.255) int]_[*@3 y1], 
 [@(0.0.255) int]_[*@3 x2], [@(0.0.255) int]_[*@3 y2], [@(0.0.255) int]_[*@3 width], 
 [_^Color^ Color]_[*@3 color])_`=_[@3 0]&]
-[s2;%RU-RU Implements DrawLine operation. Draws line from [%-*@3 x1],[%-*@3 y1] 
-to [%-*@3 x2],[%-*@3 y2] (included) [%-*@3 width] pixels wide, with 
-[%-*@3 color]. Width can contain special values, in that case line 
-with width 1 is drawn and special dash pattern is applied:&]
+[s2;%RU-RU Реализация операции DrawLine. Рисует 
+линию от [%-*@3 x1],[%-*@3 y1] до [%-*@3 x2],[%-*@3 y2] (включительно
+), с пиксельной шириной [%-*@3 width], с цветом 
+[%-*@3 color]. Ширина может содержать особые 
+значения, в случае чего рисуется линия 
+с шириной 1 и применяется специальный 
+пунктирный паттерн:&]
 [s2;%RU-RU &]
 [ {{3035:6965<288; [s2;l64;%RU-RU [* PEN`_NULL]]
-:: [s2;l64;%RU-RU empty pen (nothing is drawn)]
+:: [s2;l64;%RU-RU пустое перо (ничего не отрисовывается)
+]
 :: [s2;l64;%RU-RU [* PEN`_SOLID]]
-:: [s2;l64;%RU-RU solid pen]
+:: [s2;l64;%RU-RU плотное перо]
 :: [s2;l64;%RU-RU [* PEN`_DASH]]
-:: [s2;l64;%RU-RU dashed pen  `_ `_ `_]
+:: [s2;l64;%RU-RU пунктирное перо  `_ `_ `_]
 :: [s2;l64;%RU-RU [* PEN`_DOT]]
-:: [s2;l64;%RU-RU dotted pen (dashes are shorter) [* . . .]]
+:: [s2;l64;%RU-RU точечное перо (пунктиры короче) 
+[* . . .]]
 :: [s2;l64;%RU-RU [* PEN`_DASHDOT]]
-:: [s2;l64;%RU-RU dash `- dot `- dash `- dot pattern `_.`_.`_.]
+:: [s2;l64;%RU-RU паттерн тире `- точка `- тире 
+`- точка `_.`_.`_.]
 :: [s2;l64;%RU-RU [* PEN`_DASHDOTDOT]]
-:: [s2;l64;%RU-RU dash `- dot `- dot `- dash `- dot `- dot pattern `_..`_..`_..]}}&]
+:: [s2;l64;%RU-RU паттерн тире `- точка `- точка 
+`- тире `- точка `- точка `_..`_..`_..]}}&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawPolyPolylineOp`(const Point`*`,int`,const int`*`,int`,int`,Color`,Color`): [@(0.0.255) v
@@ -232,20 +304,25 @@ irtual] [@(0.0.255) void]_[* DrawPolyPolylineOp]([@(0.0.255) const]_[_^Point^ Po
 ertices], [@(0.0.255) int]_[*@3 vertex`_count], [@(0.0.255) const]_[@(0.0.255) int]_`*[*@3 c
 ounts], [@(0.0.255) int]_[*@3 count`_count], [@(0.0.255) int]_[*@3 width], 
 [_^Color^ Color]_[*@3 color], [_^Color^ Color]_[*@3 doxor])_`=_[@3 0]&]
-[s2;%RU-RU Implements DrawPolyPolyline operation: Draws a series of 
-polylines. Polyline vertices are kept in the array [%-*@3 vertices]. 
-The parameter [%-*@3 vertex`_count] gives the total number of vertices 
-of all polylines in the array. The array [%-*@3 counts ]gives numbers 
-of points defining the individual polylines and [%-*@3 count`_count 
-]gives number of entries in this array (i.e. the number of connected 
-polylines). The first polyline comprises vertices [%-*@3 vertices]`[0`], 
+[s2;%RU-RU Реализует операцию DrawPolyPolyline: Рисует 
+ряд полилиний. Вершины полилиний 
+хранятся в массиве [%-*@3 vertices]. Параметр 
+[%-*@3 vertex`_count] даёт общее число вершин 
+всех полилиний в этом массиве. Массив 
+[%-*@3 counts ]даёт номера точек, определяющих 
+отдельные полилинии, а [%-*@3 count`_count ]даёт 
+число элементов в этом массиве (т.е. 
+число соединённых полилиний). Первая 
+полилиния состоит из вершин [%-*@3 vertices]`[0`], 
 [%-*@3 vertices]`[1`] ... [%-*@3 vertices]`[[%-*@3 counts]`[0`] `- 
-1`], the second polyline [%-*@3 vertices]`[[%-*@3 counts]`[0`]`], 
+1`], вторая полилиния [%-*@3 vertices]`[[%-*@3 counts]`[0`]`], 
 [%-*@3 vertices]`[[%-*@3 counts]`[0`] `+ 1`] ... [%-*@3 vertices]`[[%-*@3 counts]`[0`] 
-`+ [%-*@3 counts]`[1`] `- 1`], etc. The width parameter can be 
-equal to the same [* PEN`_]`* special values as width in DrawLineOp. 
-Line is drawn with [%-*@3 color], if [%-*@3 doxor] is not null, such 
-color in the background gets inverted.&]
+`+ [%-*@3 counts]`[1`] `- 1`], и т.д. Параметр width 
+может быть равен одинаковым особым 
+значениям [* PEN`_]`*, таким как width в DrawLineOp. 
+Линия рисуется цветом [%-*@3 color], если 
+[%-*@3 doxor] не равен нулю, то такой цвет 
+в фоне инвертируется.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawPolyPolyPolygonOp`(const Point`*`,int`,const int`*`,int`,const int`*`,int`,Color`,int`,Color`,uint64`,Color`): [@(0.0.255) v
@@ -255,14 +332,19 @@ irtual] [@(0.0.255) void]_[* DrawPolyPolyPolygonOp]([@(0.0.255) const]_[_^Point^
 [*@3 disjunct`_polygon`_counts], [@(0.0.255) int]_[*@3 dpcc], [_^Color^ Color]_[*@3 color],
  [@(0.0.255) int]_[*@3 width], [_^Color^ Color]_[*@3 outline], [_^uint64^ uint64]_[*@3 patter
 n], [_^Color^ Color]_[*@3 doxor])_`=_[@3 0]&]
-[s2;%RU-RU Implements DrawPolyPolyPolygon operation: Draws a series 
-of complex polygons. The [%-*@3 vertices] array holds all polygon 
-defining vertices. The array is divided into sections corresponding 
-to the whole complex polygons (parameters [%-*@3 disjunct`_polygon`_counts]) 
-and these sections are further divided into the individual polygons 
-defining one complex polygon (i.e. outer boundary and holes). 
-Numbers of vertices in the individual polygons are held in the 
-array [%-*@3 subpolygon`_counts ](total number of simple polygons 
+[s2;%RU-RU Реализует операцию DrawPolyPolyPolygon: 
+Рисует серию сложных многоугольников. 
+Массив вершин [%-*@3 vertices] содержит все 
+вершины, определяющие многоугольник. 
+Этот массив разделён на секции, соответствую
+щие всем сложным многоугольникам 
+(параметры [%-*@3 disjunct`_polygon`_counts]), и далее 
+эти секции делятся на отдельные многоугольн
+ики, определяя один сложный многоугольник 
+(т.е. внешнюю границу и впадины). Число 
+вершин в отдельных многоугольниках 
+содержится в массиве [%-*@3 subpolygon`_counts 
+](общее число простых многоугольников 
 `= subpolygon`_count`_count).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
@@ -270,26 +352,32 @@ array [%-*@3 subpolygon`_counts ](total number of simple polygons
 [@(0.0.255) void]_[* DrawArcOp]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 rc], 
 [_^Point^ Point]_[*@3 start], [_^Point^ Point]_[*@3 end], [@(0.0.255) int]_[*@3 width], 
 [_^Color^ Color]_[*@3 color])_`=_[@3 0]&]
-[s2;%RU-RU Implements DrawArc operation: Draws elliptic arc corresponding 
-to the largest ellipse fully within the rectangle [%-*@3 rc] and 
-running counterclockwise from the direction corresponding to 
-the line connecting the centre of the ellipse ([%-*@3 rc].CenterPoint()) 
-with the point [%-*@3 start ]and ending at direction of the point 
-[%-*@3 end ]from the ellipse centre. When start `=`= end, the full 
-ellipse is drawn. [%-*@3 width] is the width of line, painted in 
-[%-*@3 color].&]
+[s2;%RU-RU Реализует операцию DrawArc: Рисует 
+эллиптическую арку, соответствующую 
+наибольшему эллипсу, входящему в 
+прямоугольник [%-*@3 rc], и направленному 
+против часовой стрелки от направления, 
+соотвествующего линии, соединяющей 
+центр эллипса ([%-*@3 rc].CenterPoint()) с точкой 
+[%-*@3 start], и заканчивающемуся в направлении 
+точки [%-*@3 end ]от центра этого эллипса. 
+Когда start `=`= end, рисуется весь эллипс. 
+[%-*@3 width] `- это ширина линии, нарисованной 
+цветом [%-*@3 color].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawEllipseOp`(const Rect`&`,Color`,int`,Color`): [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* DrawEllipseOp]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r],
  [_^Color^ Color]_[*@3 color], [@(0.0.255) int]_[*@3 pen], [_^Color^ Color]_[*@3 pencolor])_`=
 _[@3 0]&]
-[s2;%RU-RU Implements DrawEllipse operation: Draws the largest ellipse 
-with both axes parallel to coordinate axes fully within rectangle 
-[%-*@3 r], i.e. with center point at r.CenterPoint(), semi major 
-axis and semi minor axis equal to r.Width() / 2 and r.Height() 
-/ 2. If [%-*@3 pen] is not 0, Ellipse will be have border line 
-of width [%-*@3 pen] and color [%-*@3 pencolor].&]
+[s2;%RU-RU Реализует операцию DrawEllipse: Чертит 
+наибольший эллипс, у которого обе 
+оси параллельны осям координат, вписанный 
+в прямоугольник [%-*@3 r], т.е. с центральной 
+точкой в r.CenterPoint(), semi major ось и semi minor 
+ось равны r.Width() / 2 и r.Height() / 2. Если [%-*@3 pen] 
+не равен 0, то у эллипса будет бордюрная 
+линия шириной [%-*@3 pen] и цветом [%-*@3 pencolor].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawTextOp`(int`,int`,int`,const wchar`*`,Font`,Color`,int`,const int`*`): [@(0.0.255) v
@@ -297,188 +385,222 @@ irtual] [@(0.0.255) void]_[* DrawTextOp]([@(0.0.255) int]_[*@3 x], [@(0.0.255) i
 [@(0.0.255) int]_[*@3 angle], [@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 text], 
 [_^Font^ Font]_[*@3 font], [_^Color^ Color]_[*@3 ink], [@(0.0.255) int]_[*@3 n], 
 [@(0.0.255) const]_[@(0.0.255) int]_`*[*@3 dx])_`=_[@3 0]&]
-[s2;%RU-RU Implements DrawText operation:Draws a [%-*@3 text ]at position 
-starting at [%-*@3 x], [%-*@3 y] (it represents top`-left corner 
-of text cell: for horizontal text, x identifies reference point 
-and y is ascent above the baseline) going at [%-*@3 angle] using 
-[%-*@3 font] and color [%-*@3 ink]. [%-*@3 n] is a number of characters 
-to paint. If [%-*@3 dx ]is not NULL, it specifies advancements 
-of individual characters (it must be [%-*@3 n] elements in this 
-array), otherwise advancements from font metrics are used.&]
+[s2;%RU-RU Реализует операцию DrawText:Чертит 
+[%-*@3 text ][%- в позиции, начинающейся с] 
+[%-*@3 x], [%-*@3 y] (представляющей верхний 
+левый угол ячейки текста: для горизонтальног
+о текста, x идентифицирует точку ссылки, 
+а y поднимается над основанием), идущий 
+под углом [%-*@3 angle], испльзующий шрифт 
+[%-*@3 font] и цвет [%-*@3 ink]. [%-*@3 n] `- число отрисовываемы
+х символов. Если [%-*@3 dx ]не равен NULL, 
+то определяет advancements отдельных символов 
+(в этом массиве должно быть [%-*@3 n] элементов), 
+иначе используются advancements из метрики 
+шрифта.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawDrawingOp`(const Rect`&`,const Drawing`&`): [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* DrawDrawingOp]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 tar
 get], [@(0.0.255) const]_[_^Drawing^ Drawing][@(0.0.255) `&]_[*@3 w])&]
-[s2;%RU-RU Implements DrawDrawing operation: Draws [^Drawing^ Drawing] 
-[%-*@3 w] scaled into [%-*@3 target]. Base Draw provides default 
-implementation of this function (in fact, it could most likely 
-be non`-virtual).&]
+[s2;%RU-RU Реализует операцию DrawDrawing: Чертит 
+[^Drawing^ Drawing] [%-*@3 w], масштабированный до 
+[%-*@3 target]. Базовый Draw предоставляет 
+дефолтную реализацию этой функции 
+(фактически, вероятнее всего, она 
+будет невиртуальной).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawPaintingOp`(const Rect`&`,const Painting`&`): [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* DrawPaintingOp]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 ta
 rget], [@(0.0.255) const]_[_^Painting^ Painting][@(0.0.255) `&]_[*@3 w])&]
-[s2;%RU-RU Implements DrawPainting operation: Draws [^Drawing^ Drawing] 
-[%-*@3 w] scaled into [%-*@3 target]. Base Draw provides default 
-implementation, which paints Painting using DrawImage, possibly 
-using banding technique to reduce the memory requirements. Painter 
-package has to be included in the project for this to work.&]
+[s2;%RU-RU Реализует операцию DrawPainting: Чертит 
+[^Drawing^ Drawing] [%-*@3 w], масштабированный до 
+[%-*@3 target]. Базовый Draw предоставляет 
+дефолтную реализацию, которая рисует 
+Painting, используя DrawImage, возможно, используя 
+технику banding`'а для уменьшения потребляемой 
+памяти. Пакет Painter должен быть включен 
+в проект для этой работы.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:GetNativeDpi`(`)const: [@(0.0.255) virtual] [_^Size^ Size]_[* GetNativeDpi]()_
 [@(0.0.255) const]&]
-[s2;%RU-RU Возвращает native resolution of target device. 
-Default implementation returns Size(600, 600) for Dots device 
-and Size(96, 96) for screen output.&]
+[s2;%RU-RU Возвращает нативное разрешение 
+целевого устройства. Дефолтная реализация 
+возвращает Size(600, 600) для устройства 
+Dots и Size(96, 96) для вывода на экран.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:BeginNative`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* BeginNative]()&]
-[s2;%RU-RU Starts native resolution mode, if available. Can be called 
-several times (only first call is effective). If device does 
-not have native mode, it has no effect.&]
+[s2;%RU-RU Запускает режим нативного разрешения, 
+если он доступен. Может вызываться 
+несколько раз (срабатывает только 
+первый вызов). Если у устройства нет 
+нативного режима, не срабатывает 
+вообще.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:EndNative`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* EndNative]()&]
-[s2;%RU-RU Ends native resolution mode. If BeginNative was called 
-several times, has to be called the same number of times to end 
-the native mode.&]
+[s2;%RU-RU Завершает режим нативного разрешения. 
+Если BeginNative вызывался несколько раз, 
+должен быть вызван такое же количество 
+раз, чтобы завершить нативный режим.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:GetCloffLevel`(`)const: [@(0.0.255) virtual] [@(0.0.255) int]_[* GetCloffLevel
 ]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the number of elements in clip`&offset 
-stack. Mostly used for diagnostic purposes.&]
+[s2;%RU-RU Возвращает число элементов в 
+стэке clip`&offset (обрезки и смещения). 
+Используется, главным образом, для 
+диагностических целей.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:Draw`:`:Escape`(const Upp`:`:String`&`): [@(0.0.255) virtual 
 void]_[* Escape]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%RU-RU Passes additional information to Draw target instance. 
-For example, PdfDraw understands `"url:http://link.html`" escapes 
-to define text hyperlinks. Frontend to EscapeOp.&]
+[s2;%RU-RU Передаёт дополнительную информацию 
+целевому экземпляру Draw. Например, 
+PdfDraw понимает эскапады `"url:http://link.html`", 
+чтобы определять текстовые гиперссылки. 
+Фронтэнд к EscapeOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:GetPixelsPerInch`(`)const: [_^Size^ Size]_[* GetPixelsPerInch]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает active resolution. Возвращает 
-native resolution if native mode is active, or Size(600, 600) 
-for physical output or Size(96, 96) for screen output.&]
+[s2;%RU-RU Возвращает активное разрешение. 
+Возвращает нативное разрешение, если 
+активен нативный режим, или Size(600, 
+600) для физического вывода, или Size(96, 
+96) для вывода на экран.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:GetPageMMs`(`)const: [_^Size^ Size]_[* GetPageMMs]()_[@(0.0.255) const]&]
-[s2;%RU-RU Recomputes GetPageSize to millimeters.&]
+[s2;%RU-RU Пересчитывает GetPageSize в миллиметры.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:Dots`(`)const: [@(0.0.255) bool]_[* Dots]()_[@(0.0.255) const]&]
-[s2;%RU-RU То же, что и GetInfo() `& DOTS. True for physical 
-device.&]
+[s2;%RU-RU То же, что и GetInfo() `& DOTS. True для физического
+ устройства.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:Pixels`(`)const: [@(0.0.255) bool]_[* Pixels]()_[@(0.0.255) const]&]
-[s2;%RU-RU То же, что и !Dots(). True for screen output.&]
+[s2;%RU-RU То же, что и !Dots(). True для вывода 
+на экран.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:IsPrinter`(`)const: [@(0.0.255) bool]_[* IsPrinter]()_[@(0.0.255) const]&]
-[s2;%RU-RU То же, что и GetInfo() `& PRINTER. True if output 
-is printer.&]
+[s2;%RU-RU То же, что и GetInfo() `& PRINTER. True при 
+выводе на принтер.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:IsNative`(`)const: [@(0.0.255) bool]_[* IsNative]()_[@(0.0.255) const]&]
-[s2;%RU-RU То же, что и GetInfo() `& NATIVE. True if native 
-resolution mode is active.&]
+[s2;%RU-RU То же, что и GetInfo() `& NATIVE. True, если 
+активен режим нативного разрешения.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:GetNativeX`(int`)const: [@(0.0.255) int]_[* GetNativeX]([@(0.0.255) int]_[*@3 x])
 _[@(0.0.255) const]&]
-[s2;%RU-RU Recomputes [%-*@3 x] from 600 dpi dots to native horizontal 
-resolution.&]
+[s2;%RU-RU Пересчитывает [%-*@3 x] из dots 600 dpi в 
+нативное горизонтальное разрешение.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:GetNativeY`(int`)const: [@(0.0.255) int]_[* GetNativeY]([@(0.0.255) int]_[*@3 y])
 _[@(0.0.255) const]&]
-[s2;%RU-RU Recomputes [%-*@3 y] from 600 dpi dots to native vertical 
-resolution.&]
+[s2;%RU-RU Пересчитывает [%-*@3 y] из dots 600 в нативное 
+вертикальное разрешение.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:Native`(int`&`,int`&`)const: [@(0.0.255) void]_[* Native]([@(0.0.255) int`&]_[*@3 x
 ], [@(0.0.255) int`&]_[*@3 y])_[@(0.0.255) const]&]
-[s2;%RU-RU Recomputes point coordinates from 600 dpi dots to native 
-resolution.&]
+[s2;%RU-RU Пересчитывает координаты dots из 
+точек 600 dpi в нативное разрешение.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:Native`(Point`&`)const: [@(0.0.255) void]_[* Native]([_^Point^ Point][@(0.0.255) `&
 ]_[*@3 p])_[@(0.0.255) const]&]
-[s2;%RU-RU Recomputes point from 600 dpi dots to native resolution.&]
+[s2;%RU-RU Пересчитывает точку из dots  600 dpi 
+в нативное разрешение.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:Native`(Size`&`)const: [@(0.0.255) void]_[* Native]([_^Size^ Size][@(0.0.255) `&
 ]_[*@3 sz])_[@(0.0.255) const]&]
-[s2;%RU-RU Recomputes Size from 600 dpi dots to native resolution.&]
+[s2;%RU-RU Пересчитывает Size из dots 600 dpi в нативное 
+разрешение.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:Native`(Rect`&`)const: [@(0.0.255) void]_[* Native]([_^Rect^ Rect][@(0.0.255) `&
 ]_[*@3 r])_[@(0.0.255) const]&]
-[s2;%RU-RU Recomputes Rect from 600 dpi dots to native resolution..&]
+[s2;%RU-RU Пересчитывает Rect из 600 dpi dots в нативное 
+разрешение..&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:Begin`(`): [@(0.0.255) void]_[* Begin]()&]
-[s2;%RU-RU Pushes current offset and clipping settings on Draw`'s 
-internal stack. Frontend to BeginOp.&]
+[s2;%RU-RU Вталкивает настройки смещения 
+и обрезки на внутренний стэк Draw. Фронтэнд 
+к BeginOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:End`(`): [@(0.0.255) void]_[* End]()&]
-[s2;%RU-RU Pops offset and clipping settings, restoring the status 
-before pairing BeginOp, OffsetOp, ClipOp, ExcludeClipOp or IntersectClipOp. 
-Frontend to EndOp.&]
+[s2;%RU-RU Вынимает настройки смещения и 
+обрезки, восстанавливая статус перед 
+спариванием BeginOp, OffsetOp, ClipOp, ExcludeClipOp 
+или IntersectClipOp. Фронтэнд к EndOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:Offset`(Point`): [@(0.0.255) void]_[* Offset]([_^Point^ Point]_[*@3 p])&]
 [s5;:Draw`:`:Offset`(int`,int`): [@(0.0.255) void]_[* Offset]([@(0.0.255) int]_[*@3 x], 
 [@(0.0.255) int]_[*@3 y])&]
-[s2;%RU-RU Вызывает Begin and then offsets coordinates so 
-that [%-*@3 p] or [%-*@3 x][%- ,][%-*@3 y][%-  ]becomes Point(0, 0). Uses 
-OffsetOp for implementation. Frontend to OffsetOp.&]
+[s2;%RU-RU Вызывает Begin и затем координаты 
+смещения так, что [%-*@3 p] или [%-*@3 x][%- ,][%-*@3 y][%-  
+становится] Point(0, 0). Использует OffsetOp 
+для реализации. Фронтэнд к OffsetOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:Clip`(const Rect`&`): [@(0.0.255) bool]_[* Clip]([@(0.0.255) const]_[_^Rect^ Rec
 t][@(0.0.255) `&]_[*@3 r])&]
 [s5;:Draw`:`:Clip`(int`,int`,int`,int`): [@(0.0.255) bool]_[* Clip]([@(0.0.255) int]_[*@3 x],
  [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;%RU-RU Вызывает Begin and then restricts all painting 
-operations to [%-*@3 r] or [%-*@3 x][%- ,][%-*@3 y][%- ,][%-*@3 cx][%- ,][%-*@3 cy] 
-rectangle `- nothing is painted outside this rectangle. Frontend 
-to ClipOp.&]
+[s2;%RU-RU Вызывает Begin и затем ограничивает 
+все операции рисования до [%-*@3 r] или 
+прямоугольника [%-*@3 x][%- ,][%-*@3 y][%- ,][%-*@3 cx][%- ,][%-*@3 cy] 
+`- ничто не рисуется вне этого прямоугольника
+. Фронтэнд к ClipOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:Clipoff`(const Rect`&`): [@(0.0.255) bool]_[* Clipoff]([@(0.0.255) const]_[_^Rect^ R
 ect][@(0.0.255) `&]_[*@3 r])&]
 [s5;:Draw`:`:Clipoff`(int`,int`,int`,int`): [@(0.0.255) bool]_[* Clipoff]([@(0.0.255) int]_
 [*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;%RU-RU Implements ClipOff operation: Вызывает begin, then 
-restricts all painting operations to[%-  ][%-*@3 r] or [%-*@3 x][%- ,][%-*@3 y][%- ,][%-*@3 cx][%- ,
-][%-*@3 cy] rectangle and offsets coordinates so that to left point 
-of [%-*@3 r] or point [%-*@3 x][%- ,][%-*@3 y] becomes Point(0, 0). Frontend 
-to ClipoffOp.&]
+[s2;%RU-RU Реализует операцию ClipOff: Вызывает 
+begin, затем ограничивает все операции 
+рисования до[%-  ][%-*@3 r] или прямоугольника 
+[%-*@3 x][%- ,][%-*@3 y][%- ,][%-*@3 cx][%- ,][%-*@3 cy], а координаты 
+смешения так, что левая точка [%-*@3 r] 
+или точка [%-*@3 x][%- ,][%-*@3 y] становится Point(0, 
+0). Фронтэнд к ClipoffOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:ExcludeClip`(const Rect`&`): [@(0.0.255) bool]_[* ExcludeClip]([@(0.0.255) con
 st]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r])&]
 [s5;:Draw`:`:ExcludeClip`(int`,int`,int`,int`): [@(0.0.255) bool]_[* ExcludeClip]([@(0.0.255) i
 nt]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;%RU-RU Excludes [%-*@3 r] or rectangle [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy] 
-from the output `- nothing is painted in this area. Does not 
-affect the offset/clipping stack. This operation is only guaranteed 
-to work in SystemDraw. Frontend to ExcludeClipOp.&]
+[s2;%RU-RU Исключает [%-*@3 r] или прямоугольник 
+[%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy] из вывода `- ничто 
+не рисуется в этой области. Не влияет 
+на стэк смещение/обрезка. Эта операция 
+гарантированно работает только в 
+SystemDraw. Фронтэнд к ExcludeClipOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:IntersectClip`(const Rect`&`): [@(0.0.255) bool]_[* IntersectClip]([@(0.0.255) c
 onst]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r])&]
 [s5;:Draw`:`:IntersectClip`(int`,int`,int`,int`): [@(0.0.255) bool]_[* IntersectClip]([@(0.0.255) i
 nt]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;%RU-RU Intersects current clipping area with [%-*@3 r] or rectangle 
-[%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. Does not affect the offset/clipping 
-stack. This operation is only guaranteed to work in SystemDraw. 
-Frontend to IntersectClipOp.&]
+[s2;%RU-RU Пересекает область обрезки с 
+[%-*@3 r] или с прямоугольником [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy
+]. Не влияет на стэк смещение/обрезка. 
+Эта операция гарантированно работает 
+только в SystemDraw. Фронтэнд к IntersectClipOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:IsPainting`(const Rect`&`)const: [@(0.0.255) bool]_[* IsPainting]([@(0.0.255) c
@@ -487,11 +609,13 @@ onst]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r])_[@(0.0.255) const]&]
 ainting][%- (][%-@(0.0.255) int][%- _][%-*@3 x][%- , ][%-@(0.0.255) int][%- _][%-*@3 y][%- , 
 ][%-@(0.0.255) int][%- _][%-*@3 cx][%- , ][%-@(0.0.255) int][%- _][%-*@3 cy][%- )_][%-@(0.0.255) co
 nst] .&]
-[s2;%RU-RU Tests whether that should any painting happen in [%-*@3 r] 
-or rectangle [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. For example, 
-if Draw represents graphics output to window in Ctrl`::Paint, 
-not all areas are always required to be repainted. Frontend to 
-IsPaintingOp.&]
+[s2;%RU-RU Тестирует, должно ли произойти 
+какое`-либо рисование в [%-*@3 r] или прямоугольни
+ке [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. Например, если 
+Draw представляет собой графический 
+вывод в окно в Ctrl`::Paint, не все области 
+требуется перерисовывать. Фронтэнд 
+к IsPaintingOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawRect`(int`,int`,int`,int`,Color`): [@(0.0.255) void]_[* DrawRect]([@(0.0.255) i
@@ -499,12 +623,17 @@ nt]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) in
 [_^Color^ Color]_[*@3 color])&]
 [s5;:Draw`:`:DrawRect`(const Rect`&`,Color`): [@(0.0.255) void]_[* DrawRect]([@(0.0.255) co
 nst]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 rect], [_^Color^ Color]_[*@3 color])&]
-[s2;%RU-RU Fills [%-*@3 rect] or rectangle [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy] 
-using [%-*@3 color]. As special addition, if Draw represents screen 
-output in Ctrl`::Paint, [%-*@3 color] can be assigned special value 
-InvertColor() causing invertion of all pixels in target area. 
-Frontend to DrawRectOp. Note: On some platform, using InvertColor 
-might results in suboptimal performance.&]
+[s2;%RU-RU Звполняет [%-*@3 rect] или прямоугольник 
+[%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy], используя цвет 
+[%-*@3 color]. Как специальное дополнение, 
+если Draw представляет вывод на экран 
+в Ctrl`::Paint, то цвету [%-*@3 color] может быть 
+присвоено специальное значение InvertColor(), 
+вызывающее инверсию всех пикселей 
+в целевой области. Фронтэнд к DrawRectOp. 
+Заметка: На некоторых платформах, 
+применение InvertColor может вызывать 
+неудовлетворительную производительность.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawImage`(int`,int`,int`,int`,const Image`&`,const Rect`&`): [@(0.0.255) v
@@ -550,14 +679,20 @@ mage][@(0.0.255) `&]_[*@3 img], [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]
 [s5;:Draw`:`:DrawImage`(int`,int`,const Image`&`,Color`): [@(0.0.255) void]_[* DrawImage](
 [@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&
 ]_[*@3 img], [_^Color^ Color]_[*@3 color])&]
-[s2;%RU-RU Paints [^Image^ Image] [%-*@3 img]. If target rectangle is 
-present ([%-*@3 r] or [%-*@3 x,y,cx,cy]), Image is rescaled (using 
-high quality filter) to fit the area (banding can be used in 
-the process to reduce memory requirements). If only target point 
-[%-*@3 x],[%-*@3 y] is provided, Image is not rescaled. If [%-*@3 src] 
-rectangle is provided, only that portion of Image is used. If 
-[%-*@3 color] is provided, only alpha information is used and the 
-color information is replaced with it. Frontend to DrawImageOp.&]
+[s2;%RU-RU Рисует [^Image^ Image] [%-*@3 img]. IЕсли присутствует 
+целевой прямоугольник ([%-*@3 r] или [%-*@3 x,y,cx,cy]), 
+то Image ремасштабируется (uс использованием 
+высококачественного фильтра) , чтобы 
+уместить его в область (в жтом процессе 
+модет использоваться banding, чтобы понизить 
+потребление памяти).Если предоставлена 
+только целевая точка [%-*@3 x],[%-*@3 y], то 
+Image не ремасштабируется. Если предоставлен 
+прямоугольник [%-*@3 src], то используется 
+только эта порция Image`'а. Если предоставлен 
+цвет [%-*@3 color], используется только информация 
+об альфе и информация о цвете заменяется 
+ею. Фронтэнд к DrawImageOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawData`(int`,int`,int`,int`,const String`&`,const char`*`): [@(0.0.255) v
@@ -568,14 +703,18 @@ oid]_[* DrawData]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255
 [* DrawData]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r], 
 [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 data], [@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 type])&]
-[s2;%RU-RU Draws arbitrary [%-*@3 data] of type [%-*@3 id] to rectangular 
-area [%-*@3 r] or [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. This can be 
-used for example to print compressed bitmaps (e.g. in png format) 
-directly, without the need of loading them to Image, this possibly 
-saving memory requirements, as banding can be used to send the 
-image to printer part by part. Actual painting process is implemented 
-in [^DataDrawer^ DataDrawer] and [%-*@3 id] has to be registered 
-using DataDrawer`::Register. Frontend to DrawDataOp.&]
+[s2;%RU-RU Чертит произвольные данные [%-*@3 data] 
+типа [%-*@3 id] в прямоугольной области 
+[%-*@3 r] или [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. Может 
+использоваться, например, для прямого 
+вывода сжатых битмапов (напр., в формате 
+png), без нужды загружать их в Image, что, 
+вероятно, экономит память, т.к. banding 
+можно использовать для отправки изображения
+ на принтер по частям. Действительный 
+процесс отрисовки ркализован в [^DataDrawer^ DataDrawer],
+ а [%-*@3 id] нужно зарегистрировать с помощью 
+DataDrawer`::Register. Фронтэнд к DrawDataOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawLine`(int`,int`,int`,int`,int`,Color`): [@(0.0.255) void]_[* DrawLine]([@(0.0.255) i
@@ -584,11 +723,14 @@ nt]_[*@3 x1], [@(0.0.255) int]_[*@3 y1], [@(0.0.255) int]_[*@3 x2], [@(0.0.255) 
 [s5;:Draw`:`:DrawLine`(Point`,Point`,int`,Color`): [@(0.0.255) void]_[* DrawLine]([_^Point^ P
 oint]_[*@3 p1], [_^Point^ Point]_[*@3 p2], [@(0.0.255) int]_[*@3 width]_`=_[@3 0], 
 [_^Color^ Color]_[*@3 color]_`=_DefaultInk)&]
-[s2;%RU-RU Draws line from [%-*@3 x1],[%-*@3 y1] or [%-*@3 p1] to [%-*@3 x2],[%-*@3 y2] 
-or [%-*@3 p2] (included) [%-*@3 width] pixels wide, with [%-*@3 color]. 
-Width can contain special values, in that case line with width 
-1 is drawn and special dash pattern is applied `- see DrawLineOp 
-for details. Frontend to DrawLineOp.&]
+[s2;%RU-RU Чертит линию от [%-*@3 x1],[%-*@3 y1] или 
+[%-*@3 p1] до [%-*@3 x2],[%-*@3 y2] или [%-*@3 p2] (включительно) 
+Ширина [%-*@3 width] в пикселях, с цветом 
+[%-*@3 color]. Ширина может содержать специальные 
+значения, в случае чего чертится линия 
+шириной 1 и применяется специальный 
+пунктирный паттерн `- см. детали в 
+DrawLineOp. Фронтэнд к DrawLineOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawEllipse`(const Rect`&`,Color`,int`,Color`): [@(0.0.255) void]_[* DrawEll
@@ -599,25 +741,26 @@ aultInk)&]
 rawEllipse]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], 
 [@(0.0.255) int]_[*@3 cy], [_^Color^ Color]_[*@3 color]_`=_DefaultInk, 
 [@(0.0.255) int]_[*@3 pen]_`=_Null, [_^Color^ Color]_[*@3 pencolor]_`=_DefaultInk)&]
-[s2;%RU-RU Draws the largest ellipse with both axes parallel to coordinate 
-axes fully within rectangle [%-*@3 r] ([%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]), 
-i.e. with center point at r.CenterPoint(), semi major axis and 
-semi minor axis equal to r.Width() / 2 and r.Height() / 2. If 
-[%-*@3 pen] is not 0, Ellipse will be have border line of width 
-[%-*@3 pen] and color [%-*@3 pencolor]. Frontend to DrawEllipseOp.&]
+[s2;%RU-RU Чертит the largest ellipse with both axes parallel 
+to coordinate axes fully within rectangle [%-*@3 r] ([%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 c
+y]), i.e. with center point at r.CenterPoint(), semi major axis 
+and semi minor axis equal to r.Width() / 2 and r.Height() / 2. 
+If [%-*@3 pen] is not 0, Ellipse will be have border line of width 
+[%-*@3 pen] and color [%-*@3 pencolor]. Фронтэнд к DrawEllipseOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawArc`(const Rect`&`,Point`,Point`,int`,Color`): [@(0.0.255) void]_[* Draw
 Arc]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 rc], [_^Point^ Point]_[*@3 start],
  [_^Point^ Point]_[*@3 end], [@(0.0.255) int]_[*@3 width]_`=_[@3 0], [_^Color^ Color]_[*@3 colo
 r]_`=_DefaultInk)&]
-[s2;%RU-RU Draws elliptic arc corresponding to the largest ellipse 
-fully within the rectangle [%-*@3 rc] and running counterclockwise 
+[s2;%RU-RU Чертит elliptic arc corresponding to the largest 
+ellipse fully within the rectangle [%-*@3 rc] and running counterclockwise 
 from the direction corresponding to the line connecting the centre 
 of the ellipse ([%-*@3 rc].CenterPoint()) with the point [%-*@3 start 
 ]and ending at direction of the point [%-*@3 end ]from the ellipse 
 centre. When start `=`= end, the full ellipse is drawn. [%-*@3 width] 
-is the width of line, painted in [%-*@3 color]. Frontend to DrawArcOp.&]
+is the width of line, painted in [%-*@3 color]. Фронтэнд 
+к DrawArcOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawPolyPolyline`(const Point`*`,int`,const int`*`,int`,int`,Color`,Color`): [@(0.0.255) v
@@ -630,7 +773,8 @@ oid]_[* DrawPolyPolyline]([@(0.0.255) const]_[_^Vector^ Vector]<[_^Point^ Point]
 rtices], [@(0.0.255) const]_[_^Vector^ Vector]<[@(0.0.255) int]>`&_[*@3 counts], 
 [@(0.0.255) int]_[*@3 width]_`=_[@3 0], [_^Color^ Color]_[*@3 color]_`=_DefaultInk, 
 [_^Color^ Color]_[*@3 doxor]_`=_Null)&]
-[s2;%RU-RU Draws multiple polylines (polygon without filling).&]
+[s2;%RU-RU Чертит несколько полилайнов (многоуголь
+ник без заполнения).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawPolyline`(const Point`*`,int`,int`,Color`,Color`): [@(0.0.255) void]_[* D
@@ -641,7 +785,8 @@ or]_`=_DefaultInk, [_^Color^ Color]_[*@3 doxor]_`=_Null)&]
 id]_[* DrawPolyline]([@(0.0.255) const]_[_^Vector^ Vector]<[_^Point^ Point]>`&_[*@3 vertice
 s], [@(0.0.255) int]_[*@3 width]_`=_[@3 0], [_^Color^ Color]_[*@3 color]_`=_DefaultInk, 
 [_^Color^ Color]_[*@3 doxor]_`=_Null)&]
-[s2;%RU-RU Draws a polyline (polygon without filling).&]
+[s2;%RU-RU Чертит полилайн (многоугольник 
+без заполнения).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawPolyPolyPolygon`(const Point`*`,int`,const int`*`,int`,const int`*`,int`,Color`,int`,Color`,uint64`,Color`): [@(0.0.255) v
@@ -659,7 +804,7 @@ ts], [@(0.0.255) const]_[_^Vector^ Vector]<[@(0.0.255) int]>`&_[*@3 disjunct`_po
 unts], [_^Color^ Color]_[*@3 color]_`=_DefaultInk, [@(0.0.255) int]_[*@3 width]_`=_[@3 0], 
 [_^Color^ Color]_[*@3 outline]_`=_Null, [_^uint64^ uint64]_[*@3 pattern]_`=_[@3 0], 
 [_^Color^ Color]_[*@3 doxor]_`=_Null)&]
-[s2; Draws poly`-poly`-polygon.&]
+[s2; Чертит poly`-poly`-polygon.&]
 [s3; &]
 [s4; &]
 [s5;:Draw`:`:DrawPolyPolygon`(const Point`*`,int`,const int`*`,int`,Color`,int`,Color`,uint64`,Color`): [@(0.0.255) v
@@ -674,7 +819,7 @@ tices], [@(0.0.255) const]_[_^Vector^ Vector]<[@(0.0.255) int]>`&_[*@3 subpolygo
 ], [_^Color^ Color]_[*@3 color]_`=_DefaultInk, [@(0.0.255) int]_[*@3 width]_`=_[@3 0], 
 [_^Color^ Color]_[*@3 outline]_`=_Null, [_^uint64^ uint64]_[*@3 pattern]_`=_[@3 0], 
 [_^Color^ Color]_[*@3 doxor]_`=_Null)&]
-[s2;%RU-RU Draws poly`-polygon.&]
+[s2;%RU-RU Чертит poly`-polygon.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawPolygons`(const Point`*`,int`,const int`*`,int`,Color`,int`,Color`,uint64`,Color`): [@(0.0.255) v
@@ -689,7 +834,7 @@ es], [@(0.0.255) const]_[_^Vector^ Vector]<[@(0.0.255) int]>`&_[*@3 polygon`_cou
 [_^Color^ Color]_[*@3 color]_`=_DefaultInk, [@(0.0.255) int]_[*@3 width]_`=_[@3 0], 
 [_^Color^ Color]_[*@3 outline]_`=_Null, [_^uint64^ uint64]_[*@3 pattern]_`=_[@3 0], 
 [_^Color^ Color]_[*@3 doxor]_`=_Null)&]
-[s2;%RU-RU Draws multiple polygons.&]
+[s2;%RU-RU Чертит несколько многоугольников.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawPolygon`(const Point`*`,int`,Color`,int`,Color`,uint64`,Color`): [@(0.0.255) v
@@ -702,7 +847,7 @@ oid]_[* DrawPolygon]([@(0.0.255) const]_[_^Vector^ Vector]<[_^Point^ Point]>`&_[
 s], [_^Color^ Color]_[*@3 color]_`=_DefaultInk, [@(0.0.255) int]_[*@3 width]_`=_[@3 0], 
 [_^Color^ Color]_[*@3 outline]_`=_Null, [_^uint64^ uint64]_[*@3 pattern]_`=_[@3 0], 
 [_^Color^ Color]_[*@3 doxor]_`=_Null)&]
-[s2;%RU-RU Draws a polygon.&]
+[s2;%RU-RU Чертит многоугольник.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawDrawing`(const Rect`&`,const Drawing`&`): [@(0.0.255) void]_[* DrawDrawi
@@ -711,16 +856,16 @@ rawing][@(0.0.255) `&]_[*@3 iw])&]
 [s5;:Draw`:`:DrawDrawing`(int`,int`,int`,int`,const Drawing`&`): [@(0.0.255) void]_[* Dra
 wDrawing]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], 
 [@(0.0.255) int]_[*@3 cy], [@(0.0.255) const]_[_^Drawing^ Drawing][@(0.0.255) `&]_[*@3 iw])&]
-[s2;%RU-RU Draws [^Drawing^ Drawing] [%-*@3 iw] scaled to rectangle [%-*@3 r] 
-respectively [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. Frontend to DrawDrawing 
-op.&]
+[s2;%RU-RU Чертит [^Drawing^ Drawing] [%-*@3 iw] scaled to rectangle 
+[%-*@3 r] respectively [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. Frontend 
+to DrawDrawing op.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Draw`:`:DrawDrawing`(int`,int`,const Drawing`&`): [@(0.0.255) void]_[* DrawDrawing](
 [@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) const]_[_^Drawing^ Drawing][@(0.0.255) `&
 ]_[*@3 iw])&]
-[s2;%RU-RU Draws [^Drawing^ Drawing] [%-*@3 iw] at [%-*@3 x],[%-*@3 y], using 
-its original size. Frontend to DrawDrawing op.&]
+[s2;%RU-RU Чертит [^Drawing^ Drawing] [%-*@3 iw] at [%-*@3 x],[%-*@3 y], 
+using its original size. Frontend to DrawDrawing op.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawPainting`(int`,int`,const Painting`&`): [@(0.0.255) void]_[* DrawPaintin
@@ -733,7 +878,7 @@ rawPainting]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int
 [s5;:Draw`:`:DrawPainting`(int`,int`,const Painting`&`): [@(0.0.255) void]_[* DrawPaintin
 g]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) const]_[_^Painting^ Painti
 ng][@(0.0.255) `&]_[*@3 iw])&]
-[s2;%RU-RU Draws [^Painting^ Painting] [%-*@3 iw] scaled to rectangle 
+[s2;%RU-RU Чертит [^Painting^ Painting] [%-*@3 iw] scaled to rectangle 
 [%-*@3 r] respectively [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. Painter 
 package has to be included in the project for this to work. Variant 
 without [%-*@3 cx],[%-*@3 cy] paints Painting in its original size. 
@@ -791,21 +936,22 @@ oid]_[* DrawText]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255
 le], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 text], 
 [_^Font^ Font]_[*@3 font]_`=_StdFont(), [_^Color^ Color]_[*@3 ink]_`=_DefaultInk, 
 [@(0.0.255) const]_[@(0.0.255) int]_`*[*@3 dx]_`=_NULL)&]
-[s2;%RU-RU Draws a [%-*@3 text ]at position starting at [%-*@3 x],[%-*@3 y] 
-(it represents top`-left corner of text cell: for horizontal text, 
-x identifies reference point and y is ascent above the baseline) 
-going at [%-*@3 angle] using [%-*@3 font] and color [%-*@3 ink]. [%-*@3 n] 
-is a number of characters to paint, if negative, it is retrieved 
-using `[w`]strlen. If [%-*@3 dx ]is not NULL, it specifies advancements 
-of individual characters (it must be [%-*@3 n] elements in this 
-array), otherwise advancements from font metrics are used. For 
-8`-bit texts ([%-*@3 text] is [^String^ String] or [@(0.0.255) const 
-char `*]), if [%-*@3 charset] is present, text is converted from 
-this charset before printing, if no [%-*@3 charset] is specified, 
-default charset is used. DrawText also performs missing glyph 
-replacement and composition. If Draw`::GetInfo() returns DRAWTEXTLINES, 
-DrawText uses DrawLine to provide support for Undeline and Strikeout 
-Font styles. DrawText calls DrawTextOp for low`-level glyph rendering.&]
+[s2;%RU-RU Чертит текст [%-*@3 text ]at position starting 
+at [%-*@3 x],[%-*@3 y] (it represents top`-left corner of text cell: 
+for horizontal text, x identifies reference point and y is ascent 
+above the baseline) going at [%-*@3 angle] using [%-*@3 font] and 
+color [%-*@3 ink]. [%-*@3 n] is a number of characters to paint, 
+if negative, it is retrieved using `[w`]strlen. If [%-*@3 dx ]is 
+not NULL, it specifies advancements of individual characters 
+(it must be [%-*@3 n] elements in this array), otherwise advancements 
+from font metrics are used. For 8`-bit texts ([%-*@3 text] is [^String^ String] 
+or [@(0.0.255) const char `*]), if [%-*@3 charset] is present, text 
+is converted from this charset before printing, if no [%-*@3 charset] 
+is specified, default charset is used. DrawText also performs 
+missing glyph replacement and composition. If Draw`::GetInfo() 
+returns DRAWTEXTLINES, DrawText uses DrawLine to provide support 
+for Undeline and Strikeout Font styles. DrawText calls DrawTextOp 
+for low`-level glyph rendering.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:SinCos`(int`,double`&`,double`&`): [@(0.0.255) static] 

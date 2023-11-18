@@ -68,20 +68,20 @@ z])_[@(0.0.255) const]&]
 [s4;%- &]
 [s5;:PaintRect`:`:SetDisplay`(const Display`&`):%- [@(0.0.255) void]_[* SetDisplay]([@(0.0.255) c
 onst]_[_^Display^ Display][@(0.0.255) `&]_[*@3 d])&]
-[s2; Устанавливаетthe Display.&]
+[s2; Устанавливает Display.&]
 [s7; [%-*C@3 d]-|Display.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:SetValue`(const Value`&`):%- [@(0.0.255) void]_[* SetValue]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2; Устанавливаетthe Value.&]
+[s2; Устанавливает Value.&]
 [s7; [%-*C@3 v]-|Value.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:Set`(const Display`&`,const Value`&`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) c
 onst]_[_^Display^ Display][@(0.0.255) `&]_[*@3 d], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[*@3 v])&]
-[s2; Устанавливаетthe Display and the Value.&]
+[s2; Устанавливает Display и Value.&]
 [s7; [%-*C@3 d]-|Display.&]
 [s7; [%-*C@3 v]-|Value.&]
 [s3;%- &]

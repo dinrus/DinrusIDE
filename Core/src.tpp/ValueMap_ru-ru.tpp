@@ -28,15 +28,20 @@ topic "Класс ValueMap";
 через эти индексы.&]
 [s2; &]
 [s2; ValueMap совместим с ValueArray (также как 
-Time совместимо с Date). Assigning Value containing 
-ValueMap to ValueArray assigns it a ValueArray representing values 
-of ValueMap. Assigning ValueArray to ValueMap creates map where 
-keys are number 0, 1, ... GetCount() `- 1 and values contain 
-elements with corresponding indices.&]
+Time совместимо с Date). При присваивании 
+Value, содержащего ValueMap, к ValueArray`'ю ему 
+присваивается ValueArray, который представляет 
+значения из ValueMap. При присваивании 
+ValueArray к ValueMap`'у создаётся мап, где 
+ключами являются числа 0, 1, ... GetCount() 
+`- 1, а значения содержат элементы с 
+соответствующими индексами.&]
 [s2; &]
-[s2; Not that Value provides operator`[`] methods to directly access 
-ValueArray elements contained in Value with text keys (if Value 
-does not contain ValueMap or requested key, Void Value is returned).&]
+[s2; Заметьте, что Value предоставляет методы 
+operator`[`] для прямого доступа к элементам 
+ValueArray`'я, содержащегося в Value, по текстовым 
+ключам (если Value не содержит ValueMap или 
+требуемый ключ, возвращается Void Value).&]
 [s2; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
@@ -214,12 +219,15 @@ lue])&]
 ], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 value])&]
 [s5;:ValueMap`:`:Set`(Id`,const Value`&`):%- [@(0.0.255) void]_[* Set]([_^Id^ Id]_[*@3 id], 
 [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 value])&]
-[s2;%- [%RU-RU If there is ][*@3 key][%RU-RU  in ValueMap, its associated 
-Value is replaced by ][*@3 value][%RU-RU . If there is none such 
-key, key`-value is added. If there is more than single such key, 
-only first one (the one with lowest index) is replaced. ]Примечание: 
-требуется несколько перегрузок, чтобы 
-Id и SqlId смогли работать с ValueMap`'ом.&]
+[s2;%- [%RU-RU Если ключ ][*@3 key][%RU-RU  имеется в ValueMap`'е, 
+ассоциированное с ним Valueзаменяется 
+на ][*@3 value][%RU-RU . Если такой ключ отсутствует, 
+то добавляется пара ключ`-значение. 
+Если таких ключей несколько, заменяется 
+только первый (у которого наименьший 
+индекс). ]Примечание: требуется несколько 
+перегрузок, чтобы Id и SqlId смогли работать 
+с ValueMap`'ом.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:SetAt`(int`,const Value`&`):%- [@(0.0.255) void]_[* SetAt]([@(0.0.255) int
@@ -238,9 +246,10 @@ t]_[*@3 i], [@(0.0.255) const]_[@(0.0.255) char`*]_[*@3 key])&]
  [@(0.0.255) int]_[*@3 key])&]
 [s5;:ValueMap`:`:SetKey`(int`,Id`):%- [@(0.0.255) void]_[* SetKey]([@(0.0.255) int]_[*@3 i], 
 [_^Id^ Id]_[*@3 key])&]
-[s2;%- [%RU-RU Replaces key at given index. ]Примечание: требуется 
-несколько перегрузок, чтобы Id и SqlId 
-смогли работать с ValueMap`'ом.&]
+[s2;%- [%RU-RU Заменяет ключ по указанному 
+индексу. ]Примечание: требуется несколько 
+перегрузок, чтобы Id и SqlId смогли работать 
+с ValueMap`'ом.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:RemoveKey`(const Value`&`):%- [@(0.0.255) int]_[* RemoveKey]([@(0.0.255) c
@@ -252,7 +261,9 @@ nst]_[@(0.0.255) char`*]_[*@3 key])&]
 [s5;:ValueMap`:`:RemoveKey`(int`):%- [@(0.0.255) int]_[* RemoveKey]([@(0.0.255) int]_[*@3 key
 ])&]
 [s5;:ValueMap`:`:RemoveKey`(Id`):%- [@(0.0.255) int]_[* RemoveKey]([_^Id^ Id]_[*@3 key])&]
-[s2; Removes all key`-value pairs with given key. Slow O(n) operation.&]
+[s2; Удаляет все пары ключ`-значение с 
+заданным ключом. Медленная операция 
+O(n).&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:Remove`(int`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_[*@3 i])&]

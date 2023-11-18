@@ -393,7 +393,7 @@ bool HttpRequest::Do()
 		if(chunk_crlf.GetCount() < 2)
 			break;
 		if(chunk_crlf != "\r\n")
-			HttpError("отсутсвуют заверщающие CRLF при пакетной передаче");
+			HttpError("отсутсвуют завершающие CRLF при пакетной передаче");
 		StartPhase(CHUNK_HEADER);
 		break;
 	case TRAILER:

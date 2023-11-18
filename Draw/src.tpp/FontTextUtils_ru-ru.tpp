@@ -15,9 +15,12 @@ topic "Процедуры для Шрифта и Текста";
 [s5;:Upp`:`:SetStdFont`(Upp`:`:Font`): [@(0.0.255) void]_[* SetStdFont]([_^Upp`:`:Font^ Fon
 t]_[*@3 font])&]
 [s2;%RU-RU Устанавливает стандартный шрифт. 
-This is the default font used to draw most GUI texts. Standard 
-font is normally set during GUI startup and application rarely 
-need to call this function.&]
+Это дефолтный шрифт, используемый 
+для отрисовки большинства текстов 
+ГИП. Стандартный шрифт, как правило, 
+устанавливается при стартапе ГИП 
+и приложению практически не приходится 
+вызывать эту функцию.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:GetStdFont`(`): [_^Upp`:`:Font^ Font]_[* GetStdFont]()&]
@@ -52,19 +55,23 @@ _`-[@3 32000])&]
 [s5;:Upp`:`:Monospace`(int`): [_^Upp`:`:Font^ Font]_[* Monospace]([@(0.0.255) int]_[*@3 n]_`=
 _`-[@3 32000])&]
 [s2;%RU-RU Возвращает дефолтный моноширинный 
-(monospace) шрифт с высотой [%-*@3 n].&]
+шрифт с высотой [%-*@3 n].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:Compose`(Upp`:`:Font`,int`,Upp`:`:ComposedGlyph`&`): [@(0.0.255) bool]_[* Com
 pose]([_^Upp`:`:Font^ Font]_[*@3 font], [@(0.0.255) int]_[*@3 chr], [_^Upp`:`:ComposedGlyph^ C
 omposedGlyph][@(0.0.255) `&]_[*@3 cg])&]
-[s2;%RU-RU This function is used by DrawText implementation when 
-unicode point [%-*@3 chr] is missing in [%-*@3 font]. Function tries 
-to find two glyphs, one from original font and second possibly 
-from other font which, when composed, result in character corresponding 
-to required codepoint (e.g. [*@(255.0.255) C] `+ [*@(255.0.255) ˇ] 
-`= [*@(255.0.255) Č]). If such glyphs exist, they are returned 
-in [%-*@3 cg] and function returns true.&]
+[s2;%RU-RU Эта функция используется реализацией 
+DrawText, когда точка Юникода [%-*@3 chr] в шрифте 
+[%-*@3 font ]отсутствует. Функция пытается 
+найти два глифа, один из исходного 
+шрифта, а второй, возможно, из другого 
+шрифта, который, при компонировании, 
+даёт символ, соответствующий требуемой 
+кодточке (напр.,. [*@(255.0.255) C] `+ [*@(255.0.255) ˇ] 
+`= [*@(255.0.255) Č]). Если такие глифы существуют, 
+они передаются в [%-*@3 cg] и функция возвращает 
+true.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:GetTextSize`(const wchar`*`,Font`,int`): [_^Size^ Size]_[* GetTextSize]([@(0.0.255) co
@@ -80,14 +87,19 @@ st]_[@(0.0.255) char]_`*[*@3 text], [_^Font^ Font]_[*@3 font], [@(0.0.255) int]_
 [@3 1])&]
 [s5;:GetTextSize`(const String`&`,Font`): [_^Size^ Size]_[* GetTextSize]([@(0.0.255) const]_
 [_^String^ String][@(0.0.255) `&]_[*@3 text], [_^Font^ Font]_[*@3 font])&]
-[s2;%RU-RU Computes the graphical size of [%-*@3 text] if drawn with 
-[%-*@3 font], using font metrics. Returned height is the height 
-of font (ascent`+descent), returned with is the total advance 
-width of text. No overhangs are considered. [%-*@3 n] is a number 
-of characters; if negative (default value), it is obtained using 
-`[w`]strlen. Text can either be unicode or in 8`-bit encoding; 
-in that case either [%-*@3 charset] is provided or it is assumed 
-to be default charset.&]
+[s2;%RU-RU Вычисляет графический размер 
+текста [%-*@3 text], отрисованного шрифтом 
+[%-*@3 font], используя метрику шрифта. Возвращённа
+я высота является высотой шрифта 
+(подъём`+спуск), returned with is the total advance 
+width of text. No overhangs are considered. [%-*@3 n] `-это 
+число символов; если отрицательное 
+(дефолтное значение), то его получают 
+посредством `[w`]strlen. Текст может быть 
+либо Юникодом, либо в 8`-битной кодировке; 
+в таком случае либо предоставляется 
+набсим [%-*@3 charset], или используется дефолтный 
+набор символов (гарнитура).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DrawTextEllipsis`(Upp`:`:Draw`&`,int`,int`,int`,const char`*`,const char`*`,Upp`:`:Font`,Upp`:`:Color`,int`): [@(0.0.255) v
@@ -102,12 +114,13 @@ oid]_[* DrawTextEllipsis]([_^Upp`:`:Draw^ Draw][@(0.0.255) `&]_[*@3 w],
 [@(0.0.255) const]_[_^Upp`:`:wchar^ wchar]_`*[*@3 text], [@(0.0.255) const]_[@(0.0.255) cha
 r]_`*[*@3 ellipsis], [_^Upp`:`:Font^ Font]_[*@3 font]_`=_StdFont(), 
 [_^Upp`:`:Color^ Color]_[*@3 ink]_`=_SColorText(), [@(0.0.255) int]_[*@3 n]_`=_`-[@3 1])&]
-[s2;%RU-RU Draws a [%-*@3 text] line limited in width to [%-*@3 cx]. 
-If the text is longer than what could be fitted to [%-*@3 cx] , 
-it is it is truncated so that it fits together with [%-*@3 ellipsis] 
-text appended into [%-*@3 cx], then drawn with [%-*@3 ellipsis] appended. 
-[%-*@3 n] is the number of characters to be drawn, if `-1, `[w`]strlen(text) 
-is used instead.&]
+[s2;%RU-RU Чертит строку текста [%-*@3 text], ограниченную
+ по ширине до [%-*@3 cx]. If the text is longer than 
+what could be fitted to [%-*@3 cx] , it is it is truncated so that 
+it fits together with [%-*@3 ellipsis] text appended into [%-*@3 cx], 
+then drawn with [%-*@3 ellipsis] appended. [%-*@3 n] is the number 
+of characters to be drawn, if `-1, `[w`]strlen(text) is used 
+instead.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DrawTLText`(Upp`:`:Draw`&`,int`,int`,int`,const Upp`:`:wchar`*`,Upp`:`:Font`,Upp`:`:Color`,int`): [@(0.0.255) v

@@ -505,7 +505,7 @@ bool TcpSocket::WaitConnect()
 			if (optval == 0)
 				return true;
 			else {
-				SetSockError("wait connect", -1, Nvl(String(TcpSocketErrorDesc(optval)), "failed"));
+				SetSockError("wait connect", -1, Nvl(String(TcpSocketErrorDesc(optval)), "завершён неудачно"));
 				return false;
 			}
 		}
@@ -555,7 +555,7 @@ bool TcpSocket::WouldBlock()
 		LLOG("ENOTCONN issue");
 		return true;
 	}
-	return c == SOCKERR(EWOULDBLOCK);	       
+	return c == SOCKERR(EWOULDBLOCK);
 #endif
 }
 
@@ -599,7 +599,7 @@ String TcpSocket::GetHostName()
 bool TcpSocket::IsGlobalTimeout()
 {
 	if(!IsNull(global_timeout) && msecs() - start_time > global_timeout) {
-		SetSockError("wait", ERROR_GLOBAL_TIMEOUT, "Таймаут");
+		SetSockError("wait", ERROR_GLOBAL_TIMEOUT, "таймаут");
 		return true;
 	}
 	return false;
@@ -722,7 +722,7 @@ bool TcpSocket::PutAll(const void *s, int len)
 {
 	if(Put(s, len) != len) {
 		if(!IsError())
-			SetSockError("GePutAll", -1, "timeout");
+			SetSockError("GePutAll", -1, "таймаут");
 		return false;
 	}
 	return true;
@@ -732,7 +732,7 @@ bool TcpSocket::PutAll(const String& s)
 {
 	if(Put(s) != s.GetCount()) {
 		if(!IsError())
-			SetSockError("GePutAll", -1, "timeout");
+			SetSockError("GePutAll", -1, "таймаут");
 		return false;
 	}
 	return true;
@@ -846,7 +846,7 @@ bool  TcpSocket::GetAll(void *buffer, int len)
 	if(Get(buffer, len) == len)
 		return true;
 	if(!IsError())
-		SetSockError("GetAll", -1, "timeout");
+		SetSockError("GetAll", -1, "таймаут");
 	return false;
 }
 
@@ -855,7 +855,7 @@ String TcpSocket::GetAll(int len)
 	String s = Get(len);
 	if(s.GetCount() != len) {
 		if(!IsError())
-			SetSockError("GetAll", -1, "timeout");
+			SetSockError("GetAll", -1, "таймаут");
 		return String::GetVoid();
 	}
 	return s;
@@ -873,7 +873,7 @@ String TcpSocket::GetLine(int maxlen)
 		if(c < 0) {
 			if(!IsError()) {
 				if(msecs() > end_time)
-					SetSockError("GetLine", -1, "timeout");
+					SetSockError("GetLine", -1, "таймаут");
 				else
 					continue;
 			}
@@ -946,7 +946,7 @@ dword TcpSocket::SSLHandshake()
 		dword w = ssl->Handshake();
 		if(w) {
 			if(msecs(ssl_start) > 20000) {
-				SetSockError("Рукопожатие ssl", ERROR_SSLHANDSHAKE_TIMEOUT, "Таймаут");
+				SetSockError("Рукопожатие ssl", ERROR_SSLHANDSHAKE_TIMEOUT, "таймаут");
 				return false;
 			}
 			if(IsGlobalTimeout())

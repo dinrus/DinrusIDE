@@ -21,36 +21,44 @@ WebSocket. &]
 [s3; &]
 [s5;:Upp`:`:WebSocket`:`:NonBlocking`(bool`): [_^Upp`:`:WebSocket^ WebSocket][@(0.0.255) `&
 ]_[* NonBlocking]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU If [%-*@3 b] is true, activates non`-blocking mode. Default 
-is blocking mode.&]
+[s2;%RU-RU Если [%-*@3 b] равен true, активирует 
+неблокируемый режим. По умолчанию 
+(дефолтно) режим блокируем.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:Headers`(const Upp`:`:String`&`): [_^Upp`:`:WebSocket^ WebSock
 et][@(0.0.255) `&]_[* Headers]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_
 [*@3 h])&]
-[s2;%RU-RU Replaces HTTP request headers for Connect method with 
-[%-*@3 h]. Note that `"Host:`" and `"Sec`-WebSocket`-Key:`" headers 
-are fixed, as they have to be generated during Connect and so 
-should not be in [%-*@3 h]. Headers are supplied as text, should 
-be `"`\r`\n`" separated. The whole text should end with `"`\r`\n`".&]
+[s2;%RU-RU Звменяет заголовочники запроса 
+HTTP для метода Connect на [%-*@3 h]. Заметьте, 
+что заголовочники `"Host:`" и `"Sec`-WebSocket`-Key:`"фиксир
+ованы, так как должны быть сгенерированы 
+во время Connect, и поэтому не должны 
+находиться в [%-*@3 h]. Заголовочники предоставля
+ются как текст, разделённый посредством 
+`"`\r`\n`". Весь текст должен завершаться 
+на `"`\r`\n`".&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:ClearHeaders`(`): [_^Upp`:`:WebSocket^ WebSocket][@(0.0.255) `&]_
 [* ClearHeaders]()&]
-[s2;%RU-RU Clears HTTP request headers for Connect.&]
+[s2;%RU-RU Очищает заголовочники запроса 
+HTTP для Connect.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:AddHeaders`(const Upp`:`:String`&`): [_^Upp`:`:WebSocket^ WebS
 ocket][@(0.0.255) `&]_[* AddHeaders]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&
 ]_[*@3 h])&]
-[s2;%RU-RU Adds text to HTTP request headers for Connect.&]
+[s2;%RU-RU Добавляет текст в заголовочники 
+запроса HTTP для Connect.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:Header`(const char`*`,const Upp`:`:String`&`): [_^Upp`:`:WebSocket^ W
 ebSocket][@(0.0.255) `&]_[* Header]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], 
 [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%RU-RU Adds single header [%-*@3 id] with value [%-*@3 data] to HTTP 
-request headers for Connect.&]
+[s2;%RU-RU Добавляет единичный заголовочник 
+[%-*@3 id] со значением [%-*@3 data] к заголовочникам 
+запроса HTTP для Connect.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:GetHeaders`(`): [_^Upp`:`:String^ String]_[* GetHeaders]()&]
@@ -90,40 +98,48 @@ ool]_[* Connect]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@
 [@(0.0.255) bool]_[*@3 ssl])&]
 [s5;:Upp`:`:WebSocket`:`:Connect`(const Upp`:`:String`&`): [@(0.0.255) bool]_[* Connect](
 [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 url])&]
-[s2;%RU-RU Initiates connection to [%-*@3 url]. In blocking mode returns 
-false if connection cannot be established, otherwise true. Variant 
-where [%-*@3 port] is not specified uses 440 if [%-*@3 ssl] and 80 
-if not. Variant with single [%-*@3 url] parameter derives all other 
-parameters from [%-*@3 url].&]
+[s2;%RU-RU Инициализирует подключение к 
+[%-*@3 url]. В режиме blocking возвращает false, 
+если нельзя установить подключение, 
+иначе true. Вариант, где [%-*@3 port] не указан, 
+использует 440, если [%-*@3 ssl], и 80, если 
+нет. Вариант с одним параметром [%-*@3 url] 
+выводит все остальные параметры из 
+[%-*@3 url].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:Do`(`): [@(0.0.255) void]_[* Do]()&]
-[s2;%RU-RU Manages socket operations in non`-blocking mode. Cannot 
-be called in blocking mode.&]
+[s2;%RU-RU Проводит все операции с сокетом 
+в режиме non`-blocking Не может вызываться 
+в режиме blocking.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:Receive`(`): [_^Upp`:`:String^ String]_[* Receive]()&]
-[s2;%RU-RU Receives the message. In blocking mode waits until the 
-message is available. In non`-blocking mode returns either message 
-or String`::GetVoid() if there is no message. In both cases also 
-returns String`::GetVoid() in case of exceptional situations (errors, 
-connection closed etc...). Note that in non`-blocking mode Receive 
-calls Do, so there is no need to call it separately.&]
+[s2;%RU-RU Получает сообщение. В режиме blocking 
+ждёт, пока оно не станет доступным. 
+В режиме non`-blocking возвращает либо сообщение, 
+либо String`::GetVoid(), если его нет. В обеих 
+случаях также возвращает String`::GetVoid() 
+в исключительных ситуациях (ошибки, 
+соединение закрыто и проч.). Заметьте, 
+что в режиме non`-blocking Receive вызывает 
+Do, поэтому не нужно вызывать его отдельно.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:IsFin`(`)const: [@(0.0.255) bool]_[* IsFin]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает true, если the last received 
-message had flag FIN set.&]
+[s2;%RU-RU Возвращает true, если у последнего 
+полученного сообщения был установлен 
+флаг FIN.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:WebSocket`:`:IsText`(`)const: [@(0.0.255) bool]_[* IsText]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает true, если the last received 
-message was text.&]
+[s2;%RU-RU Возвращает true, если последнее 
+полученное сообщение было текстом.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:WebSocket`:`:IsBinary`(`)const: [@(0.0.255) bool]_[* IsBinary]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если the last received 
-message was text.&]
+[s2;%RU-RU Возвращает  true, если если последнее 
+полученное сообщение было текстом.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:SendText`(const Upp`:`:String`&`): [@(0.0.255) void]_[* SendText
@@ -133,47 +149,53 @@ message was text.&]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:SendTextMasked`(const Upp`:`:String`&`): [@(0.0.255) void]_[* Se
 ndTextMasked]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%RU-RU Sends masked text message.&]
+[s2;%RU-RU Отсылает по маске текстовое сообщение.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:SendBinary`(const Upp`:`:String`&`): [@(0.0.255) void]_[* SendBi
 nary]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%RU-RU Sends a single frame (non`-fragmented) binary message.&]
+[s2;%RU-RU Отсылает один фрейм (нефрагментированно
+го) бинарного сообщения.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:Ping`(const Upp`:`:String`&`): [@(0.0.255) void]_[* Ping]([@(0.0.255) c
 onst]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%RU-RU Sends PING.&]
+[s2;%RU-RU Отсылает PING.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:BeginText`(const Upp`:`:String`&`): [@(0.0.255) void]_[* BeginTe
 xt]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%RU-RU Starts a multi`-frame (fragmented) text message.&]
+[s2;%RU-RU Начинает многофреймное (фрагментированн
+ое) текстовое сообщение.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:BeginBinary`(const Upp`:`:String`&`): [@(0.0.255) void]_[* Begin
 Binary]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%RU-RU Starts a multi`-frame (fragmented) binary message.&]
+[s2;%RU-RU Начинает многофреймное (фрагментированн
+ое) бинарное сообщение.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:Continue`(const Upp`:`:String`&`): [@(0.0.255) void]_[* Continue
 ]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%RU-RU Sends another chunk of data in a multi`-frame (fragmented) 
-message.&]
+[s2;%RU-RU Отсылает другой пакет (chunk) данных 
+при многофремном (фрагментированном) 
+сообщении.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:Fin`(const Upp`:`:String`&`): [@(0.0.255) void]_[* Fin]([@(0.0.255) c
 onst]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%RU-RU Sends the final chunk of data in a multi`-frame (fragmented) 
-message.&]
+[s2;%RU-RU Отсылает финальный пакет данных 
+при многофреймном (фрагментированном) 
+сообщении.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:Close`(const Upp`:`:String`&`,bool`): [@(0.0.255) void]_[* Close
 ]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 msg], 
 [@(0.0.255) bool]_[*@3 wait`_reply])&]
-[s2;%RU-RU Initiates standard close of connection, sending CLOSE 
-[%-*@3 msg]. If [%-*@3 wait`_reply] is true, waits for the reply 
-from the server.&]
+[s2;%RU-RU Инициирует стандартное закрытие 
+подключения, отсылая сообщение CLOSE 
+[%-*@3 msg]. Если [%-*@3 wait`_reply] равно true, ждёт 
+ответа от сервера.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:IsOpen`(`)const: [@(0.0.255) bool]_[* IsOpen]()&]
@@ -186,24 +208,25 @@ from the server.&]
 [s5;:Upp`:`:WebSocket`:`:GetWaitEvents`(`)const: [_^Upp`:`:dword^ dword]_[* GetWaitEvents
 ]()_[@(0.0.255) const]&]
 [s2;%RU-RU Возвращает комбинацию флагов 
-WAIT`_READ и WAIT`_WRITE, to indicate what is blocking the operation 
-of WebSocket. Can be used with SocketWaitEvent.&]
+WAIT`_READ и WAIT`_WRITE, указывая на причину 
+блокировки операции WebSocket`'а. Может 
+использоваться с SocketWaitEvent.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:GetSOCKET`(`)const: [_^SOCKET^ SOCKET]_[* GetSOCKET]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Is there associated socket, returns its handle. Otherwise 
-returns NULL.&]
+[s2;%RU-RU Если есть ассоциированный сокет, 
+возвращает его хэндл. Иначе NULL.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:AddTo`(Upp`:`:SocketWaitEvent`&`): [@(0.0.255) void]_[* AddTo]([_^Upp`:`:SocketWaitEvent^ S
 ocketWaitEvent][@(0.0.255) `&]_[*@3 e])&]
-[s2;%RU-RU Adds WebSocket to [%-_^Upp`:`:SocketWaitEvent^ SocketWaitEvent] 
-for waiting on it.&]
+[s2;%RU-RU Добавляет WebSocket для ожидания в 
+[%-_^Upp`:`:SocketWaitEvent^ SocketWaitEvent].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:WebSocket`:`:Trace`(bool`): [@(0.0.255) void]_[* Trace]([@(0.0.255) bool]_[*@3 b])
 &]
-[s2;%RU-RU Activates tracing log.&]
+[s2;%RU-RU Активирует журнал трассировки.&]
 [s3;%RU-RU &]
 [s0;%RU-RU ]]

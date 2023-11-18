@@ -1021,8 +1021,9 @@ loat`&]_[*@3 d])&]
 [s5;:Stream`:`:operator`%`(double`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) d
 ouble`&]_[*@3 d])&]
 [s2; Сериализует переменную типа double 
-[%-*@3 d]. Might invoke LoadError if there is not enough data to 
-load. Возвращает [* `*this] для сцепки.&]
+[%-*@3 d]. Может вызывать LoadError, если данных 
+для загрузки недостаточно. Возвращает 
+[* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(int64`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
@@ -1053,10 +1054,11 @@ tring][@(0.0.255) `&]_[*@3 s])&]
 [s5;:Stream`:`:operator`/`(String`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator/]([_^String^ S
 tring][@(0.0.255) `&]_[*@3 s])&]
 [s2; Сериализует переменную типа String 
-[%-*@3 s ]using RLE compression and packed format for length. Может 
-вызывать LoadError, если данных для загрузки 
-недостаточно или вводимые данные 
-повреждены. Возвращает [* `*this] для сцепки.&]
+[%-*@3 s], используя сжатие RLE и упакованный 
+формат для длины. Может вызывать LoadError, 
+если данных для загрузки недостаточно 
+или вводимые данные повреждены. Возвращает 
+[* `*this] для сцепки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(WString`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([_^WString^ W

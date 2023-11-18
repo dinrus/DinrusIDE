@@ -37,7 +37,7 @@ trl]&]
 ]_[* SetImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]
 [s2; Устанавливает изображение [%-*C@3 img], 
 отображаемое в ButtonOption. Возвращает 
- `*this.&]
+`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ButtonOption`:`:SetImage`(const Image`&`,const Image`&`):%- [_^ButtonOption^ Butto

@@ -18,6 +18,10 @@ TOPIC("CParser_ru-ru")
 #include "CParser_ru-ru.tppi"
 END_TOPIC
 
+TOPIC("CharSet_ru-ru")
+#include "CharSet_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("ConditionVariable_ru-ru")
 #include "ConditionVariable_ru-ru.tppi"
 END_TOPIC
@@ -32,6 +36,10 @@ END_TOPIC
 
 TOPIC("Exc_ru-ru")
 #include "Exc_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("FormatFn_ru-ru")
+#include "FormatFn_ru-ru.tppi"
 END_TOPIC
 
 TOPIC("Format_ru-ru")
@@ -250,6 +258,10 @@ TOPIC("VectorMap_ru-ru")
 #include "VectorMap_ru-ru.tppi"
 END_TOPIC
 
+TOPIC("Vector_ru-ru")
+#include "Vector_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("WebSocket_ru-ru")
 #include "WebSocket_ru-ru.tppi"
 END_TOPIC
@@ -280,6 +292,10 @@ END_TOPIC
 
 TOPIC("algo_ru-ru")
 #include "algo_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("algo_sorted_ru-ru")
+#include "algo_sorted_ru-ru.tppi"
 END_TOPIC
 
 TOPIC("xxHash_ru-ru")

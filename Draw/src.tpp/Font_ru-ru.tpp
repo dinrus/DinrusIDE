@@ -14,42 +14,52 @@ topic "Класс Font (Шрифт)";
 [s3; &]
 [s1;:Font`:`:class: [@(0.0.255) class]_[* Font]_:_[@(0.0.255) private]_[@3 AssignValueTypeNo]<
 Font, FONT`_V, [_^Moveable^ Moveable]<Font>_>&]
-[s9;%RU-RU Font is a concrete class that describes the appearance 
-of text. It is Moveable, has cheap copy operation and is Value 
-convertible with rich`-Value abilities.&]
-[s9;%RU-RU It is storing several attributes to describe the text. 
-The corresponding system font is stored in the form of face index 
-`- each system font has specific index value. There are some 
-predefined indexes for common fonts:&]
+[s9;%RU-RU Font `- это конкретный класс, описывающий 
+внешний вид текста. Он Moveable, имеет 
+простую опреацию копирования и является 
+Value, преобразовываемым со способностями 
+rich`-Value.&]
+[s9;%RU-RU Он хранит несколько атриутов, 
+описывающих текст. Соответствующий 
+системный шрифт хранится в форме 
+индекса фаса (face index) `- у каждого смстемного 
+шрифта есть специфичное индексное 
+значение. Для общих шрифтов существует 
+несколько предопределённых индексов:&]
 [s0;%RU-RU &]
 [ {{2595:7405<256;>256;^ [s2;l0; [* Font`::STDFONT]]
-::= [s2;l0;%RU-RU Standard GUI font defined by platform. Can be altered 
-by Draw`::SetStdFont.]
+::= [s2;l0;%RU-RU Стандартный шрифт ГИП, определённый 
+платформой. Может быть изменён посредством 
+Draw`::SetStdFont.]
 ::^ [s2;l0; [* Font`::SERIF]]
-::= [s2;l0;%RU-RU Standard serif font.]
+::= [s2;l0;%RU-RU Стандартный шрифт serif.]
 ::^ [s2;l0; [* Font`::SANSSERIF]]
-::= [s2;l0;%RU-RU Standard sans`-serif font.]
+::= [s2;l0;%RU-RU Стандартный шрифт sans`-serif.]
 ::^ [s2;l0; [* Font`::MONOSPACE]]
-::= [s2;l0;%RU-RU Standard fixed pitch font.]}}&]
+::= [s2;l0;%RU-RU Стандартный фиксированный pitch 
+шрифт.]}}&]
 [s2;%RU-RU &]
-[s9;%RU-RU Font also provides text metrics services.&]
+[s9;%RU-RU Font также предоставляет службы 
+текстовой метрики.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:Font`:`:GetFaceCount`(`): [@(0.0.255) static] [@(0.0.255) int]_[* GetFaceCount]()&]
-[s2;%RU-RU Возвращает the number of face`-names available.&]
+[s2;%RU-RU Возвращает доступное число имён 
+фасов.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetFaceName`(int`): [@(0.0.255) static] [_^String^ String]_[* GetFaceName]([@(0.0.255) i
 nt]_[@3 index])&]
-[s2;%RU-RU Возвращает the name of face [%-*@3 index].&]
+[s2;%RU-RU Возвращает имя фаса [%-*@3 index].&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:FindFaceNameIndex`(const String`&`): [@(0.0.255) static] 
 [@(0.0.255) int]_[* FindFaceNameIndex]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_
 [@3 name])&]
-[s2;%RU-RU Finds the face index of face`-[%-*@3 name].&]
+[s2;%RU-RU Находит индекс фаса по его имени 
+[%-*@3 name].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:GetFaceInfo`(int`): [@(0.0.255) static] [_^dword^ dword]_[* GetFaceInfo]([@(0.0.255) i
@@ -57,13 +67,13 @@ nt]_[@3 index])&]
 [s2;%RU-RU Возвращает информацию о фасе 
 [%-*@3 index] как комбинацию двоичных флагов:&]
 [ {{2587:7413<256;^ [s0; [* Font`::FIXEDPITCH]]
-::= [s0;%RU-RU Font`-face is monospaced.]
+::= [s0;%RU-RU Фас шрифта моноширинный.]
 ::^ [s0; [* Font`::SCALEABLE]]
-::= [s0;%RU-RU Font`-face is freely scalable (it is in vector format, 
-e.g. Truetype).]
+::= [s0;%RU-RU Фас шрифта свободно масштабируемый 
+(от в векторном формате, напр., Truetype).]
 ::^ [s0; [* Font`::SPECIAL]]
-::= [s0;%RU-RU Font does not use Unicode encoding (typical for some symbol 
-fonts).]}}&]
+::= [s0;%RU-RU Шрифт не в кодировке Unicode (типично 
+для некоторых символьных шрифтов).]}}&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:SetDefaultFont`(Font`): [@(0.0.255) static] [@(0.0.255) void]_[* SetDefaultFon
@@ -92,7 +102,7 @@ This method can be used to change this default setting.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetFace`(`)const: [@(0.0.255) int]_[* GetFace]()_[@(0.0.255) const]&]
-[s2;%RU-RU Face index of Font.&]
+[s2;%RU-RU Индекс фаса шрифта Font.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetHeight`(`)const: [@(0.0.255) int]_[* GetHeight]()_[@(0.0.255) const]&]
@@ -100,12 +110,14 @@ This method can be used to change this default setting.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetWidth`(`)const: [@(0.0.255) int]_[* GetWidth]()_[@(0.0.255) const]&]
-[s2;%RU-RU Return the width of font or 0 for default width.&]
+[s2;%RU-RU Возвращает ширину шрифта или 
+0 для дефолтной ширины.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetFaceName`(`)const: [_^String^ String]_[* GetFaceName]()[@(64) _][@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает the face`-name text for current instance.&]
+[s2;%RU-RU Возвращает текстовое имя фаса 
+для текущего экземпляра.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetFaceNameStd`(`)const: [_^String^ String]_[* GetFaceNameStd]()_[@(0.0.255) c
@@ -165,7 +177,7 @@ font height.&]
 [s5;:Font`:`:NoStrikeout`(`): [_^Font^ Font][@(0.0.255) `&]_[* NoStrikeout]()&]
 [s5;:Font`:`:Strikeout`(bool`): [_^Font^ Font][@(0.0.255) `&]_[* Strikeout]([@(0.0.255) bool]_
 [@3 b])&]
-[s2; Устанавливаетor unsets bold/italic/undeline/strikeout 
+[s2; Устанавливает or unsets bold/italic/undeline/strikeout 
 modes.&]
 [s3; &]
 [s4; &]
@@ -192,7 +204,7 @@ onst]&]
 [s4; &]
 [s5;:Font`:`:FaceName`(const String`&`): [_^Font^ Font][@(0.0.255) `&]_[* FaceName]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[@3 name])&]
-[s2;%RU-RU Устанавливае фас в [%-*@3 name]. If name 
+[s2;%RU-RU Устанавливает фас в [%-*@3 name]. If name 
 is not valid face`-name, Font is set to Null. Method is able 
 to recognize generic names `"serif`", `"sansserif`", `"monospace`" 
 and `"STDFONT`".&]
@@ -311,13 +323,13 @@ using the information from the font metadata is unreliable.&]
 [s4; &]
 [s5;:Font`:`:IsNormal`(int`)const: [@(0.0.255) bool]_[* IsNormal]([@(0.0.255) int]_[@3 ch])_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает  true, если [%-*@3 ch] exists as 
+[s2;%RU-RU Возвращает true, если [%-*@3 ch] exists as 
 regular glyph in the font.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:IsComposed`(int`)const: [@(0.0.255) bool]_[* IsComposed]([@(0.0.255) int]_[@3 ch
 ])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если [%-*@3 ch].is to be 
+[s2;%RU-RU Возвращает true, если [%-*@3 ch].is to be 
 rendered as composition of 2 other glyphs (ASCII letter and diacritical 
 mark).&]
 [s3;%RU-RU &]
@@ -330,13 +342,13 @@ character from some other font.&]
 [s4; &]
 [s5;:Font`:`:IsMissing`(int`)const: [@(0.0.255) bool]_[* IsMissing]([@(0.0.255) int]_[@3 ch])
 _[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если [%-*@3 ch] cannot be 
+[s2;%RU-RU Возвращает true, если [%-*@3 ch] cannot be 
 rendered.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:HasChar`(int`)const: [@(0.0.255) int]_HasChar([@(0.0.255) int]_[@3 ch])_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает  true, если [%-*@3 ch] can be rendered 
+[s2;%RU-RU Возвращает true, если [%-*@3 ch] can be rendered 
 (in any way).&]
 [s3;%RU-RU &]
 [s4; &]
@@ -382,15 +394,15 @@ cell.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsSpecial`(`)const: [@(0.0.255) bool]_[* IsSpecial]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если font does not use 
+[s2;%RU-RU Возвращает true, если font does not use 
 unicode placement of glyphs, for example some symbol fonts have 
 this issue.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsTrueType`(`)const: [@(0.0.255) bool]_[* IsTrueType]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает  true, если font is TrueType 
-font. (Note that PdfDraw and Linux printing are only able to 
-handle TrueType fonts).&]
+[s2;%RU-RU Возвращает true, если font is TrueType font. 
+(Note that PdfDraw and Linux printing are only able to handle 
+TrueType fonts).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetPath`(`)const: [_^String^ String]_[* GetPath]()[@(64) _][@(0.0.255) const]&]
@@ -444,7 +456,7 @@ ht])&]
 [s4; &]
 [s5;:Font`:`:Font`(const Nuller`&`): [* Font]([@(0.0.255) const]_[_^Nuller^ Nuller][@(0.0.255) `&
 ])&]
-[s2;%RU-RU Устанавливаетthe font Null.&]
+[s2;%RU-RU Устанавливает шрифт Null.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:operator Value`(`)const: [* operator_Value]()[@(64) _][@(0.0.255) const]&]

@@ -84,10 +84,11 @@ Mutex неоднократно).&]
 [ {{10000t/25b/25@(113.42.0) [s0; [*@7;4 Класс Mutex`::Lock]]}}&]
 [s3; &]
 [s1;:Mutex`:`:Lock`:`:class: [@(0.0.255)3 class][3 _][*3 Mutex`::Lock]&]
-[s9;%RU-RU This nested class automates calls to Mutex`::Enter / Mutex`::Leave 
-for block of code using C`+`+ constructor / destructor rules. 
-Using [* operator StaticMutex`::Mutex], it can be used with StaticMutex 
-as well.&]
+[s9;%RU-RU Этот гнездовой класс автоматизирует 
+вызовы Mutex`::Enter / Mutex`::Leave для блока кода, 
+используя правила конструктора/деструктора
+ C`+`+. Посредством [* operator StaticMutex`::Mutex], 
+его также можно использовать с StaticMutex.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора / Деструктора]]}}&]

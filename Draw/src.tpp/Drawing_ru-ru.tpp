@@ -15,14 +15,18 @@ topic "Класс Drawing";
 [s1;:Drawing`:`:class: [@(0.0.255)3 class][3 _][*3 Drawing][3 _:_][@(0.0.255)3 private][3 _][*@3;3 A
 ssignValueTypeNo][3 <][*3 Drawing][3 , ][@3;3 49][3 , ][_^Moveable^3 Moveable][3 <][*3 Drawing][3 >
 _>_]&]
-[s9;%RU-RU This concrete class, with full value semantics (with fast 
-deep copy) represents a record of Draw drawing operations that 
-can be replayed at any time. In other words, Drawing is a sort 
-of vector format. To create Drawing, use [^DrawingDraw^ DrawingDraw] 
-class.&]
-[s9;%RU-RU Drawing is Value compatible with `"rich`" feature set 
-`- as Value it supports equality comparisons, serialization, 
-Null compatibility and hash`-value support.&]
+[s9;%RU-RU Этот конкретный класс, с полной 
+семантикой значений (быстрой глубокой 
+копией), представляет собой запись 
+операций рисования Draw, которую можно 
+воспроизвести повторно в любое время. 
+Другими словами, Drawing `- сорт векторного 
+формата. Чтобы создать Drawing, используется 
+класс [^DrawingDraw^ DrawingDraw].&]
+[s9;%RU-RU Drawing совместим с Value, у него набор 
+фич `"rich`", `- как Value, он поддерживает 
+сравнение на равенство, сериализацию, 
+совместим с Null и поддерживает хэш`-значение.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
@@ -47,10 +51,13 @@ Null compatibility and hash`-value support.&]
 x], [@(0.0.255) int]_[*@3 cy])_[@(0.0.255) const]&]
 [s5;:Drawing`:`:RatioSize`(Size`)const: [_^Size^ Size]_[* RatioSize]([_^Size^ Size]_[*@3 sz])
 _[@(0.0.255) const]&]
-[s2;%RU-RU If either width or height specified as parameter is zero, 
-it gets computed based on current Drawing size and nonzero height 
-or width keeping the aspect ratio. If both width and height are 
-zero, returns Drawing size.&]
+[s2;%RU-RU Если либо ширина, либо высота, 
+указанная в качестве параметра, равна 
+нулю, то она вычисляется на основе 
+размера текущего Drawing, а ненулевая 
+высота или ширина сохраняет пропорции. 
+Если как высота, так и ширина равны 
+нулю, то возвращается размер Drawing.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Drawing`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]

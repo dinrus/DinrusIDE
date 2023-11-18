@@ -237,50 +237,60 @@ l], [@(0.0.255) bool]_[*@3 loading])&]
 [s5;:StoreAsXML`(const T`&`,const char`*`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T
 ]>_[_^String^ String]_[* StoreAsXML]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 data], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 name]_`=_NULL)&]
-[s2;%RU-RU Stores [%-*@3 data] into XML string. The top`-level tag 
-is defined by [%-*@3 name], if NULL, it is set to `"app`".&]
+[s2;%RU-RU Сохраняет данные [%-*@3 data] в строке 
+XML. Высокоуровневый тэг определяется 
+[%-*@3 name], если NULL, устанавливается как 
+`"app`" по умолчанию.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:LoadFromXML`(T`&`,const String`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>
 _[@(0.0.255) bool]_[* LoadFromXML]([*@4 T][@(0.0.255) `&]_[*@3 data], [@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 xml])&]
-[s2;%RU-RU Loads [%-*@3 data] from XML string [%-*@3 xml]. In case of 
-error or empty [%-*@3 xml] returns false.&]
+[s2;%RU-RU Загружает данные [%-*@3 data] из строки 
+XML [%-*@3 xml]. В случае ошибки или пустого 
+[%-*@3 xml] возвращает false.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TryLoadFromXML`(T`&`,const String`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T
 ]>_[@(0.0.255) bool]_[* TryLoadFromXML]([*@4 T][@(0.0.255) `&]_[*@3 data], 
 [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 xml])&]
-[s2;%RU-RU Loads [%-*@3 data] from XML string [%-*@3 xml]. If [%-*@3 xml] 
-is empty returns false. In case of error, throws XmlError.&]
+[s2;%RU-RU Загружает данные [%-*@3 data] из строки 
+XML [%-*@3 xml]. Если [%-*@3 xml] пустая, возвращает 
+false. В случае ошибки, выводит XmlError.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:StoreAsXMLFile`(T`&`,const char`*`,const char`*`): [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[@(0.0.255) bool]_[* StoreAsXMLFile]([*@4 T][@(0.0.255) `&]_[*@3 data], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 name]_`=_NULL, [@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 file]_`=_NULL)&]
-[s2;%RU-RU Stores [%-*@3 data] to XML file, using [%-*@3 name] (`"app`" 
-if NULL) as top`-level tag and [%-*@3 file] as the path of file. 
-If [%-*@3 file] is NULL, ConfigFile(GetExeTitle() `+ `".xml`") 
-is used as the file path.&]
+[s2;%RU-RU Сохраняет данные [%-*@3 data] в файл 
+XML, используя [%-*@3 name] (`"app`", если NULL) как 
+верхнеуровневый тэг и [%-*@3 file] в качестве 
+пути к файлу. Если [%-*@3 file] равен NULL, 
+в качестве пути к файлу используется 
+ConfigFile(GetExeTitle() `+ `".xml`").&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:LoadFromXMLFile`(T`&`,const char`*`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T
 ]>_[@(0.0.255) bool]_[* LoadFromXMLFile]([*@4 T][@(0.0.255) `&]_[*@3 data], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 file]_`=_NULL)&]
-[s2;%RU-RU Loads [%-*@3 data] from XML file, using [%-*@3 file] as the 
-path of file. If [%-*@3 file] is NULL, ConfigFile(GetExeTitle() 
-`+ `".xml`") is used as the file path. In case of error or empty 
-[%-*@3 xml] returns false.&]
+[s2;%RU-RU Загружает данные [%-*@3 data] из файла 
+XML, используя [%-*@3 file] в качестве пути 
+к файлу. Если [%-*@3 file] равен NULL, в качестве 
+пути к файлу используется ConfigFile(GetExeTitle() 
+`+ `".xml`"). В случае ошибки или пустого 
+[%-*@3 xml] возвращает false.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TryLoadFromXMLFile`(T`&`,const char`*`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T
 ]>_[@(0.0.255) bool]_[* TryLoadFromXMLFile]([*@4 T][@(0.0.255) `&]_[*@3 data], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 file]_`=_NULL)&]
-[s2;%RU-RU Loads [%-*@3 data] from XML file, using [%-*@3 file] as the 
-path of file. If [%-*@3 file] is NULL, ConfigFile(GetExeTitle() 
-`+ `".xml`") is used as the file path. If [%-*@3 xml] is empty 
-returns false. In case of error, throws XmlError.&]
+[s2;%RU-RU Загружает данные [%-*@3 data] из файла 
+XML, используя [%-*@3 file] в качестве пути 
+к файлу. Если [%-*@3 file] равен NULL, в качестве 
+пути к файлу используется ConfigFile(GetExeTitle() 
+`+ `".xml`"). В случае пустого [%-*@3 xml] возвращает 
+false. В случае ошибки, выводит XmlError.&]
 [s3;%RU-RU &]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Стандартные шаблонные специализации 
@@ -341,8 +351,9 @@ mlAttrLoad]([_^Time^ Time][@(0.0.255) `&]_[*@3 var], [@(0.0.255) const]_[_^Strin
 ]_[*@3 text])&]
 [s5;:XmlAttrStore`(const Time`&`): [@(0.0.255) template]_<>_[_^String^ String]_[* XmlAttrSt
 ore]([@(0.0.255) const]_[_^Time^ Time][@(0.0.255) `&]_[*@3 var])&]
-[s2; Provides template specialization to support [*@3 var] data types 
-as XML attributes.&]
+[s2; Предоставляет шаблонную специализацию 
+для поддержки типов данных [*@3 var] в 
+качестве атрибутов XML.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Xmlize`(XmlIO`&`,String`&`): [@(0.0.255) template]_<>_[@(0.0.255) void]_[* Xmlize]([_^XmlIO^ X
@@ -367,8 +378,9 @@ mlIO][@(0.0.255) `&]_[*@3 xml], [_^int16^ int16][@(0.0.255) `&]_[*@3 var])&]
 mlIO][@(0.0.255) `&]_[*@3 xml], [_^int64^ int64][@(0.0.255) `&]_[*@3 var])&]
 [s5;:Xmlize`(XmlIO`&`,byte`&`): [@(0.0.255) template]_<>_[@(0.0.255) void]_[* Xmlize]([_^XmlIO^ X
 mlIO][@(0.0.255) `&]_[*@3 xml], [_^byte^ byte][@(0.0.255) `&]_[*@3 var])&]
-[s2; Provides template specialization to support Xmlization of [*@3 var] 
-data types.&]
+[s2; Предоставляет шаблонную спецификацию 
+для поддержки Xml`'изации типов данных 
+[*@3 var].&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Особые варианты Xmlize]]}}&]
@@ -376,30 +388,37 @@ data types.&]
 [s5;:XmlizeLangAttr`(XmlIO`&`,int`&`,const char`*`): [@(0.0.255) void]_[* XmlizeLangAttr](
 [_^XmlIO^ XmlIO][@(0.0.255) `&]_[*@3 xml], [@(0.0.255) int`&]_[*@3 lang], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id]_`=_`"[*@3 lang]`")&]
-[s2;%RU-RU Xmlizes [%-*@3 lang] language identifier number (which encodes 
-i18n strings like `"CS`-CZ`", see Lang.h) as [%-*@3 id] attribute, 
-using more readable format (`"CS`-CZ`") than plain integer number.&]
+[s2;%RU-RU Xml`'изует номер идентификатора 
+языка [%-*@3 lang] (который кодирует строки 
+i18n типа `"CS`-CZ`", см. Lang.h) как атрибут 
+[%-*@3 id], используя более читаемый формат 
+(`"CS`-CZ`") вместо простого целого числа.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlizeLang`(XmlIO`&`,const char`*`,int`&`,const char`*`): [@(0.0.255) void]_[* Xmliz
 eLang]([_^XmlIO^ XmlIO][@(0.0.255) `&]_[*@3 xml], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 t
 ag], [@(0.0.255) int`&]_[*@3 lang], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id]_`=_`"[*@3 i
 d]`")&]
-[s2;%RU-RU Xmlizes [%-*@3 lang] language identifier number (which encodes 
-i18n strings like `"CS`-CZ`", see Lang.h) as XML [%-*@3 tag], using 
-more readable format (`"CS`-CZ`") than plain integer number.&]
+[s2;%RU-RU Xml`'изует номер идентификатора 
+языка [%-*@3 lang] (который кодирует строки 
+i18n типа `"CS`-CZ`", см. Lang.h) как тэг XML [%-*@3 tag], 
+используя более читаемый формат (`"CS`-CZ`") 
+вместо простого целого числа.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlizeBySerialize`(XmlIO`&`,T`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_
 [@(0.0.255) void]_[* XmlizeBySerialize]([_^XmlIO^ XmlIO][@(0.0.255) `&]_[*@3 xio], 
 [*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2;%RU-RU This function encodes/retrieves XML by binary serializing 
-the object and Jsonizing the hexadecimal data string.&]
+[s2;%RU-RU Эта функция кодирует/получает 
+XML двоичной сериализацией объекта 
+и Json`'изацией 16`-ричной строки данных.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:XmlizeByJsonize`(XmlIO`&`,T`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) v
 oid]_[* XmlizeByJsonize]([_^XmlIO^ XmlIO][@(0.0.255) `&]_[*@3 xio], [*@4 T][@(0.0.255) `&]_[*@3 x
 ])&]
-[s2;%RU-RU This function encodes/retrieves XML by JSON conversion 
-and then interpreting JSON object fields  as XML tags.&]
+[s2;%RU-RU Эта функция кодирует/получает 
+XML преобразованием в JSON и дальнейшей 
+интерпретацией полей объекта JSON как 
+тэгов XML.&]
 [s3;%RU-RU ]]

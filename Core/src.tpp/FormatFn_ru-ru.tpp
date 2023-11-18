@@ -101,10 +101,11 @@ padding`'ом до заданной ширины [%-*@3 width]
 [s4;%- &]
 [s5;:FormatIntAlpha`(int`,bool`):%- [_^String^ String]_[* FormatIntAlpha]([@(0.0.255) int]_
 [*@3 i], [@(0.0.255) bool]_[*@3 upper]_`=_[@(0.0.255) true])&]
-[s2; Форматирует значное целое [%-*@3 i] in 
-length`-first lexicographic index, i.e. excel column numbering 
-(1 `= A,2 `= B..  26 `= Z, 27 `= AA, 28 `= AB .. 52 `= AZ, 53 
-`= BA ... 78 `= BZ etc). 0 or Null is output as a Null String. 
+[s2; Форматирует значное целое [%-*@3 i]  в 
+лексикографический индекс length`-first, 
+т.е. нумерацию колонок excel (1 `= A,2 `= B.. 
+ 26 `= Z, 27 `= AA, 28 `= AB .. 52 `= AZ, 53 `= BA ... 78 `= 
+BZ и т.д.). 0 или Null выводится как Null String. 
 Только к отрицательным числам предпоставляе
 тся `[`-`]. Если [%-*@3 upper] равен true, используется 
 верхний регистр букв.&]
@@ -121,10 +122,11 @@ length`-first lexicographic index, i.e. excel column numbering
 [@(0.0.255) void]_`*[*@3 ptr])&]
 [s2; Форматирует адрес указателя [%-*@3 ptr] 
 как шестнадцатиричное (основание 
-16) число, zero`-padded to the number of digits appropriate 
-for the memory model (8 digits in 32`-bit systems, 16 digits 
-in 64`-bit systems). Useful for logging and debugging purposes. 
-Equivalent to FormatHex, god knows why there are two of them.&]
+16) число, zero`-padded до числа цифр, подходящей 
+для этой модели памяти (8 цифр на 32`-битных 
+системах, 16 цифр на 64`-битных). Используется 
+для логгирования и отладочных целей. 
+Эквивалентно FormatHex.&]
 [s3; &]
 [s4;%- &]
 [s5;:FormatHex`(const void`*`):%- [_^String^ String]_[* FormatHex]([@(0.0.255) const]_[@(0.0.255) v
@@ -140,42 +142,54 @@ ormatDouble]([@(0.0.255) char]_`*[*@3 t], [@(0.0.255) double]_[*@3 x],
 matDouble]([@(0.0.255) double]_[*@3 x], [@(0.0.255) int]_[*@3 precision], 
 [_^Upp`:`:dword^ dword]_[*@3 flags]_`=_FD`_TOLERANCE([@3 6])`|FD`_MINIMAL`_EXP[@(0.0.255) `|
 ]FD`_SPECIAL)&]
-[s2; Форматирует a floating point number [%-*@3 d] in decimal 
-notation automatically selecting ordinary or scientific (exponential) 
-notation according to the FD`_TOLERANCE flag.&]
-[s2; The first variant requires the buffer of size [%-*@3 precision] 
-`+ 30 and returns a pointer after the last character produced 
-(terminating `'`\0`' is NOT appended).&]
-[s2; [%-*@3 precision]  represents the number of valid digits.&]
-[s2; [%-*@3 flags] can be a binary combination &]
+[s2; Форматирует число с плавающей точкой 
+[%-*@3 d] в десятичной нотации, автоматически 
+выбирая ординарную или научную (экспоненциа
+льную) нотацию, в соответствии с флагом 
+FD`_TOLERANCE.&]
+[s2; Для первого варианта требуется буфер 
+размером [%-*@3 precision] `+ 30 и он возвращает 
+указатель за последним произведённым 
+символом (оканчивающий `'`\0`'  НЕ приставляетс
+я).&]
+[s2; [%-*@3 precision] представляет собой число 
+полноценных цифр.&]
+[s2; [%-*@3 flags] может быть бинарной комбинацией.&]
 [s0; &]
 [ {{2691:7309<288;h1; [s0; FD`_SIGN]
-:: [s0; [/ always prepend sign (`+10)]]
+:: [s0; [/ всегда впереди ставить знак (`+10)]]
 :: [s0; FD`_MINUS0]
-:: [s0; [/ print minus sign for negative zero (`-0.0)]]
+:: [s0; [/ выводить знак минуса для отрицательного 
+нуля (`-0.0)]]
 :: [s0; FD`_SIGN`_EXP]
-:: [s0; [/ always prepend sign to exponent (1e`+2)]]
+:: [s0; [/ всегда перед экспонентой ставить 
+знак (1e`+2)]]
 :: [s0; FD`_CAP`_E]
-:: [s0; [/ capital E for exponent (1E10)]]
+:: [s0; [/ заглавная E для экспоненты (1E10)]]
 :: [s0; FD`_ZEROS]
-:: [s0; [/ keep trailing zeros (1.25000)]]
+:: [s0; [/ сохранять нули в хвосте (1.25000)]]
 :: [s0; FD`_MINIMAL`_EXP]
-:: [s0; [/ use minimal exponent (1e5 instead 1e`+05)]]
+:: [s0; [/ исользовать минимальную экспоненту 
+(1e5 вместо 1e`+05)]]
 :: [s0; FD`_TOLERANCE(x)]
-:: [s0; [/ number of zeroes allowed between the decimal points and valid 
-digits to the right before switching to E notation]]
+:: [s0; [/ число нулей, допустимых справа между 
+десятичными точками и полноценными 
+цифрами, до переключения в нотацию 
+E]]
 :: [s0; FD`_SPECIAL]
-:: [s0; [/ allow ][*/ nan][/  / ][*/ inf][/  printing (otherwise such numbers 
-are printed as empty)]]
+:: [s0; [/ разрешает выводить ][*/ nan][/  / ][*/ inf][/  (иначе 
+такие числа выводятся пустыми)]]
 :: [s0; FD`_FIX]
-:: [s0; [/ always use fixed notation (redirects FormatDouble to FormatF)]]
+:: [s0; [/ всегда использовать фиксированную 
+нотацию (переадресует FormatDouble к FormatF)]]
 :: [s0; FD`_EXP]
-:: [s0; [/ always use exponential notation (redirects FormatDouble to 
-FormatE)]]
+:: [s0; [/ всегда использовать экспоненциальную 
+нотацию (переадресует FormatDouble к FormatE)]]
 :: [s0; FD`_SIGN`_SPACE]
-:: [s0; [/ prepend space in place of sign for positive numbers]]
+:: [s0; [/ ставить впереди пробел вместо знака 
+у положительных чисел]]
 :: [s0; FD`_POINT]
-:: [s0; [/ always add decimal point]]}}&]
+:: [s0; [/ всегда добавлять десятичную точку]]}}&]
 [s0; &]
 [s3; &]
 [s4;%- &]
@@ -183,11 +197,14 @@ FormatE)]]
 har]_`*[*@3 t], [@(0.0.255) double]_[*@3 x])&]
 [s5;:FormatDouble`(double`):%- [_^String^ String]_[* FormatDouble]([@(0.0.255) double]_[*@3 a
 ])&]
-[s2; То же, что и FormatDouble with flags FD`_TOLERANCE(6)`|FD`_MINIMAL`_EXP`|
-FD`_SPECIAL and precision 15. Should represent the most reasonable 
-formatting for displayed output. The first variant requires the 
-buffer of size 32 and returns a pointer after the last character 
-produced (terminating `'`\0`' is NOT appended).&]
+[s2; То же, что и FormatDouble с флагами FD`_TOLERANCE(6)`|FD`_MINIMA
+L`_EXP`|FD`_SPECIAL и точностью 15. Должно представлят
+ь наиболее разумное форматирование 
+для отображаемого вывода. Превый 
+вариант требует буфер размером 32 
+и возвращает указатель за последний 
+произведённый символ (оканчивающий 
+`'`\0`' НЕ приставляется).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:FormatE`(char`*`,double`,int`,Upp`:`:dword`):%- [@(0.0.255) char]_`*[* Format
@@ -196,10 +213,12 @@ E]([@(0.0.255) char]_`*[*@3 t], [@(0.0.255) double]_[*@3 x], [@(0.0.255) int]_[*
 [s5;:Upp`:`:FormatE`(double`,int`,Upp`:`:dword`):%- [_^Upp`:`:String^ String]_[* FormatE](
 [@(0.0.255) double]_[*@3 x], [@(0.0.255) int]_[*@3 precision], [_^Upp`:`:dword^ dword]_[*@3 f
 lags])&]
-[s2; With default [%-*@3 flags] provides double formatting equivalent 
-to %e printf format. The first variant requires the buffer of 
-size [%-*@3 precision] `+ 30 and returns a pointer after the last 
-character produced (terminating `'`\0`' is NOT appended).&]
+[s2; С дефолтными флагами [%-*@3 flags] предоставляет 
+форматирование double, эквивалентное 
+формату %e у printf. Первый вариант требует 
+буфер размером [%-*@3 precision] `+ 30 и возвращает 
+указатель за последний произведённый 
+символ (оканчивающий `'`\0`' НЕ приставляется).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:FormatF`(char`*`,double`,int`,Upp`:`:dword`):%- [@(0.0.255) char]_`*[* Format
@@ -208,10 +227,12 @@ F]([@(0.0.255) char]_`*[*@3 t], [@(0.0.255) double]_[*@3 x], [@(0.0.255) int]_[*
 [s5;:Upp`:`:FormatF`(double`,int`,Upp`:`:dword`):%- [_^Upp`:`:String^ String]_[* FormatF](
 [@(0.0.255) double]_[*@3 x], [@(0.0.255) int]_[*@3 precision], [_^Upp`:`:dword^ dword]_[*@3 f
 lags])&]
-[s2; With default [%-*@3 flags] provides double formatting equivalent 
-to %f printf format. The first variant requires the buffer of 
-size [%-*@3 precision] `+ 400 and returns a pointer after the last 
-character produced (terminating `'`\0`' is NOT appended).&]
+[s2; С дефолтными флагами [%-*@3 flags] предоставляет 
+форматирование double, эквивалентное 
+формату %f у printf. Первый вариант требует 
+буфер размером  [%-*@3 precision] `+ 400 и возвращает 
+указатель за последний произведённый 
+символ (оканчивающий `'`\0`' НЕ приставляется).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:FormatG`(char`*`,double`,int`,Upp`:`:dword`):%- [@(0.0.255) char]_`*[* Format
@@ -220,10 +241,12 @@ G]([@(0.0.255) char]_`*[*@3 t], [@(0.0.255) double]_[*@3 x], [@(0.0.255) int]_[*
 [s5;:Upp`:`:FormatG`(double`,int`,Upp`:`:dword`):%- [_^Upp`:`:String^ String]_[* FormatG](
 [@(0.0.255) double]_[*@3 x], [@(0.0.255) int]_[*@3 precision], [_^Upp`:`:dword^ dword]_[*@3 f
 lags])&]
-[s2; With default [%-*@3 flags] provides double formatting equivalent 
-to %g printf format. The first variant requires the buffer of 
-size [%-*@3 precision] `+ 30 and returns a pointer after the last 
-character produced (terminating `'`\0`' is NOT appended).&]
+[s2; С дефолтными флагами [%-*@3 flags] предоставляет 
+форматирование double, эквивалентное 
+формату %g у printf. Первый вариант требует 
+буфер размером  [%-*@3 precision] `+ 30 и возвращает 
+указатель за последний произведённый 
+символ (оканчивающий `'`\0`' НЕ приставляется).&]
 [s0; &]
 [s4;%- &]
 [s5;:FormatBool`(bool`):%- [_^String^ String]_[* FormatBool]([@(0.0.255) bool]_[*@3 a])&]

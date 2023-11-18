@@ -16,17 +16,18 @@ Definition]]}}&]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Функций]]}}&]
 [s0;%RU-RU &]
 [s5;:Upp`:`:SetUHDMode`(bool`): [@(0.0.255) void]_[* SetUHDMode]([@(0.0.255) bool]_[*@3 b])&]
-[s2;%RU-RU Устанавливаетthe UHD mode.&]
+[s2;%RU-RU Устанавливает режим UHD.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:IsUHDMode`(`): [@(0.0.255) bool]_[* IsUHDMode]()&]
-[s2;%RU-RU Возвращает  true, если UHD mode is active.&]
+[s2;%RU-RU Возвращает true, если активен режим 
+UHD.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SyncUHDMode`(`): [@(0.0.255) void]_[* SyncUHDMode]()&]
-[s2;%RU-RU Устанавливаетthe UHD mode if current GUI 
-font is bigger than 27 pixels (in windows, that corresponds to 
-text size bigger than approximately 160%).&]
+[s2;%RU-RU Устанавливает режим UHD, если текущий 
+шрифт ГИП более 27 пикселей (in windows, 
+that corresponds to text size bigger than approximately 160%).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:DPI`(const Upp`:`:Image`&`): [_^Upp`:`:Image^ Image]_[* DPI]([@(0.0.255) const]_

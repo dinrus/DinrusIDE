@@ -127,8 +127,9 @@ ddCharSet], но любые значения CUNDEF в таблице
 [%-*@3 table] заменяются в символах в особом 
 приватном диапазоне 0xee00`-0xeeff. U`+`+ использует 
 эту область как `"unicode error escape`", mapping 
-there makes possible to loss`-lessly convert to unicode and back 
-even if some characters do not have assigned code`-points. Таблица 
+there делает возможным без потерь преобразовыв
+ать в Юникод и обратно, даже если некоторым 
+символам не присвоен кодпойнт. Таблица 
 [%-*@3 table] должна существовать до завершения 
 программы (сохраняется только указатель 
 на неё).&]

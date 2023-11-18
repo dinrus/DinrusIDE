@@ -561,6 +561,7 @@ void MakeBuild::CleanPackage(const Workspace& wspc, int package)
 	// How to make sure we know target? Target directory is where android project sandbox is.
 	builder->target = target;
 	builder->CleanPackage(wspc[package], outdir);
+	PutConsole(Format("Готово! (Старые построечные элементы пакета %s удалены из кэша.)", wspc[package]));
 }
 
 void MakeBuild::Clean()

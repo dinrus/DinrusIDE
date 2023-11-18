@@ -16,7 +16,7 @@ Hartwich)]&]
 [s0;/ &]
 [s0;i150;O0; Stream представляет собой только 
 логическую `'cut out piece`'(вырезку) или 
-конечный снэпшот (снимок) of a per definition 
+конечный снэпшот (снимок) по определению 
 сопротекающего, бесконечного потока 
 данных, обрабатываемого, управляемого 
 или доступного в какой`-то степени; 
@@ -42,9 +42,9 @@ MemStream, StringStream, FileStream и т.д... `'Они`' получают
 [s0;i150;O0; Stream по определению однонаправленный, 
 как таковой. В отличие от других реализаций 
 Stream, Upp Stream имеет всё для того, чтобы 
-использоваться как Input (вводный) или 
-Output (выводящий) поток. Эти два режима 
-поддерживаются в одном экземпляре, 
+использоваться как Input (вводный)ё, 
+так и Output (выводящий) поток. Эти два 
+режима поддерживаются в одном экземпляре, 
 но одновременно использоваться не 
 могут. Тем не менее, не будет производиться 
 никаких ASSERT, Exception или сообщений об 
@@ -83,7 +83,7 @@ ptr до rdlim означает данные, которые
 пространство, свободное для заполнения 
 (перед тем как нужно будет триггировать 
 Flush, если он поддерживается, или он 
-тригируется автоматически, как у 
+триггируется автоматически, как у 
 FileStream)&]
 [s0; &]
 [s0;i150;O0; Сериализация stuff`'а в Stream довольно 
@@ -101,7 +101,7 @@ FileStream)&]
 помощью IsLoading() / IsStoring().Выгода пользователю 
 от этого,`-  ему достаточно указать 
 `*одно`* функциональное место, определяющее 
-порядок сериализации и она одинаково 
+порядок сериализации, и она одинаково 
 будет поддерживаться в обоих направлениях, 
 hurray. (drawback, нельзя десериализовать 
 из `'const Stream `&`', так как функции требуется 
@@ -122,9 +122,9 @@ s)`', где определены поведение и порядок
 простой, но пока не реализована Smile&]
 [s0; &]
 [s0;i150;O0; Можно легко реализовать свои 
-собственные буфферированные потоки, 
-предоставлятся довольно защищённый 
-интерфес. Stream предоставляет богатый 
+собственные буферированные потоки, 
+предоставляется довольно защищённый 
+интерфейс. Stream предоставляет богатый 
 интерфейс дефолтной сериализации 
 всякого рода стаффа, включая контейнеры 
 NTL...(затем, к тому же, рекурсивно вызывая 
@@ -151,26 +151,39 @@ rdlim и wrlim, представляющими протяженность
 ю ptr, как правило, не вызывая никакого 
 flush или типа того, продвигая далее 
 и далее ptr. Но рано или поздно они потребят 
-всё пространство (reacing respective rdlim, means 
-having read all, or wrlim, meaning having written all). then 
-it will claim some `'upper level`' action to either provide more 
-data, done by advanceing the snapshot position in the read case, 
-or writing out stored data and mark it as free again. this is 
-done invoking `_Get(..) or `_Put(..). in other words... `_Put 
-normally should take care of processing the full buffer by flushing 
-it somehow, process the data provided, that didnt fit in the 
-full buffer, and rewinding the ptr and adjusting wrlim, declaring 
-buffer empty. `_Get typically claims some more data to be made 
-available inside the Stream, maybe by copying some data in provided 
-empty buffer first, then remainder in buffer and again rewinding 
-the ptr and adjusting rdlim. this behaviour is to be defined 
-somehow, and is special for any kind of stream.&]
+всё пространство (reacing respective rdlim, означает, 
+что всё прочитано, или wrlim, означающее, 
+что всё `"исписано`"). Затем она начинает 
+клянчить какое`-нибудь `'upper level`' action, 
+чтобы то либо предоставило больше 
+данных, выполняемое продвижением 
+snapshot позиции в случае чтения, либо 
+`"выпиской`" сохранённых данных и пометкой, 
+что там снова свободно. Другими словами, 
+это делается вызовом `_Get(..) или `_Put(..). 
+`_Put обычно должен беспокоиться об 
+обработке полного буфера путём flushing 
+it somehow, обрабатывать предоставленные 
+данные, которые все не вмещаются в 
+этот буфер, и отматывать ptr и настраивать 
+wrlim, объявляя буфер пустым. `_Get типично 
+клянчит, чтобы сделали доступными 
+ещё данных в этом Stream`'е, может быть, 
+путём копирования их вначале в дополнительн
+ый пустой буфер, а потом остатка в 
+буфер, и снова перематывая ptr и настраивая 
+rdlim. Это поведение каким`-то образом 
+должно быть определено, и оно особое 
+для каждого вида потока.&]
 [s0; &]
-[s0;i150;O0; Flushing behavior is only used for write side, or out 
-buffers. it is not invoked by generic Stream implementation by 
-default. but higher level Streams use it in to do exacely this. 
-flushing queued data to the underying destination (File Streams 
-only so far).&]
+[s0;i150;O0; Flushing behavior .. `"сливное поведение`" 
+используется на стороне записи, в 
+буферах вывода. Дефолтно оно не вызывается 
+генерной реализацией Stream. Но более 
+высокоуровневые стримы именно его 
+используют для выполнения этой задачи, 
+сливая данные из очереди в неопределённое 
+место назначения (File Streams only so far).&]
 [s0; &]
 [s0;i150;O0; there are several helper functions around handling Streams, 
 even copying, which is normally not possible just like that, 

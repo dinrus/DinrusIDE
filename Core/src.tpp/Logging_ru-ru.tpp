@@ -175,44 +175,57 @@ LOG`_BEGIN и декрементирован LOG`_END `- стандартный
 вывод даже в режиме выпуска.&]
 [s0; &]
 [ {{5000:5000^ [s0; LOG(x), DLOG(x), RLOG(x)]
-:: [s0; Outputs a single line to log.]
+:: [s0; Выводит в лог одну строку.]
 :: [s0; DUMP(x), DDUMP(x), RDUMP(x)]
-:: [s0; Outputs a variable `- adds a variable name before value `-  
-defined as LOG(#x << `"`=`" << x)]
+:: [s0; Выводит переменную `- добавляет имя 
+переменной перед значением `-  определён 
+как LOG(#x << `"`=`" << x)]
 :: [s0; DUMPC(x), DDUMPC(x), RDUMPC(x)]
-:: [s0; Outputs a Vector or Array or Index of values.]
+:: [s0; Выводит Vector, или Array, или Index значений.]
 :: [s0; DUMPM(x), DDUMPM(x), RDUMPM(x)]
-:: [s0; Outputs a VectorMap or ArrayMap.]
+:: [s0; Выводит VectorMap или ArrayMap.]
 :: [s0; TIMING(x), DTIMING(x), RTIMING(x)]
-:: [s0; Establishes profiling timing inspector which profiles since 
-definition till the end of block, profiling values are printed 
-to log at the program exit.]
+:: [s0; Устанавливает инспектор тайминга 
+профилирования, профилирующий от 
+определения до конца блока, профилируемые 
+значения выводятся в лог по выходу 
+из программы.]
 :: [s0; LOGHEX(x), DLOGHEX(x), RLOGHEX(x)]
-:: [s0; Outputs value as hexadecimal dump, currently works with String.]
+:: [s0; Выводит значение как 16`-ричный дамп, 
+сейчас уже работает со String.]
 :: [s0; DUMPHEX(x), DDUMPHEX(x), RDUMPHEX(x)]
-:: [s0; Outputs variable as hexadecimal dump, like LOGHEX but puts variable 
-name into log.]}}&]
+:: [s0; Выводит переменную как 16`-ричный 
+дамп, наподобии LOGHEX, но помещает в 
+лог имя переменной.]}}&]
 [s0; &]
-[s0; In addition to this it is common practice to use `'local`' macros 
-that can be switched on/off for given modules files; standard 
-approach is to add&]
+[s0; В дополнение к этому общеприменимо 
+использование `"локальных`" макросов, 
+которые могут включаться/отключаться 
+для указанных файлов модулей; стандартно 
+добавляется&]
 [s0; &]
 [s0; #define LLOG(x)    // DLOG(x)&]
 [s0; &]
-[s0; at the start of files with local logging, then activate logging 
-by uncommenting the DLOG.&]
+[s0; в начале файлов с локальным логированием, 
+а затем логирование активируется, 
+раскомментированием DLOG.&]
 [s0; &]
-[s0; U`+`+ has also concept of `"modular`" logging, where specific 
-logging macros can be created that are bound to some global boolean 
-entity (usually INI`_BOOL). Creation of these modular logs is 
-simplified by macro:&]
+[s0; U`+`+ имеет также понятие `"модульное`" 
+логгирование, когда создаётся особый 
+макрос логиирования, привязанны к 
+некой глобалльной булевой сущности 
+(обычно INI`_BOOL). Создание таких модульных 
+логов упрощено макросом:&]
 [s0; &]
 [s0; #define [* LOG`_](flag, x)     do `{ if(flag) RLOG(x); `} while(false)&]
 [s0; &]
-[s0; One such predefined type exists, USRLOG, that is indended to 
-log user actions (like opening windows, pressing keyboard keys) 
-and can be activated by IniBool Ini`::user`_log (and also by setting 
-user`_log`=true in .ini file):&]
+[s0; Существует один такой предопределённый 
+тип, USRLOG, предназначенный для логирования 
+действий пользователя (напр., открытие 
+окон, нажатие клавиш клавиатуры). 
+Его можно активировать посредством 
+IniBool Ini`::user`_log (а также установив user`_log`=true 
+в файле .ini):&]
 [s0; &]
 [s0; #define [* USRLOG](x)         LOG`_(Ini`::user`_log, x)&]
 [s0; ]]

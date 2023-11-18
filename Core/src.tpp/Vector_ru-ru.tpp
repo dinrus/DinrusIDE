@@ -110,8 +110,8 @@ td`::initializer`_list]<[*@4 T]>_[*@3 init])&]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:Vector`:`:Add`(`):%- [*@4 T][@(0.0.255) `&]_[* Add]()&]
-[s2; Добавляет новый дефолтно сконструированный
- элемент в Vector.&]
+[s2; Добавляет новый, дефолтно сконструированны
+й, элемент в Vector.&]
 [s6; Требуется, чтобы у T был дефолтный 
 конструктор.&]
 [s6; Повреждает итераторы и ссылки на 
@@ -183,375 +183,480 @@ tor`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
 onst]&]
 [s5;:Upp`:`:Vector`:`:Get`(int`,T`&`):%- [*@4 T][@(0.0.255) `&]_[* Get]([@(0.0.255) int]_[*@3 i
 ], [*@4 T][@(0.0.255) `&]_[*@3 def])&]
-[s2; If [%-*@3 i] is valid index (it is >`= 0 and < GetCount()), returns 
-the reference to the element at [%-*@3 i], otherwiser returns [%-*@3 def].&]
+[s2; Если [%-*@3 i] полноценный индекс (он >`= 
+0 и < GetCount()), то возвращает ссылку на 
+эдемент по [%-*@3 i], иначе возвращает 
+[%-*@3 def].&]
 [s3; &]
 [s4;%- &]
 [s5;:Vector`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2; Return the number of elements in Vector.&]
-[s7; [*/ Возвратное значение]-|Actual number of elements.&]
+[s2; Возвращает число элементов в Vector`'е.&]
+[s7; [*/ Возвратное значение]-|Действительно 
+число элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2; Tests whether Vector  is empty. То же, что и GetCount() 
-`=`= 0.&]
-[s7; [*/ Возвратное значение]-|true if Vector is empty, 
-false otherwise.&]
+[s2; Проверяет, пуст ли Vector. То же, что 
+и GetCount() `=`= 0.&]
+[s7; [*/ Возвратное значение]-|true, если Vector 
+пустой, false иначе.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Trim`(int`):%- [@(0.0.255) void]_[* Trim]([@(0.0.255) int]_[*@3 n])&]
-[s2; Reduces number of elements in Vector to specified number. Required 
-number must be less than or equal to actual number of elements 
-in Vector. Capacity of Vector is however unchanged.&]
-[s6; Invalidates iterators to Vector.&]
-[s7; [*C@3 n]-|Required number of elements.&]
+[s2; Снижает число элементов в Vector`'е до 
+указанного. Требуемое число должно 
+быть меньше или равно действительному 
+числу элементов в нём. Ёмкость вектора, 
+однако, не меняется.&]
+[s6; Повреждает итераторы у Vector.&]
+[s7; [*C@3 n]-|Требуемое число элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:SetCount`(int`):%- [@(0.0.255) void]_[* SetCount]([@(0.0.255) int]_[*@3 n])&]
-[s2; Changes count of elements in Vector to specified value. If required 
-number of elements is greater than actual number, newly added 
-elements are default constructed. If Vector has to increase capacity, 
-the new capacity will exactly match required number of elements 
-(unlike [* SetCountR]).&]
-[s6; Requires T to have default constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 n]-|Required number of elements.&]
+[s2; Меняет счёт элементов в Vector`'е до 
+заданного значения. Если требуемое 
+число элементов больше действительного, 
+вновь добавляемые элементы конструируются 
+дефолтно. Если у Vector`'а нужно увеличить 
+ёмкость, новая ёмкость будет точно 
+соответствовать требуемому числу 
+элементов (в отличие от [* SetCountR]).&]
+[s6; У T обязательно должен быть дефолтный 
+конструктор.&]
+[s6; Повреждает итераторы и ссылки у Vector.&]
+[s7; [*C@3 n]-|Требуемое число элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:SetCount`(int`,const T`&`):%- [@(0.0.255) void]_[* SetCount]([@(0.0.255) int
 ]_[*@3 n], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 init])&]
-[s2; Changes count of elements in Vector to specified value. If required 
-number of elements is greater than actual number, newly added 
-elements are initialized to specified value using copy constructor. 
-If Vector has to increase capacity, the new capacity will exactly 
-match required number of elements (unlike [* SetCountR]).&]
-[s6; Requires T to have deep copy constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 n]-|Required number of elements.&]
-[s7; [*C@3 init]-|Initialization value of newly added elements.&]
+[s2; Меняет счёт элементов в Vector`'е до 
+заданного значения. Если требуемое 
+число элементов больше действительного, 
+вновь добавляемые элементы инициализируютс
+я в заданное значение с помощью копи`-констру
+ктора. Если у Vector`'а нужно увеличить 
+ёмкость, новая ёмкость будет точно 
+соответствовать требуемому числу 
+элементов (в отличие от [* SetCountR]).&]
+[s6; У T обязательно должен быть копи`-конструкто
+р.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 n]-|Требуемое число элементов.&]
+[s7; [*C@3 init]-|Значение для инициализации 
+вновь добавляемых элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:SetCountR`(int`):%- [@(0.0.255) void]_[* SetCountR]([@(0.0.255) int]_[*@3 n])&]
-[s2; Changes count of elements in Vector to specified value. If required 
-number of elements is greater than actual number, newly added 
-elements are default constructed. If Vector has to increase capacity, 
-the new capacity will be greater than required number of elements 
-(unlike [* SetCount]) to allow adding other elements without further 
-increasing capacity.&]
-[s6; Requires T to have default constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 n]-|Required number of elements.&]
+[s2; Меняет счёт элементов в Vector`'е до 
+заданного значения. Если требуемое 
+число элементов больше действительного, 
+вновь добавляемые элементы конструируются 
+дефолтно.  Если у Vector`'а нужно увеличить 
+ёмкость, новая ёмкость будет больше 
+требуемого числа элементов (в отличие 
+от [* SetCount]), что позволит добавлять 
+другие элементы, более не увеличивая 
+ёмкость.&]
+[s6; У T должен иметься дефолтный конструктор.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 n]-|Требуемое число элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:SetCountR`(int`,const T`&`):%- [@(0.0.255) void]_[* SetCountR]([@(0.0.255) i
 nt]_[*@3 n], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 init])&]
-[s2; Changes count of elements in Vector to specified value. If required 
-number of elements is greater than actual number, newly added 
-elements are initialized to specified value using copy constructor. 
-If Vector has to increase capacity, the new capacity will be 
-greater than required number of elements (unlike [* SetCount]) 
-to allow adding other elements without further increasing capacity.&]
-[s6; Requires T to have deep copy constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 n]-|Required number of elements.&]
-[s7; [*C@3 init]-|Initialization value of newly added elements.&]
+[s2; Изменяет число элементов в Vector`'е 
+до указанного значения. Если требуемое 
+число элементов больше действительного 
+числа, вновь добавляемые элементы 
+инициализируются в указанное значени 
+с помощью копи`-конструктора. Если 
+Vector`'у требуется увеличить ёмкость, 
+новая ёмкость будет больше требуемого 
+числа элементов (в отличие от [* SetCount]), 
+что позволит добавлять другие элементы, 
+более не увеличивая ёмкость.&]
+[s6; У T должен быть конструктор глубокой 
+копии.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 n]-|Требуемое число элементов.&]
+[s7; [*C@3 init]-|Значение для инициализации 
+вновь добавляемых элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; Removes all elements from Vector. Capacity is also cleared to 
-zero.&]
-[s6; Invalidates iterators and references to Vector.&]
+[s2; Удаляет все элементы из Vector`'а. Ёмкость 
+также уменьшается до нуля.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:At`(int`):%- [*@4 T][@(0.0.255) `&]_[* At]([@(0.0.255) int]_[*@3 i])&]
-[s2; If specified position is lower than number of elements in Vector 
-([* i < GetCount()]), returns reference to element at specified 
-position. Otherwise increases number of elements in Vector to 
-[* i `+ 1]. Newly added elements are default constructed. If Vector 
-has to increase capacity, the new capacity will be greater than 
-required number of elements to allow adding other elements without 
-further increasing capacity.&]
-[s6; Requires T to have default constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 i]-|Position of required element.&]
-[s7; [*/ Возвратное значение]-|Reference to required 
-element.&]
+[s2; Если указанная позиция ниже числа 
+элементов в Vector`'е ([* i < GetCount()]), возвращает 
+ссылку на элемент по этой позиции. 
+Иначе увеличивает число элементов 
+в Vector`'е до [* i `+ 1]. Вновь добавленные 
+элементы конструируются дефолтно. 
+Если Vector`'у нужно добавить ёмкость, 
+новая ёмкость будет больше требуемого 
+числа элементов, что позволить добавлять 
+новые элементы без её дальнейшего 
+увеличения.&]
+[s6; У T требуется дефолтный конструктор.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 i]-|Позиция требуемого элемента.&]
+[s7; [*/ Возвратное значение]-|Ссылка на требуемый 
+элемент.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:At`(int`,const T`&`):%- [*@4 T][@(0.0.255) `&]_[* At]([@(0.0.255) int]_[*@3 i], 
 [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2; If specified position is lower than number of elements in Vector 
-([* i < GetCount()]), returns reference to element at specified 
-position. Otherwise increases number of elements in Vector to 
-[* i `+ 1]. Newly added elements are copy constructed from [* x]. 
-If Vector has to increase capacity, the new capacity will be 
-greater than required number of elements to allow adding other 
-elements without further increasing capacity.&]
-[s6; Requires T to have deep copy constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 i]-|Position of required element.&]
-[s7; [*C@3 x]-|Initialization value of newly added elements.&]
-[s7; [*/ Возвратное значение]-|Reference to required 
-element.&]
+[s2; Если указанная позиция ниже числа 
+элементов в Vector`'е (i < GetCount()), возвращает 
+ссылку на элемент по этой позиции. 
+Иначе увеличивает число элементов 
+в Vector`'е до i `+ 1. Вновь добавленные 
+элементы копи`-конструируются из 
+x. Если Vector`'у нужно добавить ёмкость, 
+новая ёмкость будет больше требуемого 
+числа элементов, что позволить добавлять 
+новые элементы без её дальнейшего 
+увеличения.&]
+[s6; У T требуется конструктор глубокой 
+копии.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 i]-|Позиция требуемого элемента.&]
+[s7; [*C@3 x]-|Значение для инициализации вновь 
+добавляемых элементов.&]
+[s7; [*/ Возвратное значение]-|Ссылка на требуемый 
+элемент.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Shrink`(`):%- [@(0.0.255) void]_[* Shrink]()&]
-[s2; Minimizes memory consumption of Vector by decreasing capacity 
-to number of elements.&]
+[s2; Минимизирует потребление памяти 
+Vector`'ом, уменьшая ёмкость до числа 
+элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Reserve`(int`):%- [@(0.0.255) void]_[* Reserve]([@(0.0.255) int]_[*@3 n])&]
-[s2; Reserves capacity. If required capacity is greater than current 
-capacity, capacity is increased to the required value.&]
-[s7; [*C@3 xtra]-|Required capacity.&]
+[s2; Резервирует ёмкость. Если требуемая 
+ёмкость больше текущей, тогда она 
+увеличивается до требуемого значения.&]
+[s7; [*C@3 xtra]-|Требуемая ёмкость.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:GetAlloc`(`)const:%- [@(0.0.255) int]_[* GetAlloc]()_[@(0.0.255) const]&]
-[s2; Возвращает current capacity of Vector.&]
-[s7; [*/ Возвратное значение]-|Capacity of Vector.&]
+[s2; Возвращает текущую ёмкость Vector`'а.&]
+[s7; [*/ Возвратное значение]-|Ёмкость Vector`'а.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Set`(int`,const T`&`,int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 i
 ], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x], [@(0.0.255) int]_[*@3 count])&]
-[s2; Устанавливаетrequested number of elements starting 
-at the position [* i] to the specified value. If required number 
-of elements exceeds existing elements of Vector then elements 
-are added to Vector.&]
-[s6; Requires T to have deep copy constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 i]-|Starting position.&]
-[s7; [*C@3 x]-|Value.&]
-[s7; [*C@3 count]-|Number of elements.&]
+[s2; Устанавливает требуемое число элементов, 
+начиная с позиции [* i] в указанное значение. 
+Если требуемое число элементов превышает 
+существующее в Vector`'е, то элементы 
+добавляются в него.&]
+[s6; У T требуется конструктор глубокой 
+копии.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 i]-|Стартовая позиция.&]
+[s7; [*C@3 x]-|Значение.&]
+[s7; [*C@3 count]-|Число элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Set`(int`,const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Set]([@(0.0.255) int]_[*@3 i],
  [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
 [s5;:Upp`:`:Vector`:`:Set`(int`,T`&`&`):%- [*@4 T][@(0.0.255) `&]_[* Set]([@(0.0.255) int]_[*@3 i
 ], [*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
-[s2; Устанавливаетthe element at [%-*@3 i] to [%-*@3 x] 
-(adds default constructed elements as necessary) and returns 
-a reference to this element.&]
+[s2; Устанавливает элемент по [%-*@3 i] в [%-*@3 x] 
+(при необходимости добавляет дефолтно 
+сконструированные элементы) и возвращает 
+ссылку на него.&]
 [s3; &]
 [s4;%- &]
 [s5;:Vector`:`:Remove`(int`,int`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_[*@3 i], 
 [@(0.0.255) int]_[*@3 count]_`=_[@3 1])&]
-[s2; Removes requested number of elements.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 i]-|Position.&]
-[s7; [*C@3 count]-|Number of elements to remove.&]
+[s2; Удаляет требуемое число элементов.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 i]-|Позиция.&]
+[s7; [*C@3 count]-|Число удаляемых элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Remove`(const int`*`,int`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) const
 ]_[@(0.0.255) int]_`*[*@3 sorted`_list], [@(0.0.255) int]_[*@3 n])&]
-[s2; Removes multiple elements from Vector. Time of operation almost 
-does not depend on number of elements.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 sorted`_list]-|Pointer to array of positions to remove. It 
-must be sorted from lowest to greatest value.&]
-[s7; [*C@3 n]-|Number of elements to remove.&]
+[s2; Удаляет несколько элементов из Vector`'а. 
+Время операции почти не зависит от 
+числа элементов.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 sorted`_list]-|Указатель на массив позиций 
+для удаления. Должен быть отсортирован 
+по возрастанию.&]
+[s7; [*C@3 n]-|Число удаляемых элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Remove`(const Vector`<int`>`&`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) c
 onst]_[_^Vector^ Vector][@(0.0.255) <int>`&]_[*@3 sorted`_list])&]
-[s2; Removes multiple elements from Vector. То же, что и 
-[* Remove(sorted`_list, sorted`_list.GetCount())].&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 sorted`_list]-|Sorted Vector of positions to remove.&]
+[s2; Удаляет несколько элементов из Vector`'а. 
+То же, что и [* Remove(sorted`_list, sorted`_list.GetCount())].&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 sorted`_list]-|Сортированный Vector позиций 
+для удаления.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Vector`:`:RemoveIf`(Condition`):%- [@(0.0.255) template]_<[@(0.0.255) class]_
 [*@4 Condition]>_[@(0.0.255) void]_[* RemoveIf]([*@4 Condition]_[*@3 c])&]
-[s2; Removes all elements that satisfy predicate [%-*@3 c]. [%-*@3 c] 
-is a function object (usually a lambda) that has a single int 
-parameter representing the index of an element and returns true 
-when the element at the  index is supposed to be removed.&]
+[s2; Удаляет все элементы, удовлетворяющие 
+предикат [%-*@3 c]. [%-*@3 c] `- это объект`-функция 
+(обычно лямбда), у которого один параметр 
+типа int, представляющий индекс элемента, 
+и возвращающий true, когда элемент по 
+этому индексу подлежит удалению.&]
 [s3; &]
 [s4;%- &]
 [s5;:Vector`:`:InsertN`(int`,int`):%- [@(0.0.255) void]_[* InsertN]([@(0.0.255) int]_[*@3 i],
  [@(0.0.255) int]_[*@3 count]_`=_[@3 1])&]
-[s2; Inserts a specified number of default constructed elements at 
-a specified position.&]
-[s6; Requires T to have default constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 i]-|Position.&]
-[s7; [*C@3 count]-|Number of elements to insert.&]
+[s2; Вставляет указанное число дефолтно 
+сконструированных элементов в указанной 
+позиции.&]
+[s6; У T требуется дефолтный конструктор.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 i]-|Позиция.&]
+[s7; [*C@3 count]-|Число вставляемых элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Insert`(int`):%- [*@4 T][@(0.0.255) `&]_[* Insert]([@(0.0.255) int]_[*@3 i])&]
-[s2; Inserts one default constructed element at the specified position.&]
-[s7; [*1 Requires T to have default constructor.]&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 i]-|Position.&]
+[s2; Вставляет один дефолтно сконструированный 
+элемент в указанной позиции.&]
+[s7; [*1 У T требуется дефолтный конструктор.]&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 i]-|Позиция.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Insert`(int`,const T`&`,int`):%- [@(0.0.255) void]_[* Insert]([@(0.0.255) in
 t]_[*@3 i], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x], [@(0.0.255) int]_[*@3 count])&]
-[s2; Inserts a specified number of elements, setting them to a specified 
-value.&]
-[s6;~~~.992; Requires T to have deep copy constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 i]-|Position.&]
-[s7; [*C@3 x]-|Value of inserted elements.&]
-[s7; [*C@3 count]-|Number of elements to insert.&]
+[s2; Вставляет указанное число элементов, 
+устанавливая их в указанное значение.&]
+[s6;~~~.992; У T требуется конструктор глубокой 
+копии.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 i]-|Позиция.&]
+[s7; [*C@3 x]-|Значение вставляемых элементов.&]
+[s7; [*C@3 count]-|Число вставляемых элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Insert`(int`,const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Insert]([@(0.0.255) int]_
 [*@3 i], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2; Inserts element at position [%-*@3 i] setting its value to [%-*@3 x] 
-and returns a reference to it.&]
+[s2; Вставляет элемент в позиции [%-*@3 i], 
+устанавливая его значение в [%-*@3 x], 
+и возвращает ссылку на него.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Vector`:`:Insert`(int`,T`&`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T
 ]>_[*@4 T][@(0.0.255) `&]_[* Insert]([@(0.0.255) int]_[*@3 q], [*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
-[s2; Inserts an element at [%-*@3 i] picking the content of [%-*@3 x] 
-and returns a reference to this new element.&]
+[s2; Вставляет элемент по [%-*@3 i], пикуя контент 
+[%-*@3 x], и возвращает ссылку на этот новый 
+элемент.&]
 [s3; &]
 [s4;%- &]
 [s5;:Vector`:`:Insert`(int`,const Vector`&`):%- [@(0.0.255) void]_[* Insert]([@(0.0.255) in
 t]_[*@3 i], [@(0.0.255) const]_[_^Vector^ Vector][@(0.0.255) `&]_[*@3 x])&]
-[s2; Inserts all elements from another Vector.&]
-[s6;~~~.992; Requires T to have deep copy constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 i]-|Position.&]
-[s7; [*C@3 x]-|Source Vector.&]
+[s2; Вставляет все элементы из другого 
+Vector`'а.&]
+[s6;~~~.992; У T требуется конструктор глубокой 
+копии.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 i]-|Позиция.&]
+[s7; [*C@3 x]-|Исходный Vector.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Insert`(int`,const Vector`&`,int`,int`):%- [@(0.0.255) void]_[* Insert]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) const]_[_^Vector^ Vector][@(0.0.255) `&]_[*@3 x], 
 [@(0.0.255) int]_[*@3 offset], [@(0.0.255) int]_[*@3 count])&]
-[s2; Inserts a range of elements from another Vector.&]
-[s6;~~~.992; Requires T to have deep copy constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 i]-|Insertion position.&]
-[s7; [*C@3 x]-|Source Vector.&]
-[s7; [*C@3 offset]-|Position of first element in source Vector to be 
-inserted.&]
-[s7; [*C@3 count]-|Number of elements to insert.&]
+[s2; Вставляет диапазон элементов из 
+другого Vector`'а.&]
+[s6;~~~.992; У T требуется конструктор глубокой 
+копии.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 i]-|Позиция вставки.&]
+[s7; [*C@3 x]-|Исходный Vector.&]
+[s7; [*C@3 offset]-|Позиция первого вставляемого 
+элемента в исходном Vector`'е.&]
+[s7; [*C@3 count]-|Число вставляемых элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Vector`:`:Insert`(int`,Upp`:`:Vector`&`&`):%- [@(0.0.255) void]_[* Insert]([@(0.0.255) i
 nt]_[*@3 i], [_^Upp`:`:Vector^ Vector][@(0.0.255) `&`&]_[*@3 x])&]
-[s2; Inserts source Vector at specified position using pick transfer 
-semantics. It is faster than deep copy insert, does not use deep 
-copy constructor for T, but destroys source Vector.&]
+[s2; Вставляет исходный Vector в указанной 
+позиции, используя семантику пик`-трансфера.
+ Работает быстрее вставки с глубокой 
+копией, не использует конструктор 
+глубокой копии для T, но разрушает 
+исходный Vector.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Vector`:`:Insert`(int`,std`:`:initializer`_list`<T`>`):%- [@(0.0.255) void]_
 [* Insert]([@(0.0.255) int]_[*@3 i], [_^std`:`:initializer`_list^ std`::initializer`_list]<
 [*@4 T]>_[*@3 init])&]
-[s2; Inserts C`+`+11 style initialization list.&]
+[s2; Вставляет список инициализации в 
+стиле C`+`+11.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Vector`:`:Append`(std`:`:initializer`_list`<T`>`):%- [@(0.0.255) void]_[* App
 end](std`::initializer`_list<[*@4 T]>_[*@3 init])&]
-[s2; Appends C`+`+11 style initialization list.&]
+[s2; Приставляет список инициализации 
+в стиле C`+`+11.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:InsertSplit`(int`,Vector`<T`>`&`,int`):%- [@(0.0.255) void]_[* InsertSplit
 ]([@(0.0.255) int]_[*@3 i], [_^Vector^ Vector]<[*@4 T]>`&_[*@3 v], [@(0.0.255) int]_[*@3 from])
 &]
-[s2; Insert the part of source vector [%-*@3 v] starting at element 
-[%-*@3 from] till the end at position [%-*@3 i] and trims [%-*@3 v] 
-at [%-*@3 from], effectively splitting [%-*@3 v] into two parts.&]
+[s2; Вставляет часть исходного вектора 
+[%-*@3 v], начиная с элемента [%-*@3 from] и до 
+конца, в позиции [%-*@3 i], и обрезает (trims) 
+[%-*@3 v] по [%-*@3 from], эффективно разбивая 
+[%-*@3 v] на две части.&]
 [s3; &]
 [s4;%- &]
 [s5;:Vector`:`:Append`(const Vector`&`):%- [@(0.0.255) void]_[* Append]([@(0.0.255) const]_
 [_^Vector^ Vector][@(0.0.255) `&]_[*@3 x])&]
-[s2; Appends all elements of source Vector.&]
-[s6;~~~.992; Requires T to have deep copy constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 x]-|Source Vector.&]
+[s2; Приставляет все элементы из исходного 
+Vector`'а.&]
+[s6;~~~.992; У T требуется конструктор глубокой 
+копии.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 x]-|Исходный Vector.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Append`(const Vector`&`,int`,int`):%- [@(0.0.255) void]_[* Append]([@(0.0.255) c
 onst]_[_^Vector^ Vector][@(0.0.255) `&]_[*@3 x], [@(0.0.255) int]_[*@3 o], 
 [@(0.0.255) int]_[*@3 c])&]
-[s2; Appends a range of elements from source Vector.&]
-[s6;~~~.992; Requires T to have deep copy constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 x]-|Source Vector.&]
-[s7; [*C@3 o]-|Position of first element in source Vector to be inserted.&]
-[s7; [*C@3 c]-|Number of elements to insert.&]
+[s2; Приставляет диапазон элементов из 
+исходного Vector`'а.&]
+[s6;~~~.992; У T требуется конструктор глубокой 
+копии.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 x]-|Исходный Vector.&]
+[s7; [*C@3 o]-|Позиция первого вставляемого 
+элемента в исходном Vector`'е.&]
+[s7; [*C@3 c]-|Число вставляемых элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Vector`:`:Append`(Upp`:`:Vector`&`&`):%- [@(0.0.255) void]_[* Append]([_^Upp`:`:Vector^ V
 ector][@(0.0.255) `&`&]_[*@3 x])&]
-[s2; Appends source Vector using pick transfer semantics. It is faster 
-than deep copy insert, does not use deep copy constructor for 
-T, but destroys source Vector by picking.&]
+[s2; Приставляет исходный Vector, используя 
+семантику пик`-трансфера. Работает 
+быстрее вставки с глубокой копией, 
+не использует конструктор глубокой 
+копии для T, но разрушает исходный 
+Vector.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Swap`(int`,int`):%- [@(0.0.255) void]_[* Swap]([@(0.0.255) int]_[*@3 i1], 
 [@(0.0.255) int]_[*@3 i2])&]
-[s2; Swaps elements at [%-*@3 i1] and [%-*@3 i2].&]
+[s2; Меняет местами элементы по [%-*@3 i1] и 
+[%-*@3 i2].&]
 [s3; &]
 [s4;%- &]
 [s5;:Vector`:`:Drop`(int`):%- [@(0.0.255) void]_[* Drop]([@(0.0.255) int]_[*@3 n]_`=_[@3 1])&]
-[s2; Drops specified number of last elements in the Vector (same 
-as Trim(GetCount() `- n)).&]
-[s7; [*C@3 n]-|Number of elements.&]
+[s2; Роняет указанное число элементов 
+в  Vector`'е (то же, что и Trim(GetCount() `- n)).&]
+[s7; [*C@3 n]-|Число элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Top`(`):%- [*@4 T][@(0.0.255) `&]_[* Top]()&]
-[s2; Возвращает reference to the last element in the Vector.&]
-[s7; [*/ Возвратное значение]-|Reference of last element 
-in the Vector.&]
+[s2; Возвращает ссылку на последний элемент 
+в Vector`'е.&]
+[s7; [*/ Возвратное значение]-|Ссылка на последний 
+элемент в Vector`'е.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Top`(`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* Top]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает constant reference to the last element 
-in the Vector.&]
-[s7; [*/ Возвратное значение]-|Reference of last element 
-in the Vector.&]
+[s2; Возвращает константную ссылку на 
+последний элемент в Vector`'е.&]
+[s7; [*/ Возвратное значение]-|Ссылка на последний 
+элемент в Vector`'е.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Pop`(`):%- [*@4 T]_[* Pop]()&]
-[s2; Drops last element of Vector and returns its value.&]
-[s6; Requires T to have deep copy constructor.&]
-[s7; [*/ Возвратное значение]-|Value of dropped element.&]
+[s2; Роняет последний элемент в Vector`'е 
+и возвращает его значение.&]
+[s6; У T требуется конструктор глубокой 
+копии.&]
+[s7; [*/ Возвратное значение]-|Значение уроненного 
+элемента.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:operator T`*`(`):%- [@(0.0.255) operator]_[*@4 T][@(0.0.255) `*]()&]
-[s2; Возвращает non`-constant pointer to elements.&]
-[s7; [*/ Возвратное значение]-|Pointer to elements.&]
+[s2; Возвращает неконстантный указатель 
+на элементы.&]
+[s7; [*/ Возвратное значение]-|Указатель 
+на элементы.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:operator const T`*`(`)const:%- [@(0.0.255) operator]_[@(0.0.255) const]_[*@4 T
 ][@(0.0.255) `*]()_[@(0.0.255) const]&]
-[s2; Возвращает constant pointer to elements.&]
-[s7; [*/ Возвратное значение]-|Pointer to elements.&]
+[s2; Возвращает константный указатель 
+на элементы.&]
+[s7; [*/ Возвратное значение]-|Указатель 
+на элементы.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:operator`<`<`(const T`&`):%- [_^Vector^ Vector][@(0.0.255) `&]_[* operator<<
 ]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2; Operator equivalent of [* void Add(const T`&x)]. By returning 
-reference to to Vector allows adding more elements in single 
-expression, thus e.g. allowing to construct temporary Vector 
-as part of expression like Foo((Vector<int>() << 1 << 2 << 4)).&]
-[s6; Requires T to have deep copy constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
+[s2; Оператор, эквивалент [* void Add(const T`&x)]. 
+Возвратом ссылки на Vector позволяет 
+добавить больше элементов в одно 
+выражение, таким образом, напр., позволяя 
+строить временный Vector как часть выражения, 
+типа Foo((Vector<int>() << 1 << 2 << 4)).&]
+[s6; У T требуется конструктор глубокой 
+копии.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Vector`:`:operator`<`<`(T`&`&`):%- [_^Upp`:`:Vector^ Vector][@(0.0.255) `&]_[* o
 perator<<]([*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
-[s2; Operator equivalent of [* void Add(TT`&x)]. By returning reference 
-to to Vector allows adding more elements in single expression, 
-thus e.g. allowing to construct temporary Vector as part of expression 
-like.&]
-[s6; Requires T to have deep copy constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
+[s2; Оператор, эквивалент [* void Add(TT`&x)]. Возвратом 
+ссылки на Vector позволяет добавить 
+больше элементов в одно выражение, 
+таким образом, напр., позволяя строить 
+временный Vector как часть выражения.&]
+[s6; У T требуется конструктор глубокой 
+копии.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
 [s3; &]
 [s4;%- &]
 [s5;:Vector`:`:ToString`(`)const:%- [_^String^ String]_[* ToString]()_[@(0.0.255) const]&]
-[s2; Converts container into String, mostly for debugging purposes.&]
+[s2; Преобразует контейнер в String, главным 
+образов, в отладочных целях.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:operator`=`=`(const Vector`<T`>`&`)const:%- [@(0.0.255) bool]_[* operator`=
 `=]([@(0.0.255) const]_[_^Vector^ Vector]<[*@4 T]>`&_[*@3 b])_[@(0.0.255) const]&]
 [s5;:Vector`:`:operator`!`=`(const Vector`<T`>`&`)const:%- [@(0.0.255) bool]_[* operator!
 `=]([@(0.0.255) const]_[_^Vector^ Vector]<[*@4 T]>`&_[*@3 b])_[@(0.0.255) const]&]
-[s2; Compares two containers for (in)equality, using T`::operator`=`=.&]
+[s2; Сравнивает два контейнера на (не)равенство, 
+используя T`::operator`=`=.&]
 [s3; &]
 [s4;%- &]
 [s5;:Vector`:`:Compare`(const Vector`<T`>`&`)const:%- [@(0.0.255) int]_[* Compare]([@(0.0.255) c
@@ -564,116 +669,131 @@ onst]_[_^Vector^ Vector]<[*@4 T]>`&_[*@3 b])_[@(0.0.255) const]&]
 [@(0.0.255) const]_[_^Vector^ Vector]<[*@4 T]>`&_[*@3 b])_[@(0.0.255) const]&]
 [s5;:Vector`:`:operator`>`(const Vector`<T`>`&`)const:%- [@(0.0.255) bool]_[* operator>](
 [@(0.0.255) const]_[_^Vector^ Vector]<[*@4 T]>`&_[*@3 b])_[@(0.0.255) const]&]
-[s2; Lexicographically compares two containers, using SgnCompare 
-for elements.&]
+[s2; Лексикографически сравнивает два 
+контейнера, используя SgnCompare для элементов.&]
 [s3; &]
 [s4;%- &]
 [s5;:Vector`:`:operator`|`(pick`_ T`&`):%- [_^Vector^ Vector][@(0.0.255) `&]_[* operator`|](
 [@(0.128.128) pick`_]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2; Operator replacement of [* void AddPick(pick`_ T`&x)]. By returning 
-reference to to Vector allows adding more elements in single 
-expression, thus e.g. allowing to construct temporary Vector 
-as part of expression.&]
-[s6; Requires T to have pick constructor.&]
-[s6; Invalidates iterators and references to Vector.&]
-[s7; [*C@3 x]-|Source instance of T that is to be picked.&]
-[s7; [*/ Возвратное значение]-|Reference to Vector 
+[s2; Оператор, замена [* void AddPick(pick`_ T`&x)]. 
+Возвратом ссылки на Vector позволяет 
+добавить больше элементов в одно 
+выражение, таким образом, напр., позволяя 
+строить временный Vector как часть выражения.&]
+[s6; У T требуется пик`-конструктор.&]
+[s6; Повреждает итераторы и ссылки на 
+Vector.&]
+[s7; [*C@3 x]-|Исходный экземпляр T, который 
+будет пикирован.&]
+[s7; [*/ Возвратное значение]-|Ссылка на Vector 
 (`*this).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Serialize`(Stream`&`):%- [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2; Serializes content of Vector to/from Stream. Works only if NTL 
-is used as part of UPP.&]
-[s6; Requires T to have serialization operator defined.&]
-[s7; [*C@3 s]-|Target/source stream.&]
+[s2; Сериализует контент Vector`'а в/из потока 
+Stream. Работает только, если NTL iиспользуется 
+как часть of UPP.&]
+[s6; Требует у T наличия оператора сериализации.&]
+[s7; [*C@3 s]-|Целевой/исходный поток.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:operator`=`(pick`_ Vector`&`):%- [@(0.0.255) void]_[* operator`=]([@(0.128.128) p
 ick`_]_[_^Vector^ Vector][@(0.0.255) `&]_[*@3 v])&]
-[s2; Pick operator. Transfers source Vector in low constant time, 
-but destroys it by picking.&]
-[s7; [*C@3 v]-|Source Vector.&]
+[s2; Пик`-оператор. Выполняет трансфер 
+исходного Vector`'а за краткое константное 
+время, но разрушает его при пикинге.&]
+[s7; [*C@3 v]-|Исходный Vector.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:IsPicked`(`)const:%- [@(0.0.255) bool]_[* IsPicked]()_[@(0.0.255) const]&]
-[s2; Возвращает [* true] if Vector is in picked state.&]
-[s7; [*/ Возвратное значение]-|[* true] if Vector is 
-in picked state, [* false] otherwise.&]
+[s2; Возвращает [* true], еслиVector в `"пикнутом`" 
+состоянии.&]
+[s7; [*/ Возвратное значение]-|[* true], если Vector 
+в `"пикнутом`" состоянии, [* false] иначе.&]
 [s3; &]
 [s4; &]
 [s5;%- friend_T`&_operator<<`=[@(64) (T`&_][@3 dest][@(64) , ][@(0.0.255) const][@(64) _T`&_][@3 s
 rc][@(64) )]&]
-[s2; Optional deep copy operator. Defined using DeepCopyOptionTemplate.&]
-[s6; Requires T to have deep copy operator or optional deep copy 
-operator.&]
-[s7; [*C@3 v]-|Source Vector.&]
+[s2; Оператор опциональной глубокой копии 
+(ОГК). Определён с помощью шаблона 
+DeepCopyOptionTemplate.&]
+[s6; У T требуется оператор глубокой копии.или 
+оператор ОГК.&]
+[s7; [*C@3 v]-|Исходный Vector.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:ValueType`:`:typedef:%- [@(0.0.255) typedef]_T_[* ValueType]&]
-[s2; Typedef of T for use in templated algorithms.&]
+[s2; Определение типа T для использования 
+в шаблонных алгоритмах.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Iterator`:`:typedef:%- [@(0.0.255) typedef]_T_`*[* Iterator]&]
-[s2; Iterator type. Iterator is guaranteed to be of T`* type.&]
+[s2; Тип итератора. Итератор гарантированно 
+будет типа T`*.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:ConstIterator`:`:typedef:%- [@(0.0.255) typedef]_[@(0.0.255) const]_T_`*[* C
 onstIterator]&]
-[s2; Constant iterator type. Iterator is guaranteed to be of const 
-T`* type.&]
+[s2; Тип константного итератора. Итератор 
+гарантированно будет типа const T`*.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Begin`(`)const:%- [_^Vector`:`:ConstIterator^ ConstIterator]_[* Begin]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает constant iterator to the first element 
-in Vector.&]
-[s7; [*/ Возвратное значение]-|Iterator.&]
+[s2; Возвращает константный итератор 
+к первому элементу в Vector`'е.&]
+[s7; [*/ Возвратное значение]-|Итератор.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:End`(`)const:%- [_^Vector`:`:ConstIterator^ ConstIterator]_[* End]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает constant iterator to the position just 
-beyond the last element in Vector.&]
-[s7; [*/ Возвратное значение]-|Iterator.&]
+[s2; Возвращает константный итератор 
+в позицию, сразу после последнего 
+элемента, в Vector`'е.&]
+[s7; [*/ Возвратное значение]-|Итератор.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:GetIter`(int`)const:%- [_^Vector`:`:ConstIterator^ ConstIterator]_[* GetIt
 er]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Возвращает constant iterator to the element at specified 
-position. То же, что и [* Begin() `+ i]. Benefit of this 
-methods is that in debug mode [* pos] is range checked.&]
-[s7; [*C@3 i]-|Required position.&]
-[s7; [*/ Возвратное значение]-|Iterator.&]
+[s2; Возвращает константный итератор 
+к элементу в указанной позиции. То 
+же, что и [* Begin() `+ i]. Benefit of this methods is that 
+in debug mode [* pos] is range checked.&]
+[s7; [*C@3 i]-|Требуемая позиция.&]
+[s7; [*/ Возвратное значение]-|Итератор.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:Begin`(`):%- [_^Vector`:`:Iterator^ Iterator]_[* Begin]()&]
-[s2; Возвращает non`-constant iterator to the first element 
-in Vector.&]
-[s7; [*/ Возвратное значение]-|Iterator.&]
+[s2; Возвращает неконстантный итератор 
+к первому элементу в Vector`'е.&]
+[s7; [*/ Возвратное значение]-|Итератор.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:End`(`):%- [_^Vector`:`:Iterator^ Iterator]_[* End]()&]
-[s2; Возвращает non`-constant iterator to the position 
-just beyond the last element in Vector.&]
-[s7; [*/ Возвратное значение]-|Iterator.&]
+[s2; Возвращает неконстантный итератор 
+в позицию, сразу после последнего 
+элемента, в Vector`'е.&]
+[s7; [*/ Возвратное значение]-|Итератор.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:GetIter`(int`):%- [_^Vector`:`:Iterator^ Iterator]_[* GetIter]([@(0.0.255) i
 nt]_[*@3 i])&]
-[s2; Возвращает non`-constant iterator to the element at 
-specified position. То же, что и [* Begin() `+ pos]. Benefit 
-of this methods is that in debug mode [* pos] is range checked.&]
-[s7; [*C@3 i]-|Required position.&]
-[s7; [*/ Возвратное значение]-|Iterator.&]
+[s2; Возвращает неконстантный итератор 
+к элементу в указанной позиции. То 
+же, что и [* Begin() `+ pos]. Benefit of this methods is 
+that in debug mode [* pos] is range checked.&]
+[s7; [*C@3 i]-|Требуемая позиция.&]
+[s7; [*/ Возвратное значение]-|Итератор.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:`:`:Vector`:`:Swap`(`:`:Vector`&`,`:`:Vector`&`):%- [@(0.0.255) friend]_[@(0.0.255) v
 oid]_[* Swap]([_^`:`:Vector^ Vector][@(0.0.255) `&]_[*@3 a], [_^`:`:Vector^ Vector][@(0.0.255) `&
 ]_[*@3 b])&]
-[s2; Specialization of generic [* Swap] for Vector. Swaps Vector in 
-simple constant time operation.&]
-[s7; [*C@3 a]-|First Vector to swap.&]
-[s7; [*C@3 b]-|Second Vector to swap.&]
+[s2; Специализация генерного [* Swap] для 
+Vector`'а. Обменивает Vector`'ы простой константной
+ операцией.&]
+[s7; [*C@3 a]-|Первый обмениваемый Vector.&]
+[s7; [*C@3 b]-|Второй обмениваемый Vector.&]
 [s3; &]
 [s0; ]]

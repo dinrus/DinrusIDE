@@ -52,7 +52,7 @@ Value. Заметьте, что для производных
 классов свойственно понимать только 
 типы значения Value, для которых они 
 предназначены (и `"падать`" в противном 
-случае) `- клиентский код ответственен 
+случае) `- код`-клиент ответственен 
 за использование корректного дисплея 
 Display.&]
 [s7; [%-*C@3 w]-|Draw.&]
@@ -324,31 +324,37 @@ Null всем членам, кроме шрифта, инициализуемо�
 [ {{3530:6470h1;@(204) [s0; Имя дисплея]
 :: [s0; Описание]
 ::^@2 [s0;:StdDisplay: [* StdDisplay]]
-::= [s0; Standard Display. Displays Value as text, unless it is AttrText 
-(see above).]
+::= [s0; Стандартный Display. Отображает Value как 
+текст, если это не AttrText (см. выше).]
 ::^ [s0;:StdRightDisplay: [* StdRightDisplay]]
-::= [s0; Standard Display. Displays Value as right`-aligned text, unless 
-it is AttrText (see above).]
+::= [s0; Стандартный Display. Отображает Value как 
+текст, сдвинутый вправо, если это 
+не AttrText (см. выше).]
 ::^ [s0;:StdCenterDisplay: [* StdCenterDisplay]]
-::= [s0; Standard Display. Displays Value as centered text, unless it 
-is AttrText (see above).]
+::= [s0; Стандартный Display. Отображает Value как 
+центрированный текст, если это не 
+AttrText (см. выше).]
 ::^ [s0;:ColorDisplay: [* ColorDisplay]]
-::= [s0; Displays Color (required) `- simply paints background using 
-the Value passed in.]
+::= [s0; Стандартный Color (обязательный) `- просто 
+отрисовывает фрн, используя переданное 
+ему Value.]
 ::^ [s0;:SizeTextDisplay: [* SizeTextDisplay]]
-::= [s0; Similar to StdDisplay, but stretches the text size to fill whole 
-display area.]
+::= [s0; Подобен StdDisplay, но растягивает текст 
+по размеру, заполняя им всю площадь 
+отображения.]
 ::^ [s0;:ImageDisplay: [* ImageDisplay]]
-::= [s0; Displays Image passed in as Value, aligns it to the top`-left 
-corner.]
+::= [s0; Отображает Image, переданный как Value, 
+размещает его в верхнем левом углу.]
 ::^ [s0;:FittedImageDisplay: [* FittedImageDisplay]]
-::= [s0; Displays Image scaled to fit the rectangle.]
+::= [s0; Отображает Image, масштабированный 
+под прямоугольник.]
 ::^ [s0;:CenteredImageDisplay: [* CenteredImageDisplay]]
-::= [s0; Displays Image centered in the rectangle.]
+::= [s0; Отображает Image по центру прямоугольника.]
 ::^ [s0;:CenteredHighlightImageDisplay: [* CenteredHighlightImageDisplay]]
-::= [s0; Displays Image centered in the rectangle with 1 pixel wide white 
-border.]
+::= [s0; Отображает Image по центру прямоугольника 
+с белым бордюром в 1 пиксель шириной.]
 ::^ [s0;:DrawingDisplay: [* DrawingDisplay]]
-::= [s0; Displays Drawing scaled to fit the rectangle.]}}&]
+::= [s0; Отображает Drawing, масштабированный 
+под прямоугольник.]}}&]
 [s3; &]
 [s0; ]]

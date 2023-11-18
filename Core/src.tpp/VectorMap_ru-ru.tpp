@@ -20,23 +20,32 @@ oveableAndDeepCopyOption][@(0.0.255) <][* VectorMap][@(0.0.255) <][*@4 K],
 [*@4 T], [*@4 HashFn][@(0.0.255) >]_>, [@(0.0.255) public]_[*_^AMap^@3 AMap][@(0.0.255) <]_[*@4 K
 ], [*@4 T], [_^Vector^ Vector][@(0.0.255) <][*@4 T][@(0.0.255) >], [*@4 HashFn]_>_&]
 [s0;%- &]
-[s8; [*@4 K]-|Type of keys. K must have deep copy constructor, be [/^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ m
-oveable] and must have operator`=`= defined.&]
-[s8; [*@4 T]-|Type of elements stored in Vector. T is required to be 
-[/^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ moveable][/  ]and must 
-have either [/^topic`:`/`/Core`/srcdoc`/pick`_`$en`-us^ deep copy 
-constructor], [/^topic`:`/`/Core`/srcdoc`/pick`_`$en`-us^ pick 
-constructor] or [/ default constructor].&]
-[s8; [*@4 HashFn]-|Hashing class. Must have defined unsigned operator()(const 
-K`& x) method returning hash value for elements.&]
+[s8; [*@4 K]-|Тип ключей. У K должен иметься 
+конструктор глубокой копии, он должен 
+быть [/^topic`:`/`/Core`/srcdoc`/Moveable`_ru`-ru^ moveable] 
+и иметь оператор `=`=.&]
+[s8; [*@4 T]-|Тип элементов, сохраняемых в Vector. 
+T обязательно должен быть [/^topic`:`/`/Core`/srcdoc`/Moveable`_ru`-ru^ m
+oveable][/  ]и иметь либо [/^topic`:`/`/Core`/srcdoc`/pick`_`_ru`-ru^ кон
+структор глубокой копии], [/^topic`:`/`/Core`/srcdoc`/pick`_`_ru`-ru^ п
+ик`-конструктор] или [/ дефолтный конструктор].
+&]
+[s8; [*@4 HashFn]-|Класс хэширования. Должен иметь 
+определение unsigned operator()(const K`& x) `- метода, 
+возвращающего хэш`-значение для элементов.&]
 [s0; &]
-[s9; Vector flavor of map. Inherits most of its functionality from 
-[^topic`:`/`/Core`/src`/AMap`$en`-us^ AMap] and adds only members 
-specific for its flavor.&]
-[s9; Like any other NTL container, VectorMap is [*/^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ m
-oveable][*/  ]type with [*/^topic`:`/`/Core`/srcdoc`/pick`_`$en`-us^ pick 
-and optional deep copy] transfer semantics. Calling methods of 
-picked VectorMap is logic error with exception of:&]
+[s9; Векторная разновидность мапа. Наследует 
+большую часть своей функциональности 
+от [^topic`:`/`/Core`/src`/AMap`_ru`-ru^ AMap] и добавляет 
+только методы, специфичные для этой 
+разновидности.&]
+[s9; Как любой иной контейнер NTL, VectorMap 
+является типом [*/^topic`:`/`/Core`/srcdoc`/Moveable`_ru`-ru^ moveable
+][*/  ]с семантикой трансфера [*/^topic`:`/`/Core`/srcdoc`/pick`_`_ru`-ru^  
+пик и необязательная глубокая копия]. 
+Вывоз методов `"пикнутого`" VectorMap`'а 
+является логической ошибкой, за исключением
+:&]
 [s9;C+75 &]
 [s0; [*C+75 void operator`=(pick`_ VectorMap`& ][*C@3+75 v][*C+75 ) ][*/C+75 (defined 
 by composition)]&]
@@ -45,59 +54,67 @@ in AMap)]&]
 [s0; [*C+75 void Clear()]&]
 [s0; [*C+75 bool IsPicked() const]&]
 [s0;C+75 &]
-[s9; Optional deep copy operator is inherited from AMap class. Pick 
-operator is implicitly defined by composition.&]
+[s9; Необязательный оператор глубокой 
+копии наследуется от класса AMap. Пик`-оператор
+ неявно определён композицией.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:VectorMap`:`:VectorMap`(`):%- [* VectorMap]()&]
-[s2; Дефолтный конструктор. Constructs empty 
-[* VectorMap].&]
+[s2; Дефолтный конструктор. Конструирует 
+пустой [* VectorMap].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:VectorMap`:`:VectorMap`(std`:`:initializer`_list`<std`:`:pair`<K`,T`>`>`):%- [* V
 ectorMap]([_^http`:`/`/en`.cppreference`.com`/w`/cpp`/utility`/initializer`_list^ s
 td`::initializer`_list]<[_^http`:`/`/en`.cppreference`.com`/w`/cpp`/utility`/pair^ s
 td`::pair]<[*@4 K], [*@4 T]>>_[*@3 init])&]
-[s2; C`+`+ 11 initialization.&]
+[s2; Инициализация C`+`+ 11.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:VectorMap`:`:operator`(`)`(KK`&`&`,TT`&`&`):%- [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 KK], [@(0.0.255) class]_[*@4 TT]>_[_^Upp`:`:VectorMap^ VectorMap][@(0.0.255) `&]_
 [* operator()]([*@4 KK][@(0.0.255) `&`&]_[*@3 k], [*@4 TT][@(0.0.255) `&`&]_[*@3 v])&]
-[s2; То же, что и Add([%-*@3 k], [%-*@3 v]), returns `*this. 
-Syntax sugar for creating map. Note the use of universal reference 
-that gets resolved to correct Add variant.&]
+[s2; То же, что и Add([%-*@3 k], [%-*@3 v]), возвращает 
+`*this. Синтактический сахар для создания 
+мапа. Заметьте использование универсальной 
+ссылки, разрешающейся в корректный 
+вариант Add.&]
 [s3; &]
 [s4;%- &]
 [s5;:VectorMap`:`:VectorMap`(const VectorMap`&`,int`):%- [* VectorMap]([@(0.0.255) const]_
 [* VectorMap][@(0.0.255) `&]_[*@3 s], [@(0.0.255) int])&]
-[s2; Optional deep copy constructor.&]
-[s6; Requires T to have deep copy constructor or optional deep copy 
-constructor.&]
-[s7; [%-*@3 s][%- -|]Source [* VectorMap].&]
+[s2; Опциональный конструктор глубокой 
+копии.&]
+[s6; Требует наличия у T конструктора 
+глубокой копии и конструктора  ОГК.&]
+[s7; [%-*@3 s][%- -|]Исходный [* VectorMap].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:VectorMap`:`:VectorMap`(Upp`:`:Index`<K`>`&`&`,Upp`:`:Vector`<T`>`&`&`):%- [* V
 ectorMap]([_^Upp`:`:Index^ Index]<[*@4 K]>`&`&_[*@3 ndx], [_^Upp`:`:Vector^ Vector]<[*@4 T]>
 `&`&_[*@3 val])&]
-[s2; Pick`-constructs [* VectorMap] from [* Index] of keys and [* Vector] 
-of values. Both source containers should have the same number 
-of elements.&]
+[s2; Пик`-конструирует [* VectorMap] из [* Index`'а 
+]ключей и [* Vector`'а] значений. У обеих 
+исходных контейнеров должно быть 
+одинаковое число элементов.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:VectorMap`:`:VectorMap`(Upp`:`:Vector`<K`>`&`&`,Upp`:`:Vector`<T`>`&`&`):%- [* V
 ectorMap]([_^Upp`:`:Vector^ Vector]<[*@4 K]>`&`&_[*@3 ndx], [_^Upp`:`:Vector^ Vector]<[*@4 T
 ]>`&`&_[*@3 val])&]
-[s2; Pick`-constructs [* VectorMap] from [* Vector] of keys and [* Vector] 
-of values. Both source containers should have the same number 
-of elements.&]
+[s2; Пик`-конструирует [* VectorMap] из [* Vector`'а] 
+ключей и [* Vector`'а] значений. У обеих 
+исходных контейнеров должно быть 
+одинаковое число элементов.&]
 [s0; &]
 [ {{10000F(128)G(128)t/25b/25@1 [s0;%- [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:VectorMap`:`:Pop`(`):%- [*@4 T]_[* Pop]()&]
-[s2; Drops last element of VectorMap and returns its value.&]
-[s7; [*/ Возвратное значение]-|Value of dropped element.&]
+[s2; Роняет последний элемент VectorMap`'а 
+и возвращает его значение.&]
+[s7; [*/ Возвратное значение]-|Значение уроненного 
+элемента.&]
 [s3; &]
 [s0; ]]

@@ -83,10 +83,10 @@ void Ctrl::Gclipboard::Put(const String& fmt, const ClipData& data)
 	target.GetAdd(fmt) = data;
 
 	GtkTargetList *list = CreateTargetList(target);
-	
+
 	gint n;
 	GtkTargetEntry *targets = gtk_target_table_new_from_list(list, &n);
-	
+
 	gtk_clipboard_set_with_data(clipboard, targets, n, GtkGetClipData, ClearClipData, this);
 	gtk_clipboard_set_can_store(clipboard, NULL, 0);
 
@@ -160,7 +160,7 @@ void PasteClip::GuiPlatformConstruct()
 void Ctrl::Gclipboard::Clear()
 {
 	gtk_clipboard_clear(clipboard);
-	target.Clear();	
+	target.Clear();
 }
 
 void ClearClipboard()
@@ -170,21 +170,21 @@ void ClearClipboard()
 
 Ctrl::Gclipboard& Ctrl::gclipboard()
 {
-	GuiLock __; 
+	GuiLock __;
 	static Gclipboard c(GDK_SELECTION_CLIPBOARD);
 	return c;
 }
 
 Ctrl::Gclipboard& Ctrl::gselection()
 {
-	GuiLock __; 
+	GuiLock __;
 	static Gclipboard c(GDK_SELECTION_PRIMARY);
 	return c;
 }
 
 void AppendClipboard(const char *format, const Value& data, String (*render)(const Value& data))
 {
-	GuiLock __; 
+	GuiLock __;
 	LLOG("AppendClipboard " << format);
 	Vector<String> s = Split(format, ';');
 	for(int i = 0; i < s.GetCount(); i++)

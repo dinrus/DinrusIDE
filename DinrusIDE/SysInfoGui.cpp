@@ -592,6 +592,7 @@ SysInfoGui::SysInfoGui()
     Title("Инфо О Системе");
     Icon(IdeImg::Computer());
     LargeIcon(IdeImg::Computer());
+    Sizeable().Zoomable();
 
     systemInfo.Fill();
     tabctrl.Add(systemInfo.SizePos(), "Системная Инфо");
@@ -601,7 +602,7 @@ SysInfoGui::SysInfoGui()
     tabctrl.Add(processList.SizePos(), "Список Процессов");
     specialFolders.Fill();
     tabctrl.Add(specialFolders.SizePos(), "Спецпапки/Исполнимые/Установленное ПО");
-    Sizeable().Zoomable();
+    
     windowsList.ButClose.WhenPush = THISBACK(Exit);
     processList.ButClose.WhenPush = THISBACK(Exit);
     systemInfo.ButClose.WhenPush = THISBACK(Exit);

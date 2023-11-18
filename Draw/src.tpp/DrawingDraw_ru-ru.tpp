@@ -14,8 +14,11 @@ topic "Класс DrawingDraw";
 [s3;%- &]
 [s1;:DrawingDraw`:`:class:%- [@(0.0.255)3 class][3 _][*3 DrawingDraw][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Draw]&]
-[s9; DrawingDraw is a Draw able to store drawing operations of Draw 
-and to create Drawing value that can be replayed using Draw`::DrawDrawing.&]
+[s9; DrawingDraw `- это Draw, способный сохранять 
+операции отрисовки Draw и создавать 
+значение Drawing, которое может быть 
+повторно воспооизведено посредством 
+Draw`::DrawDrawing.&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
@@ -24,10 +27,12 @@ and to create Drawing value that can be replayed using Draw`::DrawDrawing.&]
 t]_[*@3 cx], [@(0.0.255) int]_[*@3 cy], [@(0.0.255) bool]_[*@3 dots]_`=_[@(0.0.255) true])&]
 [s5;:DrawingDraw`:`:Create`(Size`,bool`):%- [@(0.0.255) void]_[* Create]([_^Size^ Size]_[*@3 s
 z], [@(0.0.255) bool]_[*@3 dots]_`=_[@(0.0.255) true])&]
-[s2; Starts a new recording session. The size of resulting Drawing 
-is in fact only important to compute correct rescaling in Draw`::DrawDrawing. 
-[%-*@3 dots ]determine DOTS flag in Draw:GetInfo(). If there are 
-already any records stored in DrawingDraw, they are cleaned.&]
+[s2; Начинает новую сессию записи. Фактически 
+важен только размер итогового Drawing, 
+чтобы вычислить точное ремасштабирование 
+в Draw`::DrawDrawing. [%-*@3 dots ]определяет флаг 
+DOTS в Draw:GetInfo(). Если в DrawingDraw уже сохранены 
+какие`-либо записи, они удаляются.&]
 [s3; &]
 [s4; &]
 [s5;:DrawingDraw`:`:GetSize`(`)const:%- [_^Size^ Size]_[* GetSize]()_[@(0.0.255) const]&]
@@ -46,8 +51,9 @@ already any records stored in DrawingDraw, they are cleaned.&]
 [ {{10000F(128)G(128)@1 [s0; [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:DrawingDraw`:`:DrawingDraw`(`):%- [* DrawingDraw]()&]
-[s2; Дефолтный конструктор. Create has to be 
-explicitly called on default constructed DrawingDraw.&]
+[s2; Дефолтный конструктор. Create нужно 
+явно вызывать у дефолтно сконструированного
+ DrawingDraw.&]
 [s3; &]
 [s4; &]
 [s5;:DrawingDraw`:`:DrawingDraw`(int`,int`,bool`):%- [* DrawingDraw]([@(0.0.255) int]_[*@3 c

@@ -90,7 +90,7 @@ void Pdb::DebugBar(Bar& bar)
 	bar.MenuSeparator();
 	bar.Add(b, "Копировать трассировку", THISBACK(CopyStack));
 	bar.Add(b, "Копировать трассировки всех потоков", THISBACK(CopyStackAll));
-	bar.Add(b, "Копировать дизассебл", THISBACK(CopyDisas));
+	bar.Add(b, "Копировать дизассембл", THISBACK(CopyDisas));
 	bar.Add(b, "Копировать модули", THISBACK(CopyModules));
 }
 

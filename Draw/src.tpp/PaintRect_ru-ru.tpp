@@ -26,12 +26,14 @@ le]<[* PaintRect]>_&]
 oid]_[* Paint]([_^Draw^ Draw][@(0.0.255) `&]_[*@3 w], [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&
 ]_[*@3 r], [_^Color^ Color]_[*@3 ink]_`=_SColorText, [_^Color^ Color]_[*@3 paper]_`=_SColor
 Paper, [_^dword^ dword]_[*@3 style]_`=_[@3 0])_[@(0.0.255) const]&]
-[s2; Invokes Paint of contained Display for contained Value.&]
+[s2; Вызывает Paint содержащегося Display`'я 
+для содержащегося Value.&]
 [s7; [%-*C@3 w]-|Draw.&]
-[s7; [%-*C@3 r]-|Target rectangle.&]
-[s7; [%-*C@3 ink]-|Suggested foreground color.&]
-[s7; [%-*C@3 paper]-|Suggested background color.&]
-[s7; [%-*C@3 style]-|Visual style.&]
+[s7; [%-*C@3 r]-|Целевой прямоугольник.&]
+[s7; [%-*C@3 ink]-|Рекомендуемый цвет переднего 
+плана (ПП).&]
+[s7; [%-*C@3 paper]-|Рекомендуемый цвет фона.&]
+[s7; [%-*C@3 style]-|Визуальный стиль.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:Paint`(Draw`&`,int`,int`,int`,int`,Color`,Color`,dword`)const:%- [@(0.0.255) v
@@ -39,27 +41,36 @@ oid]_[* Paint]([_^Draw^ Draw][@(0.0.255) `&]_[*@3 w], [@(0.0.255) int]_[*@3 x],
 [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy], 
 [_^Color^ Color]_[*@3 ink]_`=_SColorText, [_^Color^ Color]_[*@3 paper]_`=_SColorPaper, 
 [_^dword^ dword]_[*@3 style]_`=_[@3 0])_[@(0.0.255) const]&]
-[s2; Invokes contained Display with contained Value.&]
+[s2; Вызывает содержащийся Display с содержащимся 
+Value.&]
 [s7; [%-*C@3 w]-|Draw.&]
-[s7; [%-*C@3 x, y, cx, cy]-|Target rectangle (left, top, width, height).&]
-[s7; [%-*C@3 ink]-|Suggested foreground color.&]
-[s7; [%-*C@3 paper]-|Suggested background color.&]
-[s7; [%-*C@3 style]-|Visual style.&]
+[s7; [%-*C@3 x, y, cx, cy]-|Целевой прямоугольник 
+(лево, верх, ширина, высота).&]
+[s7; [%-*C@3 ink]-|Рекомендуемый цвет переднего 
+плана (ПП).&]
+[s7; [%-*C@3 paper]-|Рекомендуемый цвет фона.&]
+[s7; [%-*C@3 style]-|Визуальный стиль.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:GetStdSize`(`)const:%- [_^Size^ Size]_[* GetStdSize]()_[@(0.0.255) const]&]
-[s2; Invokes GetStdSize of contained Display for contained Value.&]
-[s7; [*/ Возвратное значение]-|Preferred Size of Value.&]
+[s2; Вызывает GetStdSize содержащегося Display`'я 
+для содержащегося Value.&]
+[s7; [*/ Возвратное значение]-|Предпочитаемый 
+Size Value`'а.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:RatioSize`(int`,int`)const:%- [_^Size^ Size]_[* RatioSize]([@(0.0.255) in
 t]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])_[@(0.0.255) const]&]
-[s2; Invokes RatioSize of contained Display for contained Value.&]
-[s7; [%-*C@3 cx]-|Required width. If zero, it should be computed to 
-keep aspect ratio with cy.&]
-[s7; [%-*C@3 cy]-|Required height. If zero, it should be computed to 
-keep aspect ratio with cx.&]
-[s7; [*/ Возвратное значение]-|Size of Value for Display.&]
+[s2; Вызывает RatioSize содержащегося Display`'я 
+для содержащегося Value.&]
+[s7; [%-*C@3 cx]-|Требуемая ширина. Если ноль, 
+вычисляется, соблюдая пропорциональность 
+с cy.&]
+[s7; [%-*C@3 cy]-|Требуемая высота. Если ноль, 
+вычисляется, соблюдая пропорциональность 
+с cx.&]
+[s7; [*/ Возвратное значение]-|Размер Value 
+для Display`'я.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:RatioSize`(Size`)const:%- [_^Size^ Size]_[* RatioSize]([_^Size^ Size]_[*@3 s
@@ -88,9 +99,9 @@ onst]_[_^Display^ Display][@(0.0.255) `&]_[*@3 d], [@(0.0.255) const]_[_^Value^ 
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; Removes the Display `- subsequent calls to Paint act as `"no 
-operation`", calls to GetStdSize and RatioSize return Size(0, 
-0).&]
+[s2; Удаляет Display `- последующие вызовы 
+Paint действуют как `"no operation`", вызовы 
+GetStdSize и RatioSize возвращают Size(0, 0).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:GetValue`(`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[* G
@@ -106,26 +117,28 @@ etValue]()_[@(0.0.255) const]&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:operator bool`(`)const:%- [* operator_bool]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|true if Display is 
-set.&]
+[s7; [*/ Возвратное значение]-|true, если Display 
+установлен.&]
 [s3;%- &]
 [s0;* &]
 [ {{10000F(128)G(128)@1 [s0; [* Конструктор  detail]]}}&]
 [s3;%- &]
 [s5;:PaintRect`:`:PaintRect`(`):%- [* PaintRect]()&]
-[s2; Constructs empty PaintRect, with no Display assigned.&]
+[s2; Конструирует пустой PaintRect, без присваивания
+ Display`'я.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:PaintRect`(const Display`&`):%- [* PaintRect]([@(0.0.255) const]_[_^Display^ D
 isplay][@(0.0.255) `&]_[*@3 display])&]
-[s2; Constructs PaintRect with specified Display.&]
+[s2; Конструирует PaintRect с указанным Display`'ем.&]
 [s7; [%-*C@3 display]-|Display.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:PaintRect`(const Display`&`,const Value`&`):%- [* PaintRect]([@(0.0.255) c
 onst]_[_^Display^ Display][@(0.0.255) `&]_[*@3 display], [@(0.0.255) const]_[_^Value^ Value
 ][@(0.0.255) `&]_[*@3 val])&]
-[s2; Constructs PaintRext with specified Display and Value.&]
+[s2; Конструирует PaintRect с указанными Display 
+и Value.&]
 [s7; [%-*C@3 display]-|Display.&]
 [s7; [%-*C@3 val]-|Value.&]
 [s3; &]

@@ -13,49 +13,54 @@ topic "Класс RasterFormat";
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс RasterFormat]]}}&]
 [s3; &]
 [s1;:RasterFormat`:`:struct: [@(0.0.255)3 class][3 _][*3 RasterFormat]&]
-[s9;%RU-RU This class serves as description and converter of various 
-pixel formats. U`+`+ normally uses fixed 32`-bit RGBA format 
-for all processing, but special formats are required e.g. to 
-deal with image files or to reduce memory requirements.&]
+[s9;%RU-RU Этот класс служит как описание 
+и конвертер различных пиксельных 
+форматов. U`+`+, как правило, использует 
+фиксированный 32`-битный формат RGBA 
+для всякой обработки, но требуются 
+и специальные форматы, напр., для работы 
+с файлами изображений или для сбережения 
+памяти.&]
 [s3; &]
 [s0;i448;a25;kKO9;@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Raster Types]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Растровые Типы]]}}&]
 [s3; &]
 [ {{3523:6477^ [s0; RASTER`_1]
-:: [s0; 1 bit per pixel (2 colors, with palette)]
+:: [s0; 1 бит на пиксель (2 цвета, с палитрой)]
 :: [s0; RASTER`_2]
-:: [s0; 2 bits per pixel (4 colors, with palette)]
+:: [s0; 2 бит на пиксель (4 цвета, с палитрой)]
 :: [s0; RASTER`_4]
-:: [s0; 4 bits per pixel (16 colors, with palette)]
+:: [s0; 4 бит на пиксель (16 цвета, с палитрой)]
 :: [s0; RASTER`_8]
-:: [s0; 8 bits per pixel (256 colors, with palette)]
+:: [s0; 8 бит на пиксель (256 цвета, с палитрой)]
 :: [s0; RASTER`_8ALPHA]
-:: [s0; 16 bits per pixel; 8 bits for color (256 colors, with palette) 
-and 8 bits for alpha]
+:: [s0; 16 бит на пиксель; 8 bits for color (256 цвета, 
+с палитрой) and 8 bits for alpha]
 :: [s0; RASTER`_16]
-:: [s0; 16 bits per pixel (65536 colors without palette), number of 
-bits and placements for individual channels depends on other 
-variables]
-:: [s0; RASTER`_24]
-:: [s0; 24 bits per pixel RGB (truecolor), number of bits and placements 
-for individual channels depends on other variables]
-:: [s0; RASTER`_32]
-:: [s0; 32 bits per pixel RGB (truecolor), number of bits and placements 
-for individual channels depends on other variables]
-:: [s0; RASTER`_32ALPHA]
-:: [s0; 32 bits per pixel RGBA (truecolor), alpha is not premultiplied, 
+:: [s0; 16 бит на пиксель (65536 цвета без палитры), 
 number of bits and placements for individual channels depends 
 on other variables]
+:: [s0; RASTER`_24]
+:: [s0; 24 бит на пиксель RGB (truecolor), number of bits 
+and placements for individual channels depends on other variables]
+:: [s0; RASTER`_32]
+:: [s0; 32 бит на пиксель RGB (truecolor), number of bits 
+and placements for individual channels depends on other variables]
+:: [s0; RASTER`_32ALPHA]
+:: [s0; 32 бит на пиксель RGBA (truecolor), alpha is not 
+premultiplied, number of bits and placements for individual channels 
+depends on other variables]
 :: [s0; RASTER`_32PREMULTIPLIED]
-:: [s0; 32 bits per pixel RGBA (truecolor), alpha is premultiplied, 
+:: [s0; 32 бит на пиксель RGBA (truecolor), alpha is premultiplied, 
 number of bits and placements for individual channels depends 
 on other variables]}}&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
-[s0;i448;a25;kKO9; All these values can be combined (using operator`|) 
-with&]
+[s0;i448;a25;kKO9; Все эти значения могут комбинироват
+ься (оператором`|) с&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
-[s0;i448;a25;kKO9; RASTER`_MSBFIRST-|-|Indicates that bytes or nibbles 
-are in reversed order (in big endian).&]
+[s0;i448;a25;kKO9; RASTER`_MSBFIRST-|-|Указывает, что байты 
+или nibble`'ы в реверсированном порядке 
+(в big endian).&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]

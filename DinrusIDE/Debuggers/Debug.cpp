@@ -379,8 +379,8 @@ bool Pdb::RunToException()
 						break;
 					}
 					if(x.ExceptionCode == EXCEPTION_ACCESS_VIOLATION) {
-						desc << (x.ExceptionInformation[0] ? "[*@3 writing]" : "[*@4 reading]");
-						desc << Format(" at [* %08llX]", (int64)x.ExceptionInformation[1]);
+						desc << (x.ExceptionInformation[0] ? "[*@3 запись]" : "[*@4 чтение]");
+						desc << Format(" по [* %08llX]", (int64)x.ExceptionInformation[1]);
 					}
 					ToForeground();
 					BeepError();

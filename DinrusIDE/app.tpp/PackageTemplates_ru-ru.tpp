@@ -125,10 +125,10 @@ U`+`+)]&]
 [s5;# У проектов часто бывает одинаковая 
 база, одинаковая структура и / или 
 даже идентичные части кода. И одним 
-из способов избежать ненужного набора 
-текста или рутинной работы, при создании 
-нового однотипного проекта, является 
-использование параметрированного 
+из способов избежать ненужного ручного 
+набора текста или рутинной работы, 
+при создании нового однотипного проекта, 
+является использование параметрированного 
 шаблона.&]
 [s5;# Шаблон пакета Ultimate`+`+ (UPT) и есть такой 
 параметрированный шаблон. Он используется 
@@ -482,8 +482,6 @@ true, тогда файл будет создан. Если результат
 `- хорошо устоявшаяся практика записывать 
 заглавными include`-гварды в файлах .hpp 
 (.h).&]
-[s5;l160; `"PACKAGE`_TOUPPER`" доступен только в выпусках 
-Ultimate`+`+ позднее `"609`-dev3`".&]
 [s42;l160;:5`_7`_2: [@6 5.7.2 Использование]&]
 [s5;l160; В отличие от `"PACKAGE`", `"PACKAGE`_TOUPPER`" 
 всегда содержит путевую часть `- если 
@@ -552,8 +550,8 @@ Ultimate`+`+ позднее `"609`-dev3`".&]
 [s42;l160;:5`_9`_5: [@6 5.9.5 Использование]&]
 [s5;l160; Строка заголовочника оканчивается 
 точкой с запятой.&]
-[s5;l160; [C template `"][/C name][C `" `[main `| sub `| main sub `| sub 
-main`];]&]
+[s5;l160; [C template `"][/C имя][C `" `[main `| sub `| main sub `| 
+sub main`];]&]
 [s42;:5`_10: [@(128.0.255) 5.10 `"filename`"]&]
 [s42;l160;:5`_10`_1: [@6 5.10.1 Описание]&]
 [s5;l160; `"filename`" определяет переменную, 
@@ -576,7 +574,8 @@ main`];]&]
 и корректно, не срабатывает. Определение 
 переменной заканчивается точкой 
 с запятой.&]
-[s5;l160; [C filename `"][/C title][C `" ][/C variable`_name][C  `[`= `"][/C default`"][C `];]&]
+[s5;l160; [C filename `"титул`" ][/C имя`_переменной][C `[`= 
+`"][/C дефолт`"][C `];]&]
 [s42;l160;:5`_10`_3: [@6 5.10.3-|Использование]&]
 [s5;l160; [C ... <: ][/C variable`_name][C  :> ...]&]
 [s5;l160; Можно сравнивать переменные имён 
@@ -600,9 +599,10 @@ main`];]&]
 кавычки, в качестве дефолта. Использование 
 вместо него мени переменной, хоть 
 синтектически и корректно, но не работает. 
-Определение переменной заканцивается 
+Определение переменной заканчивается 
 точкой с запятой.&]
-[s5;l160; [C id `"][/C title][C `" ][/C variable`_name][C  `[`= `"][/C default`"][C `];]&]
+[s5;l160; [C id `"титул`" ][/C имя`_переменной][C `[`= 
+`"дефолт][/C `"][C `];]&]
 [s42;l160;:5`_11`_3: [@6 5.11.3 Использование]&]
 [s5;l160; [C ... <: ][/C variable`_name][C  :> ...]&]
 [s5;l160; Можно сравнивать переменные идентификат
@@ -610,17 +610,25 @@ main`];]&]
 сравнение.&]
 [s42;:5`_12: [@(128.0.255) 5.12 `"option`"]&]
 [s42;l160;:5`_12`_1: [@6 5.12.1 Описание]&]
-[s5;l160; `"option`" defines a variable which is determined to host 
-a boolean value. Using it makes a named option box appear.&]
+[s5;l160; `"option`" определяет переменную, представляю
+щюю собой буево значениеe.При её использован
+ии появляется бокс с проименованными 
+опциями.&]
 [s42;l160;:5`_12`_2: [@6 5.12.2 Определение]&]
-[s5;l160; The keyword and the variable name must not be enclosed 
-in quotation marks, whereas the title must. Doing otherwise results 
-in an error message and the UPT file is ignored. You can set 
-either `"0`" or `"1`", enclosed in quotation marks or not, as 
-default. Everything else is evaluated as `"false`". Using a variable 
-name instead, although syntactically correct, doesn`'t work. 
-The variable definition is terminated by a semicolon.&]
-[s5;l160; option `"[/ title]`" [/ variable`_name] `[`= `[`"`]0 `| 1`[[/ `"]`]`];&]
+[s5;l160; Ключевое слово и имя переменной 
+нельзя заключать в кавычки, за исключением 
+титула. В противном случае появляется 
+сообщение об ошибке  и файл UPT игнорируется. 
+Можно установить либо `"0`", либо `"1`", 
+заключённый (или нет) в кавычки, как 
+дефолтное значение. Всё остальное 
+оценивается как `"false`". Использование 
+вместо этого имени пееременной, хотя 
+и синтактически корректно, не работает. 
+Определение переменной заверщает 
+точка с запятой.&]
+[s5;l160; option `"титул`" [/C имя`_переменной]`[`= 
+`[`"`]0 `| 1`[[/ `"]`]`];&]
 [s42;l160;:5`_12`_3: [@6 5.12.3 Использование]&]
 [s0;l160; [C ... <: ][/C variable`_name][C  ? ][/C number`_1][C  : ][/C number`_2][C  
 :> ...]&]
@@ -632,30 +640,44 @@ The variable definition is terminated by a semicolon.&]
 . :> ...]&]
 [s0;l160; [C ... <: ? ][/C variable`_name][C  :>][/C string`_1][C <: / :>][/C string`_2][C <: 
 . :> ...]&]
-[s5;l160; You can compare option variables and act based on the result 
-of this comparison.&]
+[s5;l160; Можно сравнивать переменные опций 
+и действовать из итога такого сравнения.&]
 [s42;:5`_13: [@(128.0.255) 5.13 `"select`"]&]
 [s42;l160;:5`_13`_1: [@6 5.13.1 Описание]&]
-[s5;l160; `"select`" defines a variable which works like an enumeration. 
-Integer values, starting with 0, are assigned to named options. 
-Using `"select`" makes a named DropList appear, of which the 
-options can be selected but not edited.&]
+[s5;l160; `"select`" определяет переменную, которая 
+работает как перечень. Целочисленные 
+значения, начиная с 0, присваиваются 
+проименованным опциям. Использование 
+`"select`" вызывает появление проименованного 
+DropList (выпадающего списка), из которого 
+опции могут выбираться, но не редактироватьс
+я.&]
 [s42;l160;:5`_13`_2: [@6 5.13.2 Определение]&]
-[s5;l160; The options must be listed inside of parentheses. The keyword 
-and the variable name must not be enclosed in quotation marks, 
-whereas the options and the title must. Doing otherwise or giving 
-no option at all, results in an error message and the UPT file 
-is ignored. The options must be separated by commas. If not, 
-they are concatenated. You can set any value, enclosed in quotation 
-marks or not, as default, but only integer values in the range 
-`"0 to number`_of`_last`_option `- 1`" are accepted. Everything 
-else makes no default option appear. The same holds for variables, 
-be they defined or not. If you give no default at all, the first 
-option becomes the default. The variable definition is terminated 
-by a semicolon.&]
-[s5;l160; [C option (`"option`_1`", `"option`_2`", ...) `"][/C title][C `"][/C  
-variable`_name]&]
-[s5;l160; [C -|`[`= 0 `| ... `| ][/C number`_of`_last`_option `- 1][C `];]&]
+[s5;l160; Список опций должен находиться 
+между фигурными скобками (`"парентезами`"). 
+Ключевое клово и имя переменной не 
+должно быть заключено в кавычки, а 
+титул и опции, наоборот, должны. Нарушение 
+правила, или отсутствие определения 
+опций, приводит в выводу сообщения 
+об ошибке и файл UPT игнорируется. Опции 
+разделяются запятыми. Если нет, то 
+они конкатенируются. Можно установить 
+любое значение, заключённое (или нет) 
+в кавычки, в качестве дефолтаt, но 
+принимаютмя только целочисленные 
+значения в диапазоне `"от 0 до номер`_последне
+й`_опции `- 1`". Всё иное препятствует 
+появлению  дефолтной опции. То же 
+относится и к переменным, определены 
+они или нет. Если деффолт вообще не 
+указан, им становится первая опция. 
+Определение переменной заканчивается 
+точкой с запятой.&]
+[s5;l160; [C option (`"опция`_1`", `"опция`_2`", ...) `"титул`"][/C  
+имя`_переменной]&]
+[s5;l160; [C -|`[`= 0 `| ... `| номер][/C `_последней`_опции 
+`- 1][C `];]&]
 [s42;l160;:5`_13`_3: [@6 5.13.3 Использование]&]
 [s0;l160; [C ... <: ][/C variable`_name][C  `=`= ][/C zero`_based`_option`_index][C  
 :> ... <: . :>]&]
@@ -669,8 +691,8 @@ variable`_name]&]
 :> ... <: . :>]&]
 [s0;l160; [C ... <: ][/C variable`_name][C  !`= ][/C zero`_based`_option`_index][C  
 :> ... <: . :>]&]
-[s5;l160; You can select filename variables and act based on the 
-result of this comparison.&]
+[s5;l160; Можно выбрать переменные имён 
+файлов.&]
 [s42;:5`_14: [@(128.0.255) 5.14 `"text`"]&]
 [s42;l160;:5`_14`_1: [@6 5.14.1 Описание]&]
 [s5;l160; `"text`" defines a variable which is determined to host 

@@ -13,38 +13,52 @@ topic "Класс RasterEncoder";
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс RasterEncoder]]}}&]
 [s3;%- &]
 [s1;:RasterEncoder`:`:class:%- [@(0.0.255)3 class][3 _][*3 RasterEncoder]&]
-[s9; RasterEncoder serves as consumer of RGBA scanline data. Typical 
-use is as encoder into one of common image file formats, like 
-PNG. RasterEncoder provides an output buffer for client code 
-(producer) to store the output RGBA scanline, when scanline is 
-finished, producer calls WriteLine and RasterEncoder converts 
-the RGBA scanline into specific format, according to [* format] 
-protected member variable, then calls WriteLineRaw virtual method 
-which performs the final processing (e.g. PNGEncoder stores it 
-into PNG output stream).&]
-[s9; RGBA optimization: There is a specific need to avoid redundant 
-conversions and copies when the target is normal Image (with 
-ImageEncoder). SetLine method can replace the default scanline 
-buffer provided by RasterEncoder; that way it can use a pointer 
-to ImageBuffer data and data are then can be stored directly 
-into ImageBuffer (ImageEncoder calls SetLine in Start and WriteLineRaw 
-methods). WriteLineRaw can then check whether [%-@3 data] points 
-to suggested buffer (it is not guaranteed, because producer can 
-provide yet another scanline buffer in WriteLine) and in that 
-case, copying into target scanline can be completely skipped.&]
+[s9; RasterEncoder служит потребителем данных 
+сканлиний RGBA. Обычно используется 
+как кодировщик в один из общих файловых 
+форматов изображений, наподобие PNG. 
+RasterEncoder предоставляет буфер вывода 
+для кода`-клиента (производителя) 
+для сохранения выводной сканлинии 
+RGBA, когда сканлиния окончена, производитель 
+вызывает WriteLine и RasterEncoder преобразует 
+сканлинию RGBA в специфичный формат, 
+в соответствии с защищённой переменной`-член
+ом [* format], а затем вызывает виртуальный 
+метод WriteLineRaw, который выполняет окончательн
+ую обработку (напр., PNGEncoder сохраняет 
+её в выводной поток PNG).&]
+[s9; Оптимизация RGBA: Требуется особо избегать 
+повторных преобразований и копирований, 
+когда целью является обычный Image (с 
+ImageEncoder). Метод SetLine может заменить 
+дефолтный буфер сканлинии, предоставленный 
+RasterEncoder`'ом; в таком случае он может 
+использовать указатель на данные 
+ImageBuffer`'а, и далее сохранять эти данные 
+прямо в ImageBuffer (ImageEncoder вызывает SetLine 
+в методах Start и WriteLineRaw). WriteLineRaw затем 
+может проверять, указывает ли [%-@3 data] 
+на рекомендуемый буфер (это негарантировано
+, т.к. производитель может предоставлять 
+ещё один буфер сканлайн в WriteLine), и 
+в этом случае копирование в целевую 
+сканлинию можно полностью отменить.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0;%- [* Список Защищённых Членов]]}}&]
 [s3;%- &]
 [s5;:RasterEncoder`:`:format:%- [_^RasterFormat^ RasterFormat]_[* format]&]
-[s2; Derived encoder should store the required conversion format 
-here in Start method.&]
+[s2; Производный кодер должен сохранять 
+здесь требуемый формат преобразования 
+в методе Start.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:RasterEncoder`:`:SetLine`(RGBA`*`):%- [@(0.0.255) void]_[* SetLine]([_^RGBA^ RGBA]_`*[*@3 `_
 line])&]
-[s2; Replaces the default scanline buffer to optimize storing RGBA 
-data to direct targets..&]
+[s2; Заменяет дефолтный буфер сканлинии, 
+чтобы оптимизировать хранение данных 
+RGBA в прямых целях.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
@@ -62,18 +76,21 @@ ize]_[*@3 sz])_`=_[@3 0]&]
 [s4; &]
 [s5;:RasterEncoder`:`:WriteLineRaw`(const byte`*`):%- [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* WriteLineRaw]([@(0.0.255) const]_[_^byte^ byte]_`*[*@3 data])_`=_[@3 0]&]
-[s2; Called to write a single scanline [%-*@3 data] to output.&]
+[s2; Вызывается для записи данных единичной 
+сканлинии [%-*@3 data] в вывод.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:WriteLine`(`):%- [@(0.0.255) void]_[* WriteLine]()&]
-[s2; Encodes the internal RasterEncoder scanline buffer `- converts 
-it to required format and calls WriteLineRaw.&]
+[s2; Кодирует вутренний буфер сканлинии 
+RasterEncoder`'а `- преобразует его в требуемый 
+формат и вызывает WriteLineRaw.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:WriteLine`(const RGBA`*`):%- [@(0.0.255) void]_[* WriteLine]([@(0.0.255) c
 onst]_[_^RGBA^ RGBA]_`*[*@3 s])&]
-[s2; Encodes the scanline [%-*@3 s] `- converts it to required format 
-and calls WriteLineRaw.&]
+[s2; Кодирует сканлинию [%-*@3 s] `- преобразует 
+его в требуемый формат и вызывает 
+WriteLineRaw.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:GetFormat`(`)const:%- [@(0.0.255) const]_[_^RasterFormat^ RasterFor
@@ -93,7 +110,7 @@ etPaletteCv]()&]
 [s4; &]
 [s5;:RasterEncoder`:`:operator RGBA`*`(`):%- [@(0.0.255) operator]_[_^RGBA^ RGBA]_`*()&]
 [s5;:RasterEncoder`:`:operator`~`(`):%- [_^RGBA^ RGBA]_`*[* operator`~]()&]
-[s2; Возвращает указатель на буфер scanline, 
+[s2; Возвращает указатель на буфер сканлинии, 
 используемый в беспараметрном WriteLine.&]
 [s3; &]
 [s4; &]
@@ -113,24 +130,29 @@ nst]&]
 [s4; &]
 [s5;:RasterEncoder`:`:SetHotSpot`(Point`):%- [@(0.0.255) void]_[* SetHotSpot]([_^Point^ Poi
 nt]_[*@3 p])&]
-[s2; Устанавливает hotspot. This is useful for defining 
-screen cursors (.ico or .cur files in Win32). The derived encoder 
-might need the hotspot information (it reads it by calling GetHotSpot 
-in to store it into the output file in Start).&]
+[s2; Устанавливает горячую точку. Используется 
+для определения курсоров экрана (файлов 
+.ico или .cur в Win32). Производному кодеру 
+может потребоваться информация о 
+горячей точке (он считывает её, вызывая 
+GetHotSpot, и сохраняет в файле вывода 
+в Start).&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:GetHotSpot`(`)const:%- [_^Point^ Point]_[* GetHotSpot]()_[@(0.0.255) c
 onst]&]
-[s2; Reads hotspot set be SetHotSpot.&]
+[s2; Считывает горячую точку, установленную 
+SetHotSpot.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:SetDots`(Size`):%- [@(0.0.255) void]_[* SetDots]([_^Size^ Size]_[*@3 `_
 dots])&]
 [s2; Устанавливает физический размер 
 выводимого изображения, в 1/600 дюйма. 
-The derived encoder might read this information in Start and 
-store it into output file, if given format supports any related 
-information.&]
+Производный кодер должен считать 
+эту информацию в Start и сохранить в 
+файл вывода, если заданный формат 
+поддерживает соответствующую информацию.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:GetDots`(`)const:%- [_^Size^ Size]_[* GetDots]()_[@(0.0.255) const]&]
@@ -146,8 +168,9 @@ onst]_[_^RGBA^ RGBA]_`*[*@3 palette])&]
 [s4; &]
 [s5;:RasterEncoder`:`:SetPalette`(Raster`&`):%- [@(0.0.255) void]_[* SetPalette]([_^Raster^ R
 aster][@(0.0.255) `&]_[*@3 pal`_raster])&]
-[s2; Generates the optimal palette based on colors in [%-*@3 pal`_raster] 
-and sets it for further processing.&]
+[s2; Генерирует оптимальную палитру на 
+основе цветов из [%-*@3 pal`_raster] и устанавливает 
+её для дальнейшей обработки.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:Create`(Size`):%- [@(0.0.255) void]_[* Create]([_^Size^ Size]_[*@3 sz])
@@ -163,7 +186,8 @@ e]_[*@3 sz], [_^Raster^ Raster][@(0.0.255) `&]_[*@3 pal`_raster])&]
 [s5;:RasterEncoder`:`:Create`(int`,int`,Raster`&`):%- [@(0.0.255) void]_[* Create]([@(0.0.255) i
 nt]_[*@3 cx], [@(0.0.255) int]_[*@3 cy], [_^Raster^ Raster][@(0.0.255) `&]_[*@3 pal`_raster])
 &]
-[s2; Initializes encoder for output of image of specified size, optionally 
-setting the palette.&]
+[s2; Инициализирует кодировщик на вывод 
+изображения указанного размера, опционно 
+устанавливая палитру.&]
 [s3; &]
 [s0; ]]

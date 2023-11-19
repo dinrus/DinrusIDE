@@ -6,7 +6,7 @@ topic "Базовый Диалог";
 [i448;a25;kKO9; $$5,0#37138531426314131252341829483380:structitem]
 [ $$0,0#00000000000000000000000000000000:Дефолт]
 [{_} 
-[s1; &]
+[s1;%RU-RU &]
 [s2;:sPi: [@(0.0.255) static]_[_^Upp`:`:VectorMap^ VectorMap]<[_^Upp`:`:String^ String], 
 [_^PackageInfo^ PackageInfo]>_[* sPi]&]
 [s3;%RU-RU Мап вектора, содержащий информацию 

@@ -128,7 +128,7 @@ void Ide::CleanUppOut()
 	if(!PromptYesNo(Format("Стереть всю папку вывода [* \1%s\1]?", out)))
 		return;
 	console.Clear();
-	PutConsole("UPPOUT очистка...");
+	PutConsole("Очистка папки вывода...");
 	DeleteFolderDeep(out);
 	PutConsole("(готово)");
 	HideBottom();

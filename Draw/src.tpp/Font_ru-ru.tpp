@@ -16,13 +16,13 @@ topic "Класс Font (Шрифт)";
 Font, FONT`_V, [_^Moveable^ Moveable]<Font>_>&]
 [s9;%RU-RU Font `- это конкретный класс, описывающий 
 внешний вид текста. Он Moveable, имеет 
-простую опреацию копирования и является 
+простую операцию копирования и является 
 Value, преобразовываемым со способностями 
 rich`-Value.&]
-[s9;%RU-RU Он хранит несколько атриутов, 
+[s9;%RU-RU Он хранит несколько атрибутов, 
 описывающих текст. Соответствующий 
 системный шрифт хранится в форме 
-индекса фаса (face index) `- у каждого смстемного 
+индекса фаса (face index) `- у каждого системного 
 шрифта есть специфичное индексное 
 значение. Для общих шрифтов существует 
 несколько предопределённых индексов:&]
@@ -79,17 +79,22 @@ nt]_[@3 index])&]
 [s5;:Font`:`:SetDefaultFont`(Font`): [@(0.0.255) static] [@(0.0.255) void]_[* SetDefaultFon
 t]([_^Font^ Font]_[*@3 font])&]
 [s2;%RU-RU Устанавливает стандартный шрифт, 
-unless SetStdFont was used. This variant is used by Chameleon 
-skin to set font matching platform setting, while SetStdFont 
-can be used by client code to override this setting (and thus 
-has higher priority).&]
+если не используется SetStdFont. Этот вариант 
+используется `"скином`" Chameleon для установки 
+шрифта, соответствующего настройкам 
+платформы, в то время как SetStdFont может 
+использоваться кодом`-клиентом, чтобы 
+переписать эту настройку (и, поэтому, 
+имеет приоритет выше).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:SetStdFont`(Font`): [@(0.0.255) static] [@(0.0.255) void]_[* SetStdFont]([_^Font^ F
 ont]_[@3 font])&]
 [s2;%RU-RU Устанавливает стандартный шрифт. 
-U`+`+ sets the standard font to match host platform standard. 
-This method can be used to change this default setting.&]
+U`+`+ устанавливает стандартный шрифт, 
+соответствующий стандарту платформы. 
+Этот метод может быть использован 
+для изменения дефолтной настройки.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:GetStdFont`(`): [@(0.0.255) static] [_^Font^ Font]_[* GetStdFont]()&]
@@ -122,9 +127,10 @@ onst]&]
 [s4; &]
 [s5;:Font`:`:GetFaceNameStd`(`)const: [_^String^ String]_[* GetFaceNameStd]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Similar to GetFaceName, but returns generic names `"serif`", 
-`"sansserif`", `"monospace`", `"STDFONT`" for corresponding faces, 
-instead of real names.&]
+[s2;%RU-RU Подобно GetFaceName, но возвращает 
+генерные имена `"serif`", `"sansserif`", `"monospace`", 
+`"STDFONT`" для соответствующих фасов, 
+вместо реальных имён.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetFaceInfo`(`)const: [_^dword^ dword]_[* GetFaceInfo]()[@(64) _][@(0.0.255) con
@@ -139,12 +145,15 @@ st]&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:RealizeStd`(`): [@(0.0.255) void]_[* RealizeStd]()&]
-[s2;%RU-RU Replaces Null or STDFONT with actual standard GUI font 
-definition. If font is Null, it is set to standard font with 
-all attributes. If face is STDFONT, it is replaced with actual 
-face of standard font. If font height is `-32000 (which is value 
-StdFont function normally returns), it is replaced with standard 
-font height.&]
+[s2;%RU-RU Заменяет Null или STDFONT на действующее 
+стандартное определение шрифта ГИП. 
+Если шрифт Null, он устанавливается 
+в стандартный, со всеми его атрибутами.Если 
+фас `= STDFONT, то он заменяется действительным 
+фасом стандартного шрифта. Если высота 
+шрифта `= `-32000 (значение, которое обычно 
+возвращает функция StdFont), то она заменяется 
+высотой стандартного шрифта.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Face`(int`): [_^Font^ Font][@(0.0.255) `&]_[* Face]([@(0.0.255) int]_[@3 n])&]
@@ -177,8 +186,8 @@ font height.&]
 [s5;:Font`:`:NoStrikeout`(`): [_^Font^ Font][@(0.0.255) `&]_[* NoStrikeout]()&]
 [s5;:Font`:`:Strikeout`(bool`): [_^Font^ Font][@(0.0.255) `&]_[* Strikeout]([@(0.0.255) bool]_
 [@3 b])&]
-[s2; Устанавливает or unsets bold/italic/undeline/strikeout 
-modes.&]
+[s2; Устанавливает и отменяет режимы 
+bold/italic/undeline/strikeout.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:NonAntiAliased`(`): [_^Font^ Font][@(0.0.255) `&]_[* NonAntiAliased]()&]
@@ -186,74 +195,82 @@ modes.&]
 [s5;:Font`:`:NonAntiAliased`(bool`): [_^Font^ Font][@(0.0.255) `&]_[* NonAntiAliased]([@(0.0.255) b
 ool]_[@3 b])&]
 [s6; `[deprecated`]&]
-[s2;%RU-RU Sets/unsets non`-anti`-aliased flag. This indicates that 
-anti`-aliasing should not be used when painting the font.&]
+[s2;%RU-RU Устанавливает/отменяет флаг non`-anti`-aliased. 
+Этим указывается, что при отрисовке 
+шрифта не будет использоваться anti`-aliasing 
+(сглаживание).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsBold`(`)const: [@(0.0.255) bool]_[* IsBold]()_[@(0.0.255) const]&]
 [s5;:Font`:`:IsItalic`(`)const: [@(0.0.255) bool]_[* IsItalic]()_[@(0.0.255) const]&]
 [s5;:Font`:`:IsUnderline`(`)const: [@(0.0.255) bool]_[* IsUnderline]()_[@(0.0.255) const]&]
 [s5;:Font`:`:IsStrikeout`(`)const: [@(0.0.255) bool]_[* IsStrikeout]()_[@(0.0.255) const]&]
-[s2; Tests whether bold/italic/underline/strikeout is active.&]
+[s2; Проверяет, активен ли режим bold/italic/underline/strikeo
+ut.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsNonAntiAliased`(`)const: [@(0.0.255) bool]_[* IsNonAntiAliased]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU True if NonAntiAliased is active.&]
+[s2;%RU-RU True, если активен NonAntiAliased.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:FaceName`(const String`&`): [_^Font^ Font][@(0.0.255) `&]_[* FaceName]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[@3 name])&]
-[s2;%RU-RU Устанавливает фас в [%-*@3 name]. If name 
-is not valid face`-name, Font is set to Null. Method is able 
-to recognize generic names `"serif`", `"sansserif`", `"monospace`" 
-and `"STDFONT`".&]
+[s2;%RU-RU Устанавливает фас в [%-*@3 name]. Если 
+name является неполноценным именем 
+фаса, то Font устанавливается в Null. Метод 
+способен распознать генерные имена 
+`"serif`", `"sansserif`", `"monospace`" и `"STDFONT`".&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:operator`(`)`(`)const: [_^Font^ Font][@(64) _][@(0.0.255) operator]()()[@(64) _][@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает копию Font. Useful to simplify 
-notation when altering existing Font values.&]
+[s2;%RU-RU Возвращает копию Font. Применим 
+для упрощения нотации, при изменении 
+существующих значений Font`'а.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:operator`(`)`(int`)const: [_^Font^ Font][@(64) _][@(0.0.255) operator]()([@(0.0.255) i
 nt]_[@3 n])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает a copy of Font, with height changed 
-to [%-*@3 n].&]
+[s2;%RU-RU Возвращает копию Font, с изменением 
+высоты до [%-*@3 n].&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Serialize`(Stream`&`): [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream][@(0.0.255) `&
 ]_[@3 s])&]
-[s2;%RU-RU Serializes the font value (face index is stored as face`-name 
-text).&]
+[s2;%RU-RU Сериализует значение шрифта (индекс 
+фаса сохраняется как текст имени 
+фаса).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Jsonize`(JsonIO`&`): [@(0.0.255) void]_[* Jsonize]([_^JsonIO^ JsonIO][@(0.0.255) `&
 ]_[*@3 jio])&]
-[s2;%RU-RU Stores/load font to/from JSON.&]
+[s2;%RU-RU Сохранить/загрузить шрифт в/из 
+JSON.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:Xmlize`(XmlIO`&`): [@(0.0.255) void]_[* Xmlize]([_^XmlIO^ XmlIO][@(0.0.255) `&]_
 [*@3 xio])&]
-[s2;%RU-RU Stores/load font to/from JSON..&]
+[s2;%RU-RU Сохранить/загрузить шрифт в/из 
+XML.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:operator`=`=`(Font`)const: [@(0.0.255) bool]_[@(0.0.255) operator`=`=]([_^Font^ F
 ont]_[@3 f])_[@(0.0.255) const]&]
 [s5;:Font`:`:operator`!`=`(Font`)const: [@(0.0.255) bool]_[@(0.0.255) operator!`=]([_^Font^ F
 ont]_[@3 f])_[@(0.0.255) const]&]
-[s2;%RU-RU Compares two Font instances.&]
+[s2;%RU-RU Сравнивает два экземпляра Font.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetHashValue`(`)const: [_^dword^ dword]_[* GetHashValue]()[@(64) _][@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает the font hash value.&]
+[s2;%RU-RU Возвращает хэш`-значение шрифта.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsNullInstance`(`)const: [@(0.0.255) bool]_[* IsNullInstance]()_[@(0.0.255) co
 nst]&]
-[s2;%RU-RU True if Font is Null. (This method is used by default 
-IsNull template).&]
+[s2;%RU-RU True, если Font равен Null. (Метод используется 
+дефолтным шаблоном IsNull).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:SetNull`(`): [@(0.0.255) void]_[* SetNull]()&]
@@ -261,13 +278,13 @@ IsNull template).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetAscent`(`)const: [@(0.0.255) int]_[* GetAscent]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the character cell extend above the 
-baseline.&]
+[s2;%RU-RU Возвращает протяженность ячейки 
+символа над основанием (baseline).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetDescent`(`)const: [@(0.0.255) int]_[* GetDescent]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the character cell extend below the 
-baseline.&]
+[s2;%RU-RU Возвращает протяженность ячейки 
+символа под основанием (baseline).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetCy`(`)const: [@(0.0.255) int]_[* GetCy]()_[@(0.0.255) const]&]
@@ -275,87 +292,98 @@ baseline.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetExternal`(`)const: [@(0.0.255) int]_[* GetExternal]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the additional space that font description 
-recommends to insert between two lines of text. Rarely used.&]
+[s2;%RU-RU Возвращает дополнительное пространство
+, которое по описанию шрифта рекомендуется 
+вставлять между двух строк текста. 
+Используется редко.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetInternal`(`)const: [@(0.0.255) int]_[* GetInternal]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the mostly free space inside GetAscent 
-value. Rarely used.&]
+[s2;%RU-RU Возвращает пустующее пространство 
+внутри значения GetAscent. Используется 
+редко.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetHeight`(`)const: [@(0.0.255) int]_[* GetHeight]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает GetAscent() `+ GetDescent() `- the 
-height of the line of text.&]
+[s2;%RU-RU Возвращает GetAscent() `+ GetDescent() `- высоту 
+строки текста.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetLineHeight`(`)const: [@(0.0.255) int]_[* GetLineHeight]()_[@(0.0.255) const
 ]&]
-[s2;%RU-RU Возвращает suggested total line height.&]
+[s2;%RU-RU Возвращает рекомендуемую общую 
+высоту строк.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetOverhang`(`)const: [@(0.0.255) int]_[* GetOverhang]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает overhang of font.&]
+[s2;%RU-RU Возвращает overhang шрифта.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetAveWidth`(`)const: [@(0.0.255) int]_[* GetAveWidth]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the average width of character. Depends 
-on information from the font provider, which is not always reliable 
-`- it is better the obtain the spacing info from the width of 
-individual glyphs.&]
+[s2;%RU-RU Возвращает среднюю ширину символа. 
+Зависит от информации от провайдера 
+шрифта, которая не всегда надёжна, 
+`- лучше всего получить информацию 
+о spacing`'е из ширины отдельных глифов.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetMaxWidth`(`)const: [@(0.0.255) int]_[* GetMaxWidth]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the maximal width of character. Depends 
-on information from the font provider, which is not always reliable 
-`- it is better the obtain the spacing info from the width of 
-individual glyphs.&]
+[s2;%RU-RU Возвращает максимальную ширину 
+символа. Зависит от информации от 
+провайдера шрифта, которая не всегда 
+надёжна, `- лучше всего получить информацию 
+о spacing`'е из ширины отдельных глифов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Font`:`:GetMonoWidth`(`)const: [@(0.0.255) int]_[* GetMonoWidth]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает supposed width of character cell 
-if the font is (or is considered) monospace. This is the method 
-used in LineEdit to determine cell width. Currently, max(GetWidth(`'M`'), 
-GetWidth(`'W`')) value is used as GetAveWidth and GetMaxWidth 
-using the information from the font metadata is unreliable.&]
+[s2;%RU-RU Возвращает предполагаемую ширину 
+ячейки символа, если шрифт моноширинный. 
+Этот метод используется в LineEdit для 
+определения ширины ячейки. На данный 
+момент, значение max(GetWidth(`'M`'), GetWidth(`'W`')) 
+используется как GetAveWidth и GetMaxWidth, так 
+как применять информацию из метаданных 
+шрифта ненадёжно.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsNormal`(int`)const: [@(0.0.255) bool]_[* IsNormal]([@(0.0.255) int]_[@3 ch])_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает true, если [%-*@3 ch] exists as 
-regular glyph in the font.&]
+[s2;%RU-RU Возвращает true, если [%-*@3 ch] существует 
+в шрифте как регулярный глиф.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:IsComposed`(int`)const: [@(0.0.255) bool]_[* IsComposed]([@(0.0.255) int]_[@3 ch
 ])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает true, если [%-*@3 ch].is to be 
-rendered as composition of 2 other glyphs (ASCII letter and diacritical 
-mark).&]
+[s2;%RU-RU Возвращает true, если [%-*@3 ch].нужно 
+отображать как сочетание 2`-х других 
+глифов (буква ASCII и диакритическая 
+метка).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:IsReplaced`(int`)const: [@(0.0.255) bool]_[* IsReplaced]([@(0.0.255) int]_[@3 ch
 ])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает true [%-*@3 ch] is to be rendered using 
-character from some other font.&]
+[s2;%RU-RU Возвращает true, если [%-*@3 ch] нужно 
+отображать символом из какого`-либо 
+иного шрифта.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:IsMissing`(int`)const: [@(0.0.255) bool]_[* IsMissing]([@(0.0.255) int]_[@3 ch])
 _[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает true, если [%-*@3 ch] cannot be 
-rendered.&]
+[s2;%RU-RU Возвращает true, если [%-*@3 ch] нельзя 
+отобразить.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:HasChar`(int`)const: [@(0.0.255) int]_HasChar([@(0.0.255) int]_[@3 ch])_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает true, если [%-*@3 ch] can be rendered 
-(in any way).&]
+[s2;%RU-RU Возвращает true, если [%-*@3 ch] можно 
+отобразить (любым образом).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:GetWidth`(int`)const: [@(0.0.255) int]_[* GetWidth]([@(0.0.255) int]_[@3 c])_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает the total advance with of character 
-[%-*@3 c] (encoded in unicode).&]
+[s2;%RU-RU Возвращает общий аванс ширины 
+символа [%-*@3 c] (кодированного в unicode).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:operator`[`]`(int`)const: [@(0.0.255) int]_[@(0.0.255) operator`[`]]([@(0.0.255) i
@@ -365,65 +393,72 @@ nt]_[@3 c])_[@(0.0.255) const]&]
 [s4; &]
 [s5;:Font`:`:GetLeftSpace`(int`)const: [@(0.0.255) int]_[* GetLeftSpace]([@(0.0.255) int]_[@3 c
 ])_[@(0.0.255) const]&]
-[s2;%RU-RU Describes the relation of left side of character cell 
-and leftmost area painted for character [%-*@3 c]. Negative value 
-means that character extends character cell, positive value means 
-that there is a space inside the cell not used for glyph.&]
+[s2;%RU-RU Описывает отношение левой стороны 
+ячейки символа и левой отрисовываемой 
+области символа [%-*@3 c]. Отрицательное 
+значение означает, что символ превышает 
+ячейку, положительное `- что есть внутри 
+ячейки пространство, неиспользуемое 
+глифом.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetRightSpace`(int`)const: [@(0.0.255) int]_[* GetRightSpace]([@(0.0.255) int]_
 [@3 c])_[@(0.0.255) const]&]
-[s2;%RU-RU Similar to GetLeftSpace for the right edge of character 
-cell.&]
+[s2;%RU-RU Подобно GetLeftSpace для правого края 
+ячейки символа.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:IsFixedPitch`(`)const: [@(0.0.255) bool]_[* IsFixedPitch]()_[@(0.0.255) const]&]
-[s2;%RU-RU True if font is mono`-spaced.&]
+[s2;%RU-RU True, если шрифт моноширинный.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Font`:`:IsSerif`(`)const: [@(0.0.255) bool]_[* IsSerif]()_[@(0.0.255) const]&]
-[s2;%RU-RU True if font has serif style.&]
+[s2;%RU-RU True, если у шрифта стиль serif.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Font`:`:IsScript`(`)const: [@(0.0.255) bool]_[* IsScript]()_[@(0.0.255) const]&]
-[s2;%RU-RU True if font has script style.&]
+[s2;%RU-RU True, если у шрифта стиль сценария.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsScaleable`(`)const: [@(0.0.255) bool]_[* IsScaleable]()_[@(0.0.255) const]&]
-[s2;%RU-RU True if font is freely scaleable.&]
+[s2;%RU-RU True, если шрифт свободно масштабируемый.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsSpecial`(`)const: [@(0.0.255) bool]_[* IsSpecial]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает true, если font does not use 
-unicode placement of glyphs, for example some symbol fonts have 
-this issue.&]
+[s2;%RU-RU Возвращает true, если шрифт не использует 
+unicode placement of glyphs, напр., у некоторых 
+символьных шрифтов есть такая проблема.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsTrueType`(`)const: [@(0.0.255) bool]_[* IsTrueType]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает true, если font is TrueType font. 
-(Note that PdfDraw and Linux printing are only able to handle 
-TrueType fonts).&]
+[s2;%RU-RU Возвращает true, если шрифт TrueType. 
+(Заметьте, что только печать в PdfDraw 
+и на Linux могут обрабатывать шрифты 
+TrueType).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetPath`(`)const: [_^String^ String]_[* GetPath]()[@(64) _][@(0.0.255) const]&]
-[s2;%RU-RU [/ POSIX specific:] Возвращает the path of font 
-file.&]
+[s2;%RU-RU [/ Специфика POSIX:] Возвращает путь 
+к файлу шрифта.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetTextFlags`(`)const: [_^String^ String]_[* GetTextFlags]()_[@(0.0.255) const
 ]&]
-[s2;%RU-RU Возвращает font flags (like Bold) in verbose 
-string form (e.g. `"bold underline`").&]
+[s2;%RU-RU Возвращает флаги шрифта (типа 
+Bold) в подробной строковой форме (напр., 
+`"bold underline`").&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:ParseTextFlags`(const char`*`): [@(0.0.255) void]_[* ParseTextFlags]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 s])&]
-[s2;%RU-RU Устанавливаетfont flags based on text in 
-format created by GetTextFlags.&]
+[s2;%RU-RU Устанавливает флаги шрифта, на 
+основе текста в формате, созданном 
+GetTextFlags.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:GetData`(`)const: [_^String^ String]_[* GetData]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the raw content of font file.&]
+[s2;%RU-RU Возвращает сырой контент файла 
+шрифта.&]
 [s3; &]
 [s3; &]
 [s4; &]
@@ -431,27 +466,29 @@ format created by GetTextFlags.&]
 etData]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 table]_`=_NULL, 
 [@(0.0.255) int]_[*@3 offset]_`=_`-[@3 1], [@(0.0.255) int]_[*@3 size]_`=_`-[@3 1])_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает the raw content of font file. [%-*@3 table] 
-[%-*@3 offset] [%-*@3 size] can specify which part of TTF or OTF 
-font data to retrieve.&]
+[s2;%RU-RU Возвращает сырой контент файла 
+шрифта. [%-*@3 table] [%-*@3 offset] [%-*@3 size] может 
+задавать, какую часть данных шрифта 
+TTF или OTF нужно получить.&]
 [s0;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:Render`(FontGlyphConsumer`&`,double`,double`,int`)const: [@(0.0.255) void]_
 [* Render]([_^FontGlyphConsumer^ FontGlyphConsumer][@(0.0.255) `&]_[*@3 sw], 
 [@(0.0.255) double]_[*@3 x], [@(0.0.255) double]_[*@3 y], [@(0.0.255) int]_[*@3 ch])_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU For true`-type fonts, renders the character glyph lines 
-and curves.&]
+[s2;%RU-RU Для шрифтов true`-type, отображает 
+линии и кривые глифа символа.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Font`:`:Font`(`): [* Font]()&]
-[s2;%RU-RU Initializes Font to STDFONT, default height, all attributes 
-not active.&]
+[s2;%RU-RU Инициализует Font в STDFONT, дефолтной 
+высоты, все атрибуты неактивны.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Font`(int`,int`): [* Font]([@(0.0.255) int]_[*@3 face], [@(0.0.255) int]_[*@3 heig
 ht])&]
-[s2;%RU-RU Initializes font to [%-*@3 face] index and [%-*@3 height].&]
+[s2;%RU-RU Инициализует шрифт в индекс фаса 
+[%-*@3 face] и высоту [%-*@3 height].&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Font`(const Nuller`&`): [* Font]([@(0.0.255) const]_[_^Nuller^ Nuller][@(0.0.255) `&
@@ -460,11 +497,12 @@ ht])&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:operator Value`(`)const: [* operator_Value]()[@(64) _][@(0.0.255) const]&]
-[s2;%RU-RU Converts the Font to the Value (font is rich Value).&]
+[s2;%RU-RU Преобразует Font в Value (шрифт является 
+rich Value).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Font`(const Value`&`): [* Font]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[@3 q])&]
-[s2;%RU-RU Converts the Value to the Font.&]
+[s2;%RU-RU Преобразует Value в Font.&]
 [s3; &]
 [s0; ]]

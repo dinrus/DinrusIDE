@@ -1,2 +1,2 @@
 
-#define IDE_VERSION "2023.11"
+#define IDE_VERSION LoadFile(ConfigFile("version"));

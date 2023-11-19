@@ -2,6 +2,8 @@ uses
 	CtrlLib,
 	Synth;
 
+library(POSIX) SDL2;
+
 file
 	SoundMaker.h,
 	SoundMaker.lay,

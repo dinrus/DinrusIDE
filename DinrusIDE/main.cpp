@@ -153,13 +153,13 @@ void AppMain___()
 #ifdef PLATFORM_POSIX
 	RemoveConsoleScripts(); // remove old console-script files
 
-	String home = Environment().Get("UPP_HOME", Null);
+	String home = Environment().Get("DINRUS_HOME", Null);
 	if(!IsNull(home))
 		SetHomeDirectory(home);
 	if(!hasvars) {
 		if(!Install(hasvars))
 			return;
-		SaveFile(ConfigFile("version"), IDE_VERSION);
+		//SaveFile(ConfigFile("version"), IDE_VERSION);
 	}
 #endif
 

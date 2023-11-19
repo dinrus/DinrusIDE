@@ -50,7 +50,7 @@ oveable][3 <][*3 ClipData][3 >_]&]
 [s5;:ClipData`:`:ClipData`(const Value`&`,String`(`*`)`(const Value`&`)`): [* ClipData](
 [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 data], [_^String^ String]_(`*[*@3 ren
 der])([@(0.0.255) const]_Value[@(0.0.255) `&]_[*@3 data]))&]
-[s2;%RU-RU Присваиваеи [%-*@3 data] и [%-*@3 render] соответствую
+[s2;%RU-RU Присваивает [%-*@3 data] и [%-*@3 render] соответствую
 щим переменным`-членам.&]
 [s3;%RU-RU &]
 [s4; &]

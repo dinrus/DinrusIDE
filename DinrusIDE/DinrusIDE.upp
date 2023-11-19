@@ -133,7 +133,7 @@ file
 	src.tpp;
 
 mainconfig
-	"" = "GUI",
+	"DinrusIDE" = "GUI",
 	"" = "GUI USEMALLOC",
 	"" = "GUI HEAPDBG CHECKINIT",
 	"" = "GUI TESTINSTALL",

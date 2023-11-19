@@ -112,8 +112,8 @@ DEBUGGER = "gdb";
 ALLOW_PRECOMPILED_HEADERS = "0";
 DISABLE_BLITZ = "0";
 PATH = "";
-INCLUDE = "";
-LIB = "";
+INCLUDE = "/usr/include/libxml2;/usr/include/gtk-3.0;/usr/include/glib-2.0;/usr/include/pango-1.0;/usr/include/harfbuzz;/usr/include/cairo;/usr/include/gdk-pixbuf-2.0;/usr/include/atk-1.0";
+LIB = "/usr/lib64;/usr/lib";
 LINKMODE_LOCK = "0";)";
 
 //Дефолтные настройки для Clang

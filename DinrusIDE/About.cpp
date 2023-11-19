@@ -13,160 +13,175 @@
 
 String SplashCtrl::GenerateVersionInfo(char separator)
 {
-	String h;
+    String h;
 
-	h << "Версия: DinrusPro_" << GenerateVersionNumber();
-	h << separator;
-	if(sizeof(void *) == 8)
-		h << "(64-битная)";
-	else
-		h << "(32-битная)";
-	if(sizeof(wchar) == 4)
-		h << " (wchar32)";
+    h << "Версия: " << IdeVersion();
+    h << separator;
+    if(sizeof(void *) == 8)
+        h << "(64-битная)";
+    else
+        h << "(32-битная)";
+    if(sizeof(wchar) == 4)
+        h << " (wchar32)";
 #ifdef _MSC_VER
-	h << " (MSC)";
+    h << " (MSC)";
 #endif
 #if __GNUC__
 #if __clang__
-	h << " (CLANG)";
+    h << " (CLANG)";
 #else
-	h << " (GCC)";
+    h << " (GCC)";
 #endif
 #endif
 
 #if __cplusplus >= 202000
-	h << " (C++20)";
+    h << " (C++20)";
 #elif __cplusplus >= 201700
-	h << " (C++17)";
+    h << " (C++17)";
 #elif __cplusplus >= 201400
-	h << " (C++14)";
+    h << " (C++14)";
 #elif __cplusplus >= 201100
-	h << " (C++11)";
+    h << " (C++11)";
 #endif
 
 #ifdef GUI_GTK
-	h << " (Gtk)";
+    h << " (Gtk)";
 #endif
-	h << separator;
+    h << separator;
 #ifdef bmTIME
-	h << "Скомпилировано: " << bmTIME;
+    h << "Скомпилировано: " << bmTIME;
 #endif
 
-	return h;
+    return h;
 }
 
-String SplashCtrl::GenerateVersionNumber()
+String SplashCtrl::IdeVersion()
 {
-String Rev;
-#ifdef bmSVN_REVISION
-	Rev = "_" + AsString(atoi(bmSVN_REVISION));
-#endif
-#ifdef bmGIT_REVCOUNT
-	Rev = "_" + AsString(atoi(bmGIT_REVCOUNT));
-#endif
-	return AsString(IDE_VERSION) + Rev;
+    String versia;
+    
+    if (FileExists(ConfigFile("version")))
+    {
+        //DeleteFile(ConfigFile("version"));
+        versia = IDE_VERSION;
+
+    }
+    else
+    {
+       String Rev = "norepo";
+       #ifdef bmSVN_REVISION
+        Rev = "svn_" + AsString(atoi(bmSVN_REVISION));
+       #endif
+       #ifdef bmGIT_REVCOUNT
+        Rev = "git_" + AsString(atoi(bmGIT_REVCOUNT));
+        #endif
+        Time tm = GetSysTime();
+        versia =  Format("DinrusPro_%02d.%02d.%02d.%02d_%s", tm.year, tm.month, tm.day,
+                          tm.hour, Rev);
+        SaveFile(ConfigFile("version"), versia);
+    }
+    return versia;
 }
 
 Size SplashCtrl::MakeLogo(Ctrl& parent, Array<Ctrl>& ctrl)
 {
-	Image logo = IdeImg::logo();
-	Size  isz = logo.GetSize();
-	ImageCtrl& l = ctrl.Create<ImageCtrl>();
-	Label& v1 = ctrl.Create<Label>();
-	l.SetImage(logo);
-	Size sz = Size(isz.cx, isz.cy/* + 80*/);
-	CodeBaseLock __;
-	const CppBase& cpp = CodeBase();
-	int total = 0;
-	for(int i = 0; i < cpp.GetCount(); i++)
-		total += cpp[i].GetCount();
-		
-	String h;
-	h << GenerateVersionInfo() << "\n";
-	h << "Используется: " << MemoryUsedKb()
+    Image logo = IdeImg::logo();
+    Size  isz = logo.GetSize();
+    ImageCtrl& l = ctrl.Create<ImageCtrl>();
+    Label& v1 = ctrl.Create<Label>();
+    l.SetImage(logo);
+    Size sz = Size(isz.cx, isz.cy/* + 80*/);
+    CodeBaseLock __;
+    const CppBase& cpp = CodeBase();
+    int total = 0;
+    for(int i = 0; i < cpp.GetCount(); i++)
+        total += cpp[i].GetCount();
+        
+    String h;
+    h << GenerateVersionInfo() << "\n";
+    h << "Используется: " << MemoryUsedKb()
 #ifdef PLATFORM_COCOA
-		<< " KB кучи U++\n";
+        << " KB кучи U++\n";
 #else
-		<< " KB\n";
+        << " KB\n";
 #endif
-	if(cpp.GetCount())
-		h << "В базе кода: " << cpp.GetCount() << " классов, " << total << " элементов\n";
-	if(IsUHDMode())
-		h << "Режим UHD\n";
-	v1 = h;
-	v1.HSizePos(DPI(220), DPI(10)).BottomPos(DPI(20), Arial(DPI(20)).GetHeight() * 5);
-	v1.SetFont(Arial(DPI(10)));
-	v1.SetInk(SColorText());
-	l.Add(v1);
-	parent.Add(ctrl.Create<StaticRect>().Color(White).SizePos());
-	parent.Add(l.TopPos(0, isz.cy).LeftPos(0, isz.cx));
-	return sz;
+    if(cpp.GetCount())
+        h << "В базе кода: " << cpp.GetCount() << " классов, " << total << " элементов\n";
+    if(IsUHDMode())
+        h << "Режим UHD\n";
+    v1 = h;
+    v1.HSizePos(DPI(220), DPI(10)).BottomPos(DPI(20), Arial(DPI(20)).GetHeight() * 5);
+    v1.SetFont(Arial(DPI(10)));
+    v1.SetInk(SColorText());
+    l.Add(v1);
+    parent.Add(ctrl.Create<StaticRect>().Color(White).SizePos());
+    parent.Add(l.TopPos(0, isz.cy).LeftPos(0, isz.cx));
+    return sz;
 }
 
 SplashCtrl::SplashCtrl()
 {
-	SetRect(GetWorkArea().CenterRect(MakeLogo(*this, ctrl) + 2));
-	SetFrame(BlackFrame());
+    SetRect(GetWorkArea().CenterRect(MakeLogo(*this, ctrl) + 2));
+    SetFrame(BlackFrame());
 }
 
 void HideSplash()
 {
-	if(Single<SplashCtrl>().IsOpen())
-		Single<SplashCtrl>().Close();
+    if(Single<SplashCtrl>().IsOpen())
+        Single<SplashCtrl>().Close();
 }
 
 void ShowSplash()
 {
-	Single<SplashCtrl>().PopUp(nullptr, false, false);
-	SetTimeCallback(750, [] {
-		HideSplash();
-	});
+    Single<SplashCtrl>().PopUp(nullptr, false, false);
+    SetTimeCallback(750, [] {
+        HideSplash();
+    });
 }
 
 bool IsSplashOpen()
 {
-	return Single<SplashCtrl>().IsOpen();
+    return Single<SplashCtrl>().IsOpen();
 }
 
 class AboutDlg : public TopWindow
 {
 public:
-	AboutDlg()
-	{
-		Size isz = SplashCtrl::MakeLogo(*this, ctrl);
-		int cx = min(isz.cx * 2, GetWorkArea().GetWidth());
-		SetRect(0, 0, cx, isz.cy);
-		about.SetQTF(GetTopic("DinrusIDE/app/About_ru-ru"), Zoom(DPI(120), 1024));
-		about.SetZoom(Zoom(1, 1));
-		about.RightPos(0, cx - isz.cx - DPI(1)).VSizePos();
-		about.HMargins(Zx(4));
-		about.SetFrame(NullFrame());
-		about.NoLazy();
-		Background(PaintRect(ColorDisplay(), SColorPaper()));
-		Add(about);
-		Title("Об ИСР РНЦП Динрус");
-	}
+    AboutDlg()
+    {
+        Size isz = SplashCtrl::MakeLogo(*this, ctrl);
+        int cx = min(isz.cx * 2, GetWorkArea().GetWidth());
+        SetRect(0, 0, cx, isz.cy);
+        about.SetQTF(GetTopic("DinrusIDE/app/About_ru-ru"), Zoom(DPI(120), 1024));
+        about.SetZoom(Zoom(1, 1));
+        about.RightPos(0, cx - isz.cx - DPI(1)).VSizePos();
+        about.HMargins(Zx(4));
+        about.SetFrame(NullFrame());
+        about.NoLazy();
+        Background(PaintRect(ColorDisplay(), SColorPaper()));
+        Add(about);
+        Title("Об ИСР РНЦП Динрус");
+    }
 
-	bool Key(dword key, int) override
-	{
-		switch (key) {
-			case (K_ALT_M):
-				MemoryProfileInfo();
-				return true;
-			case (K_ESCAPE):
-				Close();
-				return true;
-			default:
-				return false;
-		}
-	}
+    bool Key(dword key, int) override
+    {
+        switch (key) {
+            case (K_ALT_M):
+                MemoryProfileInfo();
+                return true;
+            case (K_ESCAPE):
+                Close();
+                return true;
+            default:
+                return false;
+        }
+    }
 
 private:
-	Array<Ctrl>  ctrl;
-	RichTextView about;
+    Array<Ctrl>  ctrl;
+    RichTextView about;
 };
 
 void Ide::About()
 {
-	AboutDlg().Execute();
+    AboutDlg().Execute();
 }

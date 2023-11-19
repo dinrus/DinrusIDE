@@ -856,16 +856,19 @@ rawing][@(0.0.255) `&]_[*@3 iw])&]
 [s5;:Draw`:`:DrawDrawing`(int`,int`,int`,int`,const Drawing`&`): [@(0.0.255) void]_[* Dra
 wDrawing]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], 
 [@(0.0.255) int]_[*@3 cy], [@(0.0.255) const]_[_^Drawing^ Drawing][@(0.0.255) `&]_[*@3 iw])&]
-[s2;%RU-RU Чертит [^Drawing^ Drawing] [%-*@3 iw] scaled to rectangle 
-[%-*@3 r] respectively [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. Frontend 
-to DrawDrawing op.&]
+[s2;%RU-RU Чертит [^Drawing^ Dr][^topic`:`/`/Draw`/src`/Drawing`_ru`-ru`#Drawing`:`:class^ a
+][^Drawing^ wing] [%-*@3 iw], масщтабированный до 
+прямоугольника [%-*@3 r], соответственно 
+с [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. Фронтэнд к DrawDrawing 
+op.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Draw`:`:DrawDrawing`(int`,int`,const Drawing`&`): [@(0.0.255) void]_[* DrawDrawing](
 [@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) const]_[_^Drawing^ Drawing][@(0.0.255) `&
 ]_[*@3 iw])&]
-[s2;%RU-RU Чертит [^Drawing^ Drawing] [%-*@3 iw] at [%-*@3 x],[%-*@3 y], 
-using its original size. Frontend to DrawDrawing op.&]
+[s2;%RU-RU Чертит [^topic`:`/`/Draw`/src`/Drawing`_ru`-ru`#Drawing`:`:class^ Draw
+ing] [%-*@3 iw] at [%-*@3 x],[%-*@3 y], используя его оригинальны
+й размер. Фронтэнд к DrawDrawing op.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawPainting`(int`,int`,const Painting`&`): [@(0.0.255) void]_[* DrawPaintin
@@ -878,11 +881,12 @@ rawPainting]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int
 [s5;:Draw`:`:DrawPainting`(int`,int`,const Painting`&`): [@(0.0.255) void]_[* DrawPaintin
 g]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) const]_[_^Painting^ Painti
 ng][@(0.0.255) `&]_[*@3 iw])&]
-[s2;%RU-RU Чертит [^Painting^ Painting] [%-*@3 iw] scaled to rectangle 
-[%-*@3 r] respectively [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. Painter 
-package has to be included in the project for this to work. Variant 
-without [%-*@3 cx],[%-*@3 cy] paints Painting in its original size. 
-Frontend to DrawPaintingOp.&]
+[s2;%RU-RU Чертит [^Painting^ Painting] [%-*@3 iw], масштабированный
+ до прямоугольник [%-*@3 r], в соответствии 
+с [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. Должен быть включен 
+в проект пакет Painter. Вариант без [%-*@3 cx],[%-*@3 cy] 
+рисует Painting в его оригинальном размере. 
+Фронтэнд к DrawPaintingOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawText`(int`,int`,int`,const wchar`*`,Font`,Color`,int`,const int`*`): [@(0.0.255) v
@@ -936,28 +940,39 @@ oid]_[* DrawText]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255
 le], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 text], 
 [_^Font^ Font]_[*@3 font]_`=_StdFont(), [_^Color^ Color]_[*@3 ink]_`=_DefaultInk, 
 [@(0.0.255) const]_[@(0.0.255) int]_`*[*@3 dx]_`=_NULL)&]
-[s2;%RU-RU Чертит текст [%-*@3 text ]at position starting 
-at [%-*@3 x],[%-*@3 y] (it represents top`-left corner of text cell: 
-for horizontal text, x identifies reference point and y is ascent 
-above the baseline) going at [%-*@3 angle] using [%-*@3 font] and 
-color [%-*@3 ink]. [%-*@3 n] is a number of characters to paint, 
-if negative, it is retrieved using `[w`]strlen. If [%-*@3 dx ]is 
-not NULL, it specifies advancements of individual characters 
-(it must be [%-*@3 n] elements in this array), otherwise advancements 
-from font metrics are used. For 8`-bit texts ([%-*@3 text] is [^String^ String] 
-or [@(0.0.255) const char `*]), if [%-*@3 charset] is present, text 
-is converted from this charset before printing, if no [%-*@3 charset] 
-is specified, default charset is used. DrawText also performs 
-missing glyph replacement and composition. If Draw`::GetInfo() 
-returns DRAWTEXTLINES, DrawText uses DrawLine to provide support 
-for Undeline and Strikeout Font styles. DrawText calls DrawTextOp 
-for low`-level glyph rendering.&]
+[s2;%RU-RU Чертит текст [%-*@3 text ]в позиции, 
+начинающейся с [%-*@3 x],[%-*@3 y] (представляет 
+собой верхний левый угол ячейки текста: 
+для горизонтального текста, x идентифицирует
+ точку ссылки, а y `- подъём над основанием 
+(baseline)) под углом [%-*@3 angle], со шрифтом 
+[%-*@3 font] и цветом [%-*@3 ink]. [%-*@3 n] `- число отрисовывае
+мых символов, если отрицательное, 
+оно получается посредством `[w`]strlen. 
+Если [%-*@3 dx ]не равно NULL, то определяет 
+advancements отдельных символов (в этом 
+массиве должно быть [%-*@3 n] элементов), 
+иначе используются advancements из метрик 
+шрифта. Для 8`-битных текстов ([%-*@3 text] 
+`- [^topic`:`/`/Core`/src`/String`_ru`-ru`#String`:`:class^ String] 
+или [@(0.0.255) const char `*]), если присутствет 
+[%-*@3 charset], текст преобраовывается из 
+этого набсима перед печатью, если 
+[%-*@3 charset] не указан, используется дефолтный 
+набор символов. DrawText aвыполняет такде 
+замену отсутствующих глифов и компонировани
+е. Если Draw`::GetInfo() возвращает DRAWTEXTLINES, 
+DrawText использует DrawLine, чтобы обеспечить 
+поддержку стилей шрифта Undeline и Strikeout. 
+DrawText вызывает DrawTextOp для низкоуровнего 
+отображения глифов.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:SinCos`(int`,double`&`,double`&`): [@(0.0.255) static] 
 [@(0.0.255) void]_[* SinCos]([@(0.0.255) int]_[*@3 angle], [@(0.0.255) double`&]_[*@3 sina], 
 [@(0.0.255) double`&]_[*@3 cosa])&]
-[s2;%RU-RU This simple utility function computes sin(angle) and cos(angle), 
-where the full angle (2[%- π) ]is 3600.&]
+[s2;%RU-RU Эта простая утилитная функция 
+вычисляет sin(angle) и cos(angle), где полный 
+угол angle (2[%- π) равен] 3600.&]
 [s3; &]
 [s0; ]]

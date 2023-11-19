@@ -11,9 +11,9 @@ bool SetupGITMaster()
 	SelectDirButton dir_browse("Целевая папка");
 	dir_browse.Attach(dlg.dir);
 #ifdef PLATFORM_WIN32
-	dlg.dir <<= GetExeDirFile("upp.src");
+	dlg.dir <<= GetExeDirFile("uppsrc");
 #else
-	dlg.dir <<= GetHomeDirFile("upp.src");
+	dlg.dir <<= GetHomeDirFile("uppsrc");
 #endif
 	static MapConvert revcv;
 

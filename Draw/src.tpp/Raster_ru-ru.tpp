@@ -13,49 +13,67 @@ topic "Класс Raster";
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс Raster]]}}&]
 [s3; &]
 [s1;:Raster`:`:class: [@(0.0.255)3 class][3 _][*3 Raster]&]
-[s9;%RU-RU Raster is an abstract class representing raster image. 
-Example of Raster derived classes is PngRaster, that serves as 
-.png image file decoder or MemoryRaster, that represent image 
-in memory that can be in specific format (not RGBA).&]
-[s9;%RU-RU Raster provides basic information about image (GetSize 
-and GetInfo returning Raster`::Info) and is a source of image 
-scanlines. Scanlines are returned as Raster`::Line objects. If 
-possible, Raster derived classes should attempt to minimize memory 
-requirements. For example, PngRaster only fetches individual 
-scanline from the file at time, if possible.&]
+[s9;%RU-RU Raster `- абстрактный класс, представляющий 
+растровое изображение. Примером производног
+о от Raster класса является PngRaster, служащий 
+декодером файла изображения .png, или 
+MemoryRaster, представляющий изображение 
+в памяти, могущее быть в специфичном 
+формате (не RGBA).&]
+[s9;%RU-RU Raster предоставляет базовую информацию 
+об изображении (GetSize и GetInfo, возвращающие 
+Raster`::Info) и является источником сканлиний 
+изображений. Сканлинии возвращаются 
+как объекты Raster`::Line. Если возможно, 
+классы, производные от Raster, должны 
+минимизировать использование памяти. 
+Например, PngRaster за раз получает только 
+отдельную сканлинию, по возможности.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Raster`::Line]]}}&]
 [s3; &]
 [s1;:Raster`:`:Line`:`:class: [@(0.0.255)3 class][3 _][*3 Raster`::Line]&]
-[s2;%RU-RU This class represents a single scanline in the raster. 
-For performance reasons, it uses [^topic`:`/`/Core`/srcdoc`/pick`_`$en`-us^ pick 
-transfer semantics]. As is can be used both is situations where 
-referenced data are stored in Raster or in situations where they 
-need custom storage, constructors have `'free`' parameter. Scanline 
-can be represented in format of Raster or as RGBA array. Conversion 
-to RGBA array is lazy `- does not happen until it is needed.&]
+[s2;%RU-RU Этот класс представляет единичную 
+сканлинию в данном растре. По соображениям 
+производительности, применяется 
+[^topic`:`/`/Core`/srcdoc`/pick`_`_ru`-ru^ семантика трансфера 
+pick]. Так как он может использоваться 
+как в ситуациях, когда ссылочные данные 
+храняться в Raster, так и ситуациях, когда 
+им нужно кастомое хранилище, у конструкторов
+ если параметр `'free`'. Сканлинию можно 
+представить в формате Raster или как 
+массив RGBA. Преобразование в массив 
+RGBA `"ленивое`"(lazy), т.е. отложенное, `- 
+не происходит до тех пор, пока не понадобится
+.&]
 [s2;%RU-RU &]
-[s2;%RU-RU Note that Line is only valid as long as its source Raster 
-exists.&]
+[s2;%RU-RU Заметьте, что Line полноценна только 
+пока существует её исходный Raster.&]
 [s2;%RU-RU &]
-[s2;%RU-RU For convenience, this class is also typedefed as RasterLine.&]
+[s2;%RU-RU Для удобства этот класс также 
+определён как тип RasterLine.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Raster`::Line Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Raster`:`:Line`:`:GetRGBA`(`)const: [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[* GetRGBA]()_
 [@(0.0.255) const]&]
-[s2;%RU-RU Возвращает a pointer to array with scanline 
-pixels. Conversion of Raster format to RGBA buffer is lazy, does 
-not happen before this function is called for the first time. 
-Also, if Raster format is RGBA, no conversion is performed and 
-pointer to raw data is returned.&]
+[s2;%RU-RU Возвращает указатель на массив 
+с пикселями сканлинии. Преобразование 
+формата Raster в буфер RGBA отложенное 
+(lazy), не происходить ранее, чем эта 
+функция вызывается в первый раз. Также, 
+если формат Raster `= RGBA, то преобразования 
+не производится и возвращается указатель 
+на сырые данные.&]
 [s3; &]
 [s4; &]
 [s5;:Raster`:`:Line`:`:GetRawData`(`)const: [@(0.0.255) const]_[_^byte^ byte]_`*[* GetRawDa
 ta]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the scanline in Raster format.&]
+[s2;%RU-RU Возвращает сканлинию в формате 
+Raster.&]
 [s3; &]
 [s4; &]
 [s5;:Raster`:`:Line`:`:operator const RGBA`*`(`)const: [@(0.0.255) operator]_[@(0.0.255) c
@@ -69,97 +87,115 @@ onst]_[_^RGBA^ RGBA]_`*()_[@(0.0.255) const]&]
 [s3; &]
 [s5;:Raster`:`:Line`:`:Line`(const RGBA`*`,bool`): [* Line]([@(0.0.255) const]_[_^RGBA^ RGB
 A]_`*[*@3 data], [@(0.0.255) bool]_[*@3 free])&]
-[s2;%RU-RU Constructs Line from RGBA data. If [%-*@3 free] is true, 
-Line destructor deletes the [%-*@3 data] pointer.&]
+[s2;%RU-RU Конструирует Line из данных RGBA. 
+Если [%-*@3 free] `= true, то деструктор Line удаляет 
+указатель на данные [%-*@3 data].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Raster`:`:Line`:`:Line`(const byte`*`,Raster`*`,bool`): [* Line]([@(0.0.255) const]_
 [_^byte^ byte]_`*[*@3 fmtdata], [_^Raster^ Raster]_`*[*@3 raster], [@(0.0.255) bool]_[*@3 fmt
 free])&]
-[s2;%RU-RU Constructs Line from data [%-*@3 fmtdata] in format of [%-*@3 raster]. 
-If [%-*@3 fmtfree].is true, Line destructor deletes the [%-*@3 fmtdata] 
-pointer.&]
+[s2;%RU-RU Конструирует Line из данных [%-*@3 fmtdata] 
+в формате [%-*@3 raster]. Если [%-*@3 fmtfree `=] true, 
+то деструктор Line удаляет указатель 
+на данные [%-*@3 fmtdata].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Raster`:`:Line`:`:Line`(pick`_ Raster`:`:Line`&`): [* Line]([@(0.128.128) pick`_]_[* L
 ine][@(0.0.255) `&]_[*@3 b])&]
-[s2;%RU-RU Pick constructor.&]
+[s2;%RU-RU Пик`-конструктор.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Raster`:`:Line`:`:Line`(`): [* Line]()&]
-[s2;%RU-RU Дефолтный конструктор. Default constructed 
-Line can be used as target of pick transfer from another Line.&]
+[s2;%RU-RU Дефолтный конструктор. Дефолтно 
+сконструированная Line может использоваться 
+как цель пик`-трансфера из другой 
+Line.&]
 [s3; &]
 [s4; &]
 [s5;:Raster`:`:Line`:`:operator`=`(pick`_ Raster`:`:Line`&`): [@(0.0.255) void]_[* operat
 or`=]([@(0.128.128) pick`_]_[_^Raster`:`:Line^ Line][@(0.0.255) `&]_[*@3 b])&]
-[s2;%RU-RU Pick assignment.&]
+[s2;%RU-RU Пик`-присваивание.&]
 [s3;%RU-RU &]
 [s1;@(0.0.255)3 &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Raster`::Info]]}}&]
 [s3; &]
 [s1;:Raster`:`:Info`:`:struct: [@(0.0.255)3 struct][3 _][*3 Raster`::Info]&]
-[s2;%RU-RU This structure is used to provide the information about 
-Raster. For convenience, this class is also typedefed as RasterInfo.&]
+[s2;%RU-RU Эта структура используется для 
+предоставления информации о Raster. 
+Для удобства, этот класс также объявлен 
+как тип RasterInfo.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Raster`::Line Member Variables]]}}&]
 [s3; &]
 [s5;:Raster`:`:Info`:`:bpp: [@(0.0.255) int]_[* bpp]&]
-[s2;%RU-RU Number of bits per pixel. Default value is 24.&]
+[s2;%RU-RU Число бит на пиксель. Дефолтное 
+значение `= 24.&]
 [s3; &]
 [s4; &]
 [s5;:Raster`:`:Info`:`:colors: [@(0.0.255) int]_[* colors]&]
-[s2;%RU-RU Number of colors. Default value is 16777216.&]
+[s2;%RU-RU Число цветов. Дефолтное значение 
+`= 16777216.&]
 [s3; &]
 [s4; &]
 [s5;:Raster`:`:Info`:`:dots: [_^Size^ Size]_[* dots]&]
-[s2;%RU-RU Physical size of source image, e.g. for scanned images, 
-in 1/600 inches. Size(0, 0) if not known (default value).&]
+[s2;%RU-RU Физический размер исходного изображения
+, напр., для сканированных изображений, 
+в 1/600 дюймов. Size(0, 0), если неизвестен 
+(дефолтное значение).&]
 [s3; &]
 [s4; &]
 [s5;:Raster`:`:Info`:`:hotspot: [_^Point^ Point]_[* hotspot]&]
-[s2;%RU-RU Hotspot location. If not know or there is none, Point(0, 
-0) (default value).&]
+[s2;%RU-RU Положение `"горячей точки`" (Hotspot). 
+Если неизвестно или таковых нет, Point(0, 
+0) (дефолтное значение).&]
 [s3; &]
 [s4; &]
 [s5;:Raster`:`:Info`:`:kind: [@(0.0.255) int]_[* kind]&]
-[s2;%RU-RU The kind of image, one of [* IMAGE`_EMPTY], [* IMAGE`_ALPHA], 
-[* IMAGE`_MASK], [* IMAGE`_OPAQUE]. Default value is [* IMAGE`_OPAQUE].&]
+[s2;%RU-RU Вид изображения: [* IMAGE`_EMPTY], [* IMAGE`_ALPHA], 
+[* IMAGE`_MASK], [* IMAGE`_OPAQUE]. Дефолтное значение 
+`= [* IMAGE`_OPAQUE].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:Raster`:`:Info`:`:orientation: [@(0.0.255) int]_[* orientation]&]
-[s2;%RU-RU Orientation of image. This is one of FLIP`_NONE, FLIP`_MIRROR`_HORZ, 
-FLIP`_ROTATE`_180, FLIP`_MIRROR`_VERT, FLIP`_TRANSPOSE, FLIP`_ROTATE`_CLOCKWISE, 
-FLIP`_TRANSVERSE, FLIP`_ROTATE`_ANTICLOCKWISE. This value is 
-intended to flip Image to correct orientation (usually JPEG from 
-digital camera).&]
+[s2;%RU-RU Ориентация изображения: FLIP`_NONE, 
+FLIP`_MIRROR`_HORZ, FLIP`_ROTATE`_180, FLIP`_MIRROR`_VERT, FLIP`_TRANSPOSE, 
+FLIP`_ROTATE`_CLOCKWISE, FLIP`_TRANSVERSE, FLIP`_ROTATE`_ANTICLOCKWISE. 
+Это значение предназначено для поворота 
+(flip) Image`'а в корректную ориентацию 
+(обычно JPEG с цифровой камеры).&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Raster public methods]]}}&]
 [s3; &]
 [s5;:Raster`:`:SeekPage`(int`): [@(0.0.255) virtual] [@(0.0.255) void]_[* SeekPage]([@(0.0.255) i
 nt]_[*@3 page])&]
-[s2;%RU-RU Provides Raster with ability to handle sources that contain 
-more than single image (e.g. animated GIFs). УстанавливаетRaster 
-to image no [%-*@3 page], first image is 0. Default implementation 
-is empty.&]
+[s2;%RU-RU Предоставляет Raster, способный 
+обрабатывать источники, в которых 
+более одного изображения (напр., анимированн
+ые GIF`'ки). Устанавливает Raster в изображение 
+номер [%-*@3 page], первое изо `= is 0.Дефолтная 
+реализация пуста.&]
 [s3; &]
 [s4;%RU-RU &]
 [s5;:Raster`:`:GetPageCount`(`): [@(0.0.255) virtual] [@(0.0.255) int]_[* GetPageCount]()&]
-[s2;%RU-RU Возвращает a number of images in Raster. Default 
-implementation returns 1.&]
+[s2;%RU-RU Возвращает число изображений 
+в Raster. Дефолтная реализация возвращает 
+1.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Raster`:`:Create`(`): [@(0.0.255) virtual] [@(0.0.255) bool]_[* Create]()&]
-[s2;%RU-RU Called at the beginning of processing of a new raster, 
-e.g. used to read file header and get internal variables ready 
-for processing. false return value indicates failure.&]
+[s2;%RU-RU Вызывается в начале обработки 
+нового растра, напр., используется 
+для чтения заголовочника файла и 
+подготовки внутренних переменных 
+к обработке. Значение возврата false 
+указывает на неудачность.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Raster`:`:GetSize`(`): [@(0.0.255) virtual] [_^Size^ Size]_[* GetSize]()_`=_[@3 0]&]
-[s2;%RU-RU Возвращает размер растра Raster 
-в пикселях.&]
+[s2;%RU-RU Возвращает размер Raster в пикселях.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Raster`:`:GetInfo`(`): [@(0.0.255) virtual] [_^Raster`:`:Info^ Info]_[* GetInfo]()&]
@@ -168,33 +204,36 @@ for processing. false return value indicates failure.&]
 [s4;%RU-RU &]
 [s5;:Raster`:`:GetLine`(int`): [@(0.0.255) virtual] [_^Raster`:`:Line^ Line]_[* GetLine]([@(0.0.255) i
 nt]_[*@3 line])_`=_[@3 0]&]
-[s2;%RU-RU Reads a single scanline [%-*@3 line] from the raster. If 
-possible, Raster should be optimized for reading scanlines in 
-ascending order `- this what most processing functions (should) 
-require.&]
+[s2;%RU-RU Читает единичную сканлинию [%-*@3 line] 
+из растра. По возможности, Raster должен 
+быть оптимизирован на чтение сканлиний 
+в восходящем порядке `- этого требует 
+большинство обрабатывающих функций.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Raster`:`:IsError`(`): [@(0.0.255) virtual] [@(0.0.255) bool]_[* IsError]()&]
-[s2; Signals that during the Raster processing, there was an error. 
-For example, it can signal that .png file is corrupt.&]
+[s2; Сигнализирует об ошибке во время 
+обработки Raster. Например, может сигнализирова
+ть о повреждении файла .png.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Raster`:`:GetPaletteCount`(`): [@(0.0.255) virtual] [@(0.0.255) int]_[* GetPaletteCoun
 t]()&]
-[s2;%RU-RU Возвращает the size of palette for raster. If 
-there is no palette, returns 0.&]
+[s2;%RU-RU Возвращает размер палитры для 
+растра. Если палитры (palette) нет, возвращает 
+0.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Raster`:`:GetPalette`(`): [@(0.0.255) virtual] [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[* Ge
 tPalette]()&]
-[s2;%RU-RU Возвращает current palette, NULL if there is 
-no palette.&]
+[s2;%RU-RU Возвращает текущую палитру, NULL, 
+если её нет.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Raster`:`:GetFormat`(`): [@(0.0.255) virtual] [@(0.0.255) const]_[_^RasterFormat^ Rast
 erFormat]_`*[* GetFormat]()&]
-[s2;%RU-RU Возвращает the format of Raster, can return 
-NULL if format is RGBA.&]
+[s2;%RU-RU Возвращает формат Raster, может возвращать 
+NULL, если формат RGBA.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Raster`:`:GetWidth`(`): [@(0.0.255) int]_[* GetWidth]()&]
@@ -217,11 +256,15 @@ nt]_[*@3 i])&]
 [s5;:Raster`:`:GetImage`(const Gate2`<int`,int`>`): [_^Image^ Image]_[* GetImage]([@(0.0.255) c
 onst]_[_^Gate2^ Gate2]<[@(0.0.255) int], [@(0.0.255) int]>_[*@3 progress]_`=_[@(0.0.255) fa
 lse])&]
-[s2;%RU-RU Converts area [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy], or the 
-whole Rater, to Image. Parameter [%-*@3 progress].can be used to 
-trace the progress of operation (first int is current step, second 
-is number of step to do) and also to cancel the operation (if 
-it returns true; empty Image is returned in that case). Default 
-value for the parameter means no progress feedback is provided.&]
+[s2;%RU-RU Преобразует область [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy], 
+или весь растр, в Image. Параметр [%-*@3 progress].может 
+использоваться для отслеживания 
+операции (первый int `- текущий шаг, 
+второй `- число необходимых шагов), 
+а также для её отмены (если возвращает 
+true; в этом случае возвращается пустое 
+изображение). Дефолтное значение 
+для этого параметра означает, что 
+no progress feedback is provided.&]
 [s3; &]
 [s0; ]]

@@ -151,7 +151,7 @@ void Ide::Exit()
 
 bool Ide::OpenMainPackage()
 {
-	String version = SplashCtrl::GenerateVersionNumber();
+	String version = IDE_VERSION;
 	String tt = "Выберите главный пакет";
 #ifdef bmYEAR
 	tt << " (ИСР РНЦП Динрус " << version

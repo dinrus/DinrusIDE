@@ -14,9 +14,10 @@ topic "Класс PaintRect";
 [s3;%- &]
 [s1;:PaintRect`:`:class:%- [@(0.0.255) class]_[* PaintRect]_:_[@(0.0.255) private]_[*@3 Moveab
 le]<[* PaintRect]>_&]
-[s9; PaintRect is a simple helper class that combines Value and a 
-reference to the Display to provide `"visual content`" of rectangle. 
-It is [%-*@(0.0.255) Moveable].&]
+[s9; PaintRect `- простой вспомогательный класс, 
+комбинирующий Value и ссылку на Display, 
+обеспечивая `"визуальный контент`" 
+прямоугольника. Он типа [%-*@(0.0.255) Moveable].&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
@@ -94,13 +95,13 @@ operation`", calls to GetStdSize and RatioSize return Size(0,
 [s4;%- &]
 [s5;:PaintRect`:`:GetValue`(`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[* G
 etValue]()_[@(0.0.255) const]&]
-[s2; Возвращает the Value.&]
+[s2; Возвращает это Value.&]
 [s7; [*/ Возвратное значение]-|Value.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:GetDisplay`(`)const:%- [@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&
 ]_[* GetDisplay]()_[@(0.0.255) const]&]
-[s2; Возвращает the Display.&]
+[s2; Возвращает этот Display.&]
 [s7; [*/ Возвратное значение]-|Display.&]
 [s3;%- &]
 [s4;%- &]

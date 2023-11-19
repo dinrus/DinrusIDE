@@ -115,12 +115,13 @@ oid]_[* DrawTextEllipsis]([_^Upp`:`:Draw^ Draw][@(0.0.255) `&]_[*@3 w],
 r]_`*[*@3 ellipsis], [_^Upp`:`:Font^ Font]_[*@3 font]_`=_StdFont(), 
 [_^Upp`:`:Color^ Color]_[*@3 ink]_`=_SColorText(), [@(0.0.255) int]_[*@3 n]_`=_`-[@3 1])&]
 [s2;%RU-RU Чертит строку текста [%-*@3 text], ограниченную
- по ширине до [%-*@3 cx]. If the text is longer than 
-what could be fitted to [%-*@3 cx] , it is it is truncated so that 
-it fits together with [%-*@3 ellipsis] text appended into [%-*@3 cx], 
-then drawn with [%-*@3 ellipsis] appended. [%-*@3 n] is the number 
-of characters to be drawn, if `-1, `[w`]strlen(text) is used 
-instead.&]
+ по ширине до [%-*@3 cx]. Если текст длинный 
+и не умещается в [%-*@3 cx] , он обрезается 
+так, чтобы умещался вместе с текстом 
+[%-*@3 ellipsis], приставленным к [%-*@3 cx], а затем 
+чертится с приставкой [%-*@3 ellipsis]. [%-*@3 n] 
+`- число рисуемых символов, если `-1, 
+то вместо него используется `[w`]strlen(text).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DrawTLText`(Upp`:`:Draw`&`,int`,int`,int`,const Upp`:`:wchar`*`,Upp`:`:Font`,Upp`:`:Color`,int`): [@(0.0.255) v
@@ -129,10 +130,12 @@ oid]_[* DrawTLText]([_^Upp`:`:Draw^ Draw][@(0.0.255) `&]_[*@3 draw],
 [@(0.0.255) const]_[_^Upp`:`:wchar^ wchar]_`*[*@3 text], [_^Upp`:`:Font^ Font]_[*@3 font]_`=
 _StdFont(), [_^Upp`:`:Color^ Color]_[*@3 ink]_`=_SColorText(), [@(0.0.255) int]_[*@3 acce
 sskey]_`=_[@3 0])&]
-[s2;%RU-RU This function draws multiline text with tabs (contains 
-`'`\n`' and `'`\t`'), possibly underline single character [%-*@3 accesskey 
-]in the text. Width is limited by [%-*@3 cx] and text is word `- 
-wrapped if line is longer.&]
+[s2;%RU-RU TЭта функция чертить многострочный 
+текст с табуляторами (содержит `'`\n`' 
+и `'`\t`'), возможно, подчёркивается в 
+тексте символ [%-*@3 accesskey]. Ширина ограничена 
+[%-*@3 cx], текст переносится (word`-wrapped), 
+при слишком длинной строке.&]
 [s0;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:GetTLTextSize`(const Upp`:`:wchar`*`,Upp`:`:Font`): [_^Upp`:`:Size^ Size]_[* G

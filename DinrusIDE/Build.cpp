@@ -109,7 +109,7 @@ String Ide::GetOutputDir()
 //Получить директорию конфигурации
 String Ide::GetConfigDir()
 {
-	return GetHomeDirFile(".config/DinrusIDE/" + GetFileTitle(target));
+	return GetHomeDirFile(".config/Dinrus/" + GetFileTitle(target));
 }
 //Очистить пакет
 void Ide::PackageClean()

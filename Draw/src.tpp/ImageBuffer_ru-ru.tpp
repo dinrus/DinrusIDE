@@ -14,13 +14,13 @@ topic "Класс ImageBuffer";
 [s3; &]
 [s1;:ImageBuffer`:`:class: [*@(0.0.255) class][* _ImageBuffer_:_][*@(0.0.255) private][* _][*@3 N
 oCopy]&]
-[s9;%RU-RU ImageBuffer проедставляет собой записываемый
- Image `- массив из пикселей RGBA. ImageBuffer 
+[s9;%RU-RU ImageBuffer представляет собой записываемый 
+Image `- массив из пикселей RGBA. ImageBuffer 
 может преобразовываться в Image за low`-const 
 константное время, при этом теряя 
-совй контент, и наоборот, Image может 
-преобразовываться в ImageBuffer, снова 
-теряя свой контент.&]
+свой контент, и наоборот, Image может 
+преобразовываться в ImageBuffer, опять 
+же, теряя свой контент.&]
 [s9;%RU-RU Контент у Image / ImageBuffer можно классифициров
 ать, чтобы оптимизировать drawing. Возможные 
 классификации&]
@@ -38,11 +38,14 @@ oCopy]&]
 :: [s0;%RU-RU [* IMAGE`_MASK]]
 :: [s0;%RU-RU [@5 `[депрекирован`]]]}}&]
 [s2;%RU-RU &]
-[s9;%RU-RU To optimize drawing performance, is advisable to set kind 
-to IMAGE`_OPAQUE if it is a known fact.&]
-[s9;%RU-RU Pixels of image are organized in simple continual POD 
-array, first pixel being top`-left.&]
-[s9;%RU-RU U`+`+ expects pixels to be in premultiplied alpha format.&]
+[s9;%RU-RU Чтобы оптимизировать производительност
+ь отрисовки, советуем установить 
+вид в IMAGE`_OPAQUE, если это известный факт.&]
+[s9;%RU-RU Пиксели изображения организованы 
+в простой протяжённый массив POD, первый 
+пиксель `- верхний левый.&]
+[s9;%RU-RU U`+`+ ожидает пиксели в преумноженном 
+альфа формате (premultiplied alpha).&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
@@ -66,8 +69,9 @@ array, first pixel being top`-left.&]
 [s4; &]
 [s5;:ImageBuffer`:`:GetScanKind`(`)const: [*@(0.0.255) int][* _GetScanKind()_][*@(0.0.255) c
 onst]&]
-[s2;%RU-RU If kind set by SetKind is other than IMAGE`_UNKNOWN, returns 
-it, otherwise calls ScanKind().&]
+[s2;%RU-RU Если вид, установленный SetKind, иной, 
+чем IMAGE`_UNKNOWN, возвращает его, иначе 
+вызывает ScanKind().&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ImageBuffer`:`:Opaque`(`): [_^Upp`:`:ImageBuffer^ ImageBuffer][@(0.0.255) `&]_
@@ -77,9 +81,11 @@ it, otherwise calls ScanKind().&]
 [s4; &]
 [s5;:ImageBuffer`:`:SetHotSpot`(Point`): [*@(0.0.255) void][* _SetHotSpot(][*_^Point^ Point
 ][* _][*@3 p][* )]&]
-[s2;%RU-RU Устанавливает точку ссылки. This 
-point is e.g. used as hot`-spot when Image is used as mouse pointer. 
-Iml designer has the ability to specify this point.&]
+[s2;%RU-RU Устанавливает точку ссылки. Эта 
+точка, напр., используется как hot`-spot, 
+когда рисунок используется как указатель 
+мыши. Дижайнер Iml может определять 
+эту точку.&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:GetHotSpot`(`)const: [*_^topic`:`/`/Core`/src`/Point`$en`-us^ Point
@@ -116,16 +122,20 @@ Size(0, 0).&]
 ize]_[*@3 sz])&]
 [s2;%RU-RU Устанавливает разрешение рисунка 
 в dpi (`"точек на дюйм`" (`'dots per inch`')).&]
-[s2;%RU-RU As the dpi are not directly stored, if SetDots() is called 
-or image is resized, the dpi could change.&]
+[s2;%RU-RU Так как этот dpi непосредственно 
+не сохраняется, вызывается SetDots() или 
+изменяется размер рисунка, the dpi could 
+change.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:ImageBuffer`:`:GetDPI`(`): [_^topic`:`/`/Core`/src`/Size`$en`-us^ Size]_[* GetDPI]()
 &]
 [s2;%RU-RU Возвращает разрешение рисунка 
 в dpi (dots per inch).&]
-[s2;%RU-RU As the dpi are not directly stored, if SetDots() is called 
-or image is resized, the dpi could change.&]
+[s2;%RU-RU Так как этот dpi непосредственно 
+не сохраняется, вызывается SetDots() или 
+изменяется размер рисунка, the dpi could 
+change.&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:GetSize`(`)const: [*_^topic`:`/`/Core`/src`/Size`$en`-us^ Size][* _Ge
@@ -190,19 +200,21 @@ Size(0, 0).&]
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s5;:Upp`:`:ImageBuffer`:`:IsPaintOnceHint`(`)const: [@(0.0.255) bool]_[* IsPaintOnceHint
 ]()_[@(0.0.255) const]&]
-[s2;%RU-RU Устанавливает/получает the hint that 
-the image will likely be painted only once with Draw`::DrawImage. 
-This hint can improve the rendering performance in certain contexts. 
-Дефолт равен false.&]
+[s2;%RU-RU Устанавливает/получаетхинт (hint), 
+что изображение, вероятно, будет нарисовано 
+только раз посредствомh Draw`::DrawImage. 
+Этот хинт к определённых контекстах 
+может улучшить производительность 
+отображения. Дефолт равен false.&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:operator`=`(Image`&`): [*@(0.0.255) void][* _operator`=(][*_^Image^ Ima
 ge][*@(0.0.255) `&][* _][*@3 img][* )]&]
 [s5;:ImageBuffer`:`:operator`=`(ImageBuffer`&`): [*@(0.0.255) void][* _operator`=(][*_^ImageBuffer^ I
 mageBuffer][*@(0.0.255) `&][* _][*@3 img][* )]&]
-[s2;%RU-RU Assigns pixels of [%-*@3 img] to ImageBuffer. [%-*@3 img] 
-is cleared and empty after this operation, price paid for low`-cost 
-constant time operation.&]
+[s2;%RU-RU Присваивает пиксели [%-*@3 img] ImageBuffer`'у. 
+[%-*@3 img] зачищается и пуст после этой 
+операции.&]
 [s3; &]
 [s0; &]
 [ {{10000t/25b/25@1 [s0; [* Детали Конструктора]]}}&]
@@ -223,8 +235,8 @@ ize][* _][*@3 sz][* )]&]
 ]_[*@3 img])&]
 [s5;:ImageBuffer`:`:ImageBuffer`(ImageBuffer`&`): [* ImageBuffer]([* ImageBuffer][@(0.0.255) `&
 ]_[*@3 img])&]
-[s2;%RU-RU Assigns pixels of [%-*@3 img] to ImageBuffer. [%-*@3 img] 
-is cleared and empty after this operation, price paid for low`-cost 
-constant time operation.&]
+[s2;%RU-RU Присваивает пиксели [%-*@3 img] ImageBuffer`'у. 
+[%-*@3 img] зачищается и пуст после этой 
+операции.&]
 [s3; &]
 [s0; ]]

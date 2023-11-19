@@ -14,12 +14,16 @@ topic "Классы Image и ImageBuffer";
 [s3; &]
 [s1;:Image`:`:class: [*@(0.0.255) class][* _Image_:_][*@(0.0.255) public][* _][*@3 AssignValueTy
 peNo][* <_Image, ][*@3 150][* , ][*_^Moveable^ Moveable][* <Image>_>_]&]
-[s9;%RU-RU Image represents an immutable image value. Image can be 
-directly painted to Draw. To create or change Image, use [^`:`:ImageBuffer^ ImageBu
-ffer].&]
-[s9;%RU-RU Image has low`-cost constant time deep copy. It is moveable 
-and Rich`-Value compatible type.&]
-[s9;%RU-RU U`+`+ expects pixels to be in premultiplied alpha format.&]
+[s9;%RU-RU Image rпредставляет неизменяемое 
+значение рисунка. Image может прямо 
+отрисовываться в Draw. Для создания 
+или изменения Image, используется [^topic`:`/`/Draw`/src`/ImageBuffer`_ru`-ru`#ImageBuffer`:`:class^ I
+mageBuffer].&]
+[s9;%RU-RU У Image константное незначительное 
+время глубокого копирования. Он типа 
+moveable  и совместим с Rich`-Value.&]
+[s9;%RU-RU U`+`+ ожидает пиксели в преумноженном 
+альфа формате (premultiplied alpha).&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
@@ -28,18 +32,19 @@ and Rich`-Value compatible type.&]
 r`~()_[@(0.0.255) const]&]
 [s5;:Image`:`:operator const RGBA`*`(`)const: operator_const_RGBA`*()_[@(0.0.255) const
 ]&]
-[s2;%RU-RU Возвращает a pointer to Image pixels.&]
+[s2;%RU-RU Возвращает указатель на пиксели 
+Image`'а.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:operator`[`]`(int`)const: [@(0.0.255) const]_[_^RGBA^ RGBA][@(0.0.255) `*]_op
 erator`[`]([@(0.0.255) int]_[@3 i])_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает a pointer to the first pixel in the 
-line [%-*@3 i].&]
+[s2;%RU-RU Возвращает указатель на первый 
+пиксель в строке [%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetSize`(`)const: [_^topic`:`/`/Core`/src`/Size`$en`-us^ Size]_GetSize()_
 [@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the dimension of Image.&]
+[s2;%RU-RU Возвращает размер Image`'а.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetWidth`(`)const: [@(0.0.255) int]_GetWidth()_[@(0.0.255) const]&]
@@ -51,49 +56,56 @@ line [%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetLength`(`)const: [@(0.0.255) int]_GetLength()_[@(0.0.255) const]&]
-[s2;%RU-RU Number of pixels in Image `- GetWidth() `* GetHeight().&]
+[s2;%RU-RU Число пикселей в Image`'е `- GetWidth() 
+`* GetHeight().&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetHotSpot`(`)const: [_^topic`:`/`/Core`/src`/Point`$en`-us^ Point]_GetHo
 tSpot()[@(64) _][@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the reference point.&]
+[s2;%RU-RU Возвращает точку ссылки.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:Get2ndSpot`(`)const: [_^topic`:`/`/Core`/src`/Point`$en`-us^ Point]_Get2n
 dSpot()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает secondary reference point.&]
+[s2;%RU-RU Возвращает вторичную точку ссылки.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetDots`(`)const: [_^topic`:`/`/Core`/src`/Size`$en`-us^ Size]_GetDots()[@(64) _
 ][@(0.0.255) const]&]
-[s2;%RU-RU Gets the physical size of Image. If physical size is not 
-set, returns Size(0, 0).&]
+[s2;%RU-RU Выдаёт физический размер Image`'а. 
+Если физический размер не установлен, 
+возвращает Size(0, 0).&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetDPI`(`): [_^Upp`:`:Size^ Size]_[* GetDPI]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the image resolution in dpi (dots 
-per inch).&]
+[s2;%RU-RU Возвращает разрешение изображения 
+в dpi (dots per inch, точки на дюйм).&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetKindNoScan`(`)const: [@(0.0.255) int]_GetKindNoScan()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the kind of image. Unlike GetKind(), 
-it does not perform the scan of image if the kind it not know, 
-therefore it can return IMAGE`_UNKNOWN.&]
+[s2;%RU-RU Возвращает вид рисунка. В отличие 
+от GetKind(), не выполняет сканирования 
+рисунка, если вид неизвестен, следовательно,
+ может вернуть IMAGE`_UNKNOWN.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetKind`(`)const: [@(0.0.255) int]_GetKind()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the kind of image, either set by 
-ImageBuffer`::SetKind or (if it is IMAGE`_UNKNOWN) resolved by 
-scanning pixels. If the kind is IMAGE`_UNKNOWN, the pixels are 
-scanned and the type is determined, it is then stored (in private 
-Image instance variable) for future use and returned.&]
+[s2;%RU-RU Возвращает вид рисунка, либо установленн
+ый ImageBuffer`::SetKind, либо (если это IMAGE`_UNKNOWN) 
+разрешённый путём сканирования пикселей. 
+Если вид IMAGE`_UNKNOWN, сканируются пиксели 
+и определяется тип, затем он сохраняется 
+(в приватной переменной экземпляра 
+класса Image) для дальнейшего использования, 
+и возвращается.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:Begin`(`)const: [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[* Begin]()_[@(0.0.255) con
 st]&]
 [s5;:Upp`:`:Image`:`:begin`(`)const: [@(0.0.255) const]_[_^Upp`:`:RGBA^ RGBA]_`*[* begin]()
 _[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает a pointer to the first pixel.&]
+[s2;%RU-RU Возвращает указатель на первый 
+пиксель.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:End`(`)const: [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[* End]()_[@(0.0.255) const]&]
@@ -205,7 +217,7 @@ parenthesis when passing Iml image constants as arguments.&]
 by this operation.&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
-[ {{10000t/25b/25@1 [s0;%RU-RU [* Standard cursors]]}}&]
+[ {{10000t/25b/25@1 [s0;%RU-RU [* Стандартные курсоры]]}}&]
 [s9;%RU-RU Image class contains several standard mouse cursor Images 
 as static member methods:&]
 [s0;%RU-RU &]

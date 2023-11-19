@@ -198,7 +198,7 @@ void SetAppName(const String& name)
 	SyncLogPath__();
 }
 
-static char sConfigGroup[256] = "DinrusIDE";
+static char sConfigGroup[256] = "Dinrus";
 
 void SetConfigGroup(const char *group)
 {
@@ -704,7 +704,7 @@ String GetDesktopManager()
 
 #if defined(PLATFORM_WIN32)
 
-String GetShellFolder(int clsid) 
+String GetShellFolder(int clsid)
 {
 	WCHAR path[MAX_PATH];
 	if(SHGetFolderPathW(NULL, clsid, NULL, /*SHGFP_TYPE_CURRENT*/0, path) == S_OK)
@@ -760,7 +760,7 @@ String GetPathXdg(String xdgConfigHome, String xdgConfigDirs)
 	return Null;
 }
 
-String GetPathDataXdg(String fileConfig, const char *folder) 
+String GetPathDataXdg(String fileConfig, const char *folder)
 {
 	TextSettings settings;
 	settings.Load(fileConfig);
@@ -792,7 +792,7 @@ String GetPathDataXdg(String fileConfig, const char *folder)
 	return r;
 }
 
-String GetShellFolder(const char *local, const char *users) 
+String GetShellFolder(const char *local, const char *users)
 {
 	String xdgConfigHome = GetEnv("XDG_CONFIG_HOME");
 	if (xdgConfigHome == "")		// By default

@@ -377,7 +377,7 @@ void DlSpellerLangs(DropList& dl)
 		SortByValue(lngs);
 		lng = lngs.PickKeys();
 	}
-	dl.Add(0, "Off");
+	dl.Add(0, "Выкл.");
 	for(auto l : lng)
 		dl.Add(l, LNGAsText(l));
 }

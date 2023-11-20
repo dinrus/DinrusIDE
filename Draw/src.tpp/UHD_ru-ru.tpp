@@ -26,31 +26,35 @@ UHD.&]
 [s4; &]
 [s5;:Upp`:`:SyncUHDMode`(`): [@(0.0.255) void]_[* SyncUHDMode]()&]
 [s2;%RU-RU Устанавливает режим UHD, если текущий 
-шрифт ГИП более 27 пикселей (in windows, 
-that corresponds to text size bigger than approximately 160%).&]
+шрифт ГИП более 27 пикселей (iв ркнах 
+это соответствует размеру текста, 
+большему приблизительно 160%).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:DPI`(const Upp`:`:Image`&`): [_^Upp`:`:Image^ Image]_[* DPI]([@(0.0.255) const]_
 [_^Upp`:`:Image^ Image][@(0.0.255) `&]_[*@3 img])&]
-[s2;%RU-RU Eventually upscales or downscales [%-*@3 img] based on its 
-UHD flag and current mode. Standard images are upscaled 2x in 
-UHD mode, UHD images are downscaled 2x in standard mode.&]
+[s2;%RU-RU В итоге уменьшает или увеличивает 
+изо [%-*@3 img], основываясь на его флаге 
+UHD и текущем режиме. Стандартные изображения
+ увеличиваются в 2x в режиме UHD, изображения 
+UHD уменьшаются в 2x в стандартном режиме.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DPI`(const Upp`:`:Image`&`,int`): [_^Upp`:`:Image^ Image]_[* DPI]([@(0.0.255) c
 onst]_[_^Upp`:`:Image^ Image][@(0.0.255) `&]_[*@3 img], [@(0.0.255) int]_[*@3 expected])&]
-[s2;%RU-RU Upscales [%-*@3 img] 2x if its height is less than or equal 
-to [%-*@3 expected] and UHD mode is active.&]
+[s2;%RU-RU Увеличивает изо [%-*@3 img] в 2x раза, 
+если его высота меньше или равна [%-*@3 expected] 
+и режим UHD активен.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DPI`(int`): [@(0.0.255) int]_[* DPI]([@(0.0.255) int]_[*@3 a])&]
-[s2;%RU-RU Возвращает 2 `* [%-*@3 a] if UHD is active and 
-[%-*@3 a] otherwise.&]
+[s2;%RU-RU Возвращает 2 `* [%-*@3 a], если UHD активен, 
+и [%-*@3 a] в противном случае.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DPI`(Upp`:`:Size`): [_^Upp`:`:Size^ Size]_[* DPI]([_^Upp`:`:Size^ Size]_[*@3 sz])
 &]
-[s2;%RU-RU Возвращает 2 `* [%-*@3 sz] if UHD is active and 
-[%-*@3 sz] otherwise.&]
+[s2;%RU-RU Возвращает 2 `* [%-*@3 sz], если UHD активен, 
+и [%-*@3 sz] в противном случае.&]
 [s3;%RU-RU &]
 [s0;%RU-RU ]]

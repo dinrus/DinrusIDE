@@ -1,0 +1,10 @@
+description "Содержит boostregex для  Scintilla/Lexilla\377";
+
+file
+	config.hpp,
+	cstdint.hpp,
+	current_function.hpp,
+	regex.hpp,
+	regex_fwd.hpp,
+	throw_exception.hpp;
+

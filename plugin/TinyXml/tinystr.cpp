@@ -142,7 +142,7 @@ TiXmlString::TiXmlString (const char* instring)
         current_length = 0;
         return;
     }
-    newlen = lstrlen (instring) + 1;
+    newlen = strlen (instring) + 1;
     newstring = new char [newlen];
     memcpy (newstring, instring, newlen);
     allocated = newlen;
@@ -186,7 +186,7 @@ void TiXmlString ::operator = (const char* content)
         empty_it ();
         return;
     }
-    newlen = lstrlen (content) + 1;
+    newlen = strlen (content) + 1;
     newstring = new char [newlen];
     memcpy (newstring, content, newlen);
     empty_it ();
@@ -232,7 +232,7 @@ void TiXmlString::append( const char* str, int len )
     char* new_string;
     unsigned new_alloc, new_size, size_suffix;
 
-    size_suffix = lstrlen (str);
+    size_suffix = strlen (str);
     if (len < (int) size_suffix)
         size_suffix = len;
     if (! size_suffix)
@@ -286,7 +286,7 @@ void TiXmlString::append( const char* suffix )
     char* new_string;
     unsigned new_alloc, new_size;
 
-    new_size = length () + lstrlen (suffix) + 1;
+    new_size = length () + strlen (suffix) + 1;
     // check if we need to expand
     if (new_size > allocated)
     {
@@ -304,7 +304,7 @@ void TiXmlString::append( const char* suffix )
         // append the suffix. It does exist, otherwize we wouldn't be expanding
         memcpy (new_string + length (),
                 suffix,
-                lstrlen (suffix) + 1);
+                strlen (suffix) + 1);
 
         // return previsously allocated buffer if any
         if (allocated && cstring)
@@ -319,7 +319,7 @@ void TiXmlString::append( const char* suffix )
         // we know we can safely append the new generic_string
         memcpy (cstring + length (),
                 suffix,
-                lstrlen (suffix) + 1);
+                strlen (suffix) + 1);
     }
     current_length = new_size - 1;
 }
@@ -327,13 +327,13 @@ void TiXmlString::append( const char* suffix )
 // Check for TiXmlString equuivalence
 //bool TiXmlString::operator == (const TiXmlString & compare) const
 //{
-//    return (! lstrcmp (c_str (), compare . c_str ()));
+//    return (! strcmp (c_str (), compare . c_str ()));
 //}
 
 //unsigned TiXmlString::length () const
 //{
 //    if (allocated)
-//        // return lstrlen (cstring);
+//        // return strlen (cstring);
 //        return current_length;
 //    return 0;
 //}
@@ -358,7 +358,7 @@ bool TiXmlString::operator == (const TiXmlString & compare) const
     {
         assert( cstring );
         assert( compare.cstring );
-        return ( lstrcmp( cstring, compare.cstring ) == 0 );
+        return ( strcmp( cstring, compare.cstring ) == 0 );
     }
     return false;
 }
@@ -370,7 +370,7 @@ bool TiXmlString::operator < (const TiXmlString & compare) const
     {
         assert( cstring );
         assert( compare.cstring );
-        return ( lstrcmp( cstring, compare.cstring ) > 0 );
+        return ( strcmp( cstring, compare.cstring ) > 0 );
     }
     return false;
 }
@@ -382,7 +382,7 @@ bool TiXmlString::operator > (const TiXmlString & compare) const
     {
         assert( cstring );
         assert( compare.cstring );
-        return ( lstrcmp( cstring, compare.cstring ) < 0 );
+        return ( strcmp( cstring, compare.cstring ) < 0 );
     }
     return false;
 }

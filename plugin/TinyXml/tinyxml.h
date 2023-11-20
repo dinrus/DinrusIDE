@@ -6,9 +6,7 @@
 #define TIXML_OSTREAM   TiXmlOutStream
 
 #include <Core/Core.h>
-#include <assert.h>
-#include <tchar.h>
-#include <string>
+#include <cassert>
 
 namespace Upp{
 
@@ -30,7 +28,7 @@ class TiXmlParsingData;
    The buffer allocation is made by a simplistic power of 2 like mechanism : if we increase
    a String and there's no more room, we allocate a buffer twice as big as we need.
 */
-class TiXmlString : public Upp::String
+class TiXmlString : public String
 {
   public :
     // TiXmlString constructor, based on a String
@@ -74,7 +72,7 @@ class TiXmlString : public Upp::String
     bool empty () const;
 
     // Checks if a TiXmlString contains only whitespace (same rules as isspace)
-    // Not actually used in tinyxml. Conflicts with a C macro, TEXT("isblank"),
+    // Not actually used in tinyxml. Conflicts with a C macro, String("isblank"),
     // which is a problem. Commenting out. -lee
 //    bool isblank () const;
 
@@ -210,7 +208,7 @@ public:
 
         (For an unformatted stream, use the << operator.)
     */
-    virtual void Print( String& outputStream, int depth ) const = 0;
+    virtual void Print( OutStream& outputStream, int depth ) const = 0;
 
     /** The world does not agree on whether white space should be kept or
         not. In order to make everyone happy, these global, static functions
@@ -256,7 +254,7 @@ protected:
     };
 
     static const char*  SkipWhiteSpace( const char* );
-    inline static bool  IsWhiteSpace( int c )       { return ( _istspace( static_cast<char>(c) ) || c == '\n' || c == '\r' ); }
+    inline static bool  IsWhiteSpace( int c )       { return ( iswspace( static_cast<char>(c) ) || c == '\n' || c == '\r' ); }
 
     virtual void StreamOut (TIXML_OSTREAM *) const = 0;
 
@@ -372,7 +370,7 @@ public:
         ELEMENT,
         COMMENT,
         UNKNOWN,
-        TEXT,
+        String,
         DECLARATION,
         TYPECOUNT
     };
@@ -504,7 +502,7 @@ public:
 
     /** Query the type (as an enumerated value, above) of this node.
         The possible types are: DOCUMENT, ELEMENT, COMMENT,
-                                UNKNOWN, TEXT, and DECLARATION.
+                                UNKNOWN, String, and DECLARATION.
     */
     virtual int Type() const    { return type; }
 
@@ -520,7 +518,7 @@ public:
     TiXmlElement*  ToElement() const        { return ( this && type == ELEMENT  ) ? (TiXmlElement*)  this : nullptr; }
     TiXmlComment*  ToComment() const        { return ( this && type == COMMENT  ) ? (TiXmlComment*)  this : nullptr; }
     TiXmlUnknown*  ToUnknown() const        { return ( this && type == UNKNOWN  ) ? (TiXmlUnknown*)  this : nullptr; }
-    TiXmlText*     ToText()    const        { return ( this && type == TEXT     ) ? (TiXmlText*)     this : nullptr; }
+    TiXmlText*     ToText()    const        { return ( this && type == String     ) ? (TiXmlText*)     this : nullptr; }
     TiXmlDeclaration* ToDeclaration() const { return ( this && type == DECLARATION ) ? (TiXmlDeclaration*) this : nullptr;}
 
     virtual TiXmlNode* Clone() const = 0;
@@ -622,7 +620,7 @@ public:
     virtual const char* Parse( const char* p, TiXmlParsingData* data );
 
     // [internal use]
-    virtual void Print( String& outputStream, int depth ) const;
+    virtual void Print( OutStream& outputStream, int depth ) const;
 
     virtual void StreamOut( TIXML_OSTREAM * out ) const;
     // [internal use]
@@ -733,7 +731,7 @@ public:
     virtual TiXmlNode* Clone() const;
     // [internal use]
 
-    virtual void Print( String& outputStream, int depth ) const;
+    virtual void Print( OutStream& outputStream, int depth ) const;
 
 protected:
 
@@ -769,7 +767,7 @@ public:
     // [internal use] Creates a new Element and returs it.
     virtual TiXmlNode* Clone() const;
     // [internal use]
-    virtual void Print( String& outputStream, int depth ) const;
+   virtual void Print( OutStream& outputStream, int depth ) const;
 protected:
     // used to be public
 
@@ -789,14 +787,14 @@ class TiXmlText : public TiXmlNode
     friend class TiXmlElement;
 public:
     /// Constructor.
-    TiXmlText (const char* initValue) : TiXmlNode (TiXmlNode::TEXT)
+    TiXmlText (const char* initValue) : TiXmlNode (TiXmlNode::String)
     {
         SetValue( initValue );
     }
     virtual ~TiXmlText() {}
 
     // [internal use]
-    virtual void Print( String& outputStream, int depth ) const;
+    virtual void Print( OutStream& outputStream, int depth ) const;
 
 protected :
     // [internal use] Creates a new Element and returns it.
@@ -849,7 +847,7 @@ public:
     // [internal use] Creates a new Element and returs it.
     virtual TiXmlNode* Clone() const;
     // [internal use]
-    virtual void Print( String& outputStream, int depth ) const;
+   virtual void Print( OutStream& outputStream, int depth ) const;
 
 protected:
     // used to be public
@@ -881,7 +879,7 @@ public:
     // [internal use]
     virtual TiXmlNode* Clone() const;
     // [internal use]
-    virtual void Print( String& outputStream, int depth ) const;
+   virtual void Print( OutStream& outputStream, int depth ) const;
 protected:
     virtual void StreamOut ( TIXML_OSTREAM * out ) const;
     /*  [internal use]
@@ -982,7 +980,7 @@ public:
     */
     void ClearError()                       {   error = false;
                                                 errorId = 0;
-                                                errorDesc = TEXT("");
+                                                errorDesc = "";
                                                 errorLocation.row = errorLocation.col = 0;
                                                 //errorLocation.last = 0;
                                             }
@@ -991,7 +989,7 @@ public:
     void Print() const                      { /*Print(stdout, 0);*/ }
 
     // [internal use]
-    virtual void Print( String& outputStream, int depth = 0 ) const;
+    //virtual void Print( OutStream& outputStream, int depth = 0 ) const;
     // [internal use]
     void SetError( int err, const char* errorLocation, TiXmlParsingData* prevData );
 
@@ -1017,9 +1015,9 @@ private:
     Take an example:
     @verbatim
     <Document>
-        <Element attributeA = TEXT("valueA")>
-            <Child attributeB = TEXT("value1") />
-            <Child attributeB = TEXT("value2") />
+        <Element attributeA = String("valueA")>
+            <Child attributeB = String("value1") />
+            <Child attributeB = String("value2") />
         </Element>
     <Document>
     @endverbatim

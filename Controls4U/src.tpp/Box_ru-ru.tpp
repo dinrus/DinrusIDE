@@ -1,4 +1,4 @@
-topic "Box : public StaticRect";
+topic "Класс Box";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,82 +10,93 @@ topic "Box : public StaticRect";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@3 [s0;%% [*@7;4 Box]]}}&]
-[s3;%% &]
+[ {{10000@3 [s0;%RU-RU [*@7;4 Класс Box]]}}&]
+[s3;%RU-RU &]
 [s1;:Box`:`:class: [@(0.0.255)3 class][3 _][*3 Box][3  ][@(0.0.255)3 :][3  ][@(0.0.255)3 public][3  
 StaticRect]&]
-[s0;%% &]
-[s0;%% Box is a widget that contains a matrix of child widgets arranged 
-horizontally and vertically in a grid that is dynamically adjusted 
-proportionally or following the output of Function.depending 
-on box dimensions.&]
-[s9;%% &]
-[s3;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Детали Конструктора]]}}&]
+[s0;%RU-RU &]
+[s0;%RU-RU Box `- это виджет, содержащий матрицу 
+виджетов`-отпрысков, расположенную 
+горизонтально и вертикально в сетке, 
+которая динамически настраивается 
+пропорционально или следуя за выводом 
+из Function, зависящей от размеров бокса.&]
+[s9;%RU-RU &]
+[s3;%RU-RU &]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора]]}}&]
 [s3; &]
-[s0;%% No constructor included.&]
+[s0;%RU-RU Нет никакого конструктора.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
 [s4; &]
 [s5;:Upp`:`:Box`:`:Add`(Upp`:`:Ctrl`&`,int`,int`): Box[@(0.0.255) `&] 
 [* Add](Ctrl[@(0.0.255) `&] [*@3 ctrl], [@(0.0.255) int] [*@3 row], [@(0.0.255) int] 
 [*@3 col])&]
-[s2;%% Adds a new [%-*@3 ctrl] , located at [%-*@3 row] and [%-*@3 col] 
- .The control dimensions are re`-scaled automatically.&]
+[s2;%RU-RU Добавляет новый [%-*@3 ctrl] , расположенный 
+в ряду [%-*@3 row] и колонке [%-*@3 col]. Размеры 
+этого контрола ремасштабируются 
+автоматически.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Box`:`:Clear`(`): [@(0.0.255) void] [* Clear]()&]
-[s2;%% Clear all data and sets the size to zero.&]
+[s2;%RU-RU Удаляет все данные и устанавливаеет 
+размер в ноль.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Box`:`:GetRows`(`): [@(0.0.255) int] [* GetRows]()&]
-[s2;%% Возвращает the number of rows.&]
+[s2;%RU-RU Возвращает число рядов.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Box`:`:GetCols`(`): [@(0.0.255) int] [* GetCols]()&]
-[s2;%% Возвращает the number of columns.&]
+[s2;%RU-RU Возвращает число колонок.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Box`:`:SetWidths`(const Vector`&`): Box[@(0.0.255) `&] 
 [* SetWidths]([@(0.0.255) const] Vector<[@(0.0.255) int]>[@(0.0.255) `&] 
 [*@3 t])&]
-[s2;%% Устанавливаетthe width of each column. The size of [%-*@3 t] is the 
-number of columns.&]
-[s2;%% By default, the width is 1000.&]
+[s2;%RU-RU Устанавливает ширину каждой колонки. 
+Размер [%-*@3 t] равен числу колонок.&]
+[s2;%RU-RU Дефолтно ширина равна 1000.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Box`:`:SetWidth`(int`,int`): Box[@(0.0.255) `&] [* SetWidth]([@(0.0.255) int] 
 [*@3 id], [@(0.0.255) int] [*@3 width])&]
-[s2;%% Устанавливаетthe [%-*@3 width] of column [%-*@3 id].&]
+[s2;%RU-RU Устанавливает ширину [%-*@3 width] колонки 
+[%-*@3 id].&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Box`:`:SetHeights`(const Vector`&`): Box[@(0.0.255) `&] 
 [* SetHeights]([@(0.0.255) const] Vector<[@(0.0.255) int]>[@(0.0.255) `&] 
 [*@3 t])&]
-[s2;%% Устанавливаетthe height of each row. The size of [%-*@3 t] is the number 
-of rows.&]
-[s2;%% By default, the height is 1000.&]
+[s2;%RU-RU Устанавливает высоту каждого 
+ряда. Размер [%-*@3 t] равен числу рядов.&]
+[s2;%RU-RU Дефолтно высота равна 1000.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Box`:`:SetHeight`(int`,int`): Box[@(0.0.255) `&] [* SetHeight]([@(0.0.255) int] 
 [*@3 id], [@(0.0.255) int] [*@3 height])&]
-[s2;%% Устанавливаетthe [%-*@3 height ]of row [%-*@3 id].&]
+[s2;%RU-RU Устанавливает высоту [%-*@3 height ]ряда 
+[%-*@3 id].&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Box`:`:WhenWidths: Function<[@(0.0.255) void] ([@(0.0.255) int], 
 [@(0.0.255) int], Vector<[@(0.0.255) int]>[@(0.0.255) `&])> [* WhenWidths]&]
-[s2;%% This function is called when the ctrl is redimensioned.&]
-[s2;%% The arguments are the real width and height of the ctrl, and 
-a Vector with the width of each column, in the same scale that 
-the width and height of the ctrl.&]
+[s2;%RU-RU Эта функция вызывается при перемере 
+контрола.&]
+[s2;%RU-RU Аргументы задают реальную ширину 
+и высоту контрола, и Vector с шириной 
+каждой колонки, в том же масштабе, 
+что и ширина/высота контрола.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Box`:`:WhenHeights: Function<[@(0.0.255) void] ([@(0.0.255) int], 
 [@(0.0.255) int], Vector<[@(0.0.255) int]>[@(0.0.255) `&])> [* WhenHeights]&]
-[s2;%% This function is called when the ctrl is redimensioned.&]
-[s2;%% The arguments are the real width and height of the ctrl, and 
-a Vector with the height of each row, in the same scale that 
-the width and height of the ctrl.&]
+[s2;%RU-RU Эта функция вызывается при перемере 
+контрола.&]
+[s2;%RU-RU Аргументы задают реальную ширину 
+и высоту контрола, и Vector с высотой 
+каждого ряда, в том же масштабе, что 
+и ширина/высота контрола.&]
 [s3; &]
 [s4; &]
-[s0;%% ]]
+[s0;%RU-RU ]]

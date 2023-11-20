@@ -14,8 +14,8 @@ topic "Класс RasterFormat";
 [s3; &]
 [s1;:RasterFormat`:`:struct: [@(0.0.255)3 class][3 _][*3 RasterFormat]&]
 [s9;%RU-RU Этот класс служит как описание 
-и конвертер различных пиксельных 
-форматов. U`+`+, как правило, использует 
+и как конвертер для различных пиксельных 
+форматов. В U`+`+, как правило, используется 
 фиксированный 32`-битный формат RGBA 
 для всякой обработки, но требуются 
 и специальные форматы, напр., для работы 
@@ -26,34 +26,39 @@ topic "Класс RasterFormat";
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Растровые Типы]]}}&]
 [s3; &]
 [ {{3523:6477^ [s0; RASTER`_1]
-:: [s0; 1 бит на пиксель (2 цвета, с палитрой)]
+:: [s0; 1 бит на пиксель (2 цвета, с палитрой).]
 :: [s0; RASTER`_2]
-:: [s0; 2 бит на пиксель (4 цвета, с палитрой)]
+:: [s0; 2 бита на пиксель (4 цвета, с палитрой).]
 :: [s0; RASTER`_4]
-:: [s0; 4 бит на пиксель (16 цвета, с палитрой)]
+:: [s0; 4 бита на пиксель (16 цветов, с палитрой).]
 :: [s0; RASTER`_8]
-:: [s0; 8 бит на пиксель (256 цвета, с палитрой)]
+:: [s0; 8 битов на пиксель (256 цветов, с палитрой).]
 :: [s0; RASTER`_8ALPHA]
-:: [s0; 16 бит на пиксель; 8 bits for color (256 цвета, 
-с палитрой) and 8 bits for alpha]
+:: [s0; 16 битов на пиксель; 8 бит для цвета 
+(256 цветов, с палитрой) и 8 бит для альфы.]
 :: [s0; RASTER`_16]
-:: [s0; 16 бит на пиксель (65536 цвета без палитры), 
-number of bits and placements for individual channels depends 
-on other variables]
+:: [s0; 16 битов на пиксель (65536 цветов без 
+палитры), число битов и параметры 
+для отдельных каналов зависят от 
+других переменных.]
 :: [s0; RASTER`_24]
-:: [s0; 24 бит на пиксель RGB (truecolor), number of bits 
-and placements for individual channels depends on other variables]
+:: [s0; 24 бита на пиксель RGB (truecolor), число 
+битов и параметры для отдельных каналов 
+зависят от других переменных.]
 :: [s0; RASTER`_32]
-:: [s0; 32 бит на пиксель RGB (truecolor), number of bits 
-and placements for individual channels depends on other variables]
+:: [s0; 32 бита на пиксель RGB (truecolor), число 
+битов и параметры для отдельных каналов 
+зависят от других переменных.]
 :: [s0; RASTER`_32ALPHA]
-:: [s0; 32 бит на пиксель RGBA (truecolor), alpha is not 
-premultiplied, number of bits and placements for individual channels 
-depends on other variables]
+:: [s0; 32 бита на пиксель RGBA (truecolor), альфа 
+не премультиплицируется, число битов 
+и параметры для отдельных каналов 
+зависят от других переменных.]
 :: [s0; RASTER`_32PREMULTIPLIED]
-:: [s0; 32 бит на пиксель RGBA (truecolor), alpha is premultiplied, 
-number of bits and placements for individual channels depends 
-on other variables]}}&]
+:: [s0; 32 бита на пиксель RGBA (truecolor), альфа 
+не премультиплицируется, число битов 
+и параметры для отдельных каналов 
+зависят от других переменных.]}}&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
 [s0;i448;a25;kKO9; Все эти значения могут комбинироват
 ься (оператором`|) с&]
@@ -73,7 +78,7 @@ on other variables]}}&]
 [s5;:RasterFormat`:`:Set1mf`(`): [@(0.0.255) void]_[* Set1mf]()&]
 [s2;%RU-RU Устанавливает формат 1 бит на 
 пиксель в реверсированном режиме 
-MSB (RASTER`_1`|RASTER`_MSBFIRST).&]
+MSB (RASTER`_1`| RASTER`_MSBFIRST).&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set2lf`(`): [@(0.0.255) void]_[* Set2lf]()&]
@@ -84,7 +89,7 @@ MSB (RASTER`_1`|RASTER`_MSBFIRST).&]
 [s5;:RasterFormat`:`:Set2mf`(`): [@(0.0.255) void]_[* Set2mf]()&]
 [s2;%RU-RU Устанавливает формат 2 бита на 
 пиксель в реверсированном режиме 
-MSB (RASTER`_2`|RASTER`_MSBFIRST).&]
+MSB (RASTER`_2`| RASTER`_MSBFIRST).&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set4lf`(`): [@(0.0.255) void]_[* Set4lf]()&]
@@ -99,88 +104,98 @@ MSB (RASTER`_4`|RASTER`_MSBFIRST).&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set8`(`): [@(0.0.255) void]_[* Set8]()&]
-[s2;%RU-RU Устанавливает формат 8 бит на 
+[s2;%RU-RU Устанавливает формат 8 битов на 
 пиксель (RASTER`_8).&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set8A`(`): [@(0.0.255) void]_[* Set8A]()&]
-[s2;%RU-RU Устанавливает формат 8`+8 бит на 
-пиксель, with 8 bits for color with palette and 8 bits 
-for alpha (RASTER`_8ALPHA).&]
+[s2;%RU-RU Устанавливает формат 8`+8 битов 
+на пиксель, где 8 битов `- для цвета 
+с палитрой и 8 битов `- для альфы (RASTER`_8ALPHA).&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set16le`(dword`,dword`,dword`): [@(0.0.255) void]_[* Set16le]([_^dword^ d
 word]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], [_^dword^ dword]_[*@3 bmask])&]
-[s2;%RU-RU Устанавливает формат 16  бит на 
-пиксель with channel placement defined by channel masks 
-in little`-endian mode (RASTER`_16).&]
+[s2;%RU-RU Устанавливает формат 16 битов 
+на пиксель, параметры каналов определяются 
+по маске канала в режиме little`-endian (RASTER`_16).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:Set16be`(dword`,dword`,dword`): [@(0.0.255) void]_[* Set16be]([_^dword^ d
 word]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], [_^dword^ dword]_[*@3 bmask])&]
-[s2;%RU-RU Устанавливает формат 16 бит на 
-пиксель with channel placement defined by channel masks 
-in big`-endian mode (RASTER`_16`|RASTER`_MSBFIRST).&]
+[s2;%RU-RU Устанавливает формат 16 битов 
+на пиксель, параметры каналов определяются 
+по маске канала в режиме big`-endian (RASTER`_16 
+`| RASTER`_MSBFIRST).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:Set24le`(dword`,dword`,dword`): [@(0.0.255) void]_[* Set24le]([_^dword^ d
 word]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], [_^dword^ dword]_[*@3 bmask])&]
 [s2;%RU-RU Устанавливает формат 24 бита на 
-пиксель with channel placement defined by channel masks 
-in little`-endian mode (RASTER`_24).&]
+пиксель, параметры каналов определяются 
+по маске канала в режиме little`-endian (RASTER`_24).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:Set24be`(dword`,dword`,dword`): [@(0.0.255) void]_[* Set24be]([_^dword^ d
 word]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], [_^dword^ dword]_[*@3 bmask])&]
 [s2;%RU-RU Устанавливает формат 24 бита на 
-пиксель with channel placement defined by channel masks 
-in big`-endian mode (RASTER`_24`|RASTER`_MSBFIRST).&]
+пиксель, параметры каналов определяются 
+по маске канала в режиме big`-endian (RASTER`_24 
+`| RASTER`_MSBFIRST).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:Set32le`(dword`,dword`,dword`,dword`): [@(0.0.255) void]_[* Set32le](
 [_^dword^ dword]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], [_^dword^ dword]_[*@3 bmask], 
 [_^dword^ dword]_[*@3 amask]_`=_[@3 0])&]
 [s2;%RU-RU Устанавливает формат 32 бита на 
-пиксель with channel placement defined by channel masks 
-in little`-endian mode. If [%-*@3 amask ]is not zero, format is 
-with premultiplied alpha (RASTER`_32PREMULTIPLIED), otherwise 
-it is without alpha (RASTER`_32).&]
+пиксель, параметры каналов определяются 
+по маске канала в режиме little`-endian . 
+Если [%-*@3 amask ] !`= ноль, то формат с премультипли
+цированной альфой (RASTER`_32PREMULTIPLIED), 
+иначе он без альфы (RASTER`_32).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:Set32be`(dword`,dword`,dword`,dword`): [@(0.0.255) void]_[* Set32be](
 [_^dword^ dword]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], [_^dword^ dword]_[*@3 bmask], 
 [_^dword^ dword]_[*@3 amask]_`=_[@3 0])&]
 [s2;%RU-RU Устанавливает формат 32 бита на 
-пиксель with channel placement defined by channel masks 
-in big`-endian mode. If [%-*@3 amask ]is not zero, format is with 
-premultiplied alpha (RASTER`_32PREMULTIPLIED`|RASTER`_MSBFIRST), 
-otherwise it is without alpha (RASTER`_32`|RASTER`_MSBFIRST).&]
+пиксель, параметры каналов определяются 
+по маске канала в режиме big`-endian mode. 
+ Если [%-*@3 amask ] !`= ноль, то формат с премультипли
+цированной альфой  (RASTER`_32PREMULTIPLIED `| 
+RASTER`_MSBFIRST),  иначе он без альфы (RASTER`_32`|RASTER`_MSBFIR
+ST).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:Set32leStraight`(dword`,dword`,dword`,dword`): [@(0.0.255) void]_[* S
 et32leStraight]([_^dword^ dword]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], 
 [_^dword^ dword]_[*@3 bmask], [_^dword^ dword]_[*@3 amask])&]
 [s2;%RU-RU Устанавливает формат 32 бита на 
-пиксель with channel placement defined by channel masks 
-in little`-endian mode with non`-premultiplied alpha (RASTER`_32ALPHA).&]
+пиксель,параметры каналов определяются 
+по маске канала в режиме little`-endian с 
+непремультиплицированной альфой 
+(RASTER`_32ALPHA).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:Set32beStraight`(dword`,dword`,dword`,dword`): [@(0.0.255) void]_[* S
 et32beStraight]([_^dword^ dword]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], 
 [_^dword^ dword]_[*@3 bmask], [_^dword^ dword]_[*@3 amask])&]
 [s2;%RU-RU Устанавливает формат 32 бита на 
-пиксель with channel placement defined by channel masks 
-in little`-endian mode with non`-premultiplied alpha (RASTER`_32ALPHA`|RASTER`_MS
-BFIRST).&]
+пиксель,параметры каналов определяются 
+по маске канала в режиме little`-endian с 
+непремультиплицированной альфой 
+(RASTER`_32ALPHA `| RASTER`_MSBFIRST).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:SetRGBA`(`): [@(0.0.255) void]_[* SetRGBA]()&]
-[s2;%RU-RU Устанавливает режим, that is bitwise 
-equivalent of standard RGBA quads used in Image.&]
+[s2;%RU-RU Устанавливает режим, который 
+побитно (bitwise) эквивалентен стандартным 
+RGBA quads, используемым в изо Image.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:SetRGBAStraight`(`): [@(0.0.255) void]_[* SetRGBAStraight]()&]
-[s2;%RU-RU Similar to SetRGBA, but with non`-premultiplied alpha.&]
+[s2;%RU-RU Подобен SetRGBA, но с непремультиплицирован
+ной альфой.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:GetType`(`)const: [@(0.0.255) int]_[* GetType]()_[@(0.0.255) const]&]
@@ -188,8 +203,9 @@ equivalent of standard RGBA quads used in Image.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:IsRGBA`(`)const: [@(0.0.255) int]_[* IsRGBA]()_[@(0.0.255) const]&]
-[s2;%RU-RU True, if format is bitwise equivalent of standard RGBA 
-quads used in Image.&]
+[s2;%RU-RU True, если формат побитно эквивалентен 
+стандартным RGBA quads, используемым в 
+изо Image.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:GetByteCount`(int`)const: [@(0.0.255) int]_[* GetByteCount]([@(0.0.255) i
@@ -225,19 +241,25 @@ onst]&]
 oid]_[* Read]([_^RGBA^ RGBA]_`*[*@3 t], [@(0.0.255) const]_[_^byte^ byte]_`*[*@3 s], 
 [@(0.0.255) int]_[*@3 cx], [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[*@3 palette])_[@(0.0.255) con
 st]&]
-[s2;%RU-RU Converts scanline [%-*@3 s] of [%-*@3 cx] pixels in current 
-format to regular RGBA scanline [%-*@3 t] using [%-*@3 palette] (ignored 
-for 16 bit and truecolor formats). If format does not have alpha, 
-it is assigned 255 (opaque) to all target pixels.&]
+[s2;%RU-RU Преобразует сканлинию [%-*@3 s], составленную
+ из [%-*@3 cx] пикселей в текущем формате, 
+в обычную сканлинию RGBA [%-*@3 t], используя 
+палитру [%-*@3 palette] (игнорируемую для 
+16`-битных и truecolor форматов). Если у 
+формата отсуствует альфа, то всем 
+её целевым пикселям присваивается 
+255 (непрозрачный, opaque).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:RasterFormat`:`:Write`(byte`*`,const RGBA`*`,int`,const PaletteCv`*`)const: [@(0.0.255) v
 oid]_[* Write]([_^byte^ byte]_`*[*@3 t], [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[*@3 s], 
 [@(0.0.255) int]_[*@3 cx], [@(0.0.255) const]_[_^PaletteCv^ PaletteCv]_`*[*@3 palcv])_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Converts regular RGBA scanline [%-*@3 s] of [%-*@3 cx] pixels 
-to scanline [%-*@3 t] in current format using [%-*@3 palcv] to convert 
-truecolor to palette formats (ignored for 16 bit and truecolor 
-formats).&]
+[s2;%RU-RU Преобразует обычную сканлиниюr 
+RGBA [%-*@3 s] из [%-*@3 cx] пикселей в сканлинию 
+[%-*@3 t] в текущем формате, используя 
+[%-*@3 palcv] для преобразования truecolor в 
+палитровые форматы (игнорируется 
+для 16`-битных и truecolor форматов).&]
 [s3; &]
 [s0; ]]

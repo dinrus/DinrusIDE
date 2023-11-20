@@ -65,9 +65,9 @@ void TiXmlBase::PutString( const TIXML_STRING& str, TIXML_STRING* outString )
 		{
 			// Easy pass at non-alpha/numeric/symbol
 			// 127 is the delete key. Below 32 is symbolic.
-			char buf[32];
-			wsprintf( buf, TEXT("&#x%04X;"), static_cast<unsigned int>(c & 0xffff) );
-			outString->append( buf, lstrlen( buf ) );
+			Upp::String buf;
+			 buf << Upp::Format("&#x%04X;", static_cast<unsigned int>(c & 0xffff));
+			outString->append( buf, strlen( buf ) );
 			++i;
 		}
 		else
@@ -87,7 +87,7 @@ TiXmlBase::StringToBuffer::StringToBuffer( const TIXML_STRING& str )
 	buffer = new char[strLen];
 	if (buffer)
 	{
-		strcpy_s(buffer, strLen, str.c_str());
+		strcpy(buffer, strLen, str.c_str());
 	}
 }
 
@@ -503,7 +503,7 @@ int TiXmlElement::QueryDoubleAttribute( const char* name, double* dval ) const
 void TiXmlElement::SetAttribute( const char* name, int val )
 {
 	char buf[64];
-	wsprintf( buf, TEXT("%d"), val );
+	wprintf( buf, String("%d"), val );
 	SetAttribute( name, buf );
 }
 
@@ -529,24 +529,24 @@ void TiXmlElement::SetAttribute( const char* name, const char* _value )
 	}
 }
 
-void TiXmlElement::Print( String& outputStream, int depth ) const
+void TiXmlElement::Print( OutStream& outputStream, int depth ) const
 {
 	int i;
 	for ( i=0; i<depth; i++ )
 	{
 		outputStream += "    ";
-		//fprintf( cfile, TEXT("    ") );
+		//fprintf( cfile, String("    ") );
 	}
 
 	String tagOpenValue = "<" << value;
 	outputStream += tagOpenValue;
-	//fprintf( cfile, TEXT("<%ls"), value.c_str() );
+	//fprintf( cfile, String("<%ls"), value.c_str() );
 
 	TiXmlAttribute* attrib;
 	for ( attrib = attributeSet.First(); attrib; attrib = attrib->Next() )
 	{
 		outputStream += " ";
-		//fprintf(cfile, TEXT(" "));
+		//fprintf(cfile, String(" "));
 
 		attrib->Print(outputStream, depth );
 	}
@@ -559,55 +559,55 @@ void TiXmlElement::Print( String& outputStream, int depth ) const
 	if ( !firstChild )
 	{
 		outputStream += " />";
-		//fprintf( cfile, TEXT(" />") );
+		//fprintf( cfile, String(" />") );
 	}
 	else if ( firstChild == lastChild && firstChild->ToText() )
 	{
 		outputStream += ">";
-		//fprintf( cfile, TEXT(">") );
+		//fprintf( cfile, String(">") );
 
 		firstChild->Print(outputStream, depth + 1 );
 
 		String tagCloseWithValue = "</" << value << ">";
 		outputStream += tagCloseWithValue;
-		//fprintf( cfile, TEXT("</%ls>"), value.c_str() );
+		//fprintf( cfile, String("</%ls>"), value.c_str() );
 	}
 	else
 	{
 		outputStream += ">";
-		//fprintf( cfile, TEXT(">") );
+		//fprintf( cfile, String(">") );
 
 		for ( node = firstChild; node; node=node->NextSibling() )
 		{
 			if ( !node->ToText() )
 			{
 				outputStream += "\r\n";
-				//fprintf( cfile, TEXT("\n") );
+				//fprintf( cfile, String("\n") );
 			}
 			node->Print(outputStream, depth+1 );
 		}
 		outputStream += "\r\n";
-		//fprintf( cfile, TEXT("\n") );
+		//fprintf( cfile, String("\n") );
 
 		for( i=0; i<depth; ++i )
 			outputStream += "    ";
-			//fprintf( cfile, TEXT("    ") );
+			//fprintf( cfile, String("    ") );
 
 		String tagCloseWithValue = "</";
 		tagCloseWithValue += value + ">";
 		outputStream += tagCloseWithValue;
-		//fprintf( cfile, TEXT("</%ls>"), value.c_str() );
+		//fprintf( cfile, String("</%ls>"), value.c_str() );
 	}
 }
 
 void TiXmlElement::StreamOut( TIXML_OSTREAM * stream ) const
 {
-	(*stream) << TEXT("<") << value;
+	(*stream) << "<" << value;
 
 	TiXmlAttribute* attrib;
 	for ( attrib = attributeSet.First(); attrib; attrib = attrib->Next() )
 	{
-		(*stream) << TEXT(" ");
+		(*stream) << " ";
 		attrib->StreamOut( stream );
 	}
 
@@ -616,17 +616,17 @@ void TiXmlElement::StreamOut( TIXML_OSTREAM * stream ) const
 	TiXmlNode* node;
 	if ( firstChild )
 	{
-		(*stream) << TEXT(">");
+		(*stream) << (">";
 
 		for ( node = firstChild; node; node=node->NextSibling() )
 		{
 			node->StreamOut( stream );
 		}
-		(*stream) << TEXT("</") << value << TEXT(">");
+		(*stream) << "</" << value << ">";
 	}
 	else
 	{
-		(*stream) << TEXT(" />");
+		(*stream) << " />";
 	}
 }
 
@@ -708,7 +708,7 @@ bool TiXmlDocument::LoadFile( const char* filename )
 	// Fixed with the StringToBuffer class.
 	value = filename;
 
-	FILE* file = fopen( value.c_str (), TEXT("r") );
+	FILE* file = fopen( value.c_str (), "r" );
 
 	if ( file )
 	{
@@ -783,7 +783,7 @@ TiXmlNode* TiXmlDocument::Clone() const
 }
 
 
-void TiXmlDocument::Print( String& outputStream, int depth ) const
+void TiXmlDocument::Print( OutStream& outputStream, int depth ) const
 {
 	TiXmlNode* node;
 	for ( node=FirstChild(); node; node=node->NextSibling() )
@@ -791,7 +791,7 @@ void TiXmlDocument::Print( String& outputStream, int depth ) const
 		node->Print(outputStream, depth );
 
 		outputStream += "\r\n";
-		//generic_fprintf( cfile, TEXT("\n") );
+		//generic_fprintf( cfile, String("\n") );
 	}
 }
 
@@ -831,7 +831,7 @@ TiXmlAttribute* TiXmlAttribute::Previous() const
 }
 
 
-void TiXmlAttribute::Print( String& outputStream, int depth ) const
+void TiXmlAttribute::Print( OutStream& outputStream, int depth ) const
 {
 	TIXML_STRING n, v;
 
@@ -856,29 +856,29 @@ void TiXmlAttribute::StreamOut( TIXML_OSTREAM * stream ) const
 	if (value.find( '\"' ) != TIXML_STRING::npos)
 	{
 		PutString( name, stream );
-		(*stream) << TEXT("=") << TEXT("'");
+		(*stream) << "=" << "'";
 		PutString( value, stream );
-		(*stream) << TEXT("'");
+		(*stream) << "'";
 	}
 	else
 	{
 		PutString( name, stream );
-		(*stream) << TEXT("=") << TEXT("\"");
+		(*stream) << "=" << "\"";
 		PutString( value, stream );
-		(*stream) << TEXT("\"");
+		(*stream) << "\"";
 	}
 }
 
 int TiXmlAttribute::QueryIntValue( int* ival ) const
 {
-	if ( sscanf( value.c_str(), TEXT("%d"), ival ) == 1 )
+	if ( sscanf( value.c_str(), "%d", ival ) == 1 )
 		return TIXML_SUCCESS;
 	return TIXML_WRONG_TYPE;
 }
 
 int TiXmlAttribute::QueryDoubleValue( double* dval ) const
 {
-	if ( sscanf( value.c_str(), TEXT("%lf"), dval ) == 1 )
+	if ( sscanf( value.c_str(), "%lf", dval ) == 1 )
 		return TIXML_SUCCESS;
 	return TIXML_WRONG_TYPE;
 }
@@ -886,14 +886,14 @@ int TiXmlAttribute::QueryDoubleValue( double* dval ) const
 void TiXmlAttribute::SetIntValue( int _value )
 {
 	char buf [64];
-	wsprintf (buf, TEXT("%d"), _value);
+	wprintf (buf, "%d", _value);
 	SetValue (buf);
 }
 
 void TiXmlAttribute::SetDoubleValue( double _value )
 {
 	char buf [64];
-	wsprintf (buf, TEXT("%lf"), _value);
+	wprintf (buf, "%lf", _value);
 	SetValue (buf);
 }
 
@@ -907,7 +907,7 @@ const double  TiXmlAttribute::DoubleValue() const
 	return atof (value.c_str ());
 }
 
-void TiXmlComment::Print( String& outputStream, int depth ) const
+void TiXmlComment::Print( OutStream& outputStream, int depth ) const
 {
 	for ( int i=0; i<depth; i++ )
 	{
@@ -920,9 +920,9 @@ void TiXmlComment::Print( String& outputStream, int depth ) const
 
 void TiXmlComment::StreamOut( TIXML_OSTREAM * stream ) const
 {
-	(*stream) << TEXT("<!--");
+	(*stream) << ("<!--";
 	PutString( value, stream );
-	(*stream) << TEXT("-->");
+	(*stream) << "-->";
 }
 
 TiXmlNode* TiXmlComment::Clone() const
@@ -937,13 +937,13 @@ TiXmlNode* TiXmlComment::Clone() const
 }
 
 
-void TiXmlText::Print( String& outputStream, int /*depth*/ ) const
+void TiXmlText::Print( OutStream& outputStream, int /*depth*/ ) const
 {
 	TIXML_STRING buffer;
 	PutString( value, &buffer );
 
 	outputStream << buffer;
-	//generic_fprintf( cfile, TEXT("%ls"), buffer.c_str() );
+	//generic_fprintf( cfile, String("%ls"), buffer.c_str() );
 }
 
 
@@ -956,7 +956,7 @@ void TiXmlText::StreamOut( TIXML_OSTREAM * stream ) const
 TiXmlNode* TiXmlText::Clone() const
 {
 	TiXmlText* clone = 0;
-	clone = new TiXmlText( TEXT("") );
+	clone = new TiXmlText( "" );
 
 	if ( !clone )
 		return 0;
@@ -976,7 +976,7 @@ TiXmlDeclaration::TiXmlDeclaration( const char* _version,
 	standalone = _standalone;
 }
 
-void TiXmlDeclaration::Print( String& outputStream, int /*depth*/ ) const
+void TiXmlDeclaration::Print( OutStream& outputStream, int /*depth*/ ) const
 {
 	String xmlDcl = "<?xml ";
 
@@ -1001,27 +1001,27 @@ void TiXmlDeclaration::Print( String& outputStream, int /*depth*/ ) const
 
 void TiXmlDeclaration::StreamOut( TIXML_OSTREAM * stream ) const
 {
-	(*stream) << TEXT("<?xml ");
+	(*stream) << "<?xml ";
 
 	if ( !version.empty() )
 	{
-		(*stream) << TEXT("version=\"");
+		(*stream) << "version=\"";
 		PutString( version, stream );
-		(*stream) << TEXT("\" ");
+		(*stream) << ("\" ";
 	}
 	if ( !encoding.empty() )
 	{
-		(*stream) << TEXT("encoding=\"");
+		(*stream) << "encoding=\"";
 		PutString( encoding, stream );
-		(*stream ) << TEXT("\" ");
+		(*stream ) << "\" ";
 	}
 	if ( !standalone.empty() )
 	{
-		(*stream) << TEXT("standalone=\"");
+		(*stream) << "standalone=\"";
 		PutString( standalone, stream );
-		(*stream) << TEXT("\" ");
+		(*stream) << "\" ";
 	}
-	(*stream) << TEXT("?>");
+	(*stream) << "?>";
 }
 
 TiXmlNode* TiXmlDeclaration::Clone() const
@@ -1039,7 +1039,7 @@ TiXmlNode* TiXmlDeclaration::Clone() const
 }
 
 
-void TiXmlUnknown::Print( String& outputStream, int depth ) const
+void TiXmlUnknown::Print( OutStream& outputStream, int depth ) const
 {
 	for ( int i=0; i<depth; i++ )
 		outputStream += "    ";
@@ -1049,7 +1049,7 @@ void TiXmlUnknown::Print( String& outputStream, int depth ) const
 
 void TiXmlUnknown::StreamOut( TIXML_OSTREAM * stream ) const
 {
-	(*stream) << TEXT("<") << value << TEXT(">");		// Don't use entities hear! It is unknown.
+	(*stream) << "<" << value << ">";		// Don't use entities hear! It is unknown.
 }
 
 TiXmlNode* TiXmlUnknown::Clone() const
@@ -1113,7 +1113,7 @@ TiXmlAttribute*	TiXmlAttributeSet::Find( const char* name ) const
 
 	for( node = sentinel.next; node != &sentinel; node = node->next )
 	{
-		if ( node->name == String(name) )
+		if ( node->name == name )
 			return node;
 	}
 	return 0;

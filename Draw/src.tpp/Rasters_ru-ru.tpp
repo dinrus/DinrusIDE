@@ -22,7 +22,7 @@ Raster к существующему Image.&]
 [s3; &]
 [s5;:ImageRaster`:`:ImageRaster`(const Image`&`): [* ImageRaster]([@(0.0.255) const]_[_^Image^ I
 mage][@(0.0.255) `&]_[*@3 img])&]
-[s2;%RU-RU Создаёт Raster из [%-*@3 img].&]
+[s2;%RU-RU Создаёт растр Raster из изо [%-*@3 img].&]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс MemoryRaster]]}}&]
 [s3;%RU-RU &]
@@ -37,26 +37,27 @@ mage][@(0.0.255) `&]_[*@3 img])&]
 [s3; &]
 [s5;:MemoryRaster`:`:Load`(Raster`&`): [@(0.0.255) void]_[* Load]([_^Raster^ Raster][@(0.0.255) `&
 ]_[*@3 raster])&]
-[s2;%RU-RU Загружает [%-*@3 raster] в MemoryRaster. Сохраняет 
-формат источника.&]
+[s2;%RU-RU Загружает раст [%-*@3 raster] в память 
+MemoryRaster. Сохраняет формат источника.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:MemoryRaster`:`:GetLength`(`)const: [@(0.0.255) int]_[* GetLength]()_[@(0.0.255) const
 ]&]
-[s2;%RU-RU Возвращает чило байтов, использованных 
-для сохранения скан`-линий MemoryRaster.&]
+[s2;%RU-RU Возвращает число байтов, использованных
+ для сохранения скан`-линий MemoryRaster.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:MemoryRaster`:`:MemoryRaster`(`): [* MemoryRaster]()&]
-[s2;%RU-RU Конструирует пустой MemoryRaster.&]
+[s2;%RU-RU Конструирует пустой растр в памяти 
+MemoryRaster.&]
 [s3; &]
 [s4; &]
 [s5;:MemoryRaster`:`:MemoryRaster`(Raster`&`): [* MemoryRaster]([_^Raster^ Raster][@(0.0.255) `&
 ]_[*@3 raster])&]
-[s2;%RU-RU Загружает [%-*@3 raster] в MemoryRaster. Сохраняет 
-формат источника.&]
+[s2;%RU-RU Загружает [%-*@3 raster] в память MemoryRaster. 
+Сохраняет формат источника.&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
 [s0;%RU-RU &]
@@ -65,11 +66,14 @@ mage][@(0.0.255) `&]_[*@3 img])&]
 [s3;%RU-RU &]
 [s1;:StreamRaster`:`:class: [@(0.0.255)3 class][3 _][*3 StreamRaster][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Raster]&]
-[s9;%RU-RU Represents an image stored in Stream, usually used as 
-base`-class for image decoders, e.g. PNGRaster. StreamRaster 
-derived classes can be registered, in that case a class factory 
-of such class is stored in an array and attempted to load the 
-file of unknown format type.&]
+[s9;%RU-RU Представляет собой изображение, 
+сохранённое в поток Stream; обычно используется
+ в качестве класса`-основы для декодеров 
+изображений, напр., PNGRaster. Могут регистрирова
+ться производные от StreamRaster классы, 
+в таком случае `"фабрика`" такого класса 
+сохраняется в массиве и пытается 
+загружать файл неизвестного формата.&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
@@ -80,21 +84,26 @@ file of unknown format type.&]
 [s4; &]
 [s5;:StreamRaster`:`:Open`(Stream`&`): [@(0.0.255) bool]_[* Open]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2;%RU-RU Associates stream [%-*@3 s].with StreamRaster (reference 
-is stored) and calls Create virtual method so that derived class 
-can read the stream header and prepare everything for reading 
-scanlines. If Create signals failure by returning false, put 
-StreamRaster in error state and returns false.&]
+[s2;%RU-RU Ассоциирует поток [%-*@3 s].с растром 
+в памяти StreamRaster`'ом (сохраняется ссылка) 
+и вызывает виртуальный метод Create, 
+после чего производный класс может 
+прочесть заголовочник потока и подготовитьс
+я к чтению сканлиний. Если Create сигнализирует
+ о неудаче, возвращая false, тогда StreamRaster 
+устанавливается в состояние ошибки 
+а возвращается false.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:StreamRaster`:`:IsError`(`): [@(0.0.255) bool]_[* IsError]()&]
 [s2;%RU-RU Возвращает true, если возникла какая`-либо 
 ошибка. Переустанавливается (сбрасывается) 
-в Open.&]
+в методе Open.&]
 [s3; &]
 [s4; &]
 [s5;:StreamRaster`:`:SetError`(`): [@(0.0.255) void]_[* SetError]()&]
-[s2;%RU-RU Вводит StreamRaster в состояние ошибки.&]
+[s2;%RU-RU Вводит растр в памяти StreamRaster в 
+состояние ошибки.&]
 [s3; &]
 [s4; &]
 [s5;:StreamRaster`:`:Load`(Stream`&`,const Gate2`<int`,int`>`): [_^Image^ Image]_[* Load](
@@ -107,26 +116,33 @@ ate2]<[@(0.0.255) int], [@(0.0.255) int]>_[*@3 progress]_`=_[@(0.0.255) false])&
 mage]_[* LoadString]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 s], 
 [@(0.0.255) const]_[_^Gate2^ Gate2]<[@(0.0.255) int], [@(0.0.255) int]>_[*@3 progress]_`=_[@(0.0.255) f
 alse])&]
-[s2;%RU-RU Using Raster virtual methods, loads Image from Stream, 
-file, or string. [%-*@3 progress] can be used to track the progress 
-and to cancel loading (by returning true).&]
+[s2;%RU-RU Используя виртуальные методы 
+Raster, загружает изо Image из потока Stream, 
+из файла или из строки. [%-*@3 progress] может 
+использоваться для отслеживания 
+прогресса и отмены загрузки (возвратом 
+true).&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Registered Decoders and multi`-format support]]}}&]
 [s4;H0; &]
 [s5;:StreamRaster`:`:Register`(`): [@(0.0.255) static] [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[@(0.0.255) void]_[* Register]()&]
-[s2;%RU-RU Registers StreamRaster derived class [%-*@4 T].&]
+[s2;%RU-RU Регистрирует производный от StreamRaster 
+класс [%-*@4 T].&]
 [s3; &]
 [s4; &]
 [s5;:StreamRaster`:`:OpenAny`(Stream`&`): [@(0.0.255) static] [_^One^ One]<[_^StreamRaster^ S
 treamRaster]>_[* OpenAny]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Attempts to open the image raster stored in [%-*@3 s] using 
-all StreamRaster derived classes (decoders) registered by Register 
-(usually, established image file formats like png, gif, bmp are 
-registered). If any decoder is able to open the stream, returns 
-One container with opened decoder, otherwise returned One is 
-empty.&]
+[s2;%RU-RU Пытается открыть растр изо, сохранённый 
+в [%-*@3 s], используя все производные 
+от StreamRaster классы (декодеры), зарегистрирован
+ные посредством Register (обычно, установленные 
+форматы файлов изображений, типа 
+png, gif, bmp регистрируются).Если любой 
+из декодером способен открыть этот 
+поток, возвращает контенер One с открытым 
+декодером, иначе возвращаемый One пуст.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:StreamRaster`:`:LoadAny`(Stream`&`,const Gate2`<int`,int`>`): [@(0.0.255) static] 
@@ -141,15 +157,19 @@ alse])&]
 tatic] [_^Image^ Image]_[* LoadStringAny]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[*@3 s], [@(0.0.255) const]_[_^Gate2^ Gate2]<[@(0.0.255) int], [@(0.0.255) int]>__`=_[@(0.0.255) f
 alse])&]
-[s2;%RU-RU Attempts to read Image from the stream, file or string, 
-using all registered decoders. [%-*@3 progress] can be used to 
-track progress of operation or to cancel it by returning true.&]
+[s2;%RU-RU Пытается прочесть изо Image из потока, 
+из файла или из строки, используя 
+все зарегистрированные декодеры. 
+[%-*@3 progress] может использоваться для 
+отслеживания прогресса операции 
+или её отмены, возвратом true.&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Конструктор  detail]]}}&]
 [s4;H0; &]
 [s5;:StreamRaster`:`:StreamRaster`(`): [* StreamRaster]()&]
-[s2;%RU-RU Puts StreamRaster into error state (error state is reset 
-by Open).&]
+[s2;%RU-RU Ставит StreamRaster в состояние ошибки 
+(состояние ошибки сбрасывается посредством 
+Open).&]
 [s3; &]
 [s0; ]]

@@ -1,5 +1,4 @@
-topic "EditFolder";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "ÐšÐ»Ð°ÑÑ EditFolder";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,65 +8,31 @@ topic "EditFolder";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
-[ {{10000@3 [s0; [*@7;4 EditFolder]]}}&]
+[ {{10000@3 [s0; [*@7;4 ÐšÐ»Ð°ÑÑ EditFolder]]}}&]
 [s3; &]
 [s1;:EditFolder`:`:class:~~~256;%- [@(0.0.255)3 class][3 _][*3 EditFolder][3 _:_][@(0.0.255)3 pu
-blic][3 _][*^topic`:`/`/Controls4U`/src`/EditFileFolder`$en`-us`#EditFileFolder`:`:class^@3;3 E
+blic][3 _][*^topic`:`/`/Controls4U`/src`/EditFileFolder`_ru`-ru`#EditFileFolder`:`:class^@3;3 E
 ditFileFolder]&]
 [s0;~~~256; &]
-[s0;~~~256; As seen in layout designer:&]
+[s0;~~~256; Ð’Ð¸Ð´ Ð² Ð´Ð¸Ð·Ð°Ð¹Ð½ÐµÑ€Ðµ Ð²Ñ‹ÐºÐ»Ð°Ð´Ð¾Ðº:&]
 [s0;~~~256; &]
 [s2;~~~256; 
 @@image:1525&131
-‚ƒô€•€€€€€€€€€€ø·œíÚÝŽ‚°Ð”Àá·è¢Üü‰¯î‹¥¸“¬ÊÂ‚ØûûóŒé‹¶ž¯¾¸Öã…˜œîô˜™çàØ“°–ÏçÜÖö˜Å
-ï’´×ö«Û²ñØ§²Å©¶åó–õñãˆ‚ü±Å™ê»¨çóÎÛ¸™©âÎÚÆÇäœ÷»ÇóðÛëšø¯ÛÓíóˆ‘¯ Å–ƒª¯Î¥‹ìõñ¸íµï
-‹¯í¤ÚÆ¹õæîË¼ÍíË¼‘“íûãÜû®šßü©¾Åþ–óÿã£´˜ÝÄÓ·Ì²ïëÛîÞÞêžä³ïû­äÉä€…çŠÂÂ¿Œúù¾·ÛÖÞä„
-ÄÎžÐéó»ÿÚ”èÑ‹¹­¯›”ºí‡ÞÞøöÀÆõàªï·þåØÉ¶Ý¡ýí¶õã‘¿·Õó“¢»õï“„˜ðÿ›ç«ûÿ·›¶ñ»Êÿ®û™ù„´“
-×™â”í›Üý‚ÙñßÌñúíú§§½Ð‘­í™«¯Ê ¾ë¯†® ©·Ú†ôÄ
+(A/QAFQAAAAAAAAAAAHic7dpdjoIwFEBhN+gi3Akv7ouluJNKQoLYe/tzaQu2ni8+OGOFmBzudJiZZ2BYEzAW59zW9g0YxZK01/Yr27LYAScyxam2nXOWdXHjjwJ8McUZajtnc07bOJkpTtpGR2Sc98fzcNvrmnjb0+3zCJEvRRYDKi/OJez1cbhtNW+v7STaRjl1bsu8TW3LvJNte2Pcey5fjXypvkV+c//jI7QYXVM3zDJva9te3uqeZLPvreRJ5ICF50KPQr8Menk3ndvW3uQETh7QaXM7/xToUYu5La+Uum2H3l54QMb1YKrvt2XYybbdof22deORP7fVk6I7de+ThHB/G+ere3+btvE7yv8umfkPhLSNk5nilG2bXP1Z8V9McXptJ6c90JGt7asvSqC+ay8uoKk3WgZ0xA==)
 &]
 [s0;~~~256; &]
-[s0;~~~256; As seen in program:&]
+[s0;~~~256; Ð’Ð¸Ð´ Ð² Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ðµ:&]
 [s0;~~~256; &]
 [s0;l288;~~~256; 
 @@image:1525&131
-‚ƒô€•€€€€€€€€€€ø§œí›ëÒã¸ŽÇ¹àžâÏ§²Ÿö˜ûƒ†÷ˆä  „‰àÇŽ‰ŒƒìµÛ»³µÅ‡¢¼ñ«ñ‹²ÿ¦Û³ÆãÛŠã
-ÇÂ£ÀÝÝ©¹ÝÝêµäŸÔ²§’Ø¶½’ˆá¾˜äËíííðÖ¸„ÅñœÞ¯¦çÛöø¼†¯—ðÁ­þ¿®»ÜàƒÛ–å·ÁÇõ…åÁà½€ÏÆØýý½
-úŠÎ§Ûíšƒ¦‰²œìßð¤—–ÄÁõÄŒ‘â£ î¡ŒŸ—ØáÏó›Ì¦ú°Ââçùçùº‹òÇÀßþ¨Çæšë›ÓàÖÉÂ¤—ÜÞ™€é¾ø‡ì
-Îÿï±“¯îµâ½ÚïºåÍÙØé¸¥ÅÞºµöŠÇžîÔíµëª½ÚµÖŽÌÏëïã—Í¾—é÷£™°„ÒØëð‚· Âå÷¿¬ý·Ó¿²¹ÆµÓ®ØÉ¥
-Á«ÿæÇíöØ»¢ƒ–í±ÝƒíèÔ¼±Þï¬«¹¼³É€¸¥ç›Û’€íæÌö¿Ìÿ‹Í©×ìô‹»öô£ÔÏé¯ÉÊ–ºÛÕÐýêÛ°’ÊÛ§¹Û
-•¹¼“äÀ’ÈÙãý“ïªÛæûº£ýåÊµ†ßý‚–––êçç„©ÑÒÙ¶³Â¶ÂÚš…íëÄ™ÿ‡ß™¼™†¾ÎÍ»¼êõªóŸÁ²¼öÁ¿üú»œ
-¤Ë —ÉÃ°î‚¶±“Ñ¯±—·ñæÅÍç›ˆÒ¹£Ôªª„«Ýô¿¡ñ¶—üÂ¢é¬ÄíÙõä©šÎìµ¼Ã§‘áùüú¢àœ¢Ž‘·ùå¾£Ó˜ËãŽà
-ö‰°¹Ê°äï»’áó’’âàŸÍç›™ú…‹×²âÕ‹¾îúîšÙ“È³Ÿû¤Ãü¤¼ƒÛé×š˜ûÐ¼Î¶ˆŸŸ¹‚å˜ï‚‘–Àú´š¿‡Ã€íâ‰ý
-»ü™Áë¾†§šªïøÊÃíÇ…ØžéÝ’¨äüö‡­‰à¨ü×Ôñ’´šôÈ¯ÓÇ‘™àÅã¢é·ÞÙ§”ÍÅ¯“Ç¶¤²ô’ÔÓŽÒº¤”¨”Á“
-´Ç ˆ–Õó¸Öé½àˆ¥ÝžÇá³À×Â±…ÉáÍâóï¥´è®¨õúà«¿ð††¹ÏÉ’ŸãÔñ´Îœ¢Ä‹ÜÁ·òàÒÛä’­µÎÔêÄÕ³õ
- Ä”§ÞÈÃöóšñ—½ÓÄ¦ªçêÈä²‚åÙÅ»˜¡²žÅ’»Œ¥ß·™ã¶Ûëõë¨Í£ÐÃ¶¡‚Ïÿÿ÷ŒŠš§…†›·ÊëŠÛ¸‡žÎö“õöª
-¥Ûá™š¼²úôÄš©Ž¼ïÀé’Ë¿¦ñÀÜÄñâ…”ìÇ¬ÇÉ’¼¨æÜÓØŽà‰Ý­ÃÛ‰Ø‚é¬Ú¯“ÐùöÊÕ¾Žè³Ãÿ•ÍÔÇÚ¬ÜâÛÍÚ
-åÔé½Áëª§Ç«Š»Ö³Å™Š¤Êó²­êÚ—î“¾Å‰¥ÑÝÒ§–­¹ðò‹á‚ˆÈ´ìÇÞ¢Ë“—§‘¯„µ«Û‘¬ÑþéØï‹°„Ò¦øé’ÑÀöÒ‘
-ÐÝéùõ¹‚ìÎýŸíÍ³ÚÓÞé¥áé²ÊËãŠ»’â»±§Ñ‰ÝÈïœ‹ÛÈ©Ç²±‹ÏÊöÔÖçíî¦ï¨Ò³²™”ØéäûÜ“˜–¼à‹±ä¿§
-ãÁ¶¤àûñÀÌ®·Ùþ™Á÷„¼åÞ·¾­Âë¦­é´Üµ ¥•¾žº«¿ÕŸØžü¼Ð©ÈÇ©â–©®±²¤®Á¢‚¨³ˆÏâ»¢žªÉâÈº£éÑ
-¢¸ÈÊ©›“ µ½‘þüÖºâ¶Ó“—÷«óÜ–üüÒÄÌã‰°åØò¶Ú­ËŠØþÐ±¤÷´†Ýú¹É©»ºùßãêÔ¤êÒ¡É›ºŸÀ„‘”Ú¼õ—
-ÅæþÞ²¾¤é¹ä–Éà¾’âñžãš™°äîìóß¸òËŸÇûÖ¶Ê»šíŠêîÎƒ¾Áµ×ÚÖ½ˆëš­º¶Ü¥ÅÅìØÄ¼ñ—Žïß°ó³ïÖ’×À¸
-×Ï³å£‘¹¦‘Ëþ†˜¾çß¾ú¶ªÔ†÷›õÛâÝàŠšò¡æ¬Ö¬¨„¶³ËÕƒÓƒ¼‘®¿ÙóÊ¼—Üä’Ëþè†˜Þ·óÉåðíˆ¿ƒäûí
-àÜóýãêš¦õã¸àœŸØœž˜†Ñï÷ïî´îÐ†‘Ÿ½Þ¼¾°ÃØéôç°‡áÇ«ƒÁÂ€—ðÀÅØî§îîà·Ì”ÉÜ¥¢þ§»ø‰ÃåÃ—Øð
-¿·ÛíòßÃº°¹Šÿ÷ä…´‡Ï„äÿ‹¤ƒ›Ï–Þò÷ì‹¬ðçµïòüóüÅùÿ‡÷Ñðµ
+(A/QAFQAAAAAAAAAAAHic7ZtrUuM4EMe54B5iT7Kf9hh7gx2GdwhkIBAgCWDHDgkMAzVbu7M1xYc88StxC7J/W7PGY1uKY8KjwF1dKbndarXkn1Sykti2PRKIYRjky+3t7XA4hMVxnF6vZ9v2eDyGHZfwwa1+vw873OCDW5Zlwcf1BeXBYIBPxtj9/T0KnU6n2+2apokyHGxfcBcWxEF1xAziIyBuoQwf2OHPc5tMJjDCYuf55/kL8kfA3/4o5prrG1Ngj0mBwiSXXN6QAGm++Adsf++xky9utT3abzplzdlpOCXF3jq1CseebtTttaq9WrVWjszr7+OXTT6X9yMZsATS2JDwArcgwuW/rP0307+yxjVTrtjJJat/ZkdtdtiigxbtnbFdne1oVDwxXqyrubwzyYAlZxvbkoBtTI32P0z/i6lX7PQLO/YjVM9pr8nKOtvVUJ19arCSStunOdu5PJNkwBJI430T76oB23u6o31lyrVf/YIWFhZq54SpUVLZtsK2QlqahW3EmX+HX5m8hj5OzYE7PHWqc48fwbJ2Qb/8+rscSyCNF0nDMAK2sZNRr7G38eZFzWcbUjkj1CoqBN30P6FxthdCIumsxO3Z5CmaTuy1vKeRYXl8eqIcIg4RN/nlI9OYy+OOYAmwuUqw5O+S4XOSkuJgzeebmfoFC7Li1Qu+bvoa2ZPIM5/7Q3ykPAPbaZqY+1C8TrYfHzmCZRhvEZZAejQaDYfDgO3iiX38mUHrvoYnHapv+MpDbYXYnmldEo1kfHaHLYkPKHxXVHGStHTIL9PHERlFYyJpN97ZlM3FLxPHNjJ0klRTjlIklCiNlMETRyCQCJbVc1ZpPeCdiCWQHo/H4TPAwrGFSeFNjXPvJTRorqj6YKs/8IaGz0kSn+PUcU4cokSL3EHy4NJb5JItzlTqRNWzdUQUJ15Iw3aa8Rc908SmZ+pI5DKCZcU7GKGyHsU7jCVftxljAdvrdeuoTdDDNiECz3/3jIqap4WGj7dK64pbOJ7O9hN1dirbYZkaPLJ6RBqdKY6872kSSz8mccBEceKFlGzHR0mSvCjmXNiOYAndD63biVgCaSzak9D59krVPmizw/8VTVTarNxiW03a1Gm9QWuqp6uKu1YzRZkkynOyLWpa7pO+RYklUdInlq25cPLhggjINGxHIsuTl6cRrzUr2xEsUX7YbwuwBNKmaRJRwPbSkV1peXW5Aux9n+3NM1rTaaXh6bJKy4q7EmI7saeJXUhvnAvbKUcysQtPyvZUVmdtbiao0rOdMpmUaWR73JMYlg9gi7HkvyfBtiRge/HALjfZ/hlB9zxl3jc+LUKQjSatabTcoCWVPp66K9Wf2J78vFDIRyniFqkusiQuQaKCKI2IT2K7oh5J4ki6I+lROI1ISimbEzU9EQ9+/FZitlOTl/cr3JZ8fNLEj2MJsOVYcrYtywrY/lCxdzSGXXq5Sbs6ed9j6lRqUqFJG7ofBBEUWjx1l49m/l4yPqS5ZBbJYL6ScZ5jGhmw5Gzz37hyy5/71rZKOxrtau5Ogz5BNdrWvQjrGq023CXFxexYPHGXDm9fsLPvVhLXwLjPs+UjkTmmkQFLfgYYPt+++jYq1Iab9dti3eCKcqFmrNYsKDYzy1UDUwMRLr/Z88o8l1zkkgFLfgYYXrdzyeVtCD8D5PvtXHN9Y2qapuM44Byf2JwYhtHv929ublCGEZ+9Xg8+sMPY6XSwh+FHK4PBAJdwQEVY7u7u4A83zBTcJSL+Jzv4wwFlwxdYcLfb7fLfjUMwuRCK//cNBTSHTwTk/6SDG88QFl537Ass8Oe18vzz/EX5/wd3UXC1)
 &]
 [s0;~~~256; &]
-[s9;~~~256; EditFolder is a field to introduce a folder path.&]
+[s9;~~~256; EditFolder `- ÑÑ‚Ð¾ Ð¿Ð¾Ð»Ðµ Ð´Ð»Ñ Ð²Ð²Ð¾Ð´Ð° Ð¿ÑƒÑ‚Ð¸ 
+Ðº Ð¿Ð°Ð¿ÐºÐµ.&]
 [s9;~~~256; &]
-[s9;~~~256; Pushing the left button a FileSel is opened to select 
-a folder. The options to setup the EditFolder are similar to 
-the used in the setup of a FileSel.&]
-[s3;~~~256; &]
-[s3; &]
-[ {{10000F(128)G(128)@1 [s0;~~~256; [* Äåòàëè Êîíñòðóêòîðà]]}}&]
-[s3;~~~256;%- &]
-[s5;:EditFolder`:`:EditFolder`(`):~~~256;%- [* EditFolder]()&]
-[s2;~~~256; Initializes EditFolder.&]
-[s3;~~~256; &]
-[s0;~~~256;%- &]
-[ {{10000F(128)G(128)@1 [s0;~~~256; [* Ñïèñîê Ïóáëè÷íûõ ×ëåíîâ]]}}&]
-[s3;~~~256;%- &]
-[s0;~~~256; They are inherited from [^topic`:`/`/Controls4U`/src`/EditFileFolder`$en`-us`#EditFileFolder`:`:class^ E
-ditFileFolder]&]
-[s0; ]
+[s9;~~~256; ÐŸÑ€Ð¸ Ð½Ð°Ð¶Ð°Ñ‚Ð¸Ð¸ Ð»ÐµÐ²Ð¾Ð¹ ÐºÐ½Ð¾Ð¿ÐºÐ¸ Ð¾Ñ‚ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ÑÑ 
+FileSel Ð´Ð»Ñ Ð²Ñ‹Ð±Ð¾Ñ€Ð° Ð¿Ð°Ð¿ÐºÐ¸. ÐžÐ¿Ñ†Ð¸Ð¸ Ð´Ð»Ñ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ 
+EditFile Ð¿Ð¾Ñ…Ð¾Ð¶Ð¸ Ð½Ð° Ð¾Ð¿Ñ†Ð¸Ð¸ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ FileSel.]]

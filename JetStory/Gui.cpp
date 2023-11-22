@@ -175,12 +175,12 @@ struct RedefineKeys : IngameGuiCtrl {
 	
 	virtual void Paint(Draw& w) {
 		static const char *t[] = {
-			"Left",
-			"Right",
-			"Up",
-			"Bomb",
-			"Gun",
-			"Missile",
+			"Влево",
+			"Вправо",
+			"Вверх",
+			"Бомба",
+			"Оружие",
+			"Ракета",
 		};
 
 		IngameGuiCtrl::Paint(w);
@@ -302,10 +302,10 @@ String IngameGui(bool esc)
 
 		IngameGuiCtrl h;
 
-		h.Add("1. Resume from the latest checkpoint", [&] { if(sf.GetCount()) result = sf[0].path; h.Break(); })
+		h.Add("1. Начать с последн.кнтрл.тчк", [&] { if(sf.GetCount()) result = sf[0].path; h.Break(); })
 		 .Enable(sf.GetCount());
-		h.Add("2. Start the new game", [&] { result = "N"; h.Break(); });
-		h.Add("3. Resume from the selected checkpoint", [&] {
+		h.Add("2. Начать новую игру", [&] { result = "N"; h.Break(); });
+		h.Add("3. Начать с избран.кнтрл.тчк", [&] {
 			ImageCtrl preview;
 			Size preview_size = window_size / 2 - 40;
 			IngameGuiCtrl sg;
@@ -317,7 +317,7 @@ String IngameGui(bool esc)
 			for(int i = 0; i < sf.GetCount(); i++) {
 				const Sav& s = sf[i];
 				int seconds = s.game_time * 4 / 1000;
-				list.Add(AttrText(Format("%04d-%02d-%02d %02d:%02d:%02d, game time %02d:%02d:%02d",
+				list.Add(AttrText(Format("%04d-%02d-%02d %02d:%02d:%02d, время игры %02d:%02d:%02d",
 				                  (int)s.time.year, (int)s.time.month, (int)s.time.day,
 				                  (int)s.time.hour, (int)s.time.minute, (int)s.time.second,
 				                  seconds / 3600, seconds % 3600 / 60, seconds % 3600 % 60))
@@ -354,12 +354,12 @@ String IngameGui(bool esc)
 			
 			Button load;
 			load.Ok();
-			load.SetLabel("Load checkpoint").SetFont(Arial(20));
+			load.SetLabel("Загрузить кнтрл.тчк").SetFont(Arial(20));
 			load << list.WhenLeftDouble;
 			sg.Ctrl::Add(load.LeftPos(lx + 512 - 160, 160).TopPos(window_size.cy - 100 + 10, 35));
 
 			Button cancel;
-			cancel.SetLabel("Cancel").SetFont(Arial(20));
+			cancel.SetLabel("Отмена").SetFont(Arial(20));
 			cancel << [&] { sg.Break(); };
 			sg.Ctrl::Add(cancel.LeftPos(lx, 160).TopPos(window_size.cy - 100 + 10, 35));
 			
@@ -371,7 +371,7 @@ String IngameGui(bool esc)
 			if(result.GetCount())
 				h.Break();
 		});
-		h.Add("4. Redefine keys", [&] {
+		h.Add("4. Переопределить клавиши", [&] {
 			RedefineKeys().Execute();
 			StoreSettings();
 		});
@@ -383,7 +383,7 @@ String IngameGui(bool esc)
 			text <<= GetTopic("topic://JetStory/app/info_en-us").text;
 			sg.Execute();
 		});*/
-		auto vol = [=]()->String { return "5. Sound volume " + AsString(volume) + " / 10"; };
+		auto vol = [=]()->String { return "5. Громкость звука " + AsString(volume) + " / 10"; };
 		Button *b = &h.Add(vol(), [&] {
 			volume = volume + 1;
 			if(volume > 10)
@@ -393,7 +393,7 @@ String IngameGui(bool esc)
 			StoreSettings();
 		});
 
-		h.Add("6. Quit", [&] { result = "Q"; h.Break(); });
+		h.Add("6. Выйти", [&] { result = "Q"; h.Break(); });
 
 		h.Open();
 

@@ -46,6 +46,6 @@ void CreditsCtrl::Paint(Draw& w)
 
 CreditsCtrl::CreditsCtrl()
 {
-	text = ParseQTF("[@W " + GetTopic("topic://JetStory/app/credits_en-us").text);
+	text = ParseQTF("[@W " + GetTopic("topic://JetStory/app/credits_ru-ru").text);
 	tm.Set(-30, [=, this] { y++; if(y > limity) y = -GetSize().cy; Refresh(); });
 }

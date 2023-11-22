@@ -353,7 +353,7 @@ LAYOUT(CmdBuildOptionsLayout, 300, 368)
 END_LAYOUT
 
 LAYOUT(InstallLayout, 400, 88)
-	ITEM(Upp::Label, dv___0, SetLabel(t_("Директория Projects")).LeftPosZ(8, 120).TopPosZ(8, 19))
+	ITEM(Upp::Label, dv___0, SetLabel(t_("Директория projects")).LeftPosZ(8, 120).TopPosZ(8, 19))
 	ITEM(WithDropChoice<EditString>, myapps, LeftPosZ(8, 316).TopPosZ(28, 19))
 	ITEM(Upp::Button, dv___2, SetLabel(t_("Смотреть..")).LeftPosZ(328, 64).TopPosZ(28, 20))
 	ITEM(Upp::Option, icon, SetLabel(t_("Создать иконку на рабочем столе")).LeftPosZ(8, 184).TopPosZ(56, 20))

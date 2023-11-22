@@ -1,4 +1,4 @@
-topic "VirtualGui";
+topic "Структура VirtualGui";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "VirtualGui";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Структура VirtualGui]]}}&]
+[ {{10000@(113.42.0) [s0;*@7;4%RU-RU ]}}&]
 [s3; &]
 [s1;:Upp`:`:VirtualGui`:`:struct: [@(0.0.255)3 struct][3 _][*3 VirtualGui]&]
 [s2;%RU-RU VirtualGui представляет собой интерфейс 
@@ -73,56 +73,68 @@ n]()_`=_[@3 0]&]
 [s4; &]
 [s5;:Upp`:`:VirtualGui`:`:ProcessEvent`(bool`*`): [@(0.0.255) virtual] 
 [@(0.0.255) bool]_[* ProcessEvent]([@(0.0.255) bool]_`*[*@3 quit])_`=_[@3 0]&]
-[s2;%RU-RU Processes input event. This function should use Ctrl`::DoKeyFB 
-and Ctrl`::DoMouseFB static functions to pass events to virtual 
-GUI. It can also use Ctrl`::PaintAll and Ctrl`::EndSession if approrate. 
-It can set [%-*@3 quit] to true indicate the end of session initiated 
-by host (quit can be NULL, so it is necessary to test it before 
-setting it).&]
+[s2;%RU-RU Обрабатывает событие ввода. Этой 
+функции следует исползовать статические 
+функции Ctrl`::DoKeyFB и Ctrl`::DoMouseFB для передачи 
+событий в виртуальный ГИП.В некоторых 
+случаях также используются Ctrl`::PaintAll 
+и Ctrl`::EndSession. Для указания на конец 
+сессии, инициализированной хостом, 
+может [%-*@3 quit] быть установлен в true (quit 
+может быть NULL, пожтому перед его установкой 
+необходимо протетстировать на это).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:VirtualGui`:`:WaitEvent`(int`): [@(0.0.255) virtual] [@(0.0.255) void]_[* WaitE
 vent]([@(0.0.255) int]_[*@3 ms])_`=_[@3 0]&]
-[s2;%RU-RU Waits up to [%-*@3 ms] milliseconds until next input event 
-is available.&]
+[s2;%RU-RU Ждёт до [%-*@3 ms] миллисекунд доступности 
+следующего события.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:VirtualGui`:`:WakeUpGuiThread`(`): [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* WakeUpGuiThread]()_`=_[@3 0]&]
-[s2;%RU-RU This should work as if `'empty`' input event comes to 
-the queue, so that WithEvent returns immediately. This function 
-can be called from different thread.&]
+[s2;%RU-RU Должен работать так, как если 
+бы событию ввода `'empty`' (`"пустой`") подошла 
+очередь, потому WithEvent возврашает немедленно.
+ Эту функцию можно вызывать из другого 
+потока.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:VirtualGui`:`:SetMouseCursor`(const Upp`:`:Image`&`): [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* SetMouseCursor]([@(0.0.255) const]_[_^Upp`:`:Image^ Image][@(0.0.255) `&
 ]_[*@3 image])_`=_[@3 0]&]
-[s2;%RU-RU Changes the mouse cursor. This is only used if GUI`_SETMOUSECURSOR 
-in GetOptions flag is active.&]
+[s2;%RU-RU Изменяет курсор мыши. Используется 
+только, когда активен флаг GUI`_SETMOUSECURSOR 
+в GetOptions.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:VirtualGui`:`:SetCaret`(const Upp`:`:Rect`&`): [@(0.0.255) void]_[* SetCaret](
 [@(0.0.255) const]_[_^Upp`:`:Rect^ Rect][@(0.0.255) `&]_[*@3 caret])&]
-[s2;%RU-RU Places the caret. This is only used if GUI`_SETMOUSECURSOR 
-in GetOptions flag is active.&]
+[s2;%RU-RU Помещает каретку. Используется 
+только, когда активен флаг GUI`_SETMOUSECURSOR 
+в GetOptions.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:VirtualGui`:`:Quit`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* Quit]()_`=_[@3 0
 ]&]
-[s2;%RU-RU Called when the end of GUI operation is required.&]
+[s2;%RU-RU Вызывается, когда требуется завершение 
+операции ГИП.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:VirtualGui`:`:BeginDraw`(`): [@(0.0.255) virtual] [_^Upp`:`:SystemDraw^ Syste
 mDraw][@(0.0.255) `&]_[* BeginDraw]()_`=_[@3 0]&]
-[s2;%RU-RU Starts drawing on the surface. VirtualGui only requires 
-single instance of SystemDraw to exist at any time, so it is 
-ok to have corresponding Draw as an instance variable of the 
-VirtualGui implementation.&]
+[s2;%RU-RU Начинает рисование на поверхности. 
+VirtualGui требуется только один экземпляр 
+SystemDraw, чтобы существовуюший в любое 
+время, поэтому неплохо бы иметь соответствую
+щий Draw, в качетсве переменной экземпляра 
+реализации VirtualGui.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:VirtualGui`:`:CommitDraw`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* CommitD
 raw]()_`=_[@3 0]&]
-[s2;%RU-RU Ends drawing operations, commits the result to be visible.&]
+[s2;%RU-RU Завершает операции прорисовки, 
+передаёт результат на показ.&]
 [s3; &]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 VirtualGui]]}}&]
@@ -130,6 +142,7 @@ raw]()_`=_[@3 0]&]
 [s5;:Upp`:`:RunVirtualGui`(Upp`:`:VirtualGui`&`,Upp`:`:Event`<`>`): [@(0.0.255) void]_[* R
 unVirtualGui]([_^Upp`:`:VirtualGui^ VirtualGui][@(0.0.255) `&]_[*@3 gui], 
 [_^Upp`:`:Event^ Event]<>_[*@3 app`_main])&]
-[s2;%RU-RU This function executes the virtual GUI session.&]
+[s2;%RU-RU Эта функция выполняет сессию 
+виртуального ГИП.&]
 [s3;%RU-RU &]
 [s0;%RU-RU ]]

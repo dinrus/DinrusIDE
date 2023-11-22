@@ -2917,8 +2917,9 @@ nt]_[*@3 i])&]
 [s5;:Upp`:`:ArrayCtrl`:`:IsLineEnabled`(int`)const: [@(0.0.255) bool]_[* IsLineEnabled]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
 [s2; Возвращает true, если строка активирована. 
-Not that in addition to EnableLine method, callback WhenLineEnabled 
-affects the status too.&]
+Заметьте, что, в дополнение к методу 
+EnableLine, на этот статус также влияет 
+обрвыз WhenLineEnabled.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ArrayCtrl`:`:IsLineDisabled`(int`)const: [@(0.0.255) bool]_[* IsLineDisabled](
@@ -2940,8 +2941,9 @@ nt]_[*@3 i], [@(0.0.255) bool]_[*@3 visible])&]
 [s5;:Upp`:`:ArrayCtrl`:`:IsLineVisible`(int`)const: [@(0.0.255) bool]_[* IsLineVisible]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
 [s2; Возвращает true, если строка видима. 
-Not that in addition to EnableLine method, callback WhenLineVisible 
-affects the visibility too.&]
+Заметьте, что, в дополнение к методу 
+EnableLine, на видимость также влияет обрвыз 
+WhenLineVisible.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:ClearSelection`(`): [@(0.0.255) void]_[* ClearSelection]()&]
@@ -3081,16 +3083,19 @@ ine])&]
 [s5;:ArrayCtrl`:`:ScrollTo`(int`): [@(0.0.255) void]_[* ScrollTo]([@(0.0.255) int]_[*@3 sc])&]
 [s2; Перемещает вертикальную полосу промотки 
 массива в указанную позицию.&]
-[s7; [*C@3 sc]-|Pixel position of the scrollbar. The visible portion 
-of the array can be obtained conceptually by taking the stack 
-of array rows with its top aligned at the top of the view and 
-moving it [/ sc] pixels upwards.&]
+[s7; [*C@3 sc]-|Пиксельная позиция полосы промотки 
+(scrollbar, скроллбар). Видимую порцию 
+этого массива, в принципе, можно получить, 
+взяв стэк рядов массива, верх которого 
+расположен у вершины области видимости, 
+и двигая пиксели его скроллбара вверх.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:Find`(const Value`&`,int`,int`)const: [@(0.0.255) int]_[* Find]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v], [@(0.0.255) int]_[*@3 ii]_`=_[@3 0], 
 [@(0.0.255) int]_[*@3 from]_`=_[@3 0])_[@(0.0.255) const]&]
-[s2; [*C@3 v]-|value to look for in the given source index&]
+[s2; [*C@3 v]-|значение для поиска в указаннои 
+индексе источника.&]
 [s7; [*C@3 ii]-|zero`-based ordinal number of the source index to search&]
 [s7; [*C@3 from]-|zero`-based row index to start the search from&]
 [s7; [*/ Возвратное значение]-|zero`-based number 

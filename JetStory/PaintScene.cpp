@@ -107,7 +107,7 @@ void PaintScene(Size sz, Draw& w, Event<int, int, const Image&> di)
 	
 	if(gameover && tick - gameover_time > 100) {
 		Font fnt = Arial(100).Bold().Italic();
-		String text = "GAME OVER";
+		String text = "ИГРА ОКОНЧЕНА";
 		Size tsz = GetTextSize(text, fnt);
 		Point p = Rect(window_size).CenterPos(tsz);
 		w.DrawText(p.x, p.y, text, fnt, Blend(White(), Red(), (GameTick() * 4) & 255));
@@ -115,8 +115,8 @@ void PaintScene(Size sz, Draw& w, Event<int, int, const Image&> di)
 		{
 			extern int base_count_max;
 			Font fnt = Arial(28).Bold().Italic();
-			String text = String() << "You have eliminated " << base_count_max - base_count
-			              << " / " << base_count_max << " bases";
+			String text = String() << "Вы уничтожили " << base_count_max - base_count
+			              << " / " << base_count_max << " баз";
 			Size tsz = GetTextSize(text, fnt);
 			Point p = Rect(window_size).CenterPos(tsz);
 			for(int x = -1; x <= 1; x++)
@@ -127,7 +127,7 @@ void PaintScene(Size sz, Draw& w, Event<int, int, const Image&> di)
 		
 		if(ship.fuel <= 0) {
 			Font fnt = Arial(50).Bold().Italic();
-			String text = "You have run out of fuel";
+			String text = "У вас закончилось топливо";
 			Size tsz = GetTextSize(text, fnt);
 			Point p = Rect(window_size).CenterPos(tsz);
 			for(int x = -1; x <= 1; x++)
@@ -138,7 +138,7 @@ void PaintScene(Size sz, Draw& w, Event<int, int, const Image&> di)
 
 		if(tick - gameover_time > 350) {
 			Font fnt = Arial(50).Bold().Italic();
-			String text = "Press any key to restart from the latest checkpoint";
+			String text = "Нажмите любую клавишу для старта с последней КТ";
 			Size tsz = GetTextSize(text, fnt);
 			Point p = Rect(window_size).CenterPos(tsz);
 			for(int x = -1; x <= 1; x++)
@@ -152,7 +152,7 @@ void PaintScene(Size sz, Draw& w, Event<int, int, const Image&> di)
 	
 	if(checkpoint_info && tick - checkpoint_info < 1000) {
 		Font fnt = Arial(50).Bold().Italic();
-		String text = "CHECKPOINT REACHED";
+		String text = "ДОСТИГНУТА КОНТРОЛЬНАЯ ТОЧКА";
 		Size tsz = GetTextSize(text, fnt);
 		Point p = Rect(window_size).CenterPos(tsz);
 		w.DrawText(p.x, 2 * pane_height, text, fnt, LtCyan());
@@ -181,9 +181,9 @@ void PaintScene(Size sz, Draw& w, Event<int, int, const Image&> di)
 		ChPaint(w, x0, vmargin, xx, vheight, JetStoryImg::VALFRAME());
 	};
 
-	paint_val(0, ship.shield, SHIP_SHIELD, Color(56, 85, 150), 60, 30, "Shield");
-	paint_val(cx, ship.fuel, 20000, Color(141, 42, 150), 6000, 3000, "Fuel");
-	paint_val(2 * cx, ship.ammo, 500, Color(250, 151, 26), 100, 50, "Ammo", false);
+	paint_val(0, ship.shield, SHIP_SHIELD, Color(56, 85, 150), 60, 30, "Щит");
+	paint_val(cx, ship.fuel, 20000, Color(141, 42, 150), 6000, 3000, "Топливо");
+	paint_val(2 * cx, ship.ammo, 500, Color(250, 151, 26), 100, 50, "Аммо", false);
 	
 	Font  nfont = Arial(vheight - 2).Bold();
 	const int nty = (pane_height - nfont.GetCy()) / 2;
@@ -246,7 +246,7 @@ void PaintScene(Size sz, Draw& w, Event<int, int, const Image&> di)
 
 	w.DrawRect(0, window_size.cy - 24, sz.cx, 48, Gray());
 	w.DrawText(0, window_size.cy - 24,
-	           Format("X:%5.2f Y:%5.2f dx:%5.2f dy:%5.2f enemy:%5d missiles:%5d debris:%5d FPS:%3.2f %s TI:%d/%d Joystick: %s",
+	           Format("X:%5.2f Y:%5.2f dx:%5.2f dy:%5.2f враг:%5d ракеты:%5d debris:%5d FPS:%3.2f %s TI:%d/%d Joystick: %s",
 	           ship.pos.x, ship.pos.y, ship.speed.x, ship.speed.y,
 	           enemy.GetCount(), missile.GetCount(), debris.GetCount(), fps,
 	           cheating ? "CHEATING MODE" : "",

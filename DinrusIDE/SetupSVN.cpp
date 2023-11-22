@@ -40,11 +40,11 @@ bool SetupGITMaster()
 #ifdef PLATFORM_WIN32
 	String out = GetExeDirFile("out");
 	String ass = GetExeFolder();
-	String myapps = GetExeDirFile("Projects");
+	String myapps = GetExeDirFile("dev");
 #else
 	String out = GetHomeDirFile("out");
 	String ass = GetConfigFolder();
-	String myapps = GetHomeDirFile("Projects");
+	String myapps = GetHomeDirFile("dev");
 #endif
 	RealizeDirectory(out);
 	

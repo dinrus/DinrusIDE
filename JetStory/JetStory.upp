@@ -71,5 +71,6 @@ mainconfig
 	"" = "GUI DEVEL VIRTUALGUI TRAINING",
 	"" = "GUI SS",
 	"" = "GUI DEVEL VIRTUALGUI WIN",
-	"" = "GUI DEVEL";
+	"" = "GUI DEVEL",
+	"" = "GUI SHARED";
 

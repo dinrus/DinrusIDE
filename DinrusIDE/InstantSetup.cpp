@@ -481,7 +481,7 @@ void InstantSetup()
 		{ "reference", "#/reference;#/src" },
 		{ "examples", "#/examples;#/src" },
 		{ "tutorial", "#/tutorial;#/src" },
-		{ "Projects", "#/Projects;#/src" },
+		{ "dev", "#/dev;#/src" },
 	};
 
 	String exe = GetExeFilePath();

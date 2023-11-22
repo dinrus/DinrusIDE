@@ -89,13 +89,13 @@ void QSFParser::Expand()
 						return macro[q];
 					}
 					else
-						Error("recursive macro " + id);
+						Error("рекурсивный макрос " + id);
 				}
 				else
-					Error("uknown macro " + id);
+					Error("неизвестный макрос " + id);
 			}
 			else
-				Error("missing macro id");
+				Error("отсутствует идентификатор макроса");
 			return Null;
 		};
 		while(*ptr) {
@@ -142,7 +142,7 @@ void QSFParser::Expand()
 						expanded = true;
 					}
 					else
-						Error("invalid repetition number");
+						Error("неверное число повторений");
 				}
 				else
 					r << GetMacro();
@@ -173,7 +173,7 @@ void QSFParser::Parse(Stream& src)
 			if(id.GetCount())
 				macro.GetAdd(id) = ptr;
 			else
-				Error("missing macro name");
+				Error("отсутствует имя макроса");
 		}
 		else {
 			Expand();
@@ -269,7 +269,7 @@ void QSFParser::Process()
 			ptr++;
 			tempo = ReadNumber();
 			if(tempo < 1) {
-				Error("invalid tempo value");
+				Error("неверное значение темпа");
 				tempo = 600;
 			}
 		}
@@ -347,7 +347,7 @@ void QSFParser::Process()
 			ptr++;
 			duration *= ReadNumber();
 			if(duration <= 0) {
-				Error("invalid tone length");
+				Error("неверная длина тона");
 				duration = 1;
 			}
 		}
@@ -384,7 +384,7 @@ void QSFParser::Process()
 				if(id == "tempo") {
 					double t = ReadCNumber();
 					if(t < 1 || t > 10000) {
-						Error("invalid tempo value");
+						Error("неверное значение темпа");
 					}
 					else
 						tempo = t;
@@ -402,7 +402,7 @@ void QSFParser::Process()
 			if(stack.GetCount() < 100)
 				stack.Add() = *this;
 			else
-				Error("stack full");
+				Error("стэк полон");
 		}
 		else
 		if(*ptr == ']') {
@@ -410,7 +410,7 @@ void QSFParser::Process()
 			if(stack.GetCount())
 				(QSFStatus&)*this = stack.Pop();
 			else
-				Error("stack empty");
+				Error("стэк пуст");
 		}
 		else
 		if(*ptr == '{') {
@@ -420,7 +420,7 @@ void QSFParser::Process()
 				at_stack.Add(at);
 			}
 			else
-				Error("stack full");
+				Error("стэк полон");
 		}
 		else
 		if(*ptr == '}') {
@@ -430,7 +430,7 @@ void QSFParser::Process()
 				at = at_stack.Pop();
 			}
 			else
-				Error("stack empty");
+				Error("стэк пуст");
 		}
 		else
 			ptr++;

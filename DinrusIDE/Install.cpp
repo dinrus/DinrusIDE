@@ -74,9 +74,9 @@ bool Install(bool& hasvars)
 
 #ifdef PLATFORM_COCOA
 	String idir = GetFileFolder(GetAppFolder());
-	String myapps = DirectoryExists(idir + "/src") ? idir + "/Projects"  : GetHomeDirFile("Projects");
+	String myapps = DirectoryExists(idir + "/src") ? idir + "/dev"  : GetHomeDirFile("dev");
 #else
-	String myapps = (DirectoryExists(GetExeDirFile("src")) ? GetExeDirFile  : GetHomeDirFile)("Projects");
+	String myapps = (DirectoryExists(GetExeDirFile("src")) ? GetExeDirFile  : GetHomeDirFile)("dev");
 #endif
 
 	for(pass = 0; pass < 2; pass++) {
@@ -88,8 +88,6 @@ bool Install(bool& hasvars)
 	#endif
 		Scan(GetExeFolder() + "/src");
 		Scan(GetExeFolder() + "/*");
-	//  Scan(GetHomeDirFile("upp.src/src"));
-	//	Scan(GetHomeDirFile("upp.src/*"));
 		Scan(GetHomeDirFile("dinrus/src"));
 		Scan(GetHomeDirFile("dinrus/*"));
 		Scan(GetHomeDirFile("*"));

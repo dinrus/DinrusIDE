@@ -125,7 +125,7 @@ void MissionAccomplished()
 			if(tm > 15000) {
 				DrawImage((window_size.cx - title.GetWidth()) / 2, 0, clamp((tm - 15000) / 5000.0, 0.0, 1.0), title);
 				Font fnt = Serif(100).Bold().Italic();
-				String text = "MISSION ACCOMPLISHED";
+				String text = "МИССИЯ ВЫПОЛНЕНА";
 				Size tsz = GetTextSize(text, fnt);
 				Point p = Rect(window_size).CenterPos(tsz);
 				p.y += 100;

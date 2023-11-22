@@ -43,7 +43,7 @@ void SoundGen::FMOPGen::Comp()
 
 String SoundGen::FMOPGen::ToString() const
 {
-	return String() << "Volume: " << volume << ", phase: " << p << ", ADSR volume: " << v;
+	return String() << "Громкость: " << volume << ", фаза: " << p << ", Объём ADSR: " << v;
 }
 
 force_inline
@@ -150,7 +150,7 @@ float SoundGen::Get()
 String SoundGen::ToString() const
 {
 	String r;
-	r << "----- Current volume: " << current_volume << ", time: " << t << '\n';
+	r << "----- Текущая громкость: " << current_volume << ", время: " << t << '\n';
 	for(int i = 0; i < OPCOUNT; i++)
 		r << i << ": " << op[i] << '\n';
 	return r;

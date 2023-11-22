@@ -12,45 +12,45 @@ int  training_total;
 Vector<Rect> training_block;
 
 const char *training_step[] {
-	"[@G=/* Welcome to the basic combat training.&]Please use #LEFT key to go left to the checkpoint.",
+	"[@G=/* Приступим к основной боевой тренировке!&]Используй клавишу #LEFT, чтобы пройти влево к КТ (контрольной точке).",
 
-	"[@G/* Well done.&]Now go to the next checkpoint using #UP, #RIGHT, #LEFT keys!",
+	"[@G/* Отлично!&]Теперь иди к другой КТ, используя клавиши #UP, #RIGHT, #LEFT!",
 
-	"[@G/* Good!&]Please navigate the labyrinth!",
+	"[@G/* Классно!&]Пожалуйста, навигируй в лабиринт!",
 
-	"[@G/* Perfect!&]Please navigate the labyrinth to the next checkpoint.&[/@R Be careful, there are now mines that kill you instantly!]",
+	"[@G/* Замечательно!&] Двигайся по лабиринту к следщ. КТ.&[/@R Осторожно, там теперь мины, которые тебя мигом убьют!]",
 
-	"[@G/* Nice work!&]Good, now comes the hard part.&[/@R Be careful, it is now quite difficult!]",
+	"[@G/* Отличная работа!&]А теперь трудная часть.&[/@R Осторожнее, будет очень жарко!]",
 
-	"[@G/* Perfect!&]Please navigate the rest of the labyrinth.",
+	"[@G/* Великолепно!&]Ну, тогда пройди остаток лабиринта...",
 	
-	"[@G/* Well done!&]All that maneuvring around the labyrinth have cost you a lot of fuel.&Please refuel your ship by picking the fuel power-up.&[/@R Running out of fuel results in certain death!]",
+	"[@G/* Выполнено неплохо!&]Всё это маневрирование по лабиринту стоило много топлива.&Подзаправься-ка, подобрав топливные канистры.&[/@R Если кончится топливо - это явная смерть!]",
 
-	"[@G/* Very well!&]You are now cleared for live fire practice.&Please pickup the gun ammo and destroy the practice targets using #GUN key!&"
-	"[/@R WARNING: colliding with practice targets kills you instantly!",
+	"[@G/* Ну, смак же!&]Теперь уже можно начать поджигательство.& Подбери-ка оружие ammo и порази цели клавишей #GUN!&"
+	"[/@R ВНИМАНИЕ: столкновение с практическими целями уничтожит тебя мигом!",
 
-	"[@G/* Good shooting!&]Please destroy the remaing three targets!",
+	"[@G/* Крутая стрельба!&]Порази же остальные три цели!!!",
 
-	"[@G/* Good shooting!&]Please destroy the remaing two targets!",
+	"[@G/* Крутая стрельба!&]]Порази же остальные двк цели!!",
 
-	"[@G/* Good shooting!&]Please destroy the remaing target!",
+	"[@G/* Крутая стрельба!&]]Порази же оставшуюся цель!",
 
-	"[@G/* Good shooting!&]Please move to the missile training range.",
-	"Some targets are hardened by shields and are only destroyed after many gun hits OR by "
-	"high explosive missiles.&"
-	"Please pickup missiles and destroy targets in this area using #MISSILE key.",
+	"[@G/* Крутая стрельба!&]Ну, а теперь приступай к тренировке с запуском ракет.",
+	"Некоторые цели укреплены щитами и рушатся только после многих попаданий из оружия ИЛИ "
+	"от поражения мощными ракетами.&"
+	"Теперь подбери ракеты и порази цели в этой зоне, используя клавишеg #MISSILE.",
 
-	"[@G/* Good shooting!&]Please destroy the remaing two targets!",
+	"[@G/*  Крутая стрельба!&]Пожалуйста, уничтожь оставшиеся две цели!",
 
-	"[@G/* Good shooting!&]Please destroy the remaing target!",
+	"[@G/*  Крутая стрельба!&]Пожалуйста, уничтожь оставшуюся цель!",
 
-	"[@G/* Good shooting!&]Please move to the bomb training range.",
-	"If missile trajectory is not suitable because the target is below you, use bombs.&"
-	"Please pickup bombs and destroy targets in this area using #BOMB key.",
+	"[@G/* Крутая стрельба!&]Ну, а сейчас начинается тренировка с бомбами.",
+	"Если траектория ракет неподходяща, и цель под вами, используй бомбы.&"
+	"Теперь запасись бомбами и порази цели, используя клавишу #BOMB.",
 
-	"[@G/* Good bombing!&]Please destroy the remaing target!",
+	"[@G/*  Крутая бомбёжка!&]Дай жару оставшейся мишени!",
 
-	"[@G/* Congratulations!&]You have now finished the basic combat training. Gear up and go give them hell!",
+	"[@G/* Поздравлёсы!&]Вы освоили курс начальной боевой тренировки. Соберись-ка и задай им жару!",
 };
 
 struct TPoint : Enemy {
@@ -159,7 +159,7 @@ void PaintMessage()
 		if(bb != b) {
 			bb = b;
 			if(b)
-				SetMessage("Our sensors detect no bases in this direction.&Please go back before you run out of fuel.", false);
+				SetMessage("Наши сенсоры не обнаружили никаких баз в этом направлении.&Возвращайся, пока ещё есть горючка...", false);
 			else
 				SetMessage(Null);
 		}

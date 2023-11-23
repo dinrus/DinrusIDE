@@ -1,11 +1,11 @@
 #ifndef __Plugin_BZ2__
 #define __Plugin_BZ2__
 
-#ifdef flagWIN32
+//#ifdef flagWIN32
 	#include "lib/bzlib.h"
-#else
-	#include <bzlib.h>
-#endif
+//#else
+//#include <bzlib.h>
+//#endif
 
 namespace Upp {
 	

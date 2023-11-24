@@ -182,9 +182,11 @@ Ctrl`'а. OTOH, т.е. изменение Style, немедленно
 вызовы Refresh() будут напрасны и приведут 
 к потере производительности.&]
 [s0; &]
-[s0; User interactions from GUI perspective, changing your data, 
-should generally repaint your Ctrl, at least in portions. Changing 
-it from API side, should probably not, except for SetData....maybe. 
+[s0; При взаимодействии пользователя 
+с ГИП, изменении им данных, любой контрол 
+должен перерисовываться, ну, хотя 
+бы порциями. Изменение его со стороны 
+ИПП ( API), should probably not, except for SetData....maybe. 
 Because your application can call Refresh() anytime by itself, 
 it knows best when and why.&]
 [s0; &]

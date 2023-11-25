@@ -95,10 +95,10 @@
         "Functions4U"
       ],
       "description": "Функции и классы для общего применения",
-      "repository": "https://github.com/anboto/Functions4U.git",
+      "repository": "https://github.com/DinrusGroup/Functions4U.git",
       "status": "stable",
       "category": "core",
-      "readme": "https://raw.githubusercontent.com/anboto/Functions4U/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Functions4U/main/README.md"
     },
     {
       "name": "Controls4U",

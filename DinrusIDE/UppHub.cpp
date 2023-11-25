@@ -6,7 +6,7 @@ struct DinrusHubNest : Moveable<DinrusHubNest> {
 	String           description;
 	String           repo;
 	String           website;
-	String           status = "unknown";
+	String           status = "неизвестен";
 	String           category;
 	String           list_name;
 	String           readme;
@@ -15,9 +15,9 @@ struct DinrusHubNest : Moveable<DinrusHubNest> {
 
 Color StatusPaper(const String& status)
 {
-	return Blend(SColorPaper(), decode(status, "broken", SLtRed(),
-	                                           "experimental", SLtYellow(),
-	                                           "stable", SLtGreen(),
+	return Blend(SColorPaper(), decode(status, "повреждён", SLtRed(),
+	                                           "эксперимент", SLtYellow(),
+	                                           "стабилен", SLtGreen(),
 	                                           "rolling", SLtCyan(),
 	                                           SColorPaper()), IsDarkTheme() ? 60 : 20);
 }
@@ -373,35 +373,35 @@ void DinrusHubDlg::Load(int tier, const String& url)
 	Value v = LoadJson(url);
 
 	try {
-		String list_name = v["name"];
-		for(Value ns : v["nests"]) {
+		String list_name = v["имя"];
+		for(Value ns : v["гнёзда"]) {
 			String url = ns["url"];
 			if(url.GetCount())
 				ns = LoadJson(url);
-			String name = ns["name"];
+			String name = ns["имя"];
 			DinrusHubNest& n = upv.GetAdd(name);
 			n.name = name;
 			bool tt = tier > n.tier;
 			if(tt || n.packages.GetCount() == 0)
-				for(Value p : ns["packages"])
+				for(Value p : ns["пакеты"])
 					n.packages.Add(p);
 			auto Attr = [&](String& a, const char *id) {
 				if(tt || IsNull(a))
 					a = ns[id];
 			};
-			Attr(n.description, "description");
-			Attr(n.repo, "repository");
+			Attr(n.description, "описание");
+			Attr(n.repo, "ропозиторий");
 			Attr(n.website, "website");
 			if(IsNull(n.website))
 				n.website = TrimRight(".git", n.repo);
-			Attr(n.category, "category");
-			Attr(n.status, "status");
+			Attr(n.category, "категория");
+			Attr(n.status, "статус");
 			Attr(n.readme, "readme");
-			Attr(n.branch, "branch");
+			Attr(n.branch, "ветвь");
 
 			n.list_name = list_name;
 		}
-		for(Value l : v["links"]) {
+		for(Value l : v["ссылки"]) {
 			if(loading_stopped)
 				break;
 			Load(tier + 1, l);
@@ -422,8 +422,8 @@ void DinrusHubDlg::SyncList()
 		};
 		if(ToUpperAscii(n.name + n.category + n.description + pkgs).Find(~~search) >= 0 &&
 		   (IsNull(category) || ~category == n.category) &&
-		   (experimental || n.status != "experimental") &&
-		   (broken || n.status != "broken"))
+		   (experimental || n.status != "эксперимент") &&
+		   (broken || n.status != "повреждён"))
 			list.Add(n.name, AT(n.name), AT(n.description), n.name);
 	}
 		         

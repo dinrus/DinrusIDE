@@ -319,10 +319,10 @@
         "Eigen"
       ],
       "description": "Библиотека шаблонов для линейной алгебры",
-      "repository": "https://github.com/anboto/Eigen.git",
+      "repository": "https://github.com/DinrusGroup/Eigen.git",
       "status": "stable",
       "category": "scientific",
-      "readme": "https://raw.githubusercontent.com/anboto/Eigen/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Eigen/main/README.md"
     },
     {
       "name": "Scatter",

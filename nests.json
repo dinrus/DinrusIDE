@@ -117,10 +117,10 @@
         "STEM4U"
       ],
       "description": "Научные, технологические, инженерные и математические библиотеки",
-      "repository": "https://github.com/anboto/STEM4U.git",
+      "repository": "https://github.com/DinrusGroup/STEM4U.git",
       "status": "stable",
       "category": "scientific",
-      "readme": "https://raw.githubusercontent.com/anboto/STEM4U/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/STEM4U/main/README.md"
     },
     {
       "name": "matio",
@@ -139,10 +139,10 @@
         "plugin/sundials"
       ],
       "description": "SUNDIALS: Набор для решения Нелинейных и Диференциальных/Алгебраических Уравнений",
-      "repository": "https://github.com/anboto/Sundials.git",
+      "repository": "https://github.com/DinrusGroup/Sundials.git",
       "status": "stable",
       "category": "scientific",
-      "readme": "https://raw.githubusercontent.com/anboto/Sundials/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Sundials/main/README.md"
     },
     {
       "name": "GLCanvas",
@@ -161,10 +161,10 @@
         "Surface"
       ],
       "description": "Базовые примитивы 3D и их обработка",
-      "repository": "https://github.com/anboto/Surface.git",
+      "repository": "https://github.com/DinrusGroup/Surface.git",
       "status": "stable",
       "category": "scientific",
-      "readme": "https://raw.githubusercontent.com/anboto/Surface/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Surface/main/README.md"
     },
     {
       "name": "OfficeAutomation",

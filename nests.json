@@ -31,7 +31,7 @@
       "репозиторий": "https://github.comDinrusGroup/Turtle.git",
       "статус": "эксперимент",
       "категория": "networking",
-      "readme": "https://raw.githubusercontent.comDinrusGroup/Turtle/master/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Turtle/master/README.md"
     },
     {
       "имя": "Skylark",
@@ -39,7 +39,7 @@
         "Skylark"
       ],
       "описание": "Веб-фреймворк U++",
-      "репозиторий": "https://github.comDinrusGroup/Skylark.git",
+      "репозиторий": "https://github.com/DinrusGroup/Skylark.git",
       "статус": "эксперимент",
       "категория": "networking",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/Skylark/master/README.md"

@@ -207,7 +207,7 @@
         "SurfaceCtrl"
       ],
       "описание": "Обозреватель объектов OpenGL 3D, поддерживающий различные файловые форматы 3D",
-      "репозиторий": "https://github.com/Xemuth/SurfaceCtrl.git",
+      "репозиторий": "https://github.com/DinrusGroup/SurfaceCtrl.git",
       "статус": "эксперимент",
       "категория": "виджет",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/SurfaceCtrl/main/README.md"

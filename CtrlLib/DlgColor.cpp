@@ -1102,30 +1102,30 @@ void PalCtrl::RightDown(Point pt, dword keyflags)
 	MenuBar bar;
 	set_index = ClientToIndex(pt);
 	bar.Add(set_index >= 0 && !IsNull(color), t_("Установить цвет"), THISBACK(OnSetColor))
-		.Help(t_("Записать текущий цвет в выделенный слот палетки"));
+		.Help(t_("Записать текущий цвет в выделенный слот палитры"));
 	bar.Add(t_("Дефолтная палетка"), THISBACK(OnStandard))
-		.Help(t_("Восстановить дефолтную системную палетку"));
+		.Help(t_("Восстановить дефолтную системную палитру"));
 	bar.MenuSeparator();
 	bar.Add(t_("Сохранить как.."), THISBACK(OnSave))
-		.Help(t_("Сохранить инфо о палетке в файл на диске"));
+		.Help(t_("Сохранить инфо о палитре в файл на диске"));
 	bar.Add(t_("Загрузить"), THISBACK(OnLoad))
-		.Help(t_("Загрузить ранее сохранённую палетку"));
+		.Help(t_("Загрузить ранее сохранённую палитру"));
 	bar.MenuSeparator();
 	bool is_small = (cellcount.cx == 4 && cellcount.cy == 4);
 	bool is_medium = (cellcount.cx == 8 && cellcount.cy == 8);
 	bool is_large = (cellcount.cx == 16 && cellcount.cy == 16);
 	bar.Add(t_("Маленькая"), THISBACK(OnSizeSmall))
 		.Check(is_small)
-		.Help(t_("Установить размер палетки 4х4 цвета"));
+		.Help(t_("Установить размер палитры 4х4 цвета"));
 	bar.Add(t_("Средняя"), THISBACK(OnSizeMedium))
 		.Check(is_medium)
-		.Help(t_("Установить размер палетки 8х8 цветов"));
+		.Help(t_("Установить размер палитры 8х8 цветов"));
 	bar.Add(t_("Большая"), THISBACK(OnSizeLarge))
 		.Check(is_large)
-		.Help(t_("Установить размер палетки 16х16 цветов (максимальный)"));
+		.Help(t_("Установить размер палитры 16х16 цветов (максимальный)"));
 	bar.Add(t_("Настроить..."), THISBACK(OnSizeCustom))
 		.Check(!is_small && !is_medium && !is_large)
-		.Help(t_("Выбрать нужный размер палетки"));
+		.Help(t_("Выбрать нужный размер палитры"));
 	bar.Execute();
 }
 

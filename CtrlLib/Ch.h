@@ -1,5 +1,9 @@
-void ChBaseSkin();
 
+//Указывает на единоразовую инициализацию платформного стиля
+// для вычисления параметров других стилей и тем.
+bool hsIsSet( bool hstyle);
+
+void ChBaseSkin();
 void ChHostSkin();
 void ChClassicSkin();
 void ChStdSkin();

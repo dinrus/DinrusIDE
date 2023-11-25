@@ -230,6 +230,7 @@ void ChHostSkin()
 	}
 	
 	ChSynthetic(button100x100, text, true);
+	hsIsSet( true);
 }
 
 };

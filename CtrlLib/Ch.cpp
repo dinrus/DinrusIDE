@@ -714,9 +714,14 @@ void ChMakeSkin(int roundness, Color button_face, Color thumb, int *adj)
 	MakeDialogIcons();
 }
 
+static bool hset_;
+
+bool hsIsSet( bool hstyle){hset_ = hstyle; return hset_;}
+
 void ChStdSkin()
 {
 	ChReset();
+	if(!hsIsSet) ChHostSkin();
 	static int adj[] = { 10, 80, -5, -10 };
 	SColorFace_Write(Color(240, 240, 240));
 	SColorMenu_Write(Color(240, 240, 240));
@@ -727,6 +732,7 @@ void ChStdSkin()
 void ChGraySkin()
 {
 	ChReset();
+	if(!hsIsSet) ChHostSkin();
 	static int adj[] = { 0, 70, -15, -20 };
 	SColorHighlight_Write(Gray());
 	ChMakeSkin(3, SWhiteGray(), SLtGray(), adj);
@@ -735,16 +741,18 @@ void ChGraySkin()
 void ChDarkSkin()
 {
 	ChReset();
+	if(!hsIsSet) ChHostSkin();
 	static int adj[] = { 10, 80, -5, -10 };
 	SColorPaper_Write(Black());
 	SColorHighlight_Write(Gray());
-	SColorHighlightText_Write(White());
+	SColorHighlightText_Write(LtYellow());
 	ChMakeSkin(3, SWhiteGray(), SWhiteGray(), adj);
 }
 
 void ChFlatSkin()
 {
 	ChReset();
+	if(!hsIsSet) ChHostSkin();
 	static int adj[] = { 10, 80, -5, -10 };
 	SColorFace_Write(Color(240, 240, 240));
 	SColorMenu_Write(Color(240, 240, 240));
@@ -755,6 +763,7 @@ void ChFlatSkin()
 void ChFlatGraySkin()
 {
 	ChReset();
+	if(!hsIsSet) ChHostSkin();
 	static int adj[] = { 0, 70, -15, -20 };
 	SColorHighlight_Write(Gray());
 	ChMakeSkin(0, SWhiteGray(), SLtGray(), adj);
@@ -763,10 +772,11 @@ void ChFlatGraySkin()
 void ChFlatDarkSkin()
 {
 	ChReset();
+	if(!hsIsSet) ChHostSkin();
 	static int adj[] = { 10, 80, -5, -10 };
 	SColorPaper_Write(Black());
 	SColorHighlight_Write(Gray());
-	SColorHighlightText_Write(White());
+	SColorHighlightText_Write(Brown());
 	ChMakeSkin(0, SWhiteGray(), SWhiteGray(), adj);
 }
 
@@ -781,6 +791,7 @@ void ChHostSkin()
 	SColorHighlight_Write(Color(50, 50, 250));
 
 	ChStdSkin();
+	hsIsSet(true);
 }
 
 #endif
@@ -788,15 +799,16 @@ void ChHostSkin()
 Vector<Tuple<void (*)(), String>> GetAllChSkins()
 {
 	return Vector<Tuple<void (*)(), String>> {
+		{ ChDarkSkin, "Тёмная" },
+		{ ChFlatDarkSkin, "Плоская Тёмная" },
+		{ ChFlatGraySkin, "Плоская Серая" },
 		{ ChHostSkin, "Платформа Хоста" },
 	    { ChClassicSkin, "Классическая" },
 		{ ChStdSkin, "Стандартная" },
 		{ ChGraySkin, "Серая" },
-		{ ChDarkSkin, "Тёмная" },
-		{ ChFlatSkin, "Плоская" },
-		{ ChFlatGraySkin, "Плоская Серая" },
-		{ ChFlatDarkSkin, "Плоская Тёмная" }
-	};
+		{ ChFlatSkin, "Плоская" }
+		
+		};
 }
 
 }

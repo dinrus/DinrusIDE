@@ -143,12 +143,12 @@ void HighlightSetup::HostColors()
 
 void HighlightSetup::DarkTheme(bool host)
 {
-	SetHlStyle(INK_NORMAL,                Color(56, 212, 0));
-	SetHlStyle(PAPER_NORMAL,              Blue);
-	SetHlStyle(INK_SELECTED,              Color(33, 33, 33));
-	SetHlStyle(PAPER_SELECTED,            Color(199, 217, 243));
-	SetHlStyle(INK_DISABLED,              Color(159, 159, 159));
-	SetHlStyle(PAPER_READONLY,            Color(249, 249, 249));
+	SetHlStyle(INK_NORMAL,                Color(198, 212, 0));
+	SetHlStyle(PAPER_NORMAL,              Color(35, 38, 41));
+	SetHlStyle(INK_SELECTED,              Color(239, 240, 241));
+	SetHlStyle(PAPER_SELECTED,            Color(61, 174, 233));
+	SetHlStyle(INK_DISABLED,              Gray);
+	SetHlStyle(PAPER_READONLY,            Color(49, 54, 59));
 	SetHlStyle(INK_COMMENT,               Color(226, 170, 150), true, false);
 	SetHlStyle(INK_COMMENT_WORD,          Color(235, 235, 255), true, true);
 	SetHlStyle(PAPER_COMMENT_WORD,        Color(99, 99, 0));

@@ -113,7 +113,7 @@ struct XmlRpcDo {
 	void   RpcResponse(const String& r);
 	void   EndRpc();
 	bool   Perform();
-	
+
 	XmlRpcDo(TcpSocket& http, const char *group);
 };
 
@@ -263,7 +263,7 @@ String XmlRpcDo::DoJsonRpc()
 			return v.GetCount() ? ~a : String();
 		}
 	}
-	catch(CParser::Error e) {}	
+	catch(CParser::Error e) {}
 	return AsJSON(JsonRpcError(RPC_SERVER_JSON_ERROR, "Ошибка разбора", Null));
 }
 

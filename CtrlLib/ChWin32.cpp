@@ -394,6 +394,7 @@ void ChHostSkin()
 			if(SetProcessDPIAware)
 				(*SetProcessDPIAware)();
 		}
+		hsIsSet( true);
 	}
 
 	sEmulateDarkTheme = Ctrl::IsDarkThemeEnabled() && IsSystemThemeDark() && !IsDark(Color::FromCR(GetSysColor(COLOR_WINDOW)));

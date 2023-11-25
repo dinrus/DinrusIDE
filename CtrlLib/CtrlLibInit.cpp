@@ -12,7 +12,8 @@ extern void (*extDrawSmartText)(Draw& draw, int x, int y, int cx, const char *te
                      Color ink, int accesskey, Color qtf_ink);
 
 INITIALIZER(CtrlLib) {
-	CtrlSetDefaultSkin(ChHostSkin);
+
+		CtrlSetDefaultSkin(ChDarkSkin);
 
 	extGetSmartTextSize = GetSmartTextSize;
 

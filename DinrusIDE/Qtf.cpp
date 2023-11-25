@@ -1,4 +1,4 @@
-N#include "DinrusIDE.h"
+#include "DinrusIDE.h"
 
 INITBLOCK {
 	RegisterGlobalConfig("QTF-designer");

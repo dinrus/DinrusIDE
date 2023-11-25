@@ -15,7 +15,7 @@ String RepoSys(const char *cmd)
 
 UrepoConsole::UrepoConsole()
 {
-	CtrlLayoutExit(*this, "Системная Консоль");
+	CtrlLayoutExit(*this, "Интерактивная Консоль");
 	list.NoHeader().NoGrid().NoCursor().AddColumn();
 	font = Courier(Ctrl::VertLayoutZoom(12));
 	list.SetLineCy(font.Info().GetHeight());

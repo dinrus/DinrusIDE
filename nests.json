@@ -17,10 +17,10 @@
         "Urr"
       ],
       "описание": "Простой протокол запроса-ответа UDP",
-      "репозиторий": "https://github.com/mirek-fidler/urr.git",
+      "репозиторий": "https://github.comDinrusGroup/urr.git",
       "статус": "стабилен",
       "категория": "networking",
-      "readme": "https://raw.githubusercontent.com/mirek-fidler/urr/master/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/urr/master/README.md"
     },
     {
       "имя": "Turtle",
@@ -28,10 +28,10 @@
         "Turtle"
       ],
       "описание": "Предоставляет веб-приложение HTML5 с простым кодом U++ GUI",
-      "репозиторий": "https://github.com/mirek-fidler/Turtle.git",
+      "репозиторий": "https://github.comDinrusGroup/Turtle.git",
       "статус": "эксперимент",
       "категория": "networking",
-      "readme": "https://raw.githubusercontent.com/mirek-fidler/Turtle/master/README.md"
+      "readme": "https://raw.githubusercontent.comDinrusGroup/Turtle/master/README.md"
     },
     {
       "имя": "Skylark",
@@ -39,10 +39,10 @@
         "Skylark"
       ],
       "описание": "Веб-фреймворк U++",
-      "репозиторий": "https://github.com/mirek-fidler/Skylark.git",
+      "репозиторий": "https://github.comDinrusGroup/Skylark.git",
       "статус": "эксперимент",
       "категория": "networking",
-      "readme": "https://raw.githubusercontent.com/mirek-fidler/Skylark/master/README.md"
+      "readme": "https://raw.githubusercontent.comDinrusGroup/Skylark/master/README.md"
     },
     {
       "имя": "gdal",
@@ -50,10 +50,10 @@
         "plugin/gdal"
       ],
       "описание": "GDAL - Библиотека трансляторов для растровых и векторных форматов геопространственных данных",
-      "репозиторий": "https://github.com/mirek-fidler/gdal.git",
+      "репозиторий": "https://github.comDinrusGroup/gdal.git",
       "статус": "стабилен",
       "категория": "наука",
-      "readme": "https://raw.githubusercontent.com/mirek-fidler/gdal/master/README.md"
+      "readme": "https://raw.githubusercontent.comDinrusGroup/gdal/master/README.md"
     },
     {
       "имя": "GoogleTest",
@@ -62,10 +62,10 @@
         "plugin/gmock"
       ],
       "описание": "Гнездо содержит пакеты GoogleTest и GoogleMock",
-      "репозиторий": "https://github.com/klugier/UppGoogleTest.git",
+      "репозиторий": "https://github.com/DinrusGroup/UppGoogleTest.git",
       "статус": "стабилен",
       "категория": "testing",
-      "readme": "https://raw.githubusercontent.com/klugier/UppGoogleTest/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/UppGoogleTest/main/README.md"
     },
     {
       "имя": "MessageCtrl",
@@ -73,10 +73,10 @@
         "MessageCtrl"
       ],
       "описание": "Виджет пассивных уведомлений для U++",
-      "репозиторий": "https://github.com/ismail-yilmaz/MessageCtrl.git",
+      "репозиторий": "https://github.com/DinrusGroup/MessageCtrl.git",
       "статус": "стабилен",
       "категория": "виджет",
-      "readme": "https://raw.githubusercontent.com/ismail-yilmaz/MessageCtrl/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/MessageCtrl/main/README.md"
     },
     {
       "имя": "SysInfo",
@@ -128,10 +128,10 @@
         "plugin/matio"
       ],
       "описание": "Библиотека MATLAB MAT файлового I/O",
-      "репозиторий": "https://github.com/anboto/matio.git",
+      "репозиторий": "https://github.com/DinrusGroup/matio.git",
       "статус": "стабилен",
       "категория": "наука",
-      "readme": "https://raw.githubusercontent.com/anboto/matio/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/matio/main/README.md"
     },
     {
       "имя": "sundials",
@@ -172,10 +172,10 @@
         "OfficeAutomation"
       ],
       "описание": "Автоматизация офисных комплектов OpenOffice и Microsoft",
-      "репозиторий": "https://github.com/anboto/OfficeAutomation.git",
+      "репозиторий": "https://github.com/DinrusGroup/OfficeAutomation.git",
       "статус": "стабилен",
       "категория": "ядро",
-      "readme": "https://raw.githubusercontent.com/anboto/OfficeAutomation/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/OfficeAutomation/main/README.md"
     },
     {
       "имя": "assimp",
@@ -183,10 +183,10 @@
         "plugin/assimp"
       ],
       "описание": "Open Asset Import Library",
-      "репозиторий": "https://github.com/anboto/Assimp.git",
+      "репозиторий": "https://github.com/DinrusGroup/Assimp.git",
       "статус": "стабилен",
       "категория": "наука",
-      "readme": "https://raw.githubusercontent.com/anboto/Assimp/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Assimp/main/README.md"
     },
     {
       "имя": "TerminalCtrl",
@@ -196,10 +196,10 @@
         "PtyAgent"
       ],
       "описание": "Гибкий и мощный виджет эмуляции терминала и библиотека для U++",
-      "репозиторий": "https://github.com/ismail-yilmaz/Terminal.git",
+      "репозиторий": "https://github.com/DinrusGroup/Terminal.git",
       "статус": "rolling",
       "категория": "виджет",
-      "readme": "https://raw.githubusercontent.com/ismail-yilmaz/Terminal/master/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Terminal/master/README.md"
     },
     {
       "имя": "SurfaceCtrl",
@@ -210,7 +210,7 @@
       "репозиторий": "https://github.com/Xemuth/SurfaceCtrl.git",
       "статус": "эксперимент",
       "категория": "виджет",
-      "readme": "https://raw.githubusercontent.com/Xemuth/SurfaceCtrl/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/SurfaceCtrl/main/README.md"
     },
     {
       "имя": "PolyXML",
@@ -241,10 +241,10 @@
         "SysExecGui"
       ],
       "описание": "Исполнение внешних команд, собирающее вывод, с опциями админа и ГИП-фронтэндом для ввода пароля",
-      "репозиторий": "https://github.com/Libraries4U/SysExec.git",
+      "репозиторий": "https://github.com/DinrusGroup/SysExec.git",
       "статус": "стабилен",
       "категория": "ядро",
-      "readme": "https://raw.githubusercontent.com/Libraries4U/SysExec/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/SysExec/main/README.md"
     },
     {
       "имя": "Cypher",
@@ -252,10 +252,10 @@
         "Cypher"
       ],
       "описание": "Многоцелевой пакет кодирования/раскодирования",
-      "репозиторий": "https://github.com/Libraries4U/Cypher.git",
+      "репозиторий": "https://github.com/DinrusGroup/Cypher.git",
       "статус": "стабилен",
       "категория": "ядро",
-      "readme": "https://raw.githubusercontent.com/Libraries4U/Cypher/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Cypher/main/README.md"
     },
     {
       "имя": "StreamCypher",
@@ -263,10 +263,10 @@
         "StreamCypher"
       ],
       "описание": "Процедуры Encrypt/Decrypt с применением поточного шифра Snow2 OR RC4",
-      "репозиторий": "https://github.com/Libraries4U/StreamCypher.git",
+      "репозиторий": "https://github.com/DinrusGroup/StreamCypher.git",
       "статус": "стабилен",
       "категория": "ядро",
-      "readme": "https://raw.githubusercontent.com/Libraries4U/StreamCypher/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/StreamCypher/main/README.md"
     },
     {
       "имя": "Updater",
@@ -274,10 +274,10 @@
         "Updater"
       ],
       "описание": "Модуль Web Installer/Updater",
-      "репозиторий": "https://github.com/Libraries4U/Updater.git",
+      "репозиторий": "https://github.com/DinrusGroup/Updater.git",
       "статус": "стабилен",
       "категория": "ядро",
-      "readme": "https://raw.githubusercontent.com/Libraries4U/Updater/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Updater/main/README.md"
     },
     {
       "имя": "XMLMenu",
@@ -285,10 +285,10 @@
         "XMLMenu"
       ],
       "описание": "Система меню на основе XML",
-      "репозиторий": "https://github.com/Libraries4U/XMLMenu.git",
+      "репозиторий": "https://github.com/DinrusGroup/XMLMenu.git",
       "статус": "стабилен",
       "категория": "виджет",
-      "readme": "https://raw.githubusercontent.com/Libraries4U/XMLMenu/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/XMLMenu/main/README.md"
     },
     {
       "имя": "Signals",
@@ -296,10 +296,10 @@
         "Signals"
       ],
       "описание": "Пакет для обработки сигналов Posix ",
-      "репозиторий": "https://github.com/Libraries4U/Signals.git",
+      "репозиторий": "https://github.com/DinrusGroup/Signals.git",
       "статус": "стабилен",
       "категория": "ядро",
-      "readme": "https://raw.githubusercontent.com/Libraries4U/Signals/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Signals/main/README.md"
     },
     {
       "имя": "Uniq",
@@ -307,10 +307,10 @@
         "Uniq"
       ],
       "описание": "Класс для одноэкземплярных приложений",
-      "репозиторий": "https://github.com/Libraries4U/Uniq.git",
+      "репозиторий": "https://github.com/DinrusGroup/Uniq.git",
       "статус": "стабилен",
       "категория": "виджет",
-      "readme": "https://raw.githubusercontent.com/Libraries4U/Uniq/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Uniq/main/README.md"
     },
     {
       "имя": "eigen",
@@ -353,10 +353,10 @@
         "SixelRaster"
       ],
       "описание": "Декодер изображений Sixel и интерфейс StreamRaster для U++",
-      "репозиторий": "https://github.com/ismail-yilmaz/SixelRaster.git",
+      "репозиторий": "https://github.com/DinrusGroup/SixelRaster.git",
       "статус": "стабилен",
       "категория": "draw/plugin",
-      "readme": "https://raw.githubusercontent.com/ismail-yilmaz/SixelRaster/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/SixelRaster/main/README.md"
     },
     {
       "имя": "CoRoutines",
@@ -364,10 +364,10 @@
         "CoRoutines"
       ],
       "описание": "Интерфейс корутин C++20 для U++",
-      "репозиторий": "https://github.com/ismail-yilmaz/CoRoutines.git",
+      "репозиторий": "https://github.com/DinrusGroup/CoRoutines.git",
       "статус": "эксперимент",
       "категория": "ядро",
-      "readme": "https://raw.githubusercontent.com/ismail-yilmaz/CoRoutines/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/CoRoutines/main/README.md"
     },
     {
       "имя": "UppCloud",
@@ -377,7 +377,7 @@
         "RSA"
       ],
       "описание": "Утилитный пакет для взаимодействия с облачными сервисами",
-      "репозиторий": "https://github.com/lindquist/uppcloud.git",
+      "репозиторий": "https://github.com/DinrusGroup/uppcloud.git",
       "статус": "эксперимент",
       "категория": "ядро",
       "readme": "https://raw.githubusercontent.com/lindquist/uppcloud/main/README.md"

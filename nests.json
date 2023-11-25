@@ -331,10 +331,10 @@
         "ScatterDraw"
       ],
       "description": "Рисование графов",
-      "repository": "https://github.com/anboto/Scatter.git",
+      "repository": "https://github.com/DinrusGroup/Scatter.git",
       "status": "stable",
       "category": "scientific",
-      "readme": "https://raw.githubusercontent.com/anboto/Scatter/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Scatter/main/README.md"
     },
     {
       "name": "Box2D",

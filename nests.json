@@ -106,10 +106,10 @@
         "Controls4U"
       ],
       "description": "Некоторые дополнительные виджеты",
-      "repository": "https://github.com/anboto/Controls4U.git",
+      "repository": "https://github.com/DinrusGroup/Controls4U.git",
       "status": "stable",
       "category": "widget",
-      "readme": "https://raw.githubusercontent.com/anboto/Controls4U/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Controls4U/main/README.md"
     },
     {
       "name": "STEM4U",

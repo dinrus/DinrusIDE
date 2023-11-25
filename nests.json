@@ -17,7 +17,7 @@
         "Urr"
       ],
       "описание": "Простой протокол запроса-ответа UDP",
-      "репозиторий": "https://github.comDinrusGroup/urr.git",
+      "репозиторий": "https://github.com/DinrusGroup/urr.git",
       "статус": "стабилен",
       "категория": "networking",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/urr/master/README.md"
@@ -42,7 +42,7 @@
       "репозиторий": "https://github.comDinrusGroup/Skylark.git",
       "статус": "эксперимент",
       "категория": "networking",
-      "readme": "https://raw.githubusercontent.comDinrusGroup/Skylark/master/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Skylark/master/README.md"
     },
     {
       "имя": "gdal",
@@ -50,10 +50,10 @@
         "plugin/gdal"
       ],
       "описание": "GDAL - Библиотека трансляторов для растровых и векторных форматов геопространственных данных",
-      "репозиторий": "https://github.comDinrusGroup/gdal.git",
+      "репозиторий": "https://github.com/DinrusGroup/gdal.git",
       "статус": "стабилен",
       "категория": "наука",
-      "readme": "https://raw.githubusercontent.comDinrusGroup/gdal/master/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/gdal/master/README.md"
     },
     {
       "имя": "GoogleTest",

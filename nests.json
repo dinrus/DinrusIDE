@@ -229,7 +229,7 @@
         "NetProxy"
       ],
       "description": "Пакет сетевого прокси, реализующий протоколы SOCKS 4/4a/5 и HTTP_CONNECT.",
-      "repository": "https://github.com/ismail-yilmaz/NetProxy.git",
+      "repository": "https://github.com/DinrusGroup/NetProxy.git",
       "status": "stable",
       "category": "networking",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/NetProxy/master/README.md"

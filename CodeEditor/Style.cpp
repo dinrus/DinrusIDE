@@ -32,10 +32,10 @@ static bool s_hl_font[] = {
 
 void HighlightSetup::DefaultHlStyles()
 {
-	if(IsDarkTheme())
+//	if(IsDarkTheme())
 		DarkTheme();
-	else
-		WhiteTheme();
+	//else
+	//	WhiteTheme();
 }
 
 void HighlightSetup::InitOnce()

@@ -557,7 +557,7 @@ struct Builder {
 	Builder()          { doall = false; main_conf = false; }
 	virtual ~Builder() {}
 
-	// СДЕЛАТЬ: move other methods if needed
+	//СДЕЛАТЬ: move other methods if needed
 	void                   ChDir(const String& path);
 	String                 GetPathQ(const String& path) const;
 	Vector<Host::FileInfo> GetFileInfo(const Vector<String>& path) const;

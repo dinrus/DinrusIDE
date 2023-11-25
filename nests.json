@@ -19,7 +19,7 @@
       "описание": "Простой протокол запроса-ответа UDP",
       "репозиторий": "https://github.com/DinrusGroup/urr.git",
       "статус": "стабилен",
-      "категория": "networking",
+      "категория": "сеть",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/urr/master/README.md"
     },
     {
@@ -28,9 +28,9 @@
         "Turtle"
       ],
       "описание": "Предоставляет веб-приложение HTML5 с простым кодом U++ GUI",
-      "репозиторий": "https://github.comDinrusGroup/Turtle.git",
+      "репозиторий": "https://github.com/DinrusGroup/Turtle.git",
       "статус": "эксперимент",
-      "категория": "networking",
+      "категория": "сеть",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/Turtle/master/README.md"
     },
     {
@@ -41,7 +41,7 @@
       "описание": "Веб-фреймворк U++",
       "репозиторий": "https://github.com/DinrusGroup/Skylark.git",
       "статус": "эксперимент",
-      "категория": "networking",
+      "категория": "сеть",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/Skylark/master/README.md"
     },
     {
@@ -231,7 +231,7 @@
       "описание": "Пакет сетевого прокси, реализующий протоколы SOCKS 4/4a/5 и HTTP_CONNECT.",
       "репозиторий": "https://github.com/DinrusGroup/NetProxy.git",
       "статус": "стабилен",
-      "категория": "networking",
+      "категория": "сеть",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/NetProxy/master/README.md"
     },
     {
@@ -363,7 +363,7 @@
       "пакеты": [
         "CoRoutines"
       ],
-      "описание": "Интерфейс корутин C++20 для U++",
+      "описание": "Интерфейс сопроцедур C++20 для U++",
       "репозиторий": "https://github.com/DinrusGroup/CoRoutines.git",
       "статус": "эксперимент",
       "категория": "ядро",

@@ -6,10 +6,10 @@
         "AutoScroller"
       ],
       "описание": "Автоскролинговый контейнер, позволяющий помещать обзор в более компактной области",
-      "репозиторий": "https://github.com/klugier/AutoScroller.git",
+      "репозиторий": "https://github.com/DinrusGroup/AutoScroller.git",
       "статус": "стабилен",
       "категория": "виджет",
-      "readme": "https://raw.githubusercontent.com/klugier/AutoScroller/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/AutoScroller/main/README.md"
     },
     {
       "имя": "URR",
@@ -149,7 +149,7 @@
       "пакеты": [
         "GLCanvas"
       ],
-      "описание": "Базовый канвас (холст) для примитивов OpenGL",
+      "описание": "Базовый холст для примитивов OpenGL",
       "репозиторий": "https://github.com/DinrusGroup/GLCanvas.git",
       "статус": "стабилен",
       "категория": "GPU",
@@ -218,10 +218,10 @@
         "PolyXML"
       ],
       "описание": "Предоставляет необходимое поведение для обработки стриминга XML для классов из иерархии",
-      "репозиторий": "https://github.com/Libraries4U/PolyXML.git",
+      "репозиторий": "https://github.com/DinrusGroup/PolyXML.git",
       "статус": "стабилен",
       "категория": "ядро",
-      "readme": "https://raw.githubusercontent.com/Libraries4U/PolyXML/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/PolyXML/main/README.md"
     },
     {
       "имя": "NetProxy",
@@ -342,10 +342,10 @@
         "plugin/box2D"
       ],
       "описание": "Библиотека физики для 2D",
-      "репозиторий": "https://github.com/Libraries4U/Box2D.git",
+      "репозиторий": "https://github.com/DinrusGroup/Box2D.git",
       "статус": "стабилен",
       "категория": "наука",
-      "readme": "https://raw.githubusercontent.com/Libraries4U/Box2D/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/Box2D/main/README.md"
     },
     {
       "имя": "SixelRaster",

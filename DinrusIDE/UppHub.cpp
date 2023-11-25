@@ -297,6 +297,8 @@ void DinrusHubDlg::Sync()
 	qtf << " Категория: [* \1" << n->category << "\1], статус: [* \1" << n->status << "\1], пакеты: [* \1" << Join(n->packages, " ") << "\1]";
 	if(Installed())
 		qtf << "&Статус: [* установлен]";
+		else
+			qtf << "&Статус: [* неустановлен]";
 	if (!n->website.IsEmpty())
 		qtf << "&&Веб-сайт: [^" << n->website << "^ " << n->website << "]";
 	qtf << "}}&&";
@@ -390,8 +392,8 @@ void DinrusHubDlg::Load(int tier, const String& url)
 					a = ns[id];
 			};
 			Attr(n.description, "описание");
-			Attr(n.repo, "ропозиторий");
-			Attr(n.website, "website");
+			Attr(n.repo, "репозиторий");
+			Attr(n.website, "сайт");
 			if(IsNull(n.website))
 				n.website = TrimRight(".git", n.repo);
 			Attr(n.category, "категория");

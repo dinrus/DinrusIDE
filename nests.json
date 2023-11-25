@@ -1,384 +1,384 @@
 {
   "nests": [
     {
-      "name": "AutoScroller",
-      "packages": [
+      "имя": "AutoScroller",
+      "пакеты": [
         "AutoScroller"
       ],
-      "description": "Автоскролинговый контейнер, позволяющий помещать обзор в более компактной области",
+      "описание": "Автоскролинговый контейнер, позволяющий помещать обзор в более компактной области",
       "repository": "https://github.com/klugier/AutoScroller.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "widget",
       "readme": "https://raw.githubusercontent.com/klugier/AutoScroller/main/README.md"
     },
     {
-      "name": "URR",
-      "packages": [
+      "имя": "URR",
+      "пакеты": [
         "Urr"
       ],
-      "description": "Простой протокол запроса-ответа UDP",
+      "описание": "Простой протокол запроса-ответа UDP",
       "repository": "https://github.com/mirek-fidler/urr.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "networking",
       "readme": "https://raw.githubusercontent.com/mirek-fidler/urr/master/README.md"
     },
     {
-      "name": "Turtle",
-      "packages": [
+      "имя": "Turtle",
+      "пакеты": [
         "Turtle"
       ],
-      "description": "Предоставляет веб-приложение HTML5 с простым кодом U++ GUI",
+      "описание": "Предоставляет веб-приложение HTML5 с простым кодом U++ GUI",
       "repository": "https://github.com/mirek-fidler/Turtle.git",
-      "status": "experimental",
+      "status": "экспериментальный",
       "category": "networking",
       "readme": "https://raw.githubusercontent.com/mirek-fidler/Turtle/master/README.md"
     },
     {
-      "name": "Skylark",
-      "packages": [
+      "имя": "Skylark",
+      "пакеты": [
         "Skylark"
       ],
-      "description": "Веб-фреймворк U++",
+      "описание": "Веб-фреймворк U++",
       "repository": "https://github.com/mirek-fidler/Skylark.git",
-      "status": "experimental",
+      "status": "экспериментальный",
       "category": "networking",
       "readme": "https://raw.githubusercontent.com/mirek-fidler/Skylark/master/README.md"
     },
     {
-      "name": "gdal",
-      "packages": [
+      "имя": "gdal",
+      "пакеты": [
         "plugin/gdal"
       ],
-      "description": "GDAL - Библиотека трансляторов для растровых и векторных форматов геопространственных данных",
+      "описание": "GDAL - Библиотека трансляторов для растровых и векторных форматов геопространственных данных",
       "repository": "https://github.com/mirek-fidler/gdal.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "scientific",
       "readme": "https://raw.githubusercontent.com/mirek-fidler/gdal/master/README.md"
     },
     {
-      "name": "GoogleTest",
-      "packages": [
+      "имя": "GoogleTest",
+      "пакеты": [
         "plugin/gtest",
         "plugin/gmock"
       ],
-      "description": "Гнездо содержит пакеты GoogleTest и GoogleMock",
+      "описание": "Гнездо содержит пакеты GoogleTest и GoogleMock",
       "repository": "https://github.com/klugier/UppGoogleTest.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "testing",
       "readme": "https://raw.githubusercontent.com/klugier/UppGoogleTest/main/README.md"
     },
     {
-      "name": "MessageCtrl",
-      "packages": [
+      "имя": "MessageCtrl",
+      "пакеты": [
         "MessageCtrl"
       ],
-      "description": "Виджет пассивных уведомлений для U++",
+      "описание": "Виджет пассивных уведомлений для U++",
       "repository": "https://github.com/ismail-yilmaz/MessageCtrl.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "widget",
       "readme": "https://raw.githubusercontent.com/ismail-yilmaz/MessageCtrl/main/README.md"
     },
     {
-      "name": "SysInfo",
-      "packages": [
+      "имя": "SysInfo",
+      "пакеты": [
         "SysInfo"
       ],
-      "description": "Функции для работы с ОС, железом и Рабочим столом",
+      "описание": "Функции для работы с ОС, железом и Рабочим столом",
       "repository": "https://github.com/DinrusGroup/SysInfo.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "core",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/SysInfo/main/README.md"
     },
     {
-      "name": "Functions4U",
-      "packages": [
+      "имя": "Functions4U",
+      "пакеты": [
         "Functions4U"
       ],
-      "description": "Функции и классы для общего применения",
+      "описание": "Функции и классы для общего применения",
       "repository": "https://github.com/DinrusGroup/Functions4U.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "core",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/Functions4U/main/README.md"
     },
     {
-      "name": "Controls4U",
-      "packages": [
+      "имя": "Controls4U",
+      "пакеты": [
         "Controls4U"
       ],
-      "description": "Некоторые дополнительные виджеты",
+      "описание": "Некоторые дополнительные виджеты",
       "repository": "https://github.com/DinrusGroup/Controls4U.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "widget",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/Controls4U/main/README.md"
     },
     {
-      "name": "STEM4U",
-      "packages": [
+      "имя": "STEM4U",
+      "пакеты": [
         "STEM4U"
       ],
-      "description": "Научные, технологические, инженерные и математические библиотеки",
+      "описание": "Научные, технологические, инженерные и математические библиотеки",
       "repository": "https://github.com/DinrusGroup/STEM4U.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "scientific",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/STEM4U/main/README.md"
     },
     {
-      "name": "matio",
-      "packages": [
+      "имя": "matio",
+      "пакеты": [
         "plugin/matio"
       ],
-      "description": "Библиотека MATLAB MAT файлового I/O",
+      "описание": "Библиотека MATLAB MAT файлового I/O",
       "repository": "https://github.com/anboto/matio.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "scientific",
       "readme": "https://raw.githubusercontent.com/anboto/matio/main/README.md"
     },
     {
-      "name": "sundials",
-      "packages": [
+      "имя": "sundials",
+      "пакеты": [
         "plugin/sundials"
       ],
-      "description": "SUNDIALS: Набор для решения Нелинейных и Диференциальных/Алгебраических Уравнений",
+      "описание": "SUNDIALS: Набор для решения Нелинейных и Диференциальных/Алгебраических Уравнений",
       "repository": "https://github.com/DinrusGroup/Sundials.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "scientific",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/Sundials/main/README.md"
     },
     {
-      "name": "GLCanvas",
-      "packages": [
+      "имя": "GLCanvas",
+      "пакеты": [
         "GLCanvas"
       ],
-      "description": "Базовый канвас (холст) для примитивов OpenGL",
+      "описание": "Базовый канвас (холст) для примитивов OpenGL",
       "repository": "https://github.com/DinrusGroup/GLCanvas.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "GPU",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/GLCanvas/main/README.md"
     },
     {
-      "name": "Surface",
-      "packages": [
+      "имя": "Surface",
+      "пакеты": [
         "Surface"
       ],
-      "description": "Базовые примитивы 3D и их обработка",
+      "описание": "Базовые примитивы 3D и их обработка",
       "repository": "https://github.com/DinrusGroup/Surface.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "scientific",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/Surface/main/README.md"
     },
     {
-      "name": "OfficeAutomation",
-      "packages": [
+      "имя": "OfficeAutomation",
+      "пакеты": [
         "OfficeAutomation"
       ],
-      "description": "Автоматизация офисных комплектов OpenOffice и Microsoft",
+      "описание": "Автоматизация офисных комплектов OpenOffice и Microsoft",
       "repository": "https://github.com/anboto/OfficeAutomation.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "core",
       "readme": "https://raw.githubusercontent.com/anboto/OfficeAutomation/main/README.md"
     },
     {
-      "name": "assimp",
-      "packages": [
+      "имя": "assimp",
+      "пакеты": [
         "plugin/assimp"
       ],
-      "description": "Open Asset Import Library",
+      "описание": "Open Asset Import Library",
       "repository": "https://github.com/anboto/Assimp.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "scientific",
       "readme": "https://raw.githubusercontent.com/anboto/Assimp/main/README.md"
     },
     {
-      "name": "TerminalCtrl",
-      "packages": [
+      "имя": "TerminalCtrl",
+      "пакеты": [
         "Terminal",
         "PtyProcess",
         "PtyAgent"
       ],
-      "description": "Гибкий и мощный виджет эмуляции терминала и библиотека для U++",
+      "описание": "Гибкий и мощный виджет эмуляции терминала и библиотека для U++",
       "repository": "https://github.com/ismail-yilmaz/Terminal.git",
       "status": "rolling",
       "category": "widget",
       "readme": "https://raw.githubusercontent.com/ismail-yilmaz/Terminal/master/README.md"
     },
     {
-      "name": "SurfaceCtrl",
-      "packages": [
+      "имя": "SurfaceCtrl",
+      "пакеты": [
         "SurfaceCtrl"
       ],
-      "description": "Обозреватель объектов OpenGL 3D, поддерживающий различные файловые форматы 3D",
+      "описание": "Обозреватель объектов OpenGL 3D, поддерживающий различные файловые форматы 3D",
       "repository": "https://github.com/Xemuth/SurfaceCtrl.git",
-      "status": "experimental",
+      "status": "экспериментальный",
       "category": "widget",
       "readme": "https://raw.githubusercontent.com/Xemuth/SurfaceCtrl/main/README.md"
     },
     {
-      "name": "PolyXML",
-      "packages": [
+      "имя": "PolyXML",
+      "пакеты": [
         "PolyXML"
       ],
-      "description": "Предоставляет необходимое поведение для обработки стриминга XML для классов из иерархии",
+      "описание": "Предоставляет необходимое поведение для обработки стриминга XML для классов из иерархии",
       "repository": "https://github.com/Libraries4U/PolyXML.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "core",
       "readme": "https://raw.githubusercontent.com/Libraries4U/PolyXML/main/README.md"
     },
     {
-      "name": "NetProxy",
-      "packages": [
+      "имя": "NetProxy",
+      "пакеты": [
         "NetProxy"
       ],
-      "description": "Пакет сетевого прокси, реализующий протоколы SOCKS 4/4a/5 и HTTP_CONNECT.",
+      "описание": "Пакет сетевого прокси, реализующий протоколы SOCKS 4/4a/5 и HTTP_CONNECT.",
       "repository": "https://github.com/DinrusGroup/NetProxy.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "networking",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/NetProxy/master/README.md"
     },
     {
-      "name": "SysExec",
-      "packages": [
+      "имя": "SysExec",
+      "пакеты": [
         "SysExec",
         "SysExecGui"
       ],
-      "description": "Исполнение внешних команд, собирающее вывод, с опциями админа и ГИП-фронтэндом для ввода пароля",
+      "описание": "Исполнение внешних команд, собирающее вывод, с опциями админа и ГИП-фронтэндом для ввода пароля",
       "repository": "https://github.com/Libraries4U/SysExec.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "core",
       "readme": "https://raw.githubusercontent.com/Libraries4U/SysExec/main/README.md"
     },
     {
-      "name": "Cypher",
-      "packages": [
+      "имя": "Cypher",
+      "пакеты": [
         "Cypher"
       ],
-      "description": "Многоцелевой пакет кодирования/раскодирования",
+      "описание": "Многоцелевой пакет кодирования/раскодирования",
       "repository": "https://github.com/Libraries4U/Cypher.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "core",
       "readme": "https://raw.githubusercontent.com/Libraries4U/Cypher/main/README.md"
     },
     {
-      "name": "StreamCypher",
-      "packages": [
+      "имя": "StreamCypher",
+      "пакеты": [
         "StreamCypher"
       ],
-      "description": "Процедуры Encrypt/Decrypt с применением поточного шифра Snow2 OR RC4",
+      "описание": "Процедуры Encrypt/Decrypt с применением поточного шифра Snow2 OR RC4",
       "repository": "https://github.com/Libraries4U/StreamCypher.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "core",
       "readme": "https://raw.githubusercontent.com/Libraries4U/StreamCypher/main/README.md"
     },
     {
-      "name": "Updater",
-      "packages": [
+      "имя": "Updater",
+      "пакеты": [
         "Updater"
       ],
-      "description": "Модуль Web Installer/Updater",
+      "описание": "Модуль Web Installer/Updater",
       "repository": "https://github.com/Libraries4U/Updater.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "core",
       "readme": "https://raw.githubusercontent.com/Libraries4U/Updater/main/README.md"
     },
     {
-      "name": "XMLMenu",
-      "packages": [
+      "имя": "XMLMenu",
+      "пакеты": [
         "XMLMenu"
       ],
-      "description": "Система меню на основе XML",
+      "описание": "Система меню на основе XML",
       "repository": "https://github.com/Libraries4U/XMLMenu.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "widget",
       "readme": "https://raw.githubusercontent.com/Libraries4U/XMLMenu/main/README.md"
     },
     {
-      "name": "Signals",
-      "packages": [
+      "имя": "Signals",
+      "пакеты": [
         "Signals"
       ],
-      "description": "Пакет для обработки сигналов Posix ",
+      "описание": "Пакет для обработки сигналов Posix ",
       "repository": "https://github.com/Libraries4U/Signals.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "core",
       "readme": "https://raw.githubusercontent.com/Libraries4U/Signals/main/README.md"
     },
     {
-      "name": "Uniq",
-      "packages": [
+      "имя": "Uniq",
+      "пакеты": [
         "Uniq"
       ],
-      "description": "Класс для одноэкземплярных приложений",
+      "описание": "Класс для одноэкземплярных приложений",
       "repository": "https://github.com/Libraries4U/Uniq.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "widget",
       "readme": "https://raw.githubusercontent.com/Libraries4U/Uniq/main/README.md"
     },
     {
-      "name": "eigen",
-      "packages": [
+      "имя": "eigen",
+      "пакеты": [
         "plugin/eigen",
         "Eigen"
       ],
-      "description": "Библиотека шаблонов для линейной алгебры",
+      "описание": "Библиотека шаблонов для линейной алгебры",
       "repository": "https://github.com/DinrusGroup/Eigen.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "scientific",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/Eigen/main/README.md"
     },
     {
-      "name": "Scatter",
-      "packages": [
+      "имя": "Scatter",
+      "пакеты": [
         "ScatterCtrl",
         "ScatterDraw"
       ],
-      "description": "Рисование графов",
+      "описание": "Рисование графов",
       "repository": "https://github.com/DinrusGroup/Scatter.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "scientific",
       "readme": "https://raw.githubusercontent.com/DinrusGroup/Scatter/main/README.md"
     },
     {
-      "name": "Box2D",
-      "packages": [
+      "имя": "Box2D",
+      "пакеты": [
         "plugin/box2D"
       ],
-      "description": "Библиотека физики для 2D",
+      "описание": "Библиотека физики для 2D",
       "repository": "https://github.com/Libraries4U/Box2D.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "scientific",
       "readme": "https://raw.githubusercontent.com/Libraries4U/Box2D/main/README.md"
     },
     {
-      "name": "SixelRaster",
-      "packages": [
+      "имя": "SixelRaster",
+      "пакеты": [
         "SixelRaster"
       ],
-      "description": "Декодер изображений Sixel и интерфейс StreamRaster для U++",
+      "описание": "Декодер изображений Sixel и интерфейс StreamRaster для U++",
       "repository": "https://github.com/ismail-yilmaz/SixelRaster.git",
-      "status": "stable",
+      "status": "стабильный",
       "category": "draw/plugin",
       "readme": "https://raw.githubusercontent.com/ismail-yilmaz/SixelRaster/main/README.md"
     },
     {
-      "name": "CoRoutines",
-      "packages": [
+      "имя": "CoRoutines",
+      "пакеты": [
         "CoRoutines"
       ],
-      "description": "Интерфейс корутин C++20 для U++",
+      "описание": "Интерфейс корутин C++20 для U++",
       "repository": "https://github.com/ismail-yilmaz/CoRoutines.git",
-      "status": "experimental",
+      "status": "экспериментальный",
       "category": "core",
       "readme": "https://raw.githubusercontent.com/ismail-yilmaz/CoRoutines/main/README.md"
     },
     {
-      "name": "UppCloud",
-      "packages": [
+      "имя": "UppCloud",
+      "пакеты": [
         "EVP",
         "JWT",
         "RSA"
       ],
-      "description": "Утидитный пакет для взаимодействия с облачными сервисами",
+      "описание": "Утилитный пакет для взаимодействия с облачными сервисами",
       "repository": "https://github.com/lindquist/uppcloud.git",
-      "status": "experimental",
+      "status": "экспериментальный",
       "category": "core",
       "readme": "https://raw.githubusercontent.com/lindquist/uppcloud/main/README.md"
     }

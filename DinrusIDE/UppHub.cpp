@@ -6,7 +6,7 @@ struct DinrusHubNest : Moveable<DinrusHubNest> {
 	String           description;
 	String           repo;
 	String           website;
-	String           status = "unknown";
+	String           status = "неизвестно";
 	String           category;
 	String           list_name;
 	String           readme;
@@ -15,9 +15,9 @@ struct DinrusHubNest : Moveable<DinrusHubNest> {
 
 Color StatusPaper(const String& status)
 {
-	return Blend(SColorPaper(), decode(status, "broken", SLtRed(),
-	                                           "experimental", SLtYellow(),
-	                                           "stable", SLtGreen(),
+	return Blend(SColorPaper(), decode(status, "повреждён", SLtRed(),
+	                                           "экспериментальный", SLtYellow(),
+	                                           "стабильный", SLtGreen(),
 	                                           "rolling", SLtCyan(),
 	                                           SColorPaper()), IsDarkTheme() ? 60 : 20);
 }
@@ -373,23 +373,23 @@ void DinrusHubDlg::Load(int tier, const String& url)
 	Value v = LoadJson(url);
 
 	try {
-		String list_name = v["name"];
+		String list_name = v["имя"];
 		for(Value ns : v["nests"]) {
 			String url = ns["url"];
 			if(url.GetCount())
 				ns = LoadJson(url);
-			String name = ns["name"];
+			String name = ns["имя"];
 			DinrusHubNest& n = upv.GetAdd(name);
 			n.name = name;
 			bool tt = tier > n.tier;
 			if(tt || n.packages.GetCount() == 0)
-				for(Value p : ns["packages"])
+				for(Value p : ns["пакеты"])
 					n.packages.Add(p);
 			auto Attr = [&](String& a, const char *id) {
 				if(tt || IsNull(a))
 					a = ns[id];
 			};
-			Attr(n.description, "description");
+			Attr(n.description, "описание");
 			Attr(n.repo, "repository");
 			Attr(n.website, "website");
 			if(IsNull(n.website))

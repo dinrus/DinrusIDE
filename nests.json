@@ -150,10 +150,10 @@
         "GLCanvas"
       ],
       "description": "Базовый канвас (холст) для примитивов OpenGL",
-      "repository": "https://github.com/anboto/GLCanvas.git",
+      "repository": "https://github.com/DinrusGroup/GLCanvas.git",
       "status": "stable",
       "category": "GPU",
-      "readme": "https://raw.githubusercontent.com/anboto/GLCanvas/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/GLCanvas/main/README.md"
     },
     {
       "name": "Surface",

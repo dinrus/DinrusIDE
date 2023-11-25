@@ -115,7 +115,7 @@ DinrusHubDlg::DinrusHubDlg()
 	list.WhenBar = [=, this](Bar& bar) {
 		if(list.IsCursor()) {
 			if(Installed()) {
-				bar.Add("Деинсталлировать", [=, this] { Uninstall(); });
+				bar.Add("Удалить", [=, this] { Uninstall(); });
 				bar.Add("Переустановить", [=, this] { Reinstall(); });
 			}
 			else
@@ -277,7 +277,7 @@ void DinrusHubDlg::Sync()
 	if(list.IsCursor()) {
 		action.Enable();
 		if(Installed()) {
-			action.SetLabel("Деинсталлировать");
+			action.SetLabel("Удалить");
 			reinstall.Enable();
 			action ^= [=, this] { Uninstall(); };
 		}
@@ -522,7 +522,7 @@ void DinrusHubDlg::Install(bool noprompt)
 
 void DinrusHubDlg::Uninstall(bool noprompt)
 {
-	if(list.IsCursor() && (noprompt || PromptYesNo("Деинсталлировать " + ~list.GetKey() + "?"))) {
+	if(list.IsCursor() && (noprompt || PromptYesNo("Удалить " + ~list.GetKey() + "?"))) {
 		if(!DeleteFolderDeep(GetHubDir() + "/" + ~list.GetKey(), true))
 			Exclamation("Не удалось удалить " + ~list.GetKey());
 		SyncList();

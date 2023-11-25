@@ -84,10 +84,10 @@
         "SysInfo"
       ],
       "description": "Функции для работы с ОС, железом и Рабочим столом",
-      "repository": "https://github.com/anboto/SysInfo.git",
+      "repository": "https://github.com/DinrusGroup/SysInfo.git",
       "status": "stable",
       "category": "core",
-      "readme": "https://raw.githubusercontent.com/anboto/SysInfo/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/SysInfo/main/README.md"
     },
     {
       "name": "Functions4U",

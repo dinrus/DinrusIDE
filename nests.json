@@ -196,10 +196,10 @@
         "PtyAgent"
       ],
       "описание": "Гибкий и мощный виджет эмуляции терминала и библиотека для U++",
-      "репозиторий": "https://github.com/DinrusGroup/Terminal.git",
+      "репозиторий": "https://github.com/DinrusGroup/TerminalCtrl.git",
       "статус": "rolling",
       "категория": "виджет",
-      "readme": "https://raw.githubusercontent.com/DinrusGroup/Terminal/master/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/TerminalCtrl/master/README.md"
     },
     {
       "имя": "SurfaceCtrl",

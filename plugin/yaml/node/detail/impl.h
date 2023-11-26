@@ -7,8 +7,8 @@
 #pragma once
 #endif
 
-#include "yaml/node/detail/node.h"
-#include "yaml/node/detail/node_data.h"
+#include <plugin/yaml/node/detail/node.h"
+#include <plugin/yaml/node/detail/node_data.h"
 
 #include <algorithm>
 #include <type_traits>

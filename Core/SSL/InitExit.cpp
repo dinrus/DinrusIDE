@@ -39,7 +39,7 @@ static void SslFree(void *ptr)
 	                     << ", " << file << " " << line
 	                     << "), MemorySize: " << GetMemoryBlockSize(aptr) << ", total = " << UPP_SSL_alloc << ", thread: " << Thread::GetCurrentId());
 	if(*aptr !=  GetMemoryBlockSize(aptr))
-		Panic("SslFree corrupted");
+		Panic("SslFree повреждён");
 	MemoryFree(aptr);
 }
 

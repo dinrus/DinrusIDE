@@ -9,8 +9,8 @@
 
 #include <set>
 
-#include "yaml/dll.h"
-#include "yaml/node/ptr.h"
+#include <plugin/yaml/dll.h>
+#include <plugin/yaml/node/ptr.h>
 
 namespace YAML {
 namespace detail {

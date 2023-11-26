@@ -8,9 +8,9 @@
 #include "regex_yaml.h"
 #include "regeximpl.h"
 #include "stringsource.h"
-#include "yaml/binary.h"  // IWYU pragma: keep
-#include "yaml/null.h"
-#include "yaml/ostream_wrapper.h"
+#include <plugin/yaml/binary.h>  // IWYU pragma: keep
+#include <plugin/yaml/null.h>
+#include <plugin/yaml/ostream_wrapper.h>
 
 namespace YAML {
 namespace Utils {
@@ -200,7 +200,7 @@ bool IsValidPlainScalar(const std::string& str, FlowType::value flowType,
 
 bool IsValidSingleQuotedScalar(const std::string& str, bool escapeNonAscii) {
   // TODO: check for non-printable characters?
-  return std::none_of(str.begin(), str.end(), [=, this](char ch) {
+  return std::none_of(str.begin(), str.end(), [=](char ch) {
     return (escapeNonAscii && (0x80 <= static_cast<unsigned char>(ch))) ||
            (ch == '\n');
   });
@@ -213,7 +213,7 @@ bool IsValidLiteralScalar(const std::string& str, FlowType::value flowType,
   }
 
   // TODO: check for non-printable characters?
-  return std::none_of(str.begin(), str.end(), [=, this](char ch) {
+  return std::none_of(str.begin(), str.end(), [=](char ch) {
     return (escapeNonAscii && (0x80 <= static_cast<unsigned char>(ch)));
   });
 }

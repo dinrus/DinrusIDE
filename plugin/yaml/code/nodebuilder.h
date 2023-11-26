@@ -9,10 +9,10 @@
 
 #include <vector>
 
-#include "yaml/anchor.h"
-#include "yaml/emitterstyle.h"
-#include "yaml/eventhandler.h"
-#include "yaml/node/ptr.h"
+#include <plugin/yaml/anchor.h>
+#include <plugin/yaml/emitterstyle.h>
+#include <plugin/yaml/eventhandler.h>
+#include <plugin/yaml/node/ptr.h>
 
 namespace YAML {
 namespace detail {

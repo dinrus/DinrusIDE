@@ -1,10 +1,10 @@
 #include "nodeevents.h"
-#include "yaml/eventhandler.h"
-#include "yaml/mark.h"
-#include "yaml/node/detail/node.h"
-#include "yaml/node/detail/node_iterator.h"
-#include "yaml/node/node.h"
-#include "yaml/node/type.h"
+#include <plugin/yaml/eventhandler.h>
+#include <plugin/yaml/mark.h>
+#include <plugin/yaml/node/detail/node.h>
+#include <plugin/yaml/node/detail/node_iterator.h>
+#include <plugin/yaml/node/node.h>
+#include <plugin/yaml/node/type.h>
 
 namespace YAML {
 void NodeEvents::AliasManager::RegisterReference(const detail::node& node) {

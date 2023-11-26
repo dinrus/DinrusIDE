@@ -56,7 +56,7 @@ topic "Some credits";
 @@image:200&175
 (BCAAHAAAAAAAAAAAAHiczVddaCNVFA74otvC2tWipaLsVrqL7bZNNz87adLptul0kswkk5nJ7yRp0j/abWtrXaEuSl8WYR/UtxVBH3z1RfBFfNnCsoLiQh9EBBH2yUVFUFhRadP7ec90J8aobLJSauAwmcm59/vOOd85d+JyHXxE0SVubbm2ABcO0wiDsFx1n+1t1/Zh4zYaYTr4zrMbNx6CLD+C9vb2QzHamzAcPMJ2ck7PHT9RFA/FnP0dDvX1duLOZrPY2Ng4FKO9nTw01sOJ2/FdX1/H3NzcX9avrq4ibxUQ13QoCQ0qN003kDQMmOkM0tkcUjkLRtbCysoKv8//jYOTh2bw67+Hp2SE5QjSmSysQgG5fB4zMzMcI3vAwUwhIGtsLBJnJvcxOJ8Ux19bW2sZv35Nku/tD4qsXC5DjioYFEaZxK9PnznLJqOqzcXhahWKtZxNc39RijHNTNt5axaffJeWlmzfxcVFDHj9LHNPE5TvAY5/2hdk41IEESVh+xA3ygfx0Dmew4euo9Ekm5+fbxrfTKVA/qVSCVpSh28kyGgdxfXMkMCShgkjlUbPiM46g7Po8BbQ6U6wh3sEpsQ1LCwsoMjXOni5Qglq0rR5NoMfUVQ7HsuyMCHJ0Lm2StPTmIqpPEYLT/YF2KP9MfSab2Bg9gN4Xr6F05X30aVcwRN+g3lDF3i+cjX8TL5gcyfelNv74Rs8/kBItGN2+wMsz3kIF8L2fWffeXbsVAjP5d6Geu1HzH28h81buyhfvwvh1R10a69DCCu2PkintCbN+8HWBu8b4uXz+dDW1vav+JQnb3CMFYtFeIQA6x30sOXlZZB1D46w7tgmPBzrpS9/w061iu/3q7i+V0X+o9/h3ryJkxMVluCapTgknrNQVEM0oSPB4yceXq/3vvof8IdszKiqYigwauuPtPfU8BjriryC85e/wjs/7OIu28ev+/v4jnO49M0u3Jc+wQlvEe7QJHPqnbo3AyqVmab7z0ynEVXidl+H5Witlr7RMHtMmIfnxc9x9fYe7nDcnzj+F/x68dNfMPj8dfRKs3b9vcIIoz6m/JMmW8EnO+sPsmG+hyTLtWeVSgXH+6bYs8Y1yG/ewWtfV/Huz1W8sLOLwNVv0Tf7Hs6EkoxmH/WQEDzoHUlN1vbo7+9vCp9093i/j9GMqz8TpIiCjgETPfpbOLf+GQJXbsN9eQcnL36ITr/FAlKCNc5QVU+1NP+IfzgSQ9egn1HvpDMZeyaRJuh3P9fn8Z4QOzGUQ6ewiA5PEcf6IrzHUjDMP7HI6D7JZ1Ir+HJMQbFYsvHOjYyyg/6x7LlA3yknlF+aT6QTRU1wrZj2+UN+9Dv50QyLqlptnrZSf8doptFZV/+MzoRGP9LapKLZ2Eldt+cx8T/lFli9X6v4ZLF4gtc9ateTZtgkr80/+ckJozZnSfM0M8Ww9EDnb6PRfuN8Ho9PRWo6aDTiNxGLY1icYmGuU43r4UHO3/9ipBHiOcnxy+VK0+8fR/X+ddTvn0f9/v1/+P9xlP+//gC0XI1T)
 ]&]
-[s0;= [@9 щиты]]
+[s0;= [@9 щит]]
 :: [s0;= [@9 
 @@image:200&175
 (BCAAHAAAAAAAAAAAAHic7ZdBCgMhDEUDXRW8U7ZzBPe9gRfwaMIcazYpoXyQMIPQabABhb/xy38aXUSiz2AmrpWqCImnlKEs6kZr1Ly5VsoEH3P7/pBte0pKyUWarQzwlI2a6zzWMbOLkI899PeNc+ecpZTiIs1GHex94NxebAh1iMjXNXf8yHz1j9dxyRj5kfnIhixj5Efm22zLGPmLv/iR33/PgL7x7/J/pcU/58/qv2b3n7P773/4f8z8f70BuUrg3g==)
@@ -66,7 +66,7 @@ topic "Some credits";
 @@image:200&175
 (BCAAHAAAAAAAAAAAAHicY2CAAHt7Bvv6eob6//8Z/tMSg+wA2cWABPbvZ9hPa3vRMchOmP0wsUOHmP97eHD+5+HhoQkGmQ2yA2YfyG5YmIPEYers7e1pgmHmw9yAHN8wf0dERPwvKiqiCQaZDQsH9PiA+ZtWdsMwLBwI2d/WWvB/3uy6/0vnBfxfMUv+/4pGsf/LUoX+L/Hg/b9Qi+P/TH7m/1UcTP+DmBlpYv//v3f+g8GPOrD836NS/39Nl/r/PVvk/zcbbqAQw/+DQPsbgLQxI8Ow8/9Axz8ypmZYkGM/NdPCUPT/QMc/NcOCUvspTQtD3f8DHf+UhgU17ScnLQwn/w90/FPT/oFqfw10+3Og29+Dof8xkP0vAGasyUI=)
 ]&]
-[s0;= [@9 оружие]]
+[s0;= [@9 снаряды]]
 :: [s0;= [@9 
 @@image:200&175
 (BCAAHAAAAAAAAAAAAHic7ZdBCgAhCEWFWQ10J7cdoXN0gY4WdDEHZ/gQLdqJNST8jYQvNUKJPmMmLoWKCImllKEs6qxWqtbcUcoEH77WLonxlhCCiTS2MsBTNmqufpxjZhMhPu7Q9xt5p5Qk52wijY06jP1A3lZsCHU4/MPfiT+aV/5Te79ScufP7rFr/qv03+v9H/7h/5nvNX95z5/e8/cK+4fn/vUA9iQBnA==)
@@ -93,23 +93,22 @@ topic "Some credits";
 [s0;#i150;O2; [@9;4 Геймпады должны работать 
 прямо из ящика.]&]
 [s0;R+117 &]
-[ {{5000:5000>21;F9G(28.42.150)@6R2 [s0;%RU-RU [*/R@6$(255.255.192)+150 Адаптировал код, 
+[ {{5000:5000>21;F9g0;G(28.42.150)@6R2 [s0;%RU-RU [*/R@6$(255.255.192)+150 Адаптировал код, 
 перевёл на русский и    скомпилировал: 
-  ][*/R@(127)$(255.255.192)+150    ][*/R@2$(255.255.192)+150     
-   ]]
-::@0R0 [s0;%RU-RU [/R@6$(255.255.192)5  ][*/cR@6$(255.255.192)5 Виталий 
-Кулич         ]]
+ ][*/R@2$(255.255.192)+150  ]]
+::R0 [s0;%RU-RU [/R@6$(255.255.192)5  ][*/cR@6$(255.255.192)5 Виталий 
+Кулич        ]]
 ::@(28.127.0)R2 [s0; [*/R@4$(255.255.192)+150 Оригинальную музыку 
-и artwork инспирировал: ]]
-::@0R0 [s0; [*/cR@(28.127.0)$(255.255.192)5 Франтишек Фука   
-      ]]
+и artwork                 инспирировал: ]]
+::@4R0 [s0; [*/cR@(28.127.0)$(255.255.192)5 Франтишек Фука   
+  ]]
 ::@(128.0.255)R2 [s0; [*/R@(128.0.255)$(255.255.192)+150 Программирование, 
-     графика, звуковые   эффекты:       
-    ]]
-::@0R0 [s0; [*/cR@(128.0.255)$(255.255.192)5 Мирослав Фидлер 
-       ]]}}&]
+графика, звуковые     эффекты:          
+ ]]
+::R0 [s0; [*/cR@(128.0.255)$(255.255.192)5 Мирослав Фидлер 
+    ]]}}&]
 [s0;=R@(0.255.0)+117 &]
-[s0;= [R+117 Разработано с использованием:]&]
+[s0;= [*/R+150 Разработано с использованием:]&]
 [s0;R+117 &]
 [s0;= [R+117 
 @@image:1250&750

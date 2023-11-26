@@ -183,7 +183,7 @@ void PaintScene(Size sz, Draw& w, Event<int, int, const Image&> di)
 
 	paint_val(0, ship.shield, SHIP_SHIELD, Color(56, 85, 150), 60, 30, "Щит");
 	paint_val(cx, ship.fuel, 20000, Color(141, 42, 150), 6000, 3000, "Топливо");
-	paint_val(2 * cx, ship.ammo, 500, Color(250, 151, 26), 100, 50, "Аммо", false);
+	paint_val(2 * cx, ship.ammo, 500, Color(250, 151, 26), 100, 50, "Снаряды", false);
 	
 	Font  nfont = Arial(vheight - 2).Bold();
 	const int nty = (pane_height - nfont.GetCy()) / 2;

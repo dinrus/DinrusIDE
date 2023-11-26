@@ -1,6 +1,6 @@
-#include "yaml/node/detail/memory.h"
-#include "yaml/node/detail/node.h"  // IWYU pragma: keep
-#include "yaml/node/ptr.h"
+#include <plugin/yaml/node/detail/memory.h>
+#include <plugin/yaml/node/detail/node.h> // IWYU pragma: keep
+#include <plugin/yaml/node/ptr.h>
 
 namespace YAML {
 namespace detail {

@@ -8,8 +8,8 @@
 #include "scantag.h"  // IWYU pragma: keep
 #include "tag.h"      // IWYU pragma: keep
 #include "token.h"
-#include "yaml/exceptions.h"  // IWYU pragma: keep
-#include "yaml/mark.h"
+#include <plugin/yaml/exceptions.h>  // IWYU pragma: keep
+#include <plugin/yaml/mark.h>
 
 namespace YAML {
 ///////////////////////////////////////////////////////////////////////

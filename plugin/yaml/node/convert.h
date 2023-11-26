@@ -17,12 +17,12 @@
 #include <type_traits>
 #include <vector>
 
-#include "yaml/binary.h"
-#include "yaml/node/impl.h"
-#include "yaml/node/iterator.h"
-#include "yaml/node/node.h"
-#include "yaml/node/type.h"
-#include "yaml/null.h"
+#include <plugin/yaml/binary.h>
+#include <plugin/yaml/node/impl.h>
+#include <plugin/yaml/node/iterator.h>
+#include <plugin/yaml/node/node.h>
+#include <plugin/yaml/node/type.h>
+#include <plugin/yaml/null.h>
 
 
 namespace YAML {

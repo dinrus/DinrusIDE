@@ -7,11 +7,11 @@
 #pragma once
 #endif
 
-#include "yaml/exceptions.h"
-#include "yaml/node/detail/memory.h"
-#include "yaml/node/detail/node.h"
-#include "yaml/node/iterator.h"
-#include "yaml/node/node.h"
+#include <plugin/yaml/exceptions.h>
+#include <plugin/yaml/node/detail/memory.h>
+#include <plugin/yaml/node/detail/node.h>
+#include <plugin/yaml/node/iterator.h>
+#include <plugin/yaml/node/node.h>
 #include <sstream>
 #include <string>
 

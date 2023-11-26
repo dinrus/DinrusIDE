@@ -4,7 +4,7 @@
 #include "exp.h"
 #include "scanner.h"
 #include "token.h"
-#include "yaml/exceptions.h"  // IWYU pragma: keep
+#include <plugin/yaml/exceptions.h>  // IWYU pragma: keep
 
 namespace YAML {
 Scanner::Scanner(std::istream& in)

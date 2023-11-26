@@ -2,8 +2,8 @@
 #include "regex_yaml.h"
 #include "regeximpl.h"
 #include "stream.h"
-#include "yaml/exceptions.h"  // IWYU pragma: keep
-#include "yaml/mark.h"
+#include <plugin/yaml/exceptions.h>  // IWYU pragma: keep
+#include <plugin/yaml/mark.h>
 
 namespace YAML {
 const std::string ScanVerbatimTag(Stream& INPUT) {

@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-#include "yaml/dll.h"
+#include <plugin/yaml/dll.h>
 
 namespace YAML {
 class Stream;

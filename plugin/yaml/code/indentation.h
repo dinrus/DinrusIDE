@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cstddef>
 
-#include "yaml/ostream_wrapper.h"
+#include <plugin/yaml/ostream_wrapper.h>
 
 namespace YAML {
 struct Indentation {

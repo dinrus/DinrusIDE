@@ -7,8 +7,8 @@
 #pragma once
 #endif
 
-#include "yaml/dll.h"
-#include "yaml/node/ptr.h"
+#include <plugin/yaml/dll.h>
+#include <plugin/yaml/node/ptr.h>
 #include <cstddef>
 #include <iterator>
 #include <memory>

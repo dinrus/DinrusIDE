@@ -1,6 +1,6 @@
 #include "graphbuilderadapter.h"
 
-#include "yaml/parser.h"  // IWYU pragma: keep
+#include <plugin/yaml/parser.h>  // IWYU pragma: keep
 
 namespace YAML {
 class GraphBuilderInterface;

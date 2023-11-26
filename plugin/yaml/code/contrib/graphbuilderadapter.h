@@ -11,11 +11,11 @@
 #include <map>
 #include <stack>
 
-#include "yaml/anchor.h"
-#include "yaml/contrib/anchordict.h"
-#include "yaml/contrib/graphbuilder.h"
-#include "yaml/emitterstyle.h"
-#include "yaml/eventhandler.h"
+#include <plugin/yaml/anchor.h>
+#include <plugin/yaml/contrib/anchordict.h>
+#include <plugin/yaml/contrib/graphbuilder.h>
+#include <plugin/yaml/emitterstyle.h>
+#include <plugin/yaml/eventhandler.h>
 
 namespace YAML {
 class GraphBuilderInterface;

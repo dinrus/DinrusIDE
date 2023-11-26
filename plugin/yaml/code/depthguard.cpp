@@ -1,4 +1,4 @@
-#include "yaml/depthguard.h"
+#include <plugin/yaml/depthguard.h>
 
 namespace YAML {
 

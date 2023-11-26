@@ -3,13 +3,13 @@
 #include <iterator>
 #include <sstream>
 
-#include "yaml/exceptions.h"
-#include "yaml/node/detail/memory.h"
-#include "yaml/node/detail/node.h"  // IWYU pragma: keep
-#include "yaml/node/detail/node_data.h"
-#include "yaml/node/detail/node_iterator.h"
-#include "yaml/node/ptr.h"
-#include "yaml/node/type.h"
+#include <plugin/yaml/exceptions.h>
+#include <plugin/yaml/node/detail/memory.h>
+#include <plugin/yaml/node/detail/node.h>  // IWYU pragma: keep
+#include <plugin/yaml/node/detail/node_data.h>
+#include <plugin/yaml/node/detail/node_iterator.h>
+#include <plugin/yaml/node/ptr.h>
+#include <plugin/yaml/node/type.h>
 
 namespace YAML {
 namespace detail {

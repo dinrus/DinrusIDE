@@ -3,7 +3,8 @@ uses
 	GLDraw,
 	Synth,
 	VirtualGui/SDL2GL,
-	plugin/jpg;
+	plugin/jpg,
+	plugin/sdl2;
 
 library(POSIX) "SDL2 ";
 

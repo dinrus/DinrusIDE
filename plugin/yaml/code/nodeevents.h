@@ -10,8 +10,8 @@
 #include <map>
 #include <vector>
 
-#include "yaml/anchor.h"
-#include "yaml/node/ptr.h"
+#include <plugin/yaml/anchor.h>
+#include <plugin/yaml/node/ptr.h>
 
 namespace YAML {
 namespace detail {

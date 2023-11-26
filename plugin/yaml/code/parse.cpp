@@ -1,12 +1,12 @@
-#include "yaml/node/parse.h"
+#include <plugin/yaml/node/parse.h>
 
 #include <fstream>
 #include <sstream>
 
 #include "nodebuilder.h"
-#include "yaml/node/impl.h"
-#include "yaml/node/node.h"
-#include "yaml/parser.h"
+#include <plugin/yaml/node/impl.h>
+#include <plugin/yaml/node/node.h>
+#include <plugin/yaml/parser.h>
 
 namespace YAML {
 Node Load(const std::string& input) {

@@ -10,7 +10,7 @@
 #include <string>
 #include <iosfwd>
 
-#include "yaml/dll.h"
+#include <plugin/yaml/dll.h>
 
 namespace YAML {
 class Emitter;

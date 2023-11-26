@@ -1,4 +1,4 @@
-#include "yaml/ostream_wrapper.h"
+#include <plugin/yaml/ostream_wrapper.h>
 
 #include <algorithm>
 #include <cstring>

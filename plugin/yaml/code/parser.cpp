@@ -5,8 +5,8 @@
 #include "scanner.h"     // IWYU pragma: keep
 #include "singledocparser.h"
 #include "token.h"
-#include "yaml/exceptions.h"  // IWYU pragma: keep
-#include "yaml/parser.h"
+#include <plugin/yaml/exceptions.h>  // IWYU pragma: keep
+#include <plugin/yaml/parser.h>
 
 namespace YAML {
 class EventHandler;

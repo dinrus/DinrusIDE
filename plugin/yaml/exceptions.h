@@ -7,9 +7,9 @@
 #pragma once
 #endif
 
-#include "yaml/mark.h"
-#include "yaml/noexcept.h"
-#include "yaml/traits.h"
+#include <plugin/yaml/mark.h>
+#include <plugin/yaml/noexcept.h>
+#include <plugin/yaml/traits.h>
 #include <sstream>
 #include <stdexcept>
 #include <string>

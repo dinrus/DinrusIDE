@@ -1,6 +1,17 @@
 {
   "гнёзда": [
     {
+      "имя": "MamabaDPM",
+      "пакеты": [
+        "MambaDPM"
+      ],
+      "описание": "Менеджер пакетов (Dinrus Package Manager) на основе Mamba",
+      "репозиторий": "https://github.com/DinrusGroup/MambaDPM.git",
+      "статус": "эксперимент",
+      "категория": "ядро",
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/MamabaDPM/main/README.md"
+    },
+    {
       "имя": "AutoScroller",
       "пакеты": [
         "AutoScroller"

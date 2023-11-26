@@ -1,5 +1,5 @@
 #include "graphbuilderadapter.h"
-#include "yaml/contrib/graphbuilder.h"
+#include <plugin/yaml/contrib/graphbuilder.h>
 
 namespace YAML {
 struct Mark;

@@ -15,12 +15,12 @@
 #include <string>
 #include <type_traits>
 
-#include "yaml/binary.h"
-#include "yaml/dll.h"
-#include "yaml/emitterdef.h"
-#include "yaml/emittermanip.h"
-#include "yaml/null.h"
-#include "yaml/ostream_wrapper.h"
+#include <plugin/yaml/binary.h>
+#include <plugin/yaml/dll.h>
+#include <plugin/yaml/emitterdef.h>
+#include <plugin/yaml/emittermanip.h>
+#include <plugin/yaml/null.h>
+#include <plugin/yaml/ostream_wrapper.h>
 
 namespace YAML {
 class Binary;

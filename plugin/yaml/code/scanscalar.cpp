@@ -5,7 +5,7 @@
 #include "exp.h"
 #include "regeximpl.h"
 #include "stream.h"
-#include "yaml/exceptions.h"  // IWYU pragma: keep
+#include <plugin/yaml/exceptions.h>  // IWYU pragma: keep
 
 namespace YAML {
 // ScanScalar

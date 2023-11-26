@@ -26,7 +26,8 @@ uses
 	Functions4U,
 	DropGrid,
 	Controls4U,
-	CtrlLib/MessageCtrl;
+	CtrlLib/MessageCtrl,
+	MambaDPM;
 
 link
 	"-DUNICODE -DCINDEX_NO_EXPORTS -DDINRUSPRO";

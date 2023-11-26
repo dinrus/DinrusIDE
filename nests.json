@@ -1,7 +1,7 @@
 {
   "гнёзда": [
     {
-      "имя": "MamabaDPM",
+      "имя": "MambaDPM",
       "пакеты": [
         "MambaDPM"
       ],
@@ -9,7 +9,7 @@
       "репозиторий": "https://github.com/DinrusGroup/MambaDPM.git",
       "статус": "эксперимент",
       "категория": "ядро",
-      "readme": "https://raw.githubusercontent.com/DinrusGroup/MamabaDPM/main/README.md"
+      "readme": "https://raw.githubusercontent.com/DinrusGroup/MambaDPM/main/README.md"
     },
     {
       "имя": "AutoScroller",

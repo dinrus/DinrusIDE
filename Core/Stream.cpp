@@ -1221,7 +1221,7 @@ String LoadFile(const char *filename) {
 						if(len >= 0)
 							s.SetCount(n + len);
 						close(fd);
-						return s;
+						return static_cast<String>(s);
 					}
 				}
 			}

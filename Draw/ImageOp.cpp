@@ -27,7 +27,7 @@ Image WithHotSpot(const Image& m, int x1, int y1)
 	Image h = m;
 	ImageBuffer b(h);
 	b.SetHotSpot(Point(x1, y1));
-	return b;
+	return static_cast<Image>(b);
 }
 
 void  SetResolution(Image& m, int res)
@@ -53,7 +53,7 @@ Image CreateImage(Size sz, const RGBA& rgba)
 {
 	ImageBuffer ib(sz);
 	Fill(~ib, rgba, ib.GetLength());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image CreateImage(Size sz, Color color)
@@ -117,7 +117,7 @@ Image Copy(const Image& src, const Rect& srect)
 {
 	ImageBuffer ib(srect.GetSize());
 	Copy(ib, Point(0, 0), src, srect);
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 void Fill(ImageBuffer& dest, const Rect& rect, RGBA color)
@@ -196,7 +196,7 @@ Image AddMargins(const Image& img, int left, int top, int right, int bottom, RGB
 	ImageBuffer ib(sz.cx + left + right, sz.cy + top + bottom);
 	Fill(ib, color, ib.GetLength());
 	Copy(ib, Point(left, top), img, img.GetSize());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image Crop(const Image& img, int x, int y, int cx, int cy)
@@ -283,7 +283,7 @@ Image ColorMask(const Image& src, Color key)
 		s++;
 	}
 	ib.SetHotSpots(src);
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 void CanvasSize(RasterEncoder& tgt, Raster& img, int cx, int cy)
@@ -329,7 +329,7 @@ Image AssignAlpha(const Image& img, const Image& alpha)
 	}
 	ib.SetHotSpots(img);
 	ib.SetResolution(img.GetResolution());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 int   EqualightCh(int c, int l, int h)
@@ -373,7 +373,7 @@ Image Equalight(const Image& img, int thold)
 	}
 	w.SetHotSpots(img);
 	w.SetResolution(img.GetResolution());
-	return w;
+	return static_cast<Image>(w);
 }
 
 Image Grayscale(const Image& img)
@@ -393,7 +393,7 @@ Image Grayscale(const Image& img)
 	}
 	w.SetHotSpots(img);
 	w.SetResolution(img.GetResolution());
-	return w;
+	return static_cast<Image>(w);
 }
 
 Image Grayscale(const Image& img, int amount)
@@ -414,7 +414,7 @@ Image Grayscale(const Image& img, int amount)
 	}
 	w.SetHotSpots(img);
 	w.SetResolution(img.GetResolution());
-	return w;
+	return static_cast<Image>(w);
 }
 
 Image Colorize(const Image& img, Color color, int alpha)
@@ -441,7 +441,7 @@ Image Colorize(const Image& img, Color color, int alpha)
 	Premultiply(w);
 	w.SetHotSpots(img);
 	w.SetResolution(img.GetResolution());
-	return w;
+	return static_cast<Image>(w);
 }
 
 Image DarkTheme(const Image& img)
@@ -470,7 +470,7 @@ Image DarkTheme(const Image& img)
 	ib.SetHotSpots(img);
 	ib.SetResolution(img.GetResolution());
 
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 inline
@@ -497,7 +497,7 @@ Image Contrast(const Image& img, int amount)
 	Premultiply(w);
 	w.SetHotSpots(img);
 	w.SetResolution(img.GetResolution());
-	return w;
+	return static_cast<Image>(w);
 }
 
 void sLine(RGBA *t, int cx, const RasterLine l[3], ImageFilter9& filter)
@@ -675,7 +675,7 @@ Image SetColorKeepAlpha(const Image& img, Color c)
 	Premultiply(w);
 	w.SetHotSpots(img);
 	w.SetResolution(img.GetResolution());
-	return w;
+	return static_cast<Image>(w);
 }
 
 Image CreateHorzFadeOut(Size sz, Color color)
@@ -691,7 +691,7 @@ Image CreateHorzFadeOut(Size sz, Color color)
 		}
 	}
 	Premultiply(ib);
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 struct FadeOutMaker : ImageMaker {
@@ -742,7 +742,7 @@ Image  RotateClockwise(const Image& img)
 	Point p2 = img.Get2ndSpot();
 	SetNormalizedHotSpots(ib, sz.cy - p1.y - 1, p1.x, sz.cy - p2.y - 1, p2.x);
 	ib.SetResolution(img.GetResolution());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image  RotateAntiClockwise(const Image& img)
@@ -757,7 +757,7 @@ Image  RotateAntiClockwise(const Image& img)
 	Point p2 = img.Get2ndSpot();
 	SetNormalizedHotSpots(ib, p1.y, sz.cx - p1.x - 1, p2.y, sz.cx - p2.x - 1);
 	ib.SetResolution(img.GetResolution());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image Rotate180(const Image& orig)
@@ -771,7 +771,7 @@ Image Rotate180(const Image& orig)
 	Point p2 = orig.Get2ndSpot();
 	SetNormalizedHotSpots(dest, sz.cy - p1.y - 1, sz.cx - p1.x - 1, sz.cy - p2.y - 1, sz.cx - p2.x - 1);
 	dest.SetResolution(dest.GetResolution());
-	return dest;
+	return static_cast<Image>(dest);
 }
 
 Image Transpose(const Image& img)
@@ -785,7 +785,7 @@ Image Transpose(const Image& img)
 	Point p2 = img.Get2ndSpot();
 	SetNormalizedHotSpots(ib, p1.y, p1.x, p2.y, p2.x);
 	ib.SetResolution(img.GetResolution());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image Transverse(const Image& img)
@@ -799,7 +799,7 @@ Image Transverse(const Image& img)
 	Point p2 = img.Get2ndSpot();
 	SetNormalizedHotSpots(ib, sz.cy - p1.y - 1, sz.cx - p1.x - 1, sz.cy - p2.y - 1, sz.cx - p2.x - 1);
 	ib.SetResolution(img.GetResolution());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image MirrorHorz(const Image& img)
@@ -820,7 +820,7 @@ Image MirrorHorz(const Image& img)
 	Point p2 = img.Get2ndSpot();
 	SetNormalizedHotSpots(ib, sz.cx - p1.x - 1, p1.y, sz.cx - p2.x - 1, p2.y);
 	ib.SetResolution(img.GetResolution());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image MirrorVert(const Image& img)
@@ -842,7 +842,7 @@ Image MirrorVert(const Image& img)
 	Point p2 = img.Get2ndSpot();
 	SetNormalizedHotSpots(ib, p1.x, sz.cy - p1.y - 1, p2.x, sz.cy - p2.y - 1);
 	ib.SetResolution(img.GetResolution());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image FlipImage(const Image& m, int mode)
@@ -905,7 +905,7 @@ Image Rotate(const Image& m, int angle)
 		}
 	}
 	ib.SetResolution(m.GetResolution());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image Dither(const Image& m, int dival)
@@ -931,7 +931,7 @@ Image Dither(const Image& m, int dival)
 			*t++ = g > dither[y & 7][x & 7] ? White() : Black();
 		}
 	ib.SetResolution(m.GetResolution());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image GaussianBlur(const Image& img, int radius, bool co)
@@ -1064,7 +1064,7 @@ Image GaussianBlur(const Image& img, int radius, bool co)
 
 		out.SetHotSpots(src);
 		out.SetResolution(src.GetResolution());
-		return out;
+		return static_cast<Image>(out);
 	};
 
 	if(radius < 1 || IsNull(img))

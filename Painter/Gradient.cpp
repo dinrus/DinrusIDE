@@ -31,7 +31,7 @@ Image BufferPainter::MakeGradient(RGBA color1, Vector<ColorStop>& color_stop, RG
 		l = h;
 	}
 	*t = cl;
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 struct BufferPainter::GradientImageMaker : public ImageMaker {

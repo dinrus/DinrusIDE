@@ -379,7 +379,7 @@ static Image sMultiply(const Image& img, int (*op)(RGBA *t, const RGBA *s, size_
 	ImageBuffer ib(img.GetSize());
 	ib.CopyAttrs(img);
 	ib.SetKind((*op)(~ib, ~img, ib.GetLength()));
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image Premultiply(const Image& img)
@@ -487,7 +487,7 @@ Image  LoadImageFromString(const String& src)
 		}
 	else
 		return Image();
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Size GetImageStringSize(const String& src)

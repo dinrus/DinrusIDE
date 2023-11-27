@@ -52,7 +52,7 @@ SImageDraw::operator Image() const
 		}
 		b.SetKind(IMAGE_OPAQUE);
 	}
-	return b;
+	return static_cast<Image>(b);
 }
 
 SImageDraw::SImageDraw(Size sz)

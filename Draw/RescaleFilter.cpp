@@ -151,7 +151,7 @@ Image RescaleFilter(const Image& img, Size sz, const Rect& sr,
 		}
 	});
 	ib.SetResolution(img.GetResolution());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image RescaleFilter(const Image& img, Size sz,

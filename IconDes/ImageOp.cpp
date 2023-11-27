@@ -212,7 +212,7 @@ Image DownSample3x(const Image& src)
 		}
 	}
 	ib.SetResolution(src.GetResolution());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 Image DownSample2x(const Image& src)
@@ -241,7 +241,7 @@ Image DownSample2x(const Image& src)
 		}
 	}
 	ib.SetResolution(src.GetResolution());
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 }

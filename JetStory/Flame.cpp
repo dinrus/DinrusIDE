@@ -62,7 +62,7 @@ Image FlameGenerator::Generate()
 		p.to = Color(Random(100) + 155, 0, 0);
 		p.time = 0;
 	}
-	return ib;
+	return static_cast<Image>(ib);
 };
 
 Vector<Image> lflame, sflame, bflame;

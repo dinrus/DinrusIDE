@@ -85,9 +85,10 @@ bool Ide::FindLineError(const String& ln, FindLineErrorCache& cache, ErrorInfo& 
 					}
 					catch(CParser::Error) {}
 					const char *ms = p.GetPtr();
-					if(ln.Find(": warning") >= 0)
+					if(ln.Find(": warning") >= 0 || ln.Find(": предупреждение") >= 0)
 						f.kind = 2;
-					else if(ln.Find(": error") >= 0 || ln.Find(": fatal error") >= 0)
+					else if(ln.Find(": error") >= 0 || ln.Find(": fatal error") >= 0 ||
+					                           ln.Find(": ошибка") >= 0 || ln.Find(": фатальная ошибка") >= 0)
 						f.kind = 1;
 					else
 						f.kind = 3;

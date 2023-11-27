@@ -57,7 +57,7 @@ Image BlendTiles(const Image& m, Size bsz, bool v2, bool mirror)
 			blendy(y, 2 * isz.cy - y - 1);
 			blendy(isz.cy - y - 1, isz.cy + y);
 		}
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 enum {

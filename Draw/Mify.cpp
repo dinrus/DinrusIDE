@@ -75,7 +75,7 @@ Image Minify(const Image& img, int nx, int ny, bool co)
 		for(int y = 0; y < tsz.cy; y++)
 			do_line(y, b, div);
 	}
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 #else
@@ -208,7 +208,7 @@ Image Magnify(const Image& img, int nx, int ny)
 		t = q;
 	}
 	b.SetResolution(img.GetResolution());
-	return b;
+	return static_cast<Image>(b);
 }
 
 };

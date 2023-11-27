@@ -553,65 +553,65 @@ inline String& operator<<(String& s, const char& x)
 force_inline String& operator<<(String&& s, const char *x)
 {
 	s.Cat(x, strlen__(x));
-	return s;
+	return static_cast<String&>(s);
 }
 
 force_inline String& operator<<(String&& s, char *x)
 {
 	s.Cat(x);
-	return s;
+	return static_cast<String&>(s);
 }
 
 inline String& operator<<(String&& s, const String &x)
 {
 	s.Cat(x);
-	return s;
+	return static_cast<String&>(s);
 }
 
 inline String& operator<<(String&& s, char x)
 {
 	s.Cat((int) x);
-	return s;
+	return static_cast<String&>(s);
 }
 
 inline String& operator<<(String&& s, const void *x)
 {
 	s << FormatPtr(x);
-	return s;
+	return static_cast<String&>(s);
 }
 
 inline String& operator<<(String&& s, void *x)
 {
 	s << FormatPtr(x);
-	return s;
+	return static_cast<String&>(s);
 }
 
 template <class T>
 inline String& operator<<(String&& s, const T& x)
 {
 	s.Cat(AsString(x));
-	return s;
+	return static_cast<String&>(s);
 }
 
 template<>
 inline String& operator<<(String&& s, const char * const &x)
 {
 	s.Cat(x);
-	return s;
+	return static_cast<String&>(s);
 }
 
 template<>
 inline String& operator<<(String&& s, const String &x)
 {
 	s.Cat(x);
-	return s;
+	return static_cast<String&>(s);
 }
 
 template<>
 inline String& operator<<(String&& s, const char& x)
 {
 	s.Cat(x);
-	return s;
+	return static_cast<String&>(s);
 }
 
 template<>

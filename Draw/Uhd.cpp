@@ -65,7 +65,7 @@ Image Upscale2x_(const Image& src)
 				p += 5;
 			}
 		}
-	return dst;
+	return static_cast<Image>(dst);
 }
 
 Image Upscale2x(const Image& src)
@@ -100,7 +100,7 @@ Image Upscale2x(const Image& src)
 	h.SetResolution(IMAGE_RESOLUTION_UHD);
 	h.SetHotSpot(src.GetHotSpot() * 2);
 	h.Set2ndSpot(s2 * 2);
-	return h;
+	return static_cast<Image>(h);
 }
 
 Image Downscale2x(const Image& src)
@@ -113,7 +113,7 @@ Image Downscale2x(const Image& src)
 	h.SetResolution(IMAGE_RESOLUTION_STANDARD);
 	h.SetHotSpot(s2 / 2);
 	h.Set2ndSpot(src.Get2ndSpot() / 2);
-	return h;
+	return static_cast<Image>(h);
 }
 
 static bool sUHDMode;

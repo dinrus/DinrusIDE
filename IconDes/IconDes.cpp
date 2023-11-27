@@ -353,7 +353,7 @@ Image IconDes::Copy(const Rect& r)
 			s++;
 		}
 	}
-	return ib;
+	return static_cast<Image>(ib);
 }
 
 void IconDes::Delete()

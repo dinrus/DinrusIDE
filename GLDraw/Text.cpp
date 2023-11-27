@@ -32,7 +32,7 @@ struct sGlyphTextureMaker : LRUCache<GLTexture>::Maker {
 		RawCat(h, font);
 		RawCat(h, angle);
 		RawCat(h, color);
-		return h;
+		return static_cast<String>(h);
 	}
 	virtual int Make(GLTexture& object) const {
 		GL_TIMING("Do glyph");

@@ -58,28 +58,25 @@ String SplashCtrl::GenerateVersionInfo(char separator)
 String SplashCtrl::IdeVersion()
 {
     String versia;
+    Time tm;
+    String Rev = "norepo";
     
-    if (FileExists(ConfigFile("version")))
-    {
-        //DeleteFile(ConfigFile("version"));
-        versia = IDE_VERSION;
-
-    }
-    else
-    {
-       String Rev = "norepo";
        #ifdef bmSVN_REVISION
         Rev = "svn_" + AsString(atoi(bmSVN_REVISION));
        #endif
        #ifdef bmGIT_REVCOUNT
         Rev = "git_" + AsString(atoi(bmGIT_REVCOUNT));
         #endif
-        Time tm = GetSysTime();
+        #ifdef bmTIME
+         tm = bmTIME;
+         #else
+        tm = GetSysTime();
+        #endif
         versia =  Format("DinrusPro_%02d.%02d.%02d.%02d_%s", tm.year, tm.month, tm.day,
                           tm.hour, Rev);
         SaveFile(ConfigFile("version"), versia);
-    }
-    return versia;
+    
+    return IDE_VERSION;
 }
 
 Size SplashCtrl::MakeLogo(Ctrl& parent, Array<Ctrl>& ctrl)

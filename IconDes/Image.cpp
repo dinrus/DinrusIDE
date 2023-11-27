@@ -308,7 +308,7 @@ Image Colorize2(const Image& img, Color color, int alpha, int gray)
 	}
 	Premultiply(w);
 	w.SetHotSpots(img);
-	return w;
+	return static_cast<Image>(w);
 }
 
 void IconDes::Colorize()

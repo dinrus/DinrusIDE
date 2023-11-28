@@ -1,6 +1,20 @@
 {
   "гнёзда": [
     {
+      
+      "имя": "DinrusLLVM",
+      "пакеты": [
+        "DinrusLLVM",
+        "llvm",
+        "clang"
+      ],      
+      "описание": "Набор для разработки компиляторов на основе LLVM",
+      "репозиторий": "https://github.com/dinrus/DinrusLLVM.git",
+      "статус": "эксперимент",
+      "категория": "инструмент",
+      "readme": "https://raw.githubusercontent.com/dinrus/DinrusLLVM/main/README.md"
+    },
+    {
       "имя": "MambaDPM",
       "пакеты": [
         "MambaDPM"

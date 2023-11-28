@@ -12,7 +12,7 @@
       "репозиторий": "https://github.com/dinrus/DinrusLLVM.git",
       "статус": "эксперимент",
       "категория": "инструмент",
-      "readme": "https://raw.githubusercontent.com/dinrus/DinrusLLVM/main/README.md"
+      "readme": "https://raw.githubusercontent.com/dinrus/DinrusLLVM/blob/main/README.md"
     },
     {
       "имя": "MambaDPM",

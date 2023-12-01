@@ -166,7 +166,7 @@ struct FileStat {
 
 String StatLen(int len)
 {
-	return Format("%d.%d KB", len >> 10, (len & 1023) / 103);
+	return Format("%d.%d КБ", len >> 10, (len & 1023) / 103);
 }
 
 String StatDate(int d)

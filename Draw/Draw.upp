@@ -1,4 +1,4 @@
-description "Фундаментальные операции с графикой, включая обработку растровой картинки\377B128,0,255";
+description "Fundamental graphics operations, including raster image processing\377B128,0,255";
 
 charset "UTF-8";
 
@@ -12,7 +12,9 @@ library(WIN32) "usp10 user32 gdi32";
 
 link(OSX !X11 !NOMM) "-framework Foundation -framework Cocoa -framework Carbon";
 
-pkg_config(POSIX !OSX !VIRTUALGUI) "x11 xcb expat fontconfig";
+pkg_config(POSIX !OSX) "freetype2 fontconfig";
+
+pkg_config(POSIX !OSX !VIRTUALGUI) "x11 xcb expat";
 
 file
 	Draw.h options(BUILDER_OPTION) PCH,

@@ -17,7 +17,7 @@ bool HelpWindow::GoTo0(const String& link)
 {
 	Topic t;
 	t = AcquireTopic(link);
-	ASSERT(current_link == link);
+//	ASSERT(current_link == link);
 	current_link = link;
 	SetBar();
 	label = t.label;

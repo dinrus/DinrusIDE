@@ -80,6 +80,7 @@ RepoSync::RepoSync()
 	};
 }
 
+//Этот фильтр ограничивает набор символов в сообщение до ASCI. А нужно ли?
 int CharFilterSvnMsgRepo(int c)
 {
 	return c >= 32 && c < 128 && c != '\"' ? c : 0;
@@ -212,7 +213,7 @@ bool RepoSync::ListGit(const String& path)
 			int ii = list.GetCount();
 			list.Add(action, file, Null, AttrText(action < 0 ? h : file).Ink(color));
 			if(action >= 0) {
-				list.SetCtrl(ii, 0, revert.Add().SetLabel(an + (action == ADD ? "\nSkip" : "\nОбратить")).NoWantFocus());
+				list.SetCtrl(ii, 0, revert.Add().SetLabel(an + (action == ADD ? "\nПропустить" : "\nОбратить")).NoWantFocus());
 				revert.Top() <<= 0;
 				Ctrl& b = diff.Add().SetLabel("Изменения..").SizePos().NoWantFocus();
 				b <<= THISBACK1(DoDiff, ii);
@@ -288,7 +289,7 @@ void RepoSync::SyncList()
 		if(actions) {
 			list.Add(MESSAGE, Null, AttrText("Сообщение коммита:").SetFont(StdFont().Bold()));
 			list.SetLineCy(list.GetCount() - 1, (3 * EditField::GetStdHeight()) + 4);
-			list.SetCtrl(list.GetCount() - 1, 1, message.Add().SetFilter(CharFilterSvnMsgRepo).VSizePos(2, 2).HSizePos());
+			list.SetCtrl(list.GetCount() - 1, 1, message.Add()/*.SetFilter(CharFilterSvnMsgRepo)*/.VSizePos(2, 2).HSizePos());
 			int q = msgmap.Find(w.key);
 			if(q >= 0) {
 				message.Top() <<= msgmap[q];

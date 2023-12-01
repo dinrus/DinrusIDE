@@ -3,7 +3,7 @@
 
 // Definition YAML_CPP_STATIC_DEFINE using to building YAML-CPP as static
 // library (definition created by CMake or defined manually)
-
+//#define YAML_CPP_STATIC_DEFINE 1
 // Definition yaml_cpp_EXPORTS using to building YAML-CPP as dll/so library
 // (definition created by CMake or defined manually)
 

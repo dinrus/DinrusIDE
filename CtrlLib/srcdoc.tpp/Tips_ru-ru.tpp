@@ -1,4 +1,4 @@
-topic "Tips & tricks";
+topic "Подсказки и Трюки";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -22,9 +22,12 @@ topic "Tips & tricks";
 [b50;2 $$21,21#03324558446220344731010354752573:Par]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
-[s2; [@3 Tips `& tricks]&]
-[s0;i150;O3; To setup default layout of ArrayCtrl header, adjust 
-it while the application is running in debug mode and then click 
-on HeaderCtrl with the left mouse button and Ctrl key pressed 
-`- proper ColumnWidths definition will be stored to the clipboard 
-and can then be pasted into your code.]]
+[s2; [@3 Подсказки и Трюки]&]
+[s0;i150;O3; Чтобы настроить дефолтную выкладку 
+заголовочника ArrayCtrl, её нужно настроить, 
+пока приложение выполняется в отладочном 
+режиме, затем кликнуть на HeaderCtrl левой 
+кнопкой мыши с нажатой клавишей Ctrl 
+`- соответствующее определение ColumnWidths 
+сохранится в буфер обмена, откуда 
+его можно вставить в код.]]

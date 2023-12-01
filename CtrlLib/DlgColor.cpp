@@ -1162,7 +1162,7 @@ void PalCtrl::OnStandard()
 
 void PalCtrl::OnSave()
 {
-	recent_file = SelectFileSaveAs("Палетка (*.pal)\n*.pal");
+	recent_file = SelectFileSaveAs("Палитра (*.pal)\n*.pal");
 	if(recent_file.GetCount())
 	{
 		StringStream stream;
@@ -1174,7 +1174,7 @@ void PalCtrl::OnSave()
 
 void PalCtrl::OnLoad()
 {
-	recent_file = SelectFileOpen("Палетка (*.pal)\n*.pal");
+	recent_file = SelectFileOpen("Палитра (*.pal)\n*.pal");
 	if(recent_file.GetCount())
 	{
 		FileIn fi(recent_file);
@@ -1218,7 +1218,7 @@ void PalCtrl::OnSizeCustom()
 {
 	WithPalCtrlSizeLayout<TopWindow> dlg;
 //	CtrlLayoutOKCancel(dlg, DlgPalCtrlSizeHelpTitle());
-	CtrlLayoutOKCancel(dlg, t_("Размеры палетки"));
+	CtrlLayoutOKCancel(dlg, t_("Размеры палитры"));
 	dlg.HelpTopic("DlgPalCtrlSize");
 	dlg.rows <<= cellcount.cy;
 	dlg.columns <<= cellcount.cx;
@@ -1322,7 +1322,7 @@ ColorSelectorImpl::ColorSelectorImpl(ColorSelector& parent)
 
 //	dialog.palette_tab.Background(SLtGray);
 
-	palette_tab.Add(pal.HSizePos(4, 4).VSizePos(4, 4), t_("Палетка"));
+	palette_tab.Add(pal.HSizePos(4, 4).VSizePos(4, 4), t_("Палитра"));
 	pal <<= THISBACK(OnPalCtrl);
 
 	palette_tab.Add(wheel.HSizePos(4, 4).VSizePos(4, 4), t_("Колесо"));

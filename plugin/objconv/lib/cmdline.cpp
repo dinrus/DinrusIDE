@@ -1194,7 +1194,7 @@ void CCommandLineInterpreter::Help() {
     printf("\n-fasm      Дизассемблировать файл (-fmasm, -fnasm, -fyasm, -fgasm)\n");
     printf("\n-dXXX      Сделать дамп содержимого файла в консоль.");
     printf("\n           Значения XXX (можно комбинировать):");
-    printf("\n           f: Файл заголовочник, h: Заголовочники секций, s: Таблица символов,");
+    printf("\n           f: Файл заголовочник, h: Заголовки секций, s: Таблица символов,");
     printf("\n           r: Таблица релокаций, n: Таблица строк.\n");
 
     printf("\n-nu        change symbol Name Underscores to the default for the target format.");

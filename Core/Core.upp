@@ -6,7 +6,8 @@ acceptflags
 	USEMALLOC;
 
 uses
-	plugin/z;
+	plugin/z,
+	plugin/zstd;
 
 library(LINUX !ANDROID) "pthread dl rt";
 
@@ -182,7 +183,6 @@ file
 	MD5.cpp,
 	SHA1.cpp,
 	SHA256.cpp,
-	lib\xxhash.c,
 	xxHsh.cpp,
 	Web readonly separator,
 	Inet.h,

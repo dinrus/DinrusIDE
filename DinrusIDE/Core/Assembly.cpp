@@ -2,7 +2,7 @@
 
 String GetLocalDir()
 {
-	return ConfigFile("UppLocal");
+	return ConfigFile("DinrusLocal");
 }
 
 String LocalPath(const String& filename)

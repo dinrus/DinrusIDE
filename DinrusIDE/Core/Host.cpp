@@ -214,7 +214,7 @@ void Host::Launch(const char *_cmdline, bool console)
 		out << "#!/bin/sh\n"
 		    << cmdline << '\n'
 		#ifndef PLATFORM_COCOA
-		    << "echo \"<--- Finished, press [ENTER] to close the window --->\"\nread dummy\n"
+		    << "echo \"<--- Завершено, нажмите [ENTER], чтобы закрыть это окно --->\"\nread dummy\n"
 		#endif
 		;
 	}

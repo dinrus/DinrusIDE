@@ -1,4 +1,4 @@
-description "Предпросмотр и печать отчётов\377128,0,255";
+description "Preview and printing of reports\377";
 
 uses
 	CtrlLib,

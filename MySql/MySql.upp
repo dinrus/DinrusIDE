@@ -1,4 +1,4 @@
-description "MySQL interface\377";
+description "Интерфейс к MySQL\377";
 
 acceptflags
 	NOMYSQL,

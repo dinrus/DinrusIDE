@@ -3050,7 +3050,7 @@ t]&]
 [s5;:ArrayCtrl`:`:CenterCursor`(`): [@(0.0.255) void]_[* CenterCursor]()&]
 [s2; Изменяет позицию полосы промотки 
 так, чтобы текущий курсорный ряд оказался 
-посредине области видимости массива.&]
+по середине области видимости массива.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:ScrollInto`(int`): [@(0.0.255) void]_[* ScrollInto]([@(0.0.255) int]_[*@3 l
@@ -3094,54 +3094,72 @@ ine])&]
 [s5;:ArrayCtrl`:`:Find`(const Value`&`,int`,int`)const: [@(0.0.255) int]_[* Find]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v], [@(0.0.255) int]_[*@3 ii]_`=_[@3 0], 
 [@(0.0.255) int]_[*@3 from]_`=_[@3 0])_[@(0.0.255) const]&]
-[s2; [*C@3 v]-|значение для поиска в указаннои 
+[s2; [*C@3 v]-|значение для поиска в указанном 
 индексе источника.&]
-[s7; [*C@3 ii]-|zero`-based ordinal number of the source index to search&]
-[s7; [*C@3 from]-|zero`-based row index to start the search from&]
-[s7; [*/ Возвратное значение]-|zero`-based number 
-of the matched row, `-1 when none&]
+[s7; [*C@3 ii]-|порядковый номер искомого индекса 
+источника (нач. с нуля)&]
+[s7; [*C@3 from]-|индекс ряда, с которого начинать 
+поиск (нач. с нуля)&]
+[s7; [*/ Возвратное значение]-|номер совпадающего 
+ряда, `-1 если отсутствует&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:Find`(const Value`&`,const Id`&`,int`)const: [@(0.0.255) int]_[* Find](
 [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v], [@(0.0.255) const 
 ][_^Id^ Id]`&_[*@3 id], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])_[@(0.0.255) const]&]
-[s2; Locates the row (using linear search beginning at the row [/ from]) 
-in which the source index value identified by [/ id] equals [/ val]. 
-If such a row is found, the function returns its zero`-based 
-index. When not matched, the function returns `-1.&]
-[s7; [*C@3 v]-|value to look for in the given source index&]
-[s7; [*C@3 id]-|source index identifier&]
-[s7; [*C@3 from]-|zero`-based row index to start the search from&]
-[s7; [*/ Возвратное значение]-|zero`-based number 
-of the matched row, `-1 when none&]
+[s2; Находит ряд (используя линейный поиск, 
+начиная с ряда [/ from]), в котором значение 
+исходного индекса, идентифицируемого 
+идентификатором [/ id,] равно [/ val]. Если 
+такой ряд найден, функция возвратит 
+его индекс. Если совпадений нет, возвращает 
+`-1.&]
+[s7; [*C@3 v]-|значение, которое нужно искать 
+в указанном индексе источника&]
+[s7; [*C@3 id]-|идентификатор индекса источника&]
+[s7; [*C@3 from]-|индекс ряда, с которого начинается 
+поиск&]
+[s7; [*/ Возвратное значение]-|номер совпадающего 
+ряда, `-1 если отсутствует&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:FindSetCursor`(const Value`&`,int`,int`): [@(0.0.255) bool]_[* FindSetC
 ursor]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 val], 
 [@(0.0.255) int]_[*@3 ii]_`=_[@3 0], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])&]
-[s2; Locates the row (using linear search beginning at the row [/ from]) 
-in which the source index value identified by its ordinal number 
-[/ ii] equals [/ val]. If such a row is found, the [* SetCursor] is 
-called automatically to move the cursor to such a row.&]
-[s7; [*C@3 val]-|value to look for in the given source index&]
-[s7; [*C@3 ii]-|zero`-based ordinal number of the source index to search&]
-[s7; [*C@3 from]-|zero`-based row index to start the search from&]
-[s7; [*/ Возвратное значение]-|zero`-based number 
-of the matched row, `-1 when none&]
+[s2; Находит ряд (используя линейный поиск, 
+начиная с ряда [/ from]), в котором значение 
+исходного индекса, идентифицируемого 
+его порядковым номером [/ ii], равно [/ val]. 
+Если такой ряд найден, автоматически 
+вызывается [* SetCursor], перемещая курсор 
+на этот ряд.&]
+[s7; [*C@3 val]-|значение, которое нужно искать 
+в указанном индексе источника&]
+[s7; [*C@3 ii]-|порядковый номер искомого индекса 
+источника&]
+[s7; [*C@3 from]-|индекс ряда, с которого начинать 
+поиск&]
+[s7; [*/ Возвратное значение]-|номер совпадающего 
+ряда, `-1 если отсутствует&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:FindSetCursor`(const Value`&`,const Id`&`,int`): [@(0.0.255) bool]_[* F
 indSetCursor]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 val], 
 [@(0.0.255) const ][_^Id^ Id]`&_[*@3 id], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])&]
-[s2; Locates the row (using linear search beginning at the row [/ from]) 
-in which the source index value identified by [/ id] equals [/ val]. 
-If such a row is found, the [* SetCursor] is called automatically 
-to move the cursor to such a row.&]
-[s7; [*C@3 val]-|value to look for in the given source index&]
-[s7; [*C@3 id]-|source index identifier&]
-[s7; [*C@3 from]-|zero`-based row index to start the search from&]
-[s7; [*/ Возвратное значение]-|[* true] `= the desired 
-row was found (and the cursor set), [* false] when not&]
+[s2; Находит ряд (используя линейный поиск, 
+начиная с ряда [/ from]), в котором значение 
+индекса источника, идентифицируемое 
+идентификатором [/ id], равно [/ val]. Если 
+такой ряд найден, автоматически вызывается 
+[* SetCursor], перемещая курсор на этот ряд.&]
+[s7; [*C@3 val]-|значение, которое нужно искать 
+в указанном индексе источника&]
+[s7; [*C@3 id]-|идентификатор индекса источника&]
+[s7; [*C@3 from]-|индекс ряда, с которого начинается 
+поиск&]
+[s7; [*/ Возвратное значение]-|[* true] `= требуемый 
+ряд найден (и курсор установлен), [* false] 
+если нет&]
 [s3; &]
 [s0;* &]
 [s0; [*@(229)$(0.128.128)3 Элементы пользовательского 
@@ -3150,29 +3168,38 @@ row was found (and the cursor set), [* false] when not&]
 [s0; &]
 [s5;:ArrayCtrl`:`:StdBar`(Bar`&`): [@(0.0.255) void]_[* StdBar]([_^Bar^ Bar][@(0.0.255) `&]_[*@3 m
 enu])&]
-[s2; The default array local menu. The default local menu consists 
-of the standard editing actions (inserting / appending / duplicating 
-a row, editing a row, removing a row, moving a row, select all 
-rows) filtered by the array properties enabling / disabling the 
-various GUI elements (item insertion / deletion etc.). &]
-[s7; [*C@3 menu]-|the [* Bar] object representing the menu being generated&]
+[s2; Дефолтное локальное меню массива. 
+Дефолтное локальное меню состоит 
+из стандартных действий по редактированию 
+(вставка / приставление / дублирование 
+ряда, редактирование ряда, удаление 
+ряда, перемещение ряда, выделить все 
+ряды), отфильтрованных по свойствам 
+массива, включая / выключая различные 
+элементы ГИП (вставка / удаление элемента 
+и проч.). &]
+[s7; [*C@3 menu]-|объект [* Bar], представляющий собой 
+генерируемое меню&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsModified`(int`)const: [@(0.0.255) bool]_[* IsModified]([@(0.0.255) int]_
 [*@3 ii])_[@(0.0.255) const]&]
-[s2; Checks a source index in the currently edited row for changes.&]
-[s7; [*C@3 ii]-|zero`-based row index&]
-[s7; [*/ Возвратное значение]-|[* true] `= the index 
-has been modified, [* false] `= the index is in its original state&]
+[s2; Проверяет индекс источника в текущем 
+редактируемом ряде на изменения.&]
+[s7; [*C@3 ii]-|индекс ряда&]
+[s7; [*/ Возвратное значение]-|[* true] `= индекс 
+был модифицирован, [* false] `= индекс в 
+его исходном состоянии&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsModified`(const Id`&`)const: [@(0.0.255) bool]_[* IsModified]([@(0.0.255) c
 onst ][_^Id^ Id]`&_[*@3 id])_[@(0.0.255) const]&]
-[s2; Checks a source index in the currently edited array row for 
-changes.&]
+[s2; Проверяет индекс источника в текущем 
+редактируемом ряде на изменения.&]
 [s7; [*C@3 id]-|source index identifier&]
-[s7; [*/ Возвратное значение]-|[* true] `= the source 
-index has been modified, [* false ]when not&]
+[s7; [*/ Возвратное значение]-|[* true] `= индекс 
+источника модифицирован, [* false ]если 
+нет&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:StartEdit`(int`): [@(0.0.255) bool]_[* StartEdit]([@(0.0.255) int]_[*@3 d]_
@@ -3180,18 +3207,19 @@ index has been modified, [* false ]when not&]
 [s2; Открывает текущий курсорный ряд 
 для редактирования и устанавливает 
 фокус на [/ d]`-ную колонку.&]
-[s7; [*C@3 d]-|zero`-based column index&]
-[s7; [*/ Возвратное значение]-|[* true] `= editing successfully 
-initiated, [* false] when not (when the array is in [* ReadOnly] 
-mode or it has no editable columns)&]
+[s7; [*C@3 d]-|индекс колонки&]
+[s7; [*/ Возвратное значение]-|[* true] `= редактирование 
+успешно инициализировано, [* false] если 
+нет (когда массив в режиме [* ReadOnly] или 
+у него нет редактируемых колонок)&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetEditColumn`(`)const: [@(0.0.255) int]_[* GetEditColumn]()_[@(0.0.255) c
 onst]&]
 [s2; Возвращает текущую редактируемую 
 колонку.&]
-[s7; [*/ Возвратное значение]-|zero`-based index of 
-the column being edited, `-1 `= none&]
+[s7; [*/ Возвратное значение]-|индекс редактируемой
+ колонки, `-1 `= отсутствует&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:DoEdit`(`): [@(0.0.255) void]_[* DoEdit]()&]
@@ -3201,29 +3229,35 @@ the column being edited, `-1 `= none&]
 [s4; &]
 [s5;:ArrayCtrl`:`:DoInsert`(int`): [@(0.0.255) void]_[* DoInsert]([@(0.0.255) int]_[*@3 curso
 r])&]
-[s2; Begins the GUI insertion of a new row at a given location.&]
-[s7; [*C@3 cursor]-|zero`-based location of the new row&]
+[s2; Начинает ГИП`-вставку нового ряда 
+по заданной позиции.&]
+[s7; [*C@3 cursor]-|позиция нового ряда&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:DoInsertBefore`(`): [@(0.0.255) void]_[* DoInsertBefore]()&]
-[s2; Begins the GUI insertion of a new row above the current row.&]
+[s2; Начинает ГИП`-вставку нового ряда 
+над текущим рядом.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:DoInsertAfter`(`): [@(0.0.255) void]_[* DoInsertAfter]()&]
-[s2; Begins the GUI insertion of a new row below the current row.&]
+[s2; Начинает ГИП`-вставку нового ряда 
+под текущим рядом.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:DoAppend`(`): [@(0.0.255) void]_[* DoAppend]()&]
-[s2; Begins the GUI insertion of a new row at the end of the array.&]
+[s2; Начинает ГИП`-вставку нового ряда 
+в конце массива.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:DoRemove`(`): [@(0.0.255) virtual] [@(0.0.255) bool]_[* DoRemove]()&]
-[s2; Performs the GUI`-based removal of the current cursor row. When 
-the [* AskRemove] property is set to [* true] and the user cancels 
-the confirmation dialog, the function returns [* false] and the 
-current row is not removed.&]
-[s7; [*/ Возвратное значение]-|[* true] `= row has been 
-removed successfully, [* false] `=  user has canceled the row removal&]
+[s2; Выполняет ГИП`-удаление текущего 
+курсорного ряда. Если установлено 
+свойство [* kRemove] в [* true], и пользователь 
+отменяет диалог подтверждения, функция 
+возвращает [* false] и текущий ряд не удаляется.&]
+[s7; [*/ Возвратное значение]-|[* true] `= ряд успешно 
+удалён, [* false] `=  пользователь отменил 
+удаление ряда&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:DoDuplicate`(`): [@(0.0.255) void]_[* DoDuplicate]()&]
@@ -3232,17 +3266,21 @@ removed successfully, [* false] `=  user has canceled the row removal&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:DoSelectAll`(`): [@(0.0.255) void]_[* DoSelectAll]()&]
-[s2; Marks all array row as selected.&]
+[s2; Отмечает все ряды массива выделенными.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:AcceptEnter`(`): [@(0.0.255) bool]_[* AcceptEnter]()&]
-[s2; Performs all necessary GUI actions equivalent to when the user 
-presses the [* Enter] key. The row being currently edited is committed 
-and, in the case it was a newly appended line and the [* NoInsertAppend] 
-property is not set, an additional row is added to the array 
-and opened for editing.&]
-[s7; [*/ Возвратное значение]-|[* true] `= the current 
-row has been successfully committed, [* false] when not&]
+[s2; Выполняет все необходимые ГИП`-действия, 
+эквивалентные нажатию пользователем 
+клавиши [* Enter]. Текущий редактируемый 
+ряд `"коммитится`", а в случае, если 
+этот ряд был вновь добавленным, а 
+свойство [* NoInsertAppend] не установлено, 
+то в массив добавляется дополнительный 
+ряд и он открывается для редактирования.&]
+[s7; [*/ Возвратное значение]-|[* true] `= текущий 
+ряд успешно `"закоммичен`", [* false] если 
+нет&]
 [s3; &]
 [s0; &]
 [s0; &]
@@ -3255,38 +3293,50 @@ tring]_[* AsText]([_^String^ String]_(`*[*@3 format])([@(0.0.255) const]_Value[@
 `*[*@3 tab]_`=_`"`\t`", [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 row]_`=_`"`\r`\n`", 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 hdrtab]_`=_`"`\t`", [@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 hdrrow]_`=_`"`\r`\n`")_[@(0.0.255) const]&]
-[s2; Generic function for conversion of ArrayCtrl content to text. 
-The content visible on screen is exported (means, it exports 
-columns defined using AddColumn, not indicies). Cells are converted 
-to output format using [*@3 format] function. If [*@3 sel] is true, 
-only rows with IsSel true are exported. [*@3 tab] represents a 
-separator text between cells in a row, [*@3 row] separator of rows. 
-[*@3 hdrtab] is separator of header cells (those are texts of ArrayCtrl 
-header) `- if NULL, no header is exported. [*@3 hdrrow].is separator 
-of header and data rows.&]
+[s2; Генерная функция для преобразования 
+контента ArrayCtrl`'а в текст. Экспортируется 
+видимый на экране контент (то есть, 
+колонки, определённые с помощью AddColumn, 
+а не индексы). Ячейки преобразовываются 
+в формат вывода функцией [*@3 format]. Если 
+[*@3 sel] равно true, то экспортируются только 
+ряды с IsSel true. [*@3 tab] представляет собой 
+текст`-разделитель между ячейками 
+ряда [*@3 row] `- разделитель рядов. [*@3 hdrtab] 
+`- разделитель заголовочных ячеек 
+(текстов в звголовочнике ArrayCtrl`'а) 
+`- если NULL, то заголовочник не экспортируется
+. [*@3 hdrrow].`= разделитель заголовочного 
+и рядов с данными.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:SetClipboard`(bool`,bool`)const: [@(0.0.255) void]_[* SetClipboard]([@(0.0.255) b
 ool]_[*@3 sel]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*@3 hdr]_`=_[@(0.0.255) true])_[@(0.0.255) c
 onst]&]
-[s2; Puts ArrayCtrl content to clipboard in text format, `"`\t`" 
-and `"`\r`\n`" as separators. If [*@3 sel] is true, only rows with 
-IsSel true are exported, [*@3 hdr] controls whether header is exported.&]
+[s2; Помещает контент ArrayCtrl`'а в буфер 
+обмена в текстовом формате, `"`\t`" и 
+`"`\r`\n`" `- в качестве разделителей. Если 
+[*@3 sel] равно true, то экспортируются только 
+ряды с IsSel true, [*@3 hdr] контролирует экспорт 
+заголовочника.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:AsQtf`(bool`,bool`): [_^String^ String]_[* AsQtf]([@(0.0.255) bool]_[*@3 se
 l]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*@3 hdr]_`=_[@(0.0.255) true])&]
-[s2; Возвращает ArrayCtrl content in QTF format. If [*@3 sel] 
-is true, only rows with IsSel true are exported, [*@3 hdr] controls 
-whether header is exported.&]
+[s2; Возвращает контент ArrayCtrl`'а в формате 
+QTF. Если [*@3 sel] равно true, то экспортируются 
+только ряды с IsSel true, [*@3 hdr] контролирует 
+экспорт заголовочника.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:AsCsv`(bool`,int`,bool`): [_^String^ String]_[* AsCsv]([@(0.0.255) bool]_
 [*@3 sel]_`=_[@(0.0.255) false], [@(0.0.255) int]_[*@3 sep]_`=_`';`', 
 [@(0.0.255) bool]_[*@3 hdr]_`=_[@(0.0.255) true])&]
-[s2; Возвращает ArrayCtrl content in csv format, using 
-[*@3 sep] as separator. If [*@3 sel] is true, only rows with IsSel 
-true are exported, [*@3 hdr] controls whether header is exported.&]
+[s2; Возвращает контент ArrayCtrl`'а в формате 
+csv, используя разделитель [*@3 sep]. Если 
+[*@3 sel] равно true, то экспортируются только 
+ряды с IsSel true, [*@3 hdr] контролирует экспорт 
+заголовочника.&]
 [s0; &]
 [s0; &]
 [s0; [*@(229)$(0.128.128)3 Обратные уведомительные 
@@ -3294,43 +3344,56 @@ true are exported, [*@3 hdr] controls whether header is exported.&]
 [s3; &]
 [s3; &]
 [s5;:ArrayCtrl`:`:WhenSel: [_^Callback^ Callback]_[* WhenSel]&]
-[s2; Called whenever cursor or selection changes. This probably the 
-most common ArrayCtrl callback. We recommend to start with this 
-one first and use others only if necessary.&]
+[s2; Вызывается при всяком изменении 
+курсора или выделения. Вероятно, это 
+самый используемый обратный вызов 
+ArrayCtrl`'а. Рекомендуем начинать с него, 
+используя другие только при надобности.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:WhenLeftClick: [_^Callback^ Callback]_[* WhenLeftClick]&]
-[s2; This callback is called whenever the user clicks an array cell.&]
+[s2; Этот обратный вызов вызывается при 
+всяком нажатии пользователем ячейки 
+массива.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:WhenLeftDouble: [_^Callback^ Callback]_[* WhenLeftDouble]&]
-[s2; This callback is called whenever the user doubleclicks an array 
-cell.&]
+[s2; Этот обрвыз вызывается при всяком 
+двойном клике пользователя на ячейке 
+массива.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:WhenMouseMove: [_^Callback1^ Callback1]<[_^Point^ Point]>_[* WhenMouseMov
 e]&]
-[s2; Called when mouse moves over the ArrayCtrl or moves out of ArrayCtrl. 
-The Point`::y is the line number, Point`::x column index. If mouse 
-moves out of ArrayCtrl, parameter is Null.&]
+[s2; Вызывается при движении мыши над 
+ArrayCtrl`'ом или выходе из ArrayCtrl`'а. Point`::y 
+`- номер строки, Point`::x `- индекс колонки. 
+Если мышь вышла за ArrayCtrl, параметр 
+равен Null.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:WhenEnterKey: [_^Callback^ Callback]_[* WhenEnterKey]&]
-[s2; Called when user presses Enter key while focus is in ArrayCtrl, 
-some line of ArrayCtrl has cursor and Enter key is not `'eaten`' 
-by another action like accepting the input. When this Callback 
-is not empty, Enter key is never passed to parent.&]
+[s2; Вызывается, когда пользователь нажал 
+клавишу Enter, в то время как фокус был 
+в ArrayCtrl`'е, на какой`-то строке ArrayCtrl`'а 
+был курсоор и клавиша Enter не была `'съедена`' 
+другим действием, типа приёма ввода. 
+Когда этот Callback не пустой, нажатие 
+Enter никогда не передаётся родительскому 
+контролу.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:WhenBar: [_^Callback1^ Callback1]<Bar[@(0.0.255) `&]>_[* WhenBar]&]
-[s2; This callback is called whenever the local array menu has to 
-be regenerated. By setting this callback to a different function 
-/ method you can supply a custom local menu for the array. The 
-[* Bar`&] argument is a reference to the menu to be generated.&]
+[s2; Этот обрвыз вызывается при каждой 
+регенерации локального меню массива. 
+Установив этот обрвыз на другую функцию 
+/ метод, можно снабдить массив кастомным 
+локальным меню. Аргумент [* Bar`&] `- это 
+ссылка на генерируемое меню.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:WhenEnterRow: [_^Callback^ Callback]_[* WhenEnterRow]&]
-[s0; [* -|][*/ Deprecated]&]
+[s0; [* -|][*/ Депрекирован]&]
 [s2; This callback is called every time the cursor location changes 
 to a different row of the array.&]
 [s3; &]
@@ -3351,7 +3414,7 @@ or generally to an external data source.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:WhenKillCursor: [_^Callback^ Callback]_[* WhenKillCursor]&]
-[s0; [* -|][*/ Deprecated]&]
+[s0; [* -|][*/ Депрекирован]&]
 [s2; This callback is called whenever the cursor is moved away from 
 the table.&]
 [s2; [* Note:] internally, when moving the cursor (e.g. by calling the 
@@ -3362,7 +3425,7 @@ the [* WhenKillCursor] callback is called as a by`-product.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:WhenCursor: [_^Callback^ Callback]_[* WhenCursor]&]
-[s0; [* -|][*/ Deprecated]&]
+[s0; [* -|][*/ Депрекирован]&]
 [s2; This callback is called every time the cursor row number changes 
 (either when the cursor is removed from the table, or when it 
 has been moved to a different row).&]
@@ -3387,7 +3450,7 @@ been committed.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:WhenSelection: [_^Callback^ Callback]_[* WhenSelection]&]
-[s0; [* -|][*/ Deprecated]&]
+[s0; [* -|][*/ Депрекирован]&]
 [s2; This callback is called whenever the current array selection 
 changes. This includes changes to the cursor location as the 
 cursor is automatically considered part of the selection.&]

@@ -1,6 +1,6 @@
 #include "Core.h"
 
-#include "lib/xxhash.h"
+#include "plugin/zstd/lib/xxhash.h"
 
 namespace Upp {
 

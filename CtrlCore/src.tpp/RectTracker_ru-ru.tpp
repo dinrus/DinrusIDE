@@ -66,8 +66,8 @@ topic "Класс RectTracker";
 [s4; &]
 [s5;:RectTracker`:`:Clip`(const Rect`&`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* Cl
 ip]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 c])&]
-[s2;%RU-RU Устанавливаетthe прямоугольник 
-обрезки (clipping rectangle).&]
+[s2;%RU-RU Устанавливает прямоугольник 
+обрезки.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:RectTracker`:`:Width`(int`): [_^RectTracker^ RectTracker][@(0.0.255) `&]_[* Width]([@(0.0.255) i

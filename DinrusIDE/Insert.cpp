@@ -138,7 +138,7 @@ void Ide::InsertIml(const Package& pkg, const String& fn, String classname)
 	h << "#include <Draw/iml_source.h>\n";
 
 	AppendClipboardText(h);
-	PromptOK("Часть .cpp сохранена в buffer обмена");
+	PromptOK("Часть .cpp сохранена в буфер обмена");
 }
 
 void Ide::InsertText(const String& text)

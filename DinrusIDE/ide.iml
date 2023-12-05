@@ -1,6 +1,7 @@
 PREMULTIPLIED
 IMAGE_ID(myalien)
-IMAGE_ID(dinrus)
+IMAGE_ID(dinrus) IMAGE_META("exp", "")
+
 IMAGE_ID(hat)
 IMAGE_ID(Computer)
 IMAGE_ID(Icon) IMAGE_META("exp", "")

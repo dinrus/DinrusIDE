@@ -2543,7 +2543,7 @@ SQLITE_API int sqlite3_total_changes(sqlite3*);
 **
 ** ^This function causes any pending database operation to abort and
 ** return at its earliest opportunity. This routine is typically
-** called in response to a user action such as pressing "Cancel"
+** called in response to a user action such as pressing "Отмена"
 ** or Ctrl-C where the user wants a long query operation to halt
 ** immediately.
 **
@@ -3272,7 +3272,7 @@ SQLITE_API int sqlite3_trace_v2(
 **
 ** ^If the progress callback returns non-zero, the operation is
 ** interrupted.  This feature can be used to implement a
-** "Cancel" button on a GUI progress dialog box.
+** "Отмена" button on a GUI progress dialog box.
 **
 ** The progress handler callback must not do anything that will modify
 ** the database connection that invoked the progress handler.

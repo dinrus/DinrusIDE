@@ -288,15 +288,15 @@ void ErrorOK(const char *qtf) {
 }
 
 int PromptOKCancel(const char *qtf) {
-	return Prompt(BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Cancel"));
+	return Prompt(BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"));
 }
 
 int PromptOKCancelAll(const char *qtf) {
-	return Prompt(BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Cancel"), t_("All"));
+	return Prompt(BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"), t_("Все"));
 }
 
 int ErrorOKCancel(const char *qtf) {
-	return Prompt(BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::error(), qtf, t_("OK"), t_("Cancel"));
+	return Prompt(BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::error(), qtf, t_("OK"), t_("Отмена"));
 }
 
 CH_IMAGE(YesButtonImage, Null);

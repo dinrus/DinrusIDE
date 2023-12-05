@@ -20,40 +20,59 @@ topic "Семантика трансфера";
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [s2; [@3 Семантика трансфера]&]
-[s3; Explicit pick/clone&]
-[s5; U`+`+ containers require the transfer mode (deep copy or move) 
-to be explicitly specified when transfering the content of the 
-container (exception is the temporary value, which can be pick 
-assigned without explicit pick). This decision has the advantage 
-of not accidentally using costly deep copy semantics, when in 
-reality move is required in majority of case..&]
+[s3; Явный pick/clone&]
+[s5; Контейнерам U`+`+ требуется режим трансфера 
+(глубокая копия или перемещение) , 
+чтобы быть явно определёнными при 
+трансфере контента контейнера (исключение 
+составляет временное значение, которое 
+может пик`-присваиваться без явного 
+пика). У этого решения есть преимущество, 
+что не используется замысловатая 
+семантика глубокого копирования, 
+в то время как в реальности перемещение 
+необходимо в большинстве случаев.&]
 [s7; Vector<int> a, b;&]
-[s7; a `= pick(b); // moves content of b to a, b is cleared&]
-[s7; b `= clone(a); // a and b now contain the same data&]
+[s7; a `= pick(b); // перемещает контент b в a, 
+b зачищается&]
+[s7; b `= clone(a); // a и b теперь содержат одинаковые 
+данные&]
 [s5; &]
-[s3; Composition&]
-[s5; When class contains members with pick semantics, a lot of error`-prone 
-work is saved when compiler is able to generate pick constructor/operator`= 
-for the class. C`+`+11 is quite capable of doing so, but needs 
-to explicitly activate it with default memebers:&]
+[s3; Композиция&]
+[s5; Когда у класса есть члены с пик`-семантикой, 
+это избавляет от массы `- имеющей наплоность 
+к порождению ошибок `-  работы, когда 
+компилятор способен генерировать 
+для этого класса pick constructor/operator`= . 
+C`+`+11 вполне способен на это, но его 
+нужно явно активировать дефолтными 
+членами:&]
 [s7; Foo(Foo`&`&) `= default;&]
 [s7; Foo`& operator`=(Foo`&`&) `= default;&]
-[s5; Meanwhile, C`+`+03 does need these and does not recognize them. 
-To make things easier, we define macro rval`_default, which simplifies 
-this and irons out differences&]
+[s5; Тем временем, C`+`+03 это нужно и он это 
+не распознаёт. Чтобы сделать жизнь 
+легче, мы определям макрос rval`_default, 
+который упрощает и умягчает эти различия&]
 [s7; rval`_default(Foo)&]
-[s3; Optional deep copy `- clone, uniform access to deep copy&]
-[s5; To support clone, class has to define special constructor of 
-form&]
+[s3; Опциональный deep copy `- clone, униформный 
+доступ к to deep copy&]
+[s5; Чтобы поддерживать клонирование, 
+в классе нужно определить особый 
+конструктор в форме&]
 [s7; T(const T`&, int)&]
-[s5; and to derive from DeepCopyOption<T> class, which provides support 
-for static/dynamic construction of instances.&]
-[s3; Changing default semantics&]
-[s5; If for some reason you need version of [/ optional] deep copy 
-type with [/ default] deep copy, you can easily create it with 
-[* WithDeepCopy ]template&]
+[s5; и он должен происходить от класса 
+DeepCopyOption<T>, предоставляющего поддержку 
+статического/динамического конструирования
+ экземпляров.&]
+[s3; Изменение дефолтной семантики&]
+[s5; Если по какой`-то причине требуется 
+версия [/ опционного] типа глубокой 
+копии с [/ дефолтной] глубокой копией, 
+можно легко создать её с помощью шаблона 
+[* WithDeepCopy]&]
 [s7; IntArray a `= MakeArray(100);&]
-[s7; WithDeepCopy<IntArray> b(a); // b now has deep copy semantics&]
+[s7; WithDeepCopy<IntArray> b(a); // b теперь имеет семантику 
+глубокой копии&]
 [s7; a`[3`] `= 10; //legal&]
 [s7; b `= a; // deep copy&]
 [s7; a `= pick(b); // pick&]

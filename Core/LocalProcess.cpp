@@ -459,7 +459,7 @@ int  LocalProcess::GetExitCode() {
 	if(!IsRunning())
 		return Nvl(exit_code, -1);
 	int status;
-	if(!( waitpid(pid, &status, WNOHANG | WUNTRACED) == pid && 
+	if(!( waitpid(pid, &status, WNOHANG | WUNTRACED) == pid &&
 	      DecodeExitCode(status) ))
 		return -1;
 	LLOG("GetExitCode() -> " << exit_code << " (just exited)");

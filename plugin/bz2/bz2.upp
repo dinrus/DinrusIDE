@@ -1,5 +1,7 @@
 description "Компрессор/декомпрессор BZ2\3770,128,128";
 
+tabsize 4;
+
 options(BUILDER_OPTION) NOWARNINGS;
 
 file

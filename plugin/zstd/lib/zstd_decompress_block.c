@@ -26,6 +26,7 @@
 #include "zstd_decompress_internal.h"   /* ZSTD_DCtx */
 #include "zstd_ddict.h"  /* ZSTD_DDictDictContent */
 #include "zstd_decompress_block.h"
+#include "xxhash.h"
 
 /*_*******************************************************
 *  Macros

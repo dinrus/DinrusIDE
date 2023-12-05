@@ -1,5 +1,4 @@
-topic "SqlColumnInfo";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Структура SqlColumnInfo";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,47 +8,54 @@ topic "SqlColumnInfo";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 SqlColumnInfo]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Структура SqlColumnInfo]]}}&]
 [s3; &]
 [s1;:SqlColumnInfo`:`:struct: [@(0.0.255)3 struct][3 _][*3 SqlColumnInfo][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 Moveable][3 <][*3 SqlColumnInfo][3 >_]&]
-[s2;%% This strusture is used to describe a column of SQL database 
-table. Validity and exact meaning of attributes depends on database 
-used, except for [* name], [* type ]and [* nullable ]which are always 
-valid.&]
+[s2;%RU-RU Эта структура используется для 
+описания колонки в таблице базы данных 
+SQL. Полноценность и точное значение 
+атрибутов зависит от используемой 
+базы данных, за исключением [* name], [* type 
+]и [* nullable, ]которые всегда полноценны.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:SqlColumnInfo`:`:name: [_^String^ String]_[* name]&]
-[s2;%% The name of column.&]
+[s2;%RU-RU Имя колонки.&]
 [s3; &]
 [s4; &]
 [s5;:SqlColumnInfo`:`:type: [@(0.0.255) int]_[* type]&]
-[s2;%% The type of column as Value type id. One of INT`_V, DOUBLE`_V, 
-DATE`_V, TIME`_V, WSTRING`_V, STRING`_V, SQLRAW`_V, INT64`_V, 
-BOOL`_V; exact set of values permitted depends on database engine 
-used. &]
+[s2;%RU-RU Тип колонки как идентификатор 
+типа значения: INT`_V, DOUBLE`_V, DATE`_V, TIME`_V, 
+WSTRING`_V, STRING`_V, SQLRAW`_V, INT64`_V, BOOL`_V; точный 
+набор допустимых значений зависит 
+от используемого движка базы данных. 
+&]
 [s3; &]
 [s4; &]
 [s5;:SqlColumnInfo`:`:width: [@(0.0.255) int]_[* width]&]
-[s2;%% Size of column.&]
+[s2;%RU-RU Размер колонки.&]
 [s3; &]
 [s4; &]
 [s5;:SqlColumnInfo`:`:precision: [@(0.0.255) int]_[* precision]&]
-[s2;%% Number of total digits in numeric types.&]
+[s2;%RU-RU Общее число цифр в числовых типах.&]
 [s3; &]
 [s4; &]
 [s5;:SqlColumnInfo`:`:scale: [@(0.0.255) int]_[* scale]&]
-[s2;%% Number of digits after comma in numeric types.&]
+[s2;%RU-RU Число цифр после запятой в числовых 
+типах.&]
 [s3; &]
 [s4; &]
 [s5;:SqlColumnInfo`:`:nullable: [@(0.0.255) bool]_[* nullable]&]
-[s2;%% Column can contain NULL values.&]
+[s2;%RU-RU Колонка может содержать значения 
+NULL.&]
 [s3; &]
 [s4; &]
 [s5;:SqlColumnInfo`:`:binary: [@(0.0.255) bool]_[* binary]&]
-[s2;%% Column contains binary data.&]
+[s2;%RU-RU Колонка содержит двоичные данные.&]
 [s3; &]
-[s0;%% ]]
+[s0;%RU-RU ]]

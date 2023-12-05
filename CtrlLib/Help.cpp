@@ -1,6 +1,8 @@
 #include "CtrlLib.h"
+#include <Synth/Synth.h>
 
 namespace Upp {
+
 
 Topic HelpWindow::AcquireTopic(const String& topic)
 {
@@ -321,6 +323,8 @@ HelpWindow::HelpWindow()
 	tree_view.Zoom(1);
 	Sizeable().Zoomable();
 	Title(t_("Справочник"));
+	view.Background(Red);
+	//view.TextColor(Color(198, 212, 0));
 	BackPaint();
 	view.WhenLink = [=, this](const String& h) { GoTo(h); };
 	AddFrame(toolbar);

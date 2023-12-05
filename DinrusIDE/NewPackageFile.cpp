@@ -17,7 +17,7 @@ NewPackageFileWindow::NewPackageFileWindow()
 	type.SetLineCy(max(Zy(16), Draw::GetStdFontCy()));
 	type.SetDropLines(20);
 	Type("cpp", "Исходник на C++");
-	Type("h", "Заголовочник C++");
+	Type("h", "Заголовок C++");
 	type.AddSeparator();
 	Type("lay", "Файл разметки (шаблоны дилога)");
 	Type("iml", "Изображение (иконки)");

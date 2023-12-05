@@ -282,7 +282,7 @@ void MacroManagerWindow::LoadUscDir(const String& dir)
 {
 	for(FindFile ff(AppendFileName(dir, "*.usc")); ff; ff.Next()) {
 		String fileTitle = ff.GetName();
-		if(!ff.GetPath().EndsWith(String() << "UppLocal" << DIR_SEPS << ff.GetName()))
+		if(!ff.GetPath().EndsWith(String() << "DinrusLocal" << DIR_SEPS << ff.GetName()))
 			fileTitle = "../" + fileTitle;
 		
 		int fileNode = globalTree.Add(0, Image(), ff.GetPath(), fileTitle);

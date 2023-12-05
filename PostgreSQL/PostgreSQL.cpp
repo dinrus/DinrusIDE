@@ -302,7 +302,7 @@ void PostgreSQLSession::ExecTrans(const char * statement)
 {
 	if(trace)
 		*trace << statement << UPP::EOL;
-	
+
 	int itry = 0;
 
 	do {
@@ -357,13 +357,13 @@ bool PostgreSQLSession::Open(const char *connect)
 	}
 
 	if(PQstatus(conn) != CONNECTION_OK)
-	{	
+	{
 		SetError(FromSystemCharset(PQerrorMessage(conn)), "Opening database");
 		Close();
 		return false;
 	}
 	level = 0;
-	
+
 	if(PQclientEncoding(conn)) {
 		if(PQsetClientEncoding(conn, "UTF8")) {
 			SetError("Cannot set UTF8 charset", "Opening database");
@@ -373,7 +373,7 @@ bool PostgreSQLSession::Open(const char *connect)
 	}
 	else
 		charset = CHARSET_DEFAULT;
-	
+
 	DoKeepAlive();
 
 	LLOG( String("Postgresql client encoding: ") + pg_encoding_to_char( PQclientEncoding(conn) ) );
@@ -400,7 +400,7 @@ bool PostgreSQLSession::ReOpen()
 	}
 	DoKeepAlive();
 	level = 0;
-	return true;	
+	return true;
 }
 
 void PostgreSQLSession::Close()
@@ -592,7 +592,7 @@ Value PostgreSQLConnection::GetInsertedId() const
 {
 	String pk = session.pkache.Get(last_insert_table, Null);
 	if(IsNull(pk)) {
-		String sqlc_expr; 
+		String sqlc_expr;
 		sqlc_expr <<
 		"SELECT " <<
 		  "pg_attribute.attname " <<

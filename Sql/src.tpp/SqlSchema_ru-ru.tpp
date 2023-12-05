@@ -1,4 +1,4 @@
-topic "Schema introspection";
+topic "Интроспекция схемы";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,34 +10,39 @@ topic "Schema introspection";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 Schema introspection]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Интроспекция схемы]]}}&]
 [s3; &]
 [s5;:FindSchJoin`(const String`&`): [_^SqlBool^ SqlBool]_[* FindSchJoin]([@(0.0.255) const]_
 [_^String^ String][@(0.0.255) `&]_[*@3 tables])&]
-[s2;%% Finds a join condition based in REFERENCE attributes of .sch 
-files for a list of tables [%-*@3 tables] separated by comma. Function 
-runs two phases of matching foreign keys, in the first phase 
-it performs a match based on the name too `- the same named columns 
-or foreign key is referenced`_table `+ `'`_`' `+ referenced`_primary`_key 
-(e.g. PERSON`_ID matches ID of table PERSON) are match. If no 
+[s2;%RU-RU Finds a join condition based in REFERENCE attributes of 
+.sch files for a list of tables [%-*@3 tables] separated by comma. 
+Function runs two phases of matching foreign keys, in the first 
+phase it performs a match based on the name too `- the same named 
+columns or foreign key is referenced`_table `+ `'`_`' `+ referenced`_primary`_key
+ (e.g. PERSON`_ID matches ID of table PERSON) are match. If no 
 match is found in the first phase, in second phase, any correct 
 foreign key matches. If there are more matching columns, first 
 column in .sch definition is used.&]
-[s3;%% &]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:GetSchTables`(`): [_^Vector^ Vector]<[_^String^ String]>_[* GetSchTables]()&]
-[s2;%% Возвращает a list of all tables defined by .sch schema files.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает список всех таблиц, 
+определённых файлами схемы .sch.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:GetSchAll`(`): [_^Upp`:`:ArrayMap^ ArrayMap]<_[_^Upp`:`:String^ String], 
 [_^Upp`:`:Array^ Array]<[_^Upp`:`:SchColumnInfo^ SchColumnInfo]>_>_[* GetSchAll]()&]
-[s2;%% Возвращает the information of all .sch defined tables. Table 
-names are map keys. SchColumnInfo contains name of column, the 
-table it REFERENCES (if any) and the name of foreign key.&]
+[s2;%RU-RU Возвращает информацию обо всех 
+таблицах, определённых в .sch. Имена 
+таблиц мапируются в ключи. SchColumnInfo 
+содержит имя колонки, на которую таблица 
+ССЫЛАЕТСЯ (если она есть) и имя суррогратного
+ (стороннего) ключа.&]
 [s3; &]
 [s4; &]
 [s5;:GetSchColumns`(const String`&`): [_^Vector^ Vector]<[_^String^ String]>_[* GetSchColum
 ns]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 table])&]
-[s2;%% Возвращает all columns for [%-*@3 table] defined by .sch schema 
-files.&]
-[s0;%% ]]
+[s2;%RU-RU Возвращает все колонки для таблицы 
+[%-*@3 table], определённые файлами схемы 
+.sch.&]
+[s0;%RU-RU ]]

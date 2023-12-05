@@ -1,4 +1,4 @@
-description "XML-RPC support package (both server and client stuff)\3770,128,128";
+description "Пакет поддержки XML-RPC (клиентская и серверная части)\3770,128,128";
 
 file
 	Rpc.h,

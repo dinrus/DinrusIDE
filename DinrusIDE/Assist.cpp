@@ -77,7 +77,8 @@ AssistEditor::AssistEditor()
 	WhenAnnotationClick = THISBACK1(EditAnnotation, true);
 	WhenAnnotationRightClick = THISBACK1(EditAnnotation, false);
 	Annotations(Zx(12));
-	annotation_popup.Background(SColorPaper());
+	annotation_popup.Background(SYellow());
+//	annotation_popup.TextColor(Color(198, 212, 0));
 	annotation_popup.SetFrame(BlackFrame());
 	annotation_popup.Margins(6);
 	annotation_popup.NoSb();

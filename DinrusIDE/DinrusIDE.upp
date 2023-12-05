@@ -1,5 +1,7 @@
 description "Главный пакет DinrusIDE/377\377255,0,0";
 
+tabsize 4;
+
 uses
 	DinrusIDE/Common,
 	DinrusIDE/Core,
@@ -26,7 +28,11 @@ uses
 	Functions4U,
 	DropGrid,
 	Controls4U,
-	CtrlLib/MessageCtrl;
+	CtrlLib/MessageCtrl,
+	Synth;
+
+library
+	"SDL2 SDL2main";
 
 link
 	"-DUNICODE -DCINDEX_NO_EXPORTS -DDINRUSPRO";

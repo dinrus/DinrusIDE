@@ -1,12 +1,12 @@
-topic "U++ SQL Basics";
-[ $$0,0#00000000000000000000000000000000:Default]
+topic "Основы U++ SQL";
 [b83;*4 $$1,0#07864147445237544204411237157677:title]
 [b83;_R+117 $$2,0#50327538467692101372348457405326:heading1]
 [b50;a25;*R2 $$3,3#10189570498413014020290115411120:heading2]
 [l25;b25;a25;R2 $$4,4#24747716437513346533020414014942:text2]
+[ $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
 [s1; U`+`+ SQL&]
-[s2; U`+`+ SQL Basics&]
+[s2; Основы U`+`+ SQL&]
 [s3; Database Model&]
 [s4; The database model is described by the user in schema (`".sch`") 
 files. The user models the database and U`+`+ SQL packages handle 
@@ -22,11 +22,11 @@ not need to write sql statements, U`+`+ will generate them for
 you.)&]
 [s4; To add this file to your Upp package, make sure your package 
 is selected in the package list (located at the top`-left of 
-DinrusIDE), right`-click on the white`-space in the file list (underneath 
-the package list at bottom`-left), and select `"Insert package 
-directory file(s)`". Then give the new name of your file (eg. 
-`"MyDatabase.sch`") and click `"Open`". The new file will show 
-up in your file list. &]
+DinrusIDE), right`-click on the white`-space in the file list 
+(underneath the package list at bottom`-left), and select `"Insert 
+package directory file(s)`". Then give the new name of your file 
+(eg. `"MyDatabase.sch`") and click `"Open`". The new file will 
+show up in your file list. &]
 [s3; SQL Create, Read, Update, Delete (CRUD)&]
 [s4; The four basic functions of database storage are all supported, 
 with the ability to have U`+`+ generate the sql statements for 
@@ -42,4 +42,4 @@ of the model. This functionality is limited though, as it is
 implemented using `"ALTER`" sql commands and does not support 
 removing columns or changing datatypes. Those functions have 
 to be done manually. &]
-[s0; ]
+[s0; ]]

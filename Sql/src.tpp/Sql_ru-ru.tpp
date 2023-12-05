@@ -1,5 +1,4 @@
-topic "Sql";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс Sql";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,8 +8,9 @@ topic "Sql";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
-[ {{10000@(113.42.0) [s0; [*@7;4 Sql]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс Sql]]}}&]
 [s1;@(0.0.255)3%- &]
 [s1;:Sql`:`:class:%- [@(0.0.255)3 class][3 _][*3 Sql]&]
 [s2; This class  represents a SQL execution context. It is associated 
@@ -34,8 +34,9 @@ with the session of this Sql.&]
 [s4; &]
 [s5;:Sql`:`:SetParam`(int`,const Value`&`):%- [@(0.0.255) void]_[* SetParam]([@(0.0.255) in
 t]_[*@3 i], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 val])&]
-[s2; Устанавливаетthe positional parameter [%-*@3 i] to [%-*@3 val]. Positional 
-parameters are expressed as `'?`' in the statement.&]
+[s2; Устанавливает the positional parameter [%-*@3 i] 
+to [%-*@3 val]. Positional parameters are expressed as `'?`' in 
+the statement.&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:SetStatement`(const String`&`):%- [@(0.0.255) void]_[* SetStatement]([@(0.0.255) c
@@ -123,60 +124,62 @@ of rows that match [/ where].&]
 [s5;:Sql`:`:GetColumns`(`)const:%- [@(0.0.255) int]_[* GetColumns]()_[@(0.0.255) const]&]
 [s5;:Sql`:`:GetColumnCount`(`)const:%- [@(0.0.255) int]_[* GetColumnCount]()_[@(0.0.255) co
 nst]&]
-[s2; Возвращает the number of columns of resultset after executing [/ select] 
-statement.&]
+[s2; Возвращает the number of columns of resultset after 
+executing [/ select] statement.&]
 [s3;%- &]
 [s4; &]
 [s5;:Sql`:`:GetColumn`(int`,Ref`)const:%- [@(0.0.255) void]_[* GetColumn]([@(0.0.255) int]_
 [*@3 i], [_^Ref^ Ref]_[*@3 r])_[@(0.0.255) const]&]
-[s2; Устанавливаетvalue referenced by [%-*@3 r] to the fetched value at column 
-[%-*@3 i]. Only valid after successfull Fetch and if there exists 
-column [%-*@3 i] in the resultset.&]
+[s2; Устанавливает value referenced by [%-*@3 r] to the 
+fetched value at column [%-*@3 i]. Only valid after successfull 
+Fetch and if there exists column [%-*@3 i] in the resultset.&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:GetColumn`(SqlId`,Ref`)const:%- [@(0.0.255) void]_[* GetColumn]([_^SqlId^ SqlId
 ]_[*@3 colid], [_^Ref^ Ref]_[*@3 r])_[@(0.0.255) const]&]
-[s2; Устанавливаетvalue referenced by [%-*@3 r] to the fetched value at column 
-with name [%-*@3 colid] (match is case insensitive). Only valid 
-after successfull Fetch and if there exists column [%-*@3 colid] 
-in the resultset.&]
+[s2; Устанавливает value referenced by [%-*@3 r] to the 
+fetched value at column with name [%-*@3 colid] (match is case 
+insensitive). Only valid after successfull Fetch and if there 
+exists column [%-*@3 colid] in the resultset.&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:operator`[`]`(int`)const:%- [_^Value^ Value]_[* operator`[`]]([@(0.0.255) int]_
 [*@3 i])_[@(0.0.255) const]&]
-[s2; Возвращает the fetched value at column [%-*@3 i]. Only valid after 
-successfull Fetch and if there exists column [%-*@3 i] in the resultset.&]
+[s2; Возвращает the fetched value at column [%-*@3 i]. Only 
+valid after successfull Fetch and if there exists column [%-*@3 i] 
+in the resultset.&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:operator`[`]`(SqlId`)const:%- [_^Value^ Value]_[* operator`[`]]([_^SqlId^ SqlId
 ]_[*@3 colid])_[@(0.0.255) const]&]
-[s2; Возвращает the fetched value at column with name [%-*@3 colid] (match 
-is case insensitive). Only valid after successfull Fetch and 
-if there exists column [%-*@3 colid] in the resultset.&]
+[s2; Возвращает the fetched value at column with name [%-*@3 colid] 
+(match is case insensitive). Only valid after successfull Fetch 
+and if there exists column [%-*@3 colid] in the resultset.&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:GetColumnInfo`(int`)const:%- [@(0.0.255) const]_[_^SqlColumnInfo^ SqlColumnIn
 fo][@(0.0.255) `&]_[* GetColumnInfo]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Возвращает the information about column [%-*@3 i] after executing 
-[/ select] statement.&]
+[s2; Возвращает the information about column [%-*@3 i] after 
+executing [/ select] statement.&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:GetRow`(`)const:%- [_^Vector^ Vector]<[_^Value^ Value]>_[* GetRow]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает the whole fetched row. Only valid after successfull 
-Fetch.&]
+[s2; Возвращает the whole fetched row. Only valid after 
+successfull Fetch.&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:GetRowMap`(`)const:%- [_^ValueMap^ ValueMap]_[* GetRowMap]()_[@(0.0.255) const]&]
 [s5;:Upp`:`:Sql`:`:operator`~`(`)const:%- [_^Upp`:`:ValueMap^ ValueMap]_[* operator`~]()_
 [@(0.0.255) const]&]
-[s2; Возвращает the whole fetched row, keys of ValueMap are names of 
-columns. Only valid after successfull Fetch.&]
+[s2; Возвращает the whole fetched row, keys of ValueMap 
+are names of columns. Only valid after successfull Fetch.&]
 [s3;%- &]
 [s4; &]
 [s5;:Sql`:`:operator Vector`<Value`>`(`)const:%- [* operator_Vector<Value>]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает GetRow(). Only valid after successfull Fetch.&]
+[s2; Возвращает GetRow(). Only valid after successfull 
+Fetch.&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:Get`(Fields`):%- [@(0.0.255) void]_[* Get]([_^Fields^ Fields]_[*@3 fields])&]
@@ -224,16 +227,16 @@ key). Fields usually represent some S`_`* table row structure
 based on .sch file.&]
 [s3; &]
 [s4; &]
-[s5;:Sql`:`:InsertNoNull'ы`(Fields`):%- [@(0.0.255) bool]_[* InsertNoNull'ы]([_^Fields^ Field
-s]_[*@3 nf])&]
+[s5;:Sql`:`:InsertNoNull`'ы`(Fields`):%- [@(0.0.255) bool]_[* InsertNoNull`'ы]([_^Fields^ F
+ields]_[*@3 nf])&]
 [s2; Executes [/ insert] statement that inserts Fields [%-*@3 nf] into 
 database, columns that are null are not used. Fields usually 
 represent some S`_`* table row structure based on .sch file.&]
 [s3; &]
 [s4; &]
-[s5;:Sql`:`:InsertNoNull'ы`(Fields`,const char`*`):%- [@(0.0.255) bool]_[* InsertNoNull'ы](
-[_^Fields^ Fields]_[*@3 nf], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 table])&]
-[s5;:Sql`:`:InsertNoNull'ы`(Fields`,SqlId`):%- [@(0.0.255) bool]_[* InsertNoNull'ы]([_^Fields^ F
+[s5;:Sql`:`:InsertNoNull`'ы`(Fields`,const char`*`):%- [@(0.0.255) bool]_[* InsertNoNull
+`'ы]([_^Fields^ Fields]_[*@3 nf], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 table])&]
+[s5;:Sql`:`:InsertNoNull`'ы`(Fields`,SqlId`):%- [@(0.0.255) bool]_[* InsertNoNull`'ы]([_^Fields^ F
 ields]_[*@3 nf], [_^SqlId^ SqlId]_[*@3 table])&]
 [s2; Executes [/ insert] statement that inserts Fields [%-*@3 nf] columns 
 into database, but uses different table as target. Columns that 
@@ -317,14 +320,14 @@ PGSQL, it is required that the auto`-increment primary key is
 named `"ID`").&]
 [s4; &]
 [s5;:Sql`:`:IsOpen`(`):%- [@(0.0.255) bool]_[* IsOpen]()&]
-[s2; Возвращает true there is associated SqlSession this this instance 
-and the SqlSession is connected to database.&]
+[s2; Возвращает true there is associated SqlSession this 
+this instance and the SqlSession is connected to database.&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:Sql`(SqlSource`&`):%- [* Sql]([_^SqlSource^ SqlSource][@(0.0.255) `&]_[*@3 src])&]
-[s2; Создаёт Sql instance associated with session [%-*@3 src]. (SqlSession 
-is derived from SqlSource, which serves some special internal 
-purposes).&]
+[s2; Создаёт Sql instance associated with session [%-*@3 src]. 
+(SqlSession is derived from SqlSource, which serves some special 
+internal purposes).&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:Sql`(`):%- [* Sql]()&]
@@ -333,27 +336,27 @@ purposes).&]
 [s4; &]
 [s5;:Sql`:`:Sql`(const char`*`):%- [* Sql]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 stmt])
 &]
-[s2; Создаёт Sql instance associated with default session and assigns 
-it a statement.&]
+[s2; Создаёт Sql instance associated with default session 
+and assigns it a statement.&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:Sql`(const SqlStatement`&`):%- [* Sql]([@(0.0.255) const]_[_^SqlStatement^ SqlS
 tatement][@(0.0.255) `&]_[*@3 s])&]
-[s2; Создаёт Sql instance associated with default session and assigns 
-it a SqlExp statement.&]
+[s2; Создаёт Sql instance associated with default session 
+and assigns it a SqlExp statement.&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:Sql`(const char`*`,SqlSource`&`):%- [* Sql]([@(0.0.255) const]_[@(0.0.255) char
 ]_`*[*@3 stmt], [_^SqlSource^ SqlSource][@(0.0.255) `&]_[*@3 session])&]
-[s2; Создаёт Sql instance associated with [%-*@3 session] and assigns 
-it a statement.&]
+[s2; Создаёт Sql instance associated with [%-*@3 session] and 
+assigns it a statement.&]
 [s3; &]
 [s4; &]
 [s5;:Sql`:`:Sql`(const SqlStatement`&`,SqlSource`&`):%- [* Sql]([@(0.0.255) const]_[_^SqlStatement^ S
 qlStatement][@(0.0.255) `&]_[*@3 s], [_^SqlSource^ SqlSource][@(0.0.255) `&]_[*@3 session])
 &]
-[s2; Создаёт Sql instance associated with [%-*@3 session] and assigns 
-it a SqlExp statement.&]
+[s2; Создаёт Sql instance associated with [%-*@3 session] and 
+assigns it a SqlExp statement.&]
 [s3; &]
 [s4;%- &]
 [s5;:Sql`:`:PerThread`(bool`):%- [@(0.0.255) static] [@(0.0.255) void]_[* PerThread]([@(0.0.255) b

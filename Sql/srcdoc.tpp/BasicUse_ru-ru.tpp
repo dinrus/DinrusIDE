@@ -1,5 +1,4 @@
-topic "Basic Use and Description";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Основы Использование и Описание";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -25,9 +24,10 @@ topic "Basic Use and Description";
 [b50;a25;*2 $$23,24#10189570498413014020290115411120:heading2]
 [l25;b25;a25;R2 $$24,24#24747716437513346533020414014942:text2]
 [l25;b25;a25;*/+75 $$25,25#14962814463678751281510843401240:code`_header]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
 [s3; U`+`+ SQL&]
-[s22; Basic Use and Description&]
+[s22; Основы Использование и Описание&]
 [s24; For this section, the example used will be oriented to PostgreSQL 
 use. See the SQL example packages provided in the Upp examples 
 for using MySQL and SQLite as well.&]

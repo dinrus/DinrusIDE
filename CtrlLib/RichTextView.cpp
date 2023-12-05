@@ -402,7 +402,12 @@ RichTextView& RichTextView::Background(Color c)
 
 RichTextView& RichTextView::TextColor(Color _color)
 {
-	textcolor = _color;
+	if(_color == White)
+	{
+		textcolor =  Color(198, 212, 0);
+	}
+	else
+	 textcolor = _color;
 	Refresh();
 	return *this;
 }

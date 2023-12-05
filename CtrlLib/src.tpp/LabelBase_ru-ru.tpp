@@ -41,31 +41,36 @@ topic "Класс LabelBase - основные процедуры с ярлык�
 [s0; &]
 [s5;:DeAmp`(const char`*`):%- [_^String^ String]_[* DeAmp]([@(0.0.255) const]_[@(0.0.255) cha
 r]_`*[*@3 s])&]
-[s2; This routine escapes all occurrences of `'`&`' character in 
-source string with `"`&`&`" string to avoid using it as access`-key 
-flag.&]
-[s7; [%-*C@3 s]-|Input string.&]
-[s7; [*/ Возвратное значение]-|Escaped string.&]
+[s2; Эта процедура эскапирует все случаи 
+символа `'`&`' в исходной строке строкой 
+`"`&`&`", чтобы избежать его использования 
+в качестве флага access`-key.&]
+[s7; [%-*C@3 s]-|Вводная строка.&]
+[s7; [*/ Возвратное значение]-|Эскапированная 
+строка.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetSmartTextSize`(const char`*`,Font`,int`):%- [_^Size^ Size]_[* GetSmartTextSize]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 text], [_^Font^ Font]_[*@3 font]_`=_StdFont(), 
 [@(0.0.255) int]_[*@3 cx]_`=_INT`_MAX)&]
-[s2; Возвращает the minimal size of SmartText. If text 
-is multi`-paragraph QTF text, width of text is the width of widest 
-paragraph without doing any line breaks (paragraphs are formatted 
-for infinite width).&]
+[s2; Возвращает минимальный размер SmartText`'а. 
+Если это многопараграфный текст QTF, 
+ширина текста равна ширине самого 
+широкого параграфа без выполнения 
+разрывов строки (параграфы форматированы 
+на бесконечную ширину).&]
 [s7; [%-*C@3 w]-|Draw.&]
-[s7; [%-*C@3 text]-|SmartText string.&]
-[s7; [%-*C@3 font]-|Font for non`-QTF text.&]
-[s7; [*/ Возвратное значение]-|Size of SmartText.&]
+[s7; [%-*C@3 text]-|Строка SmartText`'а.&]
+[s7; [%-*C@3 font]-|Шрифт для не`-QTF текста.&]
+[s7; [*/ Возвратное значение]-|Размер SmartText`'а.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetSmartTextHeight`(const char`*`,int`,Font`):%- [@(0.0.255) int]_[* GetSmartTextHei
 ght]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s], [@(0.0.255) int]_[*@3 cx], 
 [_^Font^ Font]_[*@3 font]_`=_StdFont())&]
-[s2; Возвращает the height of given SmartText for given 
-width. QTF paragraphs are formatted for this width.&]
+[s2; Возвращает высоту заданного SmartText`'а 
+для заданной ширины. Параграфы QTF 
+форматируются под эту ширину.&]
 [s7; [%-*C@3 w]-|Draw.&]
 [s7; [%-*C@3 s]-|SmartText string.&]
 [s7; [%-*C@3 cx]-|Required width.&]
@@ -264,7 +269,7 @@ changes.&]
 [s5;:LabelBase`:`:SetLeftImage`(const Image`&`,int`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&
 ]_[* SetLeftImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 bmp1], 
 [@(0.0.255) int]_[*@3 spc]_`=_[@3 0])&]
-[s2; Устанавливаетthe left image.&]
+[s2; Устанавливает рисунок слева.&]
 [s7; [%-*C@3 bmp1]-|Image.&]
 [s7; [%-*C@3 spc]-|Space between left image and text. If Null, image 
 is placed at left size of Label.&]
@@ -273,7 +278,7 @@ is placed at left size of Label.&]
 [s4;%- &]
 [s5;:LabelBase`:`:SetPaintRect`(const PaintRect`&`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&
 ]_[* SetPaintRect]([@(0.0.255) const]_[_^PaintRect^ PaintRect][@(0.0.255) `&]_[*@3 pr])&]
-[s2; УстанавливаетPaintRect to be drawn behind or instead 
+[s2; Устанавливает PaintRect to be drawn behind or instead 
 of label text.&]
 [s7; [%-*C@3 pr]-|PaintRect&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
@@ -281,21 +286,21 @@ of label text.&]
 [s4;%- &]
 [s5;:LabelBase`:`:SetText`(const char`*`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* Set
 Text]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text])&]
-[s2; Устанавливаетtext of the label.&]
+[s2; Устанавливает текст ярлыка.&]
 [s7; [%-*C@3 text]-|Text.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:SetFont`(Font`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* SetFont]([_^Font^ F
 ont]_[*@3 font])&]
-[s2; Устанавливаетfont of non`-QTF text.&]
+[s2; Устанавливает шрифт не`-QTF текста.&]
 [s7; [%-*C@3 font]-|Font.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:SetInk`(Color`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* SetInk]([_^Color^ C
 olor]_[*@3 color])&]
-[s2; Устанавливаетthe color of non`-QTF text .&]
+[s2; Устанавливает цвет не`-QTF текста .&]
 [s7; [%-*C@3 color]-|Color.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
@@ -303,7 +308,7 @@ olor]_[*@3 color])&]
 [s5;:LabelBase`:`:SetRightImage`(const Image`&`,int`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&
 ]_[* SetRightImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 bmp2], 
 [@(0.0.255) int]_[*@3 spc]_`=_[@3 0])&]
-[s2; Устанавливаетthe right image.&]
+[s2; Устанавливает рисунок справа.&]
 [s7; [%-*C@3 bmp2]-|Image.&]
 [s7; [%-*C@3 spc]-|Space between left image and text. If Null, image 
 is placed at left size of Label.&]
@@ -312,7 +317,8 @@ is placed at left size of Label.&]
 [s4;%- &]
 [s5;:LabelBase`:`:SetAlign`(int`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* SetAlign]([@(0.0.255) i
 nt]_[*@3 align])&]
-[s2; Устанавливаетhorizontal alignment.&]
+[s2; Устанавливает горизонтальную разлиновку 
+(alignment).&]
 [s7; [%-*C@3 align]-|One of ALIGN`_LEFT, ALIGN`_RIGHT or ALIGN`_CENTER.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
@@ -333,7 +339,7 @@ nt]_[*@3 align])&]
 [s4;%- &]
 [s5;:LabelBase`:`:SetVAlign`(int`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* SetVAlign](
 [@(0.0.255) int]_[*@3 align])&]
-[s2; Устанавливаетvertical alignment.&]
+[s2; Устанавливает вертикальную разлиновку.&]
 [s7; [%-*C@3 align]-|One of ALIGN`_TOP, ALIGN`_BOTTOM or ALIGN`_CENTER.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s5; &]
@@ -364,29 +370,32 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:GetAlign`(`)const:%- [@(0.0.255) int]_[* GetAlign]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|Current horizontal 
-alignment.&]
+[s7; [*/ Возвратное значение]-|Текущая горизонтальн
+ая разлиновка.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:GetVAlign`(`)const:%- [@(0.0.255) int]_[* GetVAlign]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|Current vertical alignment.&]
+[s7; [*/ Возвратное значение]-|Текущая вертикальная
+ разлиновка.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:GetPaintRect`(`)const:%- [_^PaintRect^ PaintRect]_[* GetPaintRect]()_[@(0.0.255) c
 onst]&]
-[s7; [*/ Возвратное значение]-|Current PaintRect.&]
+[s7; [*/ Возвратное значение]-|Текущий PaintRect.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:GetText`(`)const:%- [_^String^ String]_[* GetText]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|Current label text.&]
+[s7; [*/ Возвратное значение]-|Текущий текст 
+ярлыка.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:GetFont`(`)const:%- [_^Font^ Font]_[* GetFont]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|Current font.&]
+[s7; [*/ Возвратное значение]-|Текущий шрифт.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:GetInk`(`)const:%- [_^Color^ Color]_[* GetInk]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|Current text color.&]
+[s7; [*/ Возвратное значение]-|Текущий цвет 
+текста.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:PaintLabel`(Draw`&`,const Rect`&`,bool`,bool`,bool`,bool`):%- [_^Size^ S
@@ -394,7 +403,7 @@ ize]_[* PaintLabel]([_^Draw^ Draw][@(0.0.255) `&]_[*@3 w], [@(0.0.255) const]_[_
 ]_[*@3 r], [@(0.0.255) bool]_[*@3 disabled]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*@3 pus
 h]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*@3 focus]_`=_[@(0.0.255) false], 
 [@(0.0.255) bool]_[*@3 vak]_`=_[@(0.0.255) true])&]
-[s2; Paints label in the given rectangle.&]
+[s2; Рисует ярлык в заданном прямоугольнике.&]
 [s7; [%-*C@3 w]-|Draw.&]
 [s7; [%-*C@3 r]-|Rectangle.&]
 [s7; [%-*C@3 disabled]-|Disable flag.&]
@@ -410,7 +419,7 @@ ize]_[* PaintLabel]([_^Draw^ Draw][@(0.0.255) `&]_[*@3 w], [@(0.0.255) int]_[*@3
 [@(0.0.255) bool]_[*@3 disabled]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*@3 push]_`=_[@(0.0.255) f
 alse], [@(0.0.255) bool]_[*@3 focus]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*@3 vak]_`=_
 [@(0.0.255) true])&]
-[s2; Paints label in the given rectangle.&]
+[s2; Рисует ярлык в заданном прямоугольнике.&]
 [s7; [%-*C@3 w]-|Draw.&]
 [s7; [%-*C@3 x, y, cx, cy]-|Rectangle.&]
 [s7; [%-*C@3 disabled]-|Disable flag.&]
@@ -422,6 +431,6 @@ alse], [@(0.0.255) bool]_[*@3 focus]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*
 [s4;%- &]
 [s5;:LabelBase`:`:GetLabelSize`(`)const:%- [_^Size^ Size]_[* GetLabelSize]()_[@(0.0.255) co
 nst]&]
-[s7; [*/ Возвратное значение]-|Size of label.&]
+[s7; [*/ Возвратное значение]-|Размер ярлыка.&]
 [s3; &]
 [s0; ]]

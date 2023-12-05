@@ -144,12 +144,12 @@ void AssistEditor::SyncAnnotationPopup()
 		else
 			annotation_popup.SetQTF("[A1 [@b* " + DeQtf(coderef) + "]&Документация ещё не загружена");
 	Rect r = GetLineScreenRect(GetActiveAnnotationLine());
-	int h = annotation_popup.GetHeight(Zx(580));
-	h = min(h, Zx(550));
+	int h = annotation_popup.GetHeight(Zx(380)); //580
+	h = min(h, Zx(350));//550
 	int y = r.top - h - DPI(16);
 	if(y < GetWorkArea().top)
 		y = r.bottom;
-	annotation_popup.SetRect(r.left, y, Zx(600), h + DPI(16));
+	annotation_popup.SetRect(r.left, y, Zx(400), h + DPI(16)); //600
 	annotation_popup.Ctrl::PopUp(this, false, false, true);
 }
 

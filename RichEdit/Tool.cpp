@@ -451,7 +451,7 @@ void RichEdit::StyleKeysTool(Bar& bar)
 
 void RichEdit::HeaderFooterTool(Bar& bar)
 {
-	bar.Add(t_("Заголовочник/Подвал.."), RichEditImg::HeaderFooter(), USERBACK(HeaderFooter));
+	bar.Add(t_("Заголовок/Подвал.."), RichEditImg::HeaderFooter(), USERBACK(HeaderFooter));
 }
 
 void RichEdit::DefaultBar(Bar& bar, bool extended)

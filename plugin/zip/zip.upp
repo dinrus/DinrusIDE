@@ -1,5 +1,7 @@
 description ".zip files support\3770,128,128";
 
+tabsize 4;
+
 file
 	zip.h,
 	Zip.cpp,

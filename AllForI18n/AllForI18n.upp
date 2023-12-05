@@ -1,4 +1,4 @@
-description "This package serves to gather all sources for language localisation\377";
+description "Пакет служит для сбора исходников при языковой локализации\377";
 
 uses
 	CtrlLib,
@@ -14,7 +14,6 @@ uses
 	plugin/bz2,
 	plugin/dbf,
 	plugin/DroidFonts,
-	plugin/Eigen,
 	plugin/ftp,
 	plugin/FT_fontsys,
 	plugin/gif,

@@ -1,5 +1,4 @@
-topic "SqlRaw";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс SqlRaw";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [H4;b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -23,14 +22,19 @@ topic "SqlRaw";
 [b50;2 $$21,21#03324558446220344731010354752573:Par]
 [i448;a25;kKO9;2 $$22,0#37138531426314131252341829483380:structitem]
 [0 $$23,0#96390100711032703541132217272105:end]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
 [s22;:SqlRaw`:`:class:%- [@(0.0.255) class]_[* SqlRaw]_:_[@(0.0.255) public]_[*@3 String], 
 [*@3 ValueType][@(0.0.255) <][* SqlRaw], SQLRAW`_V[@(0.0.255) >]_&]
-[s6; This type represents a string with binary data. It is required 
-because otherwise Sql interface would be unable to tell which 
-sql statement parameters should be treated as regular texts and 
-which parameters are raw binary data (to be stored into raw binary 
-data columns).&]
-[s6; Note that only input parameters `- values in Insert/Update statements 
-`- can be SqlRaw. When fetching data from database, normal String 
-values are returned for binary columns.]]
+[s6; Этот тип представляет строку с двоичными 
+данными. Он необходим, так как иначе 
+интерфейс Sql не мог бы разобраться, 
+какие параметры иструкции sql понимать 
+как обычный текст, а еаеие являются 
+сырыми двоичными данными (сохраняемыми 
+в колонки сырых двоичных данных).&]
+[s6; Заметьте, сто только параметры ввода 
+`- значения в инструкциях Insert/Update `- 
+могут быть SqlRaw. При получении данных 
+из БД, для двоичных колонок возвращаются 
+нормальные значения типа String.]]

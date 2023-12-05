@@ -2,6 +2,8 @@ description "Fundamental SQL classes - session, cursor, SQL language expressions
 
 charset "UTF-8";
 
+tabsize 4;
+
 acceptflags
 	NOAPPSQL;
 

@@ -9,6 +9,7 @@ options(DLL) "-DYAML_CPP_STATIC_DEFINE=1 -Dyaml_cpp_EXPORTS=1";
 options(M_LIB) -DYAML_CPP_STATIC_DEFINE;
 
 file
+	yaml.upp,
 	anchor.h,
 	binary.h,
 	depthguard.h,

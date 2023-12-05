@@ -1,4 +1,4 @@
-topic "SqlExp in examples";
+topic "SqlExp в примерах";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [H4;b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -22,9 +22,10 @@ topic "SqlExp in examples";
 [b50;2 $$21,21#03324558446220344731010354752573:Par]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
-[s2; SqlExp in examples&]
+[s2; SqlExp в примерах&]
 [s0; &]
-[s0; (with compiled results for PostgreSQL dialect)&]
+[s0; (с компилируемыми итогами для диалекта 
+PostgreSQL)&]
 [s0; &]
 [s0; &]
 [ {{4918:5082^ [s0;%- [* SqlExp C`+`+]]

@@ -1,5 +1,4 @@
-topic "struct InetMessage";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Структура InetMessage";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,8 +8,9 @@ topic "struct InetMessage";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 InetMessage]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Структура InetMessage]]}}&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
 [s0;i448;a25;kKO9;:InetMessage`:`:struct: [@(0.0.255)3 struct][3 _][*3 InetMessage]&]
 [s2; This is helper class intended for parsing Pop3 (or generally, 
@@ -25,79 +25,83 @@ too. Parts contain member parent which is the index of multipart
 they belong to.&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* InetMessage`::Part]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* InetMessage`::Part]]}}&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
 [s1;:InetMessage`:`:Part`:`:struct: [@(0.0.255)3 struct][3 _][*3 Part][3 _:_][@(0.0.255)3 public
 ][3 _][*@3;3 Moveable][3 <][*3 Part][3 >_]&]
-[s2;%% This structure contains information about single part of message.&]
+[s2;%RU-RU This structure contains information about single part 
+of message.&]
 [s3; &]
 [s4; &]
 [s5;:InetMessage`:`:Part`:`:parent: [@(0.0.255) int]_[* parent]&]
-[s2;%% Multipart parent of this part. Part 0 has Null here indicating 
+[s2;%RU-RU Multipart parent of this part. Part 0 has Null here indicating 
 that there is no parent.&]
 [s3; &]
 [s4; &]
 [s5;:InetMessage`:`:Part`:`:header: [_^VectorMap^ VectorMap]<[_^String^ String], 
 [_^String^ String]>_[* header]&]
-[s2;%% Headers. Note that keys are lowercased.&]
+[s2;%RU-RU Headers. Note that keys are lowercased.&]
 [s3; &]
 [s4; &]
 [s5;:InetMessage`:`:Part`:`:body: [_^String^ String]_[* body]&]
-[s2;%% Undecoded body. Empty if this is multipart.&]
+[s2;%RU-RU Undecoded body. Empty if this is multipart.&]
 [s3; &]
 [s4; &]
 [s5;:InetMessage`:`:Part`:`:operator`[`]`(const char`*`)const: [_^String^ String]_[* oper
 ator`[`]]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Возвращает the text value of field [%-*@3 id] or empty string if 
-missing.&]
-[s3;%% &]
+[s2;%RU-RU Возвращает the text value of field [%-*@3 id] 
+or empty string if missing.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:InetMessage`:`:Part`:`:Decode`(`)const: [_^String^ String]_[* Decode]()_[@(0.0.255) co
 nst]&]
-[s2;%% Возвращает the body of part. Bodies with transfer encoding base64 
-or quoted`-printable are decoded. Also, if `'content`-type`', 
+[s2;%RU-RU Возвращает the body of part. Bodies with transfer 
+encoding base64 or quoted`-printable are decoded. Also, if `'content`-type`', 
 has `'charset`' section, body is converted to application`'s 
 default encoding (usually utf`-8).&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* InetMessage Public Members List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* InetMessage Public Members List]]}}&]
 [s3; &]
 [s5;:InetMessage`:`:part: [_^Vector^ Vector]<[_^InetMessage`:`:Part^ Part]>_[* part]&]
-[s2;%% Message parts. If parsing (Read) was successful, there is 
-at least part 0 present.&]
+[s2;%RU-RU Message parts. If parsing (Read) was successful, there 
+is at least part 0 present.&]
 [s3; &]
 [s4; &]
 [s5;:InetMessage`:`:Read`(const String`&`): [@(0.0.255) bool]_[* Read]([@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 msg])&]
-[s2;%% Attempts to parse the whole message. Возвращает true on success.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Attempts to parse the whole message. Возвращает 
+true on success.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:InetMessage`:`:ReadHeader`(const String`&`): [@(0.0.255) bool]_[* ReadHeader]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 msg])&]
-[s2;%% Attempts to parse only the message header of the first part. 
-If succesful, there is exactly part 0 present, with empty body.&]
-[s3;%% &]
+[s2;%RU-RU Attempts to parse only the message header of the first 
+part. If succesful, there is exactly part 0 present, with empty 
+body.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:InetMessage`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%% Clears the content (GetCount() will be 0).&]
+[s2;%RU-RU Clears the content (GetCount() will be 0).&]
 [s3; &]
 [s4; &]
 [s5;:InetMessage`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%% Возвращает a number of parts present.&]
+[s2;%RU-RU Возвращает a number of parts present.&]
 [s3; &]
 [s4; &]
 [s5;:InetMessage`:`:operator`[`]`(int`)const: [@(0.0.255) const]_[_^InetMessage`:`:Part^ P
 art][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Возвращает part`[i`].&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Возвращает part`[i`].&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:InetMessage`:`:operator`[`]`(const char`*`)const: [_^String^ String]_[* operator`[`]
 ]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% То же, что и part`[0`]`[[%-*@3 id]`] `- returns the header of whole 
-email.&]
-[s3;%% &]
+[s2;%RU-RU То же, что и part`[0`]`[[%-*@3 id]`] `- returns 
+the header of whole email.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:InetMessage`:`:GetMessage`(`)const: [_^String^ String]_[* GetMessage]()_[@(0.0.255) co
 nst]&]
-[s2;%% Возвращает InetMessage formatted according to RFC822.&]
+[s2;%RU-RU Возвращает InetMessage formatted according to 
+RFC822.&]
 [s3; &]
-[s3;%% ]]
+[s3;%RU-RU ]]

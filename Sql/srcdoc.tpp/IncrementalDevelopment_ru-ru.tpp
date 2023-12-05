@@ -1,4 +1,4 @@
-topic "Incremental Development of Database Models/Schemas";[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Инкрементальная Разработка Моделей/Схем Баз Данных";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -24,9 +24,11 @@ topic "Incremental Development of Database Models/Schemas";[2 $$0,0#000000000000
 [b50;a25;*2 $$23,24#10189570498413014020290115411120:heading2]
 [l25;b25;a25;R2 $$24,24#24747716437513346533020414014942:text2]
 [l25;b25;a25;*/2 $$25,25#14962814463678751281510843401240:code`_header]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
 [s3; U`+`+ SQL&]
-[s22; Incremental Development of Database Models/Schemas&]
+[s22; Инкрементальная Разработка Моделей/Схем 
+Баз Данных&]
 [s25; Creating the database:&]
 [s7; SqlSchema sch(PGSQL);&]
 [s7; All`_Tables(sch);&]
@@ -34,7 +36,7 @@ topic "Incremental Development of Database Models/Schemas";[2 $$0,0#000000000000
 schema (.sch file) definition and store them internally. This 
 function is defined by including the .sch file. It is a sort 
 of .sch interface point. All`_Tables does not execute scripts, 
-it creates them as String'и inside SqlSchema.&]
+it creates them as String`'и inside SqlSchema.&]
 [s25; Checking for changes and executing SQL creation/update/drop 
 scripts:&]
 [s7; StdStatementExecutor se(m`_session);&]
@@ -85,8 +87,8 @@ that updates the progress indicator (optional);&]
 (.exe dir in Win32, `~/.upp/appname in Linux). This function 
 also takes as arguments the directory and base file name of the 
 script files.&]
-[s24;C1 SaveNormal(const char `*dir `= NULL¸ const char `*name `= 
-NULL)&]
+[s24; [C1 SaveNormal(const char `*dir `= NULL¸ const char `*name `= 
+NULL)]&]
 [s24; Note: In some cases, script execution can be blocked in your 
 program if you do not customize the directory location and/or 
 the base`-name of the script files. For example, say you are 
@@ -99,4 +101,4 @@ and schema, this should not be an issue.&]
 [s24; &]
 [s24; &]
 [s24; &]
-[s0; ]
+[s0; ]]

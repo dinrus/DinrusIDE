@@ -88,7 +88,7 @@ void HeaderFooterDlg::Sync()
 
 HeaderFooterDlg::HeaderFooterDlg()
 {
-	CtrlLayoutOKCancel(*this, "Header / Footer");
+	CtrlLayoutOKCancel(*this, "Заглавие / Подвал");
 	use_header <<= use_footer <<= THISBACK(Sync);
 	Sync();
 }

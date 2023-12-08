@@ -23,62 +23,75 @@ FileSel]]}}&]
 [s3;%- &]
 [s5;:SelectFileOpen`(const char`*`):%- [_^String^ String]_[* SelectFileOpen]([@(0.0.255) co
 nst]_[@(0.0.255) char]_`*[*@3 types])&]
-[s2; Selects file for opening, [%-*@3 types] follow rules of [^topic`:`/`/CtrlLib`/src`/FileSel`_ru`-ru`#FileSel`:`:Types`(const char`*`)^ T
-ypes] method of FileSel. If selections is canceled, returns empty 
-String.&]
+[s2; Выбирает файл для открытия, [%-*@3 types] 
+следуют правилам метода [^topic`:`/`/CtrlLib`/src`/FileSel`_ru`-ru`#FileSel`:`:Types`(const char`*`)^ T
+ypes] из FileSel. Если выделенное отменено, 
+возвращается пустая String.&]
 [s3; &]
 [s4; &]
 [s5;:SelectFileSaveAs`(const char`*`):%- [_^String^ String]_[* SelectFileSaveAs]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 types])&]
-[s2; Selects file for saving, [%-*@3 types] follow rules of [^topic`:`/`/CtrlLib`/src`/FileSel`_ru`-ru`#FileSel`:`:Types`(const char`*`)^ T
-ypes] method of FileSel. If selections is canceled, returns empty 
-String.&]
+[s2;~~~3200; Выбирает файл для сохранения, 
+[%-*@3 types] следуют правилам метода [^topic`:`/`/CtrlLib`/src`/FileSel`_ru`-ru`#FileSel`:`:Types`(const char`*`)^ T
+ypes] из FileSel. Если выделенное отменено, 
+возвращается пустая String.&]
 [s3; &]
 [s4;%- &]
 [s5;:SelectDirectory`(`):%- [_^String^ String]_[* SelectDirectory]()&]
-[s2; Selects directory.&]
+[s2; Выбирает директорию.&]
 [s3;%- &]
 [s4; &]
 [s5;:SelectLoadFile`(const char`*`):%- [_^String^ String]_[* SelectLoadFile]([@(0.0.255) co
 nst]_[@(0.0.255) char]_`*[*@3 types])&]
-[s2; Selects file and loads it, [%-*@3 types] follow rules of [^topic`:`/`/CtrlLib`/src`/FileSel`$en`-us`#FileSel`:`:Types`(const char`*`)^ T
-ypes] method of FileSel. If selections is canceled or file cannot 
-be opened, returns empty String`::GetVoid().&]
+[s2; Выбирает файл и загружает егоt,[%-*@3 types] 
+следуют правилам метода [^topic`:`/`/CtrlLib`/src`/FileSel`_ru`-ru`#FileSel`:`:Types`(const char`*`)^ T
+ypes] из FileSel. Если выделенное отменено 
+или файл не может быть открыт, возвращает 
+пустую String`::GetVoid().&]
 [s3; &]
 [s4; &]
 [s5;:SelectSaveFile`(const char`*`,const String`&`):%- [@(0.0.255) bool]_[* SelectSaveFil
 e]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 types], [@(0.0.255) const]_[_^String^ String
 ][@(0.0.255) `&]_[*@3 data])&]
-[s2; Selects file and saves [%-*@3 data] to it, [%-*@3 types] follow 
-rules of [^topic`:`/`/CtrlLib`/src`/FileSel`$en`-us`#FileSel`:`:Types`(const char`*`)^ T
-ypes] method of FileSel. Возвращает true on success.&]
+[s2; Выбирает файл и сохраняет в него 
+[%-*@3 data], [%-*@3 types] следует правилам метода 
+[^topic`:`/`/CtrlLib`/src`/FileSel`$en`-us`#FileSel`:`:Types`(const char`*`)^ Types
+] из FileSel. Возвращает true при успехе.&]
 [s3;%- &]
 [s0;%- &]
 [s0;%- &]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@2 Класс SelectFileIn]]}}&]
-[s9;%- This class inherits FileIn. Its constructor invokes global 
-FileSel and opens selected file for reading:&]
+[s9;%- TЭтот класс наследует от FileIn. Его 
+конструктор вызывает глобальный 
+FileSel и открывает выбранный файл для 
+чтения:&]
 [s0;%- &]
 [s5;:SelectFileIn`:`:SelectFileIn`(const char`*`):%- [* SelectFileIn]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 types])&]
-[s2; [%-*@3 types] follow rules of [^topic`:`/`/CtrlLib`/src`/FileSel`$en`-us`#FileSel`:`:Types`(const char`*`)^ T
-ypes] method of FileSel. In case of any failure (selection is 
-canceled, open fails), the resulting object is not in opened 
-state (can be tested using operator bool).&]
+[s2; [%-*@3 types] следуют правилам метода [^topic`:`/`/CtrlLib`/src`/FileSel`$en`-us`#FileSel`:`:Types`(const char`*`)^ T
+ypes] из FileSel. В случае любого провала 
+(выбор отменён, открытие не удалось), 
+итоговый объект оказывается в неоткрытом 
+состоянии (можно проверить оператором 
+bool).&]
 [s3;%- &]
 [s0;%- &]
 [s0;%- &]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@2 Класс SelectFileOut]]}}&]
-[s9;%- This class inherits FileOut. Its constructor invokes global 
-FileSel and opens selected file for writing:&]
+[s9;%- Этот класс наследует отs FileOut.Его 
+конструктор вызывает глобальный 
+FileSel и открывает выбранный файл для 
+записи:&]
 [s0;%- &]
 [s5;:SelectFileOut`:`:SelectFileOut`(const char`*`):%- [* SelectFileOut]([@(0.0.255) cons
 t]_[@(0.0.255) char]_`*[*@3 types])&]
-[s2; [%-*@3 types] follow rules of [^topic`:`/`/CtrlLib`/src`/FileSel`$en`-us`#FileSel`:`:Types`(const char`*`)^ T
-ypes] method of FileSel. In case of any failure (selection is 
-canceled, open fails), the resulting object is not in opened 
-state (can be tested using operator bool).&]
+[s2; [%-*@3 types] следуют правилам метода [^topic`:`/`/CtrlLib`/src`/FileSel`$en`-us`#FileSel`:`:Types`(const char`*`)^ T
+ypes] из FileSel. В случае любого провала 
+(выбор отменён, открытие не удалось), 
+итоговый объект оказывается в неоткрытом 
+состоянии (можно проверить оператором 
+bool).&]
 [s3;%- &]
 [s0;%- ]]

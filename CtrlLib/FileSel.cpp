@@ -1996,6 +1996,28 @@ bool FileSel::Execute(int _mode) {
 	}
 	if(default_name.GetCount() && mode == SAVEAS)
 		file <<= default_name;
+
+	force_ext = mode == SAVEAS;
+	allowed_ext.Clear();
+	for(String mm : mask) {
+		if(!force_ext)
+			break;
+		for(String m : Split(mm, ' ')) {
+			if(!force_ext)
+				break;
+			int q = m.Find('.');
+			if(q < 0)
+				force_ext = false;
+			else {
+				m = m.Mid(q + 1);
+				if(m.Find('*') >= 0 || m.Find('?') >= 0)
+					force_ext = false;
+				else
+					allowed_ext.FindAdd(m);
+			}
+		}
+	}
+
 	FileUpdate();
 	Update();
 	int c = TopWindow::Run(appmodal);

@@ -333,7 +333,7 @@ PdfDraw::CGlyph PdfDraw::ColorGlyph(Font fnt, int chr)
 
 	Image m[2];
 	for(int i = 0; i < 2; i++)
-		m[i] = RenderGlyph(cg.sz.cx, cg.x, fnt, chr, 0, cg.sz.cy, Blue(), i ? Black() : White());
+		m[i] = RenderGlyph(cg.sz.cx, cg.x, fnt, chr, 0, cg.sz.cy, Blue(), i ? Black() : LtGreen());
 	Image cm = RecreateAlpha(m[0], m[1]);
 	cg.image = PdfImage(cm, cm.GetSize());
 	color_glyph.Add(key, cg);
@@ -465,7 +465,7 @@ PdfDraw::RGlyph PdfDraw::RasterGlyph(Font fnt, int chr)
 	if(false) {
 		Image m[2];
 		for(int i = 0; i < 2; i++)
-			m[i] = RenderGlyph(rg.sz.cx, rg.x, fnt, chr, 0, rg.sz.cy, Blue(), i ? Black() : White());
+			m[i] = RenderGlyph(rg.sz.cx, rg.x, fnt, chr, 0, rg.sz.cy, Blue(), i ? Black() : LtGreen());
 		Image cm = RecreateAlpha(m[0], m[1]);
 		rg.color_image = PdfImage(cm, cm.GetSize());
 	}
@@ -477,7 +477,7 @@ PdfDraw::RGlyph PdfDraw::RasterGlyph(Font fnt, int chr)
 		int y = 0;
 		while(y < rg.sz.cy) {
 			int ccy = min(16, rg.sz.cy - y);
-			Image m = RenderGlyph(rg.sz.cx, rg.x, fnt, chr, y, ccy, Black(), White());
+			Image m = RenderGlyph(rg.sz.cx, rg.x, fnt, chr, y, ccy, Black(), LtGreen());
 			for(int i = 0; i < m.GetHeight(); i++) {
 				fmt.Write(ob, m[i], rg.sz.cx, NULL);
 				rg.data.Cat((const char *)~ob, linebytes);

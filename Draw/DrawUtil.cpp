@@ -340,7 +340,7 @@ void DrawDragLine(Draw& w, bool horz, int x, int y, int len, int n, const int *p
 	else
 		w.Clip(x, y, n, len);
 	
-	Color color2 = IsDark(color) ? White() : Black();
+	Color color2 = IsDark(color) ? LtGreen() : Black();
 	(horz ? x : y) -= animation;
 	len += animation;
 	bool ch = false;

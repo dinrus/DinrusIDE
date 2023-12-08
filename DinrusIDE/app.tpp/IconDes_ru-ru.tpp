@@ -37,7 +37,7 @@ topic "Дизайнер Иконок";
 рока об изображениях].&]
 [s2;:2: [@(128.0.255) 2. Фундаментальные Элементы 
 управления]&]
-[s3; НИже располагается список схемы 
+[s3; Ниже располагается список схемы 
 элементов управления Дизайнера Иконок:&]
 [s0; &]
 [ {{3462:6538 [s3; [* Левая кнопка мыши]]
@@ -61,7 +61,7 @@ topic "Дизайнер Иконок";
 [s3; 
 @@image:118&118
 (AxMAEwAAAAAAAAAAAHice/PyxpsRgxoYGOBsBjAgUhcEIQsS1AtRj0wia2TAEMHjVKzqcTmgAUOcoF0ENRJvI3KokupH8uKRJAPxKMCvF54GcCEq+oIWumiBAOu9VuA=)
- иконка масштабируется в 3 раза, повторяя 
+ Иконка масштабируется в 3 раза, повторяя 
 пиксели:&]
 [s0;= [* 
 @@image:725&731
@@ -72,7 +72,7 @@ topic "Дизайнер Иконок";
 ]&]
 [s3; После отрисовки детального контента, 
 появляется смягчённый вид, если ремасштабир
-овать вниз с помощью 
+овать вниз (уменьшить) с помощью 
 @@image:100&100
 (BBAAEAAAAAAAAAAAAHicrZLRCQAgCERvM6do/1GMIENIRVRB/Ijn3ZHAdK0FMPfYMyt12Gx39KN8mfzfO9+mmAv16e6Y4LUXY6/JWwzBzJXy77Ap3tGXv9XzeddaTn5hpCt32r3x2dpmDFha)
 :&]
@@ -92,18 +92,18 @@ topic "Дизайнер Иконок";
 [s3; 
 @@image:100&100
 (BBAAEAAAAAAAAAAAAHicY2AYeKDFwBDawMDwH0RDhQqB+D8U2xOjF4ahZsDMsYeagRPA9CDTSNLI+v/jM7cBuz3I7rdH4mP4C4v+VVCMDLDqxaKfkF5C9v9Hw7j8gs/9JAFC+htQ0wfJ+rGkMRRQj5SGCGF89pBrPyFAiV58AAD5t0q5)
- и
+ и 
 @@image:100&100
 (BBAAEAAAAAAAAAAAAHicrZIBCsAgDAPzs77Ch+xb+6Sj0LK6ReesgSAoVxstsFulALXmWF1XpOysM/eP8s3kb84P3TDLmKO89ypW4y/vinzshdSlPGMENNeLP82sH/ImDf/Fhhr+t3HF070suBn3ypxmZ3yvLjutWws=)
- предрставляют идентичные функции 
+ предоставляют идентичные функции 
 двукратного масштабирования.&]
-[s3; 
+[s3; Кнопка 
 @@image:100&100
 (BBAAEAAAAAAAAAAAAHicY2AY8uA/ERiXOrC4zP//ODEudeTqZ2hggGAy9MP14tGPoqaBOP9j6MGuH3f4E6cf3V6S9aOFB0I/6fE/CqAAADJ3voA=)
- кнопка активирует `"суперсэмплированный 
+ активирует `"суперсэмплированный 
 предпросмотр`" `- в добавок к реальному 
 размеру, предпросмотр также показывает 
-2x и 3x вниз`-масштабированные (уменьшенные) 
+двукратно и трёхкратно уменьшенные 
 рисунки.&]
 [s2;:4: [@(128.0.255) 4. Интерполяция]&]
 [s3; Интерполяция 

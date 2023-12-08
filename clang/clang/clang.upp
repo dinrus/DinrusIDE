@@ -1,0 +1,9 @@
+tabsize 4;
+
+uses
+	DinrusLLVM/clang,
+	DinrusLLVM/openmp;
+
+file
+	clang.cpp;
+

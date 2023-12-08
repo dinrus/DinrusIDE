@@ -75,7 +75,7 @@ void SelectPackageDlg::RenamePackage(bool duplicate)
 	if(IsNull(n))
 		return;
 again:
-	if(!EditText(n, duplicate ? "Дублировать пакет:" : "Периментовать пакет", "Имя", FilterPackageName))
+	if(!EditText(n, duplicate ? "Дублировать пакет:" : "Переименовать пакет", "Имя", FilterPackageName))
 		return;
 	if(!RenamePackageFs(PackagePath(GetCurrentName()), n, duplicate))
 		goto again;

@@ -39,7 +39,7 @@ String]_`&[*@3 biosSerial])&]
 [* GetProcessorInfo]([@(0.0.255) int]_[*@3 number], [_^String^ String]_`&[*@3 vendor], 
 [_^String^ String]_`&[*@3 identifier], [_^String^ String]_`&[*@3 architecture], 
 [@(0.0.255) int]_`&[*@3 speed])&]
-[s2; Возвращает инофрмацию о разных ядрах 
+[s2; Возвращает информацию о разных ядрах 
 ЦПБ (центрального процессорного блока).&]
 [s2; [%-*@3 number] `- номер ядра, о котором нужно 
 получить инфу&]
@@ -120,14 +120,15 @@ GetAdapterInfo().&]
 [s4;%- &]
 [s5;:GetAdapterInfo`(`):%- [_^Array^ Array]_<[_^NetAdapter^ NetAdapter]>_[* GetAdapterInfo](
 )&]
-[s0;l288; Gets an array of type NetAdapter with all the network adapters 
-installed.&]
-[s0;l288; NetAdapter contains:&]
-[s0;l288;i150;O0;~~~1280; String description:-|Adapter description&]
-[s0;l288;i150;O0;~~~1280; String fullname:-|Adapter name&]
-[s0;l288;i150;O0;~~~1280; String mac:-|Adapter MAC address if available&]
-[s0;l288;i150;O0;~~~1280; String type;-|Adapter type. Some of the 
-included types are:&]
+[s0;l288; Получает массив типа NetAdapterсо всеми 
+установленными сететвыми адаптерами.&]
+[s0;l288; NetAdapter содержит:&]
+[s0;l288;i150;O0;~~~1280; String description:-|Описание адаптера&]
+[s0;l288;i150;O0;~~~1280; String fullname:-|Имя адаптера&]
+[s0;l288;i150;O0;~~~1280; String mac:-|MAC`-адрес адаптера, 
+если доступен&]
+[s0;l288;i150;O0;~~~1280; String type;-|Тип адаптера. Некоторые 
+из включаемых типов:&]
 [s0;l448;i150;O1;~~~1280~1856; `"ETHERNET`"-|-|Ethernet&]
 [s0;l448;i150;O1;~~~1280~1856; `"TOKENRING`"-|-|Token Ring&]
 [s0;l448;i150;O1;~~~1280~1856; `"MODEM`"-|-|Point to Point Protocol&]
@@ -140,19 +141,21 @@ included types are:&]
 [s4;%- &]
 [s5;:GetNetworkInfo`(String`&`,String`&`):%- [@(0.0.255) bool]_[* GetNetworkInfo]([_^String^ S
 tring]_`&[*@3 name], [_^String^ String]_`&[*@3 domain])&]
-[s2; Возвращает the local computer network [%-*@3 name] and 
-[%-*@3 domain].&]
+[s2; Возвращает имя [%-*@3 name] и домен [%-*@3 domain 
+]локальной компьютерной сети.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetAvailableSocketPort`(int`):%- [@(0.0.255) int]_[* GetAvailableSocketPort]([@(0.0.255) i
 nt]_[*@3 from]_`=_[@3 49152])&]
-[s2; Возвращает the first available socket port from [%-*@3 from] 
-or Null if there is an error.&]
+[s2; Возвращает первый доступный порт 
+сокета [%-*@3 from] или Null, в случае ошибки.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetHDSerial`(`):%- [@(0.0.255) String]_[* GetHDSerial]()&]
-[s2; Возвращает the hard disk physical [%-*@3 serial ]number 
-or Null. This code is not affected by disk formatting.&]
+[s2; Возвращает серийный номер [%-*@3 serial 
+][%- физического жёсткого диска или] 
+Null. Форматирование диска на этот код 
+не влияет.&]
 [s6; Доступно только в Windows&]
 [s3; &]
 [s4;%- &]
@@ -161,14 +164,16 @@ ool]_[* GetMemoryInfo]([@(0.0.255) int]_`&[*@3 memoryLoad], [_^uint64^ uint64]_`
 Phys], [_^uint64^ uint64]_`&[*@3 freePhys], [_^uint64^ uint64]_`&[*@3 totalPageFile], 
 [_^uint64^ uint64]_`&[*@3 freePageFile], [_^uint64^ uint64]_`&[*@3 totalVirtual], 
 [_^uint64^ uint64]_`&[*@3 freeVirtual])&]
-[s2; Gets information about the system memory:&]
-[s2; [%-*@3 memoryLoad ]is the percent of memory in use&]
-[s2; [%-*@3 totalPhys ]is the total physical memory&]
-[s2; [%-*@3 freePhys] is the free physical memory&]
-[s2; [%-*@3 totalPageFile ]is the total paging file&]
-[s2; [%-*@3 freePageFile ]is the free paging file&]
-[s2; [%-*@3 totalVirtual ]is the total virtual memory&]
-[s2; [%-*@3 freeVirtual ]is the free virtual memory.&]
+[s2; Собирает информацию о системной 
+памяти:&]
+[s2; [%-*@3 memoryLoad ]процент используемой памяти&]
+[s2; [%-*@3 totalPhys ]всего физической памяти&]
+[s2; [%-*@3 freePhys] свободно физической памяти&]
+[s2; [%-*@3 totalPageFile ]всего файла пейджинга&]
+[s2; [%-*@3 freePageFile ]iсвободно файла пейджинга 
+(подкачки)&]
+[s2; [%-*@3 totalVirtual ]всего виртуальной памяти&]
+[s2; [%-*@3 freeVirtual ]свободно виртуальной памяти.&]
 [s3; &]
 [s3; &]
 [s4;%- &]
@@ -177,15 +182,18 @@ ool]_[* GetOsInfo]([_^String^ String]_`&[*@3 kernel], [_^String^ String]_`&[*@3 
  [_^String^ String]_`&[*@3 kerArchitecture], [_^String^ String]_`&[*@3 distro], 
 [_^String^ String]_`&[*@3 distVersion], [_^String^ String]_`&[*@3 desktop], 
 [_^String^ String]_`&[*@3 deskVersion])&]
-[s2; Gets many information to identify the operating system and Desktop 
-where the application is being run. &]
-[s2; [%-*@3 kernel]: Kernel name&]
-[s2; [%-*@3 kerVersion]: Kernel version&]
-[s2; [%-*@3 kerArchitecture]: Kernel architecture&]
-[s2; [%-*@3 distro]: Distro name&]
-[s2; [%-*@3 distVersion]: Distro version&]
-[s2; [%-*@3 desktop]: Desktop manager name&]
-[s2; [%-*@3 deskVersion].: Desktop manager version&]
+[s2; Собирает информацию идентифицирующую 
+операционную систему и Desktop (рабочий 
+стол), на котором выполняется приложение. 
+&]
+[s2; [%-*@3 kernel]: Имя ядра&]
+[s2; [%-*@3 kerVersion]: Версия ядра&]
+[s2; [%-*@3 kerArchitecture]:Архитектура ядра&]
+[s2; [%-*@3 distro]: Имя дистрибутива&]
+[s2; [%-*@3 distVersion]: Версия дистрибутива&]
+[s2; [%-*@3 desktop]: Имя менеджера рабочего стола 
+(МРС)&]
+[s2; [%-*@3 deskVersion].: Версия МРС&]
 [s3;%- &]
 [s4;%- &]
 [s5;:GetDriveSpace`(String`,uint64`&`,uint64`&`,uint64`&`):%- [@(0.0.255) bool]_[* GetDri
@@ -229,21 +237,23 @@ iningMin])&]
 connected to the grid, [%-*@3 percentage] of charging where 100% 
 means full charge, and number of expected computer running minutes 
 in [%-*@3 remainingMin].&]
-[s2; Возвращает true, если the values got are valid.&]
+[s2; Возвращает true, если полученные значения 
+`"адекватны`".&]
 [s3; &]
 [s4;%- &]
 [s5;:GetBatteryInfo`(bool`&`):%- [@(0.0.255) bool]_[* GetBatteryInfo]([@(0.0.255) bool]_`&[*@3 p
 resent]_)&]
 [s2; Gets if battery is [%-*@3 present ]or not.&]
-[s2; Возвращает true, если the values got are valid.&]
+[s2; Возвращает true, если полученные значения 
+`"адекватны`".&]
 [s3; &]
 [s4;%- &]
 [s5;:OpenCDTray`(`):%- [@(0.0.255) void]_[* OpenCDTray]()&]
-[s2; Ejects CD/DVD tray.&]
+[s2; Извлекает трэй CD/DVD.&]
 [s3; &]
 [s4;%- &]
 [s5;:CloseCDTray`(`):%- [@(0.0.255) void]_[* CloseCDTray]()&]
-[s2; Closes CD/DVD tray if possible&]
+[s2; Закрывает трэй CD/DVD, если он открыт&]
 [s3;@(0.0.255)%- &]
 [s0;%- &]
 [ {{10000@1 [s0; [* Обработка процесса]]}}&]
@@ -265,23 +275,26 @@ info as:&]
 [s3; &]
 [s4;%- &]
 [s5;:GetWindowsList`(`):%- [_^Array^ Array]<[@(0.0.255) int64]>_[* GetWindowsList]()&]
-[s2; Gets an array with handles to all the opened windows.&]
+[s2; Получает массив с хэндлами всех открытых 
+окон.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:GetProcessList`(Array`<int64`>`&`,Array`<String`>`&`):%- [@(0.0.255) bool]_[* GetPro
 cessList]([_^Array^ Array]<[@(0.0.255) int64]>_`&[*@3 pid], [_^Array^ Array]<[_^String^ Str
 ing]>_`&[*@3 pNames])&]
-[s2; Gets arrays with handles to all the opened processes [%-*@3 pid 
-]and process names [%-*@3 pNames].&]
+[s2; Получает массив с хэндлами всех открытых 
+процессов [%-*@3 pid ]и имена процессов 
+[%-*@3 pNames].&]
 [s3; &]
 [s4;%- &]
 [s5;:GetProcessList`(`):%- [_^Array^ Array]<[@(0.0.255) int64]>_[* GetProcessList]()&]
-[s2; Gets an array with handles to all the opened processes&]
+[s2; Получает массив с хэндлами всех открытых 
+процессов&]
 [s3;%- &]
 [s4;%- &]
 [s5;:GetProcessName`(int64`):%- [_^String^ String]_[* GetProcessName]([@(0.0.255) int64]_[*@3 p
 id])&]
-[s2; Возвращает the process name for a process with handle 
+[s2; Возвращает имя процесса с хэндлом 
 [%-*@3 pid].&]
 [s3; &]
 [s4;%- &]

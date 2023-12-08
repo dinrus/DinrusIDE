@@ -519,7 +519,7 @@ Rect MultiButton::Paint0(Draw& w, bool getcr)
 			}
 			else
 				if(!right) p.x += style->roff;
-				
+
 			Color ink = frm ? style->fmonocolor[st] : style->monocolor[st];
 			if(b.monoimg || IsNull(b.img))
 				w.DrawImage(p.x, p.y, m, ink);
@@ -591,9 +591,7 @@ Rect MultiButton::Paint0(Draw& w, bool getcr)
 			v = error;
 			text = style->error;
 		}
-		display->Paint(w, cr, v,
-		               IsShowEnabled() ? text : SColorDisabled,
-		               paper, f ? Display::CURSOR : Display::FOCUS|Display::CURSOR);
+		display->Paint(w, cr, v, IsShowEnabled() ? text : SColorDisabled, paper, f * Display::FOCUS);
 		w.End();
 	}
 	if(!frm && HasFocus())

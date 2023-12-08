@@ -41,6 +41,7 @@ link(ASTRA) -DASTRA;
 
 file
 	IDE readonly separator,
+	DinrusIDE.upp,
 	DinrusIDE.h options(BUILDER_OPTION) PCH,
 	version.h,
 	UppDlg.h,
@@ -105,7 +106,7 @@ file
 	MacroManager.cpp,
 	SetupSVN.cpp,
 	Upgrade.cpp,
-	UppHub.cpp,
+	DinrusHub.cpp,
 	Compile readonly separator,
 	MethodsCtrls.h,
 	MethodsCtrls.cpp,

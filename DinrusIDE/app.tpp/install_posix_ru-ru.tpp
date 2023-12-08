@@ -7,19 +7,23 @@ topic "Установка Тарболла U++ на POSIX/X11";
 [ $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [s1; Установка U`+`+ на POSIX&]
-[s2; U`+`+ for POSIX (OpenBSD, FreeBSD) comes as single sandboxed 
-archive. After downloading, you need to unpack this archive to 
-suitable location with&]
+[s2; U`+`+ для POSIX (OpenBSD, FreeBSD) находится в 
+одном `"запечатанном`" `- sandboxed `- архиве. 
+После загрузки, этот архив распаковывается 
+в удобном месте командой&]
 [ {{10000G1@7 [s4; tar xf upp`-posix`-[/ 14411].tar.xz]}}&]
-[s2; (replace [/ 14411] with the revision you have downloaded). Of 
-course, you can use your desktop environment desktop GUI utility 
-as well.&]
-[s2; This will produce `"upp`" folder full of files.&]
+[s2; (замените [/ 14411] номерацией загруженной 
+версии). Конечно же, можно использовать 
+и десктопные утилиты для распаковки.&]
+[s2; Это породит папку `"upp`", заполненную 
+файлами. Делаем команду,&]
 [ {{10000G1@7 [s4; cd upp]}}&]
-[s2; to get into it. Now you have two options:&]
-[s2;l128;i150;O0; Use [* ./install] script that should resolve all 
-dependencies build DinrusIDE as fast as possible (usually the 
-process takes a couple of minutes).&]
+[s2; чтобы попасть в неё. Теперь у нас 
+два варианта:&]
+[s2;l128;i150;O0; Использовать сценарий [* ./install], 
+который разрешит все зависимости 
+постройки программы в короткие сроки 
+(обычно около пары минут).&]
 [s2;l128;i150;O0; Resolve dependecies yourself and use [* make] to 
 build [*/ DinrusIDE ](there is no [/ ./configure] or [/ make install], 
 it is not necessarry). Even if you do this, peeking into [* ./install] 

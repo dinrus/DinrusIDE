@@ -11,7 +11,6 @@
 { K_UP, NSUpArrowFunctionKey },
 { K_RIGHT, NSRightArrowFunctionKey },
 { K_DOWN, NSDownArrowFunctionKey },
-{ K_INSERT, NSInsertFunctionKey },
 { K_DELETE, NSDeleteFunctionKey },
 { K_F1, NSF1FunctionKey },
 { K_F2, NSF2FunctionKey },

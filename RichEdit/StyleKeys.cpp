@@ -20,14 +20,14 @@ public:
 
 StyleKeysDlg::StyleKeysDlg()
 {
-	CtrlLayoutOKCancel(*this, "Styling keys");
+	CtrlLayoutOKCancel(*this, "Клавиши стилистики");
 	
-	list.AddColumn("Key");
-	list.AddColumn("Paragraph style");
-	list.AddColumn("Font");
-	list.AddColumn("Height");
-	list.AddColumn("Ink");
-	list.AddColumn("Paper");
+	list.AddColumn("Клавиша");
+	list.AddColumn("Стиль Параграфа");
+	list.AddColumn("Шрифт");
+	list.AddColumn("Высота");
+	list.AddColumn("Чернила");
+	list.AddColumn("Бумага");
 	list.SetLineCy(EditField::GetStdHeight() + 4);
 	list.NoHorzGrid().EvenRowColor().NoCursor();
 	list.ColumnWidths("117 160 160 75 90 90");

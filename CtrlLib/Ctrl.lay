@@ -1,34 +1,34 @@
 LAYOUT(EditStringLayout, 396, 68)
-	ITEM(Upp::Label, lbl, SetLabel(t_("Тестировать")).LeftPosZ(4, 128).TopPosZ(8, 19))
-	ITEM(Upp::EditString, text, HSizePosZ(136, 8).TopPosZ(8, 19))
+	ITEM(Upp::Label, lbl, SetLabel(t_("Тестировать")).LeftPosZ(4, 60).TopPosZ(8, 19))
+	ITEM(Upp::EditString, text, HSizePosZ(72, 8).TopPosZ(8, 19))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).HCenterPosZ(64, 90).BottomPosZ(8, 24))
 	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(8, 64).BottomPosZ(8, 24))
 END_LAYOUT
 
 LAYOUT(EditIntLayout, 236, 62)
-	ITEM(Upp::Label, lbl, SetLabel(t_("Тестировать")).LeftPosZ(4, 96).TopPosZ(4, 19))
-	ITEM(Upp::EditInt, number, HSizePosZ(104, 4).TopPosZ(4, 19))
+	ITEM(Upp::Label, lbl, SetLabel(t_("Тестировать")).LeftPosZ(4, 56).TopPosZ(4, 19))
+	ITEM(Upp::EditInt, number, HSizePosZ(64, 4).TopPosZ(4, 19))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).HCenterPosZ(64, 14).BottomPosZ(6, 24))
 	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(4, 64).BottomPosZ(6, 24))
 END_LAYOUT
 
 LAYOUT(EditDoubleLayout, 236, 62)
-	ITEM(Upp::Label, lbl, SetLabel(t_("Тестировать")).LeftPosZ(4, 116).TopPosZ(4, 19))
-	ITEM(Upp::EditDouble, number, HSizePosZ(124, 4).TopPosZ(4, 19))
+	ITEM(Upp::Label, lbl, SetLabel(t_("Тестировать")).LeftPosZ(4, 52).TopPosZ(4, 19))
+	ITEM(Upp::EditDouble, number, HSizePosZ(64, 4).TopPosZ(4, 19))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).HCenterPosZ(64, 14).BottomPosZ(6, 24))
 	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(4, 64).BottomPosZ(6, 24))
 END_LAYOUT
 
 LAYOUT(EditDateLayout, 236, 62)
-	ITEM(Upp::Label, lbl, SetLabel(t_("Тестировать")).LeftPosZ(4, 120).TopPosZ(4, 19))
-	ITEM(Upp::DropDate, date, HSizePosZ(128, 8).TopPosZ(4, 19))
+	ITEM(Upp::Label, lbl, SetLabel(t_("Тестировать")).HSizePosZ(4, 180).TopPosZ(4, 19))
+	ITEM(Upp::DropDate, date, HSizePosZ(64, 8).TopPosZ(4, 19))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).HCenterPosZ(64, 10).BottomPosZ(6, 24))
 	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(8, 64).BottomPosZ(6, 24))
 END_LAYOUT
 
 LAYOUT(ProgressLayout, 320, 72)
 	ITEM(Upp::Button, stop, SetLabel(t_("Отмена")).HCenterPosZ(68, 0).BottomPosZ(4, 24))
-	UNTYPED(pi, HSizePosZ(4, 4).TopPosZ(28, 12))
+	UNTYPED(pi, HSizePosZ(4, 4).TopPosZ(24, 16))
 	ITEM(Upp::Label, info, HSizePosZ(4, 4).TopPosZ(4, 20))
 END_LAYOUT
 
@@ -45,15 +45,15 @@ LAYOUT(SimpleSelectLayout, 172, 184)
 END_LAYOUT
 
 LAYOUT(FileSelectorLayout, 652, 488)
-	ITEM(Upp::Label, dv___0, SetLabel(t_("&Директория")).LeftPosZ(8, 72).TopPosZ(6, 15))
+	ITEM(Upp::Label, dv___0, SetLabel(t_("&Директория:")).LeftPosZ(8, 72).TopPosZ(6, 15))
 	ITEM(Upp::DropList, dir, HSizePosZ(84, 8).TopPosZ(4, 19))
 	ITEM(Splitter, splitter, HSizePosZ(8, 8).VSizePosZ(28, 116))
 	ITEM(Upp::Label, filename, HSizePosZ(8, 208).BottomPosZ(92, 20))
 	ITEM(Upp::Label, filesize, RightPosZ(148, 56).BottomPosZ(92, 20))
 	ITEM(Upp::Label, filetime, RightPosZ(8, 136).BottomPosZ(92, 20))
-	ITEM(Upp::Label, file_lbl, SetLabel(t_("&Файл")).LeftPosZ(8, 76).BottomPosZ(69, 19))
+	ITEM(Upp::Label, file_lbl, SetLabel(t_("&Файл:")).LeftPosZ(8, 76).BottomPosZ(69, 19))
 	ITEM(Upp::EditString, file, HSizePosZ(84, 8).BottomPosZ(69, 19))
-	ITEM(Upp::Label, type_lbl, SetLabel(t_("&Тип")).LeftPosZ(8, 76).BottomPosZ(45, 19))
+	ITEM(Upp::Label, type_lbl, SetLabel(t_("&Тип:")).LeftPosZ(8, 76).BottomPosZ(45, 19))
 	ITEM(Upp::DropList, type, HSizePosZ(84, 152).BottomPosZ(45, 19))
 	ITEM(Upp::EditString, search, RightPosZ(8, 140).BottomPosZ(45, 19))
 	ITEM(Upp::Label, sort_lbl, SetLabel(t_("&Сортировать по")).LeftPosZ(8, 76).BottomPosZ(21, 19))

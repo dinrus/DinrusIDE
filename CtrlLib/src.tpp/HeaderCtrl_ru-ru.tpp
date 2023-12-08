@@ -332,7 +332,7 @@ nt]_[@3 ndx])&]
 [s0; &]
 [s5;K:Upp`:`:HeaderCtrl`:`:StartSplitDrag`(int`):%- [@(0.0.255) void]_[@0 StartSplitDrag](
 [@(0.0.255) int]_[@3 s])&]
-[s2; Начинает тяг `& брос вкладки`-заголовочника 
+[s2; Начинает тяг `& брос вкладки`-заголовка 
 для указанного разрыва вкладки.&]
 [s4; [*C@3 s]-|индекс разрыва (ноль `= левая сторона 
 вкладки 0).&]
@@ -342,15 +342,15 @@ t]_[@3 x])&]
 [s2; Определяет положение разрыва вкладки`-загол
 овочника, соответствующее заданной 
 координате [/ x] (относительно контрола`-заголо
-вочника). Может использоваться родительским
-и контролами для проверки, находится 
+вка). Может использоваться родительскими 
+контролами для проверки, находится 
 ли курсор мывши поверх разрыва вкладки 
 (напр.,. [* ArrayCtrl] использует эту функцию 
 для проверки того, показывать ли ему 
 горизонтальный курсор перемера).&]
 [s4; [*C@3 x]-|горизонтальная пиксельная координата 
 (относительно органичивающего бокса 
-контрола`-заголовочника).&]
+контрола`-заголовка).&]
 [s4; [*/ Возвратное значение]-|индекс разрыва 
 вкладки (в диапазоне `[0..GetCount()`]) или 
 `-1, когда поблизости от заданной точки 
@@ -361,15 +361,14 @@ onst]&]
 [s2; Только в режиме [* Absolute]: возвращает 
 пиксельное смещение, определяющее 
 текущее начало (потенциально промотанного) 
-заголовочника. Для безпромоточных 
-визуальных режимов, эта функция всегда 
-возвращает 0 (в этих режимах левая 
-сторона первой вкладки всегда совпадает 
-с левой стороной родительской области 
-видимости).&]
+заголовка. Для безпромоточных визуальных 
+режимов, эта функция всегда возвращает 
+0 (в этих режимах левая сторона первой 
+вкладки всегда совпадает с левой 
+стороной родительской области видимости).&]
 [s4; [*/ Возвратное значение]-|Число пикселей, 
 на которые в данный момент промотан 
-контрол`-заголовочник в горизонтальном 
+контрол`-заголовок в горизонтальном 
 направлении. Физическая координата 
 [/ x] края вкладки (относительно родительской 
 видимости) может быть вычислена вычитанием 
@@ -380,7 +379,7 @@ onst]&]
 [s5;K:Upp`:`:HeaderCtrl`:`:IsScroll`(`)const:%- [@(0.0.255) bool]_[@0 IsScroll]()_[@(0.0.255) c
 onst]&]
 [s2; Проверяет, находится ли в данное 
-время контрол`-заголовочник в режиме 
+время контрол`-заголовок в режиме 
 промотки (т.е., находится ли он в визуальном 
 режиме [* Absolute] и его общая ширина вкладок 
 превышает текущий размер видимой 
@@ -389,75 +388,85 @@ onst]&]
 получения текущей позиции горизонтальной 
 полосы промотки.&]
 [s4; [*/ Возвратное значение]-|[* true] `= проматываемый 
-заголовочник, [* false ]`= непроматываемый 
-заголовочник.&]
+заголовок, [* false ]`= непроматываемый 
+заголовок.&]
 [s0;3 &]
 [s5;K:Upp`:`:HeaderCtrl`:`:GetHeight`(`)const:%- [@(0.0.255) int]_[@0 GetHeight]()_[@(0.0.255) c
 onst]&]
 [s2; Определяет пиксельную высоту контрола`-заго
-ловочника. Она равна максимуму всех 
-индивидуальных высот вкладок (зависит 
-от шрифтов титула вкладки и размеров 
-иконок).&]
+ловка. Она равна максимуму всех индивидуальн
+ых высот вкладок (зависит от шрифтов 
+титула вкладки и размеров иконок).&]
 [s4; [*/ Возвратное значение]-|пиксельная 
 высота HeaderCtrl.&]
 [s0;3 &]
 [s5;K:Upp`:`:HeaderCtrl`:`:Invisible`(bool`):%- HeaderCtrl`&_[@0 Invisible]([@(0.0.255) b
 ool]_[@3 inv])&]
-[s2; When called with a [* true] argument, makes the header zero height 
-in frame mode (the tab placement routines still work but the 
-header itself remains hidden).&]
-[s4; [*C@3 inv]-|[* true] `= hide the header, [* false] `= show it.&]
+[s2; При вызове с аргументом [* true], делает 
+заголовок в режиме фрейма нулевой 
+высоты (процедуры размещения вкладок 
+продолжают работать, но сам заголовок 
+остаётся скрытым).&]
+[s4; [*C@3 inv]-|[* true] `= скрыть заголовок, [* false] 
+`= показать его.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K:Upp`:`:HeaderCtrl`:`:Track`(bool`):%- HeaderCtrl`&_[@0 Track]([@(0.0.255) bool]_[@3 `_
 track]_`=_true)&]
-[s2; Устанавливает whether the HeaderCtrl and its parent 
-view contents should be `'animated`' during repositioning the 
-tab breaks using mouse drag `& drop. When [* `_track] is set to 
-[* true], the header and its parents repaint is requested every 
-time the mouse moves during the drag `& drop. When set to [* false], 
-the header and the parent control get repainted only after the 
-drag `& drop is finished. It is wise to set this value depending 
-on the complexity of the data shown `'beneath`' the header (usually 
-in an ArrayCtrl) and on the expected target hardware because 
-the track mode is much more demanding with respect to computational 
-time spent during the necessary multiple repaints.&]
-[s4; [*C@3 `_track]-|[* true] `= regenerate header and its parent dynamically 
-during drag `& drop, [* false] `= only after it`'s finished.&]
+[s2; Устанавливает, следует ли `"анимировать`" 
+HeaderCtrl и содержимое области видимости 
+его родителя при репозиционировании 
+tab breaks посредством drag `& drop мышью. Когда 
+[* `_track] установлен в [* true], перерисовка 
+заголовка и его родителя запрашивается 
+при каждом движении мыши во время 
+тяга`-броса. Когда в [* false], то перерисовка 
+происходит только после выполнения 
+тяга`-броса. Умно, если устанавливать 
+это значение в зависимости от сложности 
+данных, показываемых `'под`' заголовком 
+(обычно в ArrayCtrl`'е), и от ожидаемого 
+целевого железа, так как режим track 
+особо требователен к вычислительному 
+времени, потраченному на необходимые 
+множественные перерисовки.&]
+[s4; [*C@3 `_track]-|[* true] `= регенерировать заголовок 
+и его родителя динамически при тяге`-бросе, 
+[* false] `= только после его окончания.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K:Upp`:`:HeaderCtrl`:`:NoTrack`(`):%- HeaderCtrl`&_[@0 NoTrack]()&]
-[s2; Turns off track mode. This is identical to [* Track(false)].&]
+[s2; Выключает режим track. Идентично [* Track(false)].&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K:Upp`:`:HeaderCtrl`:`:Proportional`(`):%- HeaderCtrl`&_[@0 Proportional]()&]
-[s2; Switches the HeaderCtrl to the [/ proportional] mode. In proportional 
-mode, the individual logical tab widths are always recalculated 
-to physical (pixel) widths by scaling them using a common multiplication 
-factor in order to fit the whole header into the view width.&]
+[s2; Переключает HeaderCtrl в режим [/ proportional]. 
+In proportional mode, the individual logical tab widths are always 
+recalculated to physical (pixel) widths by scaling them using 
+a common multiplication factor in order to fit the whole header 
+into the view width.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K:Upp`:`:HeaderCtrl`:`:ReduceNext`(`):%- HeaderCtrl`&_[@0 ReduceNext]()&]
-[s2; Switches the HeaderCtrl to the [/ reduce next] mode. Every time 
-a tab width is set in this mode and the total tab width exceeds 
-the view size, the following tab widths (tabs to the right) are 
-reduced in left`-to`-right order (beginning with the tab just 
-after the tab being adjusted) to fit the view size.&]
+[s2; Переключает HeaderCtrl в режим [/ reduce next]. 
+Every time a tab width is set in this mode and the total tab 
+width exceeds the view size, the following tab widths (tabs to 
+the right) are reduced in left`-to`-right order (beginning with 
+the tab just after the tab being adjusted) to fit the view size.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K:Upp`:`:HeaderCtrl`:`:ReduceLast`(`):%- HeaderCtrl`&_[@0 ReduceLast]()&]
-[s2; Switches the HeaderCtrl to the [/ reduce last] mode. Every time 
-a tab width is set in this mode and the total tab width exceeds 
-the view size, the following tab widths (tabs to the right) are 
-reduced in right`-to`-left order (beginning with the rightmost 
-tab) to fit the view size.&]
+[s2; Переключает HeaderCtrl в режим [/ reduce last]. 
+Every time a tab width is set in this mode and the total tab 
+width exceeds the view size, the following tab widths (tabs to 
+the right) are reduced in right`-to`-left order (beginning with 
+the rightmost tab) to fit the view size.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K:Upp`:`:HeaderCtrl`:`:Absolute`(`):%- HeaderCtrl`&_[@0 Absolute]()&]
-[s2; Switches the HeaderCtrl to the [/ absolute] (scroll) mode. In 
-this mode the tab widths are never modified automatically, the 
-logical header width can be smaller or greater than the actual 
+[s2; Переключает HeaderCtrl в режим [/ absolute] (scroll). 
+In this mode the tab widths are never modified automatically, 
+the logical header width can be smaller or greater than the actual 
 view size. Whenever the total tab width exceeds the view size, 
 the header can be scrolled to the left or right to pan its visible 
 portion within the parent view.&]

@@ -17,7 +17,7 @@
 * compilers. All structures should be compiled without any alignment padding.
 * The specification of structure packing is not standardized among compilers.
 * You may remove or replace the #pragma pack directives if you make sure that
-* you never use the sizeof() operator or pointer arithmetics on any of the 
+* you never use the sizeof() operator or pointer arithmetics on any of the
 * structures that need packing. See coff.cpp for examples.
 *****************************************************************************/
 
@@ -29,9 +29,9 @@
 struct SCOFF_FileHeader {
  uint16 Machine;              // Machine ID (magic number)
  uint16 NumberOfSections;     // number of sections
- uint32 TimeDateStamp;        // time & date stamp 
+ uint32 TimeDateStamp;        // time & date stamp
  uint32 PSymbolTable;         // file pointer to symbol table
- uint32 NumberOfSymbols;      // number of symbol table entries 
+ uint32 NumberOfSymbols;      // number of symbol table entries
  uint16 SizeOfOptionalHeader; // size of optional header
  uint16 Flags;                // Flags indicating attributes
 };
@@ -234,7 +234,7 @@ struct SCOFF_SectionHeader {
  uint32  PLineNumbers;   // file ptr to line number entries
  uint16  NRelocations;   // number of relocation entries
  uint16  NLineNumbers;   // number of line number entries
- uint32  Flags;          // flags   
+ uint32  Flags;          // flags
 };
 
 // Section flags values
@@ -268,7 +268,7 @@ struct SCOFF_SectionHeader {
 #define PE_SCN_MEM_READ         0x40000000  // section is readable
 #define PE_SCN_MEM_WRITE        0x80000000  // section is writeable
 
-/* names of "special" sections 
+/* names of "special" sections
 #define _TEXT ".text"
 #define _DATA ".data"
 #define _BSS ".bss"
@@ -382,7 +382,7 @@ union SCOFF_SymTableEntry {
 //#pragma pack(pop)
 
 /********************** Section number values for symbol table entries **********************/
-    
+
 #define COFF_SECTION_UNDEF ((int16)0)      // external symbol
 #define COFF_SECTION_ABSOLUTE ((int16)-1)  // value of symbol is absolute
 #define COFF_SECTION_DEBUG ((int16)-2)     // debugging symbol - value is meaningless

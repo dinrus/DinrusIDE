@@ -62,7 +62,7 @@ bool SetupGITMaster()
 		);
 	};
 
-	for(const char *nest : { "src", "reference", "examples", "tutorial" })
+	for(const char *nest : { "src", "reference", "examples", "tutorial", "dev", "uppsrc" })
 		MakeAssembly(AppendFileName(dir, nest));
 	
 	if(dlg.all)

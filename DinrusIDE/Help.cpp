@@ -527,6 +527,7 @@ int CharFilterTopicSearch(int c)
 
 TopicCtrl::TopicCtrl()
 {
+	// ::Background(Red);
 	showwords = true;
 	all = false;
 	lang <<= THISBACK(Lang);

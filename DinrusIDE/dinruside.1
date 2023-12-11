@@ -1,27 +1,27 @@
 .\" Process this file with command
-.\" groff -man -Tascii theide.1
+.\" groff -man -Tascii dinruside.1
 .\"
-.TH THEIDE 1 TheIDE " " TheIDE 
+.TH DINRUSIDE 1 DinrusIDE " " DinrusIDE 
 .SH NAME
-theide \(hy A good integrated development environment, 
+dinruside \(hy A good integrated development environment, 
 designed for developing large C++ applications.
 .SH SYNOPSIS
-.B theide 
+.B dinruside 
 .br
-.BI "theide " "assembly package" 
+.BI "dinruside " "assembly package" 
 .br
-.BI "theide " "assembly package build_method" 
+.BI "dinruside " "assembly package build_method" 
 [-[a] [b] [e] [r] [s] [S] [v] [1] [2] [m] [d] [M] [l] [x] [X]]
 [+FLAG[,FLAG]...] [ out ]
 .LP
-The first method starts TheIDE with a Package selection dialog, 
+The first method starts DinrusIDE with a Package selection dialog, 
 the second method directly opens 
 .IR package " from " assembly 
 and third one allows you to build or export specified project according 
 to the supplied parameters. The last method does not open TheIde 
 but causes it to work in console mode.
 .SH DESCRIPTION
-TheIDE 
+DinrusIDE 
 is U++ integrated development environment which introduces modular 
 concepts to C++ programming. It features 
 .I BLITZ-build 
@@ -35,7 +35,7 @@ and
 \(hy a powerful C++ code analyzer that provides features 
 like code completion, navigation and transformation.
 
-TheIDE integrates with compiler and debugger 
+DinrusIDE integrates with compiler and debugger 
 .RB "(by default " gcc "(1) and " gdb (1)) 
 and can also be used to develop non-U++ applications.
 
@@ -43,9 +43,9 @@ and can also be used to develop non-U++ applications.
 
 .IP assembly
 Selects in which assembly to look for package. It can be a predefined assembly
-(in .var file) which is in Win32 in directory where is located theide.exe
-or in POSIX systems in directories ~, ~/.upp/umk, ~/.upp/theide
-or ~/.upp/theide. Alternatively, it is a direct set of directories
+(in .var file) which is in Win32 in directory where is located dinruside.exe
+or in POSIX systems in directories ~, ~/.upp/umk, ~/.upp/dinruside
+or ~/.upp/dinruside. Alternatively, it is a direct set of directories
 that represent U++ assembly separated by ','.
 .
 .IP package
@@ -53,12 +53,12 @@ Selects which package to use. The package must exist in selected assembly.
 .IP build_method
 Selects build method to be used to build the resulting executable, specified
 either as name of build method (which is then searched for in ~, ~/.upp/umk,
-~/.upp/theide ~/.upp/theide directories) or it is a direct path to the .bm file.
+~/.upp/dinruside ~/.upp/dinruside directories) or it is a direct path to the .bm file.
 .
 .LP
 .IP FLAGs
 Specify witch flags should be set up. This works the same way as inside
-TheIDE. The FLAGs must be separated by commas and prepended with "+" or ">"
+DinrusIDE. The FLAGs must be separated by commas and prepended with "+" or ">"
 character. Please note, that ">" has special meaning in most shells and
 therefore you must either escape it or enclose in quotation marks. If flags
 are not specified, the first main configuration entry in .upp file is used.
@@ -125,38 +125,38 @@ Do not delete target directory out when exporting.
 Options x and X are mutually exclusive. The last specified is used. 
 .RE
 .SH FILES
-.I ~/.upp/theide/*.var
+.I ~/.upp/dinruside/*.var
 .RS
 The assembly specifications.
 .RE
-.I ~/.upp/theide/*.bm
+.I ~/.upp/dinruside/*.bm
 .RS
 The build methods configurations.
 .RE
-.I  ~/.upp/theide/theide.cfg
+.I  ~/.upp/dinruside/dinruside.cfg
 .RS 
 Main configuration file.
 .RE
-.I  ~/.upp/theide/ide.colors
+.I  ~/.upp/dinruside/ide.colors
 .RS 
-Configuration of colors used in TheIDE.
+Configuration of colors used in DinrusIDE.
 .RE
-.I  ~/.upp/theide/ide.key
+.I  ~/.upp/dinruside/ide.key
 .RS 
-Configuration of key bindings in TheIDE.
+Configuration of key bindings in DinrusIDE.
 .RE
 .LP
 .IP NOTE: 
 None of these files is meant to be edited by hand. They can be created 
-and/or modified from within TheIDE. This is strongly recommended 
+and/or modified from within DinrusIDE. This is strongly recommended 
 since it is easier and safer.
 .SH EXAMPLES
-.B "theide examples UWord"
+.B "dinruside examples UWord"
 .RS
-Opens UWord (an example implementation of text proccesor) in TheIDE. 
+Opens UWord (an example implementation of text proccesor) in DinrusIDE. 
 .RE
 .LP
-.B theide examples AddressBook GCC \-vasb "+GUI,MT" /tmp/ab
+.B dinruside examples AddressBook GCC \-vasb "+GUI,MT" /tmp/ab
 .RS
 Builds application AddressBook with verbose output, using 
 .BR gcc (1)
@@ -164,9 +164,9 @@ in debug mode, with GUI and multithreading support, links it using
 shared libraries and places it in /tmp/ab.
 .RE
 .LP
-.B theide uppsrc ide \-2sx "+GUI,MT" /tmp/ide
+.B dinruside uppsrc ide \-2sx "+GUI,MT" /tmp/ide
 .RS
-Exports Makefile and all the files needed to build TheIDE itself
+Exports Makefile and all the files needed to build DinrusIDE itself
 (with speed optimizations) into the directory /tmp/ide/.
 .RE
 
@@ -182,7 +182,7 @@ If you find any bugs, please contact the developpers on our forums (
 .SH AUTHORS
 Mirek Fidler, Koldo Ramirez, Tomas Rylek, Daniel Kos
 .SH DOCUMENTATION
-Full documentation is accesible from within TheIDE
+Full documentation is accesible from within DinrusIDE
 and also online on 
 .I http://ultimatepp.org
 .

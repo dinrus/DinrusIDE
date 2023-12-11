@@ -17,11 +17,11 @@
 
 // Texts of option feedback. Adding or removing leading underscores on symbols
 SIntTxt UnderscoreOptionNames[] = {
-   {CMDL_UNDERSCORE_NOCHANGE, "Not adding or removing underscores for this filetype"},
-   {CMDL_UNDERSCORE_REMOVE,   "Removing leading underscores from symbol names"},
-   {CMDL_UNDERSCORE_ADD,      "Adding leading underscores to symbol names"},
-   {CMDL_UNDERSCORE_REMOVE|CMDL_KEEP_ALIAS, "Removing leading underscores from symbol names. Keeping old name as alias"},
-   {CMDL_UNDERSCORE_ADD|CMDL_KEEP_ALIAS,    "Adding leading underscores to symbol names. Keeping old name as alias"}
+   {CMDL_UNDERSCORE_NOCHANGE, "Не добавляются/удаляются подчёакивания для этого типа файла"},
+   {CMDL_UNDERSCORE_REMOVE,   "Удаление вводных подчерков из имён символов"},
+   {CMDL_UNDERSCORE_ADD,      "Добавление вводных подчерков к именам символов"},
+   {CMDL_UNDERSCORE_REMOVE|CMDL_KEEP_ALIAS, "Удаление вводных подчерков из имён символов. Старые имена сохраняюися как алиасы"},
+   {CMDL_UNDERSCORE_ADD|CMDL_KEEP_ALIAS,    "Добавление вводных подчерков к именам символов. Старые имена сохраняюися как алиасы"}
 };
 
 // Texts of option feedback. Changing leading dot or underscore on section names

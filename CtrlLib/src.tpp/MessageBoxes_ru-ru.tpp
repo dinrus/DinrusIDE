@@ -191,17 +191,22 @@ rrorAbortRetryIgnoreOpt1]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 qtf],
 [s5;:Upp`:`:ShowExcOpt1`(const Upp`:`:Exc`&`,const char`*`): [@(0.0.255) void]_[* ShowExc
 Opt1]([@(0.0.255) const]_[_^Upp`:`:Exc^ Exc][@(0.0.255) `&]_[*@3 exc], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 opt`_id])&]
-[s2; There are many various functions providing message boxes. The 
-first word in camel case function name designates the icon used 
-in the message box and possible associated sound. It is followed 
-by the name of buttons and optional [* Opt] or [* Opt1] part. [* Opt] 
-and [* Opt1] mean that the dialog has `"Do not show this again`" 
-option (more on that later).&]
-[s2; If there are 2 or 3 buttons, the function returns an int to 
-report which button was pressed. First button listed in the name 
-returns 1, second 0 and third `-1 (e.g. in PromptYesNo Yes is 
-1 and No is 0, in PromptYesNoCancle Yes is 1, No is 0 and Cancel 
-is `-1).&]
+[s2; Существует много различных функций, 
+выводящих `"боксы`" сообщений. Первое 
+слово в имени функции in camel case определяет 
+иконку, используемую в этом боксе, 
+и возможный ассоциированный звук. 
+За ним следуют названия кнопок и необязатель
+ная часть [* Opt] или [* Opt1]. [* Opt] и [* Opt1] обозначают, 
+что у этого диалогового окна есть 
+опция `"Больше не показывать`" (в дальнейшем).&]
+[s2; Если имеется 2 или 3 кнопки, тогда 
+функция возвращает int, который репортирует 
+о том, какая кнопка нажата. Первая 
+кнопка, упомянутая в имени , возвращает 
+1, вторая 0 а третья `-1 (напр., в PromptYesNo, 
+Yes `= 1, а No `= 0; в PromptYesNoCancel, Yes `= 1, No `= 0, 
+а Cancel `= `-1).&]
 [s2; If the name contains [* Opt] or [* Opt1], the process of ignoring 
 the dialog next time is automated via storing specific String 
 key `- this key is passed as second const char `* parameter to 

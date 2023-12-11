@@ -215,11 +215,9 @@ ath]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 p])&]
 [s5;:Upp`:`:HttpRequest`:`:Authorization`(const Upp`:`:String`&`): [_^Upp`:`:HttpRequest^ H
 ttpRequest][@(0.0.255) `&]_[* Authorization]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&
 ]_[*@3 h])&]
-[s2;%RU-RU Устанавливает заголовочник авторизации
- (текст между `"Authorization: `" и `"`\r`\n`" в заголовочни
-ке). Предназначается для использования 
-при обратном вызове WhenAuthenticate, чтобы 
-предоставлять информацию логина.&]
+[s2;%RU-RU Устанавливает заглавие авторизации
+ (текст между `"Authorization: `" и `"`\r`\n`" в заглавие). Предназначается для использования 
+при обратном вызове WhenAuthenticate, чтобы предоставлять информацию логина.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:HttpRequest`:`:User`(const String`&`,const String`&`): [_^HttpRequest^ HttpRequest
@@ -576,8 +574,8 @@ onst]_[@(0.0.255) char]_`*[*@3 id])&]
 [s5;:HttpRequest`:`:GetContentLength`(`): [@(0.0.255) int64]_[* GetContentLength]()&]
 [s2;%RU-RU Возвращает длину контента, как 
 указано в звголовочнике ответа HTTP, 
-либо 0, если не указано, или заголовочник 
-ещё не загружен.&]
+либо 0, если не указано, или заглавие 
+ещё не загружено.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:HttpRequest`:`:GetStatusCode`(`)const: [@(0.0.255) int]_[* GetStatusCode]()_[@(0.0.255) c

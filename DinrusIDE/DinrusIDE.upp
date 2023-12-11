@@ -12,7 +12,7 @@ uses
 	DinrusIDE/Browser,
 	CodeEditor,
 	CtrlLib,
-	plugin\bz2,
+	plugin/bz2,
 	HexView,
 	plugin/astyle,
 	TextDiffCtrl,
@@ -126,7 +126,7 @@ file
 	DinrusIDE.rc
 		depends() xide.ico
 		depends() ide.ico,
-	theide.desktop,
+	dinruside.desktop,
 	Repo readonly separator,
 	urepo.h,
 	RepoConsole.cpp,

@@ -323,6 +323,7 @@ HelpWindow::HelpWindow()
 	tree_view.SetPos(3000);
 	Add(tree_view.SizePos());
 	tree_view.Zoom(1);
+	view.Background(Red);
 	Sizeable().Zoomable();
 	Title(t_("Справка"));
 	BackPaint();

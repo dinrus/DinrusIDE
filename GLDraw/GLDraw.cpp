@@ -11,7 +11,7 @@ namespace Upp {
 void GLDraw::PutImage(Point p, const Image& img, const Rect& src)
 {
 	LTIMING("PutImage");
-	
+
 	if(img.GetLength() == 0)
 		return;
 
@@ -20,7 +20,7 @@ void GLDraw::PutImage(Point p, const Image& img, const Rect& src)
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, GetTextureForImage(img));
-	
+
 	if(src == img.GetSize()) {
 		Rect r(p, img.GetSize());
 		glBegin(GL_TRIANGLE_STRIP);
@@ -100,7 +100,7 @@ void GLDraw::Init(Size sz, uint64 context_)
 	glLoadIdentity();
 
 	glOrtho(0, sz.cx, sz.cy, 0, 0.0f, 1.0f);
-	
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
@@ -108,7 +108,7 @@ void GLDraw::Init(Size sz, uint64 context_)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	LOG("==============================================================================");
-/*	
+/*
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
 

@@ -18,13 +18,13 @@ namespace YAML {
 // error messages
 namespace ErrorMsg {
 const char* const YAML_DIRECTIVE_ARGS =
-    "YAML directives must have exactly one argument";
-const char* const YAML_VERSION = "bad YAML version: ";
-const char* const YAML_MAJOR_VERSION = "YAML major version too large";
-const char* const REPEATED_YAML_DIRECTIVE = "repeated YAML directive";
+    "У директив YAML должен быть ровно один аргумент";
+const char* const YAML_VERSION = "плохая версия YAML: ";
+const char* const YAML_MAJOR_VERSION = "Старшая версия YAML слишком большая";
+const char* const REPEATED_YAML_DIRECTIVE = "повторная директива YAML";
 const char* const TAG_DIRECTIVE_ARGS =
-    "TAG directives must have exactly two arguments";
-const char* const REPEATED_TAG_DIRECTIVE = "repeated TAG directive";
+    "У директив TAG должно быть ровно два аргумента";
+const char* const REPEATED_TAG_DIRECTIVE = "повторная директива TAG";
 const char* const CHAR_IN_TAG_HANDLE =
     "illegal character found while scanning tag handle";
 const char* const TAG_WITH_NO_SUFFIX = "tag handle with no suffix";

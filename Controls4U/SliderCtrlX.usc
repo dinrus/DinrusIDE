@@ -120,7 +120,7 @@ enum_property THUMB_TYPES {
 };
 
 ctrl SliderCtrlX {
-    group "Progress";
+    group "Прогресс";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(64, 24); }

@@ -217,7 +217,8 @@ onst]&]
 [s5;:Upp`:`:Option`:`:SetColor`(Upp`:`:Color`):%- [_^Upp`:`:Option^ Option][@(0.0.255) `&
 ]_[* SetColor]([_^Upp`:`:Color^ Color]_[*@3 c])&]
 [s2; Устанавливает цвет текста ярлыка 
-Option. Setting Null restores the default color.&]
+Option. Установка Null восстанавливает 
+дефолтный цвет.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:Box`(bool`):%- [_^Upp`:`:Option^ Option][@(0.0.255) `&]_[* Box]([@(0.0.255) b
@@ -242,7 +243,7 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:IsShowLabel`(`)const:%- [@(0.0.255) bool]_[* IsShowLabel]()_[@(0.0.255) c
 onst]&]
-[s0; Возвращает true, если ShowLabelактивен.&]
+[s0; Возвращает true, если ShowLabel активен.&]
 [s0;%- &]
 [ {{10000@3 [s0; [*@(229)4 Класс OptionBox]]}}&]
 [s0;%- &]

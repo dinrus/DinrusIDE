@@ -86,9 +86,11 @@ t]_[_^String^ String][@(0.0.255) `&]_[*@3 d])&]
 [s5;:BaseDir`(const char`*`):%- [@(0.0.255) void]_[* BaseDir]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 dir])&]
 [s2; Устанавливает [%-*@3 dir] как базовую директорию.
- If used, files can be selected only inside this base directory 
-(or its subdirectories) and selected file paths are relative 
-to it.&]
+ Если используется, файлы можно выделить 
+только внутри этой основной директории 
+(или её поддиректориях), а выбранные 
+пути к файлам приводятся относительно 
+неё.&]
 [s3; &]
 [s4;%- &]
 [s5;:Get`(`)const:%- [_^String^ String]_[* Get]()_[@(0.0.255) const]&]

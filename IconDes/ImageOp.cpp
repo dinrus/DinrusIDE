@@ -103,7 +103,7 @@ void InterpolateImage(Image& img, const Rect& _rc)
 	TimeStop tm;
 	Image imp = CreateImage(rc.GetSize(), Null);
 	Over(imp, Point(0, 0), m, m.GetSize());
-	Progress pi("Interpolating...");
+	Progress pi("Интерполирование...");
 	for(int qq = 0; qq < 2000; qq++) {
 		InterpolateFilter f;
 		f.todo = 0;

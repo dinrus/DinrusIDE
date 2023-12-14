@@ -87,38 +87,50 @@ Pusher`'у.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Pusher`:`:FinishPush`(`): [@(0.0.255) bool]_[* FinishPush]()&]
-[s2;%RU-RU Forces end of pushed state and invokes PerformAction method 
-(default implementation invokes standard WhenAction callback).&]
+[s2;%RU-RU Вызывает завершение нажатого 
+состояния и метод PerformAction (дефолтная 
+реализация вызывает стандартный 
+обрвызов WhenAction).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Pusher`:`:RefreshPush`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* RefreshPush]()&]
-[s2;%RU-RU This method should refresh part of concrete derived Pusher 
-class that is being graphically changed as reaction to push state. 
-Default implementation calls Refresh, however some classes (like 
-Option) overload this to minimize repaint area size.&]
+[s2;%RU-RU Этим методом освежается конкретная 
+часть производного от Pusher класса, 
+которая графически изменяется в ответ 
+на состояние push. Дефолтная реализация 
+вызывает Refresh, однако некоторые классы 
+(типа Option)  перегружают его, чтобы 
+уменьшить размер области перерисовки.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Pusher`:`:RefreshFocus`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* RefreshFocus]()&]
-[s2;%RU-RU This method should refresh part of concrete derived Pusher 
-class that is being graphically changed as reaction to change 
-of input focus. Default implementation calls Refresh, however 
-some classes (like Option) overload this to minimize repaint 
-area size.&]
+[s2;%RU-RU Этим методом освежается конкретная 
+часть производного от Pusher класса, 
+которая графически изменяется в ответ 
+на изменение фокуса ввода. Дефолтная 
+реализация вызывает Refresh, однако некоторые 
+классы (типа Option)  перегружают его, 
+чтобы уменьшить размер области перерисовки.
+&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Pusher`:`:PerformAction`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* PerformAction](
 )&]
-[s2;%RU-RU This method is called when `"push`" is finished. Default 
-implementation invokes WhenAction.&]
+[s2;%RU-RU Этот метод вызывается, когда `"push`" 
+закончен. Дефолтная реализация вызывает 
+WhenAction.&]
 [s3;%RU-RU &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:Pusher`:`:SetFont`(Font`): [_^Pusher^ Pusher][@(0.0.255) `&]_[* SetFont]([_^Font^ Font]_
 [*@3 fnt])&]
-[s2;%RU-RU Устанавливаетthe font that should be used 
-in painting the concrete derived Pusher class. Pusher itself 
-does not use this font anywhere, but most derived classes do.&]
+[s2;%RU-RU Устанавливает шрифт, который 
+следует использовать при отрисовке 
+конкретного производного класса 
+Pusher. Сам Pusher совершенно не использует 
+этот шрифт, а делают это только производные 
+от него классы.&]
 [s7;%RU-RU [*C@3 fnt]-|Font.&]
 [s7;%RU-RU [*/ Возвратное значение]-|`*this для 
 сцепки методов.&]
@@ -126,72 +138,79 @@ does not use this font anywhere, but most derived classes do.&]
 [s4; &]
 [s5;:Pusher`:`:SetLabel`(const char`*`): [_^Pusher^ Pusher][@(0.0.255) `&]_[* SetLabel]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 text])&]
-[s2;%RU-RU Устанавливаетthe text of pusher. Pusher itself 
-does not use this font anywhere, but most derived classes do. 
-Text can contain `'`&`' or `'`\b`' characters to define access 
-keys.&]
-[s7;%RU-RU [*C@3 text]-|new text&]
+[s2;%RU-RU Устанавливает текст пушера. Текст 
+может содержать символы `'`&`' или `'`\b`', 
+чтобы определять клавиши доступа.&]
+[s7;%RU-RU [*C@3 text]-|новый текст&]
 [s7;%RU-RU [*/ Возвратное значение]-|`*this для 
 сцепки методов.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Pusher`:`:PseudoPush`(`): [@(0.0.255) void]_[* PseudoPush]()&]
-[s2;%RU-RU Invokes `"push emulation`". Pusher will animate through 
-states as if it would be pushed by the user, including calls 
-to PerformAction (WhenAction), WhenPush and WhenRepeat.&]
+[s2;%RU-RU Вызывает `"push emulation`". Pusher анимируется 
+в разных состояниях, как`-будто нажат 
+пользователем, включая вызовы PerformAction 
+(WhenAction), WhenPush и WhenRepeat.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Pusher`:`:WhenPush: [_^Callback^ Callback]_[* WhenPush]&]
-[s2;%RU-RU This callback is invoked when pusher goes from `"unpushed`" 
-to `"pushed`" state.&]
+[s2;%RU-RU Этот обрвызов вызывается, когда 
+pusher переходит из `"ненажатого`" в `"нажатое`" 
+состояние.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Pusher`:`:WhenRepeat: [_^Callback^ Callback]_[* WhenRepeat]&]
-[s2;%RU-RU `"Pusher autorepeat`" `- this callback is periodically 
-invoked when user holds mouse button over Pusher `- it emulates 
-keyboard autorepeat (e.g. arrow buttons in scrollbar).&]
+[s2;%RU-RU `"Автоповтор Pusher`'а`" `- этот обрвыз 
+вызывается периодически, когда пользователь
+ наводит мышь над Pusher`'ом и держит 
+кнопку `- он эмулирует автоповтор 
+клавиатуры (напр., кнопки`-стрелки 
+в полосе промотки).&]
 [s3; &]
 [s4; &]
 [s5;:Pusher`:`:ClickFocus`(bool`): [@(0.0.255) virtual] [_^Pusher^ Pusher][@(0.0.255) `&]_[* C
 lickFocus]([@(0.0.255) bool]_[*@3 cf]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU If [%-*@3 cf] is true, Pusher will get focused on a mouse 
-click.&]
-[s7;%RU-RU [*@3 cf]-|click focusing&]
+[s2;%RU-RU Если [%-*@3 cf] равно true, Pusher сфокусируется 
+при нажатии мыши.&]
+[s7;%RU-RU [*@3 cf]-|фокусировка при клике&]
 [s7;%RU-RU [*/ Возвратное значение]-|`*this для 
 сцепки методов.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Pusher`:`:NoClickFocus`(`): [_^Pusher^ Pusher][@(0.0.255) `&]_[* NoClickFocus]()&]
-[s2;%RU-RU То же, что и [^topic`:`/`/CtrlLib`/src`/Pusher`$en`-us`#Pusher`:`:ClickFocus`(bool`)^ C
+[s2;%RU-RU То же, что и [^topic`:`/`/CtrlLib`/src`/Pusher`_ru`-ru`#Pusher`:`:ClickFocus`(bool`)^ C
 lickFocus](false).&]
 [s3; &]
 [s4; &]
 [s5;:Pusher`:`:IsClickFocus`(`)const: [@(0.0.255) bool]_[* IsClickFocus]()_[@(0.0.255) cons
 t]&]
-[s2;%RU-RU Retrieves the value of ClickFocus.&]
+[s2;%RU-RU Выводит значение ClickFocus.&]
 [s3; &]
 [s4; &]
 [s5;:Pusher`:`:GetFont`(`)const: [_^Font^ Font]_[* GetFont]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the font that should be used in painting 
-the concrete derived Pusher class. Pusher itself does not use 
-this font anywhere, but most derived classes do.&]
+[s2;%RU-RU Возвращает шрифт, который следует 
+использовать при отрисовке конкретного, 
+производного от Pusher, класса. Сам Pusher 
+совершенно не использует этот шрифт, 
+но большинство производных классов 
+это делают.&]
 [s3; &]
 [s4; &]
 [s5;:Pusher`:`:GetLabel`(`)const: [_^String^ String]_[* GetLabel]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает the text of pusher. Pusher itself 
-does not use this font anywhere, but most derived classes do. 
-Text can contain `'`&`' or `'`\b`' characters to define access 
-keys.&]
+[s2;%RU-RU Возвращает текст пушера. Текст 
+может содержать символы `'`&`' или `'`\b`', 
+чтобы определять клавиши доступа.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Pusher`:`:GetVisualState`(`)const: [@(0.0.255) int]_[* GetVisualState]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает the current visual state of the current 
-pusher:&]
-[s7;%RU-RU CTRL`_NORMAL-|pusher is enabled and not interacting with 
-mouse&]
-[s7;%RU-RU CTRL`_HOT-|pusher is enabled and under the mouse cursor&]
-[s7;%RU-RU CTRL`_PRESSED-|pusher is enabled and pressed&]
-[s7;%RU-RU CTRL`_DISABLED-|pusher is disabled&]
+[s2;%RU-RU Возвращает текущее зримое состояние 
+текущего пушера:&]
+[s7;%RU-RU CTRL`_NORMAL-|пушер активирован и не 
+взаимодействует с мышью&]
+[s7;%RU-RU CTRL`_HOT-|пушер активирован и находится 
+под курсором мыши&]
+[s7;%RU-RU CTRL`_PRESSED-|пушер активирован и нажат.&]
+[s7;%RU-RU CTRL`_DISABLED-|пушер дезактивирован.&]
 [s3; &]
 [s0; ]]

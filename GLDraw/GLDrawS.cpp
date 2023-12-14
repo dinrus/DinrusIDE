@@ -15,7 +15,7 @@ void CheckError()
     /* Check for error conditions. */
     GLenum gl_error = glGetError( );
     if( gl_error != GL_NO_ERROR ) {
-        Panic(String().Cat() << " OpenGL error: " << gl_error);
+        Panic(String().Cat() << " Ошибка OpenGL: " << gl_error);
     }
 }
 

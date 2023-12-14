@@ -121,10 +121,11 @@ int Prompt(int dontshowagain, const char *dsa_id_, int beep,
 	RichTextCtrl qtfctrl;
 	Icon         icon;
 	Option       dsa;
-	dsa.SetLabel(t_("Больше не показывать это"));
+	dsa.SetLabel(t_("Больше не показывать"));
 	qtfctrl.WhenLink = WhenLink;
 	icon.SetImage(iconbmp);
 	Button b1, b2, b3;
+//	b1.
 	qtfctrl.CopyWithTabs();
 	qtfctrl.SetQTF(String("[g ") + qtf, GetRichTextStdScreenZoom());
 	int bcy = Ctrl::VertLayoutZoom(24);

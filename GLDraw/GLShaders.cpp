@@ -18,8 +18,8 @@ static GLuint LoadShader(const char *src, GLenum type) {
 	// Check the compile status
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
 	if(!compiled) {
-		String error = type == GL_VERTEX_SHADER ? "Vertex" : "Fragment";
-		error << " shader failed to compile ";
+		String error = type == GL_VERTEX_SHADER ? "Шейдер вершины" : "Шейдер фрагмента";
+		error << " не удалось скомпилировать ";
 		GLint infoLen = 0;
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
 		if(infoLen > 1) {
@@ -70,7 +70,7 @@ void GLProgram::Link()
 			glGetProgramInfoLog(program, infoLen, NULL, infoLog);
 			Panic(infoLog);
 		}
-		Panic("Failed to link");
+		Panic("Компоновка не удалась");
 		Clear();
 	}
 }

@@ -1,5 +1,4 @@
-topic "StarIndicator";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс StarIndicator";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,15 +8,16 @@ topic "StarIndicator";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
-[ {{10000@(113.42.0) [s0; [*@7;4 StarIndicator]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс StarIndicator]]}}&]
 [s3; &]
 [s1;:StarIndicator`:`:class: [@(0.0.255)3 class][3 _][*3 StarIndicator][3 _:_][@(0.0.255)3 publi
 c][3 _][*@3;3 ProgressIndicator]&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
-[s9; [/ Производный от ][/^topic`:`/`/CtrlLib`/src`/ProgressInd`$en`-us`#ProgressIndicator`:`:class^ P
-rogressIndicator][/ . Part of ][/^topic`:`/`/Controls4U`/src`/Controls4U`$en`-us^ Con
-trols4U][/  library.]&]
+[s9; [/ Производный от ][/^topic`:`/`/CtrlLib`/src`/ProgressInd`_ru`-ru`#ProgressIndicator`:`:class^ P
+rogressIndicator][/ . Часть библиотеки ][/^topic`:`/`/Controls4U`/src`/Controls4U`_ru`-ru^ C
+ontrols4U][/ .]&]
 [s9; &]
 [s9; StarIndicator is a kind of ProgressIndicator allowing to show 
 the popularity of something, as we can see on some merchant web 
@@ -112,49 +112,50 @@ is about to be repainted.&]
 [s4; &]
 [s5;:StarIndicator`:`:Set`(double`): [@(0.0.255) virtual] [@(0.0.255) void]_[* Set]([@(0.0.255) d
 ouble]_[*@3 n])&]
-[s2;b17;a17; Устанавливаетthe new rate.&]
+[s2;b17;a17; Устанавливает the new rate.&]
 [s7;i1120;a17; [*C@3 n]-|New value.&]
 [s3; &]
 [s4; &]
 [s5;:StarIndicator`:`:Set`(int`): [@(0.0.255) virtual] [@(0.0.255) void]_[* Set]([@(0.0.255) i
 nt]_[*@3 n])&]
-[s2;b17;a17; Устанавливаетthe new rate as integer value.&]
+[s2;b17;a17; Устанавливает the new rate as integer value.&]
 [s7;i1120;a17; [*C@3 n]-|New value.&]
 [s3; &]
 [s4; &]
 [s5;:StarIndicator`:`:Set`(int`,int`): [@(0.0.255) virtual] [@(0.0.255) void]_[* Set]([@(0.0.255) i
 nt]_[*@3 n],[*@3  ][@(0.0.255) int]_[*@3 tot])&]
-[s2;b17;a17; Устанавливаетthe new rate as integer value and the maximum possible 
-rate.&]
+[s2;b17;a17; Устанавливает the new rate as integer value 
+and the maximum possible rate.&]
 [s7;i1120;a17; [*C@3 n]-|New value.&]
 [s7;i1120;a17; [*C@3 tot]-|New maximum rate.&]
 [s3; &]
 [s4; &]
 [s5;:StarIndicator`:`:SetFontColor`(Color`): [@(0.0.255) virtual] [_ StarIndicator][@(0.0.255) `&
 ] [* SetFontColor]([_^`:`:Point^ Color]_[*@3 c])&]
-[s2; Устанавливаетthe color of the text.&]
-[s7;i1120;a17; [*C@3 c]-|Color of the text.&]
+[s2; Устанавливает цвет текста.&]
+[s7;i1120;a17; [*C@3 c]-|Цвет текста.&]
 [s3; &]
 [s4; &]
 [s5;:StarIndicator`:`:SetVotes`(int`): [@(0.0.255) virtual] [_ StarIndicator][@(0.0.255) `&
 ] [* SetVotes]([@(0.0.255) int]_[*@3 n])&]
-[s2; Устанавливаетthe number of votes.&]
+[s2; Устанавливает the number of votes.&]
 [s7;i1120;a17; [*C@3 n]-|Number of votes.&]
 [s3; &]
 [s4; &]
 [s5;:StarIndicator`:`:SetVotesHigh`(int`): [@(0.0.255) virtual] [_ StarIndicator][@(0.0.255) `&
 ] [* SetVotesHigh]([@(0.0.255) int]_[*@3 n])&]
-[s2; Устанавливаетthe minimal number of votes giving full confidence to the 
-rate. The stars will be colored in light green if the number 
-of votes is more than [*@3 n].&]
+[s2; Устанавливает the minimal number of votes giving 
+full confidence to the rate. The stars will be colored in light 
+green if the number of votes is more than [*@3 n].&]
 [s7;i1120;a17; [*C@3 n]-|Number of votes for full confidence.&]
 [s3; &]
 [s4; &]
 [s5;:StarIndicator`:`:SetVotesLow`(int`): [@(0.0.255) virtual] [_ StarIndicator][@(0.0.255) `&
 ] [* SetVotesLow]([@(0.0.255) int]_[*@3 n])&]
-[s2; Устанавливаетthe minimal number of votes giving half confidence to the 
-rate. The stars will be colored in yellow if the number of votes 
-is more than [*@3 n], in red if lower than [*@3 n].&]
+[s2; Устанавливаетthe minimal number of votes giving 
+half confidence to the rate. The stars will be colored in yellow 
+if the number of votes is more than [*@3 n], in red if lower than 
+[*@3 n].&]
 [s7;i1120;a17; [*C@3 n]-|Number of votes for half confidence.&]
 [s3; &]
 [s4; &]

@@ -33,15 +33,20 @@ topic "WithFactory и PolyXML";
 [s0;i150;O0; Создание объекта по имени класса&]
 [s0;i150;O0; Запрос имени класса у объекта&]
 [s0;i150;O0; Ассоциирование некоторых полей 
-к типам класса, как, например, иконки, 
-группы, описания и проч.&]
-[s0;i150;O0; Query of above fields given any object belonging to 
-the class hierarchy&]
-[s0;i150;O0; Get a list of registered classes belonging to hierarchy&]
+с типами класса, как, например, иконок, 
+групп, описаний и проч.&]
+[s0;i150;O0; Запрос выше указанных полей, 
+если какой`-либо объект принадлежит 
+к иерархии класса.&]
+[s0;i150;O0; Получить список зарегистрированных 
+классов, принадлежащих иерархии&]
 [s0; &]
-[s0; It`'s the base class template for PolyXML polymorphic serialization 
-package, but can be used for generic RTTI handling.&]
+[s0; Это базовый шаблонный класс для пакета 
+полиморфной сериализации PolyXML, который 
+можно использовать и для генерной 
+обработки RTTI.&]
 [s0; &]
-[s0; Please see the PolyXMLTest application for a polymorphic serialization 
-application example.&]
+[s0; Пожалуйста, просмотрите приложение 
+PolyXMLTest, дающее пример приложения с 
+полиморфной сериализацией.&]
 [s0; ]]

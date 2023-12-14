@@ -1495,7 +1495,7 @@ int TabBar::InsertKey0(int ix, const Value &key, const Value &value, Image icon,
 	t.key = key;
 	t.img = icon;
 	t.id = GetNextId();
-	t.group = Nvl(TrimBoth(group), "Unnamed Group");
+	t.group = Nvl(TrimBoth(group), "Безымянная Группа");
 	if (stacking) {
 		t.stackid = GetStackId(t);
 

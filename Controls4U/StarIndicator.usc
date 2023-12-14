@@ -134,7 +134,7 @@ fn XMinSize()
 }
 
 ctrl StarIndicator {
-	group "Progress";
+	group "Прогресс";
 
 	GetMinSize() { return Size(0, 0); }
 	GetStdSize() { return Size(64, 8); }

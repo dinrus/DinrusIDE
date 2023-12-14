@@ -163,7 +163,7 @@ fn DrawEditField(w, &r, cy, text, SetFrame, UseHistory, UseUp, UseBrowse, UseBro
 }
 
 ctrl EditFile {
-    group "Input fields";
+    group "Поля ввода";
 
     GetMinSize() { sz = XMinSize(); sz.cy += 6; return sz; }
     GetStdSize() { sz = GetMinSize(); sz.cx *= 10; return sz; }
@@ -188,12 +188,12 @@ ctrl EditFile {
 
     Paint(w) {
         r = GetRect();
-        DrawEditField(w, r, GetSize().cy, "File name", .SetFrame, .UseHistory, .UseUp, .UseBrowse, .UseBrowseRight, .UseGo, .SetEditable, .NotNull);
+        DrawEditField(w, r, GetSize().cy, "Имя файла", .SetFrame, .UseHistory, .UseUp, .UseBrowse, .UseBrowseRight, .UseGo, .SetEditable, .NotNull);
     }
 }
 
 ctrl EditFolder {
-    group "Input fields";
+    group "Поля ввода";
 
     GetMinSize() { sz = XMinSize(); sz.cy += 6; return sz; }
     GetStdSize() { sz = GetMinSize(); sz.cx *= 10; return sz; }
@@ -218,7 +218,7 @@ ctrl EditFolder {
 
     Paint(w) {
         r = GetRect();
-        DrawEditField(w, r, GetSize().cy, "Folder name", .SetFrame, .UseHistory, .UseUp, .UseBrowse, .UseBrowseRight, .UseGo, .SetEditable, .NotNull);
+        DrawEditField(w, r, GetSize().cy, "Имя папки", .SetFrame, .UseHistory, .UseUp, .UseBrowse, .UseBrowseRight, .UseGo, .SetEditable, .NotNull);
     }
 }
 
@@ -237,7 +237,7 @@ enum_property ImageAngle {
 };
 
 ctrl StaticImage {
-    group "Static";
+    group "Статические";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(64, 24); }
@@ -292,14 +292,14 @@ ctrl StaticImage {
                     w.DrawImage(left, top, img);
         }
         if (.UseAsBackground) {
-            PaintCenterText(w, (r.right+r.left)/2,   (r.top+r.bottom)/2,   "Background", Arial(11), :SBlack);
-            PaintCenterText(w, 1+(r.right+r.left)/2, 1+(r.top+r.bottom)/2, "Background", Arial(11), :SWhite);
+            PaintCenterText(w, (r.right+r.left)/2,   (r.top+r.bottom)/2,   "Фон", Arial(11), :SBlack);
+            PaintCenterText(w, 1+(r.right+r.left)/2, 1+(r.top+r.bottom)/2, "Фон", Arial(11), :SWhite);
         }
     }
 }
 
 ctrl StaticImageSet {
-    group "Static";
+    group "Статические";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(64, 24); }
@@ -337,7 +337,7 @@ enum_property LineOrientation {
 };
 
 ctrl StaticLine {
-    group "Static";
+    group "Статические";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(64, 24); }
@@ -418,7 +418,7 @@ enum_property ArrowEnds {
 };
 
 ctrl StaticArrow {
-    group "Static";
+    group "Статические";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(64, 24); }
@@ -568,7 +568,7 @@ ctrl StaticArrow {
 }
 
 ctrl StaticRectangle {
-    group "Static";
+    group "Статические";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(64, 24); }
@@ -594,7 +594,7 @@ ctrl StaticRectangle {
 }
 
 ctrl StaticFrame {
-    group "Static";
+    group "Статические";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(64, 24); }
@@ -610,7 +610,7 @@ ctrl StaticFrame {
 }
 
 ctrl StaticEllipse {
-    group "Static";
+    group "Статические";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(64, 24); }
@@ -658,7 +658,7 @@ enum_property ColorType {
 };
 
 ctrl StaticClock {
-    group "Progress";
+    group "Прогресс";
     GetMinSize() { return Size(80, 80); }
     GetStdSize() { return Size(150, 150); }
 
@@ -845,7 +845,7 @@ fn PaintHand(w, cx, cy, R, val, bigF, colorType)
 }
 
 ctrl Meter {
-    group "Progress";
+    group "Прогресс";
     GetMinSize() { return Size(50, 50); }
     GetStdSize() { return Size(150, 100); }
 
@@ -965,7 +965,7 @@ ctrl Meter {
 
 
 ctrl FileBrowser {
-    group "Complex";
+    group "Комплекс";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(200, 100); }
@@ -985,12 +985,12 @@ ctrl FileBrowser {
         DeflateRect(r);
 
         re = RectC(r.left, r.top, r.right, r.top+20);
-        DrawEditField(w, re, 20, "Folder name", 1, 1, 1, 0, 1, 1, 1, 1);
+        DrawEditField(w, re, 20, "Имя папки", 1, 1, 1, 0, 1, 1, 1, 1);
 
         r.top += 24;
         sz = Size(r.right - r.left, r.bottom - r.top);
 
-        w.DrawSmartText(r.left, r.top, "Folders", StdFont(), :SBlack);
+        w.DrawSmartText(r.left, r.top, "Папки", StdFont(), :SBlack);
         w.DrawRect(r.left, r.top+18, r.right, r.bottom, :SWhite);
         w.DrawImage(r.left, r.top+18, "Controls4U:Controls4U.iml:FileBrowser_Folders");
         if (.SetBrowseFiles) {
@@ -1005,7 +1005,7 @@ ctrl FileBrowser {
 }
 
 ctrl FirefoxBrowser {
-    group "Complex";
+    group "Комплекс";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(140, 140); }
@@ -1029,7 +1029,7 @@ ctrl FirefoxBrowser {
 }
 
 ctrl InternetExplorerBrowser {
-    group "Complex";
+    group "Комплекс";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(130, 130); }
@@ -1053,7 +1053,7 @@ ctrl InternetExplorerBrowser {
 }
 
 ctrl VLCPlayer {
-    group "Complex";
+    group "Комплекс";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(120, 120); }
@@ -1160,7 +1160,7 @@ enum_property Style {
 };
 
 ctrl Knob {
-    group "Input fields";
+    group "Поля ввода";
 
     GetMinSize() { return Size(50, 50); }
     GetStdSize() { return Size(100, 100); }
@@ -1278,7 +1278,7 @@ ctrl Knob {
 }
 
 ctrl PainterCanvas {
-    group "Static";
+    group "Статические";
 
     GetMinSize() { return Size(0, 0); }
     GetStdSize() { return Size(64, 24); }
@@ -1320,13 +1320,13 @@ ctrl PainterCanvas {
 }
 
 ctrl HyperlinkLabel {
-    group "Static";
+    group "Статические";
 
     GetMinSize() { return XMinSize(); }
     GetStdSize() { sz = XMinSize(); sz.cy += 6; sz.cx *= 5; return sz; }
 
-    Doc    SetHyperlink ? "Hyperlink" ;
-    Doc    SetText ? "Label of control" ;
+    Doc    SetHyperlink ? "Гиперссылка" ;
+    Doc    SetText ? "Ярлык контрола" ;
     Align  SetAlign = ALIGN_LEFT;
     Font   SetFont = StdFont();
     Frame  SetFrame @1;
@@ -1352,7 +1352,7 @@ ctrl HyperlinkLabel {
         w.DrawText(px, (sz.cy - textsize.cy) / 2, .SetText, .SetFont, :SLtBlue);
     }
     Sample() {
-        .SetText = "Text";
+        .SetText = "Текст";
         .SetFont = Arial(10).Bold().Italic();
     }
 };

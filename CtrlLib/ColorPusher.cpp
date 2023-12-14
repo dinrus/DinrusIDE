@@ -108,8 +108,8 @@ void ColorPusher::NewColor()
 
 ColorPusher::ColorPusher()
 {
-	nulltext = t_("(transparent)");
-	voidtext = t_("(none)");
+	nulltext = t_("(прозрачный)");
+	voidtext = t_("(отсутствует)");
 	color = Null;
 	track = push = withtext = withhex = false;
 	colors.WhenSelect = THISBACK(AcceptColors);

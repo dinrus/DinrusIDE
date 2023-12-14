@@ -147,8 +147,9 @@ Ultimate`+`+.&]
 [s0; &]
 [s3; array`[0, count`]&]
 [s0; &]
-[s4; Когда срезы используются как l`-value,заменяетс
-я соответствующая часть массива:&]
+[s4; Когда срезы используются как l`-value, 
+заменяется соответствующая часть 
+массива:&]
 [s0; &]
 [s3; s `= `"1234`";&]
 [s3; s`[1: `-1`] `= `"xXx`"; [@4 // s is now `"1xXx4`"]&]
@@ -227,10 +228,10 @@ Ultimate`+`+.&]
 [s0; Значения мапов также можно определять 
 с помощью `{`} фигурных скобок:&]
 [s0; &]
-[s3; `{`}                                [@4 // empty map]&]
+[s3; `{`}                                [@4 // пустой мап]&]
 [s3; `{ `"alfa`":10, `"beta`":20, 20:`"40`" `}&]
-[s3; `{ 2 `* a : `"100`" `}                 [@4 // map values can contain 
-expressions]&]
+[s3; `{ 2 `* a : `"100`" `}                 [@4 // значениями 
+мапа могут быть выражения]&]
 [s0; &]
 [s1;:2`_5: 2.5 Лямбды&]
 [s4; Лямбды представляют собой исполнимый 
@@ -246,11 +247,11 @@ expressions]&]
 глобальную функцию foo]&]
 [s0; &]
 [s4; Если перед аругментом лямбды указан 
-символ [@(128.0.255) `&], он обозначает авгумент 
-ввода`-вывода (длугие аргументы только 
+символ [@(128.0.255) `&], он обозначает аргумент 
+ввода`-вывода (другие аргументы только 
 вводные).&]
 [s4; [@(128.0.255) ...] в конце списка аргументов 
-разрешает предоставлять переменное 
+разрешается предоставлять переменное 
 число аргументов. В таком случае, 
 дополнительные параметры передаются 
 в переменной [/ argv] из типового массива.&]
@@ -303,8 +304,8 @@ expressions]&]
 одно исключение `- при вызове лямбды 
 из локальной переменной и её отсутствии, 
 также проверяется её наличие в контексте 
-экземплярном и глобальном (именно 
-в таком порядке):&]
+экземпляра и глобальном (именно в 
+таком порядке):&]
 [s0; &]
 [s3; beta(x)&]
 [s0; &]
@@ -320,24 +321,30 @@ expressions]&]
 если имеется локальная или экземпляра]&]
 [s0; &]
 [s2;:4: 4. Выражения&]
-[s4; When expressions are used as logical values, void, zero number 
-and map or array with zero elements represent [/ false], other 
-values are [/ true.]&]
-[s4; In following table, thick lines divide operators with the same 
-priority, with topmost items having the highest priority:&]
+[s4; Когда выражения используются как 
+логические значения,`-void, число ноль 
+и мап или массив с нулём элементов 
+`- представляют [/ false], а прочие значения 
+равны [/ true.]&]
+[s4; В следующей таблице толстые линии 
+разделяют операторов с одинаковым 
+приоритетом, где самые верхние элементы 
+имеют наивысший приоритет:&]
 [s0; &]
-[ {{4468:5532h1;@(216) [s0; Оператор]
+[ {{4397:5603h1;@(216) [s0; Оператор]
 :: [s0; Комментарии]
 ::^@2 [s0; [/C map][*C `[][/C key][*C `]]]
 :: [s0; Map value at [/ key].]
 :: [s0; [/C map][*C .][/C field]]
 :: [s0; То же, что и [/ map]`[`"[/ field]`"`].]
 :: [s0; [/C array][*C `[][/C index][*C `]]]
-:: [s0; Array element at position [/ index].]
+:: [s0; Элемент массива в позиции [/ index].]
 :: [s0; [/C array][*C `[][/C start][*C , ][/C count][*C `]]]
-:: [s0; Array slice starting at [/ start] of [/ count] elements.]
+:: [s0; Срез массива, начиная со [/ start], из [/ count] 
+элементов.]
 :: [s0; [/C array][*C `[][/C start][*C :][/C end][*C `]]]
-:: [s0; Array slice of elements [/ start .. end] `- 1]
+:: [s0; Срез массива из элементов [/ start .. end] 
+`- 1]
 :: [s0; [/C array][*C `[,][/C count][*C `]]&]
 [s0; [/C array][*C `[:][/C count][*C `]]]
 :: [s0; То же, что и [/ array]`[0, [/ count]`].&]
@@ -346,9 +353,9 @@ priority, with topmost items having the highest priority:&]
 [s0; [/C array][*C `[][/C start][*C ,`]]]
 :: [s0; То же, что и [/ array]`[[/ start] : count(array)`]. ]
 :: [s0; [/C lambda][*C (][/C args][*C )]]
-:: [s0; Invokes [/ lambda] with the set of [/ args]. If lambda is subscript 
-of the map, map becomes instance for [/ lambda] execution (accessible 
-via [* .][/ name] or [* self]).]
+:: [s0; Вызывает [/ lambda] с набором аргументов 
+[/ args]. If lambda is subscript of the map, map becomes instance 
+for [/ lambda] execution (accessible via [* .][/ name] or [* self]).]
 :: [s0; [/C lambda][*C (][/C args][*C ) ! ][/C instance]]
 :: [s0; Invokes [/ lambda], using[/  instance] as instance for lambda execution 
 (accessible via [* .][/ name] or [* self]).]

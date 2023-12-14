@@ -72,10 +72,10 @@ ght]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s], [@(0.0.255) int]_[*@3 cx],
 для заданной ширины. Параграфы QTF 
 форматируются под эту ширину.&]
 [s7; [%-*C@3 w]-|Draw.&]
-[s7; [%-*C@3 s]-|SmartText string.&]
-[s7; [%-*C@3 cx]-|Required width.&]
-[s7; [%-*C@3 font]-|Font for non`-QTF text.&]
-[s7; [*/ Возвратное значение]-|Height of SmartText.&]
+[s7; [%-*C@3 s]-|Строка SmartText.&]
+[s7; [%-*C@3 cx]-|Требуемая ширина.&]
+[s7; [%-*C@3 font]-|Шрифт для не`-QTF текста.&]
+[s7; [*/ Возвратное значение]-|Высота SmartText`'а.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:DrawSmartText`(Upp`:`:Draw`&`,int`,int`,int`,const char`*`,Upp`:`:Font`,Upp`:`:Color`,int`,Upp`:`:Color`):%- [@(0.0.255) v
@@ -84,55 +84,59 @@ oid]_[* DrawSmartText]([_^Upp`:`:Draw^ Draw][@(0.0.255) `&]_[*@3 w],
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text], [_^Upp`:`:Font^ Font]_[*@3 font]_`=_StdF
 ont(), [_^Upp`:`:Color^ Color]_[*@3 ink]_`=_SBlack(), [@(0.0.255) int]_[*@3 accesskey]_`=
 _[@3 0], [_^Upp`:`:Color^ Color]_[*@3 qtf`_ink]_`=_Null)&]
-[s2; Paints SmartText to target Draw.&]
+[s2; Отрисовывает SmartText на целевой Draw.&]
 [s7; [%-*C@3 w]-|Draw.&]
-[s7; [%-*C@3 x, y]-|Position.&]
-[s7; [%-*C@3 cx]-|Required width.&]
+[s7; [%-*C@3 x, y]-|Позиция.&]
+[s7; [%-*C@3 cx]-|Требуемая ширина.&]
 [s7; [%-*C@3 text]-|SmartText.&]
-[s7; [%-*C@3 font]-|Font for non`-QTF SmartText.&]
-[s7; [%-*C@3 ink]-|Text color for non`-QTF SmartText.&]
-[s7; [%-*C@3 accesskey]-|Access`-key `- first corresponding character 
-will be painted with underline.&]
-[s7; [%-*C@3 qtf`_ink][%- -|If not Null o]verrides ink of qtf text and 
-disables the qtf text background `- useful to handle selected 
-items.&]
+[s7; [%-*C@3 font]-|Шрифт для не`-QTF SmartText.&]
+[s7; [%-*C@3 ink]-|Цвет текста для не`-QTF SmartText.&]
+[s7; [%-*C@3 accesskey]-|Клавиша доступа `-первый 
+соответствующий символ будет подчёркнутым.&]
+[s7; [%-*C@3 qtf`_ink][%- -|Если не Null, переписывает 
+чернила текста] qtf и отключает фон 
+текста qtf `- полезно при обработке 
+выделенных элементов.&]
 [s3; &]
 [s4;%- &]
 [s5;:ExtractAccessKey`(const char`*`,String`&`):%- [_^byte^ byte]_[* ExtractAccessKey]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 s], [_^String^ String][@(0.0.255) `&]_[*@3 label])&]
-[s2; Scans input string for access`-key.&]
-[s7; [%-*C@3 s]-|Input string.&]
-[s7; [%-*C@3 label]-|Output string `- with access`-key removed.&]
+[s2; Сканирует строку ввода на access`-key.&]
+[s7; [%-*C@3 s]-|Строка ввода.&]
+[s7; [%-*C@3 label]-|Строка вывода `- с удалённой 
+access`-key.&]
 [s7; [*/ Возвратное значение]-|Access`-key.&]
 [s3; &]
 [s4;%- &]
 [s5;:CompareAccessKey`(byte`,dword`):%- [@(0.0.255) bool]_[* CompareAccessKey]([_^byte^ byt
 e]_[*@3 accesskey], [_^dword^ dword]_[*@3 key])&]
-[s2; Compares access key to U`+`+ event key value as received by 
-Key virtual method.&]
+[s2; Сравнивает клавишу доступа со значением 
+ключа события U`+`+, полученным виртуальным 
+методом Key.&]
 [s7; [%-*C@3 accesskey]-|Access`-key.&]
 [s7; [%-*C@3 key]-|U`+`+ event key value.&]
-[s7; [*/ Возвратное значение]-|True if values match.&]
+[s7; [*/ Возвратное значение]-|True, если значения 
+совпадают.&]
 [s3; &]
 [s4;%- &]
 [s5;:ChooseAccessKey`(const char`*`,dword`):%- [_^byte^ byte]_[* ChooseAccessKey]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 s], [_^dword^ dword]_[*@3 used])&]
-[s2; Scans input string for suitable access`-key.&]
-[s7; [%-*C@3 s]-|Input string.&]
+[s2; Сканирует строку ввода на подходящий 
+access`-key.&]
+[s7; [%-*C@3 s]-|Строка ввода.&]
 [s7; [%-*C@3 used]-|Bit`-set of already used access`-keys. Bit`-mask 
 of specific access`-key is defined by [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:AccessKeyBit`(byte`)^ C
 trl`::AccessKeyBit] class method.&]
 [s7; [*/ Возвратное значение]-|Access`-key or 0 if 
 no suitable access`-key found.&]
 [s3; &]
-[s0; &]
-[s0; &]
-[s0;%- &]
 [ {{10000@3 [s0; [*@(229)4 Структура DrawLabel]]}}&]
-[s3; &]
+[s4; &]
 [s1;:DrawLabel`:`:struct:%- [@(0.0.255)3 struct][3 _][*3 DrawLabel]&]
-[s9; This structure in fact just encapsulates generic label painting 
-routine that otherwise would have way too much parameters.&]
+[s9; Эта структура фактически просто 
+инкапсулирует генерную процедуру 
+отрисовки ярлыка, которая содержит 
+много параметров.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
@@ -146,31 +150,35 @@ documented in attributes descriptions.&]
 [s3;%- &]
 [s5;:DrawLabel`:`:GetSize`(int`)const:%- [_^Size^ Size]_[* GetSize]([@(0.0.255) int]_[*@3 txt
 cx]_`=_INT`_MAX)_[@(0.0.255) const]&]
-[s2; Возвращает the size of label based on current set 
-of attributes. [%-*@3 txtcx] specifies the maximum width of text.&]
+[s2; Возвращает размер ярлыка, основанный 
+на текущем наборе атрибутов. [%-*@3 txtcx] 
+определяет максимальную ширину текста.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:Paint`(Draw`&`,const Rect`&`,bool`)const:%- [_^Size^ Size]_[* Paint]([_^Draw^ D
 raw][@(0.0.255) `&]_[*@3 w], [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r], 
 [@(0.0.255) bool]_[*@3 visibleaccesskey]_`=_[@(0.0.255) true])_[@(0.0.255) const]&]
-[s2; Paints the label in given rectangle.&]
+[s2; Отрисовывает ярлык в заданном прямоугольни
+ке.&]
 [s7; [%-*C@3 w]-|Draw.&]
-[s7; [%-*C@3 r]-|Rectangle.&]
-[s7; [%-*C@3 visibleacckey]-|Access`-keys should be graphically highlighted 
-(underlined).&]
-[s7; [*/ Возвратное значение]-|Size of label.&]
+[s7; [%-*C@3 r]-|Прямоугольник.&]
+[s7; [%-*C@3 visibleacckey]-|Access`-keys должны иметь графическую
+ подсветку (подчёркнуты).&]
+[s7; [*/ Возвратное значение]-|Размер ярлыка.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:Paint`(Draw`&`,int`,int`,int`,int`,bool`)const:%- [_^Size^ Size]_[* Pai
 nt]([_^Draw^ Draw][@(0.0.255) `&]_[*@3 w], [@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], 
 [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy], [@(0.0.255) bool]_[*@3 visibleaccesskey
 ]_`=_[@(0.0.255) true])_[@(0.0.255) const]&]
-[s2; Paints the label in given rectangle.&]
+[s2; Отрисовывает ярлык в заданном прямоугольни
+ке.&]
 [s7; [%-*C@3 w]-|Draw.&]
-[s7; [%-*C@3 x, y, cx, cy]-|Position and size of rectangle.&]
-[s7; [%-*C@3 visibleacckey]-|Access`-keys should be graphically highlighted 
-(underlined).&]
-[s7; [*/ Возвратное значение]-|Size of label.&]
+[s7; [%-*C@3 x, y, cx, cy]-|Позиция и размер прямоугольника.
+&]
+[s7; [%-*C@3 visibleacckey]-|Access`-keys должны иметь графическую
+ подсветку (подчёркнуты).&]
+[s7; [*/ Возвратное значение]-|Размер ярлыка.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:push:%- [@(0.0.255) bool]_[* push]&]
@@ -248,18 +256,14 @@ at the right size of Label.&]
 [s5;:DrawLabel`:`:accesskey:%- [@(0.0.255) int]_[* accesskey]&]
 [s2; Access`-key.&]
 [s3; &]
-[s0; &]
-[s0;3 &]
-[s0;%- &]
 [ {{10000@3 [s0; [*@(229)4 Класс LabelBase]]}}&]
-[s3; &]
+[s4; &]
 [s1;:LabelBase`:`:class:%- [@(0.0.255)3 class][3 _][*3 LabelBase]&]
 [s9; This class encapsulates basic DrawLabel struct into form suitable 
 to play a role of base class of GUI elements.&]
 [s3; &]
-[s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
-[s3;%- &]
+[s4;%- &]
 [s5;:LabelBase`:`:LabelUpdate`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* LabelUpdate](
 )&]
 [s2; This virtual method is called each time when any of attributes 

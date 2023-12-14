@@ -22,16 +22,21 @@ taType][3 >]&]
 (A0cAHAAAAAAAAAAAAHic+/BhFIyCQQHWHrkeM3mPbfXaIYeAzgY6Hquntp5/fuzeu/9DEACdveTkY1ye+v7rz0A7EARWr938hzgAVAlUD3Q2Hk/BjTWeiY4YGBjo7KlPhADcU0AwJDz1+/fv96jAN6wCTQSoZsh56h0SiM9bCkHIgiR7avX/h3DOu/9RdPfUz58/X8BAQetFZAQXB6ohw1P1AxdTnz9/vkgIANUMOU8RA8hOfgtWD4CniEckeAoWQVHnQNz64eUpIDoIjiz611PEV75DyFO0q3zr7w1MkQ6sgz7CAFqRDhcntZ5aAG/Ygn00TCrfgW5R/Pr16w0qADaT0ESAaoaWp5BbFLgAyS2KgfYUFSvfX3/+0s3leACp9RTQ2Xg8Nfx6vreevN1+c6gioOOxemoUjIJRQDkAAEn0LCc=)
 &]
 [s2; &]
-[s2; This template adds spin buttons to the [%-*@3 Base] widget to 
-increment and decrement its value. [%-*@3 Base] musts be descendant 
-of Ctrl and must have defined methods [* MinMax]([%-*@4 DataType,] 
-[%-*@4 DataType]), [* GetMin ]and [* GetMax]. [%-*@4 DataType] is a type 
-of Value contained in [%-*@3 Base], [%-*@4 IncType] type of increment 
-value.&]
-[s2; There two global function templates that can be used to customize 
-increment/decrement process:  [* WithSpin`_DefaultIncValue] defines 
-the default increment value and [* WithSpin`_Add] defines a way 
-how the value is incremented or decremented.&]
+[s2; Этот шаблон добавляет спин`-кнопки 
+к виджету [%-*@3 Base], которыми инкрементируется 
+/декрементируется его значение. [%-*@3 Base] 
+должен быть потомком класса Ctrl и иметь 
+определения методов [* MinMax]([%-*@4 DataType,] 
+[%-*@4 DataType]), [* GetMin ]и [* GetMax]. [%-*@4 DataType] `- это 
+тип значения, содержащегося в [%-*@3 Base], 
+[%-*@4 IncType] `- тип инкрементного значения.&]
+[s2; Процесс инкрементации /декрементации 
+можно кастомизировать двумя глобальными 
+шаблонными функциями:  [* WithSpin`_DefaultIncValue] 
+определяет дефолтное значение инкремента, 
+а [* WithSpin`_Add] определяет то, каким образом 
+значение инкрементируется /декрементируетс
+я.&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255)%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
@@ -46,8 +51,10 @@ ncType]_[*@3 `_inc]_`=_[@3 1])&]
 [s4; &]
 [s5;:WithSpin`:`:OnSides`(bool`):%- [_^WithSpin^ WithSpin][@(0.0.255) `&]_[* OnSides]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Instead of putting both buttons at the right side of widget, 
-puts decrement button to the left and increment to the right.&]
+[s2; Вместо помещения обеих кнопок с правой 
+стороны виджета, помещает кнопку 
+декремента слева, а кнопку инкремента 
+`- справа.&]
 [s3; &]
 [s4; &]
 [s5;:WithSpin`:`:IsOnSides`(`)const:%- [@(0.0.255) bool]_[* IsOnSides]()_[@(0.0.255) const]&]

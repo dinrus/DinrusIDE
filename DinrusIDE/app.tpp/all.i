@@ -98,6 +98,10 @@ TOPIC("PackagesAssembliesAndNests_ru-ru")
 #include "PackagesAssembliesAndNests_ru-ru.tppi"
 END_TOPIC
 
+TOPIC("ToTinkoff_ru-ru")
+#include "ToTinkoff_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("Topic_ru-ru")
 #include "Topic_ru-ru.tppi"
 END_TOPIC

@@ -25,40 +25,6 @@
 #include <Core/t.h>
 
 
-/*
-Hi Koldo,
-
-I checked the functions in Functions4U. Here are some notes about trashing:
-
-    * On older systems, the trash folder was $HOME/.Trash
-    * Your implementation of disregards the folder $HOME/.local/share/trash/info. You should create
-    there a .trashinfo file when moving something in trash and delete it when deleting corresponding file permanently.
-    * If you delete something on different partition than $HOME, you should also check if .Trash-XXXX
-    exists in root of that partition (XXXX is id of user who deleted the files in it).
-
-.local/share/Trash/files
-.local/share/Trash/info
-
-A file every time a file is removed with
-
-KK.trashinfo
-[Trash Info]
-Path=/home/pubuntu/KK
-DeletionDate=2010-05-19T18:00:52
-
-
-You might also be interested in following:
-
-    * Official trash specification from freedesktop.org
-    * Project implementing command line access to trash (unfortunately in python) according to the specification mentioned above
-
-
-Hope this might help Smile It definitely learned me a lot of new things Very Happy
-
-Best regards,
-Honza
-*/
-
 namespace Upp {
 
 /////////////////////////////////////////////////////////////////////

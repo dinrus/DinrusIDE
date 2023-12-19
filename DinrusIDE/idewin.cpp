@@ -329,7 +329,7 @@ void SetupError(ArrayCtrl& error, const char *s)
 	error.AddColumn("Строка").SetDisplay(Single<Ide::TopAlignedDisplay>());
 	error.AddColumn(s);
 	error.AddIndex("INFO");
-	error.ColumnWidths("200 50 298");
+	error.ColumnWidths("200 70 278");
 	error.NoWantFocus();
 }
 

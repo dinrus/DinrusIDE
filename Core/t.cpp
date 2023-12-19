@@ -106,7 +106,7 @@ void AddModule(const LngEntry__* l, const char *name)
 			ids.s = l->text;
 			lr = &m.map.GetAdd(ids);
 			LngRec& r = lr->Add();
-			r.lang = LNG_('E','N','U','S');
+			r.lang = LNG_('R','U','R','U');
 			r.text = GetENUSc(l->text);
 		}
 		else

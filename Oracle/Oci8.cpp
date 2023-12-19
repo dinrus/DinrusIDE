@@ -1313,7 +1313,7 @@ bool Oracle8::Login(const char *name, const char *pwd, const char *db, bool use_
 	}
 	LLOG("Attributes allocated -> OCIServerAttach");
 	if(oci8.OCIServerAttach(srvhp, errhp, (byte *)db, (sb4)strlen(db), 0)) {
-		SetOciError(NFormat(t_("Connecting to server '%s'"), db), errhp);
+		SetOciError(NFormat(t_("Подключение к серверу '%s'"), db), errhp);
 		Logoff();
 		return false;
 	}
@@ -1326,7 +1326,7 @@ bool Oracle8::Login(const char *name, const char *pwd, const char *db, bool use_
 	|| oci8.OCIAttrSet(svchp, OCI_HTYPE_SVCCTX, seshp, 0, OCI_ATTR_SESSION, errhp)
 	|| (retcode = oci8.OCISessionBegin(svchp, errhp, seshp, OCI_CRED_RDBMS, OCI_DEFAULT)) != OCI_SUCCESS
 	&& retcode != OCI_SUCCESS_WITH_INFO) {
-		SetOciError(t_("Connecting to Oracle database."), errhp);
+		SetOciError(t_("Подключение к базе данных Oracle."), errhp);
 		Logoff();
 		return false;
 	}

@@ -3,6 +3,7 @@
 #ifndef _Core_lng_h_
 #define _Core_lng_h_
 
+#define ruRU(text)  { LNGC_('R','U','R','U', CHARSET_UTF8), text },
 #define enUS(text)  { LNGC_('E','N','U','S', CHARSET_UTF8), text },
 #define enGB(text)  { LNGC_('E','N','G','B', CHARSET_UTF8), text },
 #define enAU(text)  { LNGC_('E','N','A','U', CHARSET_UTF8), text },
@@ -61,7 +62,6 @@
 #define ptBR(text)  { LNGC_('P','T','B','R', CHARSET_UTF8), text },
 #define ptPT(text)  { LNGC_('P','T','P','T', CHARSET_UTF8), text },
 #define roRO(text)  { LNGC_('R','O','R','O', CHARSET_UTF8), text },
-#define ruRU(text)  { LNGC_('R','U','R','U', CHARSET_UTF8), text },
 #define hrHR(text)  { LNGC_('H','R','H','R', CHARSET_UTF8), text },
 #define srSP(text)  { LNGC_('S','R','S','P', CHARSET_UTF8), text },
 #define srSP(text)  { LNGC_('S','R','S','P', CHARSET_UTF8), text },

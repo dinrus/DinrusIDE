@@ -101,34 +101,37 @@ _[@3 0], [_^Upp`:`:Color^ Color]_[*@3 qtf`_ink]_`=_Null)&]
 [s4;%- &]
 [s5;:ExtractAccessKey`(const char`*`,String`&`):%- [_^byte^ byte]_[* ExtractAccessKey]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 s], [_^String^ String][@(0.0.255) `&]_[*@3 label])&]
-[s2; Сканирует строку ввода на access`-key.&]
+[s2; Сканирует строку ввода на наличие 
+клавиши доступа.&]
 [s7; [%-*C@3 s]-|Строка ввода.&]
 [s7; [%-*C@3 label]-|Строка вывода `- с удалённой 
-access`-key.&]
+клавишей доступа.&]
 [s7; [*/ Возвратное значение]-|Access`-key.&]
 [s3; &]
 [s4;%- &]
 [s5;:CompareAccessKey`(byte`,dword`):%- [@(0.0.255) bool]_[* CompareAccessKey]([_^byte^ byt
 e]_[*@3 accesskey], [_^dword^ dword]_[*@3 key])&]
 [s2; Сравнивает клавишу доступа со значением 
-ключа события U`+`+, полученным виртуальным 
+клавиши события U`+`+, полученным виртуальным 
 методом Key.&]
 [s7; [%-*C@3 accesskey]-|Access`-key.&]
-[s7; [%-*C@3 key]-|U`+`+ event key value.&]
+[s7; [%-*C@3 key]-|Значение клавиши события U`+`+.&]
 [s7; [*/ Возвратное значение]-|True, если значения 
 совпадают.&]
 [s3; &]
 [s4;%- &]
 [s5;:ChooseAccessKey`(const char`*`,dword`):%- [_^byte^ byte]_[* ChooseAccessKey]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 s], [_^dword^ dword]_[*@3 used])&]
-[s2; Сканирует строку ввода на подходящий 
-access`-key.&]
+[s2; Сканирует строку ввода на подходящую 
+клавишу доступа.&]
 [s7; [%-*C@3 s]-|Строка ввода.&]
-[s7; [%-*C@3 used]-|Bit`-set of already used access`-keys. Bit`-mask 
-of specific access`-key is defined by [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:AccessKeyBit`(byte`)^ C
-trl`::AccessKeyBit] class method.&]
-[s7; [*/ Возвратное значение]-|Access`-key or 0 if 
-no suitable access`-key found.&]
+[s7; [%-*C@3 used]-|Бит`-набор из уже используемых 
+клавиш доступа. Бит`-маска специфичного 
+ключа доступа определятся методом 
+класса [^topic`:`/`/CtrlCore`/src`/Ctrl`_ru`-ru`#Ctrl`:`:AccessKeyBit`(byte`)^ C
+trl`::AccessKeyBit].&]
+[s7; [*/ Возвратное значение]-|Клавиша доступа 
+или 0, если не найдено подходящей.&]
 [s3; &]
 [ {{10000@3 [s0; [*@(229)4 Структура DrawLabel]]}}&]
 [s4; &]
@@ -142,8 +145,9 @@ no suitable access`-key found.&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:DrawLabel`:`:DrawLabel`(`):%- [* DrawLabel]()&]
-[s2; Дефолтный конструктор. Default values are 
-documented in attributes descriptions.&]
+[s2; Дефолтный конструктор. Дефолтные 
+значения документированы в описании 
+атрибутов.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
@@ -162,8 +166,8 @@ raw][@(0.0.255) `&]_[*@3 w], [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*
 ке.&]
 [s7; [%-*C@3 w]-|Draw.&]
 [s7; [%-*C@3 r]-|Прямоугольник.&]
-[s7; [%-*C@3 visibleacckey]-|Access`-keys должны иметь графическую
- подсветку (подчёркнуты).&]
+[s7; [%-*C@3 visibleacckey]-|Клавиши доступа должны 
+иметь графическую подсветку (подчёркнуты).&]
 [s7; [*/ Возвратное значение]-|Размер ярлыка.&]
 [s3; &]
 [s4;%- &]
@@ -176,114 +180,130 @@ nt]([_^Draw^ Draw][@(0.0.255) `&]_[*@3 w], [@(0.0.255) int]_[*@3 x], [@(0.0.255)
 [s7; [%-*C@3 w]-|Draw.&]
 [s7; [%-*C@3 x, y, cx, cy]-|Позиция и размер прямоугольника.
 &]
-[s7; [%-*C@3 visibleacckey]-|Access`-keys должны иметь графическую
- подсветку (подчёркнуты).&]
+[s7; [%-*C@3 visibleacckey]-|Клавиши доступа должны 
+иметь графическую подсветку (подчёркнуты).&]
 [s7; [*/ Возвратное значение]-|Размер ярлыка.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:push:%- [@(0.0.255) bool]_[* push]&]
-[s2; Label should be painted as `"pushed`" (means paint offset one 
-pixel right and down). Дефолт равен false.&]
+[s2; Ярлык должен отрисовываться `"нажатым`" 
+со смешением рисунка на один пиксель 
+вправо и вниз). Дефолт равен false.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:focus:%- [@(0.0.255) bool]_[* focus]&]
-[s2; Label should be painted as `"with input focus`" (light blue 
-rectangle is drawn around label). Дефолт равен false.&]
+[s2; Ярлык должен отрисовываться `"с фокусом 
+ввода`" (голубой прямоугольник вокруг 
+ярлыка). Дефолт равен false.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:disabled:%- [@(0.0.255) bool]_[* disabled]&]
-[s2; Label should be painted as `"disable`" (affects the way how 
-images and text are painted, disabled mean they are gray).&]
+[s2; Ярлык должен отрисовываться `"отключенным`" 
+(влияет на отрисовку изображений 
+и текста, отключенный, значит, что 
+они серые).&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:paintrect:%- [_^PaintRect^ PaintRect]_[* paintrect]&]
-[s2; This paintrect is painted behind the label text. If label text 
-is empty, size of text area is determined as paintrect.GetSize().&]
+[s2; Этот paintrect отрисовывается за текстом 
+ярлыка. Если текст ярлыка пустой, 
+то размер текстовой области определяется 
+как paintrect.GetSize().&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:limg:%- [_^Image^ Image]_[* limg]&]
-[s2; Left image.&]
+[s2; Левый рисунок.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:lcolor:%- [_^Color^ Color]_[* lcolor]&]
-[s2; Color of left monochromatic image. Null means that the image 
-is color.&]
+[s2; Цвет левого монохромного рисунка. 
+Null означает, что рисунок цветной.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:lspc:%- [@(0.0.255) int]_[* lspc]&]
-[s2; Space between left image and text. If Null, image is placed 
-at left edge of Label.&]
+[s2; Пространство между левым рисунком 
+и текстом. Если Null, то рисунок помещается 
+у левой кромки ярлыка Label.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:text:%- [_^String^ String]_[* text]&]
-[s2; Text of label.&]
+[s2; Текст ярлыка.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:font:%- [_^Font^ Font]_[* font]&]
-[s2; Font used to paint non`-QTF text.&]
+[s2; Шрифт, используемый для отрисовки 
+не`-QTF текста.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:ink:%- [_^Color^ Color]_[* ink]&]
-[s2; Color used to paint non`-QTF text.&]
+[s2; Цвет, используемый при отрисовке 
+не`-QTF текста.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:rimg:%- [_^Image^ Image]_[* rimg]&]
-[s2; Right image.&]
+[s2; Правый рисунок.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:rcolor:%- [_^Color^ Color]_[* rcolor]&]
-[s2; Color of monochromatic right image. Null means that the image 
-is color.&]
+[s2; Цвет монохромного правого рисунка. 
+Null означает, что рисунок цветной.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:rspc:%- [@(0.0.255) int]_[* rspc]&]
-[s2; Space between the right image and text. If Null, image is placed 
-at the right size of Label.&]
+[s2; Пространство между правым рисунком 
+и текстом. Если Null, рисунок помещается 
+в правом размере ярлыка.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:align:%- [@(0.0.255) int]_[* align]&]
-[s2; Horizontal alignment. Can be ALIGN`_LEFT, ALIGN`_RIGHT or ALIGN`_CENTER.&]
+[s2; Горизонтальная разлиновка: ALIGN`_LEFT, 
+ALIGN`_RIGHT или ALIGN`_CENTER.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:valign:%- [@(0.0.255) int]_[* valign]&]
-[s2; Vertical alignment. Can be ALIGN`_TOP, ALIGN`_BOTTOM or ALIGN`_CENTER.&]
+[s2; Вертикальная разлиновка: ALIGN`_TOP, ALIGN`_BOTTOM 
+или ALIGN`_CENTER.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:nowrap:%- [@(0.0.255) bool]_[* nowrap]&]
-[s2; When true (default false), no text wrapping is performed.&]
+[s2; Когда true (дефолтно false), подгонка текста 
+не выполняется.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:DrawLabel`:`:accesskey:%- [@(0.0.255) int]_[* accesskey]&]
-[s2; Access`-key.&]
+[s2; Клавиша доступа.&]
 [s3; &]
 [ {{10000@3 [s0; [*@(229)4 Класс LabelBase]]}}&]
 [s4; &]
 [s1;:LabelBase`:`:class:%- [@(0.0.255)3 class][3 _][*3 LabelBase]&]
-[s9; This class encapsulates basic DrawLabel struct into form suitable 
-to play a role of base class of GUI elements.&]
+[s9; Этот класс инкапсулирует базовую 
+структуру DrawLabel в форму, удобную для 
+выполнения роли базового класса элементов 
+ГИП.&]
 [s3; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s4;%- &]
 [s5;:LabelBase`:`:LabelUpdate`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* LabelUpdate](
 )&]
-[s2; This virtual method is called each time when any of attributes 
-changes.&]
+[s2; Этот виртуальный метод вызывается 
+каждый раз при любом изменении атрибутов.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:SetLeftImage`(const Image`&`,int`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&
 ]_[* SetLeftImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 bmp1], 
 [@(0.0.255) int]_[*@3 spc]_`=_[@3 0])&]
 [s2; Устанавливает рисунок слева.&]
-[s7; [%-*C@3 bmp1]-|Image.&]
-[s7; [%-*C@3 spc]-|Space between left image and text. If Null, image 
-is placed at left size of Label.&]
+[s7; [%-*C@3 bmp1]-|Рисунок.&]
+[s7; [%-*C@3 spc]-|Пространство между левым рисунком 
+и текстом. Если Null, рисунок помещается 
+в левом размере ярлыка.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:SetPaintRect`(const PaintRect`&`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&
 ]_[* SetPaintRect]([@(0.0.255) const]_[_^PaintRect^ PaintRect][@(0.0.255) `&]_[*@3 pr])&]
-[s2; Устанавливает PaintRect to be drawn behind or instead 
-of label text.&]
+[s2; Устанавливает PaintRect отрисовываемый 
+позади или вместо текста ярлыка.&]
 [s7; [%-*C@3 pr]-|PaintRect&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
@@ -291,21 +311,21 @@ of label text.&]
 [s5;:LabelBase`:`:SetText`(const char`*`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* Set
 Text]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text])&]
 [s2; Устанавливает текст ярлыка.&]
-[s7; [%-*C@3 text]-|Text.&]
+[s7; [%-*C@3 text]-|Текст.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:SetFont`(Font`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* SetFont]([_^Font^ F
 ont]_[*@3 font])&]
 [s2; Устанавливает шрифт не`-QTF текста.&]
-[s7; [%-*C@3 font]-|Font.&]
+[s7; [%-*C@3 font]-|Шрифт.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:SetInk`(Color`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* SetInk]([_^Color^ C
 olor]_[*@3 color])&]
 [s2; Устанавливает цвет не`-QTF текста .&]
-[s7; [%-*C@3 color]-|Color.&]
+[s7; [%-*C@3 color]-|Цвет.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
@@ -313,17 +333,17 @@ olor]_[*@3 color])&]
 ]_[* SetRightImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 bmp2], 
 [@(0.0.255) int]_[*@3 spc]_`=_[@3 0])&]
 [s2; Устанавливает рисунок справа.&]
-[s7; [%-*C@3 bmp2]-|Image.&]
-[s7; [%-*C@3 spc]-|Space between left image and text. If Null, image 
-is placed at left size of Label.&]
+[s7; [%-*C@3 bmp2]-|Рисунок.&]
+[s7; [%-*C@3 spc]-|Пространство между левым рисунком 
+и текстом. Если Null, рисунок помещается 
+в левом размере ярлыка.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:SetAlign`(int`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* SetAlign]([@(0.0.255) i
 nt]_[*@3 align])&]
-[s2; Устанавливает горизонтальную разлиновку 
-(alignment).&]
-[s7; [%-*C@3 align]-|One of ALIGN`_LEFT, ALIGN`_RIGHT or ALIGN`_CENTER.&]
+[s2; Устанавливает горизонтальную разлиновку.&]
+[s7; [%-*C@3 align]-|ALIGN`_LEFT, ALIGN`_RIGHT или ALIGN`_CENTER.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
@@ -344,7 +364,7 @@ nt]_[*@3 align])&]
 [s5;:LabelBase`:`:SetVAlign`(int`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* SetVAlign](
 [@(0.0.255) int]_[*@3 align])&]
 [s2; Устанавливает вертикальную разлиновку.&]
-[s7; [%-*C@3 align]-|One of ALIGN`_TOP, ALIGN`_BOTTOM or ALIGN`_CENTER.&]
+[s7; [%-*C@3 align]-|ALIGN`_TOP, ALIGN`_BOTTOM или ALIGN`_CENTER.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s5; &]
 [s4;%- &]
@@ -409,12 +429,13 @@ h]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*@3 focus]_`=_[@(0.0.255) false],
 [@(0.0.255) bool]_[*@3 vak]_`=_[@(0.0.255) true])&]
 [s2; Рисует ярлык в заданном прямоугольнике.&]
 [s7; [%-*C@3 w]-|Draw.&]
-[s7; [%-*C@3 r]-|Rectangle.&]
-[s7; [%-*C@3 disabled]-|Disable flag.&]
-[s7; [%-*C@3 push]-|Push flag.&]
-[s7; [%-*C@3 focus]-|Focus flag.&]
-[s7; [%-*C@3 vak]-|Если true, accelerator should be highlighted.&]
-[s7; [*/ Возвратное значение]-|Size of label.&]
+[s7; [%-*C@3 r]-|Прямоугольник.&]
+[s7; [%-*C@3 disabled]-|Флаг Disable.&]
+[s7; [%-*C@3 push]-|Флаг Push.&]
+[s7; [%-*C@3 focus]-|Флаг фокуса.&]
+[s7; [%-*C@3 vak]-|Если true, акселератор должен 
+подсвечиваться.&]
+[s7; [*/ Возвратное значение]-|Размер ярлыка.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:PaintLabel`(Draw`&`,int`,int`,int`,int`,bool`,bool`,bool`,bool`):%- [_^Size^ S
@@ -425,12 +446,13 @@ alse], [@(0.0.255) bool]_[*@3 focus]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*
 [@(0.0.255) true])&]
 [s2; Рисует ярлык в заданном прямоугольнике.&]
 [s7; [%-*C@3 w]-|Draw.&]
-[s7; [%-*C@3 x, y, cx, cy]-|Rectangle.&]
-[s7; [%-*C@3 disabled]-|Disable flag.&]
-[s7; [%-*C@3 push]-|Push flag.&]
-[s7; [%-*C@3 focus]-|Focus flag.&]
-[s7; [%-*C@3 vak]-|Если true, accelerator should be highlighted.&]
-[s7; [*/ Возвратное значение]-|Size of label.&]
+[s7; [%-*C@3 x, y, cx, cy]-|Прямоугольник.&]
+[s7; [%-*C@3 disabled]-|Флаг Disable.&]
+[s7; [%-*C@3 push]-|Флаг Push.&]
+[s7; [%-*C@3 focus]-|Флаг Focus.&]
+[s7; [%-*C@3 vak]-|Если true,  акселератор должен 
+подсвечиваться.&]
+[s7; [*/ Возвратное значение]-|Размер ярлыка.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:GetLabelSize`(`)const:%- [_^Size^ Size]_[* GetLabelSize]()_[@(0.0.255) co

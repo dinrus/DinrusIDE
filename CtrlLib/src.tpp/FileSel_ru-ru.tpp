@@ -170,8 +170,7 @@ ileSystemInfo][@(0.0.255) `&]_[*@3 fsys])&]
 [s4; &]
 [s5;:FileSel`:`:GetFilesystem`(`)const: [_^FileSystemInfo^ FileSystemInfo][@(0.0.255) `&]_
 [* GetFilesystem]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает файловую систеу, используему
-ю в файлвыборке.&]
+[s2;%RU-RU Возвращает файловую систеу, используемую в файлвыборке.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:Type`(const char`*`,const char`*`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* T

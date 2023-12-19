@@ -21,19 +21,27 @@ topic "Интернационализация и файлы переводов";
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [s2; [@5 Интернационализация и файлы переводов]&]
-[s5; To internationalize your application, you need to provide versions 
-of string literals in all required languages. In U`+`+, you can 
-do this using translation files.&]
-[s5; To mark string literals for translation in sources, you have 
-to tag them with [* t`_] macro, like&]
+[s5; Для интернационализации приложения 
+нужно предоставить версии строковых 
+литералов на всех требуемых языках. 
+В U`+`+ и DinrusIDE для этого используются 
+файлы переводов.&]
+[s5; Чтобы отметить строковые литералы 
+в исходниках, нужно поставить тэг 
+в виде макроса [* t`_], например&]
 [s0; &]
 [s7; Cout() << [* t`_(`"Hello world!`")];&]
 [s0; &]
-[s5; This macro is expanded to function that provides translation 
-of English (more specifically en`-US) text to default language 
-set by SetLanguage function. String literal here is considered 
-to be the key for translation lookup. U`+`+ supports three forms 
-of keys here:&]
+[s5; Этот макрос разворачивается в функцию, 
+обеспечивающую перевод русского 
+текста на дефолтный язык, установленный 
+функцией SetLanguage. (Так обстоит дело 
+в DinrusIDE, а в его внглийском варианте, 
+конечно, первым языком считается 
+анлгийский). Строковый литерал рассматривае
+тся как ключ для поиска соответствующего 
+перевода. U`+`+ поддерживает три формы 
+ключа:&]
 [s5;l128;i150;O0; Plain keys are just en`-US texts. Example: t`_(`"Hello 
 world!`")&]
 [s5;l128;i150;O0; Context keys consist of context and en`-US text 

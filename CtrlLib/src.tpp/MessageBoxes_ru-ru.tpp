@@ -225,20 +225,21 @@ Cancel, в другой раз вызывается этот
 показывая диалог). Так как такое поведение 
 в некотором контексте может смутить, 
 вариант [* Opt1] only grants `"[%RU-RU Больше не показывать]`"
- request if the user chooses button that returns 1 (e.g. OK or 
-Yes).&]
+ request if the user chooses button that returns 1 напр., 
+OK или Yes).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ClearPromptOptHistory`(`): [@(0.0.255) void]_[* ClearPromptOptHistory]()&]
-[s2;%RU-RU Clears the list of `"Больше не показывать`" 
-message boxes.&]
+[s2;%RU-RU Очищает список боксов сообщений 
+`"Больше не показывать`".&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ClearPromptOptHistory`(Upp`:`:Gate`<Upp`:`:String`>`): [@(0.0.255) void]_[* C
 learPromptOptHistory]([_^Upp`:`:Gate^ Gate]<[_^Upp`:`:String^ String]>_[*@3 filter])&]
-[s2;%RU-RU Clears the list of `"Больше не показывать`" 
-message boxes `- only removes those where [%-*@3 filter] returns 
-true for [%-*@3 opt`_id].&]
+[s2;%RU-RU Очищает список боксов сообщений 
+`"Больше не показывать`" `- удаляет 
+только те, где [%-*@3 filter] возвращает true 
+для [%-*@3 opt`_id].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:SerializePromptOptHistory`(Upp`:`:Stream`&`): [@(0.0.255) void]_[* SerializeP

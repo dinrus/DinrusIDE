@@ -327,7 +327,7 @@ Image GetFileIcon(const String& folder, const String& filename, bool isdir, bool
 
 		init = true;
 	}
-	if (filename == "Help Topics")
+	if (filename == "Тематики Справки")
 		return large ? lhelp : help;
 	if(isdir) {
 		Image img = dir;

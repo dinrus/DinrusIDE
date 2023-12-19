@@ -231,7 +231,7 @@ void Ide::FindInFiles(bool replace) {
 
 		SetFFound(~ff.output);
 
-		FFound().HeaderTab(2).SetText("Строка исходника");
+		FFound().HeaderTab(2).SetText("Текст исходника");
 		Renumber();
 		ff.find.AddHistory();
 		ff.files.AddHistory();
@@ -304,7 +304,7 @@ void Ide::FindInFiles(bool replace) {
 					n++;
 				}
 			}
-			FFound().HeaderTab(2).SetText(Format("Строка исходника (%d)", FFound().GetCount()));
+			FFound().HeaderTab(2).SetText(Format("Текст исходника (%d)", FFound().GetCount()));
 			if(!IsNull(pattern))
 				FFound().Add(Null, Null, AsString(n) + " случай(ев) обнаружен(о).");
 			else
@@ -324,7 +324,7 @@ void Ide::FindFileAll(const Vector<Tuple<int64, int>>& f)
 		WString ln = editor.GetWLine(linei);
 		AddFoundFile(editfile, linei + 1, ln.ToString(), Utf8Len(~ln, (int)pos.a), Utf8Len(~ln + pos.a, pos.b));
 	}
-	FFound().HeaderTab(2).SetText(Format("Строка исходника (%d)", FFound().GetCount()));
+	FFound().HeaderTab(2).SetText(Format("Текст исходника (%d)", FFound().GetCount()));
 	FFound().Add(Null, Null, AsString(f.GetCount()) + " случай(ев) обнаружен(о).");
 }
 	

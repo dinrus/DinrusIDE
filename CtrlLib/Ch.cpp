@@ -714,7 +714,7 @@ void ChMakeSkin(int roundness, Color button_face, Color thumb, int *adj)
 	MakeDialogIcons();
 }
 
-static bool hset_;
+bool hset_ = false;
 
 bool hsIsSet( bool hstyle){hset_ = hstyle; return hset_;}
 

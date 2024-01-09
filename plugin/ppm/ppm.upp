@@ -1,4 +1,4 @@
-description "PPM image file format U++ encapsulation\3770,128,128";
+description "Инкапсуляция формата файла изображения  PPM\3770,128,128";
 
 file
 	ppm.h,

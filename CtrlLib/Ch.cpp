@@ -721,7 +721,7 @@ bool hsIsSet( bool hstyle){hset_ = hstyle; return hset_;}
 void ChStdSkin()
 {
 	ChReset();
-	if(!hsIsSet) ChHostSkin();
+	if(!hset_) ChHostSkin();
 	static int adj[] = { 10, 80, -5, -10 };
 	SColorFace_Write(Color(240, 240, 240));
 	SColorMenu_Write(Color(240, 240, 240));
@@ -732,7 +732,7 @@ void ChStdSkin()
 void ChGraySkin()
 {
 	ChReset();
-	if(!hsIsSet) ChHostSkin();
+	if(!hset_)  ChHostSkin();
 	static int adj[] = { 0, 70, -15, -20 };
 	SColorHighlight_Write(Gray());
 	ChMakeSkin(3, SWhiteGray(), SLtGray(), adj);
@@ -741,7 +741,7 @@ void ChGraySkin()
 void ChDarkSkin()
 {
 	ChReset();
-	if(!hsIsSet) ChHostSkin();
+	if(!hset_)  ChHostSkin();
 	static int adj[] = { 10, 80, -5, -10 };
 	SColorPaper_Write(Black());
 	SColorHighlight_Write(Gray());
@@ -752,7 +752,7 @@ void ChDarkSkin()
 void ChFlatSkin()
 {
 	ChReset();
-	if(!hsIsSet) ChHostSkin();
+	if(!hset_)  ChHostSkin();
 	static int adj[] = { 10, 80, -5, -10 };
 	SColorFace_Write(Color(240, 240, 240));
 	SColorMenu_Write(Color(240, 240, 240));
@@ -763,7 +763,7 @@ void ChFlatSkin()
 void ChFlatGraySkin()
 {
 	ChReset();
-	if(!hsIsSet) ChHostSkin();
+	if(!hset_)  ChHostSkin();
 	static int adj[] = { 0, 70, -15, -20 };
 	SColorHighlight_Write(Gray());
 	ChMakeSkin(0, SWhiteGray(), SLtGray(), adj);
@@ -772,7 +772,7 @@ void ChFlatGraySkin()
 void ChFlatDarkSkin()
 {
 	ChReset();
-	if(!hsIsSet) ChHostSkin();
+	if(!hset_)  ChHostSkin();
 	static int adj[] = { 10, 80, -5, -10 };
 	SColorPaper_Write(Black());
 	SColorHighlight_Write(Gray());

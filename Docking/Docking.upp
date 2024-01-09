@@ -1,4 +1,4 @@
-description "Window Docking framework\377";
+description "Каркас докинга окон\377";
 
 uses
 	CtrlLib,

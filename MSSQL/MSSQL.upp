@@ -1,4 +1,4 @@
-description "MSSQL interface\377";
+description "Нитерфейс MSSQL\377";
 
 uses
 	ODBC;

@@ -1,4 +1,4 @@
-description "Интерфейс к Oracle\377";
+description "Интерфейс Oracle\377";
 
 uses
 	Sql;

@@ -1,4 +1,4 @@
-description "Polygon tesselator, original code from GLUT\3770,128,128";
+description "Тессалятор Многограников,  исходный код из GLUT\3770,128,128";
 
 uses
 	CtrlLib,

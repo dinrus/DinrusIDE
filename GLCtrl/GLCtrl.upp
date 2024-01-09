@@ -1,4 +1,4 @@
-description "OpenGL widget base class\377";
+description "Класс-основание виджетов OpenGL\377";
 
 uses
 	CtrlCore,

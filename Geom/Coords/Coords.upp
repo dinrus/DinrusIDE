@@ -1,4 +1,4 @@
-description "Geographical coordinates. Somewhat obsolete.\377";
+description "Географические координаты. В чём-то устаревшие.\377";
 
 uses
 	Geom;

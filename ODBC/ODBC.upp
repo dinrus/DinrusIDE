@@ -1,4 +1,4 @@
-description "Generic ODBC interface\377";
+description "Генерный интерфейс ODBC\377";
 
 uses
 	Sql;

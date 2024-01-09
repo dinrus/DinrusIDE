@@ -1,4 +1,4 @@
-description "Sqlite3 database engine and U++ interface\3770,128,128";
+description "Интерфейс и движок базы данных Sqlite3\3770,128,128";
 
 acceptflags
 	SQLITE_HAS_CODEC;

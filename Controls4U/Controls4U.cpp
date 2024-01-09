@@ -1972,7 +1972,7 @@ FileBrowser::FileBrowser() {
     files.AddColumn(t_("Размер")).SetConvert(Single<FileLenConvert>()).HeaderTab()
                 .Min(50).WhenAction = THISBACK1(SortByColumn, 1);
     files.AddColumn(t_("Дата")).HeaderTab().Min(50).WhenAction = THISBACK1(SortByColumn, 2);
-    files.AddColumn("Папка ли");
+    files.AddColumn("Папка");
 
     files.MultiSelect().HeaderObject().Absolute().Clipboard();
     files.BackPaintHint();
@@ -2194,7 +2194,7 @@ String FileBrowser::GetFolder() {
 
 
 AboutUpp::AboutUpp() {
-    about.SetQTF(GetTopic("topic://Controls4U/src/About$en-us"), Zoom(130, 1024));
+    about.SetQTF(GetTopic("topic://Controls4U/src/About$ru-ru"), Zoom(130, 1024));
     about.SetZoom(Zoom(1, 1));
     about.RightPos(0, 0).VSizePos();
     about.HMargins(4);

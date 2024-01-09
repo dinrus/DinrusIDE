@@ -32,7 +32,7 @@ topic "class RealTimeStop";
 [s5;:Upp`:`:RealTimeStop`:`:Pause`(bool`): [@(0.0.255) void]_[* Pause]([@(0.0.255) bool]_[*@3 p
 ause])&]
 [s2; Если [*@3 pause] равно true, таймер становится 
-на паузу, еслиs false, продолжает выполняться.&]
+на паузу, если false, продолжает выполняться.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:RealTimeStop`:`:Pause`(`): [@(0.0.255) void]_[* Pause]()&]
@@ -50,8 +50,8 @@ ause])&]
 [s4; &]
 [s5;:Upp`:`:RealTimeStop`:`:SetBack`(double`): [@(0.0.255) void]_[* SetBack]([@(0.0.255) do
 uble]_[*@3 secs])&]
-[s2; Устанавливаетобратно таймер на [*@3 secs] 
-секунд.&]
+[s2; Устанавливает обратно таймер на 
+[*@3 secs] секунд.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:RealTimeStop`:`:IsPaused`(`): [@(0.0.255) bool]_[* IsPaused]()&]

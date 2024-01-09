@@ -1,4 +1,4 @@
-description "Droid fonts packed into package, using FT_fontsys to provide indepenent fonts\3770,128,0";
+description "Шрифты Droid в упаковке, использующие  FT_fontsys для предоставления независимых шрифтов\3770,128,0";
 
 uses
 	plugin/FT_fontsys;

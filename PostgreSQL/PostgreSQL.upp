@@ -1,4 +1,4 @@
-description "PostgreSQL SQl database support\377";
+description "Поддержка баз данных PostgreSQL SQl\377";
 
 acceptflags
 	NOPOSTGRESQL;

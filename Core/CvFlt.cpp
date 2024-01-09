@@ -681,9 +681,9 @@ double CParser::ReadDoubleNoE()
 	LTIMING("ReadDouble No E");
 	double n;
 	const char *t = ScanDbl<char, byte>(n, term, '.', false);
-	if(!t) ThrowError("missing number");
+	if(!t) ThrowError("отсутствует число");
 	if(!IsFin(n))
-		ThrowError("invalid number");
+		ThrowError("неверное число");
 	term = t;
 	DoSpaces();
 	return n;

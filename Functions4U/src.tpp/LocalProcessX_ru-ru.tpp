@@ -1,5 +1,4 @@
 topic "LocalProcessX";
-[2 $$0,0#00000000000000000000000000000000:Default]
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,8 +8,9 @@ topic "LocalProcessX";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
-[ {{10000@(113.42.0) [s0; [*@7;4 Functions4U Reference. LocalProcessX]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Справка Functions4U. Класс LocalProcessX]]}}&]
 [s4;2 &]
 [s1;:Upp`:`:LocalProcessX`:`:class: [@(0.0.255) class]_[* LocalProcessX]&]
 [s0; &]
@@ -57,7 +57,8 @@ rocessStatus]_[*@3 status]_`=_STOP`_USER)&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:LocalProcessX`:`:Seconds`(`):%- [@(0.0.255) double]_[* Seconds]()&]
-[s2; Возвращает number of child program running elapsed seconds.&]
+[s2; Возвращает number of child program running elapsed 
+seconds.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:LocalProcessX`:`:Write`(Upp`:`:String`):%- [@(0.0.255) void]_[* Write]([_^Upp`:`:String^ S

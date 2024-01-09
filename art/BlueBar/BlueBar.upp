@@ -1,4 +1,4 @@
-description "Visual style for ToolBar and MenuBar\377";
+description "Визуальный стиль для ToolBar и MenuBar\377";
 
 uses
 	CtrlLib;

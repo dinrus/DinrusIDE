@@ -1,4 +1,4 @@
-description "Geometry related GUI code. Do not use in the new code.\377";
+description "Код ГИП, относящийся  к геометрии. Не использовать в новом коде.\377";
 
 acceptflags
 	NOHRRPNG;

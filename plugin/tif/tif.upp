@@ -1,4 +1,4 @@
-description "TIFF image file format\3770,128,128";
+description "Формат файла изображения TIFF\3770,128,128";
 
 options(BUILDER_OPTION) NOWARNINGS;
 

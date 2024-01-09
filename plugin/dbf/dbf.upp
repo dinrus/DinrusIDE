@@ -1,4 +1,4 @@
-description "DBase/FoxBase .dbf files support\3770,128,128";
+description "Поддержка файлов DBase/FoxBase .dbf\3770,128,128";
 
 uses
 	Core;

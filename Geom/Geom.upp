@@ -1,4 +1,4 @@
-description "2D and 3D geometry mathematics. Somewhat obsolete\377";
+description "Математика  геометрии 2D и 3D. В чём-то устаревшая.\377";
 
 uses
 	Core;

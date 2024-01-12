@@ -1,8 +1,14 @@
+/*
+* Вся основная инициализация и запуск программы,
+* а также применение прочих дополнительных действий,
+* выполняется в этом - главном - модуле.
+*/
 #include "DinrusIDE.h"
 #include "CommandLineHandler.h"
 
 #define FUNCTION_NAME UPP_FUNCTION_NAME << "(): "
 
+//Удаление временных файлов в папке конфигурации.
 void DelTemps()
 {
 	FindFile ff(ConfigFile("*.tmp"));
@@ -21,11 +27,12 @@ extern int MemoryProbeFlags;
 
 void Uninstall();
 
+//Тихий режим...
 bool SilentMode;
 
 #if defined(PLATFORM_WIN32)
 #include <wincon.h>
-
+//Помещает строку в стандартный вывод Windows.
 void Puts(const char *s)
 {
 	dword dummy;
@@ -36,6 +43,7 @@ void Puts(const char *s)
 
 
 #ifdef PLATFORM_POSIX
+//Помещает строку в стандартный вывод Posix.
 void Puts(const char *s)
 {
 	if(!SilentMode)
@@ -43,13 +51,16 @@ void Puts(const char *s)
 }
 #endif
 
+//Вывод сплэш-скрина...
 bool splash_screen;
 
+//Заменяет запятую на пробел.
 int CommaSpace(int c)
 {
 	return c == ',' ? ' ' : c;
 }
 
+//Удаляет устарелые файлы в кэше.
 void ReduceCache()
 {
 	String cfgdir = ConfigFile("cfg");
@@ -66,9 +77,9 @@ void ReduceCache()
 	}
 }
 
+//Проверка, является ли указанный путь путём к сборке.
 bool IsAssembly(const String& s)
 {
-	Vector<String> varlist;
 	for(FindFile ff(ConfigFile("*.var")); ff; ff.Next())
 		if(ff.IsFile())
 			if(GetFileTitle(ff.GetName()) == s)
@@ -80,6 +91,7 @@ bool IsAssembly(const String& s)
 	return false;
 }
 
+//Запуск в режиме редактирования.
 void StartEditorMode(const Vector<String>& args, Ide& ide, bool& clset)
 {
 	if(args.IsEmpty() || clset) {
@@ -104,10 +116,8 @@ void StartEditorMode(const Vector<String>& args, Ide& ide, bool& clset)
 	ide.EditorMode();
 }
 
-// СДЕЛАТЬ: I do not like that we need to define macro here.
-// I opt for std::function version. We need to fix that API
-// in 2018.2 release. #1901
-
+// СДЕЛАТЬ: Этот макрос желательно заменить версией
+// с std::function.
 #undef  GUI_APP_MAIN_HOOK
 #define GUI_APP_MAIN_HOOK \
 { \
@@ -122,8 +132,6 @@ GUI_APP_MAIN
 void AppMain___()
 #endif
 {
-//	Ctrl::ShowRepaint(50);
-
 #ifdef flagPEAKMEM
 	PeakMemoryProfile();
 #endif
@@ -132,9 +140,11 @@ void AppMain___()
 
 	Ctrl::SetUHDEnabled();
 	Ctrl::SetDarkThemeEnabled();
+	//Установка имени приложения.
 	Ctrl::SetAppName("ИСР РНЦП Динрус");
-
+    //Установка языка.
 	SetLanguage(LNG_RUSSIAN);
+	//Установка дефолтного набсима.
 	SetDefaultCharset(CHARSET_UTF8);
 
 	MainCommandLineHandler cmd_handler(CommandLine());
@@ -143,28 +153,32 @@ void AppMain___()
 	auto arg = clone(cmd_handler.GetArgs());
 
 	SetVppLogSizeLimit(200000000);
-	
+	//Проверка лицензии.
 	if(!CheckLicense())
 		return;
 #ifdef PLATFORM_WIN32
+//Автосамонастройка на Windows.
 	AutoInstantSetup();
 #endif
+//Проверка на наличие файлов .var в папке конфигурации.
 	bool hasvars = FindFile(ConfigFile("*.var"));
 #ifdef PLATFORM_POSIX
-	RemoveConsoleScripts(); // remove old console-script files
-
+// Удаление старых файлов консольных сценариев.
+	RemoveConsoleScripts();
+//Установка домашней папки по переменной среды DINRUS_HOME.
 	String home = Environment().Get("DINRUS_HOME", Null);
 	if(!IsNull(home))
 		SetHomeDirectory(home);
+	//Устанавливается только, если такая переменная была задана пользователем.
+//
 	if(!hasvars) {
 		if(!Install(hasvars))
 			return;
-		//SaveFile(ConfigFile("version"), IDE_VERSION);
 	}
 #endif
 
 	if(!hasvars)
-		SetupGITMaster();
+		SetupDinrusGITMaster();
 
 	if(!FileExists(BlitzBaseFile()))
 		ResetBlitz();
@@ -257,7 +271,7 @@ void AppMain___()
 
 		splash_screen = true;
 		
-		{ // setup skin and font before the 'real' Ide gets constructed
+		{ // Установка скина и шрифта до конструирования 'реальной' ИСР
 			Ide h;
 			LoadFromFile(h);
 			if(h.gui_font_override)

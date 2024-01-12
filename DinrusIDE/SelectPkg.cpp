@@ -482,7 +482,12 @@ void SelectPackageDlg::ToolBase(Bar& bar)
 		bar.Separator();
 		bar.Add("Клонировать исходники U++ с GitHub..", [=, this] {
 			String vars = base.Get(0);
-			SetupGITMaster();
+			SetupUppGITMaster();
+			SyncBase(vars);
+		});
+		bar.Add("Клонировать исходники Dinrus с GitHub..", [=, this] {
+			String vars = base.Get(0);
+			SetupDinrusGITMaster();
 			SyncBase(vars);
 		});
 	}

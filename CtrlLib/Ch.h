@@ -1,7 +1,7 @@
 
 //Указывает на единоразовую инициализацию платформного стиля
 // для вычисления параметров других стилей и тем.
-bool hsIsSet( bool hstyle);
+bool hsIsSet( bool hstyle = false);
 
 void ChBaseSkin();
 void ChHostSkin();

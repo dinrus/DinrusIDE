@@ -391,7 +391,13 @@ void Ide::Setup(Bar& menu)
 	menu.MenuSeparator();
 	menu.Add(HasGit(), "DinrusHub..", IdeImg::UppHub(), [] { DinrusHub(); });
 	menu.Add("Клонировать исходники U++ с GitHub..", [=, this] {
-		if(SetupGITMaster()) {
+		if(SetupUppGITMaster()) {
+			IdeAgain = true;
+			Break();
+		}
+	});
+	menu.Add("Клонировать исходники Dinrus с GitHub..", [=, this] {
+		if(SetupDinrusGITMaster()) {
 			IdeAgain = true;
 			Break();
 		}
@@ -404,6 +410,7 @@ void Ide::Setup(Bar& menu)
 			if(wspc[i] == "DinrusIDE/Core")
 				menu.Add("Обновить ИСР РНЦП Динрус..", [=, this] { UpgradeDinrusIde(); });
 #ifdef PLATFORM_POSIX
+    menu.MenuSeparator();
 	menu.Add("Установить dinruside.desktop", [=, this] { InstallDesktop(); });
 #endif
 #endif

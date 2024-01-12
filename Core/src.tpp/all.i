@@ -46,6 +46,10 @@ TOPIC("Format_ru-ru")
 #include "Format_ru-ru.tppi"
 END_TOPIC
 
+TOPIC("Heap_ru-ru")
+#include "Heap_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("HttpRequest_ru-ru")
 #include "HttpRequest_ru-ru.tppi"
 END_TOPIC

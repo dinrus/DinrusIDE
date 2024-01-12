@@ -104,7 +104,7 @@ file
 	Xml.cpp,
 	Json.cpp,
 	MacroManager.cpp,
-	SetupSVN.cpp,
+	SetupGIT.cpp,
 	Upgrade.cpp,
 	DinrusHub.cpp,
 	Compile readonly separator,

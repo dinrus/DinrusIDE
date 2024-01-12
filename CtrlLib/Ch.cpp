@@ -714,14 +714,14 @@ void ChMakeSkin(int roundness, Color button_face, Color thumb, int *adj)
 	MakeDialogIcons();
 }
 
-bool hset_ = false;
+bool hset_;
 
 bool hsIsSet( bool hstyle){hset_ = hstyle; return hset_;}
 
 void ChStdSkin()
 {
+	if(!hsIsSet()) ChHostSkin();
 	ChReset();
-	if(!hset_) ChHostSkin();
 	static int adj[] = { 10, 80, -5, -10 };
 	SColorFace_Write(Color(240, 240, 240));
 	SColorMenu_Write(Color(240, 240, 240));
@@ -731,8 +731,8 @@ void ChStdSkin()
 
 void ChGraySkin()
 {
+	if(!hsIsSet()) ChHostSkin();
 	ChReset();
-	if(!hset_)  ChHostSkin();
 	static int adj[] = { 0, 70, -15, -20 };
 	SColorHighlight_Write(Gray());
 	ChMakeSkin(3, SWhiteGray(), SLtGray(), adj);
@@ -740,8 +740,8 @@ void ChGraySkin()
 
 void ChDarkSkin()
 {
+	if(!hsIsSet()) ChHostSkin();
 	ChReset();
-	if(!hset_)  ChHostSkin();
 	static int adj[] = { 10, 80, -5, -10 };
 	SColorPaper_Write(Black());
 	SColorHighlight_Write(Gray());
@@ -751,8 +751,8 @@ void ChDarkSkin()
 
 void ChFlatSkin()
 {
+	if(!hsIsSet()) ChHostSkin();
 	ChReset();
-	if(!hset_)  ChHostSkin();
 	static int adj[] = { 10, 80, -5, -10 };
 	SColorFace_Write(Color(240, 240, 240));
 	SColorMenu_Write(Color(240, 240, 240));
@@ -763,7 +763,7 @@ void ChFlatSkin()
 void ChFlatGraySkin()
 {
 	ChReset();
-	if(!hset_)  ChHostSkin();
+	if(!hsIsSet())  ChHostSkin();
 	static int adj[] = { 0, 70, -15, -20 };
 	SColorHighlight_Write(Gray());
 	ChMakeSkin(0, SWhiteGray(), SLtGray(), adj);
@@ -771,8 +771,8 @@ void ChFlatGraySkin()
 
 void ChFlatDarkSkin()
 {
+	if(!hsIsSet()) ChHostSkin();
 	ChReset();
-	if(!hset_)  ChHostSkin();
 	static int adj[] = { 10, 80, -5, -10 };
 	SColorPaper_Write(Black());
 	SColorHighlight_Write(Gray());
@@ -807,7 +807,7 @@ Vector<Tuple<void (*)(), String>> GetAllChSkins()
 		{ ChStdSkin, "Стандартная" },
 		{ ChGraySkin, "Серая" },
 		{ ChFlatSkin, "Плоская" }
-		
+
 		};
 }
 

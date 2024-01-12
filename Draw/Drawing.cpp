@@ -319,12 +319,12 @@ struct Draw::DrawingPos : StringStream {
 	void Transform(int& x, int& y) const                 { TransformX(x); TransformY(y); }
 	void Transform(Point& p) const                       { p = Get(p); }
 	void Transform(Rect& r) const                        { r = Get(r); }
-	
+
 	Rect  GetRect();
-	
+
 	void  Push();
 	void  Pop();
-	
+
 	DrawingPos(const String& src) : StringStream(src) {}
 };
 
@@ -407,7 +407,7 @@ void Draw::DrawDrawingOp(const Rect& target, const Drawing& w) {
 		int code;
 		ps / code;
 		switch(code) {
-		case DRAWING_BEGIN: 
+		case DRAWING_BEGIN:
 			Begin();
 			ps.Push();
 			break;

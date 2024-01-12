@@ -623,17 +623,17 @@ nt]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) in
 [_^Color^ Color]_[*@3 color])&]
 [s5;:Draw`:`:DrawRect`(const Rect`&`,Color`): [@(0.0.255) void]_[* DrawRect]([@(0.0.255) co
 nst]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 rect], [_^Color^ Color]_[*@3 color])&]
-[s2;%RU-RU Звполняет [%-*@3 rect] или прямоугольник 
-[%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy], используя цвет 
+[s2;%RU-RU Заполняет [%-*@3 rect] или прямоугольник 
+[%-*@3 x], [%-*@3 y], [%-*@3 cx], [%-*@3 cy], используя цвет 
 [%-*@3 color]. Как специальное дополнение, 
 если Draw представляет вывод на экран 
 в Ctrl`::Paint, то цвету [%-*@3 color] может быть 
 присвоено специальное значение InvertColor(), 
 вызывающее инверсию всех пикселей 
 в целевой области. Фронтэнд к DrawRectOp. 
-Заметка: На некоторых платформах, 
+[/ Заметка:] [/ На некоторых платформах, 
 применение InvertColor может вызывать 
-неудовлетворительную производительность.&]
+неудовлетворительную производительность.]&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawImage`(int`,int`,int`,int`,const Image`&`,const Rect`&`): [@(0.0.255) v
@@ -679,7 +679,7 @@ mage][@(0.0.255) `&]_[*@3 img], [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]
 [s5;:Draw`:`:DrawImage`(int`,int`,const Image`&`,Color`): [@(0.0.255) void]_[* DrawImage](
 [@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&
 ]_[*@3 img], [_^Color^ Color]_[*@3 color])&]
-[s2;%RU-RU Рисует [^Image^ Image] [%-*@3 img]. IЕсли присутствует 
+[s2;%RU-RU Рисует [^Image^ Image] [%-*@3 img]. Если присутствует 
 целевой прямоугольник ([%-*@3 r] или [%-*@3 x,y,cx,cy]), 
 то Image ремасштабируется (uс использованием 
 высококачественного фильтра) , чтобы 
@@ -712,7 +712,7 @@ png), без нужды загружать их в Image, что,
 вероятно, экономит память, т.к. banding 
 можно использовать для отправки изображения
  на принтер по частям. Действительный 
-процесс отрисовки ркализован в [^DataDrawer^ DataDrawer],
+процесс отрисовки реализован в [^DataDrawer^ DataDrawer],
  а [%-*@3 id] нужно зарегистрировать с помощью 
 DataDrawer`::Register. Фронтэнд к DrawDataOp.&]
 [s3;%RU-RU &]
@@ -741,12 +741,14 @@ aultInk)&]
 rawEllipse]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], 
 [@(0.0.255) int]_[*@3 cy], [_^Color^ Color]_[*@3 color]_`=_DefaultInk, 
 [@(0.0.255) int]_[*@3 pen]_`=_Null, [_^Color^ Color]_[*@3 pencolor]_`=_DefaultInk)&]
-[s2;%RU-RU Чертит the largest ellipse with both axes parallel 
-to coordinate axes fully within rectangle [%-*@3 r] ([%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 c
-y]), i.e. with center point at r.CenterPoint(), semi major axis 
-and semi minor axis equal to r.Width() / 2 and r.Height() / 2. 
-If [%-*@3 pen] is not 0, Ellipse will be have border line of width 
-[%-*@3 pen] and color [%-*@3 pencolor]. Фронтэнд к DrawEllipseOp.&]
+[s2;%RU-RU Чертит наибольший эллипс, у которого 
+обе оси параллельны осям координат, 
+вписанный в прямоугольник [%-*@3 r] ([%-*@3 x],[%-*@3 y],[%-*@3 cx
+],[%-*@3 cy]), т.е. с центральной точкой в 
+r.CenterPoint(), semi major ось и semi minor ось равны 
+r.Width() / 2 и r.Height() / 2. Если [%-*@3 pen] не равен 
+0, Ellipse will be have border line of width [%-*@3 pen] and color 
+[%-*@3 pencolor]. Фронтэнд к DrawEllipseOp.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:Draw`:`:DrawArc`(const Rect`&`,Point`,Point`,int`,Color`): [@(0.0.255) void]_[* Draw
@@ -857,7 +859,7 @@ rawing][@(0.0.255) `&]_[*@3 iw])&]
 wDrawing]([@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], 
 [@(0.0.255) int]_[*@3 cy], [@(0.0.255) const]_[_^Drawing^ Drawing][@(0.0.255) `&]_[*@3 iw])&]
 [s2;%RU-RU Чертит [^Drawing^ Dr][^topic`:`/`/Draw`/src`/Drawing`_ru`-ru`#Drawing`:`:class^ a
-][^Drawing^ wing] [%-*@3 iw], масщтабированный до 
+][^Drawing^ wing] [%-*@3 iw], масштабированный до 
 прямоугольника [%-*@3 r], соответственно 
 с [%-*@3 x],[%-*@3 y],[%-*@3 cx],[%-*@3 cy]. Фронтэнд к DrawDrawing 
 op.&]

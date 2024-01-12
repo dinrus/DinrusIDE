@@ -9,11 +9,11 @@ topic "Класс Display";
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
-[{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 Класс Display]]}}&]
-[s3;%- &]
-[s1;:Display`:`:class:%- [@(0.0.255) class]_Display&]
-[s9; Display и производные от Display классы 
+[{_} 
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс Display]]}}&]
+[s3; &]
+[s1;:Display`:`:class: [@(0.0.255) class]_Display&]
+[s2;%RU-RU Display и производные от Display классы 
  отображают значение Value на заданной 
 прямоугольной области. Ссылки на 
 Display`'и используются во многих виджетах 
@@ -22,30 +22,15 @@ Display`'и используются во многих виджетах
 Дефолтная реализация применяет StdDisplay 
 для выполнения всех действий (смотрите 
 ниже описание к StdDisplay).&]
-[s0; &]
-[s0; [* Константы визуального стиля ]используются 
-как бит`-флаги параметра `"style`" методоб 
-отображения и несут дополнительную 
-информацию о требуемом зрительном 
-образе:&]
-[s0;l288;:Display`:`:CURSOR:~~~.1408;%- [* CURSOR-|]ГИП`-элемент 
-является текущим (`"имеет фокус`").&]
-[s0;l288;:Display`:`:FOCUS:~~~.1408; [%-* FOCUS][* -|][%- ГИП`-элемент] 
-имеет фокус.&]
-[s0;l288;:Display`:`:SELECT:~~~.1408;%- [* SELECT]-|ГИП`-элемент 
-выделен.&]
-[s0;l288;:Display`:`:READONLY:~~~.1408;%- [* READONLY]-|ГИП`-элемент 
-только для чтения.&]
-[s3;%- &]
-[s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
-[s3;%- &]
-[s5;:Display`:`:Paint`(Draw`&`,const Rect`&`,const Value`&`,Color`,Color`,dword`)const:%- [@(0.0.255) v
+[s3;%RU-RU &]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
+[s4; &]
+[s5;:Display`:`:Paint`(Draw`&`,const Rect`&`,const Value`&`,Color`,Color`,dword`)const: [@(0.0.255) v
 irtual] [@(0.0.255) void]_Paint([_^Draw^ Draw][@(0.0.255) `&]_[@3 w], 
 [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[@3 r], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[@3 q], [_^Color^ Color]_[@3 ink], [_^Color^ Color]_[@3 paper], [_^dword^ dword]_[@3 style])_
 [@(0.0.255) const]&]
-[s2; Этот виртуальный метод используется 
+[s2;%RU-RU Этот виртуальный метод используется 
 для отрисовки прямоугольного контента, 
 в соответствии с заданным значением 
 Value. Заметьте, что для производных 
@@ -55,21 +40,44 @@ Value. Заметьте, что для производных
 случае) `- код`-клиент ответственен 
 за использование корректного дисплея 
 Display.&]
-[s7; [%-*C@3 w]-|Draw.&]
-[s7; [%-*C@3 r]-|Целевой прямоугольник.&]
-[s7; [%-*C@3 q]-|Отрисовываемое значение.&]
-[s7; [%-*C@3 ink]-|Рекомендуемый цвет переднего 
+[s7;%RU-RU [%-*C@3 w]-|Draw.&]
+[s7;%RU-RU [%-*C@3 r]-|Целевой прямоугольник.&]
+[s7;%RU-RU [%-*C@3 q]-|Отрисовываемое значение.&]
+[s7;%RU-RU [%-*C@3 ink]-|Рекомендуемый цвет переднего 
 плана.&]
-[s7; [%-*C@3 paper]-|Рекомендуемый цвет фона.&]
-[s7; [%-*C@3 style]-|Визуальный стиль.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:Display`:`:PaintBackground`(Draw`&`,const Rect`&`,const Value`&`,Color`,Color`,dword`)const:%- [@(0.0.255) v
+[s7;%RU-RU [%-*C@3 paper]-|Рекомендуемый цвет фона.&]
+[s7;%RU-RU [%-*C@3 style]-|Визуальный стиль.&]
+[s3; &]
+[s4; &]
+[s0;%RU-RU [* Константы визуального стиля 
+]используются как бит`-флаги параметра 
+`"style`" методов отображения и несут 
+дополнительную информацию о требуемом 
+зрительном образе:&]
+[s0; &]
+[s5;:Upp`:`:Display`:`:READONLY: [@(0.0.255) enum]_[* READONLY]_`=_[@3 0x08]&]
+[s2; ГИП`-элемент только для чтения.&]
+[s3; &]
+[s4; &]
+[s5;:Upp`:`:Display`:`:SELECT: [@(0.0.255) enum]_[* SELECT]_`=_[@3 0x04]&]
+[s2; ГИП`-элемент выделен.&]
+[s3; &]
+[s4; &]
+[s5;:Upp`:`:Display`:`:FOCUS: [@(0.0.255) enum]_[* FOCUS]_`=_[@3 0x02]&]
+[s2;%RU-RU [%- ГИП`-элемент] имеет фокус.&]
+[s3; &]
+[s4; &]
+[s5;:Upp`:`:Display`:`:CURSOR: [@(0.0.255) enum]_[* CURSOR]_`=_[@3 0x01]&]
+[s2; ГИП`-элемент является текущим (`"имеет 
+фокус`").&]
+[s3; &]
+[s4; &]
+[s5;:Display`:`:PaintBackground`(Draw`&`,const Rect`&`,const Value`&`,Color`,Color`,dword`)const: [@(0.0.255) v
 irtual] [@(0.0.255) void]_PaintBackground([_^Draw^ Draw][@(0.0.255) `&]_[@3 w], 
 [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[@3 r], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[@3 q], [_^Color^ Color]_[@3 ink], [_^Color^ Color]_[@3 paper], [_^dword^ dword]_[@3 style])_
 [@(0.0.255) const]&]
-[s2; Этот виртуальный метод используется 
+[s2;%RU-RU Этот виртуальный метод используется 
 для отрисовки областей ГИП`-элемента, 
 которые расположены вне прямоугольника 
 (периметра), указанного в методе Paint, 
@@ -81,51 +89,52 @@ irtual] [@(0.0.255) void]_PaintBackground([_^Draw^ Draw][@(0.0.255) `&]_[@3 w],
 хотя базовый класс Display определяет 
 использование для этой задачи метода 
 PaintBackground).&]
-[s7; [%-*C@3 w]-|Draw.&]
-[s7; [%-*C@3 r]-|Целевой прямоугольник.&]
-[s7; [%-*C@3 q]-|Отрисовываемое значение.&]
-[s7; [%-*C@3 ink]-|Рекомендуемый цвет переднего 
+[s7;%RU-RU [%-*C@3 w]-|Draw.&]
+[s7;%RU-RU [%-*C@3 r]-|Целевой прямоугольник.&]
+[s7;%RU-RU [%-*C@3 q]-|Отрисовываемое значение.&]
+[s7;%RU-RU [%-*C@3 ink]-|Рекомендуемый цвет переднего 
 плана.&]
-[s7; [%-*C@3 paper]-|Рекомендуемый цвет фона.&]
-[s7; [%-*C@3 style]-|Визуальный стиль.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:Display`:`:GetStdSize`(const Value`&`)const:%- [@(0.0.255) virtual] 
+[s7;%RU-RU [%-*C@3 paper]-|Рекомендуемый цвет фона.&]
+[s7;%RU-RU [%-*C@3 style]-|Визуальный стиль.&]
+[s3; &]
+[s4; &]
+[s5;:Display`:`:GetStdSize`(const Value`&`)const: [@(0.0.255) virtual] 
 [_^Size^ Size]_GetStdSize([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[@3 q])_[@(0.0.255) c
 onst]&]
-[s2; Должен возвращать стандартный размер 
-для данного значения и дисплея Display. 
-Например, если Display отображает рисунки 
-Images, то он должен вернуть размер Size 
-этого рисунка Image в пикселях. Базовый 
-Display возвращает размер текстового 
+[s2;%RU-RU Должен возвращать стандартный 
+размер для данного значения и дисплея 
+Display. Например, если Display отображает 
+рисунки Images, то он должен вернуть 
+размер Size этого рисунка Image в пикселях. 
+Базовый Display возвращает размер текстового 
 представления этого значения Value.&]
-[s7; [%-*C@3 q]-|Значение.&]
-[s7; [*/ Возвратное значение]-|Размер Value 
-для Display`'я.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:Display`:`:RatioSize`(const Value`&`,int`,int`)const:%- [@(0.0.255) virtual] 
+[s7;%RU-RU [%-*C@3 q]-|Значение.&]
+[s7;%RU-RU [*/ Возвратное значение]-|Размер 
+Value для Display`'я.&]
+[s3; &]
+[s4; &]
+[s5;:Display`:`:RatioSize`(const Value`&`,int`,int`)const: [@(0.0.255) virtual] 
 [_^Size^ Size]_RatioSize([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[@3 q], 
 [@(0.0.255) int]_[@3 cx], [@(0.0.255) int]_[@3 cy])_[@(0.0.255) const]&]
-[s2; Возвращает  размер для заданного 
+[s2;%RU-RU Возвращает  размер для заданного 
 значения, соблюдая пропорции.&]
-[s7; [%-*C@3 q]-|Значение.&]
-[s7; [%-*C@3 cx]-|Требуемая ширина. Если 0, то 
-она должна быть вычислена с сохранением 
+[s7;%RU-RU [%-*C@3 q]-|Значение.&]
+[s7;%RU-RU [%-*C@3 cx]-|Требуемая ширина. Если 0, 
+то она должна быть вычислена с сохранением 
 пропорции с cy.&]
-[s7; [%-*C@3 cy]-|Требуемая высота. Если 0, должна 
-быть вычислета пропорционально cx.&]
-[s7; [*/ Возвратное значение]-|Размер Значения 
-для Дисплея.&]
-[s3; &]
+[s7;%RU-RU [%-*C@3 cy]-|Требуемая высота. Если 0, 
+должна быть вычислета пропорционально 
+cx.&]
+[s7;%RU-RU [*/ Возвратное значение]-|Размер 
+Значения для Дисплея.&]
+[s3;%RU-RU &]
+[s0;%RU-RU &]
+[s0;%RU-RU &]
 [s0; &]
-[s0; &]
-[s0;%- &]
-[ {{10000t/25b/25@(113.42.0) [s0;%- [*@(229)4 Структура AttrText]]}}&]
-[s3; &]
-[s1;:AttrText`:`:struct:%- [@(0.0.255) struct]_AttrText&]
-[s9; Вспомогательный класс, конвертируемый 
+[ {{10000t/25b/25@(113.42.0) [s0; [*@(229)4 Структура AttrText]]}}&]
+[s3;%RU-RU &]
+[s1;:AttrText`:`:struct: [@(0.0.255) struct]_AttrText&]
+[s9;%RU-RU Вспомогательный класс, конвертируемый 
 в это Значение. StdDisplay, StdRightDisplay и StdCenterDisplay 
 обнаруживают,  является ли переданное 
 Значнеие типа AttrText и по разному обрабатывают
@@ -136,225 +145,228 @@ Display возвращает размер текстового
 сравнивать с другими типами значений. 
 Можно также присваивать текст, отличный 
 от значения AttrText.&]
-[s3;%- &]
-[s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
-[s3;%- &]
-[s5;:AttrText`:`:text:%- [_^WString^ WString]_text&]
-[s2; Отображаемый текст.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:value:%- [_^Value^ Value]_[* value]&]
-[s2; Представляет Значение AttrText`'а, обычно 
-для сравнения/сортировки.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:font:%- [_^Font^ Font]_[* font]&]
-[s2; Шрифт текста. Дефолтно инициализуется 
+[s3; &]
+[s0; &]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
+[s3; &]
+[s5;:AttrText`:`:text: [_^WString^ WString]_text&]
+[s2;%RU-RU Отображаемый текст.&]
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:value: [_^Value^ Value]_[* value]&]
+[s2;%RU-RU Представляет Значение AttrText`'а, 
+обычно для сравнения/сортировки.&]
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:font: [_^Font^ Font]_[* font]&]
+[s2;%RU-RU Шрифт текста. Дефолтно инициализуется 
 конструктором в StdFont.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:ink:%- [_^Color^ Color]_[* ink]&]
-[s2; Цвет текста.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:normalink:%- [_^Color^ Color]_[* normalink]&]
-[s2; Цвет текста, который будет использован, 
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:ink: [_^Color^ Color]_[* ink]&]
+[s2;%RU-RU Цвет текста.&]
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:normalink: [_^Color^ Color]_[* normalink]&]
+[s2;%RU-RU Цвет текста, который будет использован, 
 если этот элемент находится ни в выделенном,
  ни в фокусированном, ни в `"только`-чтение`" 
 состоянии.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:paper:%- [_^Color^ Color]_[* paper]&]
-[s2; Цвет фона&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:normalpaper:%- [_^Color^ Color]_[* normalpaper]&]
-[s2; Цвет фона, используемый, если этот 
-элемент находится ни в выделенном, 
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:paper: [_^Color^ Color]_[* paper]&]
+[s2;%RU-RU Цвет фона&]
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:normalpaper: [_^Color^ Color]_[* normalpaper]&]
+[s2;%RU-RU Цвет фона, используемый, если 
+этот элемент находится ни в выделенном, 
 ни в фокусированном, ни в `"только`-чтение`" 
 состоянии.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:align:%- [@(0.0.255) int]_[* align]&]
-[s2; Текущее размещение. Может быть одним 
-из ALIGN`_LEFT, ALIGN`_RIGHT, ALIGN`_CENTER.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:img:%- [_^Image^ Image]_[* img]&]
-[s2; Иконка, размещённая слева.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:imgspc:%- [@(0.0.255) int]_[* imgspc]&]
-[s2; Пространство между иконкой и текстом.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:Set`(const Value`&`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Set]([@(0.0.255) c
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:align: [@(0.0.255) int]_[* align]&]
+[s2;%RU-RU Текущее размещение. Может быть 
+одним из ALIGN`_LEFT, ALIGN`_RIGHT, ALIGN`_CENTER.&]
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:img: [_^Image^ Image]_[* img]&]
+[s2;%RU-RU Иконка, размещённая слева.&]
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:imgspc: [@(0.0.255) int]_[* imgspc]&]
+[s2;%RU-RU Пространство между иконкой и 
+текстом.&]
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:Set`(const Value`&`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Set]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s5;:AttrText`:`:operator`=`(const Value`&`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* op
-erator`=]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2; Устанавливает значение AttrText`'а и 
-его текст (используя AsString).&]
-[s3; &]
-[s4;%- &]
-[s5;:AttrText`:`:Text`(const String`&`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Text]([@(0.0.255) c
+[s5;:AttrText`:`:operator`=`(const Value`&`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* oper
+ator`=]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
+[s2;%RU-RU Устанавливает значение AttrText`'а 
+и его текст (используя AsString).&]
+[s3;%RU-RU &]
+[s4; &]
+[s5;:AttrText`:`:Text`(const String`&`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Text]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 txt])&]
-[s5;:AttrText`:`:Text`(const WString`&`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Text](
-[@(0.0.255) const]_[_^WString^ WString][@(0.0.255) `&]_[*@3 txt])&]
-[s5;:AttrText`:`:Text`(const char`*`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Text]([@(0.0.255) c
+[s5;:AttrText`:`:Text`(const WString`&`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Text]([@(0.0.255) c
+onst]_[_^WString^ WString][@(0.0.255) `&]_[*@3 txt])&]
+[s5;:AttrText`:`:Text`(const char`*`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Text]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 txt])&]
-[s2; Устанавливает текст, независимо 
+[s2;%RU-RU Устанавливает текст, независимо 
 от Value.&]
+[s3;%RU-RU &]
+[s4; &]
+[s5;:AttrText`:`:Ink`(Color`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Ink]([_^Color^ Color]_
+[@3 c])&]
+[s2;%RU-RU Устанавливает цвет текста.&]
+[s7;%RU-RU [%-*C@3 c]-|Цвет.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this.&]
 [s3; &]
-[s4;%- &]
-[s5;:AttrText`:`:Ink`(Color`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Ink]([_^Color^ Colo
-r]_[@3 c])&]
-[s2; Устанавливает цвет текста.&]
-[s7; [%-*C@3 c]-|Цвет.&]
-[s7; [*/ Возвратное значение]-|`*this.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:NormalInk`(Color`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* NormalInk](
-[_^Color^ Color]_[*@3 c])&]
-[s2; Устанавливает цвет текста, используемый, 
+[s4; &]
+[s5;:AttrText`:`:NormalInk`(Color`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* NormalInk]([_^Color^ C
+olor]_[*@3 c])&]
+[s2;%RU-RU Устанавливает цвет текста, используемый
+, если этот элемент находится ни в 
+выделенном, ни в фокусированном, ни 
+в `"только`-чтение`" состоянии.&]
+[s3;%RU-RU &]
+[s4; &]
+[s5;:AttrText`:`:Paper`(Color`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Paper]([_^Color^ Co
+lor]_[@3 c])&]
+[s2;%RU-RU Устанавливает цвет `"бумаги`" (фона).&]
+[s7;%RU-RU [%-*C@3 c]-|Цвет.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this.&]
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:NormalPaper`(Color`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* NormalPaper
+]([_^Color^ Color]_[*@3 c])&]
+[s2;%RU-RU Устанавливает цвет фона, используемый, 
 если этот элемент находится ни в выделенном,
  ни в фокусированном, ни в `"только`-чтение`" 
 состоянии.&]
-[s3; &]
-[s4;%- &]
-[s5;:AttrText`:`:Paper`(Color`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Paper]([_^Color^ C
-olor]_[@3 c])&]
-[s2; Устанавливает цвет `"бумаги`" (фона).&]
-[s7; [%-*C@3 c]-|Цвет.&]
-[s7; [*/ Возвратное значение]-|`*this.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:NormalPaper`(Color`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* NormalPap
-er]([_^Color^ Color]_[*@3 c])&]
-[s2; Устанавливает цвет фона, используемый, 
-если этот элемент находится ни в выделенном,
- ни в фокусированном, ни в `"только`-чтение`" 
-состоянии.&]
-[s3; &]
-[s4;%- &]
-[s5;:AttrText`:`:SetFont`(Font`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* SetFont]([_^Font^ F
+[s3;%RU-RU &]
+[s4; &]
+[s5;:AttrText`:`:SetFont`(Font`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* SetFont]([_^Font^ F
 ont]_[@3 f])&]
-[s2; Устанавливает шрифт.&]
-[s7; [%-*C@3 f]-|Шрифт.&]
-[s7; [*/ Возвратное значение]-|`*this.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:Bold`(bool`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Bold]([@(0.0.255) b
-ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Вызывает полужирный шрифт.Bold([%-*@3 b]). 
-Возвращает  `*this.&]
+[s2;%RU-RU Устанавливает шрифт.&]
+[s7;%RU-RU [%-*C@3 f]-|Шрифт.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this.&]
 [s3; &]
-[s4;%- &]
-[s5;:AttrText`:`:Italic`(bool`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Italic]([@(0.0.255) b
-ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Вызывает курсивный шрифт Italic([%-*@3 b]). 
+[s4; &]
+[s5;:AttrText`:`:Bold`(bool`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Bold]([@(0.0.255) boo
+l]_[*@3 b]_`=_[@(0.0.255) true])&]
+[s2;%RU-RU Вызывает полужирный шрифт.Bold([%-*@3 b]). 
 Возвращает  `*this.&]
-[s3; &]
-[s4;%- &]
-[s5;:AttrText`:`:Underline`(bool`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Underline]([@(0.0.255) b
+[s3;%RU-RU &]
+[s4; &]
+[s5;:AttrText`:`:Italic`(bool`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Italic]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Вызывает подчёркнутый шрифт.Underline([%-*@3 b]). 
+[s2;%RU-RU Вызывает курсивный шрифт Italic([%-*@3 b]). 
 Возвращает  `*this.&]
-[s3; &]
-[s4;%- &]
-[s5;:AttrText`:`:Strikeout`(bool`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Strikeout]([@(0.0.255) b
+[s3;%RU-RU &]
+[s4; &]
+[s5;:AttrText`:`:Underline`(bool`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Underline]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Вызывает зачёркнутый шрифт.Strikeout([%-*@3 b]). 
+[s2;%RU-RU Вызывает подчёркнутый шрифт.Underline([%-*@3 b]). 
 Возвращает  `*this.&]
+[s3;%RU-RU &]
+[s4; &]
+[s5;:AttrText`:`:Strikeout`(bool`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Strikeout]([@(0.0.255) b
+ool]_[*@3 b]_`=_[@(0.0.255) true])&]
+[s2;%RU-RU Вызывает зачёркнутый шрифт.Strikeout([%-*@3 b]). 
+Возвращает  `*this.&]
+[s3;%RU-RU &]
+[s4; &]
+[s5;:AttrText`:`:Align`(int`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Align]([@(0.0.255) in
+t]_[@3 a])&]
+[s2;%RU-RU Устанавливает горизонтальное 
+размещение текста. Одобряются значения 
+ALIGN`_LEFT, ALIGN`_CENTER и ALIGN`_RIGHT.&]
 [s3; &]
-[s4;%- &]
-[s5;:AttrText`:`:Align`(int`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Align]([@(0.0.255) i
-nt]_[@3 a])&]
-[s2; Устанавливает горизонтальное размещение 
-текста. Одобряются значения ALIGN`_LEFT, 
-ALIGN`_CENTER и ALIGN`_RIGHT.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:Left`(`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Left]()&]
-[s2; Размещает текст слева.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:Center`(`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Center]()&]
-[s2; Размещает текст по центру.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:Right`(`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_[* Right]()&]
-[s2; Размещает текст справа.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:SetImage`(const Image`&`,int`):%- [_^AttrText^ AttrText][@(0.0.255) `&]_
-[* SetImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[@3 m], 
-[@(0.0.255) int]_[@3 spc]_`=_[@3 4])&]
-[s2; Устанавливает иконку и пространство 
+[s4; &]
+[s5;:AttrText`:`:Left`(`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Left]()&]
+[s2;%RU-RU Размещает текст слева.&]
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:Center`(`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Center]()&]
+[s2;%RU-RU Размещает текст по центру.&]
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:Right`(`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* Right]()&]
+[s2;%RU-RU Размещает текст справа.&]
+[s3; &]
+[s4; &]
+[s5;:AttrText`:`:SetImage`(const Image`&`,int`): [_^AttrText^ AttrText][@(0.0.255) `&]_[* S
+etImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[@3 m], [@(0.0.255) int]_[@3 spc]_
+`=_[@3 4])&]
+[s2;%RU-RU Устанавливает иконку и пространство 
 между иконкой и текстом.&]
+[s3;%RU-RU &]
+[s4; &]
+[s5;:AttrText`:`:operator Value`(`)const: operator_[* Value]()_[@(0.0.255) const]&]
+[s7;%RU-RU Преобразует AttrText в Value.&]
 [s3; &]
-[s4;%- &]
-[s5;:AttrText`:`:operator Value`(`)const:%- operator_[* Value]()_[@(0.0.255) const]&]
-[s7; Преобразует AttrText в Value.&]
-[s3;%- &]
-[s4;%- &]
-[s5;:AttrText`:`:AttrText`(const Value`&`):%- [* AttrText]([@(0.0.255) const]_[_^Value^ Val
-ue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Преобразует Value в AttrText. Если [%-*@3 v] не 
-является AttrText`'ом, то оно устанавливается 
+[s4; &]
+[s5;:AttrText`:`:AttrText`(const Value`&`): [* AttrText]([@(0.0.255) const]_[_^Value^ Value
+][@(0.0.255) `&]_[*@3 v])&]
+[s2;%RU-RU Преобразует Value в AttrText. Если [%-*@3 v] 
+не является AttrText`'ом, то оно устанавливается 
 как значение конструируемого дефолтно 
 AttrText`'а.&]
-[s3; &]
-[s4;%- &]
-[s5;:AttrText`:`:AttrText`(`):%- [* AttrText]()&]
-[s2; Дефолтный конструктор. Присваивает 
+[s3;%RU-RU &]
+[s4; &]
+[s5;:AttrText`:`:AttrText`(`): [* AttrText]()&]
+[s2;%RU-RU Дефолтный конструктор. Присваивает 
 Null всем членам, кроме шрифта, инициализуемог
 о в StdFont.&]
-[s3; &]
+[s3;%RU-RU &]
+[s0;%RU-RU &]
+[s0;%RU-RU &]
 [s0; &]
-[s0; &]
-[s0;%- &]
-[ {{10000t/25b/25@(85.42.0) [s0;%- [*@(229)4 Стандартные дисплеи]]}}&]
-[s9; Стандартные Дисплеи реализованы 
+[ {{10000t/25b/25@(85.42.0) [s0; [*@(229)4 Стандартные дисплеи]]}}&]
+[s9;%RU-RU Стандартные Дисплеи реализованы 
 как `"functional globals`" (`"функглобы`") `- функции, 
 возвращающие константную ссылку 
 на единый глобальный экземпляр Display`'я.&]
-[s3; &]
-[s0; &]
-[ {{3530:6470h1;@(204) [s0; Имя дисплея]
-:: [s0; Описание]
-::^@2 [s0;:StdDisplay: [* StdDisplay]]
-::= [s0; Стандартный Display. Отображает Value как 
-текст, если это не AttrText (см. выше).]
-::^ [s0;:StdRightDisplay: [* StdRightDisplay]]
-::= [s0; Стандартный Display. Отображает Value как 
-текст, сдвинутый вправо, если это 
+[s3;%RU-RU &]
+[s0;%RU-RU &]
+[ {{3530:6470h1;@(204) [s0;%RU-RU Имя дисплея]
+:: [s0;%RU-RU Описание]
+::^@2 [s0;:StdDisplay:%RU-RU [* StdDisplay]]
+::= [s0;%RU-RU Стандартный Display. Отображает Value 
+как текст, если это не AttrText (см. выше).]
+::^ [s0;:StdRightDisplay:%RU-RU [* StdRightDisplay]]
+::= [s0;%RU-RU Стандартный Display. Отображает Value 
+как текст, сдвинутый вправо, если 
+это не AttrText (см. выше).]
+::^ [s0;:StdCenterDisplay:%RU-RU [* StdCenterDisplay]]
+::= [s0;%RU-RU Стандартный Display. Отображает Value 
+как центрированный текст, если это 
 не AttrText (см. выше).]
-::^ [s0;:StdCenterDisplay: [* StdCenterDisplay]]
-::= [s0; Стандартный Display. Отображает Value как 
-центрированный текст, если это не 
-AttrText (см. выше).]
-::^ [s0;:ColorDisplay: [* ColorDisplay]]
-::= [s0; Стандартный Color (обязательный) `- просто 
-отрисовывает фрн, используя переданное 
-ему Value.]
-::^ [s0;:SizeTextDisplay: [* SizeTextDisplay]]
-::= [s0; Подобен StdDisplay, но растягивает текст 
-по размеру, заполняя им всю площадь 
-отображения.]
-::^ [s0;:ImageDisplay: [* ImageDisplay]]
-::= [s0; Отображает Image, переданный как Value, 
-размещает его в верхнем левом углу.]
-::^ [s0;:FittedImageDisplay: [* FittedImageDisplay]]
-::= [s0; Отображает Image, масштабированный 
+::^ [s0;:ColorDisplay:%RU-RU [* ColorDisplay]]
+::= [s0;%RU-RU Стандартный Color (обязательный) 
+`- просто отрисовывает фрн, используя 
+переданное ему Value.]
+::^ [s0;:SizeTextDisplay:%RU-RU [* SizeTextDisplay]]
+::= [s0;%RU-RU Подобен StdDisplay, но растягивает 
+текст по размеру, заполняя им всю 
+площадь отображения.]
+::^ [s0;:ImageDisplay:%RU-RU [* ImageDisplay]]
+::= [s0;%RU-RU Отображает Image, переданный как 
+Value, размещает его в верхнем левом 
+углу.]
+::^ [s0;:FittedImageDisplay:%RU-RU [* FittedImageDisplay]]
+::= [s0;%RU-RU Отображает Image, масштабированный 
 под прямоугольник.]
-::^ [s0;:CenteredImageDisplay: [* CenteredImageDisplay]]
-::= [s0; Отображает Image по центру прямоугольника.]
-::^ [s0;:CenteredHighlightImageDisplay: [* CenteredHighlightImageDisplay]]
-::= [s0; Отображает Image по центру прямоугольника 
+::^ [s0;:CenteredImageDisplay:%RU-RU [* CenteredImageDisplay]]
+::= [s0;%RU-RU Отображает Image по центру прямоугольника.
+]
+::^ [s0;:CenteredHighlightImageDisplay:%RU-RU [* CenteredHighlightImageDisplay]]
+::= [s0;%RU-RU Отображает Image по центру прямоугольника 
 с белым бордюром в 1 пиксель шириной.]
-::^ [s0;:DrawingDisplay: [* DrawingDisplay]]
-::= [s0; Отображает Drawing, масштабированный 
+::^ [s0;:DrawingDisplay:%RU-RU [* DrawingDisplay]]
+::= [s0;%RU-RU Отображает Drawing, масштабированный 
 под прямоугольник.]}}&]
-[s3; &]
-[s0; ]]
+[s3;%RU-RU &]
+[s0;%RU-RU ]]

@@ -1254,7 +1254,8 @@ public:
 inline void ShowConsole() { if(DinrusIde()) ((Ide *)DinrusIde())->ShowConsole(); }
 
 void InstantSetup();
-bool SetupGITMaster();
+bool SetupUppGITMaster();
+bool SetupDinrusGITMaster();
 
 String DinrusHub();
 void   DinrusHubAuto(const String& s);

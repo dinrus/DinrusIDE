@@ -36,28 +36,28 @@ class FontInfo;
 
 inline
 bool PreferColorEmoji(int c)
-{ // for these codepoints we prefer replacement color emoji even if glyphs is in the font
+{ // для этих кодпойнтов предпочитается замена color emoji, даже если глиф есть в шрифте
 	return c >= 0x2600 && c <= 0x27ef || c >= 0x1f004 && c <= 0x1f251 || c >= 0x1f300 && c <= 0x1faf6;
 }
 
 class Font : public ValueType<Font, FONT_V, Moveable<Font> >{
 	union {
-		int64 data;
+		int64 data; //данные
 		struct {
-			word  face;
-			word  flags;
-			int16 height;
-			int16 width;
+			word  face;  //фас
+			word  flags; //флаги
+			int16 height; //высота
+			int16 width; //ширина
 		} v;
 	};
 
 	enum {
-		FONT_BOLD = 0x8000,
-		FONT_ITALIC = 0x4000,
-		FONT_UNDERLINE = 0x2000,
-		FONT_STRIKEOUT = 0x1000,
-		FONT_NON_ANTI_ALIASED = 0x800,
-		FONT_TRUE_TYPE_ONLY = 0x400
+		FONT_BOLD = 0x8000, //полужирный
+		FONT_ITALIC = 0x4000, //курсив
+		FONT_UNDERLINE = 0x2000, //подчёркнутый
+		FONT_STRIKEOUT = 0x1000, //зачёркнутый
+		FONT_NON_ANTI_ALIASED = 0x800,//несглаженный
+		FONT_TRUE_TYPE_ONLY = 0x400 //только трютайп
 	};
 
 	static Font AStdFont;
@@ -77,12 +77,12 @@ class Font : public ValueType<Font, FONT_V, Moveable<Font> >{
 public:
 	enum {
 		FIXEDPITCH  = 0x0001,
-		SCALEABLE   = 0x0002,
-		TTF         = 0x0004,
-		SPECIAL     = 0x0010,
+		SCALEABLE   = 0x0002, //масштабируемый
+		TTF         = 0x0004, //трютайпный
+		SPECIAL     = 0x0010, //особый
 		SERIFSTYLE  = 0x0020,
 		SCRIPTSTYLE = 0x0040,
-		COLORIMG    = 0x0080, // freetype color bitmap font (emojis)
+		COLORIMG    = 0x0080, // цветной битмап-шрифт freetype (emojis)
 	};
 
 	static int    GetFaceCount();

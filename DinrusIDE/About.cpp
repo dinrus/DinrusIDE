@@ -143,10 +143,11 @@ void HideSplash()
 
 void ShowSplash()
 {
+
     Single<SplashCtrl>().PopUp(nullptr, false, false);
     SetTimeCallback(750, [] {
         HideSplash();
-    });
+     });
 }
 
 bool IsSplashOpen()

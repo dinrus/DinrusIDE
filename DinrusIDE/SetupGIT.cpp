@@ -3,17 +3,30 @@
 #ifndef bmYEAR
 #include <build_info.h>
 #endif
+
+struct Dialog: WithSetupGITLayout<TopWindow>
+{
+	Dialog(){
+		ok.Ok() << Acceptor(IDOK);
+		cancel.Cancel() << Rejector(IDCANCEL);
+	}
+
+};
+
 //Клонировать исходники U++
 bool SetupUppGITMaster()
 {
-	WithSetupGITLayout<TopWindow> dlg;
+	bool all;
+	String prefix, postfix;
+	Dialog dlg;
 	CtrlLayoutOKCancel(dlg, "Клонировать исходники U++ с github");
 	SelectDirButton dir_browse("Целевая папка");
 	dir_browse.Attach(dlg.dir);
+		
 #ifdef PLATFORM_WIN32
-	dlg.dir <<= GetExeDirFile("uppsrc");
+	dlg.dir <<= GetExeDirFile("upp");
 #else
-	dlg.dir <<= GetHomeDirFile("dinrus/uppsrc");
+	dlg.dir <<= GetHomeDirFile("dinrus/upp");
 #endif
 	static MapConvert revcv;
 
@@ -24,6 +37,9 @@ bool SetupUppGITMaster()
 			return false;
 		console.Clear();
 		dir = ~dlg.dir;
+		all = dlg.all;
+		prefix = ~~dlg.prefix;
+		postfix = ~~dlg.postfix;
 		bool direxists = DirectoryExists(dir);
 		bool fileexists = FileExists(dir);
 		if((direxists || fileexists)) {
@@ -34,26 +50,25 @@ bool SetupUppGITMaster()
 		}
 		if(console.System("git clone https://github.com/ultimatepp/ultimatepp.git " + dir) == 0)
 			break;
+		console.Log("Готово", Gray());
 		console.Perform();
 	}
-
+	
 #ifdef PLATFORM_WIN32
-	String out = GetExeDirFile("out");
+	String out = GetExeDirFile("DinrusIDE_output");
 	String ass = GetExeFolder();
-	String myapps = GetExeDirFile("dev");
 #else
-	String out = GetHomeDirFile("out");
+	String out = GetHomeDirFile(".cache/DinrusIDE_output");
 	String ass = GetConfigFolder();
-	String myapps = GetHomeDirFile("dev");
 #endif
 	RealizeDirectory(out);
 
-	String uppsrc = AppendFileName(dir, "uppsrc");
+	String uppsrc = AppendFileName(dir, "upp");
 
 	auto MakeAssembly = [&](String b) {
 		String name = GetFileTitle(b);
-		String a = ass + '/' + ~~dlg.prefix + name + ~~dlg.postfix + ".var";
-		if(name != "uppsrc")
+		String a = ass + '/' + prefix + name + postfix + ".var";
+		if(name != "upp")
 			b << ';' << uppsrc;
 		console.Log("Создаётся сборка " + a);
 		SaveFile(a,
@@ -65,12 +80,11 @@ bool SetupUppGITMaster()
 	for(const char *nest : { "uppsrc", "reference", "examples", "tutorial" })
 		MakeAssembly(AppendFileName(dir, nest));
 
-	if(dlg.all)
+	if(all)
 		for(const char *nest : { "autotest", "benchmarks", "uppbox", "upptst" })
 			MakeAssembly(AppendFileName(dir, nest));
 
-	MakeAssembly(myapps);
-
+	console.Log("Готово", Gray());
 	console.Perform();
 	return true;
 }
@@ -78,7 +92,8 @@ bool SetupUppGITMaster()
 //Клонировать исходники Dinrus
 bool SetupDinrusGITMaster()
 {
-	WithSetupGITLayout<TopWindow> dlg;
+	bool all;
+    Dialog dlg;
 	CtrlLayoutOKCancel(dlg, "Клонировать исходники Dinrus с github");
 	SelectDirButton dir_browse("Целевая папка");
 	dir_browse.Attach(dlg.dir);
@@ -96,6 +111,8 @@ bool SetupDinrusGITMaster()
 			return false;
 		console.Clear();
 		dir = ~dlg.dir;
+		all = dlg.all;
+		dlg.Close();
 		bool direxists = DirectoryExists(dir);
 		bool fileexists = FileExists(dir);
 		if((direxists || fileexists)) {
@@ -107,14 +124,15 @@ bool SetupDinrusGITMaster()
 		
 		if(console.System("git clone https://github.com/dinrus/DinrusIDE.git " + dir) == 0)
 			break;
+		console.Log("Готово", Gray());
 		console.Perform();
 	}
 		
-  if(dlg.all)
+  if(all)
   {
-	CtrlLayoutOKCancel(dlg, "Клонировать примеры приложений с github");
-	//SelectDirButton dir_browse("Целевая папка");
-	//dir_browse.Attach(dlg.dir);
+    CtrlLayoutOKCancel(dlg, "Клонировать примеры приложений с github");
+    SelectDirButton dir_browse("Целевая папка");
+	dir_browse.Attach(dlg.dir);
 	#ifdef PLATFORM_WIN32
 		dlg.dir = GetExeDirFile("examples");
 	#else
@@ -124,6 +142,7 @@ bool SetupDinrusGITMaster()
 		if(dlg.Run() != IDOK)
 			return false;
 		dir = ~dlg.dir;
+		dlg.Close();
 		bool direxists = DirectoryExists(dir);
 		bool fileexists = FileExists(dir);
 		if((direxists || fileexists)) {
@@ -134,12 +153,11 @@ bool SetupDinrusGITMaster()
 		}
 		   if(console.System("git clone https://github.com/dinrus/examples.git " + dir) == 0)
 		      break;
-		 console.Perform();
+		  console.Log("Готово", Gray());
+		  console.Perform();
 	}
 	//////////////////
 	CtrlLayoutOKCancel(dlg, "Клонировать уроки по программированию с github");
-	//SelectDirButton dir_browse("Целевая папка");
-	//dir_browse.Attach(dlg.dir);
 	#ifdef PLATFORM_WIN32
 		dlg.dir = GetExeDirFile("tutorial");
 	#else
@@ -149,6 +167,7 @@ bool SetupDinrusGITMaster()
 		if(dlg.Run() != IDOK)
 			return false;
 		dir = ~dlg.dir;
+		dlg.Close();
 		bool direxists = DirectoryExists(dir);
 		bool fileexists = FileExists(dir);
 		if((direxists || fileexists)) {
@@ -159,13 +178,11 @@ bool SetupDinrusGITMaster()
 		}
 		   if(console.System("git clone https://github.com/dinrus/tutorial.git " + dir) == 0)
 		    break;
-	console.Perform();
+		   console.Log("Готово", Gray());
+           console.Perform();
 	}
 	///////////////////
-		   
     CtrlLayoutOKCancel(dlg, "Клонировать уроки по программированию с github");
-	//SelectDirButton dir_browse("Целевая папка");
-	//dir_browse.Attach(dlg.dir);
 	#ifdef PLATFORM_WIN32
 		dlg.dir = GetExeDirFile("reference");
 	#else
@@ -175,6 +192,7 @@ bool SetupDinrusGITMaster()
 		if(dlg.Run() != IDOK)
 			return false;
 		dir = ~dlg.dir;
+		dlg.Close();
 		bool direxists = DirectoryExists(dir);
 		bool fileexists = FileExists(dir);
 		if((direxists || fileexists)) {
@@ -186,18 +204,19 @@ bool SetupDinrusGITMaster()
 		
 		   if(console.System("git clone https://github.com/dinrus/reference.git " + dir) == 0)
 			break;
-		console.Perform();
+		   console.Log("Готово", Gray());
+	       console.Perform();
 	}
   }
   
 #ifdef PLATFORM_WIN32
-	String out = GetExeDirFile("out");
+	String out = GetExeDirFile("DinrusIDE_output");
 	String ass = GetExeFolder();
 	String myapps = GetExeDirFile("dev");
 #else
-	String out = GetHomeDirFile("out");
+	String out = GetHomeDirFile(".cache/DinrusIDE_output");
 	String ass = GetConfigFolder();
-	String myapps = GetHomeDirFile("dev");
+	String myapps = GetHomeDirFile("dinrus/dev");
 #endif
 	RealizeDirectory(out);
 
@@ -222,7 +241,7 @@ bool SetupDinrusGITMaster()
 			MakeAssembly(AppendFileName(dir, nest));
 
 	MakeAssembly(myapps);
-
+	console.Log("Готово", Gray());
 	console.Perform();
 	return true;
 }

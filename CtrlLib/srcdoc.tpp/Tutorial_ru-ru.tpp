@@ -47,56 +47,57 @@ U`+`+, и они локализованы в сборку ][*@(128.0.255) tutori
 из шаблона]&]
 [s6;     [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`_ru`-ru`#1`_2^ 1.2 
 Главная функция ГИП`-приложения]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#2^ 2. Окно 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#2^ 2. Окно 
 приложения]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#3^ 3. Изменение 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#3^ 3. Изменение 
 свойств TopWindow]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#4^ 4. Отрисовка 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#4^ 4. Отрисовка 
 видимой области]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#5^ 5.Реагирование 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#5^ 5.Реагирование 
 на события ввода]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#6^ 6. Несколько 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#6^ 6. Несколько 
 главных окон]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#7^ 7. Меню]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#8^ 8. Контекстное 
-меню]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#9^ 9. Альтернативное
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#7^ 7. Меню]&]
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#8^ 8. ][^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#8^ К
+онтекстное ][^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#8^ меню]&]
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#9^ 9. Альтернативное
  контекстное меню]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#10^ 10. Добавление 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#10^ 10. Добавление 
 изображений]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#11^ 11. Брус 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#11^ 11. Брус 
 инструментов (Toolbar)]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#12^ 12. Брус 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#12^ 12. Брус 
 состояния (StatusBar) и декоративные фреймы 
 (Frames)]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#13^ 13. Добавление 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#13^ 13. Добавление 
 Ctrl`'ов`-отпрысков `- виджетов, реагирующих 
 на события виджетов]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#14^ 14. О логических 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#14^ 14. О логических 
 координатах дополнительно]&]
 [s6;     [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`_ru`-ru`#14`.1^ 14.1 
 Пояснения]&]
 [s6;     [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`_ru`-ru`#14`.2^ 14.2 
 Минимальный размер окна]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#15^ 15. Логические 
-координаты с масштабированным шрифтом]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#16^ 16. Выкладки]&]
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#15^ 15. ][^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#15^ Л
+огические ][^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#15^ коорди
+наты с масштабированным шрифтом]&]
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#16^ 16. Выкладки]&]
 [s6;     [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`_ru`-ru`#16`.1^ 16.1 
 Реферральная реализация]&]
 [s6;     [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`_ru`-ru`#16`.2^ 16.2 
 Реализация, не ведающая о пространстве 
 имён Upp]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#17^ 17. Значение 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#17^ 17. Значение 
 виджета]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#18^ 18. Принятие 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#18^ 18. Принятие 
 и отвержение виджетов]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#19^ 19. Флаги 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#19^ 19. Флаги 
 статуса редактируемости виджета]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#20^ 20. Прерывание 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#20^ 20. Прерывание 
 модального цикла]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#21^ 21. Создание 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#21^ 21. Создание 
 и использование кастомных виджетов]&]
-[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$en`-us`#22^ 22. Немодальные 
+[s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`$ru`-ru`#22^ 22. Немодальные 
 диалоговые окна]&]
 [s6; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`_ru`-ru`#23^ 23. Интернационал
 изация приложений (i18n)]&]

@@ -107,7 +107,7 @@ void PaintScene(Size sz, Draw& w, Event<int, int, const Image&> di)
 	
 	if(gameover && tick - gameover_time > 100) {
 		Font fnt = Arial(100).Bold().Italic();
-		String text = "ИГРА ОКОНЧЕНА";
+		String text = "ИГРА ОКОНЧЕНА!!!";
 		Size tsz = GetTextSize(text, fnt);
 		Point p = Rect(window_size).CenterPos(tsz);
 		w.DrawText(p.x, p.y, text, fnt, Blend(White(), Red(), (GameTick() * 4) & 255));
@@ -138,7 +138,7 @@ void PaintScene(Size sz, Draw& w, Event<int, int, const Image&> di)
 
 		if(tick - gameover_time > 350) {
 			Font fnt = Arial(50).Bold().Italic();
-			String text = "Нажмите любую клавишу для старта с последней КТ";
+			String text = "Нажмите любую клавишу для старта с последней КТ!";
 			Size tsz = GetTextSize(text, fnt);
 			Point p = Rect(window_size).CenterPos(tsz);
 			for(int x = -1; x <= 1; x++)

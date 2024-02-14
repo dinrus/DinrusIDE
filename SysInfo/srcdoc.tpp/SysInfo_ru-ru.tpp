@@ -1,5 +1,4 @@
 topic "General description";
-[2 $$0,0#00000000000000000000000000000000:Default]
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [H4;b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -21,13 +20,14 @@ topic "General description";
 [2 $$19,0#53580023442335529039900623488521:gap]
 [C2 $$20,20#70211524482531209251820423858195:class`-nested]
 [b50;2 $$21,21#03324558446220344731010354752573:Par]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
 [s2; SysInfo&]
 [s0; Functions to get information and handle Desktop, OS and hardware 
 internals.&]
 [s0; &]
 [s0; [@6 IMPORTANT]: Before compiling please check [*/ 2. Compiler support 
-and Requirements] in [^topic`:`/`/SysInfo`/srcimp`/SysInfo`$en`-us^ Implementation 
+and Requirements] in [^topic`:`/`/SysInfo`/srcimp`/SysInfo`_ru`-ru^ Implementation 
 details.] In X11, SysInfo requires XTest extension (in debian 
 based system, you need to install libxtst`-dev package).&]
 [s0; &]
@@ -35,22 +35,22 @@ based system, you need to install libxtst`-dev package).&]
 [s0; &]
 [s0;i150;O0; [^topic`:`/`/SysInfo`/src`/SysInfo`$en`-us`#GetDesktopFolder`(`)^ Obtainin
 g special folders]&]
-[s0;i150;O0; [^topic`:`/`/SysInfo`/src`/SysInfo`$en`-us`#GetSystemInfo`(String`&`,String`&`,String`&`,int`&`)^ H
+[s0;i150;O0; [^topic`:`/`/SysInfo`/src`/SysInfo`_ru`-ru`#GetSystemInfo`(String`&`,String`&`,String`&`,int`&`,String`&`)^ H
 ardware, BIOS and OS info]&]
-[s0;i150;O0; [^topic`:`/`/SysInfo`/src`/SysInfo`$en`-us`#GetWindowsList`(Array`<long`>`&`,Array`<long`>`&`,Array`<String`>`&`,Array`<String`>`&`,Array`<String`>`&`)^ P
-rocess handling]&]
-[s0;i150;O0; [^topic`:`/`/SysInfo`/src`/SysInfo`$en`-us`#Window`_GetRect`(long`,long`&`,long`&`,long`&`,long`&`)^ W
+[s0;i150;O0; [^topic`:`/`/SysInfo`/src`/SysInfo`_ru`-ru`#GetWindowsList`(`)^ Process 
+handling]&]
+[s0;i150;O0; [^topic`:`/`/SysInfo`/src`/SysInfo`_ru`-ru`#Window`_GetRect`(int64`,long`&`,long`&`,long`&`,long`&`)^ W
 indows handling]&]
-[s0;i150;O0; [^topic`:`/`/SysInfo`/src`/SysInfo`$en`-us`#Mouse`_GetPos`(long`&`,long`&`)^ M
+[s0;i150;O0; [^topic`:`/`/SysInfo`/src`/SysInfo`_ru`-ru`#Mouse`_GetPos`(int`&`,int`&`)^ M
 ouse and keyboard handling]&]
-[s0;i150;O0; [^topic`:`/`/SysInfo`/src`/SysInfo`$en`-us`#Mouse`_GetPos`(long`&`,long`&`)^ S
-creen recording]&]
+[s0;i150;O0; [^topic`:`/`/SysInfo`/src`/SysInfo`_ru`-ru`#Snap`_Desktop`(`)^ Screen 
+recording]&]
 [s0;i150;O0; [^topic`:`/`/SysInfo`/src`/SysInfo`$en`-us`#LoadFile`_Safe`(String`)^ Misc
 ellaneous functions]&]
 [s0; &]
 [s0; Other pages if interest are:&]
 [s0; &]
-[s0;i150;O0; [^topic`:`/`/SysInfo`/srcdoc`/SysInfoDemo`$en`-us^ SysInfo`_demo] 
+[s0;i150;O0; [^topic`:`/`/SysInfo`/srcdoc`/SysInfoDemo`_ru`-ru^ SysInfo`_demo] 
 reviews the demo package&]
-[s0;i150;O0; [^topic`:`/`/SysInfo`/srcdoc`/ToDo`$en`-us^ ToDo list]&]
+[s0;i150;O0; [^topic`:`/`/SysInfo`/srcdoc`/ToDo`_ru`-ru^ ToDo list]&]
 [s0; ]]

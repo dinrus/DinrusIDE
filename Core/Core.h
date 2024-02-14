@@ -3,10 +3,6 @@
 
 #define UPP_VERSION 0x20220300
 
-#ifndef flagMT
-#define flagMT // MT is now always on
-#endif
-
 #define _MULTITHREADED
 #define MULTITHREADED
 #ifdef flagDLL
@@ -264,9 +260,6 @@ namespace std {
 #define NAMESPACE_UPP     namespace Upp {
 #define END_UPP_NAMESPACE }
 #define UPP               Upp
-
-// #define atof @ // atof is broken, as it depends on setlocale - might want ',' instead of '.' breaking a lot of code
-// Use Atof instead which is fixed with '.'
 
 namespace Upp {
 

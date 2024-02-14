@@ -2,16 +2,16 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "type": "object",
     "properties": {
-      "nests": {
+      "гнёзда": {
         "type": "array",
         "items": [
           {
             "type": "object",
             "properties": {
-              "name": {
+              "имя": {
                 "type": "string"
               },
-              "packages": {
+              "пакеты": {
                 "type": "array",
                 "items": [
                   {
@@ -19,16 +19,16 @@
                   }
                 ]
               },
-              "description": {
+              "описание": {
                 "type": "string"
               },
-              "repository": {
+              "репозиторий": {
                 "type": "string"
               },
-              "status": {
+              "статус": {
                 "type": "string"
               },
-              "category": {
+              "категория": {
                 "type": "string"
               },
               "readme": {
@@ -36,19 +36,19 @@
               }
             },
             "required": [
-              "name",
-              "packages",
-              "description",
-              "repository",
-              "status",
-              "category"
+              "имя",
+              "пакеты",
+              "описание",
+              "репозиторий",
+              "статус",
+              "категория"
             ]
           }
         ]
       }
     },
     "required": [
-      "nests"
+      "гнёзда"
     ]
   }
   

@@ -14,7 +14,7 @@ String GccBuilder::CompilerName() const
 //СДЕЛАТЬ: Задача - отфильтровать .d от остальных.
 String DlangCmdLine(const String& package, const Package& pkg)
 {
-    String dd = "ldc2";
+    String dd = "ldmd2";
     for(String f: pkg.file)
     {
         if(GetFileExt(f) == ".d")
@@ -157,7 +157,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 //ДИНИМАЧЕСКАЯ БИБЛИОТЕКА
     String fuse_cxa_atexit;
 	if(is_shared ) {
-		cc << " -shared -fPIC";
+		cc << " -fPIC"; //shared убран!
         fuse_cxa_atexit = " -fuse-cxa-atexit";
     }
     if(!HasFlag("SHARED") && !is_shared)
@@ -478,7 +478,7 @@ bool GccBuilder::CreateLib(const String& product, const Vector<String>& obj,
     }
 #endif
     PutConsole(String().Cat() << hproduct << " (" << GetFileInfo(hproduct).length
-               << " B) создано за " << GetPrintTime(libtime));
+               << " Б) создано за " << GetPrintTime(libtime));
     return true;
 }
 //Компонует
@@ -507,7 +507,7 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
             {
                 String name = GetFileName(target);
                 String path = GetFileDirectory(target);
-                lnk << " -shared -Wl,--out-implib="<<path<<DIR_SEP<<"lib"<<name<<".a";// -Wl,--export-all-symbols -Wl,--enable-auto-import";
+                lnk << " -shared -Wl,--out-implib="<<path<<"lib"<<name<<".a";
             }
             if(!HasFlag("SHARED") && !HasFlag("SO"))
                 lnk << " -static";
@@ -606,7 +606,7 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
             if(!error && Execute(lnk) == 0) {
                 CustomStep(".post-link", Null, error);
                 PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-                           << " B) скомпоновано за " << GetPrintTime(time));
+                           << " Б) скомпоновано за " << GetPrintTime(time));
                 return !error;
             }
             else {
@@ -616,7 +616,7 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
         }
 
     PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-               << " B) в свежем состоянии.");
+               << " Б) в свежем состоянии.");
     return true;
 }
 //Выполняет препроцессинг

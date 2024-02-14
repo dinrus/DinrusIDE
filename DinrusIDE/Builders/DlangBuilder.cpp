@@ -404,7 +404,7 @@ bool DlangBuilder::CreateLib(const String& product, const Vector<String>& obj,
 	}
 #endif
 	PutConsole(String().Cat() << hproduct << " (" << GetFileInfo(hproduct).length
-	           << " B) создано за " << GetPrintTime(libtime));
+	           << " Б) создано за " << GetPrintTime(libtime));
 	return true;
 }
 ////////////////////////////////////////////////
@@ -529,7 +529,7 @@ bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoption
 			if(!error && Execute(lnk) == 0) {
 				CustomStep(".post-link", Null, error);
 				PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-				           << " B) скомпоновано за " << GetPrintTime(time));
+				           << " Б) скомпоновано за " << GetPrintTime(time));
 				return !error;
 			}
 			else {
@@ -539,7 +539,7 @@ bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoption
 		}
 
 	PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-	           << " B) в свежем состоянии.");
+	           << " Б) в свежем состоянии.");
 	return true;
 }
 ////////////////////////////////////////////////

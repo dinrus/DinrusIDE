@@ -1131,12 +1131,12 @@ struct StaticClocks {
     }
     void Add(StaticClock *clock) {
         clocks.Add(clock);
-#ifdef flagMT
+
         if (!running) {
             AtomicInc(running);
             Thread().Run(callback1(StaticClockThread, this));
         }
-#endif
+
     }
     void Remove(StaticClock *clock) {
         for (int i = 0; i < clocks.GetCount(); ++i) {
@@ -1391,7 +1391,6 @@ void Meter::Paint(Draw& ww) {
     ww.DrawImage(0, 0, ib);
 }
 
-#ifdef flagMT
 void MeterThread(Meter *gui, double newValue) {
     double delta = Sign(newValue-gui->value)*(gui->max - gui->min)/gui->sensibility;
     long deltaT = labs(long(1000.*delta*gui->speed/(gui->max - gui->min)));
@@ -1410,11 +1409,10 @@ void MeterThread(Meter *gui, double newValue) {
     PostCallback(callback(gui, &Meter::RefreshValue));
     AtomicDec(gui->running);
 }
-#endif
 
 void Meter::SetData(const Value& v) {
     double val = minmax(double(v), min, max) ;
-#ifdef flagMT
+
     if (running) {  // Stop movement before changing value
         AtomicInc(kill);
         while (running)
@@ -1423,10 +1421,6 @@ void Meter::SetData(const Value& v) {
     }
     AtomicInc(running);
     Thread().Run(callback2(MeterThread, this, val));
-#else
-    value = val;
-    RefreshValue();
-#endif
 }
 
 Meter::~Meter() {

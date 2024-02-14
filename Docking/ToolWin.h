@@ -9,20 +9,20 @@ public:
 	virtual Image  CursorImage(Point p, dword keyflags);
 	virtual Image  FrameMouseEvent(int event, Point p, int zdelta, dword keyflags);
 
-private:		
+private:
 	Point      p0;
 	Rect       rect0;
 	Point      dragdir;
 	ToolButton close;
 
 	void DoClose();
-	
+
 	Point GetDir(Point p) const;
 	int   GetTitleCy() const;
 	int   GetBorder() const;
 	Rect  GetMargins() const;
 	Size  AddMargins(Size sz) const;
-	
+
 	void StartMouseDrag0();
 
 	typedef ToolWin CLASSNAME;
@@ -36,6 +36,6 @@ public:
 	void SetClientRect(Rect r);
 
 	void PlaceClientRect(Rect r);
-	
+
 	ToolWin();
 };

@@ -869,7 +869,7 @@ void Ide::MainMenu(Bar& menu)
 void Ide::DataOps(Bar& bar)
 {
 	bar.Add("Информация об ОС", IdeImg::Computer(), THISBACK(ShowSysInfo));
-	bar.Add("Хранилище Контактов", IdeImg::Computer(), THISBACK(ShowContacts));
+//	bar.Add("Хранилище Контактов", IdeImg::Computer(), THISBACK(ShowContacts));
 
 }
 
@@ -934,7 +934,7 @@ void Ide::ConsoleMenu(Bar& menu)
 	menu.Add("Копировать", CtrlImg::copy(), THISBACK(ConsoleCopy))
 		.Key(K_CTRL_C)
 		.Enable(selection)
-		.Help("Копировать выделение в системный buffer обмена");
+		.Help("Копировать выделение в системный буфер обмена");
 	menu.Add("Вставить", CtrlImg::paste(), THISBACK(ConsolePaste))
 		.Key(K_CTRL_V)
 		.Help("Добавить выделение в системную консоль");

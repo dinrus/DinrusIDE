@@ -602,7 +602,7 @@ bool MscBuilder::CreateLib(const String& product, const Vector<String>& obj,
 		Execute(mt);
 	}
 	PutConsole(String().Cat() << product << " (" << GetFileInfo(product).length
-	           << " B) создано за " << GetPrintTime(linktime));
+	           << " Б) создано за " << GetPrintTime(linktime));
 	return true;
 }
 
@@ -706,7 +706,7 @@ bool MscBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 				   Execute(mt);
 				}
 				PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-				           << " B) скомпоновано за " << GetPrintTime(time));
+				           << " Б) скомпоновано за " << GetPrintTime(time));
 			}
 			else {
 				DeleteFile(target);
@@ -717,7 +717,7 @@ bool MscBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 			return !error;
 		}
 	PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-	           << " B) в свежем состоянии.");
+	           << " Б) в свежем состоянии.");
 	return true;
 }
 

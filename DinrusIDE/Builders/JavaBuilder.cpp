@@ -298,11 +298,11 @@ bool JavaBuilder::Link(const Vector<String>& linkfile, const String& linkoptions
 		}
 		CustomStep(".post-link", Null, error);
 		PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-		           << " B) архивировано за " << GetPrintTime(time));
+		           << " Б) архивировано за " << GetPrintTime(time));
 	}
 	else
 		PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-		           << " B) в свежем состоянии.");
+		           << " Б) в свежем состоянии.");
 	return true;
 }
 

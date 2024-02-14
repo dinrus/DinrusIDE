@@ -8,6 +8,10 @@ options(DLL) "-DYAML_CPP_STATIC_DEFINE=1 -Dyaml_cpp_EXPORTS=1";
 
 options(M_LIB) -DYAML_CPP_STATIC_DEFINE;
 
+options(SO) -Dyaml_cpp_EXPORTS=1;
+
+link(M_LIB) "-Wl, --static";
+
 file
 	yaml.upp,
 	anchor.h,
@@ -102,4 +106,9 @@ file
 	code\contrib\graphbuilderadapter.cpp,
 	code\contrib\graphbuilderadapter.h,
 	end readonly separator;
+
+mainconfig
+	"" = "SO",
+	"" = "M_LIB",
+	"" = "";
 

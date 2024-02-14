@@ -146,12 +146,14 @@ void AppMain___()
 	SetLanguage(LNG_RUSSIAN);
 	//Установка дефолтного набсима.
 	SetDefaultCharset(CHARSET_UTF8);
-
+    //Обработчик командной строки
 	MainCommandLineHandler cmd_handler(CommandLine());
+	//Если хэндл получен, возврат (выход)
 	if (cmd_handler.Handle())
 		return;
+	//Получение аргументов командной строки в arg
 	auto arg = clone(cmd_handler.GetArgs());
-
+    //Установка лимитированного размера для лога
 	SetVppLogSizeLimit(200000000);
 	//Проверка лицензии.
 	if(!CheckLicense())

@@ -623,9 +623,9 @@ sub main`];]&]
 заключённый (или нет) в кавычки, как 
 дефолтное значение. Всё остальное 
 оценивается как `"false`". Использование 
-вместо этого имени пееременной, хотя 
+вместо этого имени переменной, хотя 
 и синтактически корректно, не работает. 
-Определение переменной заверщает 
+Определение переменной завершает 
 точка с запятой.&]
 [s5;l160; option `"титул`" [/C имя`_переменной]`[`= 
 `[`"`]0 `| 1`[[/ `"]`]`];&]
@@ -695,25 +695,33 @@ DropList (выпадающего списка), из которого
 файлов.&]
 [s42;:5`_14: [@(128.0.255) 5.14 `"text`"]&]
 [s42;l160;:5`_14`_1: [@6 5.14.1 Описание]&]
-[s5;l160; `"text`" defines a variable which is determined to host 
-an arbitrary string. Using it makes a named edit field appear. 
-The input is not filtered. Any character is accepted.&]
+[s5;l160; `"text`" определяет переменную, which 
+is determined to host an arbitrary string. При её использовании
+ появляется именованное поле редактирования
+. Ввод не фильтруется. Допускается 
+любой символ.&]
 [s42;l160;:5`_14`_2: [@6 5.14.2 Определение]&]
-[s5;l160; The keyword and the variable name must not be enclosed 
-in quotation marks, whereas the title must. Doing otherwise results 
-in an error message and the UPT file is ignored. You can set 
-a literal, enclosed in quotation marks, as default. Using a variable 
-name instead, although syntactically correct, doesn`'t work. 
-The variable definition is terminated by a semicolon.&]
+[s5;l160; Ключевое слово и имя переменной 
+не должны помещаться в кавычки, а 
+титул `- нужно. В противном случае 
+появится сообщение об ошибке и файл 
+UPT будет проигнорирован. Можно установить 
+литерал, заключённый в кавычки, в 
+качестве дефолта. Использование вместо 
+него имени переменной, хотя синтактически 
+верно, не работает. Определение переменной 
+завершается точкой с запятой.&]
 [s5;l160; [C text `"][/C title][C `" ][/C variable`_name][C  `[`= `"][/C default`"][C `];]&]
 [s42;l160;:5`_14`_3: [@6 5.14.3 Использование]&]
 [s5;l160; [C ... <: ][/C variable`_name][C  :> ...]&]
 [s5;l160; Можно сравнивать текстовые переменные 
 и действовать, опираясь на это сравнение.&]
 [s42;:5`_15: [@(128.0.255) 5.15 Неопределённые переменные]&]
-[s5; Using undefined variables in syntactically correct places causes 
-no harm. Nevertheless an undefined variable has no value, even 
-not 0.&]
+[s5; Использование неопределённых переменных 
+в синтактически корректных местах 
+не вызывает вреда. тем не менее, неопределённ
+ая переменная не имеет значения, даже 
+не представляет собой 0.&]
 [s0; &]
 [s3;:6: [@5 6. Выкладка Диалогового Окна Шаблона]&]
 [s5; The `"Create in`"`-DropList always shows the currently selected 
@@ -731,7 +739,7 @@ characters show up as usual.&]
 [s0; &]
 [s3;:7: [@5 7. Деплоймент]&]
 [s5; DinrusIDE ищет файлы UPT в следующих директориях:&]
-[s5;l160;i150;O2; Projects&]
+[s5;l160;i150;O2; dev&]
 [s5;l160;i150;O2; src&]
 [s5; Сканируются также и поддиректории.&]
 [s28;l0;~~~256; &]

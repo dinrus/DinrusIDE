@@ -1,3 +1,4 @@
+
 #ifndef BUILDERS_H
 #define BUILDERS_H
 
@@ -105,23 +106,6 @@ struct DlangBuilder : CppBuilder {
 	                 const String& link_options);
 
 	String Info_plist; // apple bundle Info.plist
-};
-
-struct OwcBuilder : CppBuilder {
-	typedef OwcBuilder CLASSNAME;
-
-	virtual void   AddFlags(Index<String>& cfg);
-	virtual bool   BuildPackage(const String& package, Vector<String>& linkfile, Vector<String>& immfile,
-	    String& linkoptions, const Vector<String>& all_uses, const Vector<String>& all_libraries, int optimize);
-	virtual bool   Link(const Vector<String>& linkfile, const String& linkoptions, bool createmap);
-	virtual bool   Preprocess(const String& package, const String& file, const String& target, bool asmout);
-
-	String         IncludesDefinesTargetTime(const String& package, const Package& pkg);
-
-	String CompilerName(bool isCpp = true) const;
-	String LinkerName() const;
-	String CmdLine(const String& package, const Package& pkg);
-	void   BinObjConsole(String c) { PutConsole(c); }
 };
 
 struct MscBuilder : CppBuilder {

@@ -42,6 +42,10 @@ TOPIC("CrossComp_ru-ru")
 #include "CrossComp_ru-ru.tppi"
 END_TOPIC
 
+TOPIC("DinrusHub_ru-ru")
+#include "DinrusHub_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("Files_ru-ru")
 #include "Files_ru-ru.tppi"
 END_TOPIC
@@ -98,16 +102,8 @@ TOPIC("PackagesAssembliesAndNests_ru-ru")
 #include "PackagesAssembliesAndNests_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("ToTinkoff_ru-ru")
-#include "ToTinkoff_ru-ru.tppi"
-END_TOPIC
-
 TOPIC("Topic_ru-ru")
 #include "Topic_ru-ru.tppi"
-END_TOPIC
-
-TOPIC("UppHub_ru-ru")
-#include "UppHub_ru-ru.tppi"
 END_TOPIC
 
 TOPIC("importext_ru-ru")

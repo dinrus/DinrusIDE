@@ -50,6 +50,9 @@ MoveTopicDlg::MoveTopicDlg()
 
 void TopicEditor::MoveTopic()
 {
+//СДЕЛАТЬ: Изменить в файле ссылки старого языка на ссылки нового языка.
+//СДЕЛАТЬ: Добавить возможность группового перемещения всех файлов (или лишь выбранных),
+// находящихся в папке.
 	MoveTopicDlg dlg;
 	String p = GetCurrentTopicPath();
 	TopicLink tl = ParseTopicFilePath(p);

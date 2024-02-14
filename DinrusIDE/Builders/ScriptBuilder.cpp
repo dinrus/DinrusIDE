@@ -225,7 +225,7 @@ bool ScriptBuilder::BuildPackage(const String& package, Vector<String>& linkfile
 					return false;
 				}
 				PutConsole(String().Cat() << product << " (" << GetFileInfo(product).length
-				           << " B) создано за " << GetPrintTime(time));
+				           << " Б) создано за " << GetPrintTime(time));
 				break;
 			}
 		return true;
@@ -265,11 +265,11 @@ bool ScriptBuilder::Link(const Vector<String>& linkfile, const String& linkoptio
 			}
 			CustomStep(".post-link", Null, error);
 			PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-				<< " B) скомпоновано за " << GetPrintTime(time));
+				<< " Б) скомпоновано за " << GetPrintTime(time));
 			return !error;
 		}
 	PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-	           << " B) в свежем состоянии.");
+	           << " Б) в свежем состоянии.");
 	return true;
 }
 

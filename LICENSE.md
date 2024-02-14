@@ -1,4 +1,4 @@
-Copyright (c) 2011, 2023, The Dinrus Project
+Copyright (c) 2011 - 2024, DinrusPro
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted

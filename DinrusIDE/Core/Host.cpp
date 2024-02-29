@@ -83,7 +83,7 @@ int Host::Execute(const char *cmdline)
 		*cmdout << cmdline << '\n';
 	Log(cmdline);
 	int q = IdeConsoleExecute(FindCommand(exedirs, cmdline), NULL, environment, false);
-	Log(Format("Exitcode: %d", q));
+	Log(Format("Код выхода: %d", q));
 	return q;
 }
 
@@ -93,7 +93,7 @@ int Host::ExecuteWithInput(const char *cmdline, bool noconvert)
 		*cmdout << cmdline << '\n';
 	Log(cmdline);
 	int q = IdeConsoleExecuteWithInput(FindCommand(exedirs, cmdline), NULL, environment, false, noconvert);
-	Log(Format("Exitcode: %d", q));
+	Log(Format("Код выхода: %d", q));
 	return q;
 }
 
@@ -101,7 +101,7 @@ int Host::Execute(const char *cmdline, Stream& out, bool noconvert)
 {
 	Log(cmdline);
 	int q = IdeConsoleExecute(FindCommand(exedirs, cmdline), &out, environment, true, noconvert);
-	Log(Format("Exitcode: %d", q));
+	Log(Format("Код выхода: %d", q));
 	return q;
 }
 

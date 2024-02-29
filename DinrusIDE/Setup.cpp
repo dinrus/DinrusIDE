@@ -461,6 +461,7 @@ void Ide::SetupFormat() {
 	gui.Set(gui_font);
 
 	DlCharset(edt.charset);
+	edt.tabsize <<= 4;
 	edt.tabsize.MinMax(1, 100).NotNull();
 	edt.tabsize <<= editortabsize;
 	edt.indent_amount.MinMax(1, 100).NotNull();

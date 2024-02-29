@@ -1,6 +1,6 @@
-library(MSC) "SDL2 SDL2main";
+library(WIN32) "SDL2 SDL2main SetupApi Version";
 
-library(CLANG) "SDL2 SDL2main SetupApi Version";
+library(CLANG POSIX) "SDL2 SDL2main";
 
 file
 	Synth.h,

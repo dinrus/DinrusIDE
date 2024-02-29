@@ -145,8 +145,8 @@ void HighlightSetup::DarkTheme(bool host)
 {
 	SetHlStyle(INK_NORMAL,                Color(198, 212, 0));
 	SetHlStyle(PAPER_NORMAL,              Color(35, 38, 41));
-	SetHlStyle(INK_SELECTED,              Color(239, 240, 241));
-	SetHlStyle(PAPER_SELECTED,            Color(61, 174, 233));
+	SetHlStyle(INK_SELECTED,              LtGreen);
+	SetHlStyle(PAPER_SELECTED,            Cyan);
 	SetHlStyle(INK_DISABLED,              Gray);
 	SetHlStyle(PAPER_READONLY,            Color(49, 54, 59));
 	SetHlStyle(INK_COMMENT,               Color(226, 170, 150), true, false);

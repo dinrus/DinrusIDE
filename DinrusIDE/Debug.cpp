@@ -35,7 +35,7 @@ void Ide::RunArgs() {
 	}
 
 	FileSelectSaveAs(dlg.stdout_file, dlg.stdout_fileb,
-	                 "Текстовые файлы (*.txt)\t*.txt\nLog files (*.log)\t*.log\nВсе файлы (*.*)\t*.*");
+	                 "Текстовые файлы (*.txt)\t*.txt\nФайлы логов (*.log)\t*.log\nВсе файлы (*.*)\t*.*");
 
 	{
 		StringStream ss(recent_stdout_file);

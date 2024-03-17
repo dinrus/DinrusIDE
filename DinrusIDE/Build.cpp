@@ -62,7 +62,7 @@ void Ide::EndBuilding(bool ok)
 	if(!errors.IsEmpty())
 		ok = false;
 	PutConsole("");
-	PutConsole((ok ? "OK. " : "Имеются ошибки. ") + GetPrintTime(build_time));
+	PutConsole((ok ? "Oтлично. " : "Имеются ошибки. ") + GetPrintTime(build_time));
 	SetIdeState(EDITING);
 	if(GetTopWindow()->IsOpen()) {
 		if(ok)

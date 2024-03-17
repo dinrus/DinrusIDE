@@ -92,9 +92,9 @@ void DebugF(One<Ctrl>& ctrl)
 {
 	ctrl.Create<DropList>()
 	   .Add(Null, "")
-	   .Add(0, "None")
-	   .Add(1, "Minimal")
-	   .Add(2, "Full");
+	   .Add(0, "Никакой")
+	   .Add(1, "Минимальная")
+	   .Add(2, "Полная");
 }
 
 void BlitzF(One<Ctrl>& ctrl)

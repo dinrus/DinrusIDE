@@ -16,7 +16,7 @@ enum {
 	LZ4F_BLOCKCHECKSUM     = (1 << 4),
 	LZ4F_CONTENTSIZE       = (1 << 3),
 	LZ4F_CONTENTCHECKSUM   = (1 << 2),
-	
+
 	LZ4F_MAXSIZEMASK      = 0x70,
     LZ4F_MAXSIZE_64KB     = 0x40,
     LZ4F_MAXSIZE_256KB    = 0x50,
@@ -32,15 +32,15 @@ public:
 protected:
 	virtual   void  _Put(int w);
 	virtual   void  _Put(const void *data, dword size);
-	
+
 	Stream      *out;
-	
+
 	Buffer<byte> buffer;
 	Buffer<byte> outbuf;
 	Buffer<int>  outsz;
 
 	enum { BLOCK_BYTES = 1024 * 1024 };
-	
+
 	xxHashStream xxh;
 
 	bool          concurrent;
@@ -72,22 +72,22 @@ private:
 	struct Workblock {
 		Buffer<char> c, d; // compressed, decompressed data
 		int   clen = 0, dlen = 0; // compressed, decompressed len
-		
+
 		void Clear() { c.Clear(); d.Clear(); }
 	};
 	Workblock wb[16];
 	int       count; // count of workblocks fetched
 	int       ii; // next workblock to be read
 	int       dlen; // length of current workblock
-	
+
 	enum { BLOCK_BYTES = 1024*1024 };
-	
+
 	xxHashStream xxh;
 	int          maxblock;
 	int          blockchksumsz;
 	byte         lz4hdr;
 	bool         eof;
-	
+
 	bool         concurrent;
 
     void          TryHeader();

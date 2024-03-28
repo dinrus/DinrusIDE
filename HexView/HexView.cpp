@@ -502,7 +502,7 @@ HexView::HexView()
 	AddFrame(info);
 	info.SetMode(1);
 	WhenBar = THISBACK(StdMenu);
-	CtrlLayoutOKCancel(go, "Go to");
+	CtrlLayoutOKCancel(go, "Перейти");
 	WhenGoto = THISBACK(StdGoto);
 	WhenGotoDlg = THISBACK(Goto);
 }

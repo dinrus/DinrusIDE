@@ -265,12 +265,21 @@ void BaseInfoSync(Progress& pi)
 	LoadDefs();
 	const Workspace& wspc = GetIdeWorkspace();
 	LTIMING("Gathering files");
-	pi.SetText("Собираются файлы");
 	pi.SetTotal(wspc.GetCount());
+	int tot = pi.GetTotal();
 	
-	for(int pass = 0; pass < 2; pass++) // Ignore headers in the first pass to get correct master files
-		for(int i = 0; i < wspc.GetCount(); i++) {
-			pi.Step();
+	for(int pass = 0; pass < 2; pass++) {// Ignore headers in the first pass to get correct master files
+		for(int i = 0; i < tot; i++) {
+			int pos = pi.GetPos();
+			 String txt = "Прогрессируем...";
+			   if( pos > 0 && pass == 0)
+              {
+				txt = "Собираются файлы: >>> Выполнено " << AsString((int)(100L * pos / max(tot, 1))) << "%%  >>>  { ";
+	            txt << AsString(pos) << "  из  " << AsString(tot) << " }";
+              }
+              else txt = "Собираются файлы";
+            pi.SetText(txt);
+            pi.Step();
 			const Package& pk = wspc.GetPackage(i);
 			String n = wspc[i];
 			for(int i = 0; i < pk.file.GetCount(); i++) {
@@ -279,7 +288,9 @@ void BaseInfoSync(Progress& pi)
 				   : IsCPPFile(path) || findarg(ToLower(GetFileExt(path)), ".lay", ".sch", ".iml") >= 0)
 					GatherSources(path);
 			}
+			 
 		}
+	}
 
 	SweepPPFiles(GetAllSources());
 }

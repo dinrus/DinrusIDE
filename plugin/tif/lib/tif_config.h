@@ -123,7 +123,9 @@
 
 #define lfind _lfind
 
+#if defined(_MSC_VER)
 #pragma warning(disable : 4996) /* function deprecation warnings */
+#endif
 
 #endif /* _TIF_CONFIG_H_ */
 /*

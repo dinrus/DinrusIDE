@@ -51,7 +51,7 @@ DirDiffDlg::DirDiffDlg()
 
 	Add(files_diff.SizePos());
 	files_diff.Set(files_pane, diff);
-	files_diff.SetPos(2000);
+	files_diff.SetPos(1500);//2000
 	files_diff.SetMinPixels(0, Zx(256));
 	
 	Sizeable().Zoomable();

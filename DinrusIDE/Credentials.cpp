@@ -47,7 +47,7 @@ struct PasskeyDlg : WithPasskeyLayout<TopWindow> {
 
 PasskeyDlg::PasskeyDlg()
 {
-	CtrlLayoutOK(*this, "Passkey");
+	CtrlLayoutOK(*this, "Ключ Прохода");
 	
 	show_passkey << [=, this] { Sync(); };
 	
@@ -94,7 +94,7 @@ struct GetPasskeyDlg : WithGetPasskeyLayout<TopWindow> {
 
 GetPasskeyDlg::GetPasskeyDlg()
 {
-	CtrlLayoutOK(*this, "Passkey");
+	CtrlLayoutOK(*this, "Ключ Прохода");
 	
 	show_passkey << [=, this] { Sync(); };
 	
@@ -113,7 +113,7 @@ bool LoadCredentials(Array<Credential>& r)
 			SHA256(passkey_sha256, ~dlg.passkey);
 			if(LoadCredentials0(r)) return true;
 			WithFailedPasskeyLayout<TopWindow> p;
-			CtrlLayoutOK(p, "Passkey");
+			CtrlLayoutOK(p, "Ключ Прохода");
 			p.Breaker(p.clear, IDEXIT);
 			if(p.Run() == IDEXIT) {
 				memset(passkey_sha256, 0, 32);

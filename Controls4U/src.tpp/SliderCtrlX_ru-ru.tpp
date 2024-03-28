@@ -15,8 +15,8 @@ topic "SliderCtrlX";
 [s1;:StarIndicator`:`:class: [@(0.0.255)3 class][3 _][*3 SliderCtrlX][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Ctrl]&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
-[s9; [/ Производный от ][/^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#Ctrl`:`:class^ Ctrl][/ . 
-Part of ][/^topic`:`/`/Controls4U`/src`/Controls4U`$en`-us^ Controls4U][/  
+[s9; [/ Производный от ][/^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#Ctrl`:`:class^ C
+trl][/ . Part of ][/^topic`:`/`/Controls4U`/src`/Controls4U`$en`-us^ Controls4U][/  
 library.]&]
 [s9; &]
 [s9; SliderCtrlX is a widget that allows entering an integer value 
@@ -183,25 +183,26 @@ repainted.&]
 [s4;%- &]
 [s5;:SliderCtrlX`:`:SetData`(const Value`&`):%- [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* SetData]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2; Устанавливаетthe slider value within its`' range&]
+[s2; Устанавливает the slider value within its`' range&]
 [s7;i1120;a17; [%-*@3 v]-|New value.&]
 [s2;*@3%- &]
 [s4;%- &]
 [s5;:Upp`:`:SliderCtrlX`:`:SetMajorTicks`(int`):%- [_^Upp`:`:SliderCtrlX^ SliderCtrlX][@(0.0.255) `&
 ]_[* SetMajorTicks](_[@(0.0.255) int]_[*@3 n]_)&]
-[s2; Устанавливаетthe space [%-*@3 n] between the numbers with the values shown 
-of the major ticks.&]
+[s2; Устанавливает the space [%-*@3 n] between the numbers 
+with the values shown of the major ticks.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SliderCtrlX`:`:SetMajorTicksSize`(int`):%- [_^Upp`:`:SliderCtrlX^ SliderCtr
 lX][@(0.0.255) `&]_[* SetMajorTicksSize](_[@(0.0.255) int]_[*@3 n]_)&]
-[s2; Устанавливаетthe length [%-*@3 n] of the marks where the major ticks are 
-painted.&]
+[s2; Устанавливает the length [%-*@3 n] of the marks where 
+the major ticks are painted.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SliderCtrlX`:`:SetThickness`(int`):%- [_^Upp`:`:SliderCtrlX^ SliderCtrlX][@(0.0.255) `&
 ]_[* SetThickness](_[@(0.0.255) int]_[*@3 n]_`=_[@3 2]_)&]
-[s2; Устанавливаетthe thickness [%-*@3 n] of the line where the thumb moves.&]
+[s2; Устанавливает the thickness [%-*@3 n] of the line 
+where the thumb moves.&]
 [s3; &]
 [s4;%- &]
 [s5;:SliderCtrlX`:`:SetThumbType`(int`):%- [_^SliderCtrlX^ SliderCtrlX][@(0.0.255) `&]_[* S
@@ -228,7 +229,7 @@ etThumbType]([@(0.0.255) int]_[*@3 n][@(0.0.255) `=][@3 0])&]
 [s4;%- &]
 [s5;:SliderCtrlX`:`:SetValue`(const Value`&`,int`):%- [_^Value^ Value]_[* SetValue](_[@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v], [@(0.0.255) int]_[*@3 nIndex]_`=_[@3 0]_)&]
-[s2; Устанавливаетthe value for the slider position&]
+[s2; Устанавливает the value for the slider position&]
 [s7;i1120;a17; [%-*@3 v]-|New value.&]
 [s7;i1120;a17; [%-*@3 nIndex]-|Index of the Vector.&]
 [s0;%- &]
@@ -255,15 +256,16 @@ nt]_[*@3 p])_[@(0.0.255) const]&]
 [s4;%- &]
 [s5;:SliderCtrlX`:`:HoVe`(int`,int`)const:%- [@(0.0.255) int]_[* HoVe]([@(0.0.255) int]_[*@3 x
 ], [@(0.0.255) int]_[*@3 y])_[@(0.0.255) const]&]
-[s2; Возвращает [*@3 x] for an horizontal slider or [*@3 y] for vertical 
-slider.&]
+[s2; Возвращает [*@3 x] for an horizontal slider or [*@3 y] 
+for vertical slider.&]
 [s7;i1120;a17; [%-*@3 x]-|Value to be returned if horizontal slider.&]
 [s7;i1120;a17; [%-*@3 y]-|Value to be returned if vertical slider.&]
 [s3; &]
 [s4;%- &]
 [s5;:SliderCtrlX`:`:HoVeR`(int`&`,int`&`)const:%- [@(0.0.255) int`&]_[* HoVeR]([@(0.0.255) i
 nt`&]_[*@3 x], [@(0.0.255) int`&]_[*@3 y])_[@(0.0.255) const]&]
-[s2; Возвращает `&x for an horizontal slider or `&y for vertical slider.&]
+[s2; Возвращает `&x for an horizontal slider or `&y for 
+vertical slider.&]
 [s7;i1120;a17; [%-*@3 x]-|Reference to be returned if horizontal slider.&]
 [s7;i1120;a17; [%-*@3 y]-|Reference to be returned if vertical slider.&]
 [s3; &]

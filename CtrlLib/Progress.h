@@ -81,6 +81,7 @@ public:
 	void     SetPos(int pos);
 	void     SetText(const char *s)        { SetText((String)s); }
 	void     SetText(const String& s);
+   // void     UpdateText(const String& s);
 	void     SetTotal(int total);
 	void     Step(int steps = 1);
 	int      GetPos() const                { return pos; }

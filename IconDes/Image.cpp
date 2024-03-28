@@ -148,7 +148,7 @@ void IconDes::SmoothRescale()
 	if(!IsCurrent())
 		return;
 	WithRescaleLayout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, "Rescale");
+	CtrlLayoutOKCancel(dlg, "Перемерка");
 	dlg.cx <<= dlg.cy <<= dlg.method <<= dlg.Breaker();
 	Slot& c = Current();
 	BeginTransform();
@@ -240,7 +240,7 @@ void IconDes::ImageSet(const Image& m)
 void IconDes::BlurSharpen()
 {
 	WithSharpenLayout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, "Blur/Sharpen");
+	CtrlLayoutOKCancel(dlg, "Размытие/Чёткость");
 	PlaceDlg(dlg);
 	dlg.level <<= 0;
 	dlg.level <<= dlg.Breaker();
@@ -314,7 +314,7 @@ Image Colorize2(const Image& img, Color color, int alpha, int gray)
 void IconDes::Colorize()
 {
 	WithColorize2Layout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, "Colorize");
+	CtrlLayoutOKCancel(dlg, "Окрасить");
 	PlaceDlg(dlg);
 	dlg.level.MinMax(0, 1);
 	dlg.level <<= 1;
@@ -340,7 +340,7 @@ void IconDes::Colorize()
 void IconDes::FreeRotate()
 {
 	WithFreeRotateLayout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, "Rotate");
+	CtrlLayoutOKCancel(dlg, "Вращение");
 	PlaceDlg(dlg);
 	dlg.angle <<= 0;
 	dlg.angle <<= dlg.Breaker();
@@ -364,7 +364,7 @@ void IconDes::FreeRotate()
 void IconDes::Chroma()
 {
 	WithColorizeLayout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, "Chroma");
+	CtrlLayoutOKCancel(dlg, "Хрома");
 	PlaceDlg(dlg);
 	dlg.level.Max(10);
 	dlg.level <<= 1;
@@ -385,7 +385,7 @@ void IconDes::Chroma()
 void IconDes::Contrast()
 {
 	WithColorizeLayout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, "Contrast");
+	CtrlLayoutOKCancel(dlg, "Констраст");
 	PlaceDlg(dlg);
 	dlg.level.Max(10);
 	dlg.level <<= 1;
@@ -406,7 +406,7 @@ void IconDes::Contrast()
 void IconDes::Alpha()
 {
 	WithColorizeLayout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, "Alpha");
+	CtrlLayoutOKCancel(dlg, "Прозрачность");
 	PlaceDlg(dlg);
 	dlg.level.Max(4);
 	dlg.level <<= 1;
@@ -438,7 +438,7 @@ void IconDes::Alpha()
 void IconDes::Colors()
 {
 	WithImgColorLayout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, "Alpha");
+	CtrlLayoutOKCancel(dlg, "Прозрачность");
 	PlaceDlg(dlg);
 	dlg.r_mul <<= dlg.g_mul <<= dlg.b_mul <<= dlg.a_mul <<= 1;
 	dlg.r_add <<= dlg.g_add <<= dlg.b_add <<= dlg.a_add <<= 0;

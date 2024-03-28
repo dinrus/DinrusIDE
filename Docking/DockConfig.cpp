@@ -10,7 +10,7 @@ DockConfigDlg::DockConfigDlg(DockWindow& dockwindow)
   menu(&dockwindow),
   highlight(NULL)
 {
-    CtrlLayoutOKCancel(*this, t_("Dockable Window Manager"));
+    CtrlLayoutOKCancel(*this, t_("Менеджер Докируемых Окон"));
     Sizeable().Zoomable();
 
     // Make backup of layout

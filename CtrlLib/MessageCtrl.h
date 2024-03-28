@@ -3,7 +3,7 @@
 
 #include <CtrlLib/CtrlLib.h>
 #define IMAGECLASS MessageCtrlImg
-#define IMAGEFILE <CtrlLib/MessageCtrl/MessageCtrl.iml>
+#define IMAGEFILE <CtrlLib/MessageCtrl.iml>
 #include <Draw/iml_header.h>
 
 namespace Upp {

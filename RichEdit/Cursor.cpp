@@ -456,7 +456,7 @@ bool RichEdit::GotoLabel(Gate<const WString&> match)
 
 bool RichEdit::GotoLabel(const String& lbl)
 {
-	return GotoLabel([=, this](const WString& data) { return data == WString(lbl); });
+	return GotoLabel([=](const WString& data) { return data == WString(lbl); });
 }
 
 void RichEdit::BeginPara()

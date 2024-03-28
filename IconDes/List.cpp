@@ -119,7 +119,7 @@ dword IconDes::GetFlags(WithImageLayout<TopWindow>& dlg)
 
 void IconDes::PrepareImageSizeDlg(WithImageSizeLayout<TopWindow>& dlg)
 {
-	CtrlLayoutOKCancel(dlg, "New image");
+	CtrlLayoutOKCancel(dlg, "Новый рисунок");
 	dlg.cx <<= 16;
 	dlg.cy <<= 16;
 	if(IsCurrent()) {

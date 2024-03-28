@@ -336,5 +336,16 @@ bool Progress::StepCanceled(int n)
 	Step(n);
 	return cancel;
 }
-
+/*
+void Progress::UpdateText(const String& s)
+{
+  if(pos >= 0 && pos <= 100)
+    {
+     text = s;
+	 text << ": >>> Выполнено " << AsString(pos/(total/100)) << "%%  >>>  { ";
+     text << AsString(pos) << "  из  " << AsString(total) << " }";
+     SetText(text);
+	}
 }
+*/
+}//end ns

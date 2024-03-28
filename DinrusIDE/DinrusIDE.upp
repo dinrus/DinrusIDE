@@ -2,6 +2,8 @@ description "Главный пакет DinrusIDE/377\377255,0,0";
 
 tabsize 4;
 
+noblitz;
+
 uses
 	DinrusIDE/Common,
 	DinrusIDE/Core,
@@ -28,7 +30,6 @@ uses
 	Functions4U,
 	DropGrid,
 	Controls4U,
-	CtrlLib/MessageCtrl,
 	Synth,
 	Docking;
 

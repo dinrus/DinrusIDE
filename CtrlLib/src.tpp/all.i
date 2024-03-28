@@ -94,6 +94,10 @@ TOPIC("MessageBoxes_ru-ru")
 #include "MessageBoxes_ru-ru.tppi"
 END_TOPIC
 
+TOPIC("MessageCtrl_ru-ru")
+#include "MessageCtrl_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("OptionTree_ru-ru")
 #include "OptionTree_ru-ru.tppi"
 END_TOPIC

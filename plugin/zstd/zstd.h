@@ -16,17 +16,17 @@ public:
 protected:
 	virtual   void  _Put(int w);
 	virtual   void  _Put(const void *data, dword size);
-	
+
 	Stream      *out;
-	
+
 	Buffer<byte> buffer;
 	Buffer<byte> outbuf;
 	Buffer<int>  outsz;
 
 	enum { BLOCK_BYTES = 1024*1024 };
-	
+
 	int           level;
-	
+
 	bool          concurrent;
     
     void          Alloc();
@@ -59,26 +59,26 @@ private:
 		int          decompressed_sz;
 		Buffer<char> decompressed_data; // decompressed data
 		bool         irregular_d = false; // d reallocated to accomodate bigger result
-		
+
 		const void *FramePtr() { return ~compressed_data + frame_at; }
 		void Clear()           { compressed_data.Clear(); decompressed_data.Clear(); irregular_d = false; }
 	};
-	
+
 	String compressed_data; // buffer to store compressed data
 	int    compressed_at; // where are we in above buffer
-	
+
 	Workblock wb[16];
 	int       count; // count of workblocks fetched
 	int       ii; // next workblock to be read
 	int       dlen; // length of current workblock
-	
+
 	enum { BLOCK_BYTES = 1024*1024 }; // expected decompressed size
-	
+
 	int          maxblock;
 	int          blockchksumsz;
 	byte         lz4hdr;
 	bool         eof;
-	
+
 	bool         concurrent;
 
     void          TryHeader();
@@ -88,7 +88,7 @@ private:
 	void          Fetch();
 	bool          Ended() const { return IsError() || in->IsError() || ptr == rdlim && ii == count && eof; }
 
-public:	
+public:
 	bool Open(Stream& in);
 	void Co(bool b = true)                                    { concurrent = b; }
 

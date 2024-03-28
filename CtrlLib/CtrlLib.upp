@@ -12,6 +12,8 @@ uses(POSIX) PdfDraw;
 file
 	CtrlLib.h options(BUILDER_OPTION) PCH,
 	CtrlLib readonly separator,
+	MessageCtrl.cpp,
+	MessageCtrl.h,
 	LabelBase.h,
 	LabelBase.cpp,
 	DisplayPopup.h,
@@ -115,6 +117,7 @@ file
 	Chameleon readonly separator,
 	Ch.h,
 	Ch.cpp,
+	MessageCtrl.iml,
 	Ctrls.iml,
 	XPTheme.dli,
 	ChWin32.cpp,
